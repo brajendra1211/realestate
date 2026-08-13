@@ -14,6 +14,8 @@ enum Role {
   OWNER
   DEALER
   BUYER
+  AGENT
+  INVESTOR
 }
 
 enum ApprovalStatus {
@@ -88,12 +90,16 @@ model User {
   savedProperties SavedProperty[]
   enquiries       Enquiry[]       @relation("EnquiryBuyer")
   createdAt       DateTime        @default(now())
+
+  agentProfile    AgentProfile?
+  investorProfile InvestorProfile?
 }
 
 enum PlanRole {
   OWNER
   DEALER
   BOTH
+  AGENT
 }
 
 enum SubscriptionStatus {
@@ -391,4 +397,98 @@ model SiteSettings {
   googleAnalyticsId      String?
   googleSiteVerification String?
   updatedAt              DateTime @updatedAt
+}
+
+// --- Phase 1: Agent + Investor foundation (docs/platform-requirements.md §7) ---
+
+enum AgentDocumentType {
+  RERA_CERTIFICATE
+  TRADE_LICENSE
+  GST_CERTIFICATE
+  OTHER
+}
+
+enum InvestorFeeStatus {
+  PENDING
+  PAID
+}
+
+enum CommissionType {
+  REGISTRATION_REFERRAL
+  DEAL_PROFIT_SHARE
+  BROKERAGE
+  UNLOCK_SPLIT
+  GOLD_SPLIT
+}
+
+model AgentProfile {
+  id              String         @id @default(cuid())
+  userId          String         @unique
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agentCode       String?        @unique
+  city            String?
+  shopName        String?
+  shopAddress     String?        @db.Text
+  shopLatitude    Float?
+  shopLongitude   Float?
+  alternatePhone  String?
+  yearsExperience Int?
+  staffCount      Int?
+  reraNumber      String?
+  gstNumber       String?
+  status          ApprovalStatus @default(PENDING)
+  rejectionReason String?        @db.Text
+  primeStatus     Boolean        @default(false)
+  walletBalance   Int            @default(0)
+  warningCount    Int            @default(0)
+  verifiedAt      DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  documents         AgentDocument[]
+  investors         InvestorProfile[]
+  commissionEntries CommissionLedgerEntry[]
+
+  @@index([status])
+}
+
+model AgentDocument {
+  id             String            @id @default(cuid())
+  agentProfileId String
+  agentProfile   AgentProfile      @relation(fields: [agentProfileId], references: [id], onDelete: Cascade)
+  type           AgentDocumentType @default(OTHER)
+  url            String
+  createdAt      DateTime          @default(now())
+
+  @@index([agentProfileId])
+}
+
+model InvestorProfile {
+  id               String            @id @default(cuid())
+  userId           String            @unique
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  investorCode     String?           @unique
+  referringAgentId String
+  referringAgent   AgentProfile      @relation(fields: [referringAgentId], references: [id])
+  registrationFee  Int               @default(20000)
+  feeStatus        InvestorFeeStatus @default(PENDING)
+  registeredAt     DateTime          @default(now())
+  expiresAt        DateTime?
+  totalInvested    Int               @default(0)
+  createdAt        DateTime          @default(now())
+
+  @@index([referringAgentId])
+}
+
+model CommissionLedgerEntry {
+  id        String         @id @default(cuid())
+  agentId   String
+  agent     AgentProfile   @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  type      CommissionType
+  amount    Int
+  refId     String?
+  note      String?        @db.Text
+  createdAt DateTime       @default(now())
+
+  @@index([agentId])
 }

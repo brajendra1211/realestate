@@ -9,6 +9,10 @@ export function formatPrice(price: number, listingType: "SALE" | "RENT") {
   return listingType === "RENT" ? `${formatted}/mo` : formatted;
 }
 
+export function formatINR(amount: number) {
+  return inrFormatter.format(amount);
+}
+
 export function getYoutubeEmbedUrl(url: string): string | null {
   try {
     const parsed = new URL(url);

@@ -103,6 +103,26 @@ export type Amenity = $Result.DefaultSelection<Prisma.$AmenityPayload>
  * 
  */
 export type SiteSettings = $Result.DefaultSelection<Prisma.$SiteSettingsPayload>
+/**
+ * Model AgentProfile
+ * 
+ */
+export type AgentProfile = $Result.DefaultSelection<Prisma.$AgentProfilePayload>
+/**
+ * Model AgentDocument
+ * 
+ */
+export type AgentDocument = $Result.DefaultSelection<Prisma.$AgentDocumentPayload>
+/**
+ * Model InvestorProfile
+ * 
+ */
+export type InvestorProfile = $Result.DefaultSelection<Prisma.$InvestorProfilePayload>
+/**
+ * Model CommissionLedgerEntry
+ * 
+ */
+export type CommissionLedgerEntry = $Result.DefaultSelection<Prisma.$CommissionLedgerEntryPayload>
 
 /**
  * Enums
@@ -113,7 +133,9 @@ export namespace $Enums {
   SUBADMIN: 'SUBADMIN',
   OWNER: 'OWNER',
   DEALER: 'DEALER',
-  BUYER: 'BUYER'
+  BUYER: 'BUYER',
+  AGENT: 'AGENT',
+  INVESTOR: 'INVESTOR'
 };
 
 export type Role = (typeof Role)[keyof typeof Role]
@@ -192,7 +214,8 @@ export type PropertyImageCategory = (typeof PropertyImageCategory)[keyof typeof 
 export const PlanRole: {
   OWNER: 'OWNER',
   DEALER: 'DEALER',
-  BOTH: 'BOTH'
+  BOTH: 'BOTH',
+  AGENT: 'AGENT'
 };
 
 export type PlanRole = (typeof PlanRole)[keyof typeof PlanRole]
@@ -214,6 +237,35 @@ export const OtpChannel: {
 };
 
 export type OtpChannel = (typeof OtpChannel)[keyof typeof OtpChannel]
+
+
+export const AgentDocumentType: {
+  RERA_CERTIFICATE: 'RERA_CERTIFICATE',
+  TRADE_LICENSE: 'TRADE_LICENSE',
+  GST_CERTIFICATE: 'GST_CERTIFICATE',
+  OTHER: 'OTHER'
+};
+
+export type AgentDocumentType = (typeof AgentDocumentType)[keyof typeof AgentDocumentType]
+
+
+export const InvestorFeeStatus: {
+  PENDING: 'PENDING',
+  PAID: 'PAID'
+};
+
+export type InvestorFeeStatus = (typeof InvestorFeeStatus)[keyof typeof InvestorFeeStatus]
+
+
+export const CommissionType: {
+  REGISTRATION_REFERRAL: 'REGISTRATION_REFERRAL',
+  DEAL_PROFIT_SHARE: 'DEAL_PROFIT_SHARE',
+  BROKERAGE: 'BROKERAGE',
+  UNLOCK_SPLIT: 'UNLOCK_SPLIT',
+  GOLD_SPLIT: 'GOLD_SPLIT'
+};
+
+export type CommissionType = (typeof CommissionType)[keyof typeof CommissionType]
 
 }
 
@@ -260,6 +312,18 @@ export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
 export type OtpChannel = $Enums.OtpChannel
 
 export const OtpChannel: typeof $Enums.OtpChannel
+
+export type AgentDocumentType = $Enums.AgentDocumentType
+
+export const AgentDocumentType: typeof $Enums.AgentDocumentType
+
+export type InvestorFeeStatus = $Enums.InvestorFeeStatus
+
+export const InvestorFeeStatus: typeof $Enums.InvestorFeeStatus
+
+export type CommissionType = $Enums.CommissionType
+
+export const CommissionType: typeof $Enums.CommissionType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -561,6 +625,46 @@ export class PrismaClient<
     * ```
     */
   get siteSettings(): Prisma.SiteSettingsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.agentProfile`: Exposes CRUD operations for the **AgentProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AgentProfiles
+    * const agentProfiles = await prisma.agentProfile.findMany()
+    * ```
+    */
+  get agentProfile(): Prisma.AgentProfileDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.agentDocument`: Exposes CRUD operations for the **AgentDocument** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AgentDocuments
+    * const agentDocuments = await prisma.agentDocument.findMany()
+    * ```
+    */
+  get agentDocument(): Prisma.AgentDocumentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.investorProfile`: Exposes CRUD operations for the **InvestorProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InvestorProfiles
+    * const investorProfiles = await prisma.investorProfile.findMany()
+    * ```
+    */
+  get investorProfile(): Prisma.InvestorProfileDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.commissionLedgerEntry`: Exposes CRUD operations for the **CommissionLedgerEntry** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CommissionLedgerEntries
+    * const commissionLedgerEntries = await prisma.commissionLedgerEntry.findMany()
+    * ```
+    */
+  get commissionLedgerEntry(): Prisma.CommissionLedgerEntryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1025,7 +1129,11 @@ export namespace Prisma {
     OtpCode: 'OtpCode',
     SavedProperty: 'SavedProperty',
     Amenity: 'Amenity',
-    SiteSettings: 'SiteSettings'
+    SiteSettings: 'SiteSettings',
+    AgentProfile: 'AgentProfile',
+    AgentDocument: 'AgentDocument',
+    InvestorProfile: 'InvestorProfile',
+    CommissionLedgerEntry: 'CommissionLedgerEntry'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1041,7 +1149,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "amenity" | "siteSettings"
+      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "amenity" | "siteSettings" | "agentProfile" | "agentDocument" | "investorProfile" | "commissionLedgerEntry"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2233,6 +2341,270 @@ export namespace Prisma {
           }
         }
       }
+      AgentProfile: {
+        payload: Prisma.$AgentProfilePayload<ExtArgs>
+        fields: Prisma.AgentProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AgentProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AgentProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.AgentProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AgentProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentProfilePayload>
+          }
+          findMany: {
+            args: Prisma.AgentProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentProfilePayload>[]
+          }
+          create: {
+            args: Prisma.AgentProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentProfilePayload>
+          }
+          createMany: {
+            args: Prisma.AgentProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.AgentProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentProfilePayload>
+          }
+          update: {
+            args: Prisma.AgentProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.AgentProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AgentProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AgentProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.AgentProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAgentProfile>
+          }
+          groupBy: {
+            args: Prisma.AgentProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AgentProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AgentProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<AgentProfileCountAggregateOutputType> | number
+          }
+        }
+      }
+      AgentDocument: {
+        payload: Prisma.$AgentDocumentPayload<ExtArgs>
+        fields: Prisma.AgentDocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AgentDocumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentDocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AgentDocumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentDocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.AgentDocumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentDocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AgentDocumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentDocumentPayload>
+          }
+          findMany: {
+            args: Prisma.AgentDocumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentDocumentPayload>[]
+          }
+          create: {
+            args: Prisma.AgentDocumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentDocumentPayload>
+          }
+          createMany: {
+            args: Prisma.AgentDocumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.AgentDocumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentDocumentPayload>
+          }
+          update: {
+            args: Prisma.AgentDocumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentDocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.AgentDocumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AgentDocumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AgentDocumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentDocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.AgentDocumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAgentDocument>
+          }
+          groupBy: {
+            args: Prisma.AgentDocumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AgentDocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AgentDocumentCountArgs<ExtArgs>
+            result: $Utils.Optional<AgentDocumentCountAggregateOutputType> | number
+          }
+        }
+      }
+      InvestorProfile: {
+        payload: Prisma.$InvestorProfilePayload<ExtArgs>
+        fields: Prisma.InvestorProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvestorProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvestorProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvestorProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvestorProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.InvestorProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvestorProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvestorProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvestorProfilePayload>
+          }
+          findMany: {
+            args: Prisma.InvestorProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvestorProfilePayload>[]
+          }
+          create: {
+            args: Prisma.InvestorProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvestorProfilePayload>
+          }
+          createMany: {
+            args: Prisma.InvestorProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.InvestorProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvestorProfilePayload>
+          }
+          update: {
+            args: Prisma.InvestorProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvestorProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.InvestorProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvestorProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InvestorProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvestorProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.InvestorProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvestorProfile>
+          }
+          groupBy: {
+            args: Prisma.InvestorProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvestorProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvestorProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<InvestorProfileCountAggregateOutputType> | number
+          }
+        }
+      }
+      CommissionLedgerEntry: {
+        payload: Prisma.$CommissionLedgerEntryPayload<ExtArgs>
+        fields: Prisma.CommissionLedgerEntryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CommissionLedgerEntryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommissionLedgerEntryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CommissionLedgerEntryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommissionLedgerEntryPayload>
+          }
+          findFirst: {
+            args: Prisma.CommissionLedgerEntryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommissionLedgerEntryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CommissionLedgerEntryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommissionLedgerEntryPayload>
+          }
+          findMany: {
+            args: Prisma.CommissionLedgerEntryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommissionLedgerEntryPayload>[]
+          }
+          create: {
+            args: Prisma.CommissionLedgerEntryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommissionLedgerEntryPayload>
+          }
+          createMany: {
+            args: Prisma.CommissionLedgerEntryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.CommissionLedgerEntryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommissionLedgerEntryPayload>
+          }
+          update: {
+            args: Prisma.CommissionLedgerEntryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommissionLedgerEntryPayload>
+          }
+          deleteMany: {
+            args: Prisma.CommissionLedgerEntryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CommissionLedgerEntryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CommissionLedgerEntryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommissionLedgerEntryPayload>
+          }
+          aggregate: {
+            args: Prisma.CommissionLedgerEntryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCommissionLedgerEntry>
+          }
+          groupBy: {
+            args: Prisma.CommissionLedgerEntryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CommissionLedgerEntryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CommissionLedgerEntryCountArgs<ExtArgs>
+            result: $Utils.Optional<CommissionLedgerEntryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2374,6 +2746,10 @@ export namespace Prisma {
     savedProperty?: SavedPropertyOmit
     amenity?: AmenityOmit
     siteSettings?: SiteSettingsOmit
+    agentProfile?: AgentProfileOmit
+    agentDocument?: AgentDocumentOmit
+    investorProfile?: InvestorProfileOmit
+    commissionLedgerEntry?: CommissionLedgerEntryOmit
   }
 
   /* Types for Logging */
@@ -2792,6 +3168,55 @@ export namespace Prisma {
 
 
   /**
+   * Count Type AgentProfileCountOutputType
+   */
+
+  export type AgentProfileCountOutputType = {
+    documents: number
+    investors: number
+    commissionEntries: number
+  }
+
+  export type AgentProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documents?: boolean | AgentProfileCountOutputTypeCountDocumentsArgs
+    investors?: boolean | AgentProfileCountOutputTypeCountInvestorsArgs
+    commissionEntries?: boolean | AgentProfileCountOutputTypeCountCommissionEntriesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfileCountOutputType
+     */
+    select?: AgentProfileCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentDocumentWhereInput
+  }
+
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeCountInvestorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvestorProfileWhereInput
+  }
+
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeCountCommissionEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommissionLedgerEntryWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -3060,6 +3485,8 @@ export namespace Prisma {
     leadViews?: boolean | User$leadViewsArgs<ExtArgs>
     savedProperties?: boolean | User$savedPropertiesArgs<ExtArgs>
     enquiries?: boolean | User$enquiriesArgs<ExtArgs>
+    agentProfile?: boolean | User$agentProfileArgs<ExtArgs>
+    investorProfile?: boolean | User$investorProfileArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3092,6 +3519,8 @@ export namespace Prisma {
     leadViews?: boolean | User$leadViewsArgs<ExtArgs>
     savedProperties?: boolean | User$savedPropertiesArgs<ExtArgs>
     enquiries?: boolean | User$enquiriesArgs<ExtArgs>
+    agentProfile?: boolean | User$agentProfileArgs<ExtArgs>
+    investorProfile?: boolean | User$investorProfileArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3103,6 +3532,8 @@ export namespace Prisma {
       leadViews: Prisma.$LeadViewPayload<ExtArgs>[]
       savedProperties: Prisma.$SavedPropertyPayload<ExtArgs>[]
       enquiries: Prisma.$EnquiryPayload<ExtArgs>[]
+      agentProfile: Prisma.$AgentProfilePayload<ExtArgs> | null
+      investorProfile: Prisma.$InvestorProfilePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3467,6 +3898,8 @@ export namespace Prisma {
     leadViews<T extends User$leadViewsArgs<ExtArgs> = {}>(args?: Subset<T, User$leadViewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     savedProperties<T extends User$savedPropertiesArgs<ExtArgs> = {}>(args?: Subset<T, User$savedPropertiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedPropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     enquiries<T extends User$enquiriesArgs<ExtArgs> = {}>(args?: Subset<T, User$enquiriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnquiryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    agentProfile<T extends User$agentProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$agentProfileArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    investorProfile<T extends User$investorProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$investorProfileArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3978,6 +4411,44 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EnquiryScalarFieldEnum | EnquiryScalarFieldEnum[]
+  }
+
+  /**
+   * User.agentProfile
+   */
+  export type User$agentProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    where?: AgentProfileWhereInput
+  }
+
+  /**
+   * User.investorProfile
+   */
+  export type User$investorProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    where?: InvestorProfileWhereInput
   }
 
   /**
@@ -21502,6 +21973,4211 @@ export namespace Prisma {
 
 
   /**
+   * Model AgentProfile
+   */
+
+  export type AggregateAgentProfile = {
+    _count: AgentProfileCountAggregateOutputType | null
+    _avg: AgentProfileAvgAggregateOutputType | null
+    _sum: AgentProfileSumAggregateOutputType | null
+    _min: AgentProfileMinAggregateOutputType | null
+    _max: AgentProfileMaxAggregateOutputType | null
+  }
+
+  export type AgentProfileAvgAggregateOutputType = {
+    shopLatitude: number | null
+    shopLongitude: number | null
+    yearsExperience: number | null
+    staffCount: number | null
+    walletBalance: number | null
+    warningCount: number | null
+  }
+
+  export type AgentProfileSumAggregateOutputType = {
+    shopLatitude: number | null
+    shopLongitude: number | null
+    yearsExperience: number | null
+    staffCount: number | null
+    walletBalance: number | null
+    warningCount: number | null
+  }
+
+  export type AgentProfileMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    agentCode: string | null
+    city: string | null
+    shopName: string | null
+    shopAddress: string | null
+    shopLatitude: number | null
+    shopLongitude: number | null
+    alternatePhone: string | null
+    yearsExperience: number | null
+    staffCount: number | null
+    reraNumber: string | null
+    gstNumber: string | null
+    status: $Enums.ApprovalStatus | null
+    rejectionReason: string | null
+    primeStatus: boolean | null
+    walletBalance: number | null
+    warningCount: number | null
+    verifiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AgentProfileMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    agentCode: string | null
+    city: string | null
+    shopName: string | null
+    shopAddress: string | null
+    shopLatitude: number | null
+    shopLongitude: number | null
+    alternatePhone: string | null
+    yearsExperience: number | null
+    staffCount: number | null
+    reraNumber: string | null
+    gstNumber: string | null
+    status: $Enums.ApprovalStatus | null
+    rejectionReason: string | null
+    primeStatus: boolean | null
+    walletBalance: number | null
+    warningCount: number | null
+    verifiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AgentProfileCountAggregateOutputType = {
+    id: number
+    userId: number
+    agentCode: number
+    city: number
+    shopName: number
+    shopAddress: number
+    shopLatitude: number
+    shopLongitude: number
+    alternatePhone: number
+    yearsExperience: number
+    staffCount: number
+    reraNumber: number
+    gstNumber: number
+    status: number
+    rejectionReason: number
+    primeStatus: number
+    walletBalance: number
+    warningCount: number
+    verifiedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AgentProfileAvgAggregateInputType = {
+    shopLatitude?: true
+    shopLongitude?: true
+    yearsExperience?: true
+    staffCount?: true
+    walletBalance?: true
+    warningCount?: true
+  }
+
+  export type AgentProfileSumAggregateInputType = {
+    shopLatitude?: true
+    shopLongitude?: true
+    yearsExperience?: true
+    staffCount?: true
+    walletBalance?: true
+    warningCount?: true
+  }
+
+  export type AgentProfileMinAggregateInputType = {
+    id?: true
+    userId?: true
+    agentCode?: true
+    city?: true
+    shopName?: true
+    shopAddress?: true
+    shopLatitude?: true
+    shopLongitude?: true
+    alternatePhone?: true
+    yearsExperience?: true
+    staffCount?: true
+    reraNumber?: true
+    gstNumber?: true
+    status?: true
+    rejectionReason?: true
+    primeStatus?: true
+    walletBalance?: true
+    warningCount?: true
+    verifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AgentProfileMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    agentCode?: true
+    city?: true
+    shopName?: true
+    shopAddress?: true
+    shopLatitude?: true
+    shopLongitude?: true
+    alternatePhone?: true
+    yearsExperience?: true
+    staffCount?: true
+    reraNumber?: true
+    gstNumber?: true
+    status?: true
+    rejectionReason?: true
+    primeStatus?: true
+    walletBalance?: true
+    warningCount?: true
+    verifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AgentProfileCountAggregateInputType = {
+    id?: true
+    userId?: true
+    agentCode?: true
+    city?: true
+    shopName?: true
+    shopAddress?: true
+    shopLatitude?: true
+    shopLongitude?: true
+    alternatePhone?: true
+    yearsExperience?: true
+    staffCount?: true
+    reraNumber?: true
+    gstNumber?: true
+    status?: true
+    rejectionReason?: true
+    primeStatus?: true
+    walletBalance?: true
+    warningCount?: true
+    verifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AgentProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentProfile to aggregate.
+     */
+    where?: AgentProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentProfiles to fetch.
+     */
+    orderBy?: AgentProfileOrderByWithRelationInput | AgentProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AgentProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AgentProfiles
+    **/
+    _count?: true | AgentProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AgentProfileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AgentProfileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgentProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgentProfileMaxAggregateInputType
+  }
+
+  export type GetAgentProfileAggregateType<T extends AgentProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgentProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgentProfile[P]>
+      : GetScalarType<T[P], AggregateAgentProfile[P]>
+  }
+
+
+
+
+  export type AgentProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentProfileWhereInput
+    orderBy?: AgentProfileOrderByWithAggregationInput | AgentProfileOrderByWithAggregationInput[]
+    by: AgentProfileScalarFieldEnum[] | AgentProfileScalarFieldEnum
+    having?: AgentProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgentProfileCountAggregateInputType | true
+    _avg?: AgentProfileAvgAggregateInputType
+    _sum?: AgentProfileSumAggregateInputType
+    _min?: AgentProfileMinAggregateInputType
+    _max?: AgentProfileMaxAggregateInputType
+  }
+
+  export type AgentProfileGroupByOutputType = {
+    id: string
+    userId: string
+    agentCode: string | null
+    city: string | null
+    shopName: string | null
+    shopAddress: string | null
+    shopLatitude: number | null
+    shopLongitude: number | null
+    alternatePhone: string | null
+    yearsExperience: number | null
+    staffCount: number | null
+    reraNumber: string | null
+    gstNumber: string | null
+    status: $Enums.ApprovalStatus
+    rejectionReason: string | null
+    primeStatus: boolean
+    walletBalance: number
+    warningCount: number
+    verifiedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AgentProfileCountAggregateOutputType | null
+    _avg: AgentProfileAvgAggregateOutputType | null
+    _sum: AgentProfileSumAggregateOutputType | null
+    _min: AgentProfileMinAggregateOutputType | null
+    _max: AgentProfileMaxAggregateOutputType | null
+  }
+
+  type GetAgentProfileGroupByPayload<T extends AgentProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AgentProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgentProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgentProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], AgentProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AgentProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    agentCode?: boolean
+    city?: boolean
+    shopName?: boolean
+    shopAddress?: boolean
+    shopLatitude?: boolean
+    shopLongitude?: boolean
+    alternatePhone?: boolean
+    yearsExperience?: boolean
+    staffCount?: boolean
+    reraNumber?: boolean
+    gstNumber?: boolean
+    status?: boolean
+    rejectionReason?: boolean
+    primeStatus?: boolean
+    walletBalance?: boolean
+    warningCount?: boolean
+    verifiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    documents?: boolean | AgentProfile$documentsArgs<ExtArgs>
+    investors?: boolean | AgentProfile$investorsArgs<ExtArgs>
+    commissionEntries?: boolean | AgentProfile$commissionEntriesArgs<ExtArgs>
+    _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["agentProfile"]>
+
+
+
+  export type AgentProfileSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    agentCode?: boolean
+    city?: boolean
+    shopName?: boolean
+    shopAddress?: boolean
+    shopLatitude?: boolean
+    shopLongitude?: boolean
+    alternatePhone?: boolean
+    yearsExperience?: boolean
+    staffCount?: boolean
+    reraNumber?: boolean
+    gstNumber?: boolean
+    status?: boolean
+    rejectionReason?: boolean
+    primeStatus?: boolean
+    walletBalance?: boolean
+    warningCount?: boolean
+    verifiedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "primeStatus" | "walletBalance" | "warningCount" | "verifiedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
+  export type AgentProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    documents?: boolean | AgentProfile$documentsArgs<ExtArgs>
+    investors?: boolean | AgentProfile$investorsArgs<ExtArgs>
+    commissionEntries?: boolean | AgentProfile$commissionEntriesArgs<ExtArgs>
+    _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $AgentProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AgentProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      documents: Prisma.$AgentDocumentPayload<ExtArgs>[]
+      investors: Prisma.$InvestorProfilePayload<ExtArgs>[]
+      commissionEntries: Prisma.$CommissionLedgerEntryPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      agentCode: string | null
+      city: string | null
+      shopName: string | null
+      shopAddress: string | null
+      shopLatitude: number | null
+      shopLongitude: number | null
+      alternatePhone: string | null
+      yearsExperience: number | null
+      staffCount: number | null
+      reraNumber: string | null
+      gstNumber: string | null
+      status: $Enums.ApprovalStatus
+      rejectionReason: string | null
+      primeStatus: boolean
+      walletBalance: number
+      warningCount: number
+      verifiedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["agentProfile"]>
+    composites: {}
+  }
+
+  type AgentProfileGetPayload<S extends boolean | null | undefined | AgentProfileDefaultArgs> = $Result.GetResult<Prisma.$AgentProfilePayload, S>
+
+  type AgentProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AgentProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AgentProfileCountAggregateInputType | true
+    }
+
+  export interface AgentProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AgentProfile'], meta: { name: 'AgentProfile' } }
+    /**
+     * Find zero or one AgentProfile that matches the filter.
+     * @param {AgentProfileFindUniqueArgs} args - Arguments to find a AgentProfile
+     * @example
+     * // Get one AgentProfile
+     * const agentProfile = await prisma.agentProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AgentProfileFindUniqueArgs>(args: SelectSubset<T, AgentProfileFindUniqueArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AgentProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AgentProfileFindUniqueOrThrowArgs} args - Arguments to find a AgentProfile
+     * @example
+     * // Get one AgentProfile
+     * const agentProfile = await prisma.agentProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AgentProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, AgentProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentProfileFindFirstArgs} args - Arguments to find a AgentProfile
+     * @example
+     * // Get one AgentProfile
+     * const agentProfile = await prisma.agentProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AgentProfileFindFirstArgs>(args?: SelectSubset<T, AgentProfileFindFirstArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentProfileFindFirstOrThrowArgs} args - Arguments to find a AgentProfile
+     * @example
+     * // Get one AgentProfile
+     * const agentProfile = await prisma.agentProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AgentProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, AgentProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AgentProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AgentProfiles
+     * const agentProfiles = await prisma.agentProfile.findMany()
+     * 
+     * // Get first 10 AgentProfiles
+     * const agentProfiles = await prisma.agentProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const agentProfileWithIdOnly = await prisma.agentProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AgentProfileFindManyArgs>(args?: SelectSubset<T, AgentProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AgentProfile.
+     * @param {AgentProfileCreateArgs} args - Arguments to create a AgentProfile.
+     * @example
+     * // Create one AgentProfile
+     * const AgentProfile = await prisma.agentProfile.create({
+     *   data: {
+     *     // ... data to create a AgentProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends AgentProfileCreateArgs>(args: SelectSubset<T, AgentProfileCreateArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AgentProfiles.
+     * @param {AgentProfileCreateManyArgs} args - Arguments to create many AgentProfiles.
+     * @example
+     * // Create many AgentProfiles
+     * const agentProfile = await prisma.agentProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AgentProfileCreateManyArgs>(args?: SelectSubset<T, AgentProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AgentProfile.
+     * @param {AgentProfileDeleteArgs} args - Arguments to delete one AgentProfile.
+     * @example
+     * // Delete one AgentProfile
+     * const AgentProfile = await prisma.agentProfile.delete({
+     *   where: {
+     *     // ... filter to delete one AgentProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AgentProfileDeleteArgs>(args: SelectSubset<T, AgentProfileDeleteArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AgentProfile.
+     * @param {AgentProfileUpdateArgs} args - Arguments to update one AgentProfile.
+     * @example
+     * // Update one AgentProfile
+     * const agentProfile = await prisma.agentProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AgentProfileUpdateArgs>(args: SelectSubset<T, AgentProfileUpdateArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AgentProfiles.
+     * @param {AgentProfileDeleteManyArgs} args - Arguments to filter AgentProfiles to delete.
+     * @example
+     * // Delete a few AgentProfiles
+     * const { count } = await prisma.agentProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AgentProfileDeleteManyArgs>(args?: SelectSubset<T, AgentProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgentProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AgentProfiles
+     * const agentProfile = await prisma.agentProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AgentProfileUpdateManyArgs>(args: SelectSubset<T, AgentProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AgentProfile.
+     * @param {AgentProfileUpsertArgs} args - Arguments to update or create a AgentProfile.
+     * @example
+     * // Update or create a AgentProfile
+     * const agentProfile = await prisma.agentProfile.upsert({
+     *   create: {
+     *     // ... data to create a AgentProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AgentProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AgentProfileUpsertArgs>(args: SelectSubset<T, AgentProfileUpsertArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AgentProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentProfileCountArgs} args - Arguments to filter AgentProfiles to count.
+     * @example
+     * // Count the number of AgentProfiles
+     * const count = await prisma.agentProfile.count({
+     *   where: {
+     *     // ... the filter for the AgentProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends AgentProfileCountArgs>(
+      args?: Subset<T, AgentProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgentProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AgentProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgentProfileAggregateArgs>(args: Subset<T, AgentProfileAggregateArgs>): Prisma.PrismaPromise<GetAgentProfileAggregateType<T>>
+
+    /**
+     * Group by AgentProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgentProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgentProfileGroupByArgs['orderBy'] }
+        : { orderBy?: AgentProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgentProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgentProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AgentProfile model
+   */
+  readonly fields: AgentProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AgentProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AgentProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    documents<T extends AgentProfile$documentsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    investors<T extends AgentProfile$investorsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$investorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    commissionEntries<T extends AgentProfile$commissionEntriesArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$commissionEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AgentProfile model
+   */
+  interface AgentProfileFieldRefs {
+    readonly id: FieldRef<"AgentProfile", 'String'>
+    readonly userId: FieldRef<"AgentProfile", 'String'>
+    readonly agentCode: FieldRef<"AgentProfile", 'String'>
+    readonly city: FieldRef<"AgentProfile", 'String'>
+    readonly shopName: FieldRef<"AgentProfile", 'String'>
+    readonly shopAddress: FieldRef<"AgentProfile", 'String'>
+    readonly shopLatitude: FieldRef<"AgentProfile", 'Float'>
+    readonly shopLongitude: FieldRef<"AgentProfile", 'Float'>
+    readonly alternatePhone: FieldRef<"AgentProfile", 'String'>
+    readonly yearsExperience: FieldRef<"AgentProfile", 'Int'>
+    readonly staffCount: FieldRef<"AgentProfile", 'Int'>
+    readonly reraNumber: FieldRef<"AgentProfile", 'String'>
+    readonly gstNumber: FieldRef<"AgentProfile", 'String'>
+    readonly status: FieldRef<"AgentProfile", 'ApprovalStatus'>
+    readonly rejectionReason: FieldRef<"AgentProfile", 'String'>
+    readonly primeStatus: FieldRef<"AgentProfile", 'Boolean'>
+    readonly walletBalance: FieldRef<"AgentProfile", 'Int'>
+    readonly warningCount: FieldRef<"AgentProfile", 'Int'>
+    readonly verifiedAt: FieldRef<"AgentProfile", 'DateTime'>
+    readonly createdAt: FieldRef<"AgentProfile", 'DateTime'>
+    readonly updatedAt: FieldRef<"AgentProfile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AgentProfile findUnique
+   */
+  export type AgentProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentProfile to fetch.
+     */
+    where: AgentProfileWhereUniqueInput
+  }
+
+  /**
+   * AgentProfile findUniqueOrThrow
+   */
+  export type AgentProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentProfile to fetch.
+     */
+    where: AgentProfileWhereUniqueInput
+  }
+
+  /**
+   * AgentProfile findFirst
+   */
+  export type AgentProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentProfile to fetch.
+     */
+    where?: AgentProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentProfiles to fetch.
+     */
+    orderBy?: AgentProfileOrderByWithRelationInput | AgentProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentProfiles.
+     */
+    cursor?: AgentProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentProfiles.
+     */
+    distinct?: AgentProfileScalarFieldEnum | AgentProfileScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile findFirstOrThrow
+   */
+  export type AgentProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentProfile to fetch.
+     */
+    where?: AgentProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentProfiles to fetch.
+     */
+    orderBy?: AgentProfileOrderByWithRelationInput | AgentProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentProfiles.
+     */
+    cursor?: AgentProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentProfiles.
+     */
+    distinct?: AgentProfileScalarFieldEnum | AgentProfileScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile findMany
+   */
+  export type AgentProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentProfiles to fetch.
+     */
+    where?: AgentProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentProfiles to fetch.
+     */
+    orderBy?: AgentProfileOrderByWithRelationInput | AgentProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AgentProfiles.
+     */
+    cursor?: AgentProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentProfiles.
+     */
+    distinct?: AgentProfileScalarFieldEnum | AgentProfileScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile create
+   */
+  export type AgentProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AgentProfile.
+     */
+    data: XOR<AgentProfileCreateInput, AgentProfileUncheckedCreateInput>
+  }
+
+  /**
+   * AgentProfile createMany
+   */
+  export type AgentProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AgentProfiles.
+     */
+    data: AgentProfileCreateManyInput | AgentProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AgentProfile update
+   */
+  export type AgentProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AgentProfile.
+     */
+    data: XOR<AgentProfileUpdateInput, AgentProfileUncheckedUpdateInput>
+    /**
+     * Choose, which AgentProfile to update.
+     */
+    where: AgentProfileWhereUniqueInput
+  }
+
+  /**
+   * AgentProfile updateMany
+   */
+  export type AgentProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AgentProfiles.
+     */
+    data: XOR<AgentProfileUpdateManyMutationInput, AgentProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which AgentProfiles to update
+     */
+    where?: AgentProfileWhereInput
+    /**
+     * Limit how many AgentProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentProfile upsert
+   */
+  export type AgentProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AgentProfile to update in case it exists.
+     */
+    where: AgentProfileWhereUniqueInput
+    /**
+     * In case the AgentProfile found by the `where` argument doesn't exist, create a new AgentProfile with this data.
+     */
+    create: XOR<AgentProfileCreateInput, AgentProfileUncheckedCreateInput>
+    /**
+     * In case the AgentProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AgentProfileUpdateInput, AgentProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * AgentProfile delete
+   */
+  export type AgentProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    /**
+     * Filter which AgentProfile to delete.
+     */
+    where: AgentProfileWhereUniqueInput
+  }
+
+  /**
+   * AgentProfile deleteMany
+   */
+  export type AgentProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentProfiles to delete
+     */
+    where?: AgentProfileWhereInput
+    /**
+     * Limit how many AgentProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentProfile.documents
+   */
+  export type AgentProfile$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    where?: AgentDocumentWhereInput
+    orderBy?: AgentDocumentOrderByWithRelationInput | AgentDocumentOrderByWithRelationInput[]
+    cursor?: AgentDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgentDocumentScalarFieldEnum | AgentDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile.investors
+   */
+  export type AgentProfile$investorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    where?: InvestorProfileWhereInput
+    orderBy?: InvestorProfileOrderByWithRelationInput | InvestorProfileOrderByWithRelationInput[]
+    cursor?: InvestorProfileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvestorProfileScalarFieldEnum | InvestorProfileScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile.commissionEntries
+   */
+  export type AgentProfile$commissionEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    where?: CommissionLedgerEntryWhereInput
+    orderBy?: CommissionLedgerEntryOrderByWithRelationInput | CommissionLedgerEntryOrderByWithRelationInput[]
+    cursor?: CommissionLedgerEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommissionLedgerEntryScalarFieldEnum | CommissionLedgerEntryScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile without action
+   */
+  export type AgentProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AgentDocument
+   */
+
+  export type AggregateAgentDocument = {
+    _count: AgentDocumentCountAggregateOutputType | null
+    _min: AgentDocumentMinAggregateOutputType | null
+    _max: AgentDocumentMaxAggregateOutputType | null
+  }
+
+  export type AgentDocumentMinAggregateOutputType = {
+    id: string | null
+    agentProfileId: string | null
+    type: $Enums.AgentDocumentType | null
+    url: string | null
+    createdAt: Date | null
+  }
+
+  export type AgentDocumentMaxAggregateOutputType = {
+    id: string | null
+    agentProfileId: string | null
+    type: $Enums.AgentDocumentType | null
+    url: string | null
+    createdAt: Date | null
+  }
+
+  export type AgentDocumentCountAggregateOutputType = {
+    id: number
+    agentProfileId: number
+    type: number
+    url: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AgentDocumentMinAggregateInputType = {
+    id?: true
+    agentProfileId?: true
+    type?: true
+    url?: true
+    createdAt?: true
+  }
+
+  export type AgentDocumentMaxAggregateInputType = {
+    id?: true
+    agentProfileId?: true
+    type?: true
+    url?: true
+    createdAt?: true
+  }
+
+  export type AgentDocumentCountAggregateInputType = {
+    id?: true
+    agentProfileId?: true
+    type?: true
+    url?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AgentDocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentDocument to aggregate.
+     */
+    where?: AgentDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentDocuments to fetch.
+     */
+    orderBy?: AgentDocumentOrderByWithRelationInput | AgentDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AgentDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AgentDocuments
+    **/
+    _count?: true | AgentDocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgentDocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgentDocumentMaxAggregateInputType
+  }
+
+  export type GetAgentDocumentAggregateType<T extends AgentDocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgentDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgentDocument[P]>
+      : GetScalarType<T[P], AggregateAgentDocument[P]>
+  }
+
+
+
+
+  export type AgentDocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentDocumentWhereInput
+    orderBy?: AgentDocumentOrderByWithAggregationInput | AgentDocumentOrderByWithAggregationInput[]
+    by: AgentDocumentScalarFieldEnum[] | AgentDocumentScalarFieldEnum
+    having?: AgentDocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgentDocumentCountAggregateInputType | true
+    _min?: AgentDocumentMinAggregateInputType
+    _max?: AgentDocumentMaxAggregateInputType
+  }
+
+  export type AgentDocumentGroupByOutputType = {
+    id: string
+    agentProfileId: string
+    type: $Enums.AgentDocumentType
+    url: string
+    createdAt: Date
+    _count: AgentDocumentCountAggregateOutputType | null
+    _min: AgentDocumentMinAggregateOutputType | null
+    _max: AgentDocumentMaxAggregateOutputType | null
+  }
+
+  type GetAgentDocumentGroupByPayload<T extends AgentDocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AgentDocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgentDocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgentDocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], AgentDocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AgentDocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentProfileId?: boolean
+    type?: boolean
+    url?: boolean
+    createdAt?: boolean
+    agentProfile?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["agentDocument"]>
+
+
+
+  export type AgentDocumentSelectScalar = {
+    id?: boolean
+    agentProfileId?: boolean
+    type?: boolean
+    url?: boolean
+    createdAt?: boolean
+  }
+
+  export type AgentDocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentProfileId" | "type" | "url" | "createdAt", ExtArgs["result"]["agentDocument"]>
+  export type AgentDocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agentProfile?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $AgentDocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AgentDocument"
+    objects: {
+      agentProfile: Prisma.$AgentProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      agentProfileId: string
+      type: $Enums.AgentDocumentType
+      url: string
+      createdAt: Date
+    }, ExtArgs["result"]["agentDocument"]>
+    composites: {}
+  }
+
+  type AgentDocumentGetPayload<S extends boolean | null | undefined | AgentDocumentDefaultArgs> = $Result.GetResult<Prisma.$AgentDocumentPayload, S>
+
+  type AgentDocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AgentDocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AgentDocumentCountAggregateInputType | true
+    }
+
+  export interface AgentDocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AgentDocument'], meta: { name: 'AgentDocument' } }
+    /**
+     * Find zero or one AgentDocument that matches the filter.
+     * @param {AgentDocumentFindUniqueArgs} args - Arguments to find a AgentDocument
+     * @example
+     * // Get one AgentDocument
+     * const agentDocument = await prisma.agentDocument.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AgentDocumentFindUniqueArgs>(args: SelectSubset<T, AgentDocumentFindUniqueArgs<ExtArgs>>): Prisma__AgentDocumentClient<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AgentDocument that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AgentDocumentFindUniqueOrThrowArgs} args - Arguments to find a AgentDocument
+     * @example
+     * // Get one AgentDocument
+     * const agentDocument = await prisma.agentDocument.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AgentDocumentFindUniqueOrThrowArgs>(args: SelectSubset<T, AgentDocumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AgentDocumentClient<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentDocument that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentDocumentFindFirstArgs} args - Arguments to find a AgentDocument
+     * @example
+     * // Get one AgentDocument
+     * const agentDocument = await prisma.agentDocument.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AgentDocumentFindFirstArgs>(args?: SelectSubset<T, AgentDocumentFindFirstArgs<ExtArgs>>): Prisma__AgentDocumentClient<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentDocument that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentDocumentFindFirstOrThrowArgs} args - Arguments to find a AgentDocument
+     * @example
+     * // Get one AgentDocument
+     * const agentDocument = await prisma.agentDocument.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AgentDocumentFindFirstOrThrowArgs>(args?: SelectSubset<T, AgentDocumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AgentDocumentClient<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AgentDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentDocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AgentDocuments
+     * const agentDocuments = await prisma.agentDocument.findMany()
+     * 
+     * // Get first 10 AgentDocuments
+     * const agentDocuments = await prisma.agentDocument.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const agentDocumentWithIdOnly = await prisma.agentDocument.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AgentDocumentFindManyArgs>(args?: SelectSubset<T, AgentDocumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AgentDocument.
+     * @param {AgentDocumentCreateArgs} args - Arguments to create a AgentDocument.
+     * @example
+     * // Create one AgentDocument
+     * const AgentDocument = await prisma.agentDocument.create({
+     *   data: {
+     *     // ... data to create a AgentDocument
+     *   }
+     * })
+     * 
+     */
+    create<T extends AgentDocumentCreateArgs>(args: SelectSubset<T, AgentDocumentCreateArgs<ExtArgs>>): Prisma__AgentDocumentClient<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AgentDocuments.
+     * @param {AgentDocumentCreateManyArgs} args - Arguments to create many AgentDocuments.
+     * @example
+     * // Create many AgentDocuments
+     * const agentDocument = await prisma.agentDocument.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AgentDocumentCreateManyArgs>(args?: SelectSubset<T, AgentDocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AgentDocument.
+     * @param {AgentDocumentDeleteArgs} args - Arguments to delete one AgentDocument.
+     * @example
+     * // Delete one AgentDocument
+     * const AgentDocument = await prisma.agentDocument.delete({
+     *   where: {
+     *     // ... filter to delete one AgentDocument
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AgentDocumentDeleteArgs>(args: SelectSubset<T, AgentDocumentDeleteArgs<ExtArgs>>): Prisma__AgentDocumentClient<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AgentDocument.
+     * @param {AgentDocumentUpdateArgs} args - Arguments to update one AgentDocument.
+     * @example
+     * // Update one AgentDocument
+     * const agentDocument = await prisma.agentDocument.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AgentDocumentUpdateArgs>(args: SelectSubset<T, AgentDocumentUpdateArgs<ExtArgs>>): Prisma__AgentDocumentClient<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AgentDocuments.
+     * @param {AgentDocumentDeleteManyArgs} args - Arguments to filter AgentDocuments to delete.
+     * @example
+     * // Delete a few AgentDocuments
+     * const { count } = await prisma.agentDocument.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AgentDocumentDeleteManyArgs>(args?: SelectSubset<T, AgentDocumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgentDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentDocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AgentDocuments
+     * const agentDocument = await prisma.agentDocument.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AgentDocumentUpdateManyArgs>(args: SelectSubset<T, AgentDocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AgentDocument.
+     * @param {AgentDocumentUpsertArgs} args - Arguments to update or create a AgentDocument.
+     * @example
+     * // Update or create a AgentDocument
+     * const agentDocument = await prisma.agentDocument.upsert({
+     *   create: {
+     *     // ... data to create a AgentDocument
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AgentDocument we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AgentDocumentUpsertArgs>(args: SelectSubset<T, AgentDocumentUpsertArgs<ExtArgs>>): Prisma__AgentDocumentClient<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AgentDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentDocumentCountArgs} args - Arguments to filter AgentDocuments to count.
+     * @example
+     * // Count the number of AgentDocuments
+     * const count = await prisma.agentDocument.count({
+     *   where: {
+     *     // ... the filter for the AgentDocuments we want to count
+     *   }
+     * })
+    **/
+    count<T extends AgentDocumentCountArgs>(
+      args?: Subset<T, AgentDocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgentDocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AgentDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgentDocumentAggregateArgs>(args: Subset<T, AgentDocumentAggregateArgs>): Prisma.PrismaPromise<GetAgentDocumentAggregateType<T>>
+
+    /**
+     * Group by AgentDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentDocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgentDocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgentDocumentGroupByArgs['orderBy'] }
+        : { orderBy?: AgentDocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgentDocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgentDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AgentDocument model
+   */
+  readonly fields: AgentDocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AgentDocument.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AgentDocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agentProfile<T extends AgentProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfileDefaultArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AgentDocument model
+   */
+  interface AgentDocumentFieldRefs {
+    readonly id: FieldRef<"AgentDocument", 'String'>
+    readonly agentProfileId: FieldRef<"AgentDocument", 'String'>
+    readonly type: FieldRef<"AgentDocument", 'AgentDocumentType'>
+    readonly url: FieldRef<"AgentDocument", 'String'>
+    readonly createdAt: FieldRef<"AgentDocument", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AgentDocument findUnique
+   */
+  export type AgentDocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentDocument to fetch.
+     */
+    where: AgentDocumentWhereUniqueInput
+  }
+
+  /**
+   * AgentDocument findUniqueOrThrow
+   */
+  export type AgentDocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentDocument to fetch.
+     */
+    where: AgentDocumentWhereUniqueInput
+  }
+
+  /**
+   * AgentDocument findFirst
+   */
+  export type AgentDocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentDocument to fetch.
+     */
+    where?: AgentDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentDocuments to fetch.
+     */
+    orderBy?: AgentDocumentOrderByWithRelationInput | AgentDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentDocuments.
+     */
+    cursor?: AgentDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentDocuments.
+     */
+    distinct?: AgentDocumentScalarFieldEnum | AgentDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * AgentDocument findFirstOrThrow
+   */
+  export type AgentDocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentDocument to fetch.
+     */
+    where?: AgentDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentDocuments to fetch.
+     */
+    orderBy?: AgentDocumentOrderByWithRelationInput | AgentDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentDocuments.
+     */
+    cursor?: AgentDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentDocuments.
+     */
+    distinct?: AgentDocumentScalarFieldEnum | AgentDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * AgentDocument findMany
+   */
+  export type AgentDocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentDocuments to fetch.
+     */
+    where?: AgentDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentDocuments to fetch.
+     */
+    orderBy?: AgentDocumentOrderByWithRelationInput | AgentDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AgentDocuments.
+     */
+    cursor?: AgentDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentDocuments.
+     */
+    distinct?: AgentDocumentScalarFieldEnum | AgentDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * AgentDocument create
+   */
+  export type AgentDocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AgentDocument.
+     */
+    data: XOR<AgentDocumentCreateInput, AgentDocumentUncheckedCreateInput>
+  }
+
+  /**
+   * AgentDocument createMany
+   */
+  export type AgentDocumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AgentDocuments.
+     */
+    data: AgentDocumentCreateManyInput | AgentDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AgentDocument update
+   */
+  export type AgentDocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AgentDocument.
+     */
+    data: XOR<AgentDocumentUpdateInput, AgentDocumentUncheckedUpdateInput>
+    /**
+     * Choose, which AgentDocument to update.
+     */
+    where: AgentDocumentWhereUniqueInput
+  }
+
+  /**
+   * AgentDocument updateMany
+   */
+  export type AgentDocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AgentDocuments.
+     */
+    data: XOR<AgentDocumentUpdateManyMutationInput, AgentDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which AgentDocuments to update
+     */
+    where?: AgentDocumentWhereInput
+    /**
+     * Limit how many AgentDocuments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentDocument upsert
+   */
+  export type AgentDocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AgentDocument to update in case it exists.
+     */
+    where: AgentDocumentWhereUniqueInput
+    /**
+     * In case the AgentDocument found by the `where` argument doesn't exist, create a new AgentDocument with this data.
+     */
+    create: XOR<AgentDocumentCreateInput, AgentDocumentUncheckedCreateInput>
+    /**
+     * In case the AgentDocument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AgentDocumentUpdateInput, AgentDocumentUncheckedUpdateInput>
+  }
+
+  /**
+   * AgentDocument delete
+   */
+  export type AgentDocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+    /**
+     * Filter which AgentDocument to delete.
+     */
+    where: AgentDocumentWhereUniqueInput
+  }
+
+  /**
+   * AgentDocument deleteMany
+   */
+  export type AgentDocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentDocuments to delete
+     */
+    where?: AgentDocumentWhereInput
+    /**
+     * Limit how many AgentDocuments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentDocument without action
+   */
+  export type AgentDocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentDocument
+     */
+    select?: AgentDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentDocument
+     */
+    omit?: AgentDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentDocumentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InvestorProfile
+   */
+
+  export type AggregateInvestorProfile = {
+    _count: InvestorProfileCountAggregateOutputType | null
+    _avg: InvestorProfileAvgAggregateOutputType | null
+    _sum: InvestorProfileSumAggregateOutputType | null
+    _min: InvestorProfileMinAggregateOutputType | null
+    _max: InvestorProfileMaxAggregateOutputType | null
+  }
+
+  export type InvestorProfileAvgAggregateOutputType = {
+    registrationFee: number | null
+    totalInvested: number | null
+  }
+
+  export type InvestorProfileSumAggregateOutputType = {
+    registrationFee: number | null
+    totalInvested: number | null
+  }
+
+  export type InvestorProfileMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    investorCode: string | null
+    referringAgentId: string | null
+    registrationFee: number | null
+    feeStatus: $Enums.InvestorFeeStatus | null
+    registeredAt: Date | null
+    expiresAt: Date | null
+    totalInvested: number | null
+    createdAt: Date | null
+  }
+
+  export type InvestorProfileMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    investorCode: string | null
+    referringAgentId: string | null
+    registrationFee: number | null
+    feeStatus: $Enums.InvestorFeeStatus | null
+    registeredAt: Date | null
+    expiresAt: Date | null
+    totalInvested: number | null
+    createdAt: Date | null
+  }
+
+  export type InvestorProfileCountAggregateOutputType = {
+    id: number
+    userId: number
+    investorCode: number
+    referringAgentId: number
+    registrationFee: number
+    feeStatus: number
+    registeredAt: number
+    expiresAt: number
+    totalInvested: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type InvestorProfileAvgAggregateInputType = {
+    registrationFee?: true
+    totalInvested?: true
+  }
+
+  export type InvestorProfileSumAggregateInputType = {
+    registrationFee?: true
+    totalInvested?: true
+  }
+
+  export type InvestorProfileMinAggregateInputType = {
+    id?: true
+    userId?: true
+    investorCode?: true
+    referringAgentId?: true
+    registrationFee?: true
+    feeStatus?: true
+    registeredAt?: true
+    expiresAt?: true
+    totalInvested?: true
+    createdAt?: true
+  }
+
+  export type InvestorProfileMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    investorCode?: true
+    referringAgentId?: true
+    registrationFee?: true
+    feeStatus?: true
+    registeredAt?: true
+    expiresAt?: true
+    totalInvested?: true
+    createdAt?: true
+  }
+
+  export type InvestorProfileCountAggregateInputType = {
+    id?: true
+    userId?: true
+    investorCode?: true
+    referringAgentId?: true
+    registrationFee?: true
+    feeStatus?: true
+    registeredAt?: true
+    expiresAt?: true
+    totalInvested?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type InvestorProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvestorProfile to aggregate.
+     */
+    where?: InvestorProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvestorProfiles to fetch.
+     */
+    orderBy?: InvestorProfileOrderByWithRelationInput | InvestorProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvestorProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvestorProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvestorProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InvestorProfiles
+    **/
+    _count?: true | InvestorProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InvestorProfileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InvestorProfileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvestorProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvestorProfileMaxAggregateInputType
+  }
+
+  export type GetInvestorProfileAggregateType<T extends InvestorProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvestorProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvestorProfile[P]>
+      : GetScalarType<T[P], AggregateInvestorProfile[P]>
+  }
+
+
+
+
+  export type InvestorProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvestorProfileWhereInput
+    orderBy?: InvestorProfileOrderByWithAggregationInput | InvestorProfileOrderByWithAggregationInput[]
+    by: InvestorProfileScalarFieldEnum[] | InvestorProfileScalarFieldEnum
+    having?: InvestorProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvestorProfileCountAggregateInputType | true
+    _avg?: InvestorProfileAvgAggregateInputType
+    _sum?: InvestorProfileSumAggregateInputType
+    _min?: InvestorProfileMinAggregateInputType
+    _max?: InvestorProfileMaxAggregateInputType
+  }
+
+  export type InvestorProfileGroupByOutputType = {
+    id: string
+    userId: string
+    investorCode: string | null
+    referringAgentId: string
+    registrationFee: number
+    feeStatus: $Enums.InvestorFeeStatus
+    registeredAt: Date
+    expiresAt: Date | null
+    totalInvested: number
+    createdAt: Date
+    _count: InvestorProfileCountAggregateOutputType | null
+    _avg: InvestorProfileAvgAggregateOutputType | null
+    _sum: InvestorProfileSumAggregateOutputType | null
+    _min: InvestorProfileMinAggregateOutputType | null
+    _max: InvestorProfileMaxAggregateOutputType | null
+  }
+
+  type GetInvestorProfileGroupByPayload<T extends InvestorProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvestorProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvestorProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvestorProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], InvestorProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvestorProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    investorCode?: boolean
+    referringAgentId?: boolean
+    registrationFee?: boolean
+    feeStatus?: boolean
+    registeredAt?: boolean
+    expiresAt?: boolean
+    totalInvested?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    referringAgent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["investorProfile"]>
+
+
+
+  export type InvestorProfileSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    investorCode?: boolean
+    referringAgentId?: boolean
+    registrationFee?: boolean
+    feeStatus?: boolean
+    registeredAt?: boolean
+    expiresAt?: boolean
+    totalInvested?: boolean
+    createdAt?: boolean
+  }
+
+  export type InvestorProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "investorCode" | "referringAgentId" | "registrationFee" | "feeStatus" | "registeredAt" | "expiresAt" | "totalInvested" | "createdAt", ExtArgs["result"]["investorProfile"]>
+  export type InvestorProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    referringAgent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $InvestorProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InvestorProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      referringAgent: Prisma.$AgentProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      investorCode: string | null
+      referringAgentId: string
+      registrationFee: number
+      feeStatus: $Enums.InvestorFeeStatus
+      registeredAt: Date
+      expiresAt: Date | null
+      totalInvested: number
+      createdAt: Date
+    }, ExtArgs["result"]["investorProfile"]>
+    composites: {}
+  }
+
+  type InvestorProfileGetPayload<S extends boolean | null | undefined | InvestorProfileDefaultArgs> = $Result.GetResult<Prisma.$InvestorProfilePayload, S>
+
+  type InvestorProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InvestorProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvestorProfileCountAggregateInputType | true
+    }
+
+  export interface InvestorProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InvestorProfile'], meta: { name: 'InvestorProfile' } }
+    /**
+     * Find zero or one InvestorProfile that matches the filter.
+     * @param {InvestorProfileFindUniqueArgs} args - Arguments to find a InvestorProfile
+     * @example
+     * // Get one InvestorProfile
+     * const investorProfile = await prisma.investorProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvestorProfileFindUniqueArgs>(args: SelectSubset<T, InvestorProfileFindUniqueArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InvestorProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InvestorProfileFindUniqueOrThrowArgs} args - Arguments to find a InvestorProfile
+     * @example
+     * // Get one InvestorProfile
+     * const investorProfile = await prisma.investorProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvestorProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, InvestorProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InvestorProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvestorProfileFindFirstArgs} args - Arguments to find a InvestorProfile
+     * @example
+     * // Get one InvestorProfile
+     * const investorProfile = await prisma.investorProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvestorProfileFindFirstArgs>(args?: SelectSubset<T, InvestorProfileFindFirstArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InvestorProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvestorProfileFindFirstOrThrowArgs} args - Arguments to find a InvestorProfile
+     * @example
+     * // Get one InvestorProfile
+     * const investorProfile = await prisma.investorProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvestorProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, InvestorProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InvestorProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvestorProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InvestorProfiles
+     * const investorProfiles = await prisma.investorProfile.findMany()
+     * 
+     * // Get first 10 InvestorProfiles
+     * const investorProfiles = await prisma.investorProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const investorProfileWithIdOnly = await prisma.investorProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvestorProfileFindManyArgs>(args?: SelectSubset<T, InvestorProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InvestorProfile.
+     * @param {InvestorProfileCreateArgs} args - Arguments to create a InvestorProfile.
+     * @example
+     * // Create one InvestorProfile
+     * const InvestorProfile = await prisma.investorProfile.create({
+     *   data: {
+     *     // ... data to create a InvestorProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvestorProfileCreateArgs>(args: SelectSubset<T, InvestorProfileCreateArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InvestorProfiles.
+     * @param {InvestorProfileCreateManyArgs} args - Arguments to create many InvestorProfiles.
+     * @example
+     * // Create many InvestorProfiles
+     * const investorProfile = await prisma.investorProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvestorProfileCreateManyArgs>(args?: SelectSubset<T, InvestorProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a InvestorProfile.
+     * @param {InvestorProfileDeleteArgs} args - Arguments to delete one InvestorProfile.
+     * @example
+     * // Delete one InvestorProfile
+     * const InvestorProfile = await prisma.investorProfile.delete({
+     *   where: {
+     *     // ... filter to delete one InvestorProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvestorProfileDeleteArgs>(args: SelectSubset<T, InvestorProfileDeleteArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InvestorProfile.
+     * @param {InvestorProfileUpdateArgs} args - Arguments to update one InvestorProfile.
+     * @example
+     * // Update one InvestorProfile
+     * const investorProfile = await prisma.investorProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvestorProfileUpdateArgs>(args: SelectSubset<T, InvestorProfileUpdateArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InvestorProfiles.
+     * @param {InvestorProfileDeleteManyArgs} args - Arguments to filter InvestorProfiles to delete.
+     * @example
+     * // Delete a few InvestorProfiles
+     * const { count } = await prisma.investorProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvestorProfileDeleteManyArgs>(args?: SelectSubset<T, InvestorProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InvestorProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvestorProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InvestorProfiles
+     * const investorProfile = await prisma.investorProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvestorProfileUpdateManyArgs>(args: SelectSubset<T, InvestorProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InvestorProfile.
+     * @param {InvestorProfileUpsertArgs} args - Arguments to update or create a InvestorProfile.
+     * @example
+     * // Update or create a InvestorProfile
+     * const investorProfile = await prisma.investorProfile.upsert({
+     *   create: {
+     *     // ... data to create a InvestorProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InvestorProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvestorProfileUpsertArgs>(args: SelectSubset<T, InvestorProfileUpsertArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InvestorProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvestorProfileCountArgs} args - Arguments to filter InvestorProfiles to count.
+     * @example
+     * // Count the number of InvestorProfiles
+     * const count = await prisma.investorProfile.count({
+     *   where: {
+     *     // ... the filter for the InvestorProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvestorProfileCountArgs>(
+      args?: Subset<T, InvestorProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvestorProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InvestorProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvestorProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvestorProfileAggregateArgs>(args: Subset<T, InvestorProfileAggregateArgs>): Prisma.PrismaPromise<GetInvestorProfileAggregateType<T>>
+
+    /**
+     * Group by InvestorProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvestorProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvestorProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvestorProfileGroupByArgs['orderBy'] }
+        : { orderBy?: InvestorProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvestorProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvestorProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InvestorProfile model
+   */
+  readonly fields: InvestorProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InvestorProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvestorProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    referringAgent<T extends AgentProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfileDefaultArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InvestorProfile model
+   */
+  interface InvestorProfileFieldRefs {
+    readonly id: FieldRef<"InvestorProfile", 'String'>
+    readonly userId: FieldRef<"InvestorProfile", 'String'>
+    readonly investorCode: FieldRef<"InvestorProfile", 'String'>
+    readonly referringAgentId: FieldRef<"InvestorProfile", 'String'>
+    readonly registrationFee: FieldRef<"InvestorProfile", 'Int'>
+    readonly feeStatus: FieldRef<"InvestorProfile", 'InvestorFeeStatus'>
+    readonly registeredAt: FieldRef<"InvestorProfile", 'DateTime'>
+    readonly expiresAt: FieldRef<"InvestorProfile", 'DateTime'>
+    readonly totalInvested: FieldRef<"InvestorProfile", 'Int'>
+    readonly createdAt: FieldRef<"InvestorProfile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InvestorProfile findUnique
+   */
+  export type InvestorProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which InvestorProfile to fetch.
+     */
+    where: InvestorProfileWhereUniqueInput
+  }
+
+  /**
+   * InvestorProfile findUniqueOrThrow
+   */
+  export type InvestorProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which InvestorProfile to fetch.
+     */
+    where: InvestorProfileWhereUniqueInput
+  }
+
+  /**
+   * InvestorProfile findFirst
+   */
+  export type InvestorProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which InvestorProfile to fetch.
+     */
+    where?: InvestorProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvestorProfiles to fetch.
+     */
+    orderBy?: InvestorProfileOrderByWithRelationInput | InvestorProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvestorProfiles.
+     */
+    cursor?: InvestorProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvestorProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvestorProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvestorProfiles.
+     */
+    distinct?: InvestorProfileScalarFieldEnum | InvestorProfileScalarFieldEnum[]
+  }
+
+  /**
+   * InvestorProfile findFirstOrThrow
+   */
+  export type InvestorProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which InvestorProfile to fetch.
+     */
+    where?: InvestorProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvestorProfiles to fetch.
+     */
+    orderBy?: InvestorProfileOrderByWithRelationInput | InvestorProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvestorProfiles.
+     */
+    cursor?: InvestorProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvestorProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvestorProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvestorProfiles.
+     */
+    distinct?: InvestorProfileScalarFieldEnum | InvestorProfileScalarFieldEnum[]
+  }
+
+  /**
+   * InvestorProfile findMany
+   */
+  export type InvestorProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which InvestorProfiles to fetch.
+     */
+    where?: InvestorProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvestorProfiles to fetch.
+     */
+    orderBy?: InvestorProfileOrderByWithRelationInput | InvestorProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InvestorProfiles.
+     */
+    cursor?: InvestorProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvestorProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvestorProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvestorProfiles.
+     */
+    distinct?: InvestorProfileScalarFieldEnum | InvestorProfileScalarFieldEnum[]
+  }
+
+  /**
+   * InvestorProfile create
+   */
+  export type InvestorProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InvestorProfile.
+     */
+    data: XOR<InvestorProfileCreateInput, InvestorProfileUncheckedCreateInput>
+  }
+
+  /**
+   * InvestorProfile createMany
+   */
+  export type InvestorProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InvestorProfiles.
+     */
+    data: InvestorProfileCreateManyInput | InvestorProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InvestorProfile update
+   */
+  export type InvestorProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InvestorProfile.
+     */
+    data: XOR<InvestorProfileUpdateInput, InvestorProfileUncheckedUpdateInput>
+    /**
+     * Choose, which InvestorProfile to update.
+     */
+    where: InvestorProfileWhereUniqueInput
+  }
+
+  /**
+   * InvestorProfile updateMany
+   */
+  export type InvestorProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InvestorProfiles.
+     */
+    data: XOR<InvestorProfileUpdateManyMutationInput, InvestorProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which InvestorProfiles to update
+     */
+    where?: InvestorProfileWhereInput
+    /**
+     * Limit how many InvestorProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InvestorProfile upsert
+   */
+  export type InvestorProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InvestorProfile to update in case it exists.
+     */
+    where: InvestorProfileWhereUniqueInput
+    /**
+     * In case the InvestorProfile found by the `where` argument doesn't exist, create a new InvestorProfile with this data.
+     */
+    create: XOR<InvestorProfileCreateInput, InvestorProfileUncheckedCreateInput>
+    /**
+     * In case the InvestorProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvestorProfileUpdateInput, InvestorProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * InvestorProfile delete
+   */
+  export type InvestorProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+    /**
+     * Filter which InvestorProfile to delete.
+     */
+    where: InvestorProfileWhereUniqueInput
+  }
+
+  /**
+   * InvestorProfile deleteMany
+   */
+  export type InvestorProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvestorProfiles to delete
+     */
+    where?: InvestorProfileWhereInput
+    /**
+     * Limit how many InvestorProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InvestorProfile without action
+   */
+  export type InvestorProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvestorProfile
+     */
+    select?: InvestorProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvestorProfile
+     */
+    omit?: InvestorProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvestorProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CommissionLedgerEntry
+   */
+
+  export type AggregateCommissionLedgerEntry = {
+    _count: CommissionLedgerEntryCountAggregateOutputType | null
+    _avg: CommissionLedgerEntryAvgAggregateOutputType | null
+    _sum: CommissionLedgerEntrySumAggregateOutputType | null
+    _min: CommissionLedgerEntryMinAggregateOutputType | null
+    _max: CommissionLedgerEntryMaxAggregateOutputType | null
+  }
+
+  export type CommissionLedgerEntryAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type CommissionLedgerEntrySumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type CommissionLedgerEntryMinAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    type: $Enums.CommissionType | null
+    amount: number | null
+    refId: string | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type CommissionLedgerEntryMaxAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    type: $Enums.CommissionType | null
+    amount: number | null
+    refId: string | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type CommissionLedgerEntryCountAggregateOutputType = {
+    id: number
+    agentId: number
+    type: number
+    amount: number
+    refId: number
+    note: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CommissionLedgerEntryAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type CommissionLedgerEntrySumAggregateInputType = {
+    amount?: true
+  }
+
+  export type CommissionLedgerEntryMinAggregateInputType = {
+    id?: true
+    agentId?: true
+    type?: true
+    amount?: true
+    refId?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type CommissionLedgerEntryMaxAggregateInputType = {
+    id?: true
+    agentId?: true
+    type?: true
+    amount?: true
+    refId?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type CommissionLedgerEntryCountAggregateInputType = {
+    id?: true
+    agentId?: true
+    type?: true
+    amount?: true
+    refId?: true
+    note?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CommissionLedgerEntryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommissionLedgerEntry to aggregate.
+     */
+    where?: CommissionLedgerEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommissionLedgerEntries to fetch.
+     */
+    orderBy?: CommissionLedgerEntryOrderByWithRelationInput | CommissionLedgerEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CommissionLedgerEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommissionLedgerEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommissionLedgerEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CommissionLedgerEntries
+    **/
+    _count?: true | CommissionLedgerEntryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CommissionLedgerEntryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CommissionLedgerEntrySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CommissionLedgerEntryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CommissionLedgerEntryMaxAggregateInputType
+  }
+
+  export type GetCommissionLedgerEntryAggregateType<T extends CommissionLedgerEntryAggregateArgs> = {
+        [P in keyof T & keyof AggregateCommissionLedgerEntry]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCommissionLedgerEntry[P]>
+      : GetScalarType<T[P], AggregateCommissionLedgerEntry[P]>
+  }
+
+
+
+
+  export type CommissionLedgerEntryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommissionLedgerEntryWhereInput
+    orderBy?: CommissionLedgerEntryOrderByWithAggregationInput | CommissionLedgerEntryOrderByWithAggregationInput[]
+    by: CommissionLedgerEntryScalarFieldEnum[] | CommissionLedgerEntryScalarFieldEnum
+    having?: CommissionLedgerEntryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CommissionLedgerEntryCountAggregateInputType | true
+    _avg?: CommissionLedgerEntryAvgAggregateInputType
+    _sum?: CommissionLedgerEntrySumAggregateInputType
+    _min?: CommissionLedgerEntryMinAggregateInputType
+    _max?: CommissionLedgerEntryMaxAggregateInputType
+  }
+
+  export type CommissionLedgerEntryGroupByOutputType = {
+    id: string
+    agentId: string
+    type: $Enums.CommissionType
+    amount: number
+    refId: string | null
+    note: string | null
+    createdAt: Date
+    _count: CommissionLedgerEntryCountAggregateOutputType | null
+    _avg: CommissionLedgerEntryAvgAggregateOutputType | null
+    _sum: CommissionLedgerEntrySumAggregateOutputType | null
+    _min: CommissionLedgerEntryMinAggregateOutputType | null
+    _max: CommissionLedgerEntryMaxAggregateOutputType | null
+  }
+
+  type GetCommissionLedgerEntryGroupByPayload<T extends CommissionLedgerEntryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CommissionLedgerEntryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CommissionLedgerEntryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CommissionLedgerEntryGroupByOutputType[P]>
+            : GetScalarType<T[P], CommissionLedgerEntryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CommissionLedgerEntrySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentId?: boolean
+    type?: boolean
+    amount?: boolean
+    refId?: boolean
+    note?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["commissionLedgerEntry"]>
+
+
+
+  export type CommissionLedgerEntrySelectScalar = {
+    id?: boolean
+    agentId?: boolean
+    type?: boolean
+    amount?: boolean
+    refId?: boolean
+    note?: boolean
+    createdAt?: boolean
+  }
+
+  export type CommissionLedgerEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentId" | "type" | "amount" | "refId" | "note" | "createdAt", ExtArgs["result"]["commissionLedgerEntry"]>
+  export type CommissionLedgerEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $CommissionLedgerEntryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CommissionLedgerEntry"
+    objects: {
+      agent: Prisma.$AgentProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      agentId: string
+      type: $Enums.CommissionType
+      amount: number
+      refId: string | null
+      note: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["commissionLedgerEntry"]>
+    composites: {}
+  }
+
+  type CommissionLedgerEntryGetPayload<S extends boolean | null | undefined | CommissionLedgerEntryDefaultArgs> = $Result.GetResult<Prisma.$CommissionLedgerEntryPayload, S>
+
+  type CommissionLedgerEntryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CommissionLedgerEntryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CommissionLedgerEntryCountAggregateInputType | true
+    }
+
+  export interface CommissionLedgerEntryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CommissionLedgerEntry'], meta: { name: 'CommissionLedgerEntry' } }
+    /**
+     * Find zero or one CommissionLedgerEntry that matches the filter.
+     * @param {CommissionLedgerEntryFindUniqueArgs} args - Arguments to find a CommissionLedgerEntry
+     * @example
+     * // Get one CommissionLedgerEntry
+     * const commissionLedgerEntry = await prisma.commissionLedgerEntry.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CommissionLedgerEntryFindUniqueArgs>(args: SelectSubset<T, CommissionLedgerEntryFindUniqueArgs<ExtArgs>>): Prisma__CommissionLedgerEntryClient<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CommissionLedgerEntry that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CommissionLedgerEntryFindUniqueOrThrowArgs} args - Arguments to find a CommissionLedgerEntry
+     * @example
+     * // Get one CommissionLedgerEntry
+     * const commissionLedgerEntry = await prisma.commissionLedgerEntry.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CommissionLedgerEntryFindUniqueOrThrowArgs>(args: SelectSubset<T, CommissionLedgerEntryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CommissionLedgerEntryClient<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommissionLedgerEntry that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommissionLedgerEntryFindFirstArgs} args - Arguments to find a CommissionLedgerEntry
+     * @example
+     * // Get one CommissionLedgerEntry
+     * const commissionLedgerEntry = await prisma.commissionLedgerEntry.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CommissionLedgerEntryFindFirstArgs>(args?: SelectSubset<T, CommissionLedgerEntryFindFirstArgs<ExtArgs>>): Prisma__CommissionLedgerEntryClient<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommissionLedgerEntry that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommissionLedgerEntryFindFirstOrThrowArgs} args - Arguments to find a CommissionLedgerEntry
+     * @example
+     * // Get one CommissionLedgerEntry
+     * const commissionLedgerEntry = await prisma.commissionLedgerEntry.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CommissionLedgerEntryFindFirstOrThrowArgs>(args?: SelectSubset<T, CommissionLedgerEntryFindFirstOrThrowArgs<ExtArgs>>): Prisma__CommissionLedgerEntryClient<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CommissionLedgerEntries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommissionLedgerEntryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CommissionLedgerEntries
+     * const commissionLedgerEntries = await prisma.commissionLedgerEntry.findMany()
+     * 
+     * // Get first 10 CommissionLedgerEntries
+     * const commissionLedgerEntries = await prisma.commissionLedgerEntry.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const commissionLedgerEntryWithIdOnly = await prisma.commissionLedgerEntry.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CommissionLedgerEntryFindManyArgs>(args?: SelectSubset<T, CommissionLedgerEntryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CommissionLedgerEntry.
+     * @param {CommissionLedgerEntryCreateArgs} args - Arguments to create a CommissionLedgerEntry.
+     * @example
+     * // Create one CommissionLedgerEntry
+     * const CommissionLedgerEntry = await prisma.commissionLedgerEntry.create({
+     *   data: {
+     *     // ... data to create a CommissionLedgerEntry
+     *   }
+     * })
+     * 
+     */
+    create<T extends CommissionLedgerEntryCreateArgs>(args: SelectSubset<T, CommissionLedgerEntryCreateArgs<ExtArgs>>): Prisma__CommissionLedgerEntryClient<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CommissionLedgerEntries.
+     * @param {CommissionLedgerEntryCreateManyArgs} args - Arguments to create many CommissionLedgerEntries.
+     * @example
+     * // Create many CommissionLedgerEntries
+     * const commissionLedgerEntry = await prisma.commissionLedgerEntry.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CommissionLedgerEntryCreateManyArgs>(args?: SelectSubset<T, CommissionLedgerEntryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a CommissionLedgerEntry.
+     * @param {CommissionLedgerEntryDeleteArgs} args - Arguments to delete one CommissionLedgerEntry.
+     * @example
+     * // Delete one CommissionLedgerEntry
+     * const CommissionLedgerEntry = await prisma.commissionLedgerEntry.delete({
+     *   where: {
+     *     // ... filter to delete one CommissionLedgerEntry
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CommissionLedgerEntryDeleteArgs>(args: SelectSubset<T, CommissionLedgerEntryDeleteArgs<ExtArgs>>): Prisma__CommissionLedgerEntryClient<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CommissionLedgerEntry.
+     * @param {CommissionLedgerEntryUpdateArgs} args - Arguments to update one CommissionLedgerEntry.
+     * @example
+     * // Update one CommissionLedgerEntry
+     * const commissionLedgerEntry = await prisma.commissionLedgerEntry.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CommissionLedgerEntryUpdateArgs>(args: SelectSubset<T, CommissionLedgerEntryUpdateArgs<ExtArgs>>): Prisma__CommissionLedgerEntryClient<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CommissionLedgerEntries.
+     * @param {CommissionLedgerEntryDeleteManyArgs} args - Arguments to filter CommissionLedgerEntries to delete.
+     * @example
+     * // Delete a few CommissionLedgerEntries
+     * const { count } = await prisma.commissionLedgerEntry.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CommissionLedgerEntryDeleteManyArgs>(args?: SelectSubset<T, CommissionLedgerEntryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommissionLedgerEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommissionLedgerEntryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CommissionLedgerEntries
+     * const commissionLedgerEntry = await prisma.commissionLedgerEntry.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CommissionLedgerEntryUpdateManyArgs>(args: SelectSubset<T, CommissionLedgerEntryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CommissionLedgerEntry.
+     * @param {CommissionLedgerEntryUpsertArgs} args - Arguments to update or create a CommissionLedgerEntry.
+     * @example
+     * // Update or create a CommissionLedgerEntry
+     * const commissionLedgerEntry = await prisma.commissionLedgerEntry.upsert({
+     *   create: {
+     *     // ... data to create a CommissionLedgerEntry
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CommissionLedgerEntry we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CommissionLedgerEntryUpsertArgs>(args: SelectSubset<T, CommissionLedgerEntryUpsertArgs<ExtArgs>>): Prisma__CommissionLedgerEntryClient<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CommissionLedgerEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommissionLedgerEntryCountArgs} args - Arguments to filter CommissionLedgerEntries to count.
+     * @example
+     * // Count the number of CommissionLedgerEntries
+     * const count = await prisma.commissionLedgerEntry.count({
+     *   where: {
+     *     // ... the filter for the CommissionLedgerEntries we want to count
+     *   }
+     * })
+    **/
+    count<T extends CommissionLedgerEntryCountArgs>(
+      args?: Subset<T, CommissionLedgerEntryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CommissionLedgerEntryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CommissionLedgerEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommissionLedgerEntryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CommissionLedgerEntryAggregateArgs>(args: Subset<T, CommissionLedgerEntryAggregateArgs>): Prisma.PrismaPromise<GetCommissionLedgerEntryAggregateType<T>>
+
+    /**
+     * Group by CommissionLedgerEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommissionLedgerEntryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CommissionLedgerEntryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CommissionLedgerEntryGroupByArgs['orderBy'] }
+        : { orderBy?: CommissionLedgerEntryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CommissionLedgerEntryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCommissionLedgerEntryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CommissionLedgerEntry model
+   */
+  readonly fields: CommissionLedgerEntryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CommissionLedgerEntry.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CommissionLedgerEntryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agent<T extends AgentProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfileDefaultArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CommissionLedgerEntry model
+   */
+  interface CommissionLedgerEntryFieldRefs {
+    readonly id: FieldRef<"CommissionLedgerEntry", 'String'>
+    readonly agentId: FieldRef<"CommissionLedgerEntry", 'String'>
+    readonly type: FieldRef<"CommissionLedgerEntry", 'CommissionType'>
+    readonly amount: FieldRef<"CommissionLedgerEntry", 'Int'>
+    readonly refId: FieldRef<"CommissionLedgerEntry", 'String'>
+    readonly note: FieldRef<"CommissionLedgerEntry", 'String'>
+    readonly createdAt: FieldRef<"CommissionLedgerEntry", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CommissionLedgerEntry findUnique
+   */
+  export type CommissionLedgerEntryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CommissionLedgerEntry to fetch.
+     */
+    where: CommissionLedgerEntryWhereUniqueInput
+  }
+
+  /**
+   * CommissionLedgerEntry findUniqueOrThrow
+   */
+  export type CommissionLedgerEntryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CommissionLedgerEntry to fetch.
+     */
+    where: CommissionLedgerEntryWhereUniqueInput
+  }
+
+  /**
+   * CommissionLedgerEntry findFirst
+   */
+  export type CommissionLedgerEntryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CommissionLedgerEntry to fetch.
+     */
+    where?: CommissionLedgerEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommissionLedgerEntries to fetch.
+     */
+    orderBy?: CommissionLedgerEntryOrderByWithRelationInput | CommissionLedgerEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommissionLedgerEntries.
+     */
+    cursor?: CommissionLedgerEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommissionLedgerEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommissionLedgerEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommissionLedgerEntries.
+     */
+    distinct?: CommissionLedgerEntryScalarFieldEnum | CommissionLedgerEntryScalarFieldEnum[]
+  }
+
+  /**
+   * CommissionLedgerEntry findFirstOrThrow
+   */
+  export type CommissionLedgerEntryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CommissionLedgerEntry to fetch.
+     */
+    where?: CommissionLedgerEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommissionLedgerEntries to fetch.
+     */
+    orderBy?: CommissionLedgerEntryOrderByWithRelationInput | CommissionLedgerEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommissionLedgerEntries.
+     */
+    cursor?: CommissionLedgerEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommissionLedgerEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommissionLedgerEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommissionLedgerEntries.
+     */
+    distinct?: CommissionLedgerEntryScalarFieldEnum | CommissionLedgerEntryScalarFieldEnum[]
+  }
+
+  /**
+   * CommissionLedgerEntry findMany
+   */
+  export type CommissionLedgerEntryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CommissionLedgerEntries to fetch.
+     */
+    where?: CommissionLedgerEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommissionLedgerEntries to fetch.
+     */
+    orderBy?: CommissionLedgerEntryOrderByWithRelationInput | CommissionLedgerEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CommissionLedgerEntries.
+     */
+    cursor?: CommissionLedgerEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommissionLedgerEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommissionLedgerEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommissionLedgerEntries.
+     */
+    distinct?: CommissionLedgerEntryScalarFieldEnum | CommissionLedgerEntryScalarFieldEnum[]
+  }
+
+  /**
+   * CommissionLedgerEntry create
+   */
+  export type CommissionLedgerEntryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CommissionLedgerEntry.
+     */
+    data: XOR<CommissionLedgerEntryCreateInput, CommissionLedgerEntryUncheckedCreateInput>
+  }
+
+  /**
+   * CommissionLedgerEntry createMany
+   */
+  export type CommissionLedgerEntryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CommissionLedgerEntries.
+     */
+    data: CommissionLedgerEntryCreateManyInput | CommissionLedgerEntryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CommissionLedgerEntry update
+   */
+  export type CommissionLedgerEntryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CommissionLedgerEntry.
+     */
+    data: XOR<CommissionLedgerEntryUpdateInput, CommissionLedgerEntryUncheckedUpdateInput>
+    /**
+     * Choose, which CommissionLedgerEntry to update.
+     */
+    where: CommissionLedgerEntryWhereUniqueInput
+  }
+
+  /**
+   * CommissionLedgerEntry updateMany
+   */
+  export type CommissionLedgerEntryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CommissionLedgerEntries.
+     */
+    data: XOR<CommissionLedgerEntryUpdateManyMutationInput, CommissionLedgerEntryUncheckedUpdateManyInput>
+    /**
+     * Filter which CommissionLedgerEntries to update
+     */
+    where?: CommissionLedgerEntryWhereInput
+    /**
+     * Limit how many CommissionLedgerEntries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommissionLedgerEntry upsert
+   */
+  export type CommissionLedgerEntryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CommissionLedgerEntry to update in case it exists.
+     */
+    where: CommissionLedgerEntryWhereUniqueInput
+    /**
+     * In case the CommissionLedgerEntry found by the `where` argument doesn't exist, create a new CommissionLedgerEntry with this data.
+     */
+    create: XOR<CommissionLedgerEntryCreateInput, CommissionLedgerEntryUncheckedCreateInput>
+    /**
+     * In case the CommissionLedgerEntry was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CommissionLedgerEntryUpdateInput, CommissionLedgerEntryUncheckedUpdateInput>
+  }
+
+  /**
+   * CommissionLedgerEntry delete
+   */
+  export type CommissionLedgerEntryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+    /**
+     * Filter which CommissionLedgerEntry to delete.
+     */
+    where: CommissionLedgerEntryWhereUniqueInput
+  }
+
+  /**
+   * CommissionLedgerEntry deleteMany
+   */
+  export type CommissionLedgerEntryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommissionLedgerEntries to delete
+     */
+    where?: CommissionLedgerEntryWhereInput
+    /**
+     * Limit how many CommissionLedgerEntries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommissionLedgerEntry without action
+   */
+  export type CommissionLedgerEntryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommissionLedgerEntry
+     */
+    select?: CommissionLedgerEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommissionLedgerEntry
+     */
+    omit?: CommissionLedgerEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommissionLedgerEntryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -21819,6 +26495,73 @@ export namespace Prisma {
   export type SiteSettingsScalarFieldEnum = (typeof SiteSettingsScalarFieldEnum)[keyof typeof SiteSettingsScalarFieldEnum]
 
 
+  export const AgentProfileScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    agentCode: 'agentCode',
+    city: 'city',
+    shopName: 'shopName',
+    shopAddress: 'shopAddress',
+    shopLatitude: 'shopLatitude',
+    shopLongitude: 'shopLongitude',
+    alternatePhone: 'alternatePhone',
+    yearsExperience: 'yearsExperience',
+    staffCount: 'staffCount',
+    reraNumber: 'reraNumber',
+    gstNumber: 'gstNumber',
+    status: 'status',
+    rejectionReason: 'rejectionReason',
+    primeStatus: 'primeStatus',
+    walletBalance: 'walletBalance',
+    warningCount: 'warningCount',
+    verifiedAt: 'verifiedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AgentProfileScalarFieldEnum = (typeof AgentProfileScalarFieldEnum)[keyof typeof AgentProfileScalarFieldEnum]
+
+
+  export const AgentDocumentScalarFieldEnum: {
+    id: 'id',
+    agentProfileId: 'agentProfileId',
+    type: 'type',
+    url: 'url',
+    createdAt: 'createdAt'
+  };
+
+  export type AgentDocumentScalarFieldEnum = (typeof AgentDocumentScalarFieldEnum)[keyof typeof AgentDocumentScalarFieldEnum]
+
+
+  export const InvestorProfileScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    investorCode: 'investorCode',
+    referringAgentId: 'referringAgentId',
+    registrationFee: 'registrationFee',
+    feeStatus: 'feeStatus',
+    registeredAt: 'registeredAt',
+    expiresAt: 'expiresAt',
+    totalInvested: 'totalInvested',
+    createdAt: 'createdAt'
+  };
+
+  export type InvestorProfileScalarFieldEnum = (typeof InvestorProfileScalarFieldEnum)[keyof typeof InvestorProfileScalarFieldEnum]
+
+
+  export const CommissionLedgerEntryScalarFieldEnum: {
+    id: 'id',
+    agentId: 'agentId',
+    type: 'type',
+    amount: 'amount',
+    refId: 'refId',
+    note: 'note',
+    createdAt: 'createdAt'
+  };
+
+  export type CommissionLedgerEntryScalarFieldEnum = (typeof CommissionLedgerEntryScalarFieldEnum)[keyof typeof CommissionLedgerEntryScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -22075,6 +26818,51 @@ export namespace Prisma {
   export type SiteSettingsOrderByRelevanceFieldEnum = (typeof SiteSettingsOrderByRelevanceFieldEnum)[keyof typeof SiteSettingsOrderByRelevanceFieldEnum]
 
 
+  export const AgentProfileOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    agentCode: 'agentCode',
+    city: 'city',
+    shopName: 'shopName',
+    shopAddress: 'shopAddress',
+    alternatePhone: 'alternatePhone',
+    reraNumber: 'reraNumber',
+    gstNumber: 'gstNumber',
+    rejectionReason: 'rejectionReason'
+  };
+
+  export type AgentProfileOrderByRelevanceFieldEnum = (typeof AgentProfileOrderByRelevanceFieldEnum)[keyof typeof AgentProfileOrderByRelevanceFieldEnum]
+
+
+  export const AgentDocumentOrderByRelevanceFieldEnum: {
+    id: 'id',
+    agentProfileId: 'agentProfileId',
+    url: 'url'
+  };
+
+  export type AgentDocumentOrderByRelevanceFieldEnum = (typeof AgentDocumentOrderByRelevanceFieldEnum)[keyof typeof AgentDocumentOrderByRelevanceFieldEnum]
+
+
+  export const InvestorProfileOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    investorCode: 'investorCode',
+    referringAgentId: 'referringAgentId'
+  };
+
+  export type InvestorProfileOrderByRelevanceFieldEnum = (typeof InvestorProfileOrderByRelevanceFieldEnum)[keyof typeof InvestorProfileOrderByRelevanceFieldEnum]
+
+
+  export const CommissionLedgerEntryOrderByRelevanceFieldEnum: {
+    id: 'id',
+    agentId: 'agentId',
+    refId: 'refId',
+    note: 'note'
+  };
+
+  export type CommissionLedgerEntryOrderByRelevanceFieldEnum = (typeof CommissionLedgerEntryOrderByRelevanceFieldEnum)[keyof typeof CommissionLedgerEntryOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -22190,6 +26978,27 @@ export namespace Prisma {
    */
   export type EnumOtpChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OtpChannel'>
     
+
+
+  /**
+   * Reference to a field of type 'AgentDocumentType'
+   */
+  export type EnumAgentDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentDocumentType'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvestorFeeStatus'
+   */
+  export type EnumInvestorFeeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvestorFeeStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'CommissionType'
+   */
+  export type EnumCommissionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CommissionType'>
+    
   /**
    * Deep Input Types
    */
@@ -22221,6 +27030,8 @@ export namespace Prisma {
     leadViews?: LeadViewListRelationFilter
     savedProperties?: SavedPropertyListRelationFilter
     enquiries?: EnquiryListRelationFilter
+    agentProfile?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
+    investorProfile?: XOR<InvestorProfileNullableScalarRelationFilter, InvestorProfileWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -22246,6 +27057,8 @@ export namespace Prisma {
     leadViews?: LeadViewOrderByRelationAggregateInput
     savedProperties?: SavedPropertyOrderByRelationAggregateInput
     enquiries?: EnquiryOrderByRelationAggregateInput
+    agentProfile?: AgentProfileOrderByWithRelationInput
+    investorProfile?: InvestorProfileOrderByWithRelationInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -22275,6 +27088,8 @@ export namespace Prisma {
     leadViews?: LeadViewListRelationFilter
     savedProperties?: SavedPropertyListRelationFilter
     enquiries?: EnquiryListRelationFilter
+    agentProfile?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
+    investorProfile?: XOR<InvestorProfileNullableScalarRelationFilter, InvestorProfileWhereInput> | null
   }, "id" | "email" | "slug">
 
   export type UserOrderByWithAggregationInput = {
@@ -23797,6 +28612,363 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"SiteSettings"> | Date | string
   }
 
+  export type AgentProfileWhereInput = {
+    AND?: AgentProfileWhereInput | AgentProfileWhereInput[]
+    OR?: AgentProfileWhereInput[]
+    NOT?: AgentProfileWhereInput | AgentProfileWhereInput[]
+    id?: StringFilter<"AgentProfile"> | string
+    userId?: StringFilter<"AgentProfile"> | string
+    agentCode?: StringNullableFilter<"AgentProfile"> | string | null
+    city?: StringNullableFilter<"AgentProfile"> | string | null
+    shopName?: StringNullableFilter<"AgentProfile"> | string | null
+    shopAddress?: StringNullableFilter<"AgentProfile"> | string | null
+    shopLatitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    shopLongitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    alternatePhone?: StringNullableFilter<"AgentProfile"> | string | null
+    yearsExperience?: IntNullableFilter<"AgentProfile"> | number | null
+    staffCount?: IntNullableFilter<"AgentProfile"> | number | null
+    reraNumber?: StringNullableFilter<"AgentProfile"> | string | null
+    gstNumber?: StringNullableFilter<"AgentProfile"> | string | null
+    status?: EnumApprovalStatusFilter<"AgentProfile"> | $Enums.ApprovalStatus
+    rejectionReason?: StringNullableFilter<"AgentProfile"> | string | null
+    primeStatus?: BoolFilter<"AgentProfile"> | boolean
+    walletBalance?: IntFilter<"AgentProfile"> | number
+    warningCount?: IntFilter<"AgentProfile"> | number
+    verifiedAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    createdAt?: DateTimeFilter<"AgentProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"AgentProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    documents?: AgentDocumentListRelationFilter
+    investors?: InvestorProfileListRelationFilter
+    commissionEntries?: CommissionLedgerEntryListRelationFilter
+  }
+
+  export type AgentProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentCode?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    shopName?: SortOrderInput | SortOrder
+    shopAddress?: SortOrderInput | SortOrder
+    shopLatitude?: SortOrderInput | SortOrder
+    shopLongitude?: SortOrderInput | SortOrder
+    alternatePhone?: SortOrderInput | SortOrder
+    yearsExperience?: SortOrderInput | SortOrder
+    staffCount?: SortOrderInput | SortOrder
+    reraNumber?: SortOrderInput | SortOrder
+    gstNumber?: SortOrderInput | SortOrder
+    status?: SortOrder
+    rejectionReason?: SortOrderInput | SortOrder
+    primeStatus?: SortOrder
+    walletBalance?: SortOrder
+    warningCount?: SortOrder
+    verifiedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    documents?: AgentDocumentOrderByRelationAggregateInput
+    investors?: InvestorProfileOrderByRelationAggregateInput
+    commissionEntries?: CommissionLedgerEntryOrderByRelationAggregateInput
+    _relevance?: AgentProfileOrderByRelevanceInput
+  }
+
+  export type AgentProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    agentCode?: string
+    AND?: AgentProfileWhereInput | AgentProfileWhereInput[]
+    OR?: AgentProfileWhereInput[]
+    NOT?: AgentProfileWhereInput | AgentProfileWhereInput[]
+    city?: StringNullableFilter<"AgentProfile"> | string | null
+    shopName?: StringNullableFilter<"AgentProfile"> | string | null
+    shopAddress?: StringNullableFilter<"AgentProfile"> | string | null
+    shopLatitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    shopLongitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    alternatePhone?: StringNullableFilter<"AgentProfile"> | string | null
+    yearsExperience?: IntNullableFilter<"AgentProfile"> | number | null
+    staffCount?: IntNullableFilter<"AgentProfile"> | number | null
+    reraNumber?: StringNullableFilter<"AgentProfile"> | string | null
+    gstNumber?: StringNullableFilter<"AgentProfile"> | string | null
+    status?: EnumApprovalStatusFilter<"AgentProfile"> | $Enums.ApprovalStatus
+    rejectionReason?: StringNullableFilter<"AgentProfile"> | string | null
+    primeStatus?: BoolFilter<"AgentProfile"> | boolean
+    walletBalance?: IntFilter<"AgentProfile"> | number
+    warningCount?: IntFilter<"AgentProfile"> | number
+    verifiedAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    createdAt?: DateTimeFilter<"AgentProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"AgentProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    documents?: AgentDocumentListRelationFilter
+    investors?: InvestorProfileListRelationFilter
+    commissionEntries?: CommissionLedgerEntryListRelationFilter
+  }, "id" | "userId" | "agentCode">
+
+  export type AgentProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentCode?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    shopName?: SortOrderInput | SortOrder
+    shopAddress?: SortOrderInput | SortOrder
+    shopLatitude?: SortOrderInput | SortOrder
+    shopLongitude?: SortOrderInput | SortOrder
+    alternatePhone?: SortOrderInput | SortOrder
+    yearsExperience?: SortOrderInput | SortOrder
+    staffCount?: SortOrderInput | SortOrder
+    reraNumber?: SortOrderInput | SortOrder
+    gstNumber?: SortOrderInput | SortOrder
+    status?: SortOrder
+    rejectionReason?: SortOrderInput | SortOrder
+    primeStatus?: SortOrder
+    walletBalance?: SortOrder
+    warningCount?: SortOrder
+    verifiedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AgentProfileCountOrderByAggregateInput
+    _avg?: AgentProfileAvgOrderByAggregateInput
+    _max?: AgentProfileMaxOrderByAggregateInput
+    _min?: AgentProfileMinOrderByAggregateInput
+    _sum?: AgentProfileSumOrderByAggregateInput
+  }
+
+  export type AgentProfileScalarWhereWithAggregatesInput = {
+    AND?: AgentProfileScalarWhereWithAggregatesInput | AgentProfileScalarWhereWithAggregatesInput[]
+    OR?: AgentProfileScalarWhereWithAggregatesInput[]
+    NOT?: AgentProfileScalarWhereWithAggregatesInput | AgentProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AgentProfile"> | string
+    userId?: StringWithAggregatesFilter<"AgentProfile"> | string
+    agentCode?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    city?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    shopName?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    shopAddress?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    shopLatitude?: FloatNullableWithAggregatesFilter<"AgentProfile"> | number | null
+    shopLongitude?: FloatNullableWithAggregatesFilter<"AgentProfile"> | number | null
+    alternatePhone?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    yearsExperience?: IntNullableWithAggregatesFilter<"AgentProfile"> | number | null
+    staffCount?: IntNullableWithAggregatesFilter<"AgentProfile"> | number | null
+    reraNumber?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    gstNumber?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    status?: EnumApprovalStatusWithAggregatesFilter<"AgentProfile"> | $Enums.ApprovalStatus
+    rejectionReason?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    primeStatus?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
+    walletBalance?: IntWithAggregatesFilter<"AgentProfile"> | number
+    warningCount?: IntWithAggregatesFilter<"AgentProfile"> | number
+    verifiedAt?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AgentProfile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AgentProfile"> | Date | string
+  }
+
+  export type AgentDocumentWhereInput = {
+    AND?: AgentDocumentWhereInput | AgentDocumentWhereInput[]
+    OR?: AgentDocumentWhereInput[]
+    NOT?: AgentDocumentWhereInput | AgentDocumentWhereInput[]
+    id?: StringFilter<"AgentDocument"> | string
+    agentProfileId?: StringFilter<"AgentDocument"> | string
+    type?: EnumAgentDocumentTypeFilter<"AgentDocument"> | $Enums.AgentDocumentType
+    url?: StringFilter<"AgentDocument"> | string
+    createdAt?: DateTimeFilter<"AgentDocument"> | Date | string
+    agentProfile?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }
+
+  export type AgentDocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    agentProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+    agentProfile?: AgentProfileOrderByWithRelationInput
+    _relevance?: AgentDocumentOrderByRelevanceInput
+  }
+
+  export type AgentDocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AgentDocumentWhereInput | AgentDocumentWhereInput[]
+    OR?: AgentDocumentWhereInput[]
+    NOT?: AgentDocumentWhereInput | AgentDocumentWhereInput[]
+    agentProfileId?: StringFilter<"AgentDocument"> | string
+    type?: EnumAgentDocumentTypeFilter<"AgentDocument"> | $Enums.AgentDocumentType
+    url?: StringFilter<"AgentDocument"> | string
+    createdAt?: DateTimeFilter<"AgentDocument"> | Date | string
+    agentProfile?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }, "id">
+
+  export type AgentDocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    agentProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+    _count?: AgentDocumentCountOrderByAggregateInput
+    _max?: AgentDocumentMaxOrderByAggregateInput
+    _min?: AgentDocumentMinOrderByAggregateInput
+  }
+
+  export type AgentDocumentScalarWhereWithAggregatesInput = {
+    AND?: AgentDocumentScalarWhereWithAggregatesInput | AgentDocumentScalarWhereWithAggregatesInput[]
+    OR?: AgentDocumentScalarWhereWithAggregatesInput[]
+    NOT?: AgentDocumentScalarWhereWithAggregatesInput | AgentDocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AgentDocument"> | string
+    agentProfileId?: StringWithAggregatesFilter<"AgentDocument"> | string
+    type?: EnumAgentDocumentTypeWithAggregatesFilter<"AgentDocument"> | $Enums.AgentDocumentType
+    url?: StringWithAggregatesFilter<"AgentDocument"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AgentDocument"> | Date | string
+  }
+
+  export type InvestorProfileWhereInput = {
+    AND?: InvestorProfileWhereInput | InvestorProfileWhereInput[]
+    OR?: InvestorProfileWhereInput[]
+    NOT?: InvestorProfileWhereInput | InvestorProfileWhereInput[]
+    id?: StringFilter<"InvestorProfile"> | string
+    userId?: StringFilter<"InvestorProfile"> | string
+    investorCode?: StringNullableFilter<"InvestorProfile"> | string | null
+    referringAgentId?: StringFilter<"InvestorProfile"> | string
+    registrationFee?: IntFilter<"InvestorProfile"> | number
+    feeStatus?: EnumInvestorFeeStatusFilter<"InvestorProfile"> | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFilter<"InvestorProfile"> | Date | string
+    expiresAt?: DateTimeNullableFilter<"InvestorProfile"> | Date | string | null
+    totalInvested?: IntFilter<"InvestorProfile"> | number
+    createdAt?: DateTimeFilter<"InvestorProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    referringAgent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }
+
+  export type InvestorProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    investorCode?: SortOrderInput | SortOrder
+    referringAgentId?: SortOrder
+    registrationFee?: SortOrder
+    feeStatus?: SortOrder
+    registeredAt?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    totalInvested?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    referringAgent?: AgentProfileOrderByWithRelationInput
+    _relevance?: InvestorProfileOrderByRelevanceInput
+  }
+
+  export type InvestorProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    investorCode?: string
+    AND?: InvestorProfileWhereInput | InvestorProfileWhereInput[]
+    OR?: InvestorProfileWhereInput[]
+    NOT?: InvestorProfileWhereInput | InvestorProfileWhereInput[]
+    referringAgentId?: StringFilter<"InvestorProfile"> | string
+    registrationFee?: IntFilter<"InvestorProfile"> | number
+    feeStatus?: EnumInvestorFeeStatusFilter<"InvestorProfile"> | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFilter<"InvestorProfile"> | Date | string
+    expiresAt?: DateTimeNullableFilter<"InvestorProfile"> | Date | string | null
+    totalInvested?: IntFilter<"InvestorProfile"> | number
+    createdAt?: DateTimeFilter<"InvestorProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    referringAgent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }, "id" | "userId" | "investorCode">
+
+  export type InvestorProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    investorCode?: SortOrderInput | SortOrder
+    referringAgentId?: SortOrder
+    registrationFee?: SortOrder
+    feeStatus?: SortOrder
+    registeredAt?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    totalInvested?: SortOrder
+    createdAt?: SortOrder
+    _count?: InvestorProfileCountOrderByAggregateInput
+    _avg?: InvestorProfileAvgOrderByAggregateInput
+    _max?: InvestorProfileMaxOrderByAggregateInput
+    _min?: InvestorProfileMinOrderByAggregateInput
+    _sum?: InvestorProfileSumOrderByAggregateInput
+  }
+
+  export type InvestorProfileScalarWhereWithAggregatesInput = {
+    AND?: InvestorProfileScalarWhereWithAggregatesInput | InvestorProfileScalarWhereWithAggregatesInput[]
+    OR?: InvestorProfileScalarWhereWithAggregatesInput[]
+    NOT?: InvestorProfileScalarWhereWithAggregatesInput | InvestorProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InvestorProfile"> | string
+    userId?: StringWithAggregatesFilter<"InvestorProfile"> | string
+    investorCode?: StringNullableWithAggregatesFilter<"InvestorProfile"> | string | null
+    referringAgentId?: StringWithAggregatesFilter<"InvestorProfile"> | string
+    registrationFee?: IntWithAggregatesFilter<"InvestorProfile"> | number
+    feeStatus?: EnumInvestorFeeStatusWithAggregatesFilter<"InvestorProfile"> | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeWithAggregatesFilter<"InvestorProfile"> | Date | string
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"InvestorProfile"> | Date | string | null
+    totalInvested?: IntWithAggregatesFilter<"InvestorProfile"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"InvestorProfile"> | Date | string
+  }
+
+  export type CommissionLedgerEntryWhereInput = {
+    AND?: CommissionLedgerEntryWhereInput | CommissionLedgerEntryWhereInput[]
+    OR?: CommissionLedgerEntryWhereInput[]
+    NOT?: CommissionLedgerEntryWhereInput | CommissionLedgerEntryWhereInput[]
+    id?: StringFilter<"CommissionLedgerEntry"> | string
+    agentId?: StringFilter<"CommissionLedgerEntry"> | string
+    type?: EnumCommissionTypeFilter<"CommissionLedgerEntry"> | $Enums.CommissionType
+    amount?: IntFilter<"CommissionLedgerEntry"> | number
+    refId?: StringNullableFilter<"CommissionLedgerEntry"> | string | null
+    note?: StringNullableFilter<"CommissionLedgerEntry"> | string | null
+    createdAt?: DateTimeFilter<"CommissionLedgerEntry"> | Date | string
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }
+
+  export type CommissionLedgerEntryOrderByWithRelationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    refId?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    agent?: AgentProfileOrderByWithRelationInput
+    _relevance?: CommissionLedgerEntryOrderByRelevanceInput
+  }
+
+  export type CommissionLedgerEntryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CommissionLedgerEntryWhereInput | CommissionLedgerEntryWhereInput[]
+    OR?: CommissionLedgerEntryWhereInput[]
+    NOT?: CommissionLedgerEntryWhereInput | CommissionLedgerEntryWhereInput[]
+    agentId?: StringFilter<"CommissionLedgerEntry"> | string
+    type?: EnumCommissionTypeFilter<"CommissionLedgerEntry"> | $Enums.CommissionType
+    amount?: IntFilter<"CommissionLedgerEntry"> | number
+    refId?: StringNullableFilter<"CommissionLedgerEntry"> | string | null
+    note?: StringNullableFilter<"CommissionLedgerEntry"> | string | null
+    createdAt?: DateTimeFilter<"CommissionLedgerEntry"> | Date | string
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }, "id">
+
+  export type CommissionLedgerEntryOrderByWithAggregationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    refId?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: CommissionLedgerEntryCountOrderByAggregateInput
+    _avg?: CommissionLedgerEntryAvgOrderByAggregateInput
+    _max?: CommissionLedgerEntryMaxOrderByAggregateInput
+    _min?: CommissionLedgerEntryMinOrderByAggregateInput
+    _sum?: CommissionLedgerEntrySumOrderByAggregateInput
+  }
+
+  export type CommissionLedgerEntryScalarWhereWithAggregatesInput = {
+    AND?: CommissionLedgerEntryScalarWhereWithAggregatesInput | CommissionLedgerEntryScalarWhereWithAggregatesInput[]
+    OR?: CommissionLedgerEntryScalarWhereWithAggregatesInput[]
+    NOT?: CommissionLedgerEntryScalarWhereWithAggregatesInput | CommissionLedgerEntryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CommissionLedgerEntry"> | string
+    agentId?: StringWithAggregatesFilter<"CommissionLedgerEntry"> | string
+    type?: EnumCommissionTypeWithAggregatesFilter<"CommissionLedgerEntry"> | $Enums.CommissionType
+    amount?: IntWithAggregatesFilter<"CommissionLedgerEntry"> | number
+    refId?: StringNullableWithAggregatesFilter<"CommissionLedgerEntry"> | string | null
+    note?: StringNullableWithAggregatesFilter<"CommissionLedgerEntry"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CommissionLedgerEntry"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -23820,6 +28992,8 @@ export namespace Prisma {
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -23845,6 +29019,8 @@ export namespace Prisma {
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -23870,6 +29046,8 @@ export namespace Prisma {
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -23895,6 +29073,8 @@ export namespace Prisma {
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -25595,6 +30775,398 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AgentProfileCreateInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileCreateManyInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AgentProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentDocumentCreateInput = {
+    id?: string
+    type?: $Enums.AgentDocumentType
+    url: string
+    createdAt?: Date | string
+    agentProfile: AgentProfileCreateNestedOneWithoutDocumentsInput
+  }
+
+  export type AgentDocumentUncheckedCreateInput = {
+    id?: string
+    agentProfileId: string
+    type?: $Enums.AgentDocumentType
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type AgentDocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgentDocumentTypeFieldUpdateOperationsInput | $Enums.AgentDocumentType
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentProfile?: AgentProfileUpdateOneRequiredWithoutDocumentsNestedInput
+  }
+
+  export type AgentDocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgentDocumentTypeFieldUpdateOperationsInput | $Enums.AgentDocumentType
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentDocumentCreateManyInput = {
+    id?: string
+    agentProfileId: string
+    type?: $Enums.AgentDocumentType
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type AgentDocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgentDocumentTypeFieldUpdateOperationsInput | $Enums.AgentDocumentType
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentDocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentProfileId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgentDocumentTypeFieldUpdateOperationsInput | $Enums.AgentDocumentType
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvestorProfileCreateInput = {
+    id?: string
+    investorCode?: string | null
+    registrationFee?: number
+    feeStatus?: $Enums.InvestorFeeStatus
+    registeredAt?: Date | string
+    expiresAt?: Date | string | null
+    totalInvested?: number
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInvestorProfileInput
+    referringAgent: AgentProfileCreateNestedOneWithoutInvestorsInput
+  }
+
+  export type InvestorProfileUncheckedCreateInput = {
+    id?: string
+    userId: string
+    investorCode?: string | null
+    referringAgentId: string
+    registrationFee?: number
+    feeStatus?: $Enums.InvestorFeeStatus
+    registeredAt?: Date | string
+    expiresAt?: Date | string | null
+    totalInvested?: number
+    createdAt?: Date | string
+  }
+
+  export type InvestorProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    investorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationFee?: IntFieldUpdateOperationsInput | number
+    feeStatus?: EnumInvestorFeeStatusFieldUpdateOperationsInput | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalInvested?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInvestorProfileNestedInput
+    referringAgent?: AgentProfileUpdateOneRequiredWithoutInvestorsNestedInput
+  }
+
+  export type InvestorProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    investorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referringAgentId?: StringFieldUpdateOperationsInput | string
+    registrationFee?: IntFieldUpdateOperationsInput | number
+    feeStatus?: EnumInvestorFeeStatusFieldUpdateOperationsInput | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalInvested?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvestorProfileCreateManyInput = {
+    id?: string
+    userId: string
+    investorCode?: string | null
+    referringAgentId: string
+    registrationFee?: number
+    feeStatus?: $Enums.InvestorFeeStatus
+    registeredAt?: Date | string
+    expiresAt?: Date | string | null
+    totalInvested?: number
+    createdAt?: Date | string
+  }
+
+  export type InvestorProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    investorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationFee?: IntFieldUpdateOperationsInput | number
+    feeStatus?: EnumInvestorFeeStatusFieldUpdateOperationsInput | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalInvested?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvestorProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    investorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referringAgentId?: StringFieldUpdateOperationsInput | string
+    registrationFee?: IntFieldUpdateOperationsInput | number
+    feeStatus?: EnumInvestorFeeStatusFieldUpdateOperationsInput | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalInvested?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommissionLedgerEntryCreateInput = {
+    id?: string
+    type: $Enums.CommissionType
+    amount: number
+    refId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+    agent: AgentProfileCreateNestedOneWithoutCommissionEntriesInput
+  }
+
+  export type CommissionLedgerEntryUncheckedCreateInput = {
+    id?: string
+    agentId: string
+    type: $Enums.CommissionType
+    amount: number
+    refId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CommissionLedgerEntryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommissionTypeFieldUpdateOperationsInput | $Enums.CommissionType
+    amount?: IntFieldUpdateOperationsInput | number
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentProfileUpdateOneRequiredWithoutCommissionEntriesNestedInput
+  }
+
+  export type CommissionLedgerEntryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommissionTypeFieldUpdateOperationsInput | $Enums.CommissionType
+    amount?: IntFieldUpdateOperationsInput | number
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommissionLedgerEntryCreateManyInput = {
+    id?: string
+    agentId: string
+    type: $Enums.CommissionType
+    amount: number
+    refId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CommissionLedgerEntryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommissionTypeFieldUpdateOperationsInput | $Enums.CommissionType
+    amount?: IntFieldUpdateOperationsInput | number
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommissionLedgerEntryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommissionTypeFieldUpdateOperationsInput | $Enums.CommissionType
+    amount?: IntFieldUpdateOperationsInput | number
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -25676,6 +31248,16 @@ export namespace Prisma {
     every?: EnquiryWhereInput
     some?: EnquiryWhereInput
     none?: EnquiryWhereInput
+  }
+
+  export type AgentProfileNullableScalarRelationFilter = {
+    is?: AgentProfileWhereInput | null
+    isNot?: AgentProfileWhereInput | null
+  }
+
+  export type InvestorProfileNullableScalarRelationFilter = {
+    is?: InvestorProfileWhereInput | null
+    isNot?: InvestorProfileWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -27135,6 +32717,317 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type AgentDocumentListRelationFilter = {
+    every?: AgentDocumentWhereInput
+    some?: AgentDocumentWhereInput
+    none?: AgentDocumentWhereInput
+  }
+
+  export type InvestorProfileListRelationFilter = {
+    every?: InvestorProfileWhereInput
+    some?: InvestorProfileWhereInput
+    none?: InvestorProfileWhereInput
+  }
+
+  export type CommissionLedgerEntryListRelationFilter = {
+    every?: CommissionLedgerEntryWhereInput
+    some?: CommissionLedgerEntryWhereInput
+    none?: CommissionLedgerEntryWhereInput
+  }
+
+  export type AgentDocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InvestorProfileOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommissionLedgerEntryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AgentProfileOrderByRelevanceInput = {
+    fields: AgentProfileOrderByRelevanceFieldEnum | AgentProfileOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type AgentProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentCode?: SortOrder
+    city?: SortOrder
+    shopName?: SortOrder
+    shopAddress?: SortOrder
+    shopLatitude?: SortOrder
+    shopLongitude?: SortOrder
+    alternatePhone?: SortOrder
+    yearsExperience?: SortOrder
+    staffCount?: SortOrder
+    reraNumber?: SortOrder
+    gstNumber?: SortOrder
+    status?: SortOrder
+    rejectionReason?: SortOrder
+    primeStatus?: SortOrder
+    walletBalance?: SortOrder
+    warningCount?: SortOrder
+    verifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AgentProfileAvgOrderByAggregateInput = {
+    shopLatitude?: SortOrder
+    shopLongitude?: SortOrder
+    yearsExperience?: SortOrder
+    staffCount?: SortOrder
+    walletBalance?: SortOrder
+    warningCount?: SortOrder
+  }
+
+  export type AgentProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentCode?: SortOrder
+    city?: SortOrder
+    shopName?: SortOrder
+    shopAddress?: SortOrder
+    shopLatitude?: SortOrder
+    shopLongitude?: SortOrder
+    alternatePhone?: SortOrder
+    yearsExperience?: SortOrder
+    staffCount?: SortOrder
+    reraNumber?: SortOrder
+    gstNumber?: SortOrder
+    status?: SortOrder
+    rejectionReason?: SortOrder
+    primeStatus?: SortOrder
+    walletBalance?: SortOrder
+    warningCount?: SortOrder
+    verifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AgentProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentCode?: SortOrder
+    city?: SortOrder
+    shopName?: SortOrder
+    shopAddress?: SortOrder
+    shopLatitude?: SortOrder
+    shopLongitude?: SortOrder
+    alternatePhone?: SortOrder
+    yearsExperience?: SortOrder
+    staffCount?: SortOrder
+    reraNumber?: SortOrder
+    gstNumber?: SortOrder
+    status?: SortOrder
+    rejectionReason?: SortOrder
+    primeStatus?: SortOrder
+    walletBalance?: SortOrder
+    warningCount?: SortOrder
+    verifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AgentProfileSumOrderByAggregateInput = {
+    shopLatitude?: SortOrder
+    shopLongitude?: SortOrder
+    yearsExperience?: SortOrder
+    staffCount?: SortOrder
+    walletBalance?: SortOrder
+    warningCount?: SortOrder
+  }
+
+  export type EnumAgentDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentDocumentType | EnumAgentDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentDocumentType[]
+    notIn?: $Enums.AgentDocumentType[]
+    not?: NestedEnumAgentDocumentTypeFilter<$PrismaModel> | $Enums.AgentDocumentType
+  }
+
+  export type AgentProfileScalarRelationFilter = {
+    is?: AgentProfileWhereInput
+    isNot?: AgentProfileWhereInput
+  }
+
+  export type AgentDocumentOrderByRelevanceInput = {
+    fields: AgentDocumentOrderByRelevanceFieldEnum | AgentDocumentOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type AgentDocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    agentProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AgentDocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    agentProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AgentDocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    agentProfileId?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumAgentDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentDocumentType | EnumAgentDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentDocumentType[]
+    notIn?: $Enums.AgentDocumentType[]
+    not?: NestedEnumAgentDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.AgentDocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAgentDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumAgentDocumentTypeFilter<$PrismaModel>
+  }
+
+  export type EnumInvestorFeeStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvestorFeeStatus | EnumInvestorFeeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvestorFeeStatus[]
+    notIn?: $Enums.InvestorFeeStatus[]
+    not?: NestedEnumInvestorFeeStatusFilter<$PrismaModel> | $Enums.InvestorFeeStatus
+  }
+
+  export type InvestorProfileOrderByRelevanceInput = {
+    fields: InvestorProfileOrderByRelevanceFieldEnum | InvestorProfileOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type InvestorProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    investorCode?: SortOrder
+    referringAgentId?: SortOrder
+    registrationFee?: SortOrder
+    feeStatus?: SortOrder
+    registeredAt?: SortOrder
+    expiresAt?: SortOrder
+    totalInvested?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InvestorProfileAvgOrderByAggregateInput = {
+    registrationFee?: SortOrder
+    totalInvested?: SortOrder
+  }
+
+  export type InvestorProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    investorCode?: SortOrder
+    referringAgentId?: SortOrder
+    registrationFee?: SortOrder
+    feeStatus?: SortOrder
+    registeredAt?: SortOrder
+    expiresAt?: SortOrder
+    totalInvested?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InvestorProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    investorCode?: SortOrder
+    referringAgentId?: SortOrder
+    registrationFee?: SortOrder
+    feeStatus?: SortOrder
+    registeredAt?: SortOrder
+    expiresAt?: SortOrder
+    totalInvested?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InvestorProfileSumOrderByAggregateInput = {
+    registrationFee?: SortOrder
+    totalInvested?: SortOrder
+  }
+
+  export type EnumInvestorFeeStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvestorFeeStatus | EnumInvestorFeeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvestorFeeStatus[]
+    notIn?: $Enums.InvestorFeeStatus[]
+    not?: NestedEnumInvestorFeeStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvestorFeeStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvestorFeeStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvestorFeeStatusFilter<$PrismaModel>
+  }
+
+  export type EnumCommissionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommissionType | EnumCommissionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CommissionType[]
+    notIn?: $Enums.CommissionType[]
+    not?: NestedEnumCommissionTypeFilter<$PrismaModel> | $Enums.CommissionType
+  }
+
+  export type CommissionLedgerEntryOrderByRelevanceInput = {
+    fields: CommissionLedgerEntryOrderByRelevanceFieldEnum | CommissionLedgerEntryOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type CommissionLedgerEntryCountOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    refId?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CommissionLedgerEntryAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type CommissionLedgerEntryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    refId?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CommissionLedgerEntryMinOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    refId?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CommissionLedgerEntrySumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type EnumCommissionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommissionType | EnumCommissionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CommissionType[]
+    notIn?: $Enums.CommissionType[]
+    not?: NestedEnumCommissionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CommissionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCommissionTypeFilter<$PrismaModel>
+    _max?: NestedEnumCommissionTypeFilter<$PrismaModel>
+  }
+
   export type PropertyCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -27170,6 +33063,18 @@ export namespace Prisma {
     connect?: EnquiryWhereUniqueInput | EnquiryWhereUniqueInput[]
   }
 
+  export type AgentProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<AgentProfileCreateWithoutUserInput, AgentProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutUserInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
+  export type InvestorProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutUserInput
+    connect?: InvestorProfileWhereUniqueInput
+  }
+
   export type PropertyUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -27203,6 +33108,18 @@ export namespace Prisma {
     connectOrCreate?: EnquiryCreateOrConnectWithoutBuyerInput | EnquiryCreateOrConnectWithoutBuyerInput[]
     createMany?: EnquiryCreateManyBuyerInputEnvelope
     connect?: EnquiryWhereUniqueInput | EnquiryWhereUniqueInput[]
+  }
+
+  export type AgentProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<AgentProfileCreateWithoutUserInput, AgentProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutUserInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
+  export type InvestorProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutUserInput
+    connect?: InvestorProfileWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -27295,6 +33212,26 @@ export namespace Prisma {
     deleteMany?: EnquiryScalarWhereInput | EnquiryScalarWhereInput[]
   }
 
+  export type AgentProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutUserInput, AgentProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutUserInput
+    upsert?: AgentProfileUpsertWithoutUserInput
+    disconnect?: AgentProfileWhereInput | boolean
+    delete?: AgentProfileWhereInput | boolean
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutUserInput, AgentProfileUpdateWithoutUserInput>, AgentProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InvestorProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutUserInput
+    upsert?: InvestorProfileUpsertWithoutUserInput
+    disconnect?: InvestorProfileWhereInput | boolean
+    delete?: InvestorProfileWhereInput | boolean
+    connect?: InvestorProfileWhereUniqueInput
+    update?: XOR<XOR<InvestorProfileUpdateToOneWithWhereWithoutUserInput, InvestorProfileUpdateWithoutUserInput>, InvestorProfileUncheckedUpdateWithoutUserInput>
+  }
+
   export type PropertyUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -27363,6 +33300,26 @@ export namespace Prisma {
     update?: EnquiryUpdateWithWhereUniqueWithoutBuyerInput | EnquiryUpdateWithWhereUniqueWithoutBuyerInput[]
     updateMany?: EnquiryUpdateManyWithWhereWithoutBuyerInput | EnquiryUpdateManyWithWhereWithoutBuyerInput[]
     deleteMany?: EnquiryScalarWhereInput | EnquiryScalarWhereInput[]
+  }
+
+  export type AgentProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutUserInput, AgentProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutUserInput
+    upsert?: AgentProfileUpsertWithoutUserInput
+    disconnect?: AgentProfileWhereInput | boolean
+    delete?: AgentProfileWhereInput | boolean
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutUserInput, AgentProfileUpdateWithoutUserInput>, AgentProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InvestorProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutUserInput
+    upsert?: InvestorProfileUpsertWithoutUserInput
+    disconnect?: InvestorProfileWhereInput | boolean
+    delete?: InvestorProfileWhereInput | boolean
+    connect?: InvestorProfileWhereUniqueInput
+    update?: XOR<XOR<InvestorProfileUpdateToOneWithWhereWithoutUserInput, InvestorProfileUpdateWithoutUserInput>, InvestorProfileUncheckedUpdateWithoutUserInput>
   }
 
   export type SubscriptionCreateNestedManyWithoutPlanInput = {
@@ -28125,6 +34082,214 @@ export namespace Prisma {
     update?: XOR<XOR<PropertyUpdateToOneWithWhereWithoutSavedByInput, PropertyUpdateWithoutSavedByInput>, PropertyUncheckedUpdateWithoutSavedByInput>
   }
 
+  export type UserCreateNestedOneWithoutAgentProfileInput = {
+    create?: XOR<UserCreateWithoutAgentProfileInput, UserUncheckedCreateWithoutAgentProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAgentProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AgentDocumentCreateNestedManyWithoutAgentProfileInput = {
+    create?: XOR<AgentDocumentCreateWithoutAgentProfileInput, AgentDocumentUncheckedCreateWithoutAgentProfileInput> | AgentDocumentCreateWithoutAgentProfileInput[] | AgentDocumentUncheckedCreateWithoutAgentProfileInput[]
+    connectOrCreate?: AgentDocumentCreateOrConnectWithoutAgentProfileInput | AgentDocumentCreateOrConnectWithoutAgentProfileInput[]
+    createMany?: AgentDocumentCreateManyAgentProfileInputEnvelope
+    connect?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+  }
+
+  export type InvestorProfileCreateNestedManyWithoutReferringAgentInput = {
+    create?: XOR<InvestorProfileCreateWithoutReferringAgentInput, InvestorProfileUncheckedCreateWithoutReferringAgentInput> | InvestorProfileCreateWithoutReferringAgentInput[] | InvestorProfileUncheckedCreateWithoutReferringAgentInput[]
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutReferringAgentInput | InvestorProfileCreateOrConnectWithoutReferringAgentInput[]
+    createMany?: InvestorProfileCreateManyReferringAgentInputEnvelope
+    connect?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+  }
+
+  export type CommissionLedgerEntryCreateNestedManyWithoutAgentInput = {
+    create?: XOR<CommissionLedgerEntryCreateWithoutAgentInput, CommissionLedgerEntryUncheckedCreateWithoutAgentInput> | CommissionLedgerEntryCreateWithoutAgentInput[] | CommissionLedgerEntryUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: CommissionLedgerEntryCreateOrConnectWithoutAgentInput | CommissionLedgerEntryCreateOrConnectWithoutAgentInput[]
+    createMany?: CommissionLedgerEntryCreateManyAgentInputEnvelope
+    connect?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+  }
+
+  export type AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput = {
+    create?: XOR<AgentDocumentCreateWithoutAgentProfileInput, AgentDocumentUncheckedCreateWithoutAgentProfileInput> | AgentDocumentCreateWithoutAgentProfileInput[] | AgentDocumentUncheckedCreateWithoutAgentProfileInput[]
+    connectOrCreate?: AgentDocumentCreateOrConnectWithoutAgentProfileInput | AgentDocumentCreateOrConnectWithoutAgentProfileInput[]
+    createMany?: AgentDocumentCreateManyAgentProfileInputEnvelope
+    connect?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+  }
+
+  export type InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput = {
+    create?: XOR<InvestorProfileCreateWithoutReferringAgentInput, InvestorProfileUncheckedCreateWithoutReferringAgentInput> | InvestorProfileCreateWithoutReferringAgentInput[] | InvestorProfileUncheckedCreateWithoutReferringAgentInput[]
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutReferringAgentInput | InvestorProfileCreateOrConnectWithoutReferringAgentInput[]
+    createMany?: InvestorProfileCreateManyReferringAgentInputEnvelope
+    connect?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+  }
+
+  export type CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput = {
+    create?: XOR<CommissionLedgerEntryCreateWithoutAgentInput, CommissionLedgerEntryUncheckedCreateWithoutAgentInput> | CommissionLedgerEntryCreateWithoutAgentInput[] | CommissionLedgerEntryUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: CommissionLedgerEntryCreateOrConnectWithoutAgentInput | CommissionLedgerEntryCreateOrConnectWithoutAgentInput[]
+    createMany?: CommissionLedgerEntryCreateManyAgentInputEnvelope
+    connect?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutAgentProfileNestedInput = {
+    create?: XOR<UserCreateWithoutAgentProfileInput, UserUncheckedCreateWithoutAgentProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAgentProfileInput
+    upsert?: UserUpsertWithoutAgentProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAgentProfileInput, UserUpdateWithoutAgentProfileInput>, UserUncheckedUpdateWithoutAgentProfileInput>
+  }
+
+  export type AgentDocumentUpdateManyWithoutAgentProfileNestedInput = {
+    create?: XOR<AgentDocumentCreateWithoutAgentProfileInput, AgentDocumentUncheckedCreateWithoutAgentProfileInput> | AgentDocumentCreateWithoutAgentProfileInput[] | AgentDocumentUncheckedCreateWithoutAgentProfileInput[]
+    connectOrCreate?: AgentDocumentCreateOrConnectWithoutAgentProfileInput | AgentDocumentCreateOrConnectWithoutAgentProfileInput[]
+    upsert?: AgentDocumentUpsertWithWhereUniqueWithoutAgentProfileInput | AgentDocumentUpsertWithWhereUniqueWithoutAgentProfileInput[]
+    createMany?: AgentDocumentCreateManyAgentProfileInputEnvelope
+    set?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+    disconnect?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+    delete?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+    connect?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+    update?: AgentDocumentUpdateWithWhereUniqueWithoutAgentProfileInput | AgentDocumentUpdateWithWhereUniqueWithoutAgentProfileInput[]
+    updateMany?: AgentDocumentUpdateManyWithWhereWithoutAgentProfileInput | AgentDocumentUpdateManyWithWhereWithoutAgentProfileInput[]
+    deleteMany?: AgentDocumentScalarWhereInput | AgentDocumentScalarWhereInput[]
+  }
+
+  export type InvestorProfileUpdateManyWithoutReferringAgentNestedInput = {
+    create?: XOR<InvestorProfileCreateWithoutReferringAgentInput, InvestorProfileUncheckedCreateWithoutReferringAgentInput> | InvestorProfileCreateWithoutReferringAgentInput[] | InvestorProfileUncheckedCreateWithoutReferringAgentInput[]
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutReferringAgentInput | InvestorProfileCreateOrConnectWithoutReferringAgentInput[]
+    upsert?: InvestorProfileUpsertWithWhereUniqueWithoutReferringAgentInput | InvestorProfileUpsertWithWhereUniqueWithoutReferringAgentInput[]
+    createMany?: InvestorProfileCreateManyReferringAgentInputEnvelope
+    set?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+    disconnect?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+    delete?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+    connect?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+    update?: InvestorProfileUpdateWithWhereUniqueWithoutReferringAgentInput | InvestorProfileUpdateWithWhereUniqueWithoutReferringAgentInput[]
+    updateMany?: InvestorProfileUpdateManyWithWhereWithoutReferringAgentInput | InvestorProfileUpdateManyWithWhereWithoutReferringAgentInput[]
+    deleteMany?: InvestorProfileScalarWhereInput | InvestorProfileScalarWhereInput[]
+  }
+
+  export type CommissionLedgerEntryUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<CommissionLedgerEntryCreateWithoutAgentInput, CommissionLedgerEntryUncheckedCreateWithoutAgentInput> | CommissionLedgerEntryCreateWithoutAgentInput[] | CommissionLedgerEntryUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: CommissionLedgerEntryCreateOrConnectWithoutAgentInput | CommissionLedgerEntryCreateOrConnectWithoutAgentInput[]
+    upsert?: CommissionLedgerEntryUpsertWithWhereUniqueWithoutAgentInput | CommissionLedgerEntryUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: CommissionLedgerEntryCreateManyAgentInputEnvelope
+    set?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+    disconnect?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+    delete?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+    connect?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+    update?: CommissionLedgerEntryUpdateWithWhereUniqueWithoutAgentInput | CommissionLedgerEntryUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: CommissionLedgerEntryUpdateManyWithWhereWithoutAgentInput | CommissionLedgerEntryUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: CommissionLedgerEntryScalarWhereInput | CommissionLedgerEntryScalarWhereInput[]
+  }
+
+  export type AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput = {
+    create?: XOR<AgentDocumentCreateWithoutAgentProfileInput, AgentDocumentUncheckedCreateWithoutAgentProfileInput> | AgentDocumentCreateWithoutAgentProfileInput[] | AgentDocumentUncheckedCreateWithoutAgentProfileInput[]
+    connectOrCreate?: AgentDocumentCreateOrConnectWithoutAgentProfileInput | AgentDocumentCreateOrConnectWithoutAgentProfileInput[]
+    upsert?: AgentDocumentUpsertWithWhereUniqueWithoutAgentProfileInput | AgentDocumentUpsertWithWhereUniqueWithoutAgentProfileInput[]
+    createMany?: AgentDocumentCreateManyAgentProfileInputEnvelope
+    set?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+    disconnect?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+    delete?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+    connect?: AgentDocumentWhereUniqueInput | AgentDocumentWhereUniqueInput[]
+    update?: AgentDocumentUpdateWithWhereUniqueWithoutAgentProfileInput | AgentDocumentUpdateWithWhereUniqueWithoutAgentProfileInput[]
+    updateMany?: AgentDocumentUpdateManyWithWhereWithoutAgentProfileInput | AgentDocumentUpdateManyWithWhereWithoutAgentProfileInput[]
+    deleteMany?: AgentDocumentScalarWhereInput | AgentDocumentScalarWhereInput[]
+  }
+
+  export type InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput = {
+    create?: XOR<InvestorProfileCreateWithoutReferringAgentInput, InvestorProfileUncheckedCreateWithoutReferringAgentInput> | InvestorProfileCreateWithoutReferringAgentInput[] | InvestorProfileUncheckedCreateWithoutReferringAgentInput[]
+    connectOrCreate?: InvestorProfileCreateOrConnectWithoutReferringAgentInput | InvestorProfileCreateOrConnectWithoutReferringAgentInput[]
+    upsert?: InvestorProfileUpsertWithWhereUniqueWithoutReferringAgentInput | InvestorProfileUpsertWithWhereUniqueWithoutReferringAgentInput[]
+    createMany?: InvestorProfileCreateManyReferringAgentInputEnvelope
+    set?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+    disconnect?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+    delete?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+    connect?: InvestorProfileWhereUniqueInput | InvestorProfileWhereUniqueInput[]
+    update?: InvestorProfileUpdateWithWhereUniqueWithoutReferringAgentInput | InvestorProfileUpdateWithWhereUniqueWithoutReferringAgentInput[]
+    updateMany?: InvestorProfileUpdateManyWithWhereWithoutReferringAgentInput | InvestorProfileUpdateManyWithWhereWithoutReferringAgentInput[]
+    deleteMany?: InvestorProfileScalarWhereInput | InvestorProfileScalarWhereInput[]
+  }
+
+  export type CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<CommissionLedgerEntryCreateWithoutAgentInput, CommissionLedgerEntryUncheckedCreateWithoutAgentInput> | CommissionLedgerEntryCreateWithoutAgentInput[] | CommissionLedgerEntryUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: CommissionLedgerEntryCreateOrConnectWithoutAgentInput | CommissionLedgerEntryCreateOrConnectWithoutAgentInput[]
+    upsert?: CommissionLedgerEntryUpsertWithWhereUniqueWithoutAgentInput | CommissionLedgerEntryUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: CommissionLedgerEntryCreateManyAgentInputEnvelope
+    set?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+    disconnect?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+    delete?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+    connect?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+    update?: CommissionLedgerEntryUpdateWithWhereUniqueWithoutAgentInput | CommissionLedgerEntryUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: CommissionLedgerEntryUpdateManyWithWhereWithoutAgentInput | CommissionLedgerEntryUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: CommissionLedgerEntryScalarWhereInput | CommissionLedgerEntryScalarWhereInput[]
+  }
+
+  export type AgentProfileCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<AgentProfileCreateWithoutDocumentsInput, AgentProfileUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutDocumentsInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
+  export type EnumAgentDocumentTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AgentDocumentType
+  }
+
+  export type AgentProfileUpdateOneRequiredWithoutDocumentsNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutDocumentsInput, AgentProfileUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutDocumentsInput
+    upsert?: AgentProfileUpsertWithoutDocumentsInput
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutDocumentsInput, AgentProfileUpdateWithoutDocumentsInput>, AgentProfileUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type UserCreateNestedOneWithoutInvestorProfileInput = {
+    create?: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvestorProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AgentProfileCreateNestedOneWithoutInvestorsInput = {
+    create?: XOR<AgentProfileCreateWithoutInvestorsInput, AgentProfileUncheckedCreateWithoutInvestorsInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutInvestorsInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
+  export type EnumInvestorFeeStatusFieldUpdateOperationsInput = {
+    set?: $Enums.InvestorFeeStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutInvestorProfileNestedInput = {
+    create?: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvestorProfileInput
+    upsert?: UserUpsertWithoutInvestorProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInvestorProfileInput, UserUpdateWithoutInvestorProfileInput>, UserUncheckedUpdateWithoutInvestorProfileInput>
+  }
+
+  export type AgentProfileUpdateOneRequiredWithoutInvestorsNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutInvestorsInput, AgentProfileUncheckedCreateWithoutInvestorsInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutInvestorsInput
+    upsert?: AgentProfileUpsertWithoutInvestorsInput
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutInvestorsInput, AgentProfileUpdateWithoutInvestorsInput>, AgentProfileUncheckedUpdateWithoutInvestorsInput>
+  }
+
+  export type AgentProfileCreateNestedOneWithoutCommissionEntriesInput = {
+    create?: XOR<AgentProfileCreateWithoutCommissionEntriesInput, AgentProfileUncheckedCreateWithoutCommissionEntriesInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutCommissionEntriesInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
+  export type EnumCommissionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CommissionType
+  }
+
+  export type AgentProfileUpdateOneRequiredWithoutCommissionEntriesNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutCommissionEntriesInput, AgentProfileUncheckedCreateWithoutCommissionEntriesInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutCommissionEntriesInput
+    upsert?: AgentProfileUpsertWithoutCommissionEntriesInput
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutCommissionEntriesInput, AgentProfileUpdateWithoutCommissionEntriesInput>, AgentProfileUncheckedUpdateWithoutCommissionEntriesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -28533,6 +34698,57 @@ export namespace Prisma {
     _max?: NestedEnumOtpChannelFilter<$PrismaModel>
   }
 
+  export type NestedEnumAgentDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentDocumentType | EnumAgentDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentDocumentType[]
+    notIn?: $Enums.AgentDocumentType[]
+    not?: NestedEnumAgentDocumentTypeFilter<$PrismaModel> | $Enums.AgentDocumentType
+  }
+
+  export type NestedEnumAgentDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentDocumentType | EnumAgentDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentDocumentType[]
+    notIn?: $Enums.AgentDocumentType[]
+    not?: NestedEnumAgentDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.AgentDocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAgentDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumAgentDocumentTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInvestorFeeStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvestorFeeStatus | EnumInvestorFeeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvestorFeeStatus[]
+    notIn?: $Enums.InvestorFeeStatus[]
+    not?: NestedEnumInvestorFeeStatusFilter<$PrismaModel> | $Enums.InvestorFeeStatus
+  }
+
+  export type NestedEnumInvestorFeeStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvestorFeeStatus | EnumInvestorFeeStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvestorFeeStatus[]
+    notIn?: $Enums.InvestorFeeStatus[]
+    not?: NestedEnumInvestorFeeStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvestorFeeStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvestorFeeStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvestorFeeStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCommissionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommissionType | EnumCommissionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CommissionType[]
+    notIn?: $Enums.CommissionType[]
+    not?: NestedEnumCommissionTypeFilter<$PrismaModel> | $Enums.CommissionType
+  }
+
+  export type NestedEnumCommissionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommissionType | EnumCommissionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CommissionType[]
+    notIn?: $Enums.CommissionType[]
+    not?: NestedEnumCommissionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CommissionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCommissionTypeFilter<$PrismaModel>
+    _max?: NestedEnumCommissionTypeFilter<$PrismaModel>
+  }
+
   export type PropertyCreateWithoutOwnerInput = {
     id?: string
     title: string
@@ -28721,6 +34937,92 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AgentProfileCreateWithoutUserInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutUserInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutUserInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutUserInput, AgentProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type InvestorProfileCreateWithoutUserInput = {
+    id?: string
+    investorCode?: string | null
+    registrationFee?: number
+    feeStatus?: $Enums.InvestorFeeStatus
+    registeredAt?: Date | string
+    expiresAt?: Date | string | null
+    totalInvested?: number
+    createdAt?: Date | string
+    referringAgent: AgentProfileCreateNestedOneWithoutInvestorsInput
+  }
+
+  export type InvestorProfileUncheckedCreateWithoutUserInput = {
+    id?: string
+    investorCode?: string | null
+    referringAgentId: string
+    registrationFee?: number
+    feeStatus?: $Enums.InvestorFeeStatus
+    registeredAt?: Date | string
+    expiresAt?: Date | string | null
+    totalInvested?: number
+    createdAt?: Date | string
+  }
+
+  export type InvestorProfileCreateOrConnectWithoutUserInput = {
+    where: InvestorProfileWhereUniqueInput
+    create: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
+  }
+
   export type PropertyUpsertWithWhereUniqueWithoutOwnerInput = {
     where: PropertyWhereUniqueInput
     update: XOR<PropertyUpdateWithoutOwnerInput, PropertyUncheckedUpdateWithoutOwnerInput>
@@ -28886,6 +35188,104 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Enquiry"> | Date | string
   }
 
+  export type AgentProfileUpsertWithoutUserInput = {
+    update: XOR<AgentProfileUpdateWithoutUserInput, AgentProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<AgentProfileCreateWithoutUserInput, AgentProfileUncheckedCreateWithoutUserInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutUserInput, AgentProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AgentProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type InvestorProfileUpsertWithoutUserInput = {
+    update: XOR<InvestorProfileUpdateWithoutUserInput, InvestorProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
+    where?: InvestorProfileWhereInput
+  }
+
+  export type InvestorProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: InvestorProfileWhereInput
+    data: XOR<InvestorProfileUpdateWithoutUserInput, InvestorProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InvestorProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    investorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationFee?: IntFieldUpdateOperationsInput | number
+    feeStatus?: EnumInvestorFeeStatusFieldUpdateOperationsInput | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalInvested?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referringAgent?: AgentProfileUpdateOneRequiredWithoutInvestorsNestedInput
+  }
+
+  export type InvestorProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    investorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    referringAgentId?: StringFieldUpdateOperationsInput | string
+    registrationFee?: IntFieldUpdateOperationsInput | number
+    feeStatus?: EnumInvestorFeeStatusFieldUpdateOperationsInput | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalInvested?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SubscriptionCreateWithoutPlanInput = {
     id?: string
     status?: $Enums.SubscriptionStatus
@@ -28954,6 +35354,8 @@ export namespace Prisma {
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -28978,6 +35380,8 @@ export namespace Prisma {
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -29049,6 +35453,8 @@ export namespace Prisma {
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -29073,6 +35479,8 @@ export namespace Prisma {
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type PlanUpsertWithoutSubscriptionsInput = {
@@ -29134,6 +35542,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLeadViewsInput = {
@@ -29158,6 +35568,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLeadViewsInput = {
@@ -29225,6 +35637,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeadViewsInput = {
@@ -29249,6 +35663,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type EnquiryUpsertWithoutLeadViewsInput = {
@@ -30115,6 +36531,8 @@ export namespace Prisma {
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPropertiesInput = {
@@ -30139,6 +36557,8 @@ export namespace Prisma {
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPropertiesInput = {
@@ -30306,6 +36726,8 @@ export namespace Prisma {
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertiesInput = {
@@ -30330,6 +36752,8 @@ export namespace Prisma {
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type ProjectUpsertWithoutUnitsInput = {
@@ -30705,6 +37129,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEnquiriesInput = {
@@ -30729,6 +37155,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEnquiriesInput = {
@@ -30874,6 +37302,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnquiriesInput = {
@@ -30898,6 +37328,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type LeadViewUpsertWithWhereUniqueWithoutEnquiryInput = {
@@ -30938,6 +37370,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSavedPropertiesInput = {
@@ -30962,6 +37396,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSavedPropertiesInput = {
@@ -31079,6 +37515,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedPropertiesInput = {
@@ -31103,6 +37541,8 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type PropertyUpsertWithoutSavedByInput = {
@@ -31186,6 +37626,780 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
+  }
+
+  export type UserCreateWithoutAgentProfileInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAgentProfileInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAgentProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAgentProfileInput, UserUncheckedCreateWithoutAgentProfileInput>
+  }
+
+  export type AgentDocumentCreateWithoutAgentProfileInput = {
+    id?: string
+    type?: $Enums.AgentDocumentType
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type AgentDocumentUncheckedCreateWithoutAgentProfileInput = {
+    id?: string
+    type?: $Enums.AgentDocumentType
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type AgentDocumentCreateOrConnectWithoutAgentProfileInput = {
+    where: AgentDocumentWhereUniqueInput
+    create: XOR<AgentDocumentCreateWithoutAgentProfileInput, AgentDocumentUncheckedCreateWithoutAgentProfileInput>
+  }
+
+  export type AgentDocumentCreateManyAgentProfileInputEnvelope = {
+    data: AgentDocumentCreateManyAgentProfileInput | AgentDocumentCreateManyAgentProfileInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InvestorProfileCreateWithoutReferringAgentInput = {
+    id?: string
+    investorCode?: string | null
+    registrationFee?: number
+    feeStatus?: $Enums.InvestorFeeStatus
+    registeredAt?: Date | string
+    expiresAt?: Date | string | null
+    totalInvested?: number
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInvestorProfileInput
+  }
+
+  export type InvestorProfileUncheckedCreateWithoutReferringAgentInput = {
+    id?: string
+    userId: string
+    investorCode?: string | null
+    registrationFee?: number
+    feeStatus?: $Enums.InvestorFeeStatus
+    registeredAt?: Date | string
+    expiresAt?: Date | string | null
+    totalInvested?: number
+    createdAt?: Date | string
+  }
+
+  export type InvestorProfileCreateOrConnectWithoutReferringAgentInput = {
+    where: InvestorProfileWhereUniqueInput
+    create: XOR<InvestorProfileCreateWithoutReferringAgentInput, InvestorProfileUncheckedCreateWithoutReferringAgentInput>
+  }
+
+  export type InvestorProfileCreateManyReferringAgentInputEnvelope = {
+    data: InvestorProfileCreateManyReferringAgentInput | InvestorProfileCreateManyReferringAgentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommissionLedgerEntryCreateWithoutAgentInput = {
+    id?: string
+    type: $Enums.CommissionType
+    amount: number
+    refId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CommissionLedgerEntryUncheckedCreateWithoutAgentInput = {
+    id?: string
+    type: $Enums.CommissionType
+    amount: number
+    refId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CommissionLedgerEntryCreateOrConnectWithoutAgentInput = {
+    where: CommissionLedgerEntryWhereUniqueInput
+    create: XOR<CommissionLedgerEntryCreateWithoutAgentInput, CommissionLedgerEntryUncheckedCreateWithoutAgentInput>
+  }
+
+  export type CommissionLedgerEntryCreateManyAgentInputEnvelope = {
+    data: CommissionLedgerEntryCreateManyAgentInput | CommissionLedgerEntryCreateManyAgentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutAgentProfileInput = {
+    update: XOR<UserUpdateWithoutAgentProfileInput, UserUncheckedUpdateWithoutAgentProfileInput>
+    create: XOR<UserCreateWithoutAgentProfileInput, UserUncheckedCreateWithoutAgentProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAgentProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAgentProfileInput, UserUncheckedUpdateWithoutAgentProfileInput>
+  }
+
+  export type UserUpdateWithoutAgentProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAgentProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type AgentDocumentUpsertWithWhereUniqueWithoutAgentProfileInput = {
+    where: AgentDocumentWhereUniqueInput
+    update: XOR<AgentDocumentUpdateWithoutAgentProfileInput, AgentDocumentUncheckedUpdateWithoutAgentProfileInput>
+    create: XOR<AgentDocumentCreateWithoutAgentProfileInput, AgentDocumentUncheckedCreateWithoutAgentProfileInput>
+  }
+
+  export type AgentDocumentUpdateWithWhereUniqueWithoutAgentProfileInput = {
+    where: AgentDocumentWhereUniqueInput
+    data: XOR<AgentDocumentUpdateWithoutAgentProfileInput, AgentDocumentUncheckedUpdateWithoutAgentProfileInput>
+  }
+
+  export type AgentDocumentUpdateManyWithWhereWithoutAgentProfileInput = {
+    where: AgentDocumentScalarWhereInput
+    data: XOR<AgentDocumentUpdateManyMutationInput, AgentDocumentUncheckedUpdateManyWithoutAgentProfileInput>
+  }
+
+  export type AgentDocumentScalarWhereInput = {
+    AND?: AgentDocumentScalarWhereInput | AgentDocumentScalarWhereInput[]
+    OR?: AgentDocumentScalarWhereInput[]
+    NOT?: AgentDocumentScalarWhereInput | AgentDocumentScalarWhereInput[]
+    id?: StringFilter<"AgentDocument"> | string
+    agentProfileId?: StringFilter<"AgentDocument"> | string
+    type?: EnumAgentDocumentTypeFilter<"AgentDocument"> | $Enums.AgentDocumentType
+    url?: StringFilter<"AgentDocument"> | string
+    createdAt?: DateTimeFilter<"AgentDocument"> | Date | string
+  }
+
+  export type InvestorProfileUpsertWithWhereUniqueWithoutReferringAgentInput = {
+    where: InvestorProfileWhereUniqueInput
+    update: XOR<InvestorProfileUpdateWithoutReferringAgentInput, InvestorProfileUncheckedUpdateWithoutReferringAgentInput>
+    create: XOR<InvestorProfileCreateWithoutReferringAgentInput, InvestorProfileUncheckedCreateWithoutReferringAgentInput>
+  }
+
+  export type InvestorProfileUpdateWithWhereUniqueWithoutReferringAgentInput = {
+    where: InvestorProfileWhereUniqueInput
+    data: XOR<InvestorProfileUpdateWithoutReferringAgentInput, InvestorProfileUncheckedUpdateWithoutReferringAgentInput>
+  }
+
+  export type InvestorProfileUpdateManyWithWhereWithoutReferringAgentInput = {
+    where: InvestorProfileScalarWhereInput
+    data: XOR<InvestorProfileUpdateManyMutationInput, InvestorProfileUncheckedUpdateManyWithoutReferringAgentInput>
+  }
+
+  export type InvestorProfileScalarWhereInput = {
+    AND?: InvestorProfileScalarWhereInput | InvestorProfileScalarWhereInput[]
+    OR?: InvestorProfileScalarWhereInput[]
+    NOT?: InvestorProfileScalarWhereInput | InvestorProfileScalarWhereInput[]
+    id?: StringFilter<"InvestorProfile"> | string
+    userId?: StringFilter<"InvestorProfile"> | string
+    investorCode?: StringNullableFilter<"InvestorProfile"> | string | null
+    referringAgentId?: StringFilter<"InvestorProfile"> | string
+    registrationFee?: IntFilter<"InvestorProfile"> | number
+    feeStatus?: EnumInvestorFeeStatusFilter<"InvestorProfile"> | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFilter<"InvestorProfile"> | Date | string
+    expiresAt?: DateTimeNullableFilter<"InvestorProfile"> | Date | string | null
+    totalInvested?: IntFilter<"InvestorProfile"> | number
+    createdAt?: DateTimeFilter<"InvestorProfile"> | Date | string
+  }
+
+  export type CommissionLedgerEntryUpsertWithWhereUniqueWithoutAgentInput = {
+    where: CommissionLedgerEntryWhereUniqueInput
+    update: XOR<CommissionLedgerEntryUpdateWithoutAgentInput, CommissionLedgerEntryUncheckedUpdateWithoutAgentInput>
+    create: XOR<CommissionLedgerEntryCreateWithoutAgentInput, CommissionLedgerEntryUncheckedCreateWithoutAgentInput>
+  }
+
+  export type CommissionLedgerEntryUpdateWithWhereUniqueWithoutAgentInput = {
+    where: CommissionLedgerEntryWhereUniqueInput
+    data: XOR<CommissionLedgerEntryUpdateWithoutAgentInput, CommissionLedgerEntryUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type CommissionLedgerEntryUpdateManyWithWhereWithoutAgentInput = {
+    where: CommissionLedgerEntryScalarWhereInput
+    data: XOR<CommissionLedgerEntryUpdateManyMutationInput, CommissionLedgerEntryUncheckedUpdateManyWithoutAgentInput>
+  }
+
+  export type CommissionLedgerEntryScalarWhereInput = {
+    AND?: CommissionLedgerEntryScalarWhereInput | CommissionLedgerEntryScalarWhereInput[]
+    OR?: CommissionLedgerEntryScalarWhereInput[]
+    NOT?: CommissionLedgerEntryScalarWhereInput | CommissionLedgerEntryScalarWhereInput[]
+    id?: StringFilter<"CommissionLedgerEntry"> | string
+    agentId?: StringFilter<"CommissionLedgerEntry"> | string
+    type?: EnumCommissionTypeFilter<"CommissionLedgerEntry"> | $Enums.CommissionType
+    amount?: IntFilter<"CommissionLedgerEntry"> | number
+    refId?: StringNullableFilter<"CommissionLedgerEntry"> | string | null
+    note?: StringNullableFilter<"CommissionLedgerEntry"> | string | null
+    createdAt?: DateTimeFilter<"CommissionLedgerEntry"> | Date | string
+  }
+
+  export type AgentProfileCreateWithoutDocumentsInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutDocumentsInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutDocumentsInput, AgentProfileUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type AgentProfileUpsertWithoutDocumentsInput = {
+    update: XOR<AgentProfileUpdateWithoutDocumentsInput, AgentProfileUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<AgentProfileCreateWithoutDocumentsInput, AgentProfileUncheckedCreateWithoutDocumentsInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutDocumentsInput, AgentProfileUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type AgentProfileUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type UserCreateWithoutInvestorProfileInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInvestorProfileInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInvestorProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
+  }
+
+  export type AgentProfileCreateWithoutInvestorsInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutInvestorsInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutInvestorsInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutInvestorsInput, AgentProfileUncheckedCreateWithoutInvestorsInput>
+  }
+
+  export type UserUpsertWithoutInvestorProfileInput = {
+    update: XOR<UserUpdateWithoutInvestorProfileInput, UserUncheckedUpdateWithoutInvestorProfileInput>
+    create: XOR<UserCreateWithoutInvestorProfileInput, UserUncheckedCreateWithoutInvestorProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInvestorProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInvestorProfileInput, UserUncheckedUpdateWithoutInvestorProfileInput>
+  }
+
+  export type UserUpdateWithoutInvestorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInvestorProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type AgentProfileUpsertWithoutInvestorsInput = {
+    update: XOR<AgentProfileUpdateWithoutInvestorsInput, AgentProfileUncheckedUpdateWithoutInvestorsInput>
+    create: XOR<AgentProfileCreateWithoutInvestorsInput, AgentProfileUncheckedCreateWithoutInvestorsInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutInvestorsInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutInvestorsInput, AgentProfileUncheckedUpdateWithoutInvestorsInput>
+  }
+
+  export type AgentProfileUpdateWithoutInvestorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutInvestorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileCreateWithoutCommissionEntriesInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutCommissionEntriesInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutCommissionEntriesInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutCommissionEntriesInput, AgentProfileUncheckedCreateWithoutCommissionEntriesInput>
+  }
+
+  export type AgentProfileUpsertWithoutCommissionEntriesInput = {
+    update: XOR<AgentProfileUpdateWithoutCommissionEntriesInput, AgentProfileUncheckedUpdateWithoutCommissionEntriesInput>
+    create: XOR<AgentProfileCreateWithoutCommissionEntriesInput, AgentProfileUncheckedCreateWithoutCommissionEntriesInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutCommissionEntriesInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutCommissionEntriesInput, AgentProfileUncheckedUpdateWithoutCommissionEntriesInput>
+  }
+
+  export type AgentProfileUpdateWithoutCommissionEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutCommissionEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
   }
 
   export type PropertyCreateManyOwnerInput = {
@@ -32009,6 +39223,118 @@ export namespace Prisma {
   export type LeadViewUncheckedUpdateManyWithoutEnquiryInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentDocumentCreateManyAgentProfileInput = {
+    id?: string
+    type?: $Enums.AgentDocumentType
+    url: string
+    createdAt?: Date | string
+  }
+
+  export type InvestorProfileCreateManyReferringAgentInput = {
+    id?: string
+    userId: string
+    investorCode?: string | null
+    registrationFee?: number
+    feeStatus?: $Enums.InvestorFeeStatus
+    registeredAt?: Date | string
+    expiresAt?: Date | string | null
+    totalInvested?: number
+    createdAt?: Date | string
+  }
+
+  export type CommissionLedgerEntryCreateManyAgentInput = {
+    id?: string
+    type: $Enums.CommissionType
+    amount: number
+    refId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AgentDocumentUpdateWithoutAgentProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgentDocumentTypeFieldUpdateOperationsInput | $Enums.AgentDocumentType
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentDocumentUncheckedUpdateWithoutAgentProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgentDocumentTypeFieldUpdateOperationsInput | $Enums.AgentDocumentType
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentDocumentUncheckedUpdateManyWithoutAgentProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAgentDocumentTypeFieldUpdateOperationsInput | $Enums.AgentDocumentType
+    url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvestorProfileUpdateWithoutReferringAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    investorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationFee?: IntFieldUpdateOperationsInput | number
+    feeStatus?: EnumInvestorFeeStatusFieldUpdateOperationsInput | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalInvested?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInvestorProfileNestedInput
+  }
+
+  export type InvestorProfileUncheckedUpdateWithoutReferringAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    investorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationFee?: IntFieldUpdateOperationsInput | number
+    feeStatus?: EnumInvestorFeeStatusFieldUpdateOperationsInput | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalInvested?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvestorProfileUncheckedUpdateManyWithoutReferringAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    investorCode?: NullableStringFieldUpdateOperationsInput | string | null
+    registrationFee?: IntFieldUpdateOperationsInput | number
+    feeStatus?: EnumInvestorFeeStatusFieldUpdateOperationsInput | $Enums.InvestorFeeStatus
+    registeredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    totalInvested?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommissionLedgerEntryUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommissionTypeFieldUpdateOperationsInput | $Enums.CommissionType
+    amount?: IntFieldUpdateOperationsInput | number
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommissionLedgerEntryUncheckedUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommissionTypeFieldUpdateOperationsInput | $Enums.CommissionType
+    amount?: IntFieldUpdateOperationsInput | number
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommissionLedgerEntryUncheckedUpdateManyWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommissionTypeFieldUpdateOperationsInput | $Enums.CommissionType
+    amount?: IntFieldUpdateOperationsInput | number
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

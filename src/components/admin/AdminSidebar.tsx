@@ -58,6 +58,36 @@ const NAV_ITEMS: PanelNavItem[] = [
     ),
   },
   {
+    href: "/admin/agents",
+    label: "Agents",
+    icon: (
+      <>
+        <circle cx="12" cy="8" r="3.5" strokeWidth={1.75} />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.75}
+          d="M4.5 20c0-3.6 3.4-6.5 7.5-6.5s7.5 2.9 7.5 6.5"
+        />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 8.5l2 2 4-4" />
+      </>
+    ),
+  },
+  {
+    href: "/admin/investors",
+    label: "Investors",
+    icon: (
+      <>
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.75}
+          d="M3 17l6-6 4 4 8-8M21 7v6h-6"
+        />
+      </>
+    ),
+  },
+  {
     href: "/admin/developers",
     label: "Developers",
     icon: (

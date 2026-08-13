@@ -370,6 +370,61 @@ exports.Prisma.SiteSettingsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AgentProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  agentCode: 'agentCode',
+  city: 'city',
+  shopName: 'shopName',
+  shopAddress: 'shopAddress',
+  shopLatitude: 'shopLatitude',
+  shopLongitude: 'shopLongitude',
+  alternatePhone: 'alternatePhone',
+  yearsExperience: 'yearsExperience',
+  staffCount: 'staffCount',
+  reraNumber: 'reraNumber',
+  gstNumber: 'gstNumber',
+  status: 'status',
+  rejectionReason: 'rejectionReason',
+  primeStatus: 'primeStatus',
+  walletBalance: 'walletBalance',
+  warningCount: 'warningCount',
+  verifiedAt: 'verifiedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AgentDocumentScalarFieldEnum = {
+  id: 'id',
+  agentProfileId: 'agentProfileId',
+  type: 'type',
+  url: 'url',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InvestorProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  investorCode: 'investorCode',
+  referringAgentId: 'referringAgentId',
+  registrationFee: 'registrationFee',
+  feeStatus: 'feeStatus',
+  registeredAt: 'registeredAt',
+  expiresAt: 'expiresAt',
+  totalInvested: 'totalInvested',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CommissionLedgerEntryScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  type: 'type',
+  amount: 'amount',
+  refId: 'refId',
+  note: 'note',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -565,18 +620,54 @@ exports.Prisma.SiteSettingsOrderByRelevanceFieldEnum = {
   googleAnalyticsId: 'googleAnalyticsId',
   googleSiteVerification: 'googleSiteVerification'
 };
+
+exports.Prisma.AgentProfileOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  agentCode: 'agentCode',
+  city: 'city',
+  shopName: 'shopName',
+  shopAddress: 'shopAddress',
+  alternatePhone: 'alternatePhone',
+  reraNumber: 'reraNumber',
+  gstNumber: 'gstNumber',
+  rejectionReason: 'rejectionReason'
+};
+
+exports.Prisma.AgentDocumentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentProfileId: 'agentProfileId',
+  url: 'url'
+};
+
+exports.Prisma.InvestorProfileOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  investorCode: 'investorCode',
+  referringAgentId: 'referringAgentId'
+};
+
+exports.Prisma.CommissionLedgerEntryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  refId: 'refId',
+  note: 'note'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SUBADMIN: 'SUBADMIN',
   OWNER: 'OWNER',
   DEALER: 'DEALER',
-  BUYER: 'BUYER'
+  BUYER: 'BUYER',
+  AGENT: 'AGENT',
+  INVESTOR: 'INVESTOR'
 };
 
 exports.PlanRole = exports.$Enums.PlanRole = {
   OWNER: 'OWNER',
   DEALER: 'DEALER',
-  BOTH: 'BOTH'
+  BOTH: 'BOTH',
+  AGENT: 'AGENT'
 };
 
 exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
@@ -640,6 +731,26 @@ exports.OtpChannel = exports.$Enums.OtpChannel = {
   EMAIL: 'EMAIL'
 };
 
+exports.AgentDocumentType = exports.$Enums.AgentDocumentType = {
+  RERA_CERTIFICATE: 'RERA_CERTIFICATE',
+  TRADE_LICENSE: 'TRADE_LICENSE',
+  GST_CERTIFICATE: 'GST_CERTIFICATE',
+  OTHER: 'OTHER'
+};
+
+exports.InvestorFeeStatus = exports.$Enums.InvestorFeeStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID'
+};
+
+exports.CommissionType = exports.$Enums.CommissionType = {
+  REGISTRATION_REFERRAL: 'REGISTRATION_REFERRAL',
+  DEAL_PROFIT_SHARE: 'DEAL_PROFIT_SHARE',
+  BROKERAGE: 'BROKERAGE',
+  UNLOCK_SPLIT: 'UNLOCK_SPLIT',
+  GOLD_SPLIT: 'GOLD_SPLIT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Plan: 'Plan',
@@ -658,7 +769,11 @@ exports.Prisma.ModelName = {
   OtpCode: 'OtpCode',
   SavedProperty: 'SavedProperty',
   Amenity: 'Amenity',
-  SiteSettings: 'SiteSettings'
+  SiteSettings: 'SiteSettings',
+  AgentProfile: 'AgentProfile',
+  AgentDocument: 'AgentDocument',
+  InvestorProfile: 'InvestorProfile',
+  CommissionLedgerEntry: 'CommissionLedgerEntry'
 };
 
 /**

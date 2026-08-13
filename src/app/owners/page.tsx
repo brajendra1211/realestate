@@ -1,0 +1,82 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+import { prisma } from "@/lib/prisma";
+import { absoluteUrl } from "@/lib/seo";
+import { notExpiredFilter } from "@/lib/propertyVisibility";
+
+export function generateMetadata(): Metadata {
+  const title = "Property Owners";
+  const description = "Browse verified property owners listing homes directly for sale and rent.";
+  return {
+    title,
+    description,
+    alternates: { canonical: absoluteUrl("/owners") },
+  };
+}
+
+export default async function OwnersPage() {
+  const owners = await prisma.user.findMany({
+    where: { role: "OWNER", slug: { not: null }, verified: true },
+    include: {
+      _count: { select: { properties: { where: { approvalStatus: "APPROVED", ...notExpiredFilter() } } } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <h1 className="text-2xl font-bold text-slate-900">Property Owners</h1>
+      <p className="mt-1 text-sm text-slate-500">
+        Verified owners listing their properties directly, without a broker.
+      </p>
+
+      {owners.length === 0 ? (
+        <p className="mt-8 rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500">
+          No owners listed yet.
+        </p>
+      ) : (
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {owners.map((owner) => (
+            <Link
+              key={owner.id}
+              href={`/owners/${owner.slug}`}
+              className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              <div className="flex items-center gap-3">
+                {owner.logoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={owner.logoUrl}
+                    alt={owner.name}
+                    className="h-14 w-14 shrink-0 rounded-xl object-cover"
+                  />
+                ) : (
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-lg font-bold text-blue-700">
+                    {owner.name.charAt(0)}
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h2 className="truncate font-semibold text-slate-900">{owner.name}</h2>
+                    <span className="shrink-0 rounded-full bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">
+                      Verified
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {owner.address && <p className="truncate text-xs text-slate-500">{owner.address}</p>}
+
+              <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 text-sm">
+                <span className="font-medium text-slate-700">
+                  {owner._count.properties} active listing{owner._count.properties === 1 ? "" : "s"}
+                </span>
+                {owner.phone && <span className="text-slate-500">{owner.phone}</span>}
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

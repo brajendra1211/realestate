@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `Property` ADD COLUMN `expiresAt` DATETIME(3) NULL;
+
+-- AlterTable
+ALTER TABLE `Subscription` MODIFY `status` ENUM('PENDING', 'ACTIVE', 'EXPIRED', 'CANCELLED') NOT NULL DEFAULT 'ACTIVE';

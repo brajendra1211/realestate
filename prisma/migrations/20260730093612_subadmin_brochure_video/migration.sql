@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE `Property` ADD COLUMN `brochureUrl` VARCHAR(191) NULL,
+    ADD COLUMN `youtubeUrl` VARCHAR(191) NULL;
+
+-- AlterTable
+ALTER TABLE `User` MODIFY `role` ENUM('ADMIN', 'SUBADMIN', 'OWNER', 'DEALER', 'BUYER') NOT NULL DEFAULT 'OWNER';

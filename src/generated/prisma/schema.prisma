@@ -1,0 +1,394 @@
+generator client {
+  provider   = "prisma-client-js"
+  output     = "../src/generated/prisma"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  ADMIN
+  SUBADMIN
+  OWNER
+  DEALER
+  BUYER
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ListingType {
+  SALE
+  RENT
+}
+
+enum PropertyType {
+  APARTMENT
+  VILLA
+  INDEPENDENT_HOUSE
+  PLOT
+  COMMERCIAL
+  OFFICE
+}
+
+enum PropertyStatus {
+  AVAILABLE
+  SOLD
+  RENTED
+}
+
+enum PropertyCondition {
+  NEW_BOOKING
+  RESALE
+}
+
+enum ProjectStatus {
+  UPCOMING
+  UNDER_CONSTRUCTION
+  READY_TO_MOVE
+}
+
+enum PropertyImageCategory {
+  EXTERIOR
+  LIVING_ROOM
+  BEDROOM
+  KITCHEN
+  BATHROOM
+  DINING
+  BALCONY
+  FLOOR_PLAN
+  OTHER
+}
+
+model User {
+  id              String          @id @default(cuid())
+  name            String
+  email           String?         @unique
+  phone           String?
+  company         String?
+  slug            String?         @unique
+  about           String?         @db.Text
+  logoUrl         String?
+  licenseNumber   String?
+  address         String?         @db.Text
+  website         String?
+  instagramUrl    String?
+  facebookUrl     String?
+  passwordHash    String?
+  role            Role            @default(OWNER)
+  verified        Boolean         @default(false)
+  properties      Property[]
+  subscriptions   Subscription[]
+  leadViews       LeadView[]
+  savedProperties SavedProperty[]
+  enquiries       Enquiry[]       @relation("EnquiryBuyer")
+  createdAt       DateTime        @default(now())
+}
+
+enum PlanRole {
+  OWNER
+  DEALER
+  BOTH
+}
+
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+model Plan {
+  id            String         @id @default(cuid())
+  name          String
+  role          PlanRole       @default(BOTH)
+  listingLimit  Int
+  leadLimit     Int?
+  price         Int            @default(0)
+  durationDays  Int?
+  active        Boolean        @default(true)
+  subscriptions Subscription[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Subscription {
+  id        String             @id @default(cuid())
+  userId    String
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId    String
+  plan      Plan               @relation(fields: [planId], references: [id], onDelete: Cascade)
+  status    SubscriptionStatus @default(ACTIVE)
+  amount    Int?
+  startDate DateTime           @default(now())
+  endDate   DateTime?
+  createdAt DateTime           @default(now())
+
+  @@index([userId])
+  @@index([planId])
+}
+
+model LeadView {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  enquiryId String
+  enquiry   Enquiry  @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, enquiryId])
+  @@index([userId])
+}
+
+model Developer {
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  name            String
+  logoUrl         String?
+  about           String?   @db.Text
+  website         String?
+  city            String?
+  locality        String?
+  contactEmail    String?
+  contactPhone    String?
+  verified        Boolean   @default(false)
+  metaTitle       String?
+  metaDescription String?   @db.Text
+  projects        Project[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Project {
+  id              String         @id @default(cuid())
+  slug            String         @unique
+  name            String
+  description     String         @db.Text
+  status          ProjectStatus  @default(UPCOMING)
+  developerId     String
+  developer       Developer      @relation(fields: [developerId], references: [id], onDelete: Cascade)
+  city            String
+  locality        String?
+  address         String?        @db.Text
+  priceMin        Int?
+  priceMax        Int?
+  possessionDate  DateTime?
+  amenities       String?        @db.Text
+  reraNumber      String?
+  metaTitle       String?
+  metaDescription String?        @db.Text
+  units           Property[]
+  images          ProjectImage[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([developerId])
+}
+
+model ProjectImage {
+  id        String  @id @default(cuid())
+  url       String
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  order     Int     @default(0)
+}
+
+model Country {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  states    State[]
+  createdAt DateTime @default(now())
+}
+
+model State {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String
+  countryId String
+  country   Country  @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  cities    City[]
+  createdAt DateTime @default(now())
+
+  @@unique([countryId, slug])
+  @@index([countryId])
+}
+
+model City {
+  id              String     @id @default(cuid())
+  name            String
+  slug            String     @unique
+  stateId         String
+  state           State      @relation(fields: [stateId], references: [id], onDelete: Cascade)
+  localities      Locality[]
+  latitude        Float?
+  longitude       Float?
+  heroImage       String?
+  metaTitle       String?
+  metaDescription String?    @db.Text
+  description     String?    @db.Text
+  published       Boolean    @default(true)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@index([stateId])
+}
+
+model Locality {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String
+  cityId          String
+  city            City     @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  latitude        Float?
+  longitude       Float?
+  heroImage       String?
+  metaTitle       String?
+  metaDescription String?  @db.Text
+  description     String?  @db.Text
+  published       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([cityId, slug])
+  @@index([cityId])
+}
+
+model Property {
+  id              String             @id @default(cuid())
+  title           String
+  slug            String             @unique
+  description     String             @db.Text
+  listingType     ListingType
+  propertyType    PropertyType
+  condition       PropertyCondition?
+  status          PropertyStatus     @default(AVAILABLE)
+  approvalStatus  ApprovalStatus     @default(PENDING)
+  expiresAt       DateTime?
+  price           Int
+  priceNegotiable Boolean            @default(false)
+  bedrooms        Int?
+  bathrooms       Int?
+  areaSqft        Int?
+  city            String
+  locality        String?
+  address         String?            @db.Text
+  amenities       String?            @db.Text
+  brochureUrl     String?
+  youtubeUrl      String?
+  ownerId         String
+  owner           User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  projectId       String?
+  project         Project?           @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  contactName     String?
+  contactPhone    String?
+  contactEmail    String?
+  featured        Boolean            @default(false)
+  metaTitle       String?
+  metaDescription String?            @db.Text
+  images          PropertyImage[]
+  enquiries       Enquiry[]
+  savedBy         SavedProperty[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@index([ownerId])
+  @@index([projectId])
+  @@index([city])
+}
+
+model PropertyImage {
+  id         String                @id @default(cuid())
+  url        String
+  category   PropertyImageCategory @default(OTHER)
+  propertyId String
+  property   Property              @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  order      Int                   @default(0)
+}
+
+model Enquiry {
+  id         String     @id @default(cuid())
+  name       String
+  phone      String
+  email      String?
+  message    String?    @db.Text
+  propertyId String?
+  property   Property?  @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  buyerId    String?
+  buyer      User?      @relation("EnquiryBuyer", fields: [buyerId], references: [id], onDelete: SetNull)
+  leadViews  LeadView[]
+  createdAt  DateTime   @default(now())
+
+  @@index([buyerId])
+}
+
+enum OtpChannel {
+  WHATSAPP
+  EMAIL
+}
+
+model OtpCode {
+  id         String     @id @default(cuid())
+  identifier String
+  channel    OtpChannel
+  code       String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime   @default(now())
+
+  @@index([identifier])
+}
+
+model SavedProperty {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, propertyId])
+  @@index([userId])
+  @@index([propertyId])
+}
+
+model Amenity {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id                     String   @id @default("singleton")
+  siteName               String   @default("BayaEstate")
+  tagline                String?  @db.Text
+  logoUrl                String?
+  favicon                String?
+  heroImage              String?
+  heroTitle              String?
+  heroSubtitle           String?
+  ctaText                String?
+  ctaLink                String?
+  whatsappNumber         String?
+  contactEmail           String?
+  contactPhone           String?
+  contactAddress         String?  @db.Text
+  instagramUrl           String?
+  facebookUrl            String?
+  youtubeUrl             String?
+  linkedinUrl            String?
+  footerText             String?  @db.Text
+  metaTitle              String?
+  metaDescription        String?  @db.Text
+  ogImage                String?
+  googleAnalyticsId      String?
+  googleSiteVerification String?
+  updatedAt              DateTime @updatedAt
+}

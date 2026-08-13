@@ -15,6 +15,18 @@ const NAV_ITEMS: PanelNavItem[] = [
     ),
   },
   {
+    href: "/agent/listings",
+    label: "My Listings",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.75}
+        d="M4 21V8l8-5 8 5v13M9 21v-6h6v6M4 21h16"
+      />
+    ),
+  },
+  {
     href: "/agent/investors",
     label: "Investors",
     icon: (

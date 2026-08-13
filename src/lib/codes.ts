@@ -25,3 +25,18 @@ export async function generateInvestorCode() {
     code = `INV-${String(seq).padStart(6, "0")}`;
   }
 }
+
+export async function generateMasterPropertyId(city: string | null) {
+  const prefix = (city ?? "").replace(/[^a-zA-Z]/g, "").slice(0, 3).toUpperCase() || "GEN";
+  const year = new Date().getFullYear();
+  const base = `PROP-${prefix}-${year}-`;
+  let seq = (await prisma.masterProperty.count({ where: { masterId: { startsWith: base } } })) + 1000;
+  let id = `${base}${seq}`;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const existing = await prisma.masterProperty.findUnique({ where: { masterId: id } });
+    if (!existing) return id;
+    seq += 1;
+    id = `${base}${seq}`;
+  }
+}

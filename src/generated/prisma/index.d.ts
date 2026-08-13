@@ -123,6 +123,26 @@ export type InvestorProfile = $Result.DefaultSelection<Prisma.$InvestorProfilePa
  * 
  */
 export type CommissionLedgerEntry = $Result.DefaultSelection<Prisma.$CommissionLedgerEntryPayload>
+/**
+ * Model MasterProperty
+ * 
+ */
+export type MasterProperty = $Result.DefaultSelection<Prisma.$MasterPropertyPayload>
+/**
+ * Model AgentListing
+ * 
+ */
+export type AgentListing = $Result.DefaultSelection<Prisma.$AgentListingPayload>
+/**
+ * Model AgentListingImage
+ * 
+ */
+export type AgentListingImage = $Result.DefaultSelection<Prisma.$AgentListingImagePayload>
+/**
+ * Model PropertyUnlock
+ * 
+ */
+export type PropertyUnlock = $Result.DefaultSelection<Prisma.$PropertyUnlockPayload>
 
 /**
  * Enums
@@ -665,6 +685,46 @@ export class PrismaClient<
     * ```
     */
   get commissionLedgerEntry(): Prisma.CommissionLedgerEntryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.masterProperty`: Exposes CRUD operations for the **MasterProperty** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MasterProperties
+    * const masterProperties = await prisma.masterProperty.findMany()
+    * ```
+    */
+  get masterProperty(): Prisma.MasterPropertyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.agentListing`: Exposes CRUD operations for the **AgentListing** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AgentListings
+    * const agentListings = await prisma.agentListing.findMany()
+    * ```
+    */
+  get agentListing(): Prisma.AgentListingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.agentListingImage`: Exposes CRUD operations for the **AgentListingImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AgentListingImages
+    * const agentListingImages = await prisma.agentListingImage.findMany()
+    * ```
+    */
+  get agentListingImage(): Prisma.AgentListingImageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.propertyUnlock`: Exposes CRUD operations for the **PropertyUnlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PropertyUnlocks
+    * const propertyUnlocks = await prisma.propertyUnlock.findMany()
+    * ```
+    */
+  get propertyUnlock(): Prisma.PropertyUnlockDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1133,7 +1193,11 @@ export namespace Prisma {
     AgentProfile: 'AgentProfile',
     AgentDocument: 'AgentDocument',
     InvestorProfile: 'InvestorProfile',
-    CommissionLedgerEntry: 'CommissionLedgerEntry'
+    CommissionLedgerEntry: 'CommissionLedgerEntry',
+    MasterProperty: 'MasterProperty',
+    AgentListing: 'AgentListing',
+    AgentListingImage: 'AgentListingImage',
+    PropertyUnlock: 'PropertyUnlock'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1149,7 +1213,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "amenity" | "siteSettings" | "agentProfile" | "agentDocument" | "investorProfile" | "commissionLedgerEntry"
+      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "amenity" | "siteSettings" | "agentProfile" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "agentListingImage" | "propertyUnlock"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2605,6 +2669,270 @@ export namespace Prisma {
           }
         }
       }
+      MasterProperty: {
+        payload: Prisma.$MasterPropertyPayload<ExtArgs>
+        fields: Prisma.MasterPropertyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MasterPropertyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterPropertyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MasterPropertyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterPropertyPayload>
+          }
+          findFirst: {
+            args: Prisma.MasterPropertyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterPropertyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MasterPropertyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterPropertyPayload>
+          }
+          findMany: {
+            args: Prisma.MasterPropertyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterPropertyPayload>[]
+          }
+          create: {
+            args: Prisma.MasterPropertyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterPropertyPayload>
+          }
+          createMany: {
+            args: Prisma.MasterPropertyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.MasterPropertyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterPropertyPayload>
+          }
+          update: {
+            args: Prisma.MasterPropertyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterPropertyPayload>
+          }
+          deleteMany: {
+            args: Prisma.MasterPropertyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MasterPropertyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.MasterPropertyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterPropertyPayload>
+          }
+          aggregate: {
+            args: Prisma.MasterPropertyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMasterProperty>
+          }
+          groupBy: {
+            args: Prisma.MasterPropertyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MasterPropertyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MasterPropertyCountArgs<ExtArgs>
+            result: $Utils.Optional<MasterPropertyCountAggregateOutputType> | number
+          }
+        }
+      }
+      AgentListing: {
+        payload: Prisma.$AgentListingPayload<ExtArgs>
+        fields: Prisma.AgentListingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AgentListingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AgentListingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingPayload>
+          }
+          findFirst: {
+            args: Prisma.AgentListingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AgentListingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingPayload>
+          }
+          findMany: {
+            args: Prisma.AgentListingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingPayload>[]
+          }
+          create: {
+            args: Prisma.AgentListingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingPayload>
+          }
+          createMany: {
+            args: Prisma.AgentListingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.AgentListingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingPayload>
+          }
+          update: {
+            args: Prisma.AgentListingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingPayload>
+          }
+          deleteMany: {
+            args: Prisma.AgentListingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AgentListingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AgentListingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingPayload>
+          }
+          aggregate: {
+            args: Prisma.AgentListingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAgentListing>
+          }
+          groupBy: {
+            args: Prisma.AgentListingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AgentListingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AgentListingCountArgs<ExtArgs>
+            result: $Utils.Optional<AgentListingCountAggregateOutputType> | number
+          }
+        }
+      }
+      AgentListingImage: {
+        payload: Prisma.$AgentListingImagePayload<ExtArgs>
+        fields: Prisma.AgentListingImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AgentListingImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AgentListingImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingImagePayload>
+          }
+          findFirst: {
+            args: Prisma.AgentListingImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AgentListingImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingImagePayload>
+          }
+          findMany: {
+            args: Prisma.AgentListingImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingImagePayload>[]
+          }
+          create: {
+            args: Prisma.AgentListingImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingImagePayload>
+          }
+          createMany: {
+            args: Prisma.AgentListingImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.AgentListingImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingImagePayload>
+          }
+          update: {
+            args: Prisma.AgentListingImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.AgentListingImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AgentListingImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AgentListingImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingImagePayload>
+          }
+          aggregate: {
+            args: Prisma.AgentListingImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAgentListingImage>
+          }
+          groupBy: {
+            args: Prisma.AgentListingImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AgentListingImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AgentListingImageCountArgs<ExtArgs>
+            result: $Utils.Optional<AgentListingImageCountAggregateOutputType> | number
+          }
+        }
+      }
+      PropertyUnlock: {
+        payload: Prisma.$PropertyUnlockPayload<ExtArgs>
+        fields: Prisma.PropertyUnlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PropertyUnlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyUnlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PropertyUnlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyUnlockPayload>
+          }
+          findFirst: {
+            args: Prisma.PropertyUnlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyUnlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PropertyUnlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyUnlockPayload>
+          }
+          findMany: {
+            args: Prisma.PropertyUnlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyUnlockPayload>[]
+          }
+          create: {
+            args: Prisma.PropertyUnlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyUnlockPayload>
+          }
+          createMany: {
+            args: Prisma.PropertyUnlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PropertyUnlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyUnlockPayload>
+          }
+          update: {
+            args: Prisma.PropertyUnlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyUnlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.PropertyUnlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PropertyUnlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PropertyUnlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyUnlockPayload>
+          }
+          aggregate: {
+            args: Prisma.PropertyUnlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePropertyUnlock>
+          }
+          groupBy: {
+            args: Prisma.PropertyUnlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PropertyUnlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PropertyUnlockCountArgs<ExtArgs>
+            result: $Utils.Optional<PropertyUnlockCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2750,6 +3078,10 @@ export namespace Prisma {
     agentDocument?: AgentDocumentOmit
     investorProfile?: InvestorProfileOmit
     commissionLedgerEntry?: CommissionLedgerEntryOmit
+    masterProperty?: MasterPropertyOmit
+    agentListing?: AgentListingOmit
+    agentListingImage?: AgentListingImageOmit
+    propertyUnlock?: PropertyUnlockOmit
   }
 
   /* Types for Logging */
@@ -2835,6 +3167,7 @@ export namespace Prisma {
     leadViews: number
     savedProperties: number
     enquiries: number
+    propertyUnlocks: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2843,6 +3176,7 @@ export namespace Prisma {
     leadViews?: boolean | UserCountOutputTypeCountLeadViewsArgs
     savedProperties?: boolean | UserCountOutputTypeCountSavedPropertiesArgs
     enquiries?: boolean | UserCountOutputTypeCountEnquiriesArgs
+    propertyUnlocks?: boolean | UserCountOutputTypeCountPropertyUnlocksArgs
   }
 
   // Custom InputTypes
@@ -2889,6 +3223,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountEnquiriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EnquiryWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPropertyUnlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropertyUnlockWhereInput
   }
 
 
@@ -3175,12 +3516,14 @@ export namespace Prisma {
     documents: number
     investors: number
     commissionEntries: number
+    listings: number
   }
 
   export type AgentProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     documents?: boolean | AgentProfileCountOutputTypeCountDocumentsArgs
     investors?: boolean | AgentProfileCountOutputTypeCountInvestorsArgs
     commissionEntries?: boolean | AgentProfileCountOutputTypeCountCommissionEntriesArgs
+    listings?: boolean | AgentProfileCountOutputTypeCountListingsArgs
   }
 
   // Custom InputTypes
@@ -3213,6 +3556,84 @@ export namespace Prisma {
    */
   export type AgentProfileCountOutputTypeCountCommissionEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommissionLedgerEntryWhereInput
+  }
+
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeCountListingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentListingWhereInput
+  }
+
+
+  /**
+   * Count Type MasterPropertyCountOutputType
+   */
+
+  export type MasterPropertyCountOutputType = {
+    listings: number
+  }
+
+  export type MasterPropertyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    listings?: boolean | MasterPropertyCountOutputTypeCountListingsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MasterPropertyCountOutputType without action
+   */
+  export type MasterPropertyCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterPropertyCountOutputType
+     */
+    select?: MasterPropertyCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MasterPropertyCountOutputType without action
+   */
+  export type MasterPropertyCountOutputTypeCountListingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentListingWhereInput
+  }
+
+
+  /**
+   * Count Type AgentListingCountOutputType
+   */
+
+  export type AgentListingCountOutputType = {
+    images: number
+    unlocks: number
+  }
+
+  export type AgentListingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    images?: boolean | AgentListingCountOutputTypeCountImagesArgs
+    unlocks?: boolean | AgentListingCountOutputTypeCountUnlocksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AgentListingCountOutputType without action
+   */
+  export type AgentListingCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingCountOutputType
+     */
+    select?: AgentListingCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AgentListingCountOutputType without action
+   */
+  export type AgentListingCountOutputTypeCountImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentListingImageWhereInput
+  }
+
+  /**
+   * AgentListingCountOutputType without action
+   */
+  export type AgentListingCountOutputTypeCountUnlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropertyUnlockWhereInput
   }
 
 
@@ -3487,6 +3908,7 @@ export namespace Prisma {
     enquiries?: boolean | User$enquiriesArgs<ExtArgs>
     agentProfile?: boolean | User$agentProfileArgs<ExtArgs>
     investorProfile?: boolean | User$investorProfileArgs<ExtArgs>
+    propertyUnlocks?: boolean | User$propertyUnlocksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3521,6 +3943,7 @@ export namespace Prisma {
     enquiries?: boolean | User$enquiriesArgs<ExtArgs>
     agentProfile?: boolean | User$agentProfileArgs<ExtArgs>
     investorProfile?: boolean | User$investorProfileArgs<ExtArgs>
+    propertyUnlocks?: boolean | User$propertyUnlocksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3534,6 +3957,7 @@ export namespace Prisma {
       enquiries: Prisma.$EnquiryPayload<ExtArgs>[]
       agentProfile: Prisma.$AgentProfilePayload<ExtArgs> | null
       investorProfile: Prisma.$InvestorProfilePayload<ExtArgs> | null
+      propertyUnlocks: Prisma.$PropertyUnlockPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3900,6 +4324,7 @@ export namespace Prisma {
     enquiries<T extends User$enquiriesArgs<ExtArgs> = {}>(args?: Subset<T, User$enquiriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnquiryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     agentProfile<T extends User$agentProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$agentProfileArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     investorProfile<T extends User$investorProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$investorProfileArgs<ExtArgs>>): Prisma__InvestorProfileClient<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    propertyUnlocks<T extends User$propertyUnlocksArgs<ExtArgs> = {}>(args?: Subset<T, User$propertyUnlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4449,6 +4874,30 @@ export namespace Prisma {
      */
     include?: InvestorProfileInclude<ExtArgs> | null
     where?: InvestorProfileWhereInput
+  }
+
+  /**
+   * User.propertyUnlocks
+   */
+  export type User$propertyUnlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    where?: PropertyUnlockWhereInput
+    orderBy?: PropertyUnlockOrderByWithRelationInput | PropertyUnlockOrderByWithRelationInput[]
+    cursor?: PropertyUnlockWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropertyUnlockScalarFieldEnum | PropertyUnlockScalarFieldEnum[]
   }
 
   /**
@@ -22322,6 +22771,7 @@ export namespace Prisma {
     documents?: boolean | AgentProfile$documentsArgs<ExtArgs>
     investors?: boolean | AgentProfile$investorsArgs<ExtArgs>
     commissionEntries?: boolean | AgentProfile$commissionEntriesArgs<ExtArgs>
+    listings?: boolean | AgentProfile$listingsArgs<ExtArgs>
     _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentProfile"]>
 
@@ -22357,6 +22807,7 @@ export namespace Prisma {
     documents?: boolean | AgentProfile$documentsArgs<ExtArgs>
     investors?: boolean | AgentProfile$investorsArgs<ExtArgs>
     commissionEntries?: boolean | AgentProfile$commissionEntriesArgs<ExtArgs>
+    listings?: boolean | AgentProfile$listingsArgs<ExtArgs>
     _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -22367,6 +22818,7 @@ export namespace Prisma {
       documents: Prisma.$AgentDocumentPayload<ExtArgs>[]
       investors: Prisma.$InvestorProfilePayload<ExtArgs>[]
       commissionEntries: Prisma.$CommissionLedgerEntryPayload<ExtArgs>[]
+      listings: Prisma.$AgentListingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -22734,6 +23186,7 @@ export namespace Prisma {
     documents<T extends AgentProfile$documentsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     investors<T extends AgentProfile$investorsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$investorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvestorProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     commissionEntries<T extends AgentProfile$commissionEntriesArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$commissionEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommissionLedgerEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    listings<T extends AgentProfile$listingsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23201,6 +23654,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommissionLedgerEntryScalarFieldEnum | CommissionLedgerEntryScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile.listings
+   */
+  export type AgentProfile$listingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    where?: AgentListingWhereInput
+    orderBy?: AgentListingOrderByWithRelationInput | AgentListingOrderByWithRelationInput[]
+    cursor?: AgentListingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgentListingScalarFieldEnum | AgentListingScalarFieldEnum[]
   }
 
   /**
@@ -26178,6 +26655,4148 @@ export namespace Prisma {
 
 
   /**
+   * Model MasterProperty
+   */
+
+  export type AggregateMasterProperty = {
+    _count: MasterPropertyCountAggregateOutputType | null
+    _avg: MasterPropertyAvgAggregateOutputType | null
+    _sum: MasterPropertySumAggregateOutputType | null
+    _min: MasterPropertyMinAggregateOutputType | null
+    _max: MasterPropertyMaxAggregateOutputType | null
+  }
+
+  export type MasterPropertyAvgAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
+  }
+
+  export type MasterPropertySumAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
+  }
+
+  export type MasterPropertyMinAggregateOutputType = {
+    id: string | null
+    masterId: string | null
+    city: string | null
+    locality: string | null
+    latitude: number | null
+    longitude: number | null
+    createdAt: Date | null
+  }
+
+  export type MasterPropertyMaxAggregateOutputType = {
+    id: string | null
+    masterId: string | null
+    city: string | null
+    locality: string | null
+    latitude: number | null
+    longitude: number | null
+    createdAt: Date | null
+  }
+
+  export type MasterPropertyCountAggregateOutputType = {
+    id: number
+    masterId: number
+    city: number
+    locality: number
+    latitude: number
+    longitude: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type MasterPropertyAvgAggregateInputType = {
+    latitude?: true
+    longitude?: true
+  }
+
+  export type MasterPropertySumAggregateInputType = {
+    latitude?: true
+    longitude?: true
+  }
+
+  export type MasterPropertyMinAggregateInputType = {
+    id?: true
+    masterId?: true
+    city?: true
+    locality?: true
+    latitude?: true
+    longitude?: true
+    createdAt?: true
+  }
+
+  export type MasterPropertyMaxAggregateInputType = {
+    id?: true
+    masterId?: true
+    city?: true
+    locality?: true
+    latitude?: true
+    longitude?: true
+    createdAt?: true
+  }
+
+  export type MasterPropertyCountAggregateInputType = {
+    id?: true
+    masterId?: true
+    city?: true
+    locality?: true
+    latitude?: true
+    longitude?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type MasterPropertyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MasterProperty to aggregate.
+     */
+    where?: MasterPropertyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MasterProperties to fetch.
+     */
+    orderBy?: MasterPropertyOrderByWithRelationInput | MasterPropertyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MasterPropertyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MasterProperties from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MasterProperties.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MasterProperties
+    **/
+    _count?: true | MasterPropertyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MasterPropertyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MasterPropertySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MasterPropertyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MasterPropertyMaxAggregateInputType
+  }
+
+  export type GetMasterPropertyAggregateType<T extends MasterPropertyAggregateArgs> = {
+        [P in keyof T & keyof AggregateMasterProperty]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMasterProperty[P]>
+      : GetScalarType<T[P], AggregateMasterProperty[P]>
+  }
+
+
+
+
+  export type MasterPropertyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MasterPropertyWhereInput
+    orderBy?: MasterPropertyOrderByWithAggregationInput | MasterPropertyOrderByWithAggregationInput[]
+    by: MasterPropertyScalarFieldEnum[] | MasterPropertyScalarFieldEnum
+    having?: MasterPropertyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MasterPropertyCountAggregateInputType | true
+    _avg?: MasterPropertyAvgAggregateInputType
+    _sum?: MasterPropertySumAggregateInputType
+    _min?: MasterPropertyMinAggregateInputType
+    _max?: MasterPropertyMaxAggregateInputType
+  }
+
+  export type MasterPropertyGroupByOutputType = {
+    id: string
+    masterId: string
+    city: string
+    locality: string | null
+    latitude: number
+    longitude: number
+    createdAt: Date
+    _count: MasterPropertyCountAggregateOutputType | null
+    _avg: MasterPropertyAvgAggregateOutputType | null
+    _sum: MasterPropertySumAggregateOutputType | null
+    _min: MasterPropertyMinAggregateOutputType | null
+    _max: MasterPropertyMaxAggregateOutputType | null
+  }
+
+  type GetMasterPropertyGroupByPayload<T extends MasterPropertyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MasterPropertyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MasterPropertyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MasterPropertyGroupByOutputType[P]>
+            : GetScalarType<T[P], MasterPropertyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MasterPropertySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    masterId?: boolean
+    city?: boolean
+    locality?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    createdAt?: boolean
+    listings?: boolean | MasterProperty$listingsArgs<ExtArgs>
+    _count?: boolean | MasterPropertyCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["masterProperty"]>
+
+
+
+  export type MasterPropertySelectScalar = {
+    id?: boolean
+    masterId?: boolean
+    city?: boolean
+    locality?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    createdAt?: boolean
+  }
+
+  export type MasterPropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "masterId" | "city" | "locality" | "latitude" | "longitude" | "createdAt", ExtArgs["result"]["masterProperty"]>
+  export type MasterPropertyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    listings?: boolean | MasterProperty$listingsArgs<ExtArgs>
+    _count?: boolean | MasterPropertyCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $MasterPropertyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MasterProperty"
+    objects: {
+      listings: Prisma.$AgentListingPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      masterId: string
+      city: string
+      locality: string | null
+      latitude: number
+      longitude: number
+      createdAt: Date
+    }, ExtArgs["result"]["masterProperty"]>
+    composites: {}
+  }
+
+  type MasterPropertyGetPayload<S extends boolean | null | undefined | MasterPropertyDefaultArgs> = $Result.GetResult<Prisma.$MasterPropertyPayload, S>
+
+  type MasterPropertyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MasterPropertyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MasterPropertyCountAggregateInputType | true
+    }
+
+  export interface MasterPropertyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MasterProperty'], meta: { name: 'MasterProperty' } }
+    /**
+     * Find zero or one MasterProperty that matches the filter.
+     * @param {MasterPropertyFindUniqueArgs} args - Arguments to find a MasterProperty
+     * @example
+     * // Get one MasterProperty
+     * const masterProperty = await prisma.masterProperty.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MasterPropertyFindUniqueArgs>(args: SelectSubset<T, MasterPropertyFindUniqueArgs<ExtArgs>>): Prisma__MasterPropertyClient<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MasterProperty that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MasterPropertyFindUniqueOrThrowArgs} args - Arguments to find a MasterProperty
+     * @example
+     * // Get one MasterProperty
+     * const masterProperty = await prisma.masterProperty.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MasterPropertyFindUniqueOrThrowArgs>(args: SelectSubset<T, MasterPropertyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MasterPropertyClient<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MasterProperty that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterPropertyFindFirstArgs} args - Arguments to find a MasterProperty
+     * @example
+     * // Get one MasterProperty
+     * const masterProperty = await prisma.masterProperty.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MasterPropertyFindFirstArgs>(args?: SelectSubset<T, MasterPropertyFindFirstArgs<ExtArgs>>): Prisma__MasterPropertyClient<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MasterProperty that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterPropertyFindFirstOrThrowArgs} args - Arguments to find a MasterProperty
+     * @example
+     * // Get one MasterProperty
+     * const masterProperty = await prisma.masterProperty.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MasterPropertyFindFirstOrThrowArgs>(args?: SelectSubset<T, MasterPropertyFindFirstOrThrowArgs<ExtArgs>>): Prisma__MasterPropertyClient<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MasterProperties that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterPropertyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MasterProperties
+     * const masterProperties = await prisma.masterProperty.findMany()
+     * 
+     * // Get first 10 MasterProperties
+     * const masterProperties = await prisma.masterProperty.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const masterPropertyWithIdOnly = await prisma.masterProperty.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MasterPropertyFindManyArgs>(args?: SelectSubset<T, MasterPropertyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MasterProperty.
+     * @param {MasterPropertyCreateArgs} args - Arguments to create a MasterProperty.
+     * @example
+     * // Create one MasterProperty
+     * const MasterProperty = await prisma.masterProperty.create({
+     *   data: {
+     *     // ... data to create a MasterProperty
+     *   }
+     * })
+     * 
+     */
+    create<T extends MasterPropertyCreateArgs>(args: SelectSubset<T, MasterPropertyCreateArgs<ExtArgs>>): Prisma__MasterPropertyClient<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MasterProperties.
+     * @param {MasterPropertyCreateManyArgs} args - Arguments to create many MasterProperties.
+     * @example
+     * // Create many MasterProperties
+     * const masterProperty = await prisma.masterProperty.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MasterPropertyCreateManyArgs>(args?: SelectSubset<T, MasterPropertyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a MasterProperty.
+     * @param {MasterPropertyDeleteArgs} args - Arguments to delete one MasterProperty.
+     * @example
+     * // Delete one MasterProperty
+     * const MasterProperty = await prisma.masterProperty.delete({
+     *   where: {
+     *     // ... filter to delete one MasterProperty
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MasterPropertyDeleteArgs>(args: SelectSubset<T, MasterPropertyDeleteArgs<ExtArgs>>): Prisma__MasterPropertyClient<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MasterProperty.
+     * @param {MasterPropertyUpdateArgs} args - Arguments to update one MasterProperty.
+     * @example
+     * // Update one MasterProperty
+     * const masterProperty = await prisma.masterProperty.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MasterPropertyUpdateArgs>(args: SelectSubset<T, MasterPropertyUpdateArgs<ExtArgs>>): Prisma__MasterPropertyClient<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MasterProperties.
+     * @param {MasterPropertyDeleteManyArgs} args - Arguments to filter MasterProperties to delete.
+     * @example
+     * // Delete a few MasterProperties
+     * const { count } = await prisma.masterProperty.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MasterPropertyDeleteManyArgs>(args?: SelectSubset<T, MasterPropertyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MasterProperties.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterPropertyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MasterProperties
+     * const masterProperty = await prisma.masterProperty.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MasterPropertyUpdateManyArgs>(args: SelectSubset<T, MasterPropertyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MasterProperty.
+     * @param {MasterPropertyUpsertArgs} args - Arguments to update or create a MasterProperty.
+     * @example
+     * // Update or create a MasterProperty
+     * const masterProperty = await prisma.masterProperty.upsert({
+     *   create: {
+     *     // ... data to create a MasterProperty
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MasterProperty we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MasterPropertyUpsertArgs>(args: SelectSubset<T, MasterPropertyUpsertArgs<ExtArgs>>): Prisma__MasterPropertyClient<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MasterProperties.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterPropertyCountArgs} args - Arguments to filter MasterProperties to count.
+     * @example
+     * // Count the number of MasterProperties
+     * const count = await prisma.masterProperty.count({
+     *   where: {
+     *     // ... the filter for the MasterProperties we want to count
+     *   }
+     * })
+    **/
+    count<T extends MasterPropertyCountArgs>(
+      args?: Subset<T, MasterPropertyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MasterPropertyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MasterProperty.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterPropertyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MasterPropertyAggregateArgs>(args: Subset<T, MasterPropertyAggregateArgs>): Prisma.PrismaPromise<GetMasterPropertyAggregateType<T>>
+
+    /**
+     * Group by MasterProperty.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterPropertyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MasterPropertyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MasterPropertyGroupByArgs['orderBy'] }
+        : { orderBy?: MasterPropertyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MasterPropertyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMasterPropertyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MasterProperty model
+   */
+  readonly fields: MasterPropertyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MasterProperty.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MasterPropertyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    listings<T extends MasterProperty$listingsArgs<ExtArgs> = {}>(args?: Subset<T, MasterProperty$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MasterProperty model
+   */
+  interface MasterPropertyFieldRefs {
+    readonly id: FieldRef<"MasterProperty", 'String'>
+    readonly masterId: FieldRef<"MasterProperty", 'String'>
+    readonly city: FieldRef<"MasterProperty", 'String'>
+    readonly locality: FieldRef<"MasterProperty", 'String'>
+    readonly latitude: FieldRef<"MasterProperty", 'Float'>
+    readonly longitude: FieldRef<"MasterProperty", 'Float'>
+    readonly createdAt: FieldRef<"MasterProperty", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MasterProperty findUnique
+   */
+  export type MasterPropertyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterProperty to fetch.
+     */
+    where: MasterPropertyWhereUniqueInput
+  }
+
+  /**
+   * MasterProperty findUniqueOrThrow
+   */
+  export type MasterPropertyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterProperty to fetch.
+     */
+    where: MasterPropertyWhereUniqueInput
+  }
+
+  /**
+   * MasterProperty findFirst
+   */
+  export type MasterPropertyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterProperty to fetch.
+     */
+    where?: MasterPropertyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MasterProperties to fetch.
+     */
+    orderBy?: MasterPropertyOrderByWithRelationInput | MasterPropertyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MasterProperties.
+     */
+    cursor?: MasterPropertyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MasterProperties from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MasterProperties.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MasterProperties.
+     */
+    distinct?: MasterPropertyScalarFieldEnum | MasterPropertyScalarFieldEnum[]
+  }
+
+  /**
+   * MasterProperty findFirstOrThrow
+   */
+  export type MasterPropertyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterProperty to fetch.
+     */
+    where?: MasterPropertyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MasterProperties to fetch.
+     */
+    orderBy?: MasterPropertyOrderByWithRelationInput | MasterPropertyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MasterProperties.
+     */
+    cursor?: MasterPropertyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MasterProperties from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MasterProperties.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MasterProperties.
+     */
+    distinct?: MasterPropertyScalarFieldEnum | MasterPropertyScalarFieldEnum[]
+  }
+
+  /**
+   * MasterProperty findMany
+   */
+  export type MasterPropertyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterProperties to fetch.
+     */
+    where?: MasterPropertyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MasterProperties to fetch.
+     */
+    orderBy?: MasterPropertyOrderByWithRelationInput | MasterPropertyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MasterProperties.
+     */
+    cursor?: MasterPropertyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MasterProperties from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MasterProperties.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MasterProperties.
+     */
+    distinct?: MasterPropertyScalarFieldEnum | MasterPropertyScalarFieldEnum[]
+  }
+
+  /**
+   * MasterProperty create
+   */
+  export type MasterPropertyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MasterProperty.
+     */
+    data: XOR<MasterPropertyCreateInput, MasterPropertyUncheckedCreateInput>
+  }
+
+  /**
+   * MasterProperty createMany
+   */
+  export type MasterPropertyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MasterProperties.
+     */
+    data: MasterPropertyCreateManyInput | MasterPropertyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MasterProperty update
+   */
+  export type MasterPropertyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MasterProperty.
+     */
+    data: XOR<MasterPropertyUpdateInput, MasterPropertyUncheckedUpdateInput>
+    /**
+     * Choose, which MasterProperty to update.
+     */
+    where: MasterPropertyWhereUniqueInput
+  }
+
+  /**
+   * MasterProperty updateMany
+   */
+  export type MasterPropertyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MasterProperties.
+     */
+    data: XOR<MasterPropertyUpdateManyMutationInput, MasterPropertyUncheckedUpdateManyInput>
+    /**
+     * Filter which MasterProperties to update
+     */
+    where?: MasterPropertyWhereInput
+    /**
+     * Limit how many MasterProperties to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MasterProperty upsert
+   */
+  export type MasterPropertyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MasterProperty to update in case it exists.
+     */
+    where: MasterPropertyWhereUniqueInput
+    /**
+     * In case the MasterProperty found by the `where` argument doesn't exist, create a new MasterProperty with this data.
+     */
+    create: XOR<MasterPropertyCreateInput, MasterPropertyUncheckedCreateInput>
+    /**
+     * In case the MasterProperty was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MasterPropertyUpdateInput, MasterPropertyUncheckedUpdateInput>
+  }
+
+  /**
+   * MasterProperty delete
+   */
+  export type MasterPropertyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+    /**
+     * Filter which MasterProperty to delete.
+     */
+    where: MasterPropertyWhereUniqueInput
+  }
+
+  /**
+   * MasterProperty deleteMany
+   */
+  export type MasterPropertyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MasterProperties to delete
+     */
+    where?: MasterPropertyWhereInput
+    /**
+     * Limit how many MasterProperties to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MasterProperty.listings
+   */
+  export type MasterProperty$listingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    where?: AgentListingWhereInput
+    orderBy?: AgentListingOrderByWithRelationInput | AgentListingOrderByWithRelationInput[]
+    cursor?: AgentListingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgentListingScalarFieldEnum | AgentListingScalarFieldEnum[]
+  }
+
+  /**
+   * MasterProperty without action
+   */
+  export type MasterPropertyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterProperty
+     */
+    select?: MasterPropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterProperty
+     */
+    omit?: MasterPropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterPropertyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AgentListing
+   */
+
+  export type AggregateAgentListing = {
+    _count: AgentListingCountAggregateOutputType | null
+    _avg: AgentListingAvgAggregateOutputType | null
+    _sum: AgentListingSumAggregateOutputType | null
+    _min: AgentListingMinAggregateOutputType | null
+    _max: AgentListingMaxAggregateOutputType | null
+  }
+
+  export type AgentListingAvgAggregateOutputType = {
+    bedrooms: number | null
+    bathrooms: number | null
+    areaSqft: number | null
+    price: number | null
+  }
+
+  export type AgentListingSumAggregateOutputType = {
+    bedrooms: number | null
+    bathrooms: number | null
+    areaSqft: number | null
+    price: number | null
+  }
+
+  export type AgentListingMinAggregateOutputType = {
+    id: string | null
+    masterPropertyId: string | null
+    agentId: string | null
+    slug: string | null
+    title: string | null
+    description: string | null
+    listingType: $Enums.ListingType | null
+    propertyType: $Enums.PropertyType | null
+    bedrooms: number | null
+    bathrooms: number | null
+    areaSqft: number | null
+    price: number | null
+    exactAddress: string | null
+    amenities: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AgentListingMaxAggregateOutputType = {
+    id: string | null
+    masterPropertyId: string | null
+    agentId: string | null
+    slug: string | null
+    title: string | null
+    description: string | null
+    listingType: $Enums.ListingType | null
+    propertyType: $Enums.PropertyType | null
+    bedrooms: number | null
+    bathrooms: number | null
+    areaSqft: number | null
+    price: number | null
+    exactAddress: string | null
+    amenities: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AgentListingCountAggregateOutputType = {
+    id: number
+    masterPropertyId: number
+    agentId: number
+    slug: number
+    title: number
+    description: number
+    listingType: number
+    propertyType: number
+    bedrooms: number
+    bathrooms: number
+    areaSqft: number
+    price: number
+    exactAddress: number
+    amenities: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AgentListingAvgAggregateInputType = {
+    bedrooms?: true
+    bathrooms?: true
+    areaSqft?: true
+    price?: true
+  }
+
+  export type AgentListingSumAggregateInputType = {
+    bedrooms?: true
+    bathrooms?: true
+    areaSqft?: true
+    price?: true
+  }
+
+  export type AgentListingMinAggregateInputType = {
+    id?: true
+    masterPropertyId?: true
+    agentId?: true
+    slug?: true
+    title?: true
+    description?: true
+    listingType?: true
+    propertyType?: true
+    bedrooms?: true
+    bathrooms?: true
+    areaSqft?: true
+    price?: true
+    exactAddress?: true
+    amenities?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AgentListingMaxAggregateInputType = {
+    id?: true
+    masterPropertyId?: true
+    agentId?: true
+    slug?: true
+    title?: true
+    description?: true
+    listingType?: true
+    propertyType?: true
+    bedrooms?: true
+    bathrooms?: true
+    areaSqft?: true
+    price?: true
+    exactAddress?: true
+    amenities?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AgentListingCountAggregateInputType = {
+    id?: true
+    masterPropertyId?: true
+    agentId?: true
+    slug?: true
+    title?: true
+    description?: true
+    listingType?: true
+    propertyType?: true
+    bedrooms?: true
+    bathrooms?: true
+    areaSqft?: true
+    price?: true
+    exactAddress?: true
+    amenities?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AgentListingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentListing to aggregate.
+     */
+    where?: AgentListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListings to fetch.
+     */
+    orderBy?: AgentListingOrderByWithRelationInput | AgentListingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AgentListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AgentListings
+    **/
+    _count?: true | AgentListingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AgentListingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AgentListingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgentListingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgentListingMaxAggregateInputType
+  }
+
+  export type GetAgentListingAggregateType<T extends AgentListingAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgentListing]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgentListing[P]>
+      : GetScalarType<T[P], AggregateAgentListing[P]>
+  }
+
+
+
+
+  export type AgentListingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentListingWhereInput
+    orderBy?: AgentListingOrderByWithAggregationInput | AgentListingOrderByWithAggregationInput[]
+    by: AgentListingScalarFieldEnum[] | AgentListingScalarFieldEnum
+    having?: AgentListingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgentListingCountAggregateInputType | true
+    _avg?: AgentListingAvgAggregateInputType
+    _sum?: AgentListingSumAggregateInputType
+    _min?: AgentListingMinAggregateInputType
+    _max?: AgentListingMaxAggregateInputType
+  }
+
+  export type AgentListingGroupByOutputType = {
+    id: string
+    masterPropertyId: string
+    agentId: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms: number | null
+    bathrooms: number | null
+    areaSqft: number | null
+    price: number
+    exactAddress: string
+    amenities: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AgentListingCountAggregateOutputType | null
+    _avg: AgentListingAvgAggregateOutputType | null
+    _sum: AgentListingSumAggregateOutputType | null
+    _min: AgentListingMinAggregateOutputType | null
+    _max: AgentListingMaxAggregateOutputType | null
+  }
+
+  type GetAgentListingGroupByPayload<T extends AgentListingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AgentListingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgentListingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgentListingGroupByOutputType[P]>
+            : GetScalarType<T[P], AgentListingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AgentListingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    masterPropertyId?: boolean
+    agentId?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    listingType?: boolean
+    propertyType?: boolean
+    bedrooms?: boolean
+    bathrooms?: boolean
+    areaSqft?: boolean
+    price?: boolean
+    exactAddress?: boolean
+    amenities?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    masterProperty?: boolean | MasterPropertyDefaultArgs<ExtArgs>
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+    images?: boolean | AgentListing$imagesArgs<ExtArgs>
+    unlocks?: boolean | AgentListing$unlocksArgs<ExtArgs>
+    _count?: boolean | AgentListingCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["agentListing"]>
+
+
+
+  export type AgentListingSelectScalar = {
+    id?: boolean
+    masterPropertyId?: boolean
+    agentId?: boolean
+    slug?: boolean
+    title?: boolean
+    description?: boolean
+    listingType?: boolean
+    propertyType?: boolean
+    bedrooms?: boolean
+    bathrooms?: boolean
+    areaSqft?: boolean
+    price?: boolean
+    exactAddress?: boolean
+    amenities?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AgentListingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "masterPropertyId" | "agentId" | "slug" | "title" | "description" | "listingType" | "propertyType" | "bedrooms" | "bathrooms" | "areaSqft" | "price" | "exactAddress" | "amenities" | "createdAt" | "updatedAt", ExtArgs["result"]["agentListing"]>
+  export type AgentListingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    masterProperty?: boolean | MasterPropertyDefaultArgs<ExtArgs>
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+    images?: boolean | AgentListing$imagesArgs<ExtArgs>
+    unlocks?: boolean | AgentListing$unlocksArgs<ExtArgs>
+    _count?: boolean | AgentListingCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $AgentListingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AgentListing"
+    objects: {
+      masterProperty: Prisma.$MasterPropertyPayload<ExtArgs>
+      agent: Prisma.$AgentProfilePayload<ExtArgs>
+      images: Prisma.$AgentListingImagePayload<ExtArgs>[]
+      unlocks: Prisma.$PropertyUnlockPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      masterPropertyId: string
+      agentId: string
+      slug: string
+      title: string
+      description: string
+      listingType: $Enums.ListingType
+      propertyType: $Enums.PropertyType
+      bedrooms: number | null
+      bathrooms: number | null
+      areaSqft: number | null
+      price: number
+      exactAddress: string
+      amenities: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["agentListing"]>
+    composites: {}
+  }
+
+  type AgentListingGetPayload<S extends boolean | null | undefined | AgentListingDefaultArgs> = $Result.GetResult<Prisma.$AgentListingPayload, S>
+
+  type AgentListingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AgentListingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AgentListingCountAggregateInputType | true
+    }
+
+  export interface AgentListingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AgentListing'], meta: { name: 'AgentListing' } }
+    /**
+     * Find zero or one AgentListing that matches the filter.
+     * @param {AgentListingFindUniqueArgs} args - Arguments to find a AgentListing
+     * @example
+     * // Get one AgentListing
+     * const agentListing = await prisma.agentListing.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AgentListingFindUniqueArgs>(args: SelectSubset<T, AgentListingFindUniqueArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AgentListing that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AgentListingFindUniqueOrThrowArgs} args - Arguments to find a AgentListing
+     * @example
+     * // Get one AgentListing
+     * const agentListing = await prisma.agentListing.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AgentListingFindUniqueOrThrowArgs>(args: SelectSubset<T, AgentListingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentListing that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingFindFirstArgs} args - Arguments to find a AgentListing
+     * @example
+     * // Get one AgentListing
+     * const agentListing = await prisma.agentListing.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AgentListingFindFirstArgs>(args?: SelectSubset<T, AgentListingFindFirstArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentListing that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingFindFirstOrThrowArgs} args - Arguments to find a AgentListing
+     * @example
+     * // Get one AgentListing
+     * const agentListing = await prisma.agentListing.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AgentListingFindFirstOrThrowArgs>(args?: SelectSubset<T, AgentListingFindFirstOrThrowArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AgentListings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AgentListings
+     * const agentListings = await prisma.agentListing.findMany()
+     * 
+     * // Get first 10 AgentListings
+     * const agentListings = await prisma.agentListing.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const agentListingWithIdOnly = await prisma.agentListing.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AgentListingFindManyArgs>(args?: SelectSubset<T, AgentListingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AgentListing.
+     * @param {AgentListingCreateArgs} args - Arguments to create a AgentListing.
+     * @example
+     * // Create one AgentListing
+     * const AgentListing = await prisma.agentListing.create({
+     *   data: {
+     *     // ... data to create a AgentListing
+     *   }
+     * })
+     * 
+     */
+    create<T extends AgentListingCreateArgs>(args: SelectSubset<T, AgentListingCreateArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AgentListings.
+     * @param {AgentListingCreateManyArgs} args - Arguments to create many AgentListings.
+     * @example
+     * // Create many AgentListings
+     * const agentListing = await prisma.agentListing.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AgentListingCreateManyArgs>(args?: SelectSubset<T, AgentListingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AgentListing.
+     * @param {AgentListingDeleteArgs} args - Arguments to delete one AgentListing.
+     * @example
+     * // Delete one AgentListing
+     * const AgentListing = await prisma.agentListing.delete({
+     *   where: {
+     *     // ... filter to delete one AgentListing
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AgentListingDeleteArgs>(args: SelectSubset<T, AgentListingDeleteArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AgentListing.
+     * @param {AgentListingUpdateArgs} args - Arguments to update one AgentListing.
+     * @example
+     * // Update one AgentListing
+     * const agentListing = await prisma.agentListing.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AgentListingUpdateArgs>(args: SelectSubset<T, AgentListingUpdateArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AgentListings.
+     * @param {AgentListingDeleteManyArgs} args - Arguments to filter AgentListings to delete.
+     * @example
+     * // Delete a few AgentListings
+     * const { count } = await prisma.agentListing.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AgentListingDeleteManyArgs>(args?: SelectSubset<T, AgentListingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgentListings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AgentListings
+     * const agentListing = await prisma.agentListing.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AgentListingUpdateManyArgs>(args: SelectSubset<T, AgentListingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AgentListing.
+     * @param {AgentListingUpsertArgs} args - Arguments to update or create a AgentListing.
+     * @example
+     * // Update or create a AgentListing
+     * const agentListing = await prisma.agentListing.upsert({
+     *   create: {
+     *     // ... data to create a AgentListing
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AgentListing we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AgentListingUpsertArgs>(args: SelectSubset<T, AgentListingUpsertArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AgentListings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingCountArgs} args - Arguments to filter AgentListings to count.
+     * @example
+     * // Count the number of AgentListings
+     * const count = await prisma.agentListing.count({
+     *   where: {
+     *     // ... the filter for the AgentListings we want to count
+     *   }
+     * })
+    **/
+    count<T extends AgentListingCountArgs>(
+      args?: Subset<T, AgentListingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgentListingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AgentListing.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgentListingAggregateArgs>(args: Subset<T, AgentListingAggregateArgs>): Prisma.PrismaPromise<GetAgentListingAggregateType<T>>
+
+    /**
+     * Group by AgentListing.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgentListingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgentListingGroupByArgs['orderBy'] }
+        : { orderBy?: AgentListingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgentListingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgentListingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AgentListing model
+   */
+  readonly fields: AgentListingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AgentListing.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AgentListingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    masterProperty<T extends MasterPropertyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MasterPropertyDefaultArgs<ExtArgs>>): Prisma__MasterPropertyClient<$Result.GetResult<Prisma.$MasterPropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    agent<T extends AgentProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfileDefaultArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    images<T extends AgentListing$imagesArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    unlocks<T extends AgentListing$unlocksArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$unlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AgentListing model
+   */
+  interface AgentListingFieldRefs {
+    readonly id: FieldRef<"AgentListing", 'String'>
+    readonly masterPropertyId: FieldRef<"AgentListing", 'String'>
+    readonly agentId: FieldRef<"AgentListing", 'String'>
+    readonly slug: FieldRef<"AgentListing", 'String'>
+    readonly title: FieldRef<"AgentListing", 'String'>
+    readonly description: FieldRef<"AgentListing", 'String'>
+    readonly listingType: FieldRef<"AgentListing", 'ListingType'>
+    readonly propertyType: FieldRef<"AgentListing", 'PropertyType'>
+    readonly bedrooms: FieldRef<"AgentListing", 'Int'>
+    readonly bathrooms: FieldRef<"AgentListing", 'Int'>
+    readonly areaSqft: FieldRef<"AgentListing", 'Int'>
+    readonly price: FieldRef<"AgentListing", 'Int'>
+    readonly exactAddress: FieldRef<"AgentListing", 'String'>
+    readonly amenities: FieldRef<"AgentListing", 'String'>
+    readonly createdAt: FieldRef<"AgentListing", 'DateTime'>
+    readonly updatedAt: FieldRef<"AgentListing", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AgentListing findUnique
+   */
+  export type AgentListingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListing to fetch.
+     */
+    where: AgentListingWhereUniqueInput
+  }
+
+  /**
+   * AgentListing findUniqueOrThrow
+   */
+  export type AgentListingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListing to fetch.
+     */
+    where: AgentListingWhereUniqueInput
+  }
+
+  /**
+   * AgentListing findFirst
+   */
+  export type AgentListingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListing to fetch.
+     */
+    where?: AgentListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListings to fetch.
+     */
+    orderBy?: AgentListingOrderByWithRelationInput | AgentListingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentListings.
+     */
+    cursor?: AgentListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentListings.
+     */
+    distinct?: AgentListingScalarFieldEnum | AgentListingScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListing findFirstOrThrow
+   */
+  export type AgentListingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListing to fetch.
+     */
+    where?: AgentListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListings to fetch.
+     */
+    orderBy?: AgentListingOrderByWithRelationInput | AgentListingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentListings.
+     */
+    cursor?: AgentListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentListings.
+     */
+    distinct?: AgentListingScalarFieldEnum | AgentListingScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListing findMany
+   */
+  export type AgentListingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListings to fetch.
+     */
+    where?: AgentListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListings to fetch.
+     */
+    orderBy?: AgentListingOrderByWithRelationInput | AgentListingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AgentListings.
+     */
+    cursor?: AgentListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentListings.
+     */
+    distinct?: AgentListingScalarFieldEnum | AgentListingScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListing create
+   */
+  export type AgentListingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AgentListing.
+     */
+    data: XOR<AgentListingCreateInput, AgentListingUncheckedCreateInput>
+  }
+
+  /**
+   * AgentListing createMany
+   */
+  export type AgentListingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AgentListings.
+     */
+    data: AgentListingCreateManyInput | AgentListingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AgentListing update
+   */
+  export type AgentListingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AgentListing.
+     */
+    data: XOR<AgentListingUpdateInput, AgentListingUncheckedUpdateInput>
+    /**
+     * Choose, which AgentListing to update.
+     */
+    where: AgentListingWhereUniqueInput
+  }
+
+  /**
+   * AgentListing updateMany
+   */
+  export type AgentListingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AgentListings.
+     */
+    data: XOR<AgentListingUpdateManyMutationInput, AgentListingUncheckedUpdateManyInput>
+    /**
+     * Filter which AgentListings to update
+     */
+    where?: AgentListingWhereInput
+    /**
+     * Limit how many AgentListings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentListing upsert
+   */
+  export type AgentListingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AgentListing to update in case it exists.
+     */
+    where: AgentListingWhereUniqueInput
+    /**
+     * In case the AgentListing found by the `where` argument doesn't exist, create a new AgentListing with this data.
+     */
+    create: XOR<AgentListingCreateInput, AgentListingUncheckedCreateInput>
+    /**
+     * In case the AgentListing was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AgentListingUpdateInput, AgentListingUncheckedUpdateInput>
+  }
+
+  /**
+   * AgentListing delete
+   */
+  export type AgentListingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+    /**
+     * Filter which AgentListing to delete.
+     */
+    where: AgentListingWhereUniqueInput
+  }
+
+  /**
+   * AgentListing deleteMany
+   */
+  export type AgentListingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentListings to delete
+     */
+    where?: AgentListingWhereInput
+    /**
+     * Limit how many AgentListings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentListing.images
+   */
+  export type AgentListing$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    where?: AgentListingImageWhereInput
+    orderBy?: AgentListingImageOrderByWithRelationInput | AgentListingImageOrderByWithRelationInput[]
+    cursor?: AgentListingImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgentListingImageScalarFieldEnum | AgentListingImageScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListing.unlocks
+   */
+  export type AgentListing$unlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    where?: PropertyUnlockWhereInput
+    orderBy?: PropertyUnlockOrderByWithRelationInput | PropertyUnlockOrderByWithRelationInput[]
+    cursor?: PropertyUnlockWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropertyUnlockScalarFieldEnum | PropertyUnlockScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListing without action
+   */
+  export type AgentListingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListing
+     */
+    select?: AgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListing
+     */
+    omit?: AgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AgentListingImage
+   */
+
+  export type AggregateAgentListingImage = {
+    _count: AgentListingImageCountAggregateOutputType | null
+    _avg: AgentListingImageAvgAggregateOutputType | null
+    _sum: AgentListingImageSumAggregateOutputType | null
+    _min: AgentListingImageMinAggregateOutputType | null
+    _max: AgentListingImageMaxAggregateOutputType | null
+  }
+
+  export type AgentListingImageAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type AgentListingImageSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type AgentListingImageMinAggregateOutputType = {
+    id: string | null
+    url: string | null
+    agentListingId: string | null
+    order: number | null
+  }
+
+  export type AgentListingImageMaxAggregateOutputType = {
+    id: string | null
+    url: string | null
+    agentListingId: string | null
+    order: number | null
+  }
+
+  export type AgentListingImageCountAggregateOutputType = {
+    id: number
+    url: number
+    agentListingId: number
+    order: number
+    _all: number
+  }
+
+
+  export type AgentListingImageAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type AgentListingImageSumAggregateInputType = {
+    order?: true
+  }
+
+  export type AgentListingImageMinAggregateInputType = {
+    id?: true
+    url?: true
+    agentListingId?: true
+    order?: true
+  }
+
+  export type AgentListingImageMaxAggregateInputType = {
+    id?: true
+    url?: true
+    agentListingId?: true
+    order?: true
+  }
+
+  export type AgentListingImageCountAggregateInputType = {
+    id?: true
+    url?: true
+    agentListingId?: true
+    order?: true
+    _all?: true
+  }
+
+  export type AgentListingImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentListingImage to aggregate.
+     */
+    where?: AgentListingImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListingImages to fetch.
+     */
+    orderBy?: AgentListingImageOrderByWithRelationInput | AgentListingImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AgentListingImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListingImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListingImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AgentListingImages
+    **/
+    _count?: true | AgentListingImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AgentListingImageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AgentListingImageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgentListingImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgentListingImageMaxAggregateInputType
+  }
+
+  export type GetAgentListingImageAggregateType<T extends AgentListingImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgentListingImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgentListingImage[P]>
+      : GetScalarType<T[P], AggregateAgentListingImage[P]>
+  }
+
+
+
+
+  export type AgentListingImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentListingImageWhereInput
+    orderBy?: AgentListingImageOrderByWithAggregationInput | AgentListingImageOrderByWithAggregationInput[]
+    by: AgentListingImageScalarFieldEnum[] | AgentListingImageScalarFieldEnum
+    having?: AgentListingImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgentListingImageCountAggregateInputType | true
+    _avg?: AgentListingImageAvgAggregateInputType
+    _sum?: AgentListingImageSumAggregateInputType
+    _min?: AgentListingImageMinAggregateInputType
+    _max?: AgentListingImageMaxAggregateInputType
+  }
+
+  export type AgentListingImageGroupByOutputType = {
+    id: string
+    url: string
+    agentListingId: string
+    order: number
+    _count: AgentListingImageCountAggregateOutputType | null
+    _avg: AgentListingImageAvgAggregateOutputType | null
+    _sum: AgentListingImageSumAggregateOutputType | null
+    _min: AgentListingImageMinAggregateOutputType | null
+    _max: AgentListingImageMaxAggregateOutputType | null
+  }
+
+  type GetAgentListingImageGroupByPayload<T extends AgentListingImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AgentListingImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgentListingImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgentListingImageGroupByOutputType[P]>
+            : GetScalarType<T[P], AgentListingImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AgentListingImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    agentListingId?: boolean
+    order?: boolean
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["agentListingImage"]>
+
+
+
+  export type AgentListingImageSelectScalar = {
+    id?: boolean
+    url?: boolean
+    agentListingId?: boolean
+    order?: boolean
+  }
+
+  export type AgentListingImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "agentListingId" | "order", ExtArgs["result"]["agentListingImage"]>
+  export type AgentListingImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+  }
+
+  export type $AgentListingImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AgentListingImage"
+    objects: {
+      agentListing: Prisma.$AgentListingPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      url: string
+      agentListingId: string
+      order: number
+    }, ExtArgs["result"]["agentListingImage"]>
+    composites: {}
+  }
+
+  type AgentListingImageGetPayload<S extends boolean | null | undefined | AgentListingImageDefaultArgs> = $Result.GetResult<Prisma.$AgentListingImagePayload, S>
+
+  type AgentListingImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AgentListingImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AgentListingImageCountAggregateInputType | true
+    }
+
+  export interface AgentListingImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AgentListingImage'], meta: { name: 'AgentListingImage' } }
+    /**
+     * Find zero or one AgentListingImage that matches the filter.
+     * @param {AgentListingImageFindUniqueArgs} args - Arguments to find a AgentListingImage
+     * @example
+     * // Get one AgentListingImage
+     * const agentListingImage = await prisma.agentListingImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AgentListingImageFindUniqueArgs>(args: SelectSubset<T, AgentListingImageFindUniqueArgs<ExtArgs>>): Prisma__AgentListingImageClient<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AgentListingImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AgentListingImageFindUniqueOrThrowArgs} args - Arguments to find a AgentListingImage
+     * @example
+     * // Get one AgentListingImage
+     * const agentListingImage = await prisma.agentListingImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AgentListingImageFindUniqueOrThrowArgs>(args: SelectSubset<T, AgentListingImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AgentListingImageClient<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentListingImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingImageFindFirstArgs} args - Arguments to find a AgentListingImage
+     * @example
+     * // Get one AgentListingImage
+     * const agentListingImage = await prisma.agentListingImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AgentListingImageFindFirstArgs>(args?: SelectSubset<T, AgentListingImageFindFirstArgs<ExtArgs>>): Prisma__AgentListingImageClient<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentListingImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingImageFindFirstOrThrowArgs} args - Arguments to find a AgentListingImage
+     * @example
+     * // Get one AgentListingImage
+     * const agentListingImage = await prisma.agentListingImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AgentListingImageFindFirstOrThrowArgs>(args?: SelectSubset<T, AgentListingImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__AgentListingImageClient<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AgentListingImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AgentListingImages
+     * const agentListingImages = await prisma.agentListingImage.findMany()
+     * 
+     * // Get first 10 AgentListingImages
+     * const agentListingImages = await prisma.agentListingImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const agentListingImageWithIdOnly = await prisma.agentListingImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AgentListingImageFindManyArgs>(args?: SelectSubset<T, AgentListingImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AgentListingImage.
+     * @param {AgentListingImageCreateArgs} args - Arguments to create a AgentListingImage.
+     * @example
+     * // Create one AgentListingImage
+     * const AgentListingImage = await prisma.agentListingImage.create({
+     *   data: {
+     *     // ... data to create a AgentListingImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends AgentListingImageCreateArgs>(args: SelectSubset<T, AgentListingImageCreateArgs<ExtArgs>>): Prisma__AgentListingImageClient<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AgentListingImages.
+     * @param {AgentListingImageCreateManyArgs} args - Arguments to create many AgentListingImages.
+     * @example
+     * // Create many AgentListingImages
+     * const agentListingImage = await prisma.agentListingImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AgentListingImageCreateManyArgs>(args?: SelectSubset<T, AgentListingImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AgentListingImage.
+     * @param {AgentListingImageDeleteArgs} args - Arguments to delete one AgentListingImage.
+     * @example
+     * // Delete one AgentListingImage
+     * const AgentListingImage = await prisma.agentListingImage.delete({
+     *   where: {
+     *     // ... filter to delete one AgentListingImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AgentListingImageDeleteArgs>(args: SelectSubset<T, AgentListingImageDeleteArgs<ExtArgs>>): Prisma__AgentListingImageClient<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AgentListingImage.
+     * @param {AgentListingImageUpdateArgs} args - Arguments to update one AgentListingImage.
+     * @example
+     * // Update one AgentListingImage
+     * const agentListingImage = await prisma.agentListingImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AgentListingImageUpdateArgs>(args: SelectSubset<T, AgentListingImageUpdateArgs<ExtArgs>>): Prisma__AgentListingImageClient<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AgentListingImages.
+     * @param {AgentListingImageDeleteManyArgs} args - Arguments to filter AgentListingImages to delete.
+     * @example
+     * // Delete a few AgentListingImages
+     * const { count } = await prisma.agentListingImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AgentListingImageDeleteManyArgs>(args?: SelectSubset<T, AgentListingImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgentListingImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AgentListingImages
+     * const agentListingImage = await prisma.agentListingImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AgentListingImageUpdateManyArgs>(args: SelectSubset<T, AgentListingImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AgentListingImage.
+     * @param {AgentListingImageUpsertArgs} args - Arguments to update or create a AgentListingImage.
+     * @example
+     * // Update or create a AgentListingImage
+     * const agentListingImage = await prisma.agentListingImage.upsert({
+     *   create: {
+     *     // ... data to create a AgentListingImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AgentListingImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AgentListingImageUpsertArgs>(args: SelectSubset<T, AgentListingImageUpsertArgs<ExtArgs>>): Prisma__AgentListingImageClient<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AgentListingImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingImageCountArgs} args - Arguments to filter AgentListingImages to count.
+     * @example
+     * // Count the number of AgentListingImages
+     * const count = await prisma.agentListingImage.count({
+     *   where: {
+     *     // ... the filter for the AgentListingImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends AgentListingImageCountArgs>(
+      args?: Subset<T, AgentListingImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgentListingImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AgentListingImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgentListingImageAggregateArgs>(args: Subset<T, AgentListingImageAggregateArgs>): Prisma.PrismaPromise<GetAgentListingImageAggregateType<T>>
+
+    /**
+     * Group by AgentListingImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgentListingImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgentListingImageGroupByArgs['orderBy'] }
+        : { orderBy?: AgentListingImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgentListingImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgentListingImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AgentListingImage model
+   */
+  readonly fields: AgentListingImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AgentListingImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AgentListingImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agentListing<T extends AgentListingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentListingDefaultArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AgentListingImage model
+   */
+  interface AgentListingImageFieldRefs {
+    readonly id: FieldRef<"AgentListingImage", 'String'>
+    readonly url: FieldRef<"AgentListingImage", 'String'>
+    readonly agentListingId: FieldRef<"AgentListingImage", 'String'>
+    readonly order: FieldRef<"AgentListingImage", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AgentListingImage findUnique
+   */
+  export type AgentListingImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingImage to fetch.
+     */
+    where: AgentListingImageWhereUniqueInput
+  }
+
+  /**
+   * AgentListingImage findUniqueOrThrow
+   */
+  export type AgentListingImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingImage to fetch.
+     */
+    where: AgentListingImageWhereUniqueInput
+  }
+
+  /**
+   * AgentListingImage findFirst
+   */
+  export type AgentListingImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingImage to fetch.
+     */
+    where?: AgentListingImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListingImages to fetch.
+     */
+    orderBy?: AgentListingImageOrderByWithRelationInput | AgentListingImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentListingImages.
+     */
+    cursor?: AgentListingImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListingImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListingImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentListingImages.
+     */
+    distinct?: AgentListingImageScalarFieldEnum | AgentListingImageScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListingImage findFirstOrThrow
+   */
+  export type AgentListingImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingImage to fetch.
+     */
+    where?: AgentListingImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListingImages to fetch.
+     */
+    orderBy?: AgentListingImageOrderByWithRelationInput | AgentListingImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentListingImages.
+     */
+    cursor?: AgentListingImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListingImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListingImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentListingImages.
+     */
+    distinct?: AgentListingImageScalarFieldEnum | AgentListingImageScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListingImage findMany
+   */
+  export type AgentListingImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingImages to fetch.
+     */
+    where?: AgentListingImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListingImages to fetch.
+     */
+    orderBy?: AgentListingImageOrderByWithRelationInput | AgentListingImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AgentListingImages.
+     */
+    cursor?: AgentListingImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListingImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListingImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentListingImages.
+     */
+    distinct?: AgentListingImageScalarFieldEnum | AgentListingImageScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListingImage create
+   */
+  export type AgentListingImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AgentListingImage.
+     */
+    data: XOR<AgentListingImageCreateInput, AgentListingImageUncheckedCreateInput>
+  }
+
+  /**
+   * AgentListingImage createMany
+   */
+  export type AgentListingImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AgentListingImages.
+     */
+    data: AgentListingImageCreateManyInput | AgentListingImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AgentListingImage update
+   */
+  export type AgentListingImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AgentListingImage.
+     */
+    data: XOR<AgentListingImageUpdateInput, AgentListingImageUncheckedUpdateInput>
+    /**
+     * Choose, which AgentListingImage to update.
+     */
+    where: AgentListingImageWhereUniqueInput
+  }
+
+  /**
+   * AgentListingImage updateMany
+   */
+  export type AgentListingImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AgentListingImages.
+     */
+    data: XOR<AgentListingImageUpdateManyMutationInput, AgentListingImageUncheckedUpdateManyInput>
+    /**
+     * Filter which AgentListingImages to update
+     */
+    where?: AgentListingImageWhereInput
+    /**
+     * Limit how many AgentListingImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentListingImage upsert
+   */
+  export type AgentListingImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AgentListingImage to update in case it exists.
+     */
+    where: AgentListingImageWhereUniqueInput
+    /**
+     * In case the AgentListingImage found by the `where` argument doesn't exist, create a new AgentListingImage with this data.
+     */
+    create: XOR<AgentListingImageCreateInput, AgentListingImageUncheckedCreateInput>
+    /**
+     * In case the AgentListingImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AgentListingImageUpdateInput, AgentListingImageUncheckedUpdateInput>
+  }
+
+  /**
+   * AgentListingImage delete
+   */
+  export type AgentListingImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+    /**
+     * Filter which AgentListingImage to delete.
+     */
+    where: AgentListingImageWhereUniqueInput
+  }
+
+  /**
+   * AgentListingImage deleteMany
+   */
+  export type AgentListingImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentListingImages to delete
+     */
+    where?: AgentListingImageWhereInput
+    /**
+     * Limit how many AgentListingImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentListingImage without action
+   */
+  export type AgentListingImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingImage
+     */
+    select?: AgentListingImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingImage
+     */
+    omit?: AgentListingImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingImageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PropertyUnlock
+   */
+
+  export type AggregatePropertyUnlock = {
+    _count: PropertyUnlockCountAggregateOutputType | null
+    _avg: PropertyUnlockAvgAggregateOutputType | null
+    _sum: PropertyUnlockSumAggregateOutputType | null
+    _min: PropertyUnlockMinAggregateOutputType | null
+    _max: PropertyUnlockMaxAggregateOutputType | null
+  }
+
+  export type PropertyUnlockAvgAggregateOutputType = {
+    amount: number | null
+    agentSplit: number | null
+    companySplit: number | null
+  }
+
+  export type PropertyUnlockSumAggregateOutputType = {
+    amount: number | null
+    agentSplit: number | null
+    companySplit: number | null
+  }
+
+  export type PropertyUnlockMinAggregateOutputType = {
+    id: string | null
+    agentListingId: string | null
+    buyerId: string | null
+    amount: number | null
+    agentSplit: number | null
+    companySplit: number | null
+    createdAt: Date | null
+  }
+
+  export type PropertyUnlockMaxAggregateOutputType = {
+    id: string | null
+    agentListingId: string | null
+    buyerId: string | null
+    amount: number | null
+    agentSplit: number | null
+    companySplit: number | null
+    createdAt: Date | null
+  }
+
+  export type PropertyUnlockCountAggregateOutputType = {
+    id: number
+    agentListingId: number
+    buyerId: number
+    amount: number
+    agentSplit: number
+    companySplit: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PropertyUnlockAvgAggregateInputType = {
+    amount?: true
+    agentSplit?: true
+    companySplit?: true
+  }
+
+  export type PropertyUnlockSumAggregateInputType = {
+    amount?: true
+    agentSplit?: true
+    companySplit?: true
+  }
+
+  export type PropertyUnlockMinAggregateInputType = {
+    id?: true
+    agentListingId?: true
+    buyerId?: true
+    amount?: true
+    agentSplit?: true
+    companySplit?: true
+    createdAt?: true
+  }
+
+  export type PropertyUnlockMaxAggregateInputType = {
+    id?: true
+    agentListingId?: true
+    buyerId?: true
+    amount?: true
+    agentSplit?: true
+    companySplit?: true
+    createdAt?: true
+  }
+
+  export type PropertyUnlockCountAggregateInputType = {
+    id?: true
+    agentListingId?: true
+    buyerId?: true
+    amount?: true
+    agentSplit?: true
+    companySplit?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PropertyUnlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PropertyUnlock to aggregate.
+     */
+    where?: PropertyUnlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertyUnlocks to fetch.
+     */
+    orderBy?: PropertyUnlockOrderByWithRelationInput | PropertyUnlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PropertyUnlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertyUnlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertyUnlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PropertyUnlocks
+    **/
+    _count?: true | PropertyUnlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PropertyUnlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PropertyUnlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PropertyUnlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PropertyUnlockMaxAggregateInputType
+  }
+
+  export type GetPropertyUnlockAggregateType<T extends PropertyUnlockAggregateArgs> = {
+        [P in keyof T & keyof AggregatePropertyUnlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePropertyUnlock[P]>
+      : GetScalarType<T[P], AggregatePropertyUnlock[P]>
+  }
+
+
+
+
+  export type PropertyUnlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropertyUnlockWhereInput
+    orderBy?: PropertyUnlockOrderByWithAggregationInput | PropertyUnlockOrderByWithAggregationInput[]
+    by: PropertyUnlockScalarFieldEnum[] | PropertyUnlockScalarFieldEnum
+    having?: PropertyUnlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PropertyUnlockCountAggregateInputType | true
+    _avg?: PropertyUnlockAvgAggregateInputType
+    _sum?: PropertyUnlockSumAggregateInputType
+    _min?: PropertyUnlockMinAggregateInputType
+    _max?: PropertyUnlockMaxAggregateInputType
+  }
+
+  export type PropertyUnlockGroupByOutputType = {
+    id: string
+    agentListingId: string
+    buyerId: string
+    amount: number
+    agentSplit: number
+    companySplit: number
+    createdAt: Date
+    _count: PropertyUnlockCountAggregateOutputType | null
+    _avg: PropertyUnlockAvgAggregateOutputType | null
+    _sum: PropertyUnlockSumAggregateOutputType | null
+    _min: PropertyUnlockMinAggregateOutputType | null
+    _max: PropertyUnlockMaxAggregateOutputType | null
+  }
+
+  type GetPropertyUnlockGroupByPayload<T extends PropertyUnlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PropertyUnlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PropertyUnlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PropertyUnlockGroupByOutputType[P]>
+            : GetScalarType<T[P], PropertyUnlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PropertyUnlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentListingId?: boolean
+    buyerId?: boolean
+    amount?: boolean
+    agentSplit?: boolean
+    companySplit?: boolean
+    createdAt?: boolean
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["propertyUnlock"]>
+
+
+
+  export type PropertyUnlockSelectScalar = {
+    id?: boolean
+    agentListingId?: boolean
+    buyerId?: boolean
+    amount?: boolean
+    agentSplit?: boolean
+    companySplit?: boolean
+    createdAt?: boolean
+  }
+
+  export type PropertyUnlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentListingId" | "buyerId" | "amount" | "agentSplit" | "companySplit" | "createdAt", ExtArgs["result"]["propertyUnlock"]>
+  export type PropertyUnlockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PropertyUnlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PropertyUnlock"
+    objects: {
+      agentListing: Prisma.$AgentListingPayload<ExtArgs>
+      buyer: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      agentListingId: string
+      buyerId: string
+      amount: number
+      agentSplit: number
+      companySplit: number
+      createdAt: Date
+    }, ExtArgs["result"]["propertyUnlock"]>
+    composites: {}
+  }
+
+  type PropertyUnlockGetPayload<S extends boolean | null | undefined | PropertyUnlockDefaultArgs> = $Result.GetResult<Prisma.$PropertyUnlockPayload, S>
+
+  type PropertyUnlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PropertyUnlockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PropertyUnlockCountAggregateInputType | true
+    }
+
+  export interface PropertyUnlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PropertyUnlock'], meta: { name: 'PropertyUnlock' } }
+    /**
+     * Find zero or one PropertyUnlock that matches the filter.
+     * @param {PropertyUnlockFindUniqueArgs} args - Arguments to find a PropertyUnlock
+     * @example
+     * // Get one PropertyUnlock
+     * const propertyUnlock = await prisma.propertyUnlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PropertyUnlockFindUniqueArgs>(args: SelectSubset<T, PropertyUnlockFindUniqueArgs<ExtArgs>>): Prisma__PropertyUnlockClient<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PropertyUnlock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PropertyUnlockFindUniqueOrThrowArgs} args - Arguments to find a PropertyUnlock
+     * @example
+     * // Get one PropertyUnlock
+     * const propertyUnlock = await prisma.propertyUnlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PropertyUnlockFindUniqueOrThrowArgs>(args: SelectSubset<T, PropertyUnlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PropertyUnlockClient<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PropertyUnlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyUnlockFindFirstArgs} args - Arguments to find a PropertyUnlock
+     * @example
+     * // Get one PropertyUnlock
+     * const propertyUnlock = await prisma.propertyUnlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PropertyUnlockFindFirstArgs>(args?: SelectSubset<T, PropertyUnlockFindFirstArgs<ExtArgs>>): Prisma__PropertyUnlockClient<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PropertyUnlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyUnlockFindFirstOrThrowArgs} args - Arguments to find a PropertyUnlock
+     * @example
+     * // Get one PropertyUnlock
+     * const propertyUnlock = await prisma.propertyUnlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PropertyUnlockFindFirstOrThrowArgs>(args?: SelectSubset<T, PropertyUnlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__PropertyUnlockClient<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PropertyUnlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyUnlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PropertyUnlocks
+     * const propertyUnlocks = await prisma.propertyUnlock.findMany()
+     * 
+     * // Get first 10 PropertyUnlocks
+     * const propertyUnlocks = await prisma.propertyUnlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const propertyUnlockWithIdOnly = await prisma.propertyUnlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PropertyUnlockFindManyArgs>(args?: SelectSubset<T, PropertyUnlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PropertyUnlock.
+     * @param {PropertyUnlockCreateArgs} args - Arguments to create a PropertyUnlock.
+     * @example
+     * // Create one PropertyUnlock
+     * const PropertyUnlock = await prisma.propertyUnlock.create({
+     *   data: {
+     *     // ... data to create a PropertyUnlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends PropertyUnlockCreateArgs>(args: SelectSubset<T, PropertyUnlockCreateArgs<ExtArgs>>): Prisma__PropertyUnlockClient<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PropertyUnlocks.
+     * @param {PropertyUnlockCreateManyArgs} args - Arguments to create many PropertyUnlocks.
+     * @example
+     * // Create many PropertyUnlocks
+     * const propertyUnlock = await prisma.propertyUnlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PropertyUnlockCreateManyArgs>(args?: SelectSubset<T, PropertyUnlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PropertyUnlock.
+     * @param {PropertyUnlockDeleteArgs} args - Arguments to delete one PropertyUnlock.
+     * @example
+     * // Delete one PropertyUnlock
+     * const PropertyUnlock = await prisma.propertyUnlock.delete({
+     *   where: {
+     *     // ... filter to delete one PropertyUnlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PropertyUnlockDeleteArgs>(args: SelectSubset<T, PropertyUnlockDeleteArgs<ExtArgs>>): Prisma__PropertyUnlockClient<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PropertyUnlock.
+     * @param {PropertyUnlockUpdateArgs} args - Arguments to update one PropertyUnlock.
+     * @example
+     * // Update one PropertyUnlock
+     * const propertyUnlock = await prisma.propertyUnlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PropertyUnlockUpdateArgs>(args: SelectSubset<T, PropertyUnlockUpdateArgs<ExtArgs>>): Prisma__PropertyUnlockClient<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PropertyUnlocks.
+     * @param {PropertyUnlockDeleteManyArgs} args - Arguments to filter PropertyUnlocks to delete.
+     * @example
+     * // Delete a few PropertyUnlocks
+     * const { count } = await prisma.propertyUnlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PropertyUnlockDeleteManyArgs>(args?: SelectSubset<T, PropertyUnlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PropertyUnlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyUnlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PropertyUnlocks
+     * const propertyUnlock = await prisma.propertyUnlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PropertyUnlockUpdateManyArgs>(args: SelectSubset<T, PropertyUnlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PropertyUnlock.
+     * @param {PropertyUnlockUpsertArgs} args - Arguments to update or create a PropertyUnlock.
+     * @example
+     * // Update or create a PropertyUnlock
+     * const propertyUnlock = await prisma.propertyUnlock.upsert({
+     *   create: {
+     *     // ... data to create a PropertyUnlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PropertyUnlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PropertyUnlockUpsertArgs>(args: SelectSubset<T, PropertyUnlockUpsertArgs<ExtArgs>>): Prisma__PropertyUnlockClient<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PropertyUnlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyUnlockCountArgs} args - Arguments to filter PropertyUnlocks to count.
+     * @example
+     * // Count the number of PropertyUnlocks
+     * const count = await prisma.propertyUnlock.count({
+     *   where: {
+     *     // ... the filter for the PropertyUnlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends PropertyUnlockCountArgs>(
+      args?: Subset<T, PropertyUnlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PropertyUnlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PropertyUnlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyUnlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PropertyUnlockAggregateArgs>(args: Subset<T, PropertyUnlockAggregateArgs>): Prisma.PrismaPromise<GetPropertyUnlockAggregateType<T>>
+
+    /**
+     * Group by PropertyUnlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyUnlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PropertyUnlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PropertyUnlockGroupByArgs['orderBy'] }
+        : { orderBy?: PropertyUnlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PropertyUnlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPropertyUnlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PropertyUnlock model
+   */
+  readonly fields: PropertyUnlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PropertyUnlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PropertyUnlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agentListing<T extends AgentListingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentListingDefaultArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PropertyUnlock model
+   */
+  interface PropertyUnlockFieldRefs {
+    readonly id: FieldRef<"PropertyUnlock", 'String'>
+    readonly agentListingId: FieldRef<"PropertyUnlock", 'String'>
+    readonly buyerId: FieldRef<"PropertyUnlock", 'String'>
+    readonly amount: FieldRef<"PropertyUnlock", 'Int'>
+    readonly agentSplit: FieldRef<"PropertyUnlock", 'Int'>
+    readonly companySplit: FieldRef<"PropertyUnlock", 'Int'>
+    readonly createdAt: FieldRef<"PropertyUnlock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PropertyUnlock findUnique
+   */
+  export type PropertyUnlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyUnlock to fetch.
+     */
+    where: PropertyUnlockWhereUniqueInput
+  }
+
+  /**
+   * PropertyUnlock findUniqueOrThrow
+   */
+  export type PropertyUnlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyUnlock to fetch.
+     */
+    where: PropertyUnlockWhereUniqueInput
+  }
+
+  /**
+   * PropertyUnlock findFirst
+   */
+  export type PropertyUnlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyUnlock to fetch.
+     */
+    where?: PropertyUnlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertyUnlocks to fetch.
+     */
+    orderBy?: PropertyUnlockOrderByWithRelationInput | PropertyUnlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PropertyUnlocks.
+     */
+    cursor?: PropertyUnlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertyUnlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertyUnlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropertyUnlocks.
+     */
+    distinct?: PropertyUnlockScalarFieldEnum | PropertyUnlockScalarFieldEnum[]
+  }
+
+  /**
+   * PropertyUnlock findFirstOrThrow
+   */
+  export type PropertyUnlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyUnlock to fetch.
+     */
+    where?: PropertyUnlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertyUnlocks to fetch.
+     */
+    orderBy?: PropertyUnlockOrderByWithRelationInput | PropertyUnlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PropertyUnlocks.
+     */
+    cursor?: PropertyUnlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertyUnlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertyUnlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropertyUnlocks.
+     */
+    distinct?: PropertyUnlockScalarFieldEnum | PropertyUnlockScalarFieldEnum[]
+  }
+
+  /**
+   * PropertyUnlock findMany
+   */
+  export type PropertyUnlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyUnlocks to fetch.
+     */
+    where?: PropertyUnlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertyUnlocks to fetch.
+     */
+    orderBy?: PropertyUnlockOrderByWithRelationInput | PropertyUnlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PropertyUnlocks.
+     */
+    cursor?: PropertyUnlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertyUnlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertyUnlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropertyUnlocks.
+     */
+    distinct?: PropertyUnlockScalarFieldEnum | PropertyUnlockScalarFieldEnum[]
+  }
+
+  /**
+   * PropertyUnlock create
+   */
+  export type PropertyUnlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PropertyUnlock.
+     */
+    data: XOR<PropertyUnlockCreateInput, PropertyUnlockUncheckedCreateInput>
+  }
+
+  /**
+   * PropertyUnlock createMany
+   */
+  export type PropertyUnlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PropertyUnlocks.
+     */
+    data: PropertyUnlockCreateManyInput | PropertyUnlockCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PropertyUnlock update
+   */
+  export type PropertyUnlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PropertyUnlock.
+     */
+    data: XOR<PropertyUnlockUpdateInput, PropertyUnlockUncheckedUpdateInput>
+    /**
+     * Choose, which PropertyUnlock to update.
+     */
+    where: PropertyUnlockWhereUniqueInput
+  }
+
+  /**
+   * PropertyUnlock updateMany
+   */
+  export type PropertyUnlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PropertyUnlocks.
+     */
+    data: XOR<PropertyUnlockUpdateManyMutationInput, PropertyUnlockUncheckedUpdateManyInput>
+    /**
+     * Filter which PropertyUnlocks to update
+     */
+    where?: PropertyUnlockWhereInput
+    /**
+     * Limit how many PropertyUnlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PropertyUnlock upsert
+   */
+  export type PropertyUnlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PropertyUnlock to update in case it exists.
+     */
+    where: PropertyUnlockWhereUniqueInput
+    /**
+     * In case the PropertyUnlock found by the `where` argument doesn't exist, create a new PropertyUnlock with this data.
+     */
+    create: XOR<PropertyUnlockCreateInput, PropertyUnlockUncheckedCreateInput>
+    /**
+     * In case the PropertyUnlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PropertyUnlockUpdateInput, PropertyUnlockUncheckedUpdateInput>
+  }
+
+  /**
+   * PropertyUnlock delete
+   */
+  export type PropertyUnlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    /**
+     * Filter which PropertyUnlock to delete.
+     */
+    where: PropertyUnlockWhereUniqueInput
+  }
+
+  /**
+   * PropertyUnlock deleteMany
+   */
+  export type PropertyUnlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PropertyUnlocks to delete
+     */
+    where?: PropertyUnlockWhereInput
+    /**
+     * Limit how many PropertyUnlocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PropertyUnlock without action
+   */
+  export type PropertyUnlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -26562,6 +31181,64 @@ export namespace Prisma {
   export type CommissionLedgerEntryScalarFieldEnum = (typeof CommissionLedgerEntryScalarFieldEnum)[keyof typeof CommissionLedgerEntryScalarFieldEnum]
 
 
+  export const MasterPropertyScalarFieldEnum: {
+    id: 'id',
+    masterId: 'masterId',
+    city: 'city',
+    locality: 'locality',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    createdAt: 'createdAt'
+  };
+
+  export type MasterPropertyScalarFieldEnum = (typeof MasterPropertyScalarFieldEnum)[keyof typeof MasterPropertyScalarFieldEnum]
+
+
+  export const AgentListingScalarFieldEnum: {
+    id: 'id',
+    masterPropertyId: 'masterPropertyId',
+    agentId: 'agentId',
+    slug: 'slug',
+    title: 'title',
+    description: 'description',
+    listingType: 'listingType',
+    propertyType: 'propertyType',
+    bedrooms: 'bedrooms',
+    bathrooms: 'bathrooms',
+    areaSqft: 'areaSqft',
+    price: 'price',
+    exactAddress: 'exactAddress',
+    amenities: 'amenities',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AgentListingScalarFieldEnum = (typeof AgentListingScalarFieldEnum)[keyof typeof AgentListingScalarFieldEnum]
+
+
+  export const AgentListingImageScalarFieldEnum: {
+    id: 'id',
+    url: 'url',
+    agentListingId: 'agentListingId',
+    order: 'order'
+  };
+
+  export type AgentListingImageScalarFieldEnum = (typeof AgentListingImageScalarFieldEnum)[keyof typeof AgentListingImageScalarFieldEnum]
+
+
+  export const PropertyUnlockScalarFieldEnum: {
+    id: 'id',
+    agentListingId: 'agentListingId',
+    buyerId: 'buyerId',
+    amount: 'amount',
+    agentSplit: 'agentSplit',
+    companySplit: 'companySplit',
+    createdAt: 'createdAt'
+  };
+
+  export type PropertyUnlockScalarFieldEnum = (typeof PropertyUnlockScalarFieldEnum)[keyof typeof PropertyUnlockScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -26863,6 +31540,48 @@ export namespace Prisma {
   export type CommissionLedgerEntryOrderByRelevanceFieldEnum = (typeof CommissionLedgerEntryOrderByRelevanceFieldEnum)[keyof typeof CommissionLedgerEntryOrderByRelevanceFieldEnum]
 
 
+  export const MasterPropertyOrderByRelevanceFieldEnum: {
+    id: 'id',
+    masterId: 'masterId',
+    city: 'city',
+    locality: 'locality'
+  };
+
+  export type MasterPropertyOrderByRelevanceFieldEnum = (typeof MasterPropertyOrderByRelevanceFieldEnum)[keyof typeof MasterPropertyOrderByRelevanceFieldEnum]
+
+
+  export const AgentListingOrderByRelevanceFieldEnum: {
+    id: 'id',
+    masterPropertyId: 'masterPropertyId',
+    agentId: 'agentId',
+    slug: 'slug',
+    title: 'title',
+    description: 'description',
+    exactAddress: 'exactAddress',
+    amenities: 'amenities'
+  };
+
+  export type AgentListingOrderByRelevanceFieldEnum = (typeof AgentListingOrderByRelevanceFieldEnum)[keyof typeof AgentListingOrderByRelevanceFieldEnum]
+
+
+  export const AgentListingImageOrderByRelevanceFieldEnum: {
+    id: 'id',
+    url: 'url',
+    agentListingId: 'agentListingId'
+  };
+
+  export type AgentListingImageOrderByRelevanceFieldEnum = (typeof AgentListingImageOrderByRelevanceFieldEnum)[keyof typeof AgentListingImageOrderByRelevanceFieldEnum]
+
+
+  export const PropertyUnlockOrderByRelevanceFieldEnum: {
+    id: 'id',
+    agentListingId: 'agentListingId',
+    buyerId: 'buyerId'
+  };
+
+  export type PropertyUnlockOrderByRelevanceFieldEnum = (typeof PropertyUnlockOrderByRelevanceFieldEnum)[keyof typeof PropertyUnlockOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -27032,6 +31751,7 @@ export namespace Prisma {
     enquiries?: EnquiryListRelationFilter
     agentProfile?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
     investorProfile?: XOR<InvestorProfileNullableScalarRelationFilter, InvestorProfileWhereInput> | null
+    propertyUnlocks?: PropertyUnlockListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -27059,6 +31779,7 @@ export namespace Prisma {
     enquiries?: EnquiryOrderByRelationAggregateInput
     agentProfile?: AgentProfileOrderByWithRelationInput
     investorProfile?: InvestorProfileOrderByWithRelationInput
+    propertyUnlocks?: PropertyUnlockOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -27090,6 +31811,7 @@ export namespace Prisma {
     enquiries?: EnquiryListRelationFilter
     agentProfile?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
     investorProfile?: XOR<InvestorProfileNullableScalarRelationFilter, InvestorProfileWhereInput> | null
+    propertyUnlocks?: PropertyUnlockListRelationFilter
   }, "id" | "email" | "slug">
 
   export type UserOrderByWithAggregationInput = {
@@ -28641,6 +33363,7 @@ export namespace Prisma {
     documents?: AgentDocumentListRelationFilter
     investors?: InvestorProfileListRelationFilter
     commissionEntries?: CommissionLedgerEntryListRelationFilter
+    listings?: AgentListingListRelationFilter
   }
 
   export type AgentProfileOrderByWithRelationInput = {
@@ -28669,6 +33392,7 @@ export namespace Prisma {
     documents?: AgentDocumentOrderByRelationAggregateInput
     investors?: InvestorProfileOrderByRelationAggregateInput
     commissionEntries?: CommissionLedgerEntryOrderByRelationAggregateInput
+    listings?: AgentListingOrderByRelationAggregateInput
     _relevance?: AgentProfileOrderByRelevanceInput
   }
 
@@ -28701,6 +33425,7 @@ export namespace Prisma {
     documents?: AgentDocumentListRelationFilter
     investors?: InvestorProfileListRelationFilter
     commissionEntries?: CommissionLedgerEntryListRelationFilter
+    listings?: AgentListingListRelationFilter
   }, "id" | "userId" | "agentCode">
 
   export type AgentProfileOrderByWithAggregationInput = {
@@ -28969,6 +33694,321 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"CommissionLedgerEntry"> | Date | string
   }
 
+  export type MasterPropertyWhereInput = {
+    AND?: MasterPropertyWhereInput | MasterPropertyWhereInput[]
+    OR?: MasterPropertyWhereInput[]
+    NOT?: MasterPropertyWhereInput | MasterPropertyWhereInput[]
+    id?: StringFilter<"MasterProperty"> | string
+    masterId?: StringFilter<"MasterProperty"> | string
+    city?: StringFilter<"MasterProperty"> | string
+    locality?: StringNullableFilter<"MasterProperty"> | string | null
+    latitude?: FloatFilter<"MasterProperty"> | number
+    longitude?: FloatFilter<"MasterProperty"> | number
+    createdAt?: DateTimeFilter<"MasterProperty"> | Date | string
+    listings?: AgentListingListRelationFilter
+  }
+
+  export type MasterPropertyOrderByWithRelationInput = {
+    id?: SortOrder
+    masterId?: SortOrder
+    city?: SortOrder
+    locality?: SortOrderInput | SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    createdAt?: SortOrder
+    listings?: AgentListingOrderByRelationAggregateInput
+    _relevance?: MasterPropertyOrderByRelevanceInput
+  }
+
+  export type MasterPropertyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    masterId?: string
+    AND?: MasterPropertyWhereInput | MasterPropertyWhereInput[]
+    OR?: MasterPropertyWhereInput[]
+    NOT?: MasterPropertyWhereInput | MasterPropertyWhereInput[]
+    city?: StringFilter<"MasterProperty"> | string
+    locality?: StringNullableFilter<"MasterProperty"> | string | null
+    latitude?: FloatFilter<"MasterProperty"> | number
+    longitude?: FloatFilter<"MasterProperty"> | number
+    createdAt?: DateTimeFilter<"MasterProperty"> | Date | string
+    listings?: AgentListingListRelationFilter
+  }, "id" | "masterId">
+
+  export type MasterPropertyOrderByWithAggregationInput = {
+    id?: SortOrder
+    masterId?: SortOrder
+    city?: SortOrder
+    locality?: SortOrderInput | SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    createdAt?: SortOrder
+    _count?: MasterPropertyCountOrderByAggregateInput
+    _avg?: MasterPropertyAvgOrderByAggregateInput
+    _max?: MasterPropertyMaxOrderByAggregateInput
+    _min?: MasterPropertyMinOrderByAggregateInput
+    _sum?: MasterPropertySumOrderByAggregateInput
+  }
+
+  export type MasterPropertyScalarWhereWithAggregatesInput = {
+    AND?: MasterPropertyScalarWhereWithAggregatesInput | MasterPropertyScalarWhereWithAggregatesInput[]
+    OR?: MasterPropertyScalarWhereWithAggregatesInput[]
+    NOT?: MasterPropertyScalarWhereWithAggregatesInput | MasterPropertyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MasterProperty"> | string
+    masterId?: StringWithAggregatesFilter<"MasterProperty"> | string
+    city?: StringWithAggregatesFilter<"MasterProperty"> | string
+    locality?: StringNullableWithAggregatesFilter<"MasterProperty"> | string | null
+    latitude?: FloatWithAggregatesFilter<"MasterProperty"> | number
+    longitude?: FloatWithAggregatesFilter<"MasterProperty"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"MasterProperty"> | Date | string
+  }
+
+  export type AgentListingWhereInput = {
+    AND?: AgentListingWhereInput | AgentListingWhereInput[]
+    OR?: AgentListingWhereInput[]
+    NOT?: AgentListingWhereInput | AgentListingWhereInput[]
+    id?: StringFilter<"AgentListing"> | string
+    masterPropertyId?: StringFilter<"AgentListing"> | string
+    agentId?: StringFilter<"AgentListing"> | string
+    slug?: StringFilter<"AgentListing"> | string
+    title?: StringFilter<"AgentListing"> | string
+    description?: StringFilter<"AgentListing"> | string
+    listingType?: EnumListingTypeFilter<"AgentListing"> | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFilter<"AgentListing"> | $Enums.PropertyType
+    bedrooms?: IntNullableFilter<"AgentListing"> | number | null
+    bathrooms?: IntNullableFilter<"AgentListing"> | number | null
+    areaSqft?: IntNullableFilter<"AgentListing"> | number | null
+    price?: IntFilter<"AgentListing"> | number
+    exactAddress?: StringFilter<"AgentListing"> | string
+    amenities?: StringNullableFilter<"AgentListing"> | string | null
+    createdAt?: DateTimeFilter<"AgentListing"> | Date | string
+    updatedAt?: DateTimeFilter<"AgentListing"> | Date | string
+    masterProperty?: XOR<MasterPropertyScalarRelationFilter, MasterPropertyWhereInput>
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+    images?: AgentListingImageListRelationFilter
+    unlocks?: PropertyUnlockListRelationFilter
+  }
+
+  export type AgentListingOrderByWithRelationInput = {
+    id?: SortOrder
+    masterPropertyId?: SortOrder
+    agentId?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    listingType?: SortOrder
+    propertyType?: SortOrder
+    bedrooms?: SortOrderInput | SortOrder
+    bathrooms?: SortOrderInput | SortOrder
+    areaSqft?: SortOrderInput | SortOrder
+    price?: SortOrder
+    exactAddress?: SortOrder
+    amenities?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    masterProperty?: MasterPropertyOrderByWithRelationInput
+    agent?: AgentProfileOrderByWithRelationInput
+    images?: AgentListingImageOrderByRelationAggregateInput
+    unlocks?: PropertyUnlockOrderByRelationAggregateInput
+    _relevance?: AgentListingOrderByRelevanceInput
+  }
+
+  export type AgentListingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: AgentListingWhereInput | AgentListingWhereInput[]
+    OR?: AgentListingWhereInput[]
+    NOT?: AgentListingWhereInput | AgentListingWhereInput[]
+    masterPropertyId?: StringFilter<"AgentListing"> | string
+    agentId?: StringFilter<"AgentListing"> | string
+    title?: StringFilter<"AgentListing"> | string
+    description?: StringFilter<"AgentListing"> | string
+    listingType?: EnumListingTypeFilter<"AgentListing"> | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFilter<"AgentListing"> | $Enums.PropertyType
+    bedrooms?: IntNullableFilter<"AgentListing"> | number | null
+    bathrooms?: IntNullableFilter<"AgentListing"> | number | null
+    areaSqft?: IntNullableFilter<"AgentListing"> | number | null
+    price?: IntFilter<"AgentListing"> | number
+    exactAddress?: StringFilter<"AgentListing"> | string
+    amenities?: StringNullableFilter<"AgentListing"> | string | null
+    createdAt?: DateTimeFilter<"AgentListing"> | Date | string
+    updatedAt?: DateTimeFilter<"AgentListing"> | Date | string
+    masterProperty?: XOR<MasterPropertyScalarRelationFilter, MasterPropertyWhereInput>
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+    images?: AgentListingImageListRelationFilter
+    unlocks?: PropertyUnlockListRelationFilter
+  }, "id" | "slug">
+
+  export type AgentListingOrderByWithAggregationInput = {
+    id?: SortOrder
+    masterPropertyId?: SortOrder
+    agentId?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    listingType?: SortOrder
+    propertyType?: SortOrder
+    bedrooms?: SortOrderInput | SortOrder
+    bathrooms?: SortOrderInput | SortOrder
+    areaSqft?: SortOrderInput | SortOrder
+    price?: SortOrder
+    exactAddress?: SortOrder
+    amenities?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AgentListingCountOrderByAggregateInput
+    _avg?: AgentListingAvgOrderByAggregateInput
+    _max?: AgentListingMaxOrderByAggregateInput
+    _min?: AgentListingMinOrderByAggregateInput
+    _sum?: AgentListingSumOrderByAggregateInput
+  }
+
+  export type AgentListingScalarWhereWithAggregatesInput = {
+    AND?: AgentListingScalarWhereWithAggregatesInput | AgentListingScalarWhereWithAggregatesInput[]
+    OR?: AgentListingScalarWhereWithAggregatesInput[]
+    NOT?: AgentListingScalarWhereWithAggregatesInput | AgentListingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AgentListing"> | string
+    masterPropertyId?: StringWithAggregatesFilter<"AgentListing"> | string
+    agentId?: StringWithAggregatesFilter<"AgentListing"> | string
+    slug?: StringWithAggregatesFilter<"AgentListing"> | string
+    title?: StringWithAggregatesFilter<"AgentListing"> | string
+    description?: StringWithAggregatesFilter<"AgentListing"> | string
+    listingType?: EnumListingTypeWithAggregatesFilter<"AgentListing"> | $Enums.ListingType
+    propertyType?: EnumPropertyTypeWithAggregatesFilter<"AgentListing"> | $Enums.PropertyType
+    bedrooms?: IntNullableWithAggregatesFilter<"AgentListing"> | number | null
+    bathrooms?: IntNullableWithAggregatesFilter<"AgentListing"> | number | null
+    areaSqft?: IntNullableWithAggregatesFilter<"AgentListing"> | number | null
+    price?: IntWithAggregatesFilter<"AgentListing"> | number
+    exactAddress?: StringWithAggregatesFilter<"AgentListing"> | string
+    amenities?: StringNullableWithAggregatesFilter<"AgentListing"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AgentListing"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AgentListing"> | Date | string
+  }
+
+  export type AgentListingImageWhereInput = {
+    AND?: AgentListingImageWhereInput | AgentListingImageWhereInput[]
+    OR?: AgentListingImageWhereInput[]
+    NOT?: AgentListingImageWhereInput | AgentListingImageWhereInput[]
+    id?: StringFilter<"AgentListingImage"> | string
+    url?: StringFilter<"AgentListingImage"> | string
+    agentListingId?: StringFilter<"AgentListingImage"> | string
+    order?: IntFilter<"AgentListingImage"> | number
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+  }
+
+  export type AgentListingImageOrderByWithRelationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    agentListingId?: SortOrder
+    order?: SortOrder
+    agentListing?: AgentListingOrderByWithRelationInput
+    _relevance?: AgentListingImageOrderByRelevanceInput
+  }
+
+  export type AgentListingImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AgentListingImageWhereInput | AgentListingImageWhereInput[]
+    OR?: AgentListingImageWhereInput[]
+    NOT?: AgentListingImageWhereInput | AgentListingImageWhereInput[]
+    url?: StringFilter<"AgentListingImage"> | string
+    agentListingId?: StringFilter<"AgentListingImage"> | string
+    order?: IntFilter<"AgentListingImage"> | number
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+  }, "id">
+
+  export type AgentListingImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    agentListingId?: SortOrder
+    order?: SortOrder
+    _count?: AgentListingImageCountOrderByAggregateInput
+    _avg?: AgentListingImageAvgOrderByAggregateInput
+    _max?: AgentListingImageMaxOrderByAggregateInput
+    _min?: AgentListingImageMinOrderByAggregateInput
+    _sum?: AgentListingImageSumOrderByAggregateInput
+  }
+
+  export type AgentListingImageScalarWhereWithAggregatesInput = {
+    AND?: AgentListingImageScalarWhereWithAggregatesInput | AgentListingImageScalarWhereWithAggregatesInput[]
+    OR?: AgentListingImageScalarWhereWithAggregatesInput[]
+    NOT?: AgentListingImageScalarWhereWithAggregatesInput | AgentListingImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AgentListingImage"> | string
+    url?: StringWithAggregatesFilter<"AgentListingImage"> | string
+    agentListingId?: StringWithAggregatesFilter<"AgentListingImage"> | string
+    order?: IntWithAggregatesFilter<"AgentListingImage"> | number
+  }
+
+  export type PropertyUnlockWhereInput = {
+    AND?: PropertyUnlockWhereInput | PropertyUnlockWhereInput[]
+    OR?: PropertyUnlockWhereInput[]
+    NOT?: PropertyUnlockWhereInput | PropertyUnlockWhereInput[]
+    id?: StringFilter<"PropertyUnlock"> | string
+    agentListingId?: StringFilter<"PropertyUnlock"> | string
+    buyerId?: StringFilter<"PropertyUnlock"> | string
+    amount?: IntFilter<"PropertyUnlock"> | number
+    agentSplit?: IntFilter<"PropertyUnlock"> | number
+    companySplit?: IntFilter<"PropertyUnlock"> | number
+    createdAt?: DateTimeFilter<"PropertyUnlock"> | Date | string
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PropertyUnlockOrderByWithRelationInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    amount?: SortOrder
+    agentSplit?: SortOrder
+    companySplit?: SortOrder
+    createdAt?: SortOrder
+    agentListing?: AgentListingOrderByWithRelationInput
+    buyer?: UserOrderByWithRelationInput
+    _relevance?: PropertyUnlockOrderByRelevanceInput
+  }
+
+  export type PropertyUnlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    agentListingId_buyerId?: PropertyUnlockAgentListingIdBuyerIdCompoundUniqueInput
+    AND?: PropertyUnlockWhereInput | PropertyUnlockWhereInput[]
+    OR?: PropertyUnlockWhereInput[]
+    NOT?: PropertyUnlockWhereInput | PropertyUnlockWhereInput[]
+    agentListingId?: StringFilter<"PropertyUnlock"> | string
+    buyerId?: StringFilter<"PropertyUnlock"> | string
+    amount?: IntFilter<"PropertyUnlock"> | number
+    agentSplit?: IntFilter<"PropertyUnlock"> | number
+    companySplit?: IntFilter<"PropertyUnlock"> | number
+    createdAt?: DateTimeFilter<"PropertyUnlock"> | Date | string
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "agentListingId_buyerId">
+
+  export type PropertyUnlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    amount?: SortOrder
+    agentSplit?: SortOrder
+    companySplit?: SortOrder
+    createdAt?: SortOrder
+    _count?: PropertyUnlockCountOrderByAggregateInput
+    _avg?: PropertyUnlockAvgOrderByAggregateInput
+    _max?: PropertyUnlockMaxOrderByAggregateInput
+    _min?: PropertyUnlockMinOrderByAggregateInput
+    _sum?: PropertyUnlockSumOrderByAggregateInput
+  }
+
+  export type PropertyUnlockScalarWhereWithAggregatesInput = {
+    AND?: PropertyUnlockScalarWhereWithAggregatesInput | PropertyUnlockScalarWhereWithAggregatesInput[]
+    OR?: PropertyUnlockScalarWhereWithAggregatesInput[]
+    NOT?: PropertyUnlockScalarWhereWithAggregatesInput | PropertyUnlockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PropertyUnlock"> | string
+    agentListingId?: StringWithAggregatesFilter<"PropertyUnlock"> | string
+    buyerId?: StringWithAggregatesFilter<"PropertyUnlock"> | string
+    amount?: IntWithAggregatesFilter<"PropertyUnlock"> | number
+    agentSplit?: IntWithAggregatesFilter<"PropertyUnlock"> | number
+    companySplit?: IntWithAggregatesFilter<"PropertyUnlock"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"PropertyUnlock"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -28994,6 +34034,7 @@ export namespace Prisma {
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -29021,6 +34062,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUpdateInput = {
@@ -29048,6 +34090,7 @@ export namespace Prisma {
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -29075,6 +34118,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -30800,6 +35844,7 @@ export namespace Prisma {
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
     commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateInput = {
@@ -30827,6 +35872,7 @@ export namespace Prisma {
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUpdateInput = {
@@ -30854,6 +35900,7 @@ export namespace Prisma {
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
     commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateInput = {
@@ -30881,6 +35928,7 @@ export namespace Prisma {
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileCreateManyInput = {
@@ -31167,6 +36215,335 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MasterPropertyCreateInput = {
+    id?: string
+    masterId: string
+    city: string
+    locality?: string | null
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    listings?: AgentListingCreateNestedManyWithoutMasterPropertyInput
+  }
+
+  export type MasterPropertyUncheckedCreateInput = {
+    id?: string
+    masterId: string
+    city: string
+    locality?: string | null
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    listings?: AgentListingUncheckedCreateNestedManyWithoutMasterPropertyInput
+  }
+
+  export type MasterPropertyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterId?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listings?: AgentListingUpdateManyWithoutMasterPropertyNestedInput
+  }
+
+  export type MasterPropertyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterId?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listings?: AgentListingUncheckedUpdateManyWithoutMasterPropertyNestedInput
+  }
+
+  export type MasterPropertyCreateManyInput = {
+    id?: string
+    masterId: string
+    city: string
+    locality?: string | null
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+  }
+
+  export type MasterPropertyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterId?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MasterPropertyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterId?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingCreateInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
+    agent: AgentProfileCreateNestedOneWithoutListingsInput
+    images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUncheckedCreateInput = {
+    id?: string
+    masterPropertyId: string
+    agentId: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
+    agent?: AgentProfileUpdateOneRequiredWithoutListingsNestedInput
+    images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingCreateManyInput = {
+    id?: string
+    masterPropertyId: string
+    agentId: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AgentListingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingImageCreateInput = {
+    id?: string
+    url: string
+    order?: number
+    agentListing: AgentListingCreateNestedOneWithoutImagesInput
+  }
+
+  export type AgentListingImageUncheckedCreateInput = {
+    id?: string
+    url: string
+    agentListingId: string
+    order?: number
+  }
+
+  export type AgentListingImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    agentListing?: AgentListingUpdateOneRequiredWithoutImagesNestedInput
+  }
+
+  export type AgentListingImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AgentListingImageCreateManyInput = {
+    id?: string
+    url: string
+    agentListingId: string
+    order?: number
+  }
+
+  export type AgentListingImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AgentListingImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropertyUnlockCreateInput = {
+    id?: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    createdAt?: Date | string
+    agentListing: AgentListingCreateNestedOneWithoutUnlocksInput
+    buyer: UserCreateNestedOneWithoutPropertyUnlocksInput
+  }
+
+  export type PropertyUnlockUncheckedCreateInput = {
+    id?: string
+    agentListingId: string
+    buyerId: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    createdAt?: Date | string
+  }
+
+  export type PropertyUnlockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentListing?: AgentListingUpdateOneRequiredWithoutUnlocksNestedInput
+    buyer?: UserUpdateOneRequiredWithoutPropertyUnlocksNestedInput
+  }
+
+  export type PropertyUnlockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyUnlockCreateManyInput = {
+    id?: string
+    agentListingId: string
+    buyerId: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    createdAt?: Date | string
+  }
+
+  export type PropertyUnlockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyUnlockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -31260,6 +36637,12 @@ export namespace Prisma {
     isNot?: InvestorProfileWhereInput | null
   }
 
+  export type PropertyUnlockListRelationFilter = {
+    every?: PropertyUnlockWhereInput
+    some?: PropertyUnlockWhereInput
+    none?: PropertyUnlockWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -31282,6 +36665,10 @@ export namespace Prisma {
   }
 
   export type EnquiryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PropertyUnlockOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -32735,6 +38122,12 @@ export namespace Prisma {
     none?: CommissionLedgerEntryWhereInput
   }
 
+  export type AgentListingListRelationFilter = {
+    every?: AgentListingWhereInput
+    some?: AgentListingWhereInput
+    none?: AgentListingWhereInput
+  }
+
   export type AgentDocumentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -32744,6 +38137,10 @@ export namespace Prisma {
   }
 
   export type CommissionLedgerEntryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AgentListingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33028,6 +38425,264 @@ export namespace Prisma {
     _max?: NestedEnumCommissionTypeFilter<$PrismaModel>
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type MasterPropertyOrderByRelevanceInput = {
+    fields: MasterPropertyOrderByRelevanceFieldEnum | MasterPropertyOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type MasterPropertyCountOrderByAggregateInput = {
+    id?: SortOrder
+    masterId?: SortOrder
+    city?: SortOrder
+    locality?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MasterPropertyAvgOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
+  }
+
+  export type MasterPropertyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    masterId?: SortOrder
+    city?: SortOrder
+    locality?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MasterPropertyMinOrderByAggregateInput = {
+    id?: SortOrder
+    masterId?: SortOrder
+    city?: SortOrder
+    locality?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MasterPropertySumOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type MasterPropertyScalarRelationFilter = {
+    is?: MasterPropertyWhereInput
+    isNot?: MasterPropertyWhereInput
+  }
+
+  export type AgentListingImageListRelationFilter = {
+    every?: AgentListingImageWhereInput
+    some?: AgentListingImageWhereInput
+    none?: AgentListingImageWhereInput
+  }
+
+  export type AgentListingImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AgentListingOrderByRelevanceInput = {
+    fields: AgentListingOrderByRelevanceFieldEnum | AgentListingOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type AgentListingCountOrderByAggregateInput = {
+    id?: SortOrder
+    masterPropertyId?: SortOrder
+    agentId?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    listingType?: SortOrder
+    propertyType?: SortOrder
+    bedrooms?: SortOrder
+    bathrooms?: SortOrder
+    areaSqft?: SortOrder
+    price?: SortOrder
+    exactAddress?: SortOrder
+    amenities?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AgentListingAvgOrderByAggregateInput = {
+    bedrooms?: SortOrder
+    bathrooms?: SortOrder
+    areaSqft?: SortOrder
+    price?: SortOrder
+  }
+
+  export type AgentListingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    masterPropertyId?: SortOrder
+    agentId?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    listingType?: SortOrder
+    propertyType?: SortOrder
+    bedrooms?: SortOrder
+    bathrooms?: SortOrder
+    areaSqft?: SortOrder
+    price?: SortOrder
+    exactAddress?: SortOrder
+    amenities?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AgentListingMinOrderByAggregateInput = {
+    id?: SortOrder
+    masterPropertyId?: SortOrder
+    agentId?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    listingType?: SortOrder
+    propertyType?: SortOrder
+    bedrooms?: SortOrder
+    bathrooms?: SortOrder
+    areaSqft?: SortOrder
+    price?: SortOrder
+    exactAddress?: SortOrder
+    amenities?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AgentListingSumOrderByAggregateInput = {
+    bedrooms?: SortOrder
+    bathrooms?: SortOrder
+    areaSqft?: SortOrder
+    price?: SortOrder
+  }
+
+  export type AgentListingScalarRelationFilter = {
+    is?: AgentListingWhereInput
+    isNot?: AgentListingWhereInput
+  }
+
+  export type AgentListingImageOrderByRelevanceInput = {
+    fields: AgentListingImageOrderByRelevanceFieldEnum | AgentListingImageOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type AgentListingImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    agentListingId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type AgentListingImageAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type AgentListingImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    agentListingId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type AgentListingImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    agentListingId?: SortOrder
+    order?: SortOrder
+  }
+
+  export type AgentListingImageSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type PropertyUnlockOrderByRelevanceInput = {
+    fields: PropertyUnlockOrderByRelevanceFieldEnum | PropertyUnlockOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type PropertyUnlockAgentListingIdBuyerIdCompoundUniqueInput = {
+    agentListingId: string
+    buyerId: string
+  }
+
+  export type PropertyUnlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    amount?: SortOrder
+    agentSplit?: SortOrder
+    companySplit?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PropertyUnlockAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    agentSplit?: SortOrder
+    companySplit?: SortOrder
+  }
+
+  export type PropertyUnlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    amount?: SortOrder
+    agentSplit?: SortOrder
+    companySplit?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PropertyUnlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    amount?: SortOrder
+    agentSplit?: SortOrder
+    companySplit?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PropertyUnlockSumOrderByAggregateInput = {
+    amount?: SortOrder
+    agentSplit?: SortOrder
+    companySplit?: SortOrder
+  }
+
   export type PropertyCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -33075,6 +38730,13 @@ export namespace Prisma {
     connect?: InvestorProfileWhereUniqueInput
   }
 
+  export type PropertyUnlockCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<PropertyUnlockCreateWithoutBuyerInput, PropertyUnlockUncheckedCreateWithoutBuyerInput> | PropertyUnlockCreateWithoutBuyerInput[] | PropertyUnlockUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutBuyerInput | PropertyUnlockCreateOrConnectWithoutBuyerInput[]
+    createMany?: PropertyUnlockCreateManyBuyerInputEnvelope
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+  }
+
   export type PropertyUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -33120,6 +38782,13 @@ export namespace Prisma {
     create?: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: InvestorProfileCreateOrConnectWithoutUserInput
     connect?: InvestorProfileWhereUniqueInput
+  }
+
+  export type PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<PropertyUnlockCreateWithoutBuyerInput, PropertyUnlockUncheckedCreateWithoutBuyerInput> | PropertyUnlockCreateWithoutBuyerInput[] | PropertyUnlockUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutBuyerInput | PropertyUnlockCreateOrConnectWithoutBuyerInput[]
+    createMany?: PropertyUnlockCreateManyBuyerInputEnvelope
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -33232,6 +38901,20 @@ export namespace Prisma {
     update?: XOR<XOR<InvestorProfileUpdateToOneWithWhereWithoutUserInput, InvestorProfileUpdateWithoutUserInput>, InvestorProfileUncheckedUpdateWithoutUserInput>
   }
 
+  export type PropertyUnlockUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<PropertyUnlockCreateWithoutBuyerInput, PropertyUnlockUncheckedCreateWithoutBuyerInput> | PropertyUnlockCreateWithoutBuyerInput[] | PropertyUnlockUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutBuyerInput | PropertyUnlockCreateOrConnectWithoutBuyerInput[]
+    upsert?: PropertyUnlockUpsertWithWhereUniqueWithoutBuyerInput | PropertyUnlockUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: PropertyUnlockCreateManyBuyerInputEnvelope
+    set?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    disconnect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    delete?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    update?: PropertyUnlockUpdateWithWhereUniqueWithoutBuyerInput | PropertyUnlockUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: PropertyUnlockUpdateManyWithWhereWithoutBuyerInput | PropertyUnlockUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: PropertyUnlockScalarWhereInput | PropertyUnlockScalarWhereInput[]
+  }
+
   export type PropertyUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -33320,6 +39003,20 @@ export namespace Prisma {
     delete?: InvestorProfileWhereInput | boolean
     connect?: InvestorProfileWhereUniqueInput
     update?: XOR<XOR<InvestorProfileUpdateToOneWithWhereWithoutUserInput, InvestorProfileUpdateWithoutUserInput>, InvestorProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<PropertyUnlockCreateWithoutBuyerInput, PropertyUnlockUncheckedCreateWithoutBuyerInput> | PropertyUnlockCreateWithoutBuyerInput[] | PropertyUnlockUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutBuyerInput | PropertyUnlockCreateOrConnectWithoutBuyerInput[]
+    upsert?: PropertyUnlockUpsertWithWhereUniqueWithoutBuyerInput | PropertyUnlockUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: PropertyUnlockCreateManyBuyerInputEnvelope
+    set?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    disconnect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    delete?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    update?: PropertyUnlockUpdateWithWhereUniqueWithoutBuyerInput | PropertyUnlockUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: PropertyUnlockUpdateManyWithWhereWithoutBuyerInput | PropertyUnlockUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: PropertyUnlockScalarWhereInput | PropertyUnlockScalarWhereInput[]
   }
 
   export type SubscriptionCreateNestedManyWithoutPlanInput = {
@@ -34109,6 +39806,13 @@ export namespace Prisma {
     connect?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
   }
 
+  export type AgentListingCreateNestedManyWithoutAgentInput = {
+    create?: XOR<AgentListingCreateWithoutAgentInput, AgentListingUncheckedCreateWithoutAgentInput> | AgentListingCreateWithoutAgentInput[] | AgentListingUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AgentListingCreateOrConnectWithoutAgentInput | AgentListingCreateOrConnectWithoutAgentInput[]
+    createMany?: AgentListingCreateManyAgentInputEnvelope
+    connect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+  }
+
   export type AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput = {
     create?: XOR<AgentDocumentCreateWithoutAgentProfileInput, AgentDocumentUncheckedCreateWithoutAgentProfileInput> | AgentDocumentCreateWithoutAgentProfileInput[] | AgentDocumentUncheckedCreateWithoutAgentProfileInput[]
     connectOrCreate?: AgentDocumentCreateOrConnectWithoutAgentProfileInput | AgentDocumentCreateOrConnectWithoutAgentProfileInput[]
@@ -34128,6 +39832,13 @@ export namespace Prisma {
     connectOrCreate?: CommissionLedgerEntryCreateOrConnectWithoutAgentInput | CommissionLedgerEntryCreateOrConnectWithoutAgentInput[]
     createMany?: CommissionLedgerEntryCreateManyAgentInputEnvelope
     connect?: CommissionLedgerEntryWhereUniqueInput | CommissionLedgerEntryWhereUniqueInput[]
+  }
+
+  export type AgentListingUncheckedCreateNestedManyWithoutAgentInput = {
+    create?: XOR<AgentListingCreateWithoutAgentInput, AgentListingUncheckedCreateWithoutAgentInput> | AgentListingCreateWithoutAgentInput[] | AgentListingUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AgentListingCreateOrConnectWithoutAgentInput | AgentListingCreateOrConnectWithoutAgentInput[]
+    createMany?: AgentListingCreateManyAgentInputEnvelope
+    connect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutAgentProfileNestedInput = {
@@ -34180,6 +39891,20 @@ export namespace Prisma {
     deleteMany?: CommissionLedgerEntryScalarWhereInput | CommissionLedgerEntryScalarWhereInput[]
   }
 
+  export type AgentListingUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<AgentListingCreateWithoutAgentInput, AgentListingUncheckedCreateWithoutAgentInput> | AgentListingCreateWithoutAgentInput[] | AgentListingUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AgentListingCreateOrConnectWithoutAgentInput | AgentListingCreateOrConnectWithoutAgentInput[]
+    upsert?: AgentListingUpsertWithWhereUniqueWithoutAgentInput | AgentListingUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: AgentListingCreateManyAgentInputEnvelope
+    set?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    disconnect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    delete?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    connect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    update?: AgentListingUpdateWithWhereUniqueWithoutAgentInput | AgentListingUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: AgentListingUpdateManyWithWhereWithoutAgentInput | AgentListingUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: AgentListingScalarWhereInput | AgentListingScalarWhereInput[]
+  }
+
   export type AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput = {
     create?: XOR<AgentDocumentCreateWithoutAgentProfileInput, AgentDocumentUncheckedCreateWithoutAgentProfileInput> | AgentDocumentCreateWithoutAgentProfileInput[] | AgentDocumentUncheckedCreateWithoutAgentProfileInput[]
     connectOrCreate?: AgentDocumentCreateOrConnectWithoutAgentProfileInput | AgentDocumentCreateOrConnectWithoutAgentProfileInput[]
@@ -34220,6 +39945,20 @@ export namespace Prisma {
     update?: CommissionLedgerEntryUpdateWithWhereUniqueWithoutAgentInput | CommissionLedgerEntryUpdateWithWhereUniqueWithoutAgentInput[]
     updateMany?: CommissionLedgerEntryUpdateManyWithWhereWithoutAgentInput | CommissionLedgerEntryUpdateManyWithWhereWithoutAgentInput[]
     deleteMany?: CommissionLedgerEntryScalarWhereInput | CommissionLedgerEntryScalarWhereInput[]
+  }
+
+  export type AgentListingUncheckedUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<AgentListingCreateWithoutAgentInput, AgentListingUncheckedCreateWithoutAgentInput> | AgentListingCreateWithoutAgentInput[] | AgentListingUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AgentListingCreateOrConnectWithoutAgentInput | AgentListingCreateOrConnectWithoutAgentInput[]
+    upsert?: AgentListingUpsertWithWhereUniqueWithoutAgentInput | AgentListingUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: AgentListingCreateManyAgentInputEnvelope
+    set?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    disconnect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    delete?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    connect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    update?: AgentListingUpdateWithWhereUniqueWithoutAgentInput | AgentListingUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: AgentListingUpdateManyWithWhereWithoutAgentInput | AgentListingUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: AgentListingScalarWhereInput | AgentListingScalarWhereInput[]
   }
 
   export type AgentProfileCreateNestedOneWithoutDocumentsInput = {
@@ -34288,6 +40027,210 @@ export namespace Prisma {
     upsert?: AgentProfileUpsertWithoutCommissionEntriesInput
     connect?: AgentProfileWhereUniqueInput
     update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutCommissionEntriesInput, AgentProfileUpdateWithoutCommissionEntriesInput>, AgentProfileUncheckedUpdateWithoutCommissionEntriesInput>
+  }
+
+  export type AgentListingCreateNestedManyWithoutMasterPropertyInput = {
+    create?: XOR<AgentListingCreateWithoutMasterPropertyInput, AgentListingUncheckedCreateWithoutMasterPropertyInput> | AgentListingCreateWithoutMasterPropertyInput[] | AgentListingUncheckedCreateWithoutMasterPropertyInput[]
+    connectOrCreate?: AgentListingCreateOrConnectWithoutMasterPropertyInput | AgentListingCreateOrConnectWithoutMasterPropertyInput[]
+    createMany?: AgentListingCreateManyMasterPropertyInputEnvelope
+    connect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+  }
+
+  export type AgentListingUncheckedCreateNestedManyWithoutMasterPropertyInput = {
+    create?: XOR<AgentListingCreateWithoutMasterPropertyInput, AgentListingUncheckedCreateWithoutMasterPropertyInput> | AgentListingCreateWithoutMasterPropertyInput[] | AgentListingUncheckedCreateWithoutMasterPropertyInput[]
+    connectOrCreate?: AgentListingCreateOrConnectWithoutMasterPropertyInput | AgentListingCreateOrConnectWithoutMasterPropertyInput[]
+    createMany?: AgentListingCreateManyMasterPropertyInputEnvelope
+    connect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type AgentListingUpdateManyWithoutMasterPropertyNestedInput = {
+    create?: XOR<AgentListingCreateWithoutMasterPropertyInput, AgentListingUncheckedCreateWithoutMasterPropertyInput> | AgentListingCreateWithoutMasterPropertyInput[] | AgentListingUncheckedCreateWithoutMasterPropertyInput[]
+    connectOrCreate?: AgentListingCreateOrConnectWithoutMasterPropertyInput | AgentListingCreateOrConnectWithoutMasterPropertyInput[]
+    upsert?: AgentListingUpsertWithWhereUniqueWithoutMasterPropertyInput | AgentListingUpsertWithWhereUniqueWithoutMasterPropertyInput[]
+    createMany?: AgentListingCreateManyMasterPropertyInputEnvelope
+    set?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    disconnect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    delete?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    connect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    update?: AgentListingUpdateWithWhereUniqueWithoutMasterPropertyInput | AgentListingUpdateWithWhereUniqueWithoutMasterPropertyInput[]
+    updateMany?: AgentListingUpdateManyWithWhereWithoutMasterPropertyInput | AgentListingUpdateManyWithWhereWithoutMasterPropertyInput[]
+    deleteMany?: AgentListingScalarWhereInput | AgentListingScalarWhereInput[]
+  }
+
+  export type AgentListingUncheckedUpdateManyWithoutMasterPropertyNestedInput = {
+    create?: XOR<AgentListingCreateWithoutMasterPropertyInput, AgentListingUncheckedCreateWithoutMasterPropertyInput> | AgentListingCreateWithoutMasterPropertyInput[] | AgentListingUncheckedCreateWithoutMasterPropertyInput[]
+    connectOrCreate?: AgentListingCreateOrConnectWithoutMasterPropertyInput | AgentListingCreateOrConnectWithoutMasterPropertyInput[]
+    upsert?: AgentListingUpsertWithWhereUniqueWithoutMasterPropertyInput | AgentListingUpsertWithWhereUniqueWithoutMasterPropertyInput[]
+    createMany?: AgentListingCreateManyMasterPropertyInputEnvelope
+    set?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    disconnect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    delete?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    connect?: AgentListingWhereUniqueInput | AgentListingWhereUniqueInput[]
+    update?: AgentListingUpdateWithWhereUniqueWithoutMasterPropertyInput | AgentListingUpdateWithWhereUniqueWithoutMasterPropertyInput[]
+    updateMany?: AgentListingUpdateManyWithWhereWithoutMasterPropertyInput | AgentListingUpdateManyWithWhereWithoutMasterPropertyInput[]
+    deleteMany?: AgentListingScalarWhereInput | AgentListingScalarWhereInput[]
+  }
+
+  export type MasterPropertyCreateNestedOneWithoutListingsInput = {
+    create?: XOR<MasterPropertyCreateWithoutListingsInput, MasterPropertyUncheckedCreateWithoutListingsInput>
+    connectOrCreate?: MasterPropertyCreateOrConnectWithoutListingsInput
+    connect?: MasterPropertyWhereUniqueInput
+  }
+
+  export type AgentProfileCreateNestedOneWithoutListingsInput = {
+    create?: XOR<AgentProfileCreateWithoutListingsInput, AgentProfileUncheckedCreateWithoutListingsInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutListingsInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
+  export type AgentListingImageCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput> | AgentListingImageCreateWithoutAgentListingInput[] | AgentListingImageUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: AgentListingImageCreateOrConnectWithoutAgentListingInput | AgentListingImageCreateOrConnectWithoutAgentListingInput[]
+    createMany?: AgentListingImageCreateManyAgentListingInputEnvelope
+    connect?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+  }
+
+  export type PropertyUnlockCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<PropertyUnlockCreateWithoutAgentListingInput, PropertyUnlockUncheckedCreateWithoutAgentListingInput> | PropertyUnlockCreateWithoutAgentListingInput[] | PropertyUnlockUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutAgentListingInput | PropertyUnlockCreateOrConnectWithoutAgentListingInput[]
+    createMany?: PropertyUnlockCreateManyAgentListingInputEnvelope
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+  }
+
+  export type AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput> | AgentListingImageCreateWithoutAgentListingInput[] | AgentListingImageUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: AgentListingImageCreateOrConnectWithoutAgentListingInput | AgentListingImageCreateOrConnectWithoutAgentListingInput[]
+    createMany?: AgentListingImageCreateManyAgentListingInputEnvelope
+    connect?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+  }
+
+  export type PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<PropertyUnlockCreateWithoutAgentListingInput, PropertyUnlockUncheckedCreateWithoutAgentListingInput> | PropertyUnlockCreateWithoutAgentListingInput[] | PropertyUnlockUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutAgentListingInput | PropertyUnlockCreateOrConnectWithoutAgentListingInput[]
+    createMany?: PropertyUnlockCreateManyAgentListingInputEnvelope
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+  }
+
+  export type MasterPropertyUpdateOneRequiredWithoutListingsNestedInput = {
+    create?: XOR<MasterPropertyCreateWithoutListingsInput, MasterPropertyUncheckedCreateWithoutListingsInput>
+    connectOrCreate?: MasterPropertyCreateOrConnectWithoutListingsInput
+    upsert?: MasterPropertyUpsertWithoutListingsInput
+    connect?: MasterPropertyWhereUniqueInput
+    update?: XOR<XOR<MasterPropertyUpdateToOneWithWhereWithoutListingsInput, MasterPropertyUpdateWithoutListingsInput>, MasterPropertyUncheckedUpdateWithoutListingsInput>
+  }
+
+  export type AgentProfileUpdateOneRequiredWithoutListingsNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutListingsInput, AgentProfileUncheckedCreateWithoutListingsInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutListingsInput
+    upsert?: AgentProfileUpsertWithoutListingsInput
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutListingsInput, AgentProfileUpdateWithoutListingsInput>, AgentProfileUncheckedUpdateWithoutListingsInput>
+  }
+
+  export type AgentListingImageUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput> | AgentListingImageCreateWithoutAgentListingInput[] | AgentListingImageUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: AgentListingImageCreateOrConnectWithoutAgentListingInput | AgentListingImageCreateOrConnectWithoutAgentListingInput[]
+    upsert?: AgentListingImageUpsertWithWhereUniqueWithoutAgentListingInput | AgentListingImageUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: AgentListingImageCreateManyAgentListingInputEnvelope
+    set?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+    disconnect?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+    delete?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+    connect?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+    update?: AgentListingImageUpdateWithWhereUniqueWithoutAgentListingInput | AgentListingImageUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: AgentListingImageUpdateManyWithWhereWithoutAgentListingInput | AgentListingImageUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: AgentListingImageScalarWhereInput | AgentListingImageScalarWhereInput[]
+  }
+
+  export type PropertyUnlockUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<PropertyUnlockCreateWithoutAgentListingInput, PropertyUnlockUncheckedCreateWithoutAgentListingInput> | PropertyUnlockCreateWithoutAgentListingInput[] | PropertyUnlockUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutAgentListingInput | PropertyUnlockCreateOrConnectWithoutAgentListingInput[]
+    upsert?: PropertyUnlockUpsertWithWhereUniqueWithoutAgentListingInput | PropertyUnlockUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: PropertyUnlockCreateManyAgentListingInputEnvelope
+    set?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    disconnect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    delete?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    update?: PropertyUnlockUpdateWithWhereUniqueWithoutAgentListingInput | PropertyUnlockUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: PropertyUnlockUpdateManyWithWhereWithoutAgentListingInput | PropertyUnlockUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: PropertyUnlockScalarWhereInput | PropertyUnlockScalarWhereInput[]
+  }
+
+  export type AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput> | AgentListingImageCreateWithoutAgentListingInput[] | AgentListingImageUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: AgentListingImageCreateOrConnectWithoutAgentListingInput | AgentListingImageCreateOrConnectWithoutAgentListingInput[]
+    upsert?: AgentListingImageUpsertWithWhereUniqueWithoutAgentListingInput | AgentListingImageUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: AgentListingImageCreateManyAgentListingInputEnvelope
+    set?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+    disconnect?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+    delete?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+    connect?: AgentListingImageWhereUniqueInput | AgentListingImageWhereUniqueInput[]
+    update?: AgentListingImageUpdateWithWhereUniqueWithoutAgentListingInput | AgentListingImageUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: AgentListingImageUpdateManyWithWhereWithoutAgentListingInput | AgentListingImageUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: AgentListingImageScalarWhereInput | AgentListingImageScalarWhereInput[]
+  }
+
+  export type PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<PropertyUnlockCreateWithoutAgentListingInput, PropertyUnlockUncheckedCreateWithoutAgentListingInput> | PropertyUnlockCreateWithoutAgentListingInput[] | PropertyUnlockUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutAgentListingInput | PropertyUnlockCreateOrConnectWithoutAgentListingInput[]
+    upsert?: PropertyUnlockUpsertWithWhereUniqueWithoutAgentListingInput | PropertyUnlockUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: PropertyUnlockCreateManyAgentListingInputEnvelope
+    set?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    disconnect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    delete?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    update?: PropertyUnlockUpdateWithWhereUniqueWithoutAgentListingInput | PropertyUnlockUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: PropertyUnlockUpdateManyWithWhereWithoutAgentListingInput | PropertyUnlockUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: PropertyUnlockScalarWhereInput | PropertyUnlockScalarWhereInput[]
+  }
+
+  export type AgentListingCreateNestedOneWithoutImagesInput = {
+    create?: XOR<AgentListingCreateWithoutImagesInput, AgentListingUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutImagesInput
+    connect?: AgentListingWhereUniqueInput
+  }
+
+  export type AgentListingUpdateOneRequiredWithoutImagesNestedInput = {
+    create?: XOR<AgentListingCreateWithoutImagesInput, AgentListingUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutImagesInput
+    upsert?: AgentListingUpsertWithoutImagesInput
+    connect?: AgentListingWhereUniqueInput
+    update?: XOR<XOR<AgentListingUpdateToOneWithWhereWithoutImagesInput, AgentListingUpdateWithoutImagesInput>, AgentListingUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type AgentListingCreateNestedOneWithoutUnlocksInput = {
+    create?: XOR<AgentListingCreateWithoutUnlocksInput, AgentListingUncheckedCreateWithoutUnlocksInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutUnlocksInput
+    connect?: AgentListingWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPropertyUnlocksInput = {
+    create?: XOR<UserCreateWithoutPropertyUnlocksInput, UserUncheckedCreateWithoutPropertyUnlocksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPropertyUnlocksInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AgentListingUpdateOneRequiredWithoutUnlocksNestedInput = {
+    create?: XOR<AgentListingCreateWithoutUnlocksInput, AgentListingUncheckedCreateWithoutUnlocksInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutUnlocksInput
+    upsert?: AgentListingUpsertWithoutUnlocksInput
+    connect?: AgentListingWhereUniqueInput
+    update?: XOR<XOR<AgentListingUpdateToOneWithWhereWithoutUnlocksInput, AgentListingUpdateWithoutUnlocksInput>, AgentListingUncheckedUpdateWithoutUnlocksInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPropertyUnlocksNestedInput = {
+    create?: XOR<UserCreateWithoutPropertyUnlocksInput, UserUncheckedCreateWithoutPropertyUnlocksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPropertyUnlocksInput
+    upsert?: UserUpsertWithoutPropertyUnlocksInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPropertyUnlocksInput, UserUpdateWithoutPropertyUnlocksInput>, UserUncheckedUpdateWithoutPropertyUnlocksInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -34749,6 +40692,22 @@ export namespace Prisma {
     _max?: NestedEnumCommissionTypeFilter<$PrismaModel>
   }
 
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type PropertyCreateWithoutOwnerInput = {
     id?: string
     title: string
@@ -34961,6 +40920,7 @@ export namespace Prisma {
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
     commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutUserInput = {
@@ -34987,6 +40947,7 @@ export namespace Prisma {
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutUserInput = {
@@ -35021,6 +40982,34 @@ export namespace Prisma {
   export type InvestorProfileCreateOrConnectWithoutUserInput = {
     where: InvestorProfileWhereUniqueInput
     create: XOR<InvestorProfileCreateWithoutUserInput, InvestorProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type PropertyUnlockCreateWithoutBuyerInput = {
+    id?: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    createdAt?: Date | string
+    agentListing: AgentListingCreateNestedOneWithoutUnlocksInput
+  }
+
+  export type PropertyUnlockUncheckedCreateWithoutBuyerInput = {
+    id?: string
+    agentListingId: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    createdAt?: Date | string
+  }
+
+  export type PropertyUnlockCreateOrConnectWithoutBuyerInput = {
+    where: PropertyUnlockWhereUniqueInput
+    create: XOR<PropertyUnlockCreateWithoutBuyerInput, PropertyUnlockUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type PropertyUnlockCreateManyBuyerInputEnvelope = {
+    data: PropertyUnlockCreateManyBuyerInput | PropertyUnlockCreateManyBuyerInput[]
+    skipDuplicates?: boolean
   }
 
   export type PropertyUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -35223,6 +41212,7 @@ export namespace Prisma {
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
     commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutUserInput = {
@@ -35249,6 +41239,7 @@ export namespace Prisma {
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type InvestorProfileUpsertWithoutUserInput = {
@@ -35284,6 +41275,35 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalInvested?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyUnlockUpsertWithWhereUniqueWithoutBuyerInput = {
+    where: PropertyUnlockWhereUniqueInput
+    update: XOR<PropertyUnlockUpdateWithoutBuyerInput, PropertyUnlockUncheckedUpdateWithoutBuyerInput>
+    create: XOR<PropertyUnlockCreateWithoutBuyerInput, PropertyUnlockUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type PropertyUnlockUpdateWithWhereUniqueWithoutBuyerInput = {
+    where: PropertyUnlockWhereUniqueInput
+    data: XOR<PropertyUnlockUpdateWithoutBuyerInput, PropertyUnlockUncheckedUpdateWithoutBuyerInput>
+  }
+
+  export type PropertyUnlockUpdateManyWithWhereWithoutBuyerInput = {
+    where: PropertyUnlockScalarWhereInput
+    data: XOR<PropertyUnlockUpdateManyMutationInput, PropertyUnlockUncheckedUpdateManyWithoutBuyerInput>
+  }
+
+  export type PropertyUnlockScalarWhereInput = {
+    AND?: PropertyUnlockScalarWhereInput | PropertyUnlockScalarWhereInput[]
+    OR?: PropertyUnlockScalarWhereInput[]
+    NOT?: PropertyUnlockScalarWhereInput | PropertyUnlockScalarWhereInput[]
+    id?: StringFilter<"PropertyUnlock"> | string
+    agentListingId?: StringFilter<"PropertyUnlock"> | string
+    buyerId?: StringFilter<"PropertyUnlock"> | string
+    amount?: IntFilter<"PropertyUnlock"> | number
+    agentSplit?: IntFilter<"PropertyUnlock"> | number
+    companySplit?: IntFilter<"PropertyUnlock"> | number
+    createdAt?: DateTimeFilter<"PropertyUnlock"> | Date | string
   }
 
   export type SubscriptionCreateWithoutPlanInput = {
@@ -35356,6 +41376,7 @@ export namespace Prisma {
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -35382,6 +41403,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -35455,6 +41477,7 @@ export namespace Prisma {
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -35481,6 +41504,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PlanUpsertWithoutSubscriptionsInput = {
@@ -35544,6 +41568,7 @@ export namespace Prisma {
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutLeadViewsInput = {
@@ -35570,6 +41595,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutLeadViewsInput = {
@@ -35639,6 +41665,7 @@ export namespace Prisma {
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeadViewsInput = {
@@ -35665,6 +41692,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type EnquiryUpsertWithoutLeadViewsInput = {
@@ -36533,6 +42561,7 @@ export namespace Prisma {
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutPropertiesInput = {
@@ -36559,6 +42588,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutPropertiesInput = {
@@ -36728,6 +42758,7 @@ export namespace Prisma {
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertiesInput = {
@@ -36754,6 +42785,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type ProjectUpsertWithoutUnitsInput = {
@@ -37131,6 +43163,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
     agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutEnquiriesInput = {
@@ -37157,6 +43190,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
     agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutEnquiriesInput = {
@@ -37304,6 +43338,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
     agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnquiriesInput = {
@@ -37330,6 +43365,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
     agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type LeadViewUpsertWithWhereUniqueWithoutEnquiryInput = {
@@ -37372,6 +43408,7 @@ export namespace Prisma {
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutSavedPropertiesInput = {
@@ -37398,6 +43435,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutSavedPropertiesInput = {
@@ -37517,6 +43555,7 @@ export namespace Prisma {
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedPropertiesInput = {
@@ -37543,6 +43582,7 @@ export namespace Prisma {
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PropertyUpsertWithoutSavedByInput = {
@@ -37652,6 +43692,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
     investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutAgentProfileInput = {
@@ -37678,6 +43719,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
     investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutAgentProfileInput = {
@@ -37771,6 +43813,56 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AgentListingCreateWithoutAgentInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
+    images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUncheckedCreateWithoutAgentInput = {
+    id?: string
+    masterPropertyId: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingCreateOrConnectWithoutAgentInput = {
+    where: AgentListingWhereUniqueInput
+    create: XOR<AgentListingCreateWithoutAgentInput, AgentListingUncheckedCreateWithoutAgentInput>
+  }
+
+  export type AgentListingCreateManyAgentInputEnvelope = {
+    data: AgentListingCreateManyAgentInput | AgentListingCreateManyAgentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutAgentProfileInput = {
     update: XOR<UserUpdateWithoutAgentProfileInput, UserUncheckedUpdateWithoutAgentProfileInput>
     create: XOR<UserCreateWithoutAgentProfileInput, UserUncheckedCreateWithoutAgentProfileInput>
@@ -37806,6 +43898,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
     investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentProfileInput = {
@@ -37832,6 +43925,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
     investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentDocumentUpsertWithWhereUniqueWithoutAgentProfileInput = {
@@ -37922,6 +44016,44 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"CommissionLedgerEntry"> | Date | string
   }
 
+  export type AgentListingUpsertWithWhereUniqueWithoutAgentInput = {
+    where: AgentListingWhereUniqueInput
+    update: XOR<AgentListingUpdateWithoutAgentInput, AgentListingUncheckedUpdateWithoutAgentInput>
+    create: XOR<AgentListingCreateWithoutAgentInput, AgentListingUncheckedCreateWithoutAgentInput>
+  }
+
+  export type AgentListingUpdateWithWhereUniqueWithoutAgentInput = {
+    where: AgentListingWhereUniqueInput
+    data: XOR<AgentListingUpdateWithoutAgentInput, AgentListingUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type AgentListingUpdateManyWithWhereWithoutAgentInput = {
+    where: AgentListingScalarWhereInput
+    data: XOR<AgentListingUpdateManyMutationInput, AgentListingUncheckedUpdateManyWithoutAgentInput>
+  }
+
+  export type AgentListingScalarWhereInput = {
+    AND?: AgentListingScalarWhereInput | AgentListingScalarWhereInput[]
+    OR?: AgentListingScalarWhereInput[]
+    NOT?: AgentListingScalarWhereInput | AgentListingScalarWhereInput[]
+    id?: StringFilter<"AgentListing"> | string
+    masterPropertyId?: StringFilter<"AgentListing"> | string
+    agentId?: StringFilter<"AgentListing"> | string
+    slug?: StringFilter<"AgentListing"> | string
+    title?: StringFilter<"AgentListing"> | string
+    description?: StringFilter<"AgentListing"> | string
+    listingType?: EnumListingTypeFilter<"AgentListing"> | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFilter<"AgentListing"> | $Enums.PropertyType
+    bedrooms?: IntNullableFilter<"AgentListing"> | number | null
+    bathrooms?: IntNullableFilter<"AgentListing"> | number | null
+    areaSqft?: IntNullableFilter<"AgentListing"> | number | null
+    price?: IntFilter<"AgentListing"> | number
+    exactAddress?: StringFilter<"AgentListing"> | string
+    amenities?: StringNullableFilter<"AgentListing"> | string | null
+    createdAt?: DateTimeFilter<"AgentListing"> | Date | string
+    updatedAt?: DateTimeFilter<"AgentListing"> | Date | string
+  }
+
   export type AgentProfileCreateWithoutDocumentsInput = {
     id?: string
     agentCode?: string | null
@@ -37946,6 +44078,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutAgentProfileInput
     investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
     commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDocumentsInput = {
@@ -37972,6 +44105,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDocumentsInput = {
@@ -38014,6 +44148,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
     investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
     commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDocumentsInput = {
@@ -38040,6 +44175,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type UserCreateWithoutInvestorProfileInput = {
@@ -38066,6 +44202,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
     enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutInvestorProfileInput = {
@@ -38092,6 +44229,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
     agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutInvestorProfileInput = {
@@ -38123,6 +44261,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutAgentProfileInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
     commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutInvestorsInput = {
@@ -38149,6 +44288,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutInvestorsInput = {
@@ -38191,6 +44331,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvestorProfileInput = {
@@ -38217,6 +44358,7 @@ export namespace Prisma {
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
     agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutInvestorsInput = {
@@ -38254,6 +44396,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
     commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutInvestorsInput = {
@@ -38280,6 +44423,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutCommissionEntriesInput = {
@@ -38306,6 +44450,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutAgentProfileInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutCommissionEntriesInput = {
@@ -38332,6 +44477,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutCommissionEntriesInput = {
@@ -38374,6 +44520,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutCommissionEntriesInput = {
@@ -38400,6 +44547,661 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentListingCreateWithoutMasterPropertyInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    agent: AgentProfileCreateNestedOneWithoutListingsInput
+    images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUncheckedCreateWithoutMasterPropertyInput = {
+    id?: string
+    agentId: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingCreateOrConnectWithoutMasterPropertyInput = {
+    where: AgentListingWhereUniqueInput
+    create: XOR<AgentListingCreateWithoutMasterPropertyInput, AgentListingUncheckedCreateWithoutMasterPropertyInput>
+  }
+
+  export type AgentListingCreateManyMasterPropertyInputEnvelope = {
+    data: AgentListingCreateManyMasterPropertyInput | AgentListingCreateManyMasterPropertyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AgentListingUpsertWithWhereUniqueWithoutMasterPropertyInput = {
+    where: AgentListingWhereUniqueInput
+    update: XOR<AgentListingUpdateWithoutMasterPropertyInput, AgentListingUncheckedUpdateWithoutMasterPropertyInput>
+    create: XOR<AgentListingCreateWithoutMasterPropertyInput, AgentListingUncheckedCreateWithoutMasterPropertyInput>
+  }
+
+  export type AgentListingUpdateWithWhereUniqueWithoutMasterPropertyInput = {
+    where: AgentListingWhereUniqueInput
+    data: XOR<AgentListingUpdateWithoutMasterPropertyInput, AgentListingUncheckedUpdateWithoutMasterPropertyInput>
+  }
+
+  export type AgentListingUpdateManyWithWhereWithoutMasterPropertyInput = {
+    where: AgentListingScalarWhereInput
+    data: XOR<AgentListingUpdateManyMutationInput, AgentListingUncheckedUpdateManyWithoutMasterPropertyInput>
+  }
+
+  export type MasterPropertyCreateWithoutListingsInput = {
+    id?: string
+    masterId: string
+    city: string
+    locality?: string | null
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+  }
+
+  export type MasterPropertyUncheckedCreateWithoutListingsInput = {
+    id?: string
+    masterId: string
+    city: string
+    locality?: string | null
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+  }
+
+  export type MasterPropertyCreateOrConnectWithoutListingsInput = {
+    where: MasterPropertyWhereUniqueInput
+    create: XOR<MasterPropertyCreateWithoutListingsInput, MasterPropertyUncheckedCreateWithoutListingsInput>
+  }
+
+  export type AgentProfileCreateWithoutListingsInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutListingsInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutListingsInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutListingsInput, AgentProfileUncheckedCreateWithoutListingsInput>
+  }
+
+  export type AgentListingImageCreateWithoutAgentListingInput = {
+    id?: string
+    url: string
+    order?: number
+  }
+
+  export type AgentListingImageUncheckedCreateWithoutAgentListingInput = {
+    id?: string
+    url: string
+    order?: number
+  }
+
+  export type AgentListingImageCreateOrConnectWithoutAgentListingInput = {
+    where: AgentListingImageWhereUniqueInput
+    create: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type AgentListingImageCreateManyAgentListingInputEnvelope = {
+    data: AgentListingImageCreateManyAgentListingInput | AgentListingImageCreateManyAgentListingInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PropertyUnlockCreateWithoutAgentListingInput = {
+    id?: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    createdAt?: Date | string
+    buyer: UserCreateNestedOneWithoutPropertyUnlocksInput
+  }
+
+  export type PropertyUnlockUncheckedCreateWithoutAgentListingInput = {
+    id?: string
+    buyerId: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    createdAt?: Date | string
+  }
+
+  export type PropertyUnlockCreateOrConnectWithoutAgentListingInput = {
+    where: PropertyUnlockWhereUniqueInput
+    create: XOR<PropertyUnlockCreateWithoutAgentListingInput, PropertyUnlockUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type PropertyUnlockCreateManyAgentListingInputEnvelope = {
+    data: PropertyUnlockCreateManyAgentListingInput | PropertyUnlockCreateManyAgentListingInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MasterPropertyUpsertWithoutListingsInput = {
+    update: XOR<MasterPropertyUpdateWithoutListingsInput, MasterPropertyUncheckedUpdateWithoutListingsInput>
+    create: XOR<MasterPropertyCreateWithoutListingsInput, MasterPropertyUncheckedCreateWithoutListingsInput>
+    where?: MasterPropertyWhereInput
+  }
+
+  export type MasterPropertyUpdateToOneWithWhereWithoutListingsInput = {
+    where?: MasterPropertyWhereInput
+    data: XOR<MasterPropertyUpdateWithoutListingsInput, MasterPropertyUncheckedUpdateWithoutListingsInput>
+  }
+
+  export type MasterPropertyUpdateWithoutListingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterId?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MasterPropertyUncheckedUpdateWithoutListingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterId?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentProfileUpsertWithoutListingsInput = {
+    update: XOR<AgentProfileUpdateWithoutListingsInput, AgentProfileUncheckedUpdateWithoutListingsInput>
+    create: XOR<AgentProfileCreateWithoutListingsInput, AgentProfileUncheckedCreateWithoutListingsInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutListingsInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutListingsInput, AgentProfileUncheckedUpdateWithoutListingsInput>
+  }
+
+  export type AgentProfileUpdateWithoutListingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutListingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentListingImageUpsertWithWhereUniqueWithoutAgentListingInput = {
+    where: AgentListingImageWhereUniqueInput
+    update: XOR<AgentListingImageUpdateWithoutAgentListingInput, AgentListingImageUncheckedUpdateWithoutAgentListingInput>
+    create: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type AgentListingImageUpdateWithWhereUniqueWithoutAgentListingInput = {
+    where: AgentListingImageWhereUniqueInput
+    data: XOR<AgentListingImageUpdateWithoutAgentListingInput, AgentListingImageUncheckedUpdateWithoutAgentListingInput>
+  }
+
+  export type AgentListingImageUpdateManyWithWhereWithoutAgentListingInput = {
+    where: AgentListingImageScalarWhereInput
+    data: XOR<AgentListingImageUpdateManyMutationInput, AgentListingImageUncheckedUpdateManyWithoutAgentListingInput>
+  }
+
+  export type AgentListingImageScalarWhereInput = {
+    AND?: AgentListingImageScalarWhereInput | AgentListingImageScalarWhereInput[]
+    OR?: AgentListingImageScalarWhereInput[]
+    NOT?: AgentListingImageScalarWhereInput | AgentListingImageScalarWhereInput[]
+    id?: StringFilter<"AgentListingImage"> | string
+    url?: StringFilter<"AgentListingImage"> | string
+    agentListingId?: StringFilter<"AgentListingImage"> | string
+    order?: IntFilter<"AgentListingImage"> | number
+  }
+
+  export type PropertyUnlockUpsertWithWhereUniqueWithoutAgentListingInput = {
+    where: PropertyUnlockWhereUniqueInput
+    update: XOR<PropertyUnlockUpdateWithoutAgentListingInput, PropertyUnlockUncheckedUpdateWithoutAgentListingInput>
+    create: XOR<PropertyUnlockCreateWithoutAgentListingInput, PropertyUnlockUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type PropertyUnlockUpdateWithWhereUniqueWithoutAgentListingInput = {
+    where: PropertyUnlockWhereUniqueInput
+    data: XOR<PropertyUnlockUpdateWithoutAgentListingInput, PropertyUnlockUncheckedUpdateWithoutAgentListingInput>
+  }
+
+  export type PropertyUnlockUpdateManyWithWhereWithoutAgentListingInput = {
+    where: PropertyUnlockScalarWhereInput
+    data: XOR<PropertyUnlockUpdateManyMutationInput, PropertyUnlockUncheckedUpdateManyWithoutAgentListingInput>
+  }
+
+  export type AgentListingCreateWithoutImagesInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
+    agent: AgentProfileCreateNestedOneWithoutListingsInput
+    unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUncheckedCreateWithoutImagesInput = {
+    id?: string
+    masterPropertyId: string
+    agentId: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingCreateOrConnectWithoutImagesInput = {
+    where: AgentListingWhereUniqueInput
+    create: XOR<AgentListingCreateWithoutImagesInput, AgentListingUncheckedCreateWithoutImagesInput>
+  }
+
+  export type AgentListingUpsertWithoutImagesInput = {
+    update: XOR<AgentListingUpdateWithoutImagesInput, AgentListingUncheckedUpdateWithoutImagesInput>
+    create: XOR<AgentListingCreateWithoutImagesInput, AgentListingUncheckedCreateWithoutImagesInput>
+    where?: AgentListingWhereInput
+  }
+
+  export type AgentListingUpdateToOneWithWhereWithoutImagesInput = {
+    where?: AgentListingWhereInput
+    data: XOR<AgentListingUpdateWithoutImagesInput, AgentListingUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type AgentListingUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
+    agent?: AgentProfileUpdateOneRequiredWithoutListingsNestedInput
+    unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingCreateWithoutUnlocksInput = {
+    id?: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
+    agent: AgentProfileCreateNestedOneWithoutListingsInput
+    images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUncheckedCreateWithoutUnlocksInput = {
+    id?: string
+    masterPropertyId: string
+    agentId: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingCreateOrConnectWithoutUnlocksInput = {
+    where: AgentListingWhereUniqueInput
+    create: XOR<AgentListingCreateWithoutUnlocksInput, AgentListingUncheckedCreateWithoutUnlocksInput>
+  }
+
+  export type UserCreateWithoutPropertyUnlocksInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPropertyUnlocksInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPropertyUnlocksInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPropertyUnlocksInput, UserUncheckedCreateWithoutPropertyUnlocksInput>
+  }
+
+  export type AgentListingUpsertWithoutUnlocksInput = {
+    update: XOR<AgentListingUpdateWithoutUnlocksInput, AgentListingUncheckedUpdateWithoutUnlocksInput>
+    create: XOR<AgentListingCreateWithoutUnlocksInput, AgentListingUncheckedCreateWithoutUnlocksInput>
+    where?: AgentListingWhereInput
+  }
+
+  export type AgentListingUpdateToOneWithWhereWithoutUnlocksInput = {
+    where?: AgentListingWhereInput
+    data: XOR<AgentListingUpdateWithoutUnlocksInput, AgentListingUncheckedUpdateWithoutUnlocksInput>
+  }
+
+  export type AgentListingUpdateWithoutUnlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
+    agent?: AgentProfileUpdateOneRequiredWithoutListingsNestedInput
+    images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateWithoutUnlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type UserUpsertWithoutPropertyUnlocksInput = {
+    update: XOR<UserUpdateWithoutPropertyUnlocksInput, UserUncheckedUpdateWithoutPropertyUnlocksInput>
+    create: XOR<UserCreateWithoutPropertyUnlocksInput, UserUncheckedCreateWithoutPropertyUnlocksInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPropertyUnlocksInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPropertyUnlocksInput, UserUncheckedUpdateWithoutPropertyUnlocksInput>
+  }
+
+  export type UserUpdateWithoutPropertyUnlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPropertyUnlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type PropertyCreateManyOwnerInput = {
@@ -38464,6 +45266,15 @@ export namespace Prisma {
     email?: string | null
     message?: string | null
     propertyId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PropertyUnlockCreateManyBuyerInput = {
+    id?: string
+    agentListingId: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
     createdAt?: Date | string
   }
 
@@ -38667,6 +45478,33 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     message?: NullableStringFieldUpdateOperationsInput | string | null
     propertyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyUnlockUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentListing?: AgentListingUpdateOneRequiredWithoutUnlocksNestedInput
+  }
+
+  export type PropertyUnlockUncheckedUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyUnlockUncheckedUpdateManyWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -39254,6 +46092,24 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type AgentListingCreateManyAgentInput = {
+    id?: string
+    masterPropertyId: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AgentDocumentUpdateWithoutAgentProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: EnumAgentDocumentTypeFieldUpdateOperationsInput | $Enums.AgentDocumentType
@@ -39335,6 +46191,200 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     refId?: NullableStringFieldUpdateOperationsInput | string | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
+    images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateManyWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingCreateManyMasterPropertyInput = {
+    id?: string
+    agentId: string
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AgentListingUpdateWithoutMasterPropertyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentProfileUpdateOneRequiredWithoutListingsNestedInput
+    images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateWithoutMasterPropertyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateManyWithoutMasterPropertyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingImageCreateManyAgentListingInput = {
+    id?: string
+    url: string
+    order?: number
+  }
+
+  export type PropertyUnlockCreateManyAgentListingInput = {
+    id?: string
+    buyerId: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    createdAt?: Date | string
+  }
+
+  export type AgentListingImageUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AgentListingImageUncheckedUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AgentListingImageUncheckedUpdateManyWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropertyUnlockUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyer?: UserUpdateOneRequiredWithoutPropertyUnlocksNestedInput
+  }
+
+  export type PropertyUnlockUncheckedUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyUnlockUncheckedUpdateManyWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

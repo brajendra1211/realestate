@@ -93,6 +93,7 @@ model User {
 
   agentProfile    AgentProfile?
   investorProfile InvestorProfile?
+  propertyUnlocks PropertyUnlock[]
 }
 
 enum PlanRole {
@@ -448,6 +449,7 @@ model AgentProfile {
   documents         AgentDocument[]
   investors         InvestorProfile[]
   commissionEntries CommissionLedgerEntry[]
+  listings          AgentListing[]
 
   @@index([status])
 }
@@ -491,4 +493,70 @@ model CommissionLedgerEntry {
   createdAt DateTime       @default(now())
 
   @@index([agentId])
+}
+
+// --- Phase 2: Listings + deduplication (docs/platform-requirements.md §7) ---
+
+model MasterProperty {
+  id        String   @id @default(cuid())
+  masterId  String   @unique
+  city      String
+  locality  String?
+  latitude  Float
+  longitude Float
+  createdAt DateTime @default(now())
+
+  listings AgentListing[]
+
+  @@index([city])
+}
+
+model AgentListing {
+  id               String         @id @default(cuid())
+  masterPropertyId String
+  masterProperty   MasterProperty @relation(fields: [masterPropertyId], references: [id], onDelete: Cascade)
+  agentId          String
+  agent            AgentProfile   @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  slug             String         @unique
+  title            String
+  description      String         @db.Text
+  listingType      ListingType
+  propertyType     PropertyType
+  bedrooms         Int?
+  bathrooms        Int?
+  areaSqft         Int?
+  price            Int
+  exactAddress     String         @db.Text
+  amenities        String?        @db.Text
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  images  AgentListingImage[]
+  unlocks PropertyUnlock[]
+
+  @@index([masterPropertyId])
+  @@index([agentId])
+}
+
+model AgentListingImage {
+  id             String       @id @default(cuid())
+  url            String
+  agentListingId String
+  agentListing   AgentListing @relation(fields: [agentListingId], references: [id], onDelete: Cascade)
+  order          Int          @default(0)
+}
+
+model PropertyUnlock {
+  id             String       @id @default(cuid())
+  agentListingId String
+  agentListing   AgentListing @relation(fields: [agentListingId], references: [id], onDelete: Cascade)
+  buyerId        String
+  buyer          User         @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  amount         Int          @default(100)
+  agentSplit     Int          @default(50)
+  companySplit   Int          @default(50)
+  createdAt      DateTime     @default(now())
+
+  @@unique([agentListingId, buyerId])
+  @@index([buyerId])
 }

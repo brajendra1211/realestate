@@ -1,6 +1,6 @@
 import { requestBuyerOtp } from "./actions";
 
-type SearchParams = Promise<{ error?: string; identifier?: string }>;
+type SearchParams = Promise<{ error?: string; identifier?: string; next?: string }>;
 
 const ERROR_MESSAGES: Record<string, string> = {
   required: "Enter your phone number or email.",
@@ -8,7 +8,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 };
 
 export default async function BuyerLoginPage({ searchParams }: { searchParams: SearchParams }) {
-  const { error, identifier } = await searchParams;
+  const { error, identifier, next } = await searchParams;
 
   return (
     <div className="mx-auto max-w-sm px-4 py-16 sm:px-6">
@@ -24,6 +24,7 @@ export default async function BuyerLoginPage({ searchParams }: { searchParams: S
       )}
 
       <form action={requestBuyerOtp} className="mt-6 space-y-4">
+        {next && <input type="hidden" name="next" value={next} />}
         <div>
           <label className="text-sm font-medium text-slate-700">Phone number or email</label>
           <input

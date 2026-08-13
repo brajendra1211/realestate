@@ -138,6 +138,40 @@ async function main() {
   }
   console.log(`Demo commission ledger entry ready for ${agentProfile.agentCode}`);
 
+  const masterProperty = await prisma.masterProperty.upsert({
+    where: { masterId: "PROP-BLR-2026-1000" },
+    update: {},
+    create: {
+      masterId: "PROP-BLR-2026-1000",
+      city: "Bengaluru",
+      locality: "Whitefield",
+      latitude: 12.9698,
+      longitude: 77.75,
+    },
+  });
+
+  const agentListing = await prisma.agentListing.upsert({
+    where: { slug: "3bhk-apartment-whitefield-demo" },
+    update: {},
+    create: {
+      slug: "3bhk-apartment-whitefield-demo",
+      masterPropertyId: masterProperty.id,
+      agentId: agentProfile.id,
+      title: "3BHK Apartment in Whitefield",
+      description:
+        "Spacious 3BHK with a clubhouse, swimming pool, and covered parking. Close to tech parks and schools.",
+      listingType: "SALE",
+      propertyType: "APARTMENT",
+      bedrooms: 3,
+      bathrooms: 2,
+      areaSqft: 1450,
+      price: 9200000,
+      exactAddress: "Flat 402, Prestige Shantiniketan, ITPL Main Road, Whitefield, Bengaluru",
+      amenities: "Swimming Pool, Gym, Club House, Car Parking",
+    },
+  });
+  console.log(`Demo agent listing ready: ${agentListing.slug} (${masterProperty.masterId})`);
+
   const developer = await prisma.developer.upsert({
     where: { slug: "prestige-group" },
     update: {},

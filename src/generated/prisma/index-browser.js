@@ -425,6 +425,52 @@ exports.Prisma.CommissionLedgerEntryScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.MasterPropertyScalarFieldEnum = {
+  id: 'id',
+  masterId: 'masterId',
+  city: 'city',
+  locality: 'locality',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AgentListingScalarFieldEnum = {
+  id: 'id',
+  masterPropertyId: 'masterPropertyId',
+  agentId: 'agentId',
+  slug: 'slug',
+  title: 'title',
+  description: 'description',
+  listingType: 'listingType',
+  propertyType: 'propertyType',
+  bedrooms: 'bedrooms',
+  bathrooms: 'bathrooms',
+  areaSqft: 'areaSqft',
+  price: 'price',
+  exactAddress: 'exactAddress',
+  amenities: 'amenities',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AgentListingImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  agentListingId: 'agentListingId',
+  order: 'order'
+};
+
+exports.Prisma.PropertyUnlockScalarFieldEnum = {
+  id: 'id',
+  agentListingId: 'agentListingId',
+  buyerId: 'buyerId',
+  amount: 'amount',
+  agentSplit: 'agentSplit',
+  companySplit: 'companySplit',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -653,6 +699,36 @@ exports.Prisma.CommissionLedgerEntryOrderByRelevanceFieldEnum = {
   refId: 'refId',
   note: 'note'
 };
+
+exports.Prisma.MasterPropertyOrderByRelevanceFieldEnum = {
+  id: 'id',
+  masterId: 'masterId',
+  city: 'city',
+  locality: 'locality'
+};
+
+exports.Prisma.AgentListingOrderByRelevanceFieldEnum = {
+  id: 'id',
+  masterPropertyId: 'masterPropertyId',
+  agentId: 'agentId',
+  slug: 'slug',
+  title: 'title',
+  description: 'description',
+  exactAddress: 'exactAddress',
+  amenities: 'amenities'
+};
+
+exports.Prisma.AgentListingImageOrderByRelevanceFieldEnum = {
+  id: 'id',
+  url: 'url',
+  agentListingId: 'agentListingId'
+};
+
+exports.Prisma.PropertyUnlockOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentListingId: 'agentListingId',
+  buyerId: 'buyerId'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SUBADMIN: 'SUBADMIN',
@@ -773,7 +849,11 @@ exports.Prisma.ModelName = {
   AgentProfile: 'AgentProfile',
   AgentDocument: 'AgentDocument',
   InvestorProfile: 'InvestorProfile',
-  CommissionLedgerEntry: 'CommissionLedgerEntry'
+  CommissionLedgerEntry: 'CommissionLedgerEntry',
+  MasterProperty: 'MasterProperty',
+  AgentListing: 'AgentListing',
+  AgentListingImage: 'AgentListingImage',
+  PropertyUnlock: 'PropertyUnlock'
 };
 
 /**

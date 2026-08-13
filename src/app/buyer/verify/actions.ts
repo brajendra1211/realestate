@@ -8,16 +8,19 @@ import { requestOtp } from "@/lib/otp";
 export async function verifyBuyerOtp(formData: FormData) {
   const identifier = String(formData.get("identifier") ?? "").trim();
   const otp = String(formData.get("otp") ?? "").trim();
+  const next = String(formData.get("next") ?? "").trim();
+  const redirectTo = next.startsWith("/") ? next : "/buyer/dashboard";
+  const nextQuery = next.startsWith("/") ? `&next=${encodeURIComponent(next)}` : "";
 
   if (!identifier || !otp) {
-    redirect(`/buyer/verify?identifier=${encodeURIComponent(identifier)}&error=required`);
+    redirect(`/buyer/verify?identifier=${encodeURIComponent(identifier)}&error=required${nextQuery}`);
   }
 
   try {
-    await signIn("buyer-otp", { identifier, otp, redirectTo: "/buyer/dashboard" });
+    await signIn("buyer-otp", { identifier, otp, redirectTo });
   } catch (error) {
     if (error instanceof AuthError) {
-      redirect(`/buyer/verify?identifier=${encodeURIComponent(identifier)}&error=invalid`);
+      redirect(`/buyer/verify?identifier=${encodeURIComponent(identifier)}&error=invalid${nextQuery}`);
     }
     throw error;
   }
@@ -25,14 +28,16 @@ export async function verifyBuyerOtp(formData: FormData) {
 
 export async function resendBuyerOtp(formData: FormData) {
   const identifier = String(formData.get("identifier") ?? "").trim();
+  const next = String(formData.get("next") ?? "").trim();
+  const nextQuery = next.startsWith("/") ? `&next=${encodeURIComponent(next)}` : "";
   if (!identifier) redirect("/buyer/login");
 
   const result = await requestOtp(identifier);
   if (!result.sent) {
-    redirect(`/buyer/login?error=send&identifier=${encodeURIComponent(identifier)}`);
+    redirect(`/buyer/login?error=send&identifier=${encodeURIComponent(identifier)}${nextQuery}`);
   }
 
   redirect(
-    `/buyer/verify?identifier=${encodeURIComponent(result.identifier)}&channel=${result.channel}&resent=1`
+    `/buyer/verify?identifier=${encodeURIComponent(result.identifier)}&channel=${result.channel}&resent=1${nextQuery}`
   );
 }

@@ -1,6 +1,12 @@
 import { verifyBuyerOtp, resendBuyerOtp } from "./actions";
 
-type SearchParams = Promise<{ identifier?: string; channel?: string; error?: string; resent?: string }>;
+type SearchParams = Promise<{
+  identifier?: string;
+  channel?: string;
+  error?: string;
+  resent?: string;
+  next?: string;
+}>;
 
 const ERROR_MESSAGES: Record<string, string> = {
   required: "Enter the code we sent you.",
@@ -8,7 +14,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 };
 
 export default async function BuyerVerifyPage({ searchParams }: { searchParams: SearchParams }) {
-  const { identifier, channel, error, resent } = await searchParams;
+  const { identifier, channel, error, resent, next } = await searchParams;
 
   if (!identifier) {
     return (
@@ -42,6 +48,7 @@ export default async function BuyerVerifyPage({ searchParams }: { searchParams: 
 
       <form action={verifyBuyerOtp} className="mt-6 space-y-4">
         <input type="hidden" name="identifier" value={identifier} />
+        {next && <input type="hidden" name="next" value={next} />}
         <div>
           <label className="text-sm font-medium text-slate-700">6-digit code</label>
           <input
@@ -65,6 +72,7 @@ export default async function BuyerVerifyPage({ searchParams }: { searchParams: 
 
       <form action={resendBuyerOtp} className="mt-3 text-center">
         <input type="hidden" name="identifier" value={identifier} />
+        {next && <input type="hidden" name="next" value={next} />}
         <button type="submit" className="text-sm font-medium text-blue-600 hover:underline">
           Resend code
         </button>

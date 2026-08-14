@@ -3,8 +3,11 @@
 Source documents:
 - `Hindlenglish Agent And Investor Commission.pdf` (5 pages) — commission/investor logic
 - `Agent Registration & Submission Form.pdf` (17 pages) — agent onboarding, listings, dispatch, chat, anti-poaching, gamification
+- WhatsApp messages from client, 13 Aug 2026 — two new rules, consolidated into §3.3 and §3.20
 
-This file consolidates both (messy, Hinglish, repetitive) client documents into one build-ready spec: what exists today, what needs to be built, the exact business rules, the data model, the tech stack, and a phased roadmap. Nothing here is implemented yet — this is the planning artifact the client asked for.
+This file consolidates both (messy, Hinglish, repetitive) client documents into one build-ready spec: what exists today, what needs to be built, the exact business rules, the data model, the tech stack, and a phased roadmap.
+
+**Build status:** Phase 1 (Agent + Investor identity/verification/commission ledger foundation) and Phase 2 (Master Property ID dedup + agent listings + teaser/pay-to-unlock) are built and committed. See `docs/api-reference.md` for the live, endpoint-by-endpoint reference of what's actually shipped. Phases 3–6 below are still planning-only.
 
 ---
 
@@ -18,7 +21,7 @@ This file consolidates both (messy, Hinglish, repetitive) client documents into 
 - `Enquiry`, `LeadView`, `SavedProperty` — simple lead capture, no pay-to-unlock, no OTP-gated visit logging
 - No wallet/ledger, no commission tables, no chat, no geofencing, no dispatch queue, no ratings, no document vault
 
-**Conclusion:** everything in Sections 3–9 below is net-new. The existing marketplace (properties, projects, developers, cities) can stay as the "catalog" layer; the new system plugs in as Agent/Investor/Commission/Dispatch layers on top.
+**Conclusion:** everything in Sections 3–9 below was net-new at the time this was written. The existing marketplace (properties, projects, developers, cities) stays as the "catalog" layer; the new system plugs in as Agent/Investor/Commission/Dispatch layers on top — Phase 1 and Phase 2 of that plan are now built (see "Build status" above); Phases 3 onward are still pending.
 
 ---
 
@@ -63,6 +66,15 @@ This file consolidates both (messy, Hinglish, repetitive) client documents into 
 - Location is always **agent shop location**, not the flat's exact address, until the customer pays to unlock
 
 ### 3.3 Customer Discovery — Teaser → Pay-to-Unlock
+
+**Transaction type shown to customers (client update, 13 Aug 2026):** the customer-facing
+platform only ever shows **Buy or Rent** — Sell/Letout are not customer-facing transaction
+types. Those two extra types stay valid for the agent-to-agent inventory-sourcing flow only
+(§3.6, where an agent is browsing *other agents'* stock, not a customer). **Already matches
+the Phase 2 implementation** — `AgentListing.listingType` only accepts `SALE`/`RENT` (reusing
+the existing marketplace's `ListingType` enum); it does not expose Sell/Letout at all today.
+If §3.6's B2B broadcast is built in a later phase with its own Sell/Letout options, don't let
+those leak into any customer-facing screen.
 
 **Free tier (glimpse):**
 - Visible: Master Property ID, City/Area, Flat Type, Price range, general photos, amenities
@@ -177,6 +189,7 @@ Agent brings Investor → Investor fills Submission Form → Investor Code gener
 - Registration fee: **₹20,000/year**, 1-year validity, auto-renewal reminder + expiry alert surfaced on the Admin Panel
 - Agent referral commission: **10% of the ₹20,000 fee = ₹2,000**, credited to the Agent Code wallet on payment
 - If the investor later becomes an agent, they need a **separate, independent Agent Code** — commissions never blend across the two roles for the same person
+- **Agent-to-agent referrals are a separate, parallel commission line — see §3.20.** Don't fold the two together: this section is Agent→Investor; §3.20 is Agent→Agent.
 
 ### 3.12 Property Deal Commission (direct brokerage)
 
@@ -257,6 +270,7 @@ Whenever a joint Investor+Company deal closes a profit (example base: ₹5,00,00
 |---|---|---|
 | Agent Prime subscription | Monthly, auto-debit | 100% company |
 | Investor registration | ₹20,000/year | 10% → referring agent, 90% company |
+| Agent-to-agent referral (§3.20, new — basis unconfirmed, see §6) | 10% "from the new agent's code" | 10% → referring agent, rest → company |
 | Investor+Company deal profit | Variable | 10% agent / 10% expense / 40% investor / 40% company |
 | Buyer/Seller brokerage | 1% each side of deal value | 100% to respective agent (not split with company in the source doc) |
 | Customer unlock pass | ₹100 | 50% referring agent / 50% company |
@@ -274,6 +288,43 @@ Whenever a joint Investor+Company deal closes a profit (example base: ₹5,00,00
 
 - **Agent cartelization/boycott risk**: incumbent offline agent unions may resist the 3-warning system or switch-agent feature because it erodes their local dominance — plan a phased rollout per city/area rather than a hard nationwide cutover, and consider an agent-relations/onboarding-incentive track alongside the product launch.
 - **Fake radius broadcasts / spam** — mitigated by daily-limit (3 switch actions/day) + cooldown (1–2 hrs) + mandatory reason, already specified in §3.9.
+
+### 3.20 Agent-to-Agent Referral Commission (client update, 13 Aug 2026)
+
+**Not yet built** — this is new, added after Phase 1 shipped. Raw client message (WhatsApp,
+13 Aug 2026, translated from Hinglish): *"If one Agent gets another agent's code opened/
+activated, they get a 10% referral/earning commission from the new agent's code."*
+
+Read literally against how §3.11 (Agent→Investor referral) is structured, the equivalent
+Agent→Agent rule is:
+
+```
+Agent A refers Agent B → Agent B registers + gets verified + activates Prime
+                        → Agent B's Agent Code permanently linked to referring Agent A's Code
+                        → Agent A gets 10% commission "from the new agent's code"
+```
+
+This mirrors §3.11's Agent→Investor pattern closely enough that it's probably meant to
+reuse the same mechanism, one level up — but the client's phrasing ("10% commission ... se
+earn") is ambiguous about the **basis** of that 10%, in a way that materially changes the
+implementation (see §6 for the specific question to confirm before building this). Likely
+candidates, cheapest-to-confirm first:
+- 10% of Agent B's one-time Prime subscription payment (direct parallel to §3.11's "10% of
+  the ₹20,000 investor fee") — a single, one-time referral credit.
+- 10% of Agent B's *ongoing* earnings (every commission Agent B ever earns, forever) — an
+  override commission, materially bigger and open-ended.
+- 10% of Agent B's Prime subscription *specifically*, recurring every renewal (monthly/
+  yearly, whatever Agent B's Prime cadence is) — recurring but capped to the subscription
+  line only, not all of Agent B's other earnings.
+
+Also needs: a `referringAgentId` field on `AgentProfile` (self-referential — the same
+`AgentProfile → AgentProfile` shape §3.11 already uses for Investor→Agent), and a decision
+on whether this becomes a 4th line item in the Agent Portal's commission breakdown or folds
+into the existing `REGISTRATION_REFERRAL` `CommissionType` used for Investor referrals — see
+§3.14's "exactly 3 categories, never merged" rule, which this would break as written if it's
+kept as a visually separate line (worth it — don't silently merge "referred an Investor" and
+"referred an Agent" into one number just because the ledger `CommissionType` enum name is the
+same, per the same never-merge principle §3.14 already applies elsewhere).
 
 ---
 
@@ -515,6 +566,8 @@ The client's own technical notes (scattered through the PDF) assume Postgres+Pos
 3. **Brokerage split ambiguity:** the 1% buyer/seller brokerage (§3.12) is shown going 100% to the agent, while every other revenue line (registration, unlock, gold, profit-share) has an explicit company cut. Confirm the company genuinely takes 0% of direct brokerage, or whether the "10% renovation/company expense" line in §3.13's profit table is meant to apply here too.
 4. **Escrow/token system** (₹2,000 example) is mentioned once in "Special Notes" with no full workflow (who triggers release, what happens on deal cancellation, refund rules) — needs its own mini-spec before building.
 5. **AI Vision fraud detection and Auto-Matching (top-3-society AI recommender)** are listed under "Special Notes" as aspirational, not specified in workflow detail — treat as backlog, not MVP.
+6. **Agent-to-agent referral commission basis (§3.20, new 13 Aug 2026):** "10% commission from the new agent's code" — confirm which of the three readings in §3.20 is meant (one-time off the Prime subscription payment, a recurring override off the subscription only, or a recurring override off *everything* Agent B ever earns). This is the single highest-leverage thing to confirm before writing any code for it — the open-ended "everything Agent B ever earns" reading is a very different (and much larger) liability than the other two.
+7. **Customer-facing Buy/Rent-only rule (§3.3, new 13 Aug 2026) vs. §3.6's B2B Sell/Letout types:** confirmed these coexist (§3.6 is agent-facing, not customer-facing) — but confirm with the client that Sell/Letout should still exist at all as *agent inventory* categories once §3.6 gets built, rather than the "Buy or Rent only" rule meaning to retire Sell/Letout everywhere.
 
 ---
 
@@ -522,16 +575,21 @@ The client's own technical notes (scattered through the PDF) assume Postgres+Pos
 
 Building all of this at once is not realistic — recommend phased delivery, each phase shippable and demoable on its own:
 
-**Phase 1 — Foundation (Agent + Investor identity, no automation)**
+**Phase 1 — Foundation (Agent + Investor identity, no automation)** ✅ built
 - Agent registration (2-phase form + verification), Agent Code generation
 - Investor registration linked to Agent Code, 1-year expiry tracking
 - Basic commission ledger tables + manual/admin-triggered payout entries (no auto-calculator yet)
 - Admin panel: agent/investor list, verification queue, mapping directory
+- **Addendum, not yet built:** Agent-to-agent referral commission (§3.20) — same shape as
+  the Investor referral above, one level up. Blocked on confirming the commission basis
+  (§6 item 6) before implementation; otherwise a natural small follow-up to this phase's
+  existing referral-ledger code rather than its own phase.
 
-**Phase 2 — Listings + Deduplication**
+**Phase 2 — Listings + Deduplication** ✅ built
 - Master Property ID engine, multi-agent co-listing
 - Teaser (free) view + ₹100 pay-to-unlock flow with 50/50 wallet split
 - Image compression/watermark pipeline
+- Customer-facing views are Buy/Rent only (§3.3 addendum) — already how this phase was built
 
 **Phase 3 — Money Automation**
 - One-click Master Commission Calculator + TDS engine
@@ -561,3 +619,4 @@ Building all of this at once is not realistic — recommend phased delivery, eac
 - Is MySQL (current DB) acceptable long-term, or should the team budget for a Postgres+PostGIS migration once dispatch/radius search is the primary product surface?
 - Who owns TDS compliance logic (finance/CA input needed, not just engineering assumption)?
 - Escrow/token flow (§6.4) — is there a payment-gateway escrow product already chosen (Razorpay Route, RazorpayX, etc.) or does "escrow" mean the company's own bank account only?
+- **Agent-to-agent referral commission basis (§3.20, §6 item 6)** — one-time off Agent B's Prime payment, recurring off just the subscription, or recurring off everything Agent B ever earns? Needed before any code for this gets written.

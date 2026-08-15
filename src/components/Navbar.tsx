@@ -48,22 +48,30 @@ export async function Navbar({
       ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur-lg supports-[backdrop-filter]:bg-white/70">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
-          <Link href="/" className="flex min-w-0 items-center gap-2 text-lg font-bold tracking-tight text-slate-900">
-            {logoUrl && (
+          <Link href="/" className="group flex min-w-0 items-center gap-2 text-lg font-bold tracking-tight text-slate-900">
+            {logoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={logoUrl} alt={siteName} className="h-8 w-auto shrink-0 object-contain" />
+            ) : (
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-blue-600 to-indigo-600 text-sm font-extrabold text-white shadow-sm shadow-blue-600/30 transition group-hover:scale-105">
+                {siteName.charAt(0)}
+              </span>
             )}
             <span className="truncate">{siteName}</span>
           </Link>
           <LocationMenu currentCity={currentCity} cities={cities} />
         </div>
 
-        <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 sm:flex">
+        <nav className="hidden items-center gap-1 text-sm font-medium text-slate-600 sm:flex">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-slate-900">
+            <Link
+              key={link.href}
+              href={link.href}
+              className="rounded-full px-3 py-1.5 transition hover:bg-slate-100 hover:text-slate-900"
+            >
               {link.label}
             </Link>
           ))}
@@ -73,7 +81,7 @@ export async function Navbar({
           {session ? (
             <>
               <span className="hidden text-sm text-slate-500 sm:inline">{session.user.name}</span>
-              <LogoutButton className="hidden rounded-full border border-slate-300 px-4 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 sm:inline-block" />
+              <LogoutButton className="hidden rounded-full border border-slate-300 px-4 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-100 sm:inline-block" />
             </>
           ) : (
             <>
@@ -84,7 +92,7 @@ export async function Navbar({
               ))}
               <Link
                 href="/register"
-                className="hidden rounded-full bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700 sm:inline-block"
+                className="hidden rounded-full bg-linear-to-r from-blue-600 to-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm shadow-blue-600/25 transition hover:shadow-md hover:shadow-blue-600/30 hover:brightness-105 sm:inline-block"
               >
                 List a property
               </Link>
@@ -125,7 +133,7 @@ export async function Navbar({
                 <div className="px-3 py-2">
                   <Link
                     href="/register"
-                    className="block w-full rounded-full bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-blue-700"
+                    className="block w-full rounded-full bg-linear-to-r from-blue-600 to-indigo-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm shadow-blue-600/25 transition hover:brightness-105"
                   >
                     List a property
                   </Link>

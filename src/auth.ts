@@ -75,6 +75,41 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         };
       },
     }),
+    Credentials({
+      id: "investor-otp",
+      name: "Investor OTP",
+      credentials: {
+        identifier: { label: "Phone or email", type: "text" },
+        otp: { label: "OTP", type: "text" },
+      },
+      authorize: async (credentials) => {
+        const identifier = credentials?.identifier;
+        const otp = credentials?.otp;
+        if (typeof identifier !== "string" || typeof otp !== "string") {
+          return null;
+        }
+
+        const valid = await verifyOtp(identifier, otp);
+        if (!valid) return null;
+
+        const isEmail = looksLikeEmail(identifier);
+        // Unlike buyer-otp, this never auto-creates a user — an investor
+        // account only exists once their referring agent has registered
+        // them (docs/platform-requirements.md §3.11).
+        const user = isEmail
+          ? await prisma.user.findUnique({ where: { email: identifier } })
+          : await prisma.user.findFirst({ where: { phone: identifier } });
+
+        if (!user || user.role !== "INVESTOR") return null;
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        };
+      },
+    }),
   ],
   callbacks: {
     jwt: ({ token, user }) => {

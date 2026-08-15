@@ -40,15 +40,22 @@ export default async function AgentInvestorsPage() {
                     ` · expires ${investor.expiresAt.toLocaleDateString("en-IN")}`}
                 </p>
               </div>
-              <span
-                className={`rounded-full px-3 py-1 text-xs font-medium ${
-                  investor.feeStatus === "PAID"
-                    ? "bg-green-50 text-green-700"
-                    : "bg-amber-50 text-amber-700"
-                }`}
-              >
-                {investor.feeStatus === "PAID" ? "Active" : "Fee pending"}
-              </span>
+              <div className="text-right">
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    investor.feeStatus === "PAID"
+                      ? "bg-green-50 text-green-700"
+                      : "bg-amber-50 text-amber-700"
+                  }`}
+                >
+                  {investor.feeStatus === "PAID" ? "Active" : "Fee pending"}
+                </span>
+                <p className="mt-1 text-xs text-slate-400">
+                  {investor._count.profitDistributions === 0
+                    ? "No deal cycles yet"
+                    : `${investor._count.profitDistributions} deal cycle${investor._count.profitDistributions > 1 ? "s" : ""} · last ${investor.profitDistributions[0].distributedAt.toLocaleDateString("en-IN")}`}
+                </p>
+              </div>
             </div>
           ))}
         </div>

@@ -22,6 +22,7 @@ export async function POST(request: Request) {
       reraNumber: body.reraNumber ? String(body.reraNumber) : null,
       gstNumber: body.gstNumber ? String(body.gstNumber) : null,
       documents: Array.isArray(body.documents) ? (body.documents as AgentDocumentInput[]) : [],
+      referredByAgentCode: body.referredByAgentCode ? String(body.referredByAgentCode) : null,
     });
 
     return NextResponse.json(

@@ -33,7 +33,13 @@ async function compressImage(file: File): Promise<File> {
   return new File([blob], file.name.replace(/\.\w+$/, ".jpg"), { type: "image/jpeg" });
 }
 
-export function AgentListingImagesField({ name = "imageUrls" }: { name?: string }) {
+export function AgentListingImagesField({
+  name = "imageUrls",
+  endpoint = "/api/agent/listings/upload-image",
+}: {
+  name?: string;
+  endpoint?: string;
+}) {
   const [images, setImages] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -49,7 +55,7 @@ export function AgentListingImagesField({ name = "imageUrls" }: { name?: string 
         const compressed = await compressImage(file);
         const body = new FormData();
         body.append("file", compressed);
-        const response = await fetch("/api/agent/listings/upload-image", { method: "POST", body });
+        const response = await fetch(endpoint, { method: "POST", body });
         if (!response.ok) {
           const data = await response.json().catch(() => ({}));
           throw new Error(data.error ?? "Upload failed");

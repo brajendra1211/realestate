@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
+import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
+import type { Prisma } from "@/generated/prisma";
 
 export class UnlockServiceError extends Error {}
 
@@ -7,10 +9,48 @@ const UNLOCK_AMOUNT = 100;
 const AGENT_SPLIT = 50;
 const COMPANY_SPLIT = 50;
 
-// No payment gateway is wired in yet (docs/platform-requirements.md §5 schedules
-// Razorpay for Phase 3, "Money Automation"). This function is the single seam to
-// swap a real payment capture into later — everything downstream of "payment
-// succeeded" (split-credit, reveal, notify) is already the real implementation.
+// The real-payment seam, now wired: if RAZORPAY_KEY_ID/SECRET are set, this
+// creates a real order and the caller (Server Action) opens Razorpay Checkout
+// client-side; verifyAndUnlockListing below checks the signature before
+// crediting anything. Without keys configured, returns order: null and the
+// caller falls back to the pre-existing simulated/instant unlockAgentListing.
+export async function createUnlockOrder(buyerId: string, agentListingId: string) {
+  const existing = await prisma.propertyUnlock.findUnique({
+    where: { agentListingId_buyerId: { agentListingId, buyerId } },
+  });
+  if (existing) return { alreadyUnlocked: true as const };
+
+  if (!isRazorpayConfigured()) return { alreadyUnlocked: false as const, order: null };
+
+  const listing = await prisma.agentListing.findUnique({ where: { id: agentListingId } });
+  if (!listing) throw new UnlockServiceError("notFound");
+
+  const order = await createRazorpayOrder(UNLOCK_AMOUNT, `unlock_${agentListingId}_${buyerId}`);
+  return { alreadyUnlocked: false as const, order };
+}
+
+export async function verifyAndUnlockListing(
+  buyerId: string,
+  agentListingId: string,
+  razorpayOrderId: string,
+  razorpayPaymentId: string,
+  razorpaySignature: string
+) {
+  const valid = verifyRazorpayPaymentSignature(razorpayOrderId, razorpayPaymentId, razorpaySignature);
+  if (!valid) throw new UnlockServiceError("invalidSignature");
+
+  return unlockAgentListing(buyerId, agentListingId);
+}
+
+// Idempotent unlock: records the payment split and reveals the listing.
+// Called either directly (simulated flow, no Razorpay keys configured) or
+// via verifyAndUnlockListing above once a real payment's signature checks out.
+//
+// A Gold self-listing (§3.4) with no referring agent has `agentId: null` —
+// there's no agent to credit or notify in that case, so the split is
+// skipped and the full amount is implicitly the company's (companySplit
+// still records 50 for consistency with every other listing's row shape,
+// but no CommissionLedgerEntry/wallet credit is created).
 export async function unlockAgentListing(buyerId: string, agentListingId: string) {
   const existing = await prisma.propertyUnlock.findUnique({
     where: { agentListingId_buyerId: { agentListingId, buyerId } },
@@ -23,36 +63,45 @@ export async function unlockAgentListing(buyerId: string, agentListingId: string
   });
   if (!listing) throw new UnlockServiceError("notFound");
 
-  const [unlock] = await prisma.$transaction([
+  const ops: Prisma.PrismaPromise<unknown>[] = [
     prisma.propertyUnlock.create({
       data: {
         agentListingId,
         buyerId,
         amount: UNLOCK_AMOUNT,
-        agentSplit: AGENT_SPLIT,
-        companySplit: COMPANY_SPLIT,
+        agentSplit: listing.agentId ? AGENT_SPLIT : 0,
+        companySplit: listing.agentId ? COMPANY_SPLIT : UNLOCK_AMOUNT,
       },
     }),
-    prisma.commissionLedgerEntry.create({
-      data: {
-        agentId: listing.agentId,
-        type: "UNLOCK_SPLIT",
-        amount: AGENT_SPLIT,
-        refId: agentListingId,
-        note: `50% of ₹${UNLOCK_AMOUNT} unlock pass for listing "${listing.title}"`,
-      },
-    }),
-    prisma.agentProfile.update({
-      where: { id: listing.agentId },
-      data: { walletBalance: { increment: AGENT_SPLIT } },
-    }),
-  ]);
+  ];
 
-  await notifyUser(
-    listing.agent.user,
-    `Your listing "${listing.title}" was unlocked by a customer. ₹${AGENT_SPLIT} has been credited to your wallet.`,
-    "Listing unlocked — wallet credited"
-  );
+  if (listing.agentId) {
+    ops.push(
+      prisma.commissionLedgerEntry.create({
+        data: {
+          agentId: listing.agentId,
+          type: "UNLOCK_SPLIT",
+          amount: AGENT_SPLIT,
+          refId: agentListingId,
+          note: `50% of ₹${UNLOCK_AMOUNT} unlock pass for listing "${listing.title}"`,
+        },
+      }),
+      prisma.agentProfile.update({
+        where: { id: listing.agentId },
+        data: { walletBalance: { increment: AGENT_SPLIT } },
+      })
+    );
+  }
+
+  const [unlock] = (await prisma.$transaction(ops)) as [Awaited<ReturnType<typeof prisma.propertyUnlock.create>>, ...unknown[]];
+
+  if (listing.agentId && listing.agent) {
+    await notifyUser(
+      listing.agent.user,
+      `Your listing "${listing.title}" was unlocked by a customer. ₹${AGENT_SPLIT} has been credited to your wallet.`,
+      "Listing unlocked — wallet credited"
+    );
+  }
 
   return unlock;
 }

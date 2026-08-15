@@ -26,6 +26,20 @@ export async function generateInvestorCode() {
   }
 }
 
+// "The customer's existing unique booking code" — §3.7. Same sequential
+// pattern as every other code in this file.
+export async function generateBookingCode() {
+  let seq = (await prisma.visitAppointment.count()) + 1;
+  let code = `BK-${String(seq).padStart(6, "0")}`;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const existing = await prisma.visitAppointment.findUnique({ where: { bookingCode: code } });
+    if (!existing) return code;
+    seq += 1;
+    code = `BK-${String(seq).padStart(6, "0")}`;
+  }
+}
+
 export async function generateMasterPropertyId(city: string | null) {
   const prefix = (city ?? "").replace(/[^a-zA-Z]/g, "").slice(0, 3).toUpperCase() || "GEN";
   const year = new Date().getFullYear();

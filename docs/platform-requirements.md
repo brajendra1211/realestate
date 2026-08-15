@@ -7,7 +7,22 @@ Source documents:
 
 This file consolidates both (messy, Hinglish, repetitive) client documents into one build-ready spec: what exists today, what needs to be built, the exact business rules, the data model, the tech stack, and a phased roadmap.
 
-**Build status:** Phase 1 (Agent + Investor identity/verification/commission ledger foundation) and Phase 2 (Master Property ID dedup + agent listings + teaser/pay-to-unlock) are built and committed. See `docs/api-reference.md` for the live, endpoint-by-endpoint reference of what's actually shipped. Phases 3–6 below are still planning-only.
+**Build status:** All six phases are built and committed — Phase 1 (Agent + Investor identity/
+verification/commission ledger foundation, including the §3.20 agent-to-agent referral
+addendum), Phase 2 (Master Property ID dedup + agent listings + teaser/pay-to-unlock), Phase 3
+(Master Commission Calculator, agent wallet payouts with automatic TDS, multi-mode payment
+tracking, self-service Investor Portal, hierarchy map, financial analytics, REST API mirrors,
+and a real-but-optional Razorpay integration for the ₹100 unlock), Phase 4 (Uber-style cascade
+dispatch on real Socket.io + Redis + BullMQ, Redis Geo radius search, B2B agent-to-agent
+broadcast + live chat), Phase 5 (OTP-gated visit logging + anti-poaching conflict alerts,
+5-star ratings, 3-strike warnings + customer-agent switching with abuse guardrails, code-scoped
+document vault), and Phase 6 (₹500 Gold Membership self-listing with moderation + auto-injection,
+agent gamification leaderboard). §3.7 (Calendar/Meeting Board/CRM — visit scheduling, reminders,
+no-show escalation) was also built, closing the one module the numbered roadmap never assigned
+to a phase. See `docs/api-reference.md` for the live, endpoint-by-endpoint reference of what's
+actually shipped. Two items from the client's own "Special Notes" — AI photo-fraud detection
+and an AI auto-matching recommender — were deliberately **not** built; see §6 item 5 and Phase
+6's roadmap entry below for why.
 
 ---
 
@@ -39,7 +54,7 @@ This file consolidates both (messy, Hinglish, repetitive) client documents into 
 
 ## 3. Module Inventory
 
-### 3.1 Agent Registration & Verification (2-phase)
+### 3.1 Agent Registration & Verification (2-phase) — ✅ built (including the auto-debit rule)
 
 **Phase 1 — Profile submission**
 - Full name, 2 mobile numbers, email
@@ -57,13 +72,29 @@ This file consolidates both (messy, Hinglish, repetitive) client documents into 
 - If a payment fails, the agent's listings automatically demote in ranking and any pending leads reroute to another agent — the agent is **not** deleted, just deprioritized
 - Agent's map pin is fixed to their **registered shop location**, regardless of where in the world they log in from — customers never see their live location, only the shop address
 
-### 3.2 Property Listing & Global Deduplication Engine
+**Auto-debit + demotion — found missing and built in a later pass:** "auto-debits from the
+agent's *platform wallet*" (not a card/bank auto-charge) is what made this buildable without a
+Razorpay recurring-billing integration — `src/lib/billing.ts`, checked daily via a BullMQ
+repeatable job (`src/lib/queues/billingQueue.ts`, 3am). Sufficient wallet balance → deducted,
+subscription renewed, agent notified. Insufficient → `primeStatus: false` (demoted, not
+deleted), immediately removed from the Redis Geo dispatch/broadcast index
+(`removeAgentFromIndex`), and `acceptDispatch` now rejects a demoted agent even if they were
+notified before losing Prime — so a pending lead simply times out and cascades to the next
+agent, satisfying "pending leads reroute" without any special-case code.
+
+### 3.2 Property Listing & Global Deduplication Engine — ✅ built (daily digest included)
 
 - **Master Property ID** (`PROP-DEL-2026-8891`): one ID per physical flat, forever
 - **Multi-Agent Mapping**: many agents can attach themselves to the same Master Property ID (co-listing); each agent's own photos/description show under their own code
 - Backend runs a duplication check (address/geofence match) on every new upload before minting a new Master ID vs. attaching to an existing one
 - Prime agents get a **daily digest**: "today, in a 1–10 km radius, X new listings were added, in these societies, these configs (2BHK/3BHK)"
 - Location is always **agent shop location**, not the flat's exact address, until the customer pays to unlock
+
+**Daily digest — found missing and built in a later pass:** `src/lib/digest.ts` +
+`src/lib/queues/digestQueue.ts` (BullMQ repeatable job, 9am daily). Groups every listing
+created in the last 24h within 10km of an agent's shop by locality + bedroom count, sends via
+`notifyUser`. Also available on-demand at `/agent/digest` — the scheduled push is a convenience
+on top of the same underlying query, not the only way to see it.
 
 ### 3.3 Customer Discovery — Teaser → Pay-to-Unlock
 
@@ -137,12 +168,34 @@ For when an agent needs a flat *from* another agent's inventory (not from the cu
 3. Any matching agent clicks **"I Have This Property"** → instant encrypted **Agent Code ↔ Agent Code chat** opens (e.g. `#AGT-101 ↔ #AGT-204`)
 4. Agents privately negotiate commission-split %, visit time, and close the deal inside that chat
 
-### 3.7 Calendar / Meeting Board / CRM
+### 3.7 Calendar / Meeting Board / CRM — ✅ built
+
+This module was never assigned a number in §7's phased roadmap (Phases 1–6 below skip
+straight from dispatch/growth features to trust features without mentioning it) — built last,
+once every numbered phase was done, closing the one remaining gap in this module inventory.
 
 - Shared calendar slot booked between agent & customer for a site visit; both get reminders
 - Full audit trail per property: visit date, inquiry date, follow-up due date
 - **No-show handling:** if the agent doesn't show/respond on the scheduled visit, the customer can escalate to customer care, who broadcasts to 5–10 *new* nearby agents using the customer's existing unique booking code
-- "Deal done today" agents' names run on a 24-hour live leaderboard ticker inside the app; company gift recipients also scroll on the same ticker
+- "Deal done today" agents' names run on a 24-hour live leaderboard ticker inside the app; company gift recipients also scroll on the same ticker — this half is Phase 6's `/leaderboard` ticker, already built there
+
+**Implementation notes:**
+- The "shared calendar slot" is a single confirmed datetime (`VisitAppointment.scheduledAt`),
+  not a full free/busy calendar UI with competing slot proposals — §3.7 doesn't specify slot-
+  negotiation mechanics, so this is the simplest reading that satisfies "booked... both get
+  reminders."
+- Reminders run on their own BullMQ delayed queue (`src/lib/queues/reminderQueue.ts`), same
+  pattern as Phase 4's dispatch-cascade timeout queue, fired 1 hour before `scheduledAt`.
+- No-show escalation reuses Phase 4's entire dispatch cascade engine (radius batching, Socket.io
+  push, BullMQ timeout) via a new `createFreeDispatchForEscalation` — same mechanism as a paid
+  ₹100 dispatch, just `amount: 0` (no new charge; the customer already paid once) and the
+  no-show agent is permanently excluded from this particular re-match.
+- **Found and fixed a real bug while building this:** `findNearbyAgents`'s Redis-Geo path
+  (`src/lib/agentGeo.ts`) could return agent IDs that no longer exist in MySQL (index drift —
+  an agent demoted or a stray key from a stopped process), which crashed the entire dispatch
+  cascade with a foreign-key error the moment it tried to create a `DispatchNotification`
+  against a nonexistent agent. Now cross-validated against live `AgentProfile` rows before
+  being returned, silently dropping stale candidates instead of crashing.
 
 ### 3.8 Anti-Poaching / Duplicate-Visit Conflict Protection
 
@@ -250,12 +303,24 @@ Whenever a joint Investor+Company deal closes a profit (example base: ₹5,00,00
 - Document vault management with code-level permissions
 - Fast dispute resolution SLA: 2-hour audit turnaround target for commission conflicts / customer complaints (support desk requirement, not just software)
 
-### 3.15 Geolocation & Mapping Architecture
+### 3.15 Geolocation & Mapping Architecture — ✅ built (amenity auto-tagging included)
 
 - Frontend: Leaflet.js (lightweight) or Google Maps JS API
 - Backend geo-indexing: Google Cloud (Maps API, Geocoding API, Places API)
 - Nearby-amenity auto-tagging: given a flat's lat/long, auto-pull nearest Metro/Railway/Bus stand, Hospital, Grocery Market within 1/3/5 km — **agent never types this manually**
 - Customer search = radius filter on lat/long
+
+**Nearby-amenity auto-tagging — found missing and built in a later pass:**
+`src/lib/amenityLookup.ts` — OpenStreetMap's Overpass API (free, no key, same posture as the
+existing Nominatim geocoding), queried once at listing creation time for both agent and Gold
+listings, nearest-per-category within 5km, stored on `AgentListing.nearbyAmenities` (distinct
+from the pre-existing `amenities` field, which is on-property features like gym/pool — this is
+*nearby places*). Best-effort: a slow/down Overpass instance returns `[]` rather than blocking
+listing creation. **Bug found and fixed while building this:** the initial implementation
+silently returned empty results because Overpass rejects requests without an `Accept` header
+(bare 406) — easy to miss since the failure was swallowed by the same "don't block on this"
+error handling that makes the feature safe to begin with. Fixed by adding `Accept`/`User-Agent`
+headers, same identification requirement Nominatim already has.
 
 ### 3.16 Image Pipeline
 
@@ -278,11 +343,16 @@ Whenever a joint Investor+Company deal closes a profit (example base: ₹5,00,00
 | Prime Booster Badge (top-of-search boost) | ₹1,499/month | 100% company (proposed upsell) |
 | Deal token/escrow | ₹2,000 (example) | Held in escrow, not revenue — released on deal confirmation |
 
-### 3.18 Gamification & Trust Features
+### 3.18 Gamification & Trust Features — ✅ built (direct call button included)
 
 - "Agents of the Week" cards: photo, Agent Code, area, badge (Top Seller / Fastest Responder / 5-Star), direct call/WhatsApp button
 - 24-hour scrolling ticker of same-day deal closers and company-gifted agents
 - "King of Sector-74"-style area-dominance tags for consistently top-performing agents
+
+**Direct call button — found missing and built in a later pass:** the leaderboard
+(`src/app/leaderboard/page.tsx`) had the WhatsApp button on Agents of the Week cards but not
+the "direct call" button the spec also asks for. Added a `tel:` link alongside the existing
+WhatsApp link, same card, same phone number.
 
 ### 3.19 Risks the client explicitly flagged (worth designing around, not just noting)
 
@@ -539,34 +609,34 @@ enum DispatchStatus { SEARCHING MATCHED EXPIRED CANCELLED }
 
 The client's own technical notes (scattered through the PDF) assume Postgres+PostGIS, MongoDB, and Redis — but this repo is **Next.js + Prisma + MySQL**. Recommended reconciliation:
 
-| Need | Client's suggestion | Fits current stack? | Recommendation |
+| Need | Client's suggestion | Fits current stack? | Status |
 |---|---|---|---|
-| Radius/geofence search | PostGIS | ❌ (MySQL) | MySQL 8+ has native `ST_Distance_Sphere` / spatial indexes — sufficient for 1–5km radius queries at moderate scale. Avoid adding a second database unless query volume proves it's needed. |
-| Hot-path radius lookups for dispatch | Redis Geo | ✅ optional add-on | Add Redis purely as a cache/queue (also needed for BullMQ below) — use `GEOADD`/`GEORADIUS` for the sub-second cascade-dispatch lookups, keep MySQL as source of truth. |
-| Real-time chat/alerts | Socket.io | ✅ | Fine on Next.js custom server (there's already a `server.js` in the repo — good sign this may already be a custom Node server, worth confirming). |
-| Push notifications | FCM + Twilio | ✅ | Standard integration, no conflict. |
-| Batch/timeout queue (cascade dispatch, broadcast expiry) | BullMQ | ✅ | Requires Redis — same instance as above. |
-| Payments | Razorpay | ✅ | Standard. |
-| Masked calling | Exotel / Twilio | ✅ | Standard. |
-| Document/photo storage | — | ✅ | Repo already has `src/app/api/upload` — extend existing pattern. |
-| AI photo-duplicate detection | Computer Vision | Stretch | Treat as Phase 3+, not MVP-blocking. |
+| Radius/geofence search | PostGIS | ❌ (MySQL) | ✅ Built — MySQL stays source of truth (`AgentProfile.shopLatitude/Longitude`); no PostGIS added. |
+| Hot-path radius lookups for dispatch | Redis Geo | ✅ | ✅ Built — `src/lib/agentGeo.ts`, `GEOADD`/`GEOSEARCH ... BYRADIUS`, with an automatic MySQL+haversine fallback when Redis isn't configured. |
+| Real-time chat/alerts | Socket.io | ✅ | ✅ Built — `server.js` now creates the Socket.io server (see the "Verify" note below, now answered); `src/lib/socket.ts` server-side, `src/lib/socketClient.ts` browser-side. |
+| Push notifications | FCM + Twilio | ✅ | ❌ Not built — needs new Firebase/Twilio accounts and, for FCM specifically, a mobile/PWA target this app doesn't have yet. In-app Socket.io push + the existing WhatsApp/email `notifyUser` fallback cover the same "alert the agent" outcome for now. |
+| Batch/timeout queue (cascade dispatch, broadcast expiry) | BullMQ | ✅ | ✅ Built — `src/lib/queues/dispatchQueue.ts`, worker started once via `src/instrumentation.ts`. Broadcasts don't need a timeout queue (they're a one-shot push, not a cascade), so only dispatch uses this. |
+| Payments | Razorpay | ✅ | ✅ Built (Phase 3) for the ₹100 unlock/dispatch charge; investor fee and Prime subscription still admin-confirmed. |
+| Masked calling | Exotel / Twilio | ✅ | ❌ Not built — still simulated (agent's real phone number is shown directly once unlocked/matched, not proxied). |
+| Document/photo storage | — | ✅ | ✅ Already built — `src/app/api/upload`. |
+| AI photo-duplicate detection | Computer Vision | Stretch | Backlog, not attempted. |
 
-**Verify:** confirm whether `server.js` at repo root is already a custom Node/Socket.io server or a plain Next.js standalone launcher — this determines whether real-time chat/dispatch can be added in-process or needs a separate service.
+**Verify — now answered:** `server.js` was a plain Next.js standalone launcher before Phase 4; it's now the actual Socket.io server too (see Phase 4 above). Real-time dispatch/broadcast/chat only work when the app is launched through `server.js` (`npm run dev` or `npm run start:server`), not plain `next dev`/`next start` — the latter don't expose the raw HTTP server Socket.io needs to attach to. `npm run dev:turbo` still exists as a fast-refresh-only fallback for UI work that doesn't touch real-time features.
 
 ---
 
 ## 6. Contradictions / Ambiguities to Resolve With the Client Before Building
 
 1. **Property value typo (§3.12):** example says ₹1,00,000,000 (10 Cr) but commission math implies ₹1,00,00,000 (1 Cr). Confirm which figure is canonical.
-2. **Two different "₹100" flows aren't clearly unified:**
+2. **Two different "₹100" flows aren't clearly unified — interim decision shipped in Phase 4, still not actually confirmed by the client:**
    - §3.3: ₹100 to unlock a single property or an area pass
    - §3.13 (Customer Workflow section): ₹100 registration fee giving **30-day validity**
    - §3.5: ₹100 fee that triggers the Uber-style GPS dispatch search
-   Is this **one** ₹100 purchase that (a) verifies the customer via OTP, (b) is valid 30 days, and (c) both unlocks contact info AND lets them run unlimited dispatch searches in that window? Or are these 2–3 separate paid actions? This materially changes the payments/ledger schema (§4 `UnlockTransaction` vs `DispatchRequest` currently modeled as separate paid events).
-3. **Brokerage split ambiguity:** the 1% buyer/seller brokerage (§3.12) is shown going 100% to the agent, while every other revenue line (registration, unlock, gold, profit-share) has an explicit company cut. Confirm the company genuinely takes 0% of direct brokerage, or whether the "10% renovation/company expense" line in §3.13's profit table is meant to apply here too.
+   Is this **one** ₹100 purchase that (a) verifies the customer via OTP, (b) is valid 30 days, and (c) both unlocks contact info AND lets them run unlimited dispatch searches in that window? Or are these 2–3 separate paid actions? **Built as:** dispatch (`DispatchRequest`) reuses the exact same ₹100/50-50-split shape as the listing unlock pass — chosen because §3.17's monetization table lists only one "customer unlock pass" revenue line, not a separate dispatch fee, so treating them as two unrelated charges would contradict the doc's own summary table. This is *not* the same as (a)/(b)/(c) above — there's still no 30-day validity window or "pay once, unlock this listing AND get unlimited dispatch searches" behavior; each dispatch request is its own ₹100 charge, same as each listing unlock is its own ₹100 charge. Confirm with the client before assuming this is final.
+3. ~~**Brokerage split ambiguity:**~~ **Resolved (Phase 3 build):** confirmed 100% to the agent, no company cut on direct brokerage — the "10% renovation/company expense" line in §3.13 applies only to investor+company joint deal profit, not brokerage. Implemented in `computeBrokerage` (`src/lib/commission.ts`).
 4. **Escrow/token system** (₹2,000 example) is mentioned once in "Special Notes" with no full workflow (who triggers release, what happens on deal cancellation, refund rules) — needs its own mini-spec before building.
 5. **AI Vision fraud detection and Auto-Matching (top-3-society AI recommender)** are listed under "Special Notes" as aspirational, not specified in workflow detail — treat as backlog, not MVP.
-6. **Agent-to-agent referral commission basis (§3.20, new 13 Aug 2026):** "10% commission from the new agent's code" — confirm which of the three readings in §3.20 is meant (one-time off the Prime subscription payment, a recurring override off the subscription only, or a recurring override off *everything* Agent B ever earns). This is the single highest-leverage thing to confirm before writing any code for it — the open-ended "everything Agent B ever earns" reading is a very different (and much larger) liability than the other two.
+6. ~~**Agent-to-agent referral commission basis (§3.20)**~~ **Resolved:** one-time, 10% of the referred agent's first Prime subscription payment — the direct parallel to §3.11's investor referral, not the open-ended "everything Agent B ever earns" reading. Implemented in `activateAgentPrime` (`src/lib/agent.ts`).
 7. **Customer-facing Buy/Rent-only rule (§3.3, new 13 Aug 2026) vs. §3.6's B2B Sell/Letout types:** confirmed these coexist (§3.6 is agent-facing, not customer-facing) — but confirm with the client that Sell/Letout should still exist at all as *agent inventory* categories once §3.6 gets built, rather than the "Buy or Rent only" rule meaning to retire Sell/Letout everywhere.
 
 ---
@@ -580,10 +650,12 @@ Building all of this at once is not realistic — recommend phased delivery, eac
 - Investor registration linked to Agent Code, 1-year expiry tracking
 - Basic commission ledger tables + manual/admin-triggered payout entries (no auto-calculator yet)
 - Admin panel: agent/investor list, verification queue, mapping directory
-- **Addendum, not yet built:** Agent-to-agent referral commission (§3.20) — same shape as
-  the Investor referral above, one level up. Blocked on confirming the commission basis
-  (§6 item 6) before implementation; otherwise a natural small follow-up to this phase's
-  existing referral-ledger code rather than its own phase.
+- **Addendum §3.20 (Agent-to-agent referral commission) — ✅ built (shipped alongside Phase 3).**
+  Client confirmed the basis (§6 item 6): 10% of the referred agent's first Prime subscription
+  payment, credited once. Same shape as the Investor referral above, one level up — a
+  `referringAgentId` self-relation on `AgentProfile`, credited in `activateAgentPrime` only on
+  an agent's *first* Prime activation (never on renewals), as its own `AGENT_REFERRAL`
+  `CommissionType` line (not merged into `REGISTRATION_REFERRAL`, per §3.14's never-merge rule).
 
 **Phase 2 — Listings + Deduplication** ✅ built
 - Master Property ID engine, multi-agent co-listing
@@ -591,25 +663,74 @@ Building all of this at once is not realistic — recommend phased delivery, eac
 - Image compression/watermark pipeline
 - Customer-facing views are Buy/Rent only (§3.3 addendum) — already how this phase was built
 
-**Phase 3 — Money Automation**
-- One-click Master Commission Calculator + TDS engine
-- Full Agent/Investor/Admin dashboards with the 3-category commission breakdown
-- Payment-mode tracker (multi-mode ledger)
+**Phase 3 — Money Automation** ✅ built
+- One-click Master Commission Calculator (brokerage + investor deal profit split) + TDS engine
+- Full Agent/Investor/Admin dashboards, including a new self-service Investor Portal
+- Payment-mode tracker (multi-mode ledger) on deals, profit distributions, payouts, and the
+  investor registration fee
+- Master hierarchy map (Agent → Investor → deal cycle) and live financial analytics
+  (net profit, investor returns, agent payouts, operating expenses)
+- REST API mirrors for every Phase 3 Server Action (deals, payouts, investor portal, capital
+  updates, analytics) — Phase 1/2's mobile-app-parity convention, closed out for Phase 3 too
+- Real Razorpay integration wired in (order creation + signature verification) for the ₹100
+  unlock pass — falls back to the existing simulated/admin-confirmed flow until
+  `RAZORPAY_KEY_ID`/`RAZORPAY_KEY_SECRET` are set
+- **Agent-to-agent referral commission (§3.20) — ✅ built**, see the Phase 1 addendum above
 
-**Phase 4 — Geolocation & Dispatch**
-- Radius search (MySQL spatial or Redis Geo)
-- Uber-style cascade dispatch with batch/timeout queue
-- B2B dropdown broadcast + Agent Code-to-Code chat
+**Phase 4 — Geolocation & Dispatch** ✅ built
+- Radius search via Redis Geo (`GEOADD`/`GEOSEARCH`), with an automatic MySQL+haversine
+  fallback (same pattern Phase 2's dedup search already used) when Redis is unavailable
+- Uber-style cascade dispatch: real Socket.io (live push) + BullMQ (batch/timeout queue) +
+  Redis — the client's own suggested stack, not a polling shortcut (explicitly requested)
+- B2B dropdown broadcast (radius → society → flat size → transaction type → budget, zero free
+  text) + live Agent Code ↔ Agent Code chat, scoped per broadcast per agent pair
+- **Fixed a pre-existing gap while building this:** `AgentProfile.shopLatitude/shopLongitude`
+  were defined in the schema since Phase 1 but never actually geocoded anywhere — no agent had
+  real coordinates, which silently would have broken any radius feature. Agent registration
+  now geocodes the shop address (same Nominatim helper City/Locality/Project already use).
+- **Real-time requires the custom server.** `npm run dev`/`npm run start:server` (both run
+  `server.js`) have Socket.io; plain `next dev`/`next start` do not — see §5.
 
-**Phase 5 — Trust & Retention**
-- OTP-gated visit logging + anti-poaching conflict detection/alerts
-- Ratings, 3-warning system, switch-agent flow with abuse limits
-- Document vault
+**Phase 5 — Trust & Retention** ✅ built
+- OTP-gated visit logging + anti-poaching conflict detection/alerts (§3.8) — reuses the same
+  OTP primitives as buyer/investor login and the Socket.io infra from Phase 4 for the real-time
+  alert to the original agent, exactly as the client's own tech matrix specifies
+- 5-star ratings with a rolling average + "Top Rated" badge, 3-strike warning system,
+  switch-agent flow with the exact abuse guardrails specified (max 3/day, cooldown, mandatory
+  reason) — §3.9
+- Document vault, code-scoped to Agent Code / Investor Code dashboards, plus the named
+  Customer↔Investor agreement record type — §3.10
+- **Implementation calls made where §3.9 didn't specify exact numbers:** "Top Rated" badge
+  threshold (4.5★ average, 5+ ratings minimum) and "weighted toward agents who know the
+  micro-area" (agents with existing listings in the area are ranked first among replacement
+  candidates) — both documented in `src/lib/rating.ts` / `src/lib/agentSwitch.ts`, neither
+  blocks anything if the client wants different numbers later.
 
-**Phase 6 — Growth Layer**
-- Gold Membership self-listing + auto-injection to nearby prime agents
-- Gamification (leaderboard, Agent of the Week, Prime Booster Badge upsell)
-- AI photo-fraud shield, AI auto-matching recommender
+**Phase 6 — Growth Layer** ✅ built (except the two explicitly-deferred AI items)
+- Gold Membership self-listing (§3.4): ₹500 one-time (same real-payment path as the ₹100
+  unlock/dispatch charges), company moderation queue before going live, auto-assigned Master
+  Property ID, auto-injected into every nearby Prime agent's CRM within 5km on approval
+  (Redis Geo push, same mechanism Phase 4's dispatch/broadcast use). 50% (₹250) instant
+  referral credit to the agent whose code was used — credited on payment, independent of the
+  moderation outcome; 0% if no agent code was given, in which case the listing shows the
+  company's contact instead of any agent's once unlocked.
+- **Required extending `AgentListing`** (built in Phase 2): `agentId` is now nullable — a Gold
+  listing with no referring agent genuinely has no agent — plus a `source`
+  (`AGENT`/`CUSTOMER_GOLD`) and `approvalStatus` field. Agent-created listings are unaffected
+  (still default `APPROVED`, still require `agentId`); every place that read `listing.agent`
+  assuming it always exists (`src/lib/unlock.ts`, the listing detail page/API) was updated to
+  handle the null case.
+- Gamification (§3.18): Agents of the Week (Top Seller / Fastest Responder / 5-Star, each
+  computed live from real activity — commission earned, dispatch-accept latency, rating
+  average — not curated), a same-day deal ticker, and "King of Sector-74"-style area-dominance
+  tags (most active listings in a locality, recomputed live rather than a stored one-time
+  title). No Prime Booster Badge upsell purchase flow was built — the roadmap only names it as
+  a "proposed upsell" in §3.17's monetization table, not a specified feature.
+- **Deliberately not built — AI photo-fraud shield (§3.16) and AI auto-matching recommender:**
+  the client's own doc explicitly flags both as "Special Notes... not specified in workflow
+  detail — treat as backlog, not MVP" (§6 item 5) and "Stretch... not MVP-blocking" (§5's tech
+  table). Building either now would mean inventing the workflow, not implementing the client's
+  spec — exactly the kind of unrequested judgment call this build has avoided everywhere else.
 
 ---
 
@@ -617,6 +738,6 @@ Building all of this at once is not realistic — recommend phased delivery, eac
 
 - Confirm the two math points in §6 (property value zero, ₹100 flow unification) before any commission-calculator code is written — wrong-by-10x bugs here are expensive to unwind once live money is flowing.
 - Is MySQL (current DB) acceptable long-term, or should the team budget for a Postgres+PostGIS migration once dispatch/radius search is the primary product surface?
-- Who owns TDS compliance logic (finance/CA input needed, not just engineering assumption)?
-- Escrow/token flow (§6.4) — is there a payment-gateway escrow product already chosen (Razorpay Route, RazorpayX, etc.) or does "escrow" mean the company's own bank account only?
-- **Agent-to-agent referral commission basis (§3.20, §6 item 6)** — one-time off Agent B's Prime payment, recurring off just the subscription, or recurring off everything Agent B ever earns? Needed before any code for this gets written.
+- ~~Who owns TDS compliance logic~~ **Interim answer shipped in Phase 3:** TDS is a flat, admin-editable percentage (default 5%, `SiteSettings.tdsPercent`) deducted at agent payout time — a placeholder until finance/CA confirms the real Section 194H rate and whether it should vary by payout type. Don't treat 5% as authoritative.
+- Escrow/token flow (§6.4) — is there a payment-gateway escrow product already chosen (Razorpay Route, RazorpayX, etc.) or does "escrow" mean the company's own bank account only? Still open. Note: real Razorpay *order/payment* integration (not escrow) is now wired for the ₹100 unlock pass — see `src/lib/razorpay.ts` — but only goes live once `RAZORPAY_KEY_ID`/`RAZORPAY_KEY_SECRET` are added to `.env`.
+- ~~**Agent-to-agent referral commission basis**~~ **Resolved** — see §6 item 6.

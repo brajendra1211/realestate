@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getListingBySlug } from "@/lib/listing";
 import { getUnlockForBuyer } from "@/lib/unlock";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export async function GET(_request: Request, context: { params: Promise<{ slug: string }> }) {
   const { slug } = await context.params;
@@ -35,6 +36,23 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
 
   if (!isUnlocked) {
     return NextResponse.json(teaser);
+  }
+
+  // §3.4: a Gold self-listing with no referring agent shows the company's
+  // contact and the society's location instead of any specific agent's.
+  if (!listing.agent) {
+    const settings = await getSiteSettings();
+    return NextResponse.json({
+      ...teaser,
+      unlocked: true,
+      exactAddress: listing.exactAddress,
+      agentCode: null,
+      agentName: null,
+      agentPhone: settings.contactPhone,
+      shopName: null,
+      shopLatitude: null,
+      shopLongitude: null,
+    });
   }
 
   return NextResponse.json({

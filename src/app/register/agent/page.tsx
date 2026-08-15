@@ -7,6 +7,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   validation: "Please fill in your name, email, and an 8+ character password.",
   shopDetails: "Shop name, shop address, and city are required.",
   duplicate: "An account with this email already exists.",
+  referrerNotFound: "That referring Agent Code wasn't found — check it or leave it blank.",
 };
 
 export default async function AgentRegisterPage({ searchParams }: { searchParams: SearchParams }) {
@@ -139,6 +140,21 @@ export default async function AgentRegisterPage({ searchParams }: { searchParams
               name="gstNumber"
               className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
             />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="text-sm font-medium text-slate-700">
+              Referred by (Agent Code, optional)
+            </label>
+            <input
+              type="text"
+              name="referredByAgentCode"
+              placeholder="AGT-DEL-1024"
+              className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+            />
+            <p className="mt-1 text-xs text-slate-400">
+              If another agent referred you, enter their Agent Code — they&apos;ll earn a 10%
+              referral commission once your Prime plan activates.
+            </p>
           </div>
         </div>
 

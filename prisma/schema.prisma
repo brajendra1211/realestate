@@ -91,9 +91,12 @@ model User {
   enquiries       Enquiry[]       @relation("EnquiryBuyer")
   createdAt       DateTime        @default(now())
 
-  agentProfile    AgentProfile?
-  investorProfile InvestorProfile?
-  propertyUnlocks PropertyUnlock[]
+  agentProfile         AgentProfile?
+  investorProfile      InvestorProfile?
+  propertyUnlocks      PropertyUnlock[]
+  dispatchRequests     DispatchRequest[]
+  goldListingPurchases GoldListingPurchase[]
+  visitAppointments    VisitAppointment[]
 }
 
 enum PlanRole {
@@ -397,6 +400,7 @@ model SiteSettings {
   ogImage                String?
   googleAnalyticsId      String?
   googleSiteVerification String?
+  tdsPercent             Int      @default(5)
   updatedAt              DateTime @updatedAt
 }
 
@@ -420,38 +424,63 @@ enum CommissionType {
   BROKERAGE
   UNLOCK_SPLIT
   GOLD_SPLIT
+  AGENT_REFERRAL
 }
 
 model AgentProfile {
-  id              String         @id @default(cuid())
-  userId          String         @unique
-  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  agentCode       String?        @unique
-  city            String?
-  shopName        String?
-  shopAddress     String?        @db.Text
-  shopLatitude    Float?
-  shopLongitude   Float?
-  alternatePhone  String?
-  yearsExperience Int?
-  staffCount      Int?
-  reraNumber      String?
-  gstNumber       String?
-  status          ApprovalStatus @default(PENDING)
-  rejectionReason String?        @db.Text
-  primeStatus     Boolean        @default(false)
-  walletBalance   Int            @default(0)
-  warningCount    Int            @default(0)
-  verifiedAt      DateTime?
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  id               String         @id @default(cuid())
+  userId           String         @unique
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agentCode        String?        @unique
+  city             String?
+  shopName         String?
+  shopAddress      String?        @db.Text
+  shopLatitude     Float?
+  shopLongitude    Float?
+  alternatePhone   String?
+  yearsExperience  Int?
+  staffCount       Int?
+  reraNumber       String?
+  gstNumber        String?
+  status           ApprovalStatus @default(PENDING)
+  rejectionReason  String?        @db.Text
+  primeStatus      Boolean        @default(false)
+  walletBalance    Int            @default(0)
+  warningCount     Int            @default(0)
+  ratingAvg        Float?         @default(0)
+  verifiedAt       DateTime?
+  // §3.20 — the agent who referred this agent (self-referential, same shape
+  // as InvestorProfile.referringAgentId below). Nullable: most agents have
+  // no referrer.
+  referringAgentId String?
+  referringAgent   AgentProfile?  @relation("AgentReferral", fields: [referringAgentId], references: [id])
+  referredAgents   AgentProfile[] @relation("AgentReferral")
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
-  documents         AgentDocument[]
-  investors         InvestorProfile[]
-  commissionEntries CommissionLedgerEntry[]
-  listings          AgentListing[]
+  documents             AgentDocument[]
+  investors             InvestorProfile[]
+  commissionEntries     CommissionLedgerEntry[]
+  listings              AgentListing[]
+  dealsAsBuyerAgent     Deal[]                  @relation("DealBuyerAgent")
+  dealsAsSellerAgent    Deal[]                  @relation("DealSellerAgent")
+  profitDistributions   ProfitDistribution[]
+  payoutRequests        PayoutRequest[]
+  dispatchNotifications DispatchNotification[]
+  dispatchesAccepted    DispatchRequest[]       @relation("DispatchAccepted")
+  broadcastsPosted      Broadcast[]
+  broadcastResponses    BroadcastResponse[]
+  chatMessagesSent      AgentChatMessage[]      @relation("ChatFrom")
+  chatMessagesReceived  AgentChatMessage[]      @relation("ChatTo")
+  visitLogs             PropertyVisitLog[]
+  ratings               AgentRating[]
+  warnings              AgentWarning[]
+  customerBlocks        CustomerAgentBlock[]
+  documentVaultItems    DocumentVaultItem[]
+  visitAppointments     VisitAppointment[]
 
   @@index([status])
+  @@index([referringAgentId])
 }
 
 model AgentDocument {
@@ -474,10 +503,16 @@ model InvestorProfile {
   referringAgent   AgentProfile      @relation(fields: [referringAgentId], references: [id])
   registrationFee  Int               @default(20000)
   feeStatus        InvestorFeeStatus @default(PENDING)
+  feePaymentMode   PaymentMode?
   registeredAt     DateTime          @default(now())
   expiresAt        DateTime?
   totalInvested    Int               @default(0)
   createdAt        DateTime          @default(now())
+
+  profitDistributions ProfitDistribution[]
+  ledgerEntries       InvestorLedgerEntry[]
+  documentVaultItems  DocumentVaultItem[]
+  agreements          CustomerInvestorAgreement[]
 
   @@index([referringAgentId])
 }
@@ -506,17 +541,34 @@ model MasterProperty {
   longitude Float
   createdAt DateTime @default(now())
 
-  listings AgentListing[]
+  listings           AgentListing[]
+  visitLogs          PropertyVisitLog[]
+  documentVaultItems DocumentVaultItem[]
+  visitAppointments  VisitAppointment[]
 
   @@index([city])
+}
+
+enum ListingSource {
+  AGENT
+  CUSTOMER_GOLD
 }
 
 model AgentListing {
   id               String         @id @default(cuid())
   masterPropertyId String
   masterProperty   MasterProperty @relation(fields: [masterPropertyId], references: [id], onDelete: Cascade)
-  agentId          String
-  agent            AgentProfile   @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  // Nullable: a Gold self-listing (§3.4) with no referring agent has no
+  // agent at all — "company's number is shown... not any specific agent's."
+  // When present on a CUSTOMER_GOLD listing, it's the *referring* agent
+  // (who gets the 50% split), not necessarily who's actively selling it.
+  agentId          String?
+  agent            AgentProfile?  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  source           ListingSource  @default(AGENT)
+  // AGENT listings go live immediately (unchanged Phase 2 behavior);
+  // CUSTOMER_GOLD listings default PENDING and need admin moderation
+  // ("anti-fake-listing check") before they're public or auto-injected.
+  approvalStatus   ApprovalStatus @default(APPROVED)
   slug             String         @unique
   title            String
   description      String         @db.Text
@@ -528,14 +580,21 @@ model AgentListing {
   price            Int
   exactAddress     String         @db.Text
   amenities        String?        @db.Text
+  // §3.15 — nearest Metro/Railway/Bus/Hospital/Grocery, auto-pulled at
+  // creation time, never typed manually. Distinct from `amenities` above
+  // (on-property features like gym/pool), this is *nearby places*.
+  nearbyAmenities  String?        @db.Text
+  videoUrl         String?
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 
-  images  AgentListingImage[]
-  unlocks PropertyUnlock[]
+  images       AgentListingImage[]
+  unlocks      PropertyUnlock[]
+  goldPurchase GoldListingPurchase?
 
   @@index([masterPropertyId])
   @@index([agentId])
+  @@index([source, approvalStatus])
 }
 
 model AgentListingImage {
@@ -559,4 +618,408 @@ model PropertyUnlock {
 
   @@unique([agentListingId, buyerId])
   @@index([buyerId])
+}
+
+// The one-time ₹500 Gold Membership payment — §3.4. One per listing
+// (that's the self-listing fee, not a per-unlock charge like PropertyUnlock
+// above). agentSplit is 0 when the listing had no referring agent code.
+model GoldListingPurchase {
+  id              String       @id @default(cuid())
+  agentListingId  String       @unique
+  agentListing    AgentListing @relation(fields: [agentListingId], references: [id], onDelete: Cascade)
+  buyerId         String
+  buyer           User         @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  amount          Int          @default(500)
+  agentSplit      Int          @default(0)
+  companySplit    Int          @default(500)
+  razorpayOrderId String?
+  createdAt       DateTime     @default(now())
+}
+
+// --- Phase 3: Money automation (docs/platform-requirements.md §7) ---
+
+enum PaymentMode {
+  BANK_TRANSFER
+  CHEQUE
+  CASH
+  UPI
+  NETBANKING
+}
+
+enum PayoutStatus {
+  PENDING
+  PAID
+  REJECTED
+}
+
+// Direct buyer/seller brokerage on a closed deal — §3.12. 1% each side, 100%
+// to the respective agent (no company cut on this line, per the source doc).
+model Deal {
+  id               String        @id @default(cuid())
+  dealValue        Int
+  buyerAgentId     String?
+  buyerAgent       AgentProfile? @relation("DealBuyerAgent", fields: [buyerAgentId], references: [id])
+  sellerAgentId    String?
+  sellerAgent      AgentProfile? @relation("DealSellerAgent", fields: [sellerAgentId], references: [id])
+  buyerCommission  Int?
+  sellerCommission Int?
+  paymentMode      PaymentMode
+  note             String?       @db.Text
+  dealDate         DateTime      @default(now())
+  createdAt        DateTime      @default(now())
+
+  @@index([buyerAgentId])
+  @@index([sellerAgentId])
+}
+
+// Investor+Company joint deal profit split — §3.13. 10% agent / 10% company
+// expense / 40% investor / 40% company, computed in one action (the "Master
+// Commission Calculator", §3.14).
+model ProfitDistribution {
+  id                String          @id @default(cuid())
+  investorProfileId String
+  investorProfile   InvestorProfile @relation(fields: [investorProfileId], references: [id], onDelete: Cascade)
+  agentId           String
+  agent             AgentProfile    @relation(fields: [agentId], references: [id])
+  totalProfit       Int
+  agentShare        Int
+  expenseShare      Int
+  investorShare     Int
+  companyShare      Int
+  paymentMode       PaymentMode
+  note              String?         @db.Text
+  distributedAt     DateTime        @default(now())
+
+  @@index([investorProfileId])
+  @@index([agentId])
+}
+
+// Investor-side ledger — Investor Portal's "date-wise profit ledger: date,
+// customer transaction, hold duration (days), credited profit" (§3.14).
+// Kept separate from AgentProfile's CommissionLedgerEntry: an investor's
+// profit and an agent's commission are never the same line item.
+model InvestorLedgerEntry {
+  id                     String          @id @default(cuid())
+  investorProfileId      String
+  investorProfile        InvestorProfile @relation(fields: [investorProfileId], references: [id], onDelete: Cascade)
+  amount                 Int
+  customerTransactionRef String?
+  holdDurationDays       Int?
+  refId                  String?
+  note                   String?         @db.Text
+  createdAt              DateTime        @default(now())
+
+  @@index([investorProfileId])
+}
+
+// Agent wallet → bank withdrawal, TDS deducted automatically before release
+// (§3.14's "TDS & company-handling-charge deduction engine"). Wallet balance
+// is reserved (decremented) at request time so an agent can't request more
+// than they have; rejecting a request credits it back.
+model PayoutRequest {
+  id          String       @id @default(cuid())
+  agentId     String
+  agent       AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  grossAmount Int
+  tdsPercent  Int
+  tdsAmount   Int
+  netAmount   Int
+  status      PayoutStatus @default(PENDING)
+  paymentMode PaymentMode?
+  requestedAt DateTime     @default(now())
+  processedAt DateTime?
+
+  @@index([agentId])
+  @@index([status])
+}
+
+// --- Phase 4: Geolocation & Dispatch (docs/platform-requirements.md §7) ---
+
+enum DispatchStatus {
+  SEARCHING
+  MATCHED
+  EXPIRED
+  CANCELLED
+}
+
+// Uber-style cascade dispatch — §3.5. Trigger is the same ₹100 payment as the
+// listing unlock pass (§3.3) — the client's own §3.17 monetization table has
+// only one "₹100 unlock pass, 50/50 split" line item, not a separate dispatch
+// fee, so this reuses that exact split rather than inventing a second charge.
+model DispatchRequest {
+  id                String         @id @default(cuid())
+  buyerId           String
+  buyer             User           @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  latitude          Float
+  longitude         Float
+  amount            Int            @default(100)
+  agentSplit        Int            @default(50)
+  companySplit      Int            @default(50)
+  paymentMode       PaymentMode?
+  razorpayOrderId   String?
+  status            DispatchStatus @default(SEARCHING)
+  currentRadiusKm   Int            @default(1)
+  currentBatch      Int            @default(1)
+  batchStartedAt    DateTime       @default(now())
+  acceptedByAgentId String?
+  acceptedAgent     AgentProfile?  @relation("DispatchAccepted", fields: [acceptedByAgentId], references: [id])
+  acceptedAt        DateTime?
+  createdAt         DateTime       @default(now())
+
+  notifications DispatchNotification[]
+
+  @@index([buyerId])
+  @@index([status])
+}
+
+// One row per (dispatch, agent) the cascade has ever notified — also the
+// idempotency guard against re-notifying the same agent in a later batch.
+model DispatchNotification {
+  id                String          @id @default(cuid())
+  dispatchRequestId String
+  dispatchRequest   DispatchRequest @relation(fields: [dispatchRequestId], references: [id], onDelete: Cascade)
+  agentId           String
+  agent             AgentProfile    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  batch             Int
+  createdAt         DateTime        @default(now())
+
+  @@unique([dispatchRequestId, agentId])
+  @@index([agentId])
+}
+
+enum BroadcastStatus {
+  OPEN
+  CLOSED
+}
+
+// Agent-facing inventory-sourcing categories — Rent/Buy/Sell/Letout, all
+// four, unlike the customer-facing Buy/Rent-only rule (§3.3 addendum). This
+// enum is intentionally separate from the public-facing ListingType.
+enum BroadcastTxnType {
+  RENT
+  BUY
+  SELL
+  LETOUT
+}
+
+// B2B agent-to-agent broadcast — §3.6. "Radius (1/3/5km) → Society →
+// Flat size → Transaction type → Budget range", pure dropdowns, no free text.
+model Broadcast {
+  id        String           @id @default(cuid())
+  agentId   String
+  agent     AgentProfile     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  latitude  Float
+  longitude Float
+  radiusKm  Int
+  society   String?
+  flatSize  String
+  txnType   BroadcastTxnType
+  budgetMin Int
+  budgetMax Int
+  status    BroadcastStatus  @default(OPEN)
+  createdAt DateTime         @default(now())
+
+  responses BroadcastResponse[]
+  messages  AgentChatMessage[]
+
+  @@index([agentId])
+  @@index([status])
+}
+
+// "I Have This Property" click — opens the Agent Code ↔ Agent Code chat.
+model BroadcastResponse {
+  id          String       @id @default(cuid())
+  broadcastId String
+  broadcast   Broadcast    @relation(fields: [broadcastId], references: [id], onDelete: Cascade)
+  agentId     String
+  agent       AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  createdAt   DateTime     @default(now())
+
+  @@unique([broadcastId, agentId])
+  @@index([agentId])
+}
+
+// Encrypted-in-transit (HTTPS + Socket.io over TLS in production) Agent
+// Code ↔ Agent Code chat, always scoped to the broadcast that started it —
+// §3.6 doesn't describe a general-purpose DM, only a per-requirement thread.
+model AgentChatMessage {
+  id          String       @id @default(cuid())
+  broadcastId String
+  broadcast   Broadcast    @relation(fields: [broadcastId], references: [id], onDelete: Cascade)
+  fromAgentId String
+  fromAgent   AgentProfile @relation("ChatFrom", fields: [fromAgentId], references: [id], onDelete: Cascade)
+  toAgentId   String
+  toAgent     AgentProfile @relation("ChatTo", fields: [toAgentId], references: [id], onDelete: Cascade)
+  message     String       @db.Text
+  readAt      DateTime?
+  createdAt   DateTime     @default(now())
+
+  @@index([broadcastId])
+  @@index([toAgentId])
+}
+
+// --- Phase 5: Trust & Retention (docs/platform-requirements.md §7) ---
+
+// Immutable audit table — §3.8's anti-poaching/conflict protection. Rows are
+// never edited or deleted; a conflict is a *new* row with isPrimaryOwner
+// false, not a correction of the original.
+model PropertyVisitLog {
+  id                  String         @id @default(cuid())
+  customerPhone       String
+  customerName        String?
+  masterPropertyId    String
+  masterProperty      MasterProperty @relation(fields: [masterPropertyId], references: [id], onDelete: Cascade)
+  agentId             String
+  agent               AgentProfile   @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  otpVerified         Boolean        @default(true)
+  isPrimaryOwner      Boolean        @default(true)
+  conflictWithAgentId String?
+  visitedAt           DateTime       @default(now())
+
+  @@index([customerPhone, masterPropertyId])
+  @@index([agentId])
+}
+
+// 5-star rating + written review after a visit/deal — §3.9.
+model AgentRating {
+  id               String       @id @default(cuid())
+  agentId          String
+  agent            AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  customerPhone    String
+  masterPropertyId String?
+  stars            Int
+  review           String?      @db.Text
+  createdAt        DateTime     @default(now())
+
+  @@index([agentId])
+}
+
+// 3-strike rule — §3.9: 3 verified complaints against one Agent Code →
+// visible ranking drop + warning to both agent and customer.
+model AgentWarning {
+  id        String       @id @default(cuid())
+  agentId   String
+  agent     AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  reason    String       @db.Text
+  createdAt DateTime     @default(now())
+
+  @@index([agentId])
+}
+
+// A formal complaint permanently blocks that agent from ever being
+// re-shown to this customer again — §3.9: "must never be re-shown to that
+// same customer again for a new lead in the same area."
+model CustomerAgentBlock {
+  id            String       @id @default(cuid())
+  customerPhone String
+  agentId       String
+  agent         AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  reason        String       @db.Text
+  createdAt     DateTime     @default(now())
+
+  @@unique([customerPhone, agentId])
+  @@index([customerPhone])
+}
+
+// Abuse-guardrail ledger — §3.9: max 3 switch/buzzer actions per customer
+// per day, 1-2hr cooldown between uses, mandatory reason before the switch
+// button is even clickable.
+model AgentSwitchLog {
+  id            String   @id @default(cuid())
+  customerPhone String
+  fromAgentId   String
+  toAgentId     String?
+  reason        String   @db.Text
+  isComplaint   Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@index([customerPhone])
+}
+
+enum DocumentVaultType {
+  REGISTRY
+  SALE_DEED
+  AGREEMENT_TO_SELL
+  ENCUMBRANCE_CERTIFICATE
+  LAYOUT_PLAN
+  PAYMENT_RECEIPT
+  SIGNED_AGREEMENT
+  OTHER
+}
+
+// §3.10 — "Access is code-scoped: visible only inside the relevant Agent
+// Code / Investor Code dashboards." A vault item always belongs to exactly
+// one of agentId/investorId (whichever dashboard it should surface in),
+// optionally also tagged to a Master Property.
+model DocumentVaultItem {
+  id               String            @id @default(cuid())
+  masterPropertyId String?
+  masterProperty   MasterProperty?   @relation(fields: [masterPropertyId], references: [id], onDelete: Cascade)
+  dealId           String?
+  agentId          String?
+  agent            AgentProfile?     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  investorId       String?
+  investor         InvestorProfile?  @relation(fields: [investorId], references: [id], onDelete: Cascade)
+  type             DocumentVaultType @default(OTHER)
+  title            String
+  url              String
+  uploadedByUserId String
+  createdAt        DateTime          @default(now())
+
+  @@index([masterPropertyId])
+  @@index([agentId])
+  @@index([investorId])
+}
+
+// Customer↔Investor agreement record — §3.10's named sub-requirement:
+// "customer name/contact, agreement date, lock-in period, flat/unit number,
+// terms, signed copy upload."
+model CustomerInvestorAgreement {
+  id                 String          @id @default(cuid())
+  investorId         String
+  investor           InvestorProfile @relation(fields: [investorId], references: [id], onDelete: Cascade)
+  customerName       String
+  customerPhone      String
+  agreementDate      DateTime
+  lockInPeriodMonths Int?
+  flatUnitNumber     String?
+  terms              String?         @db.Text
+  signedCopyUrl      String
+  createdAt          DateTime        @default(now())
+
+  @@index([investorId])
+}
+
+// --- §3.7 Calendar / Meeting Board / CRM (unassigned to a numbered phase in
+// §7's roadmap — built as the last remaining spec'd module) ---
+
+enum AppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  NO_SHOW
+  CANCELLED
+}
+
+// "Shared calendar slot booked between agent & customer for a site visit;
+// both get reminders... full audit trail: visit date, inquiry date,
+// follow-up due date" — §3.7. `bookingCode` is the customer's "existing
+// unique booking code" the no-show escalation flow reuses.
+model VisitAppointment {
+  id               String            @id @default(cuid())
+  bookingCode      String            @unique
+  buyerId          String
+  buyer            User              @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  agentId          String
+  agent            AgentProfile      @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  masterPropertyId String?
+  masterProperty   MasterProperty?   @relation(fields: [masterPropertyId], references: [id], onDelete: SetNull)
+  scheduledAt      DateTime
+  status           AppointmentStatus @default(SCHEDULED)
+  followUpDueAt    DateTime?
+  reminderSentAt   DateTime?
+  createdAt        DateTime          @default(now())
+
+  @@index([buyerId])
+  @@index([agentId])
+  @@index([status])
 }

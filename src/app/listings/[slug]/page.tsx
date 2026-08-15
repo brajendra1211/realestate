@@ -2,8 +2,11 @@ import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import { getListingBySlug } from "@/lib/listing";
 import { getUnlockForBuyer } from "@/lib/unlock";
+import { isRazorpayConfigured } from "@/lib/razorpay";
+import { getSiteSettings } from "@/lib/site-settings";
 import { formatINR } from "@/lib/format";
 import { PROPERTY_TYPE_LABELS } from "@/lib/format";
+import { UnlockButton } from "@/components/UnlockButton";
 import { unlockListing } from "./actions";
 
 type Params = Promise<{ slug: string }>;
@@ -33,9 +36,13 @@ export default async function ListingDetailPage({
 
   const agent = listing.agent;
   const mapsUrl =
-    agent.shopLatitude != null && agent.shopLongitude != null
+    agent?.shopLatitude != null && agent?.shopLongitude != null
       ? `https://www.google.com/maps/search/?api=1&query=${agent.shopLatitude},${agent.shopLongitude}`
       : null;
+  // §3.4: "if the customer self-registered with no agent code, the
+  // company's number is shown and the location is the society's, not any
+  // specific agent's." Only fetched when actually needed (no agent).
+  const siteSettings = !agent && isUnlocked ? await getSiteSettings() : null;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
@@ -102,6 +109,19 @@ export default async function ListingDetailPage({
         </div>
       )}
 
+      {listing.nearbyAmenities && (
+        <div className="mt-4">
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Nearby</p>
+          <div className="mt-1 flex flex-wrap gap-2">
+            {listing.nearbyAmenities.split(" | ").map((item) => (
+              <span key={item} className="rounded-full bg-blue-50 px-3 py-1 text-xs text-blue-700">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5">
         {isUnlocked ? (
           <>
@@ -109,29 +129,49 @@ export default async function ListingDetailPage({
             <p className="mt-2 text-sm text-slate-700">
               <span className="font-medium">Exact address:</span> {listing.exactAddress}
             </p>
-            <p className="mt-1 text-sm text-slate-700">
-              <span className="font-medium">Agent:</span> {agent.user.name} (
-              <span className="font-mono">{agent.agentCode}</span>)
-            </p>
-            {agent.shopName && (
-              <p className="mt-1 text-sm text-slate-700">
-                <span className="font-medium">Shop:</span> {agent.shopName}
-              </p>
-            )}
-            {agent.user.phone && (
-              <p className="mt-1 text-sm text-slate-700">
-                <span className="font-medium">Phone:</span> {agent.user.phone}
-              </p>
-            )}
-            {mapsUrl && (
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-block text-sm font-medium text-blue-600 hover:underline"
-              >
-                View shop location on Google Maps →
-              </a>
+            {agent ? (
+              <>
+                <p className="mt-1 text-sm text-slate-700">
+                  <span className="font-medium">Agent:</span> {agent.user.name} (
+                  <span className="font-mono">{agent.agentCode}</span>)
+                </p>
+                {agent.shopName && (
+                  <p className="mt-1 text-sm text-slate-700">
+                    <span className="font-medium">Shop:</span> {agent.shopName}
+                  </p>
+                )}
+                {agent.user.phone && (
+                  <p className="mt-1 text-sm text-slate-700">
+                    <span className="font-medium">Phone:</span> {agent.user.phone}
+                  </p>
+                )}
+                {mapsUrl && (
+                  <a
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-block text-sm font-medium text-blue-600 hover:underline"
+                  >
+                    View shop location on Google Maps →
+                  </a>
+                )}
+              </>
+            ) : (
+              <>
+                <p className="mt-1 text-sm text-slate-700">
+                  <span className="font-medium">Listed by:</span> Customer (Gold self-listing) — no
+                  referring agent
+                </p>
+                <p className="mt-1 text-sm text-slate-700">
+                  <span className="font-medium">Location:</span>{" "}
+                  {listing.masterProperty.locality ?? listing.masterProperty.city}
+                </p>
+                {siteSettings?.contactPhone && (
+                  <p className="mt-1 text-sm text-slate-700">
+                    <span className="font-medium">Company contact:</span> {siteSettings.contactPhone}
+                  </p>
+                )}
+              </>
             )}
           </>
         ) : (
@@ -140,16 +180,22 @@ export default async function ListingDetailPage({
               Exact address, agent name, phone, and shop location are hidden. Unlock this listing for
               ₹100 to reveal them instantly.
             </p>
-            <form action={unlockListing} className="mt-3">
-              <input type="hidden" name="agentListingId" value={listing.id} />
-              <input type="hidden" name="slug" value={listing.slug} />
-              <button
-                type="submit"
-                className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-              >
-                Pay ₹100 &amp; Unlock
-              </button>
-            </form>
+            {isRazorpayConfigured() ? (
+              <div className="mt-3">
+                <UnlockButton agentListingId={listing.id} slug={listing.slug} />
+              </div>
+            ) : (
+              <form action={unlockListing} className="mt-3">
+                <input type="hidden" name="agentListingId" value={listing.id} />
+                <input type="hidden" name="slug" value={listing.slug} />
+                <button
+                  type="submit"
+                  className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+                >
+                  Pay ₹100 &amp; Unlock
+                </button>
+              </form>
+            )}
           </>
         )}
       </div>

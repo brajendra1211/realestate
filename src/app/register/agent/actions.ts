@@ -43,6 +43,7 @@ export async function registerAgent(formData: FormData) {
       reraNumber: String(formData.get("reraNumber") ?? ""),
       gstNumber: String(formData.get("gstNumber") ?? ""),
       documents,
+      referredByAgentCode: String(formData.get("referredByAgentCode") ?? ""),
     });
   } catch (error) {
     if (error instanceof AgentServiceError) {

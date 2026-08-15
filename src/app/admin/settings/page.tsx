@@ -180,6 +180,18 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
           <Field label="LinkedIn" name="linkedinUrl" type="url" defaultValue={settings?.linkedinUrl} placeholder="https://linkedin.com/…" />
         </Section>
 
+        <Section
+          title="Payments"
+          description="TDS deducted automatically from an agent's wallet balance when a payout is processed (docs/platform-requirements.md §3.14)."
+        >
+          <Field
+            label="TDS percentage"
+            name="tdsPercent"
+            type="number"
+            defaultValue={String(settings?.tdsPercent ?? 5)}
+          />
+        </Section>
+
         <Section title="Footer">
           <TextAreaField label="Footer text" name="footerText" defaultValue={settings?.footerText} />
         </Section>

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { getOrCreateMasterProperty } from "@/lib/masterProperty";
+import { getNearbyAmenities, formatAmenitiesNote } from "@/lib/amenityLookup";
 
 export class ListingServiceError extends Error {}
 
@@ -56,6 +57,10 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
     longitude: input.longitude,
   });
 
+  // §3.15 — "agent never types this manually." Best-effort: a slow/down
+  // Overpass API returns [] rather than blocking listing creation.
+  const nearby = await getNearbyAmenities(input.latitude, input.longitude);
+
   return prisma.agentListing.create({
     data: {
       masterPropertyId: masterProperty.id,
@@ -71,6 +76,7 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
       price: input.price,
       exactAddress: input.exactAddress.trim(),
       amenities: input.amenities?.trim() || null,
+      nearbyAmenities: formatAmenitiesNote(nearby),
       images: { create: input.images.map((url, order) => ({ url, order })) },
     },
     include: { images: true, masterProperty: true },
@@ -88,6 +94,7 @@ export async function getListingsForAgent(agentProfileId: string) {
 export async function getPublicListings(filters?: { city?: string; listingType?: "SALE" | "RENT" }) {
   return prisma.agentListing.findMany({
     where: {
+      approvalStatus: "APPROVED",
       ...(filters?.city ? { masterProperty: { city: filters.city } } : {}),
       ...(filters?.listingType ? { listingType: filters.listingType } : {}),
     },

@@ -2,11 +2,13 @@ import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { notifyUser } from "@/lib/notify";
 import { generateInvestorCode } from "@/lib/codes";
+import { computeProfitSplit } from "@/lib/commission";
+import type { PaymentMode } from "@/generated/prisma";
 
 export class InvestorServiceError extends Error {}
 
 // 10% of the ₹20,000 registration fee — docs/platform-requirements.md §3.11
-const REGISTRATION_REFERRAL_SHARE = 2000;
+export const REGISTRATION_REFERRAL_SHARE = 2000;
 
 async function uniqueInvestorUserSlug(name: string) {
   const base = slugify(name) || "investor";
@@ -63,7 +65,7 @@ export async function registerInvestor(agentProfileId: string, input: InvestorRe
   return user;
 }
 
-export async function confirmInvestorPayment(investorProfileId: string) {
+export async function confirmInvestorPayment(investorProfileId: string, paymentMode: PaymentMode) {
   const investor = await prisma.investorProfile.findUnique({
     where: { id: investorProfileId },
     include: { referringAgent: { include: { user: { select: { phone: true, email: true } } } } },
@@ -78,7 +80,7 @@ export async function confirmInvestorPayment(investorProfileId: string) {
   const [updatedInvestor] = await prisma.$transaction([
     prisma.investorProfile.update({
       where: { id: investorProfileId },
-      data: { feeStatus: "PAID", investorCode, registeredAt: now, expiresAt },
+      data: { feeStatus: "PAID", investorCode, registeredAt: now, expiresAt, feePaymentMode: paymentMode },
     }),
     prisma.commissionLedgerEntry.create({
       data: {
@@ -114,6 +116,137 @@ export async function getInvestorByUserId(userId: string) {
 export async function getInvestorsForAgent(agentProfileId: string) {
   return prisma.investorProfile.findMany({
     where: { referringAgentId: agentProfileId },
+    include: {
+      profitDistributions: { orderBy: { distributedAt: "desc" }, take: 1 },
+      _count: { select: { profitDistributions: true } },
+    },
     orderBy: { createdAt: "desc" },
   });
+}
+
+// Investor Portal's "Total active investment capital" — §3.14. A snapshot
+// admin sets/updates (how much capital this investor currently has active),
+// not a running sum of ledger credits.
+export async function updateInvestorCapital(investorProfileId: string, totalInvested: number) {
+  if (!Number.isFinite(totalInvested) || totalInvested < 0) {
+    throw new InvestorServiceError("validation");
+  }
+  const investor = await prisma.investorProfile.findUnique({ where: { id: investorProfileId } });
+  if (!investor) throw new InvestorServiceError("notFound");
+
+  return prisma.investorProfile.update({
+    where: { id: investorProfileId },
+    data: { totalInvested },
+  });
+}
+
+export type DistributeProfitInput = {
+  investorProfileId: string;
+  totalProfit: number;
+  paymentMode: PaymentMode;
+  note?: string | null;
+  customerTransactionRef?: string | null;
+};
+
+// Investor+Company joint deal profit split, one-click — §3.13/§3.14. 10%
+// agent / 10% company expense / 40% investor / 40% company. The agent and
+// investor shares are two *separate* line items (never merged, per §3.14) —
+// investor's own registration-referral commission (§3.11) is a different
+// CommissionLedgerEntry type entirely.
+export async function distributeInvestorDealProfit(input: DistributeProfitInput) {
+  if (!Number.isFinite(input.totalProfit) || input.totalProfit <= 0) {
+    throw new InvestorServiceError("validation");
+  }
+
+  const investor = await prisma.investorProfile.findUnique({
+    where: { id: input.investorProfileId },
+    include: { referringAgent: { include: { user: { select: { phone: true, email: true } } } }, user: true },
+  });
+  if (!investor) throw new InvestorServiceError("notFound");
+
+  const split = computeProfitSplit(input.totalProfit);
+  const now = new Date();
+  // "Hold duration (days)" — §3.14's Investor Portal ledger spec. Measured
+  // from when the investor's registration became active to this profit
+  // credit, since there's no separate per-capital investment date in the
+  // schema yet.
+  const holdDurationDays = Math.max(
+    0,
+    Math.round((now.getTime() - investor.registeredAt.getTime()) / (24 * 60 * 60 * 1000))
+  );
+
+  const [distribution] = await prisma.$transaction([
+    prisma.profitDistribution.create({
+      data: {
+        investorProfileId: investor.id,
+        agentId: investor.referringAgentId,
+        totalProfit: input.totalProfit,
+        ...split,
+        paymentMode: input.paymentMode,
+        note: input.note?.trim() || null,
+      },
+    }),
+    prisma.commissionLedgerEntry.create({
+      data: {
+        agentId: investor.referringAgentId,
+        type: "DEAL_PROFIT_SHARE",
+        amount: split.agentShare,
+        refId: investor.id,
+        note: `10% investor deal profit share for ${investor.investorCode ?? investor.id}`,
+      },
+    }),
+    prisma.agentProfile.update({
+      where: { id: investor.referringAgentId },
+      data: { walletBalance: { increment: split.agentShare } },
+    }),
+    prisma.investorLedgerEntry.create({
+      data: {
+        investorProfileId: investor.id,
+        amount: split.investorShare,
+        refId: investor.id,
+        customerTransactionRef: input.customerTransactionRef?.trim() || null,
+        holdDurationDays,
+        note: `40% profit share on ₹${input.totalProfit.toLocaleString("en-IN")} deal profit`,
+      },
+    }),
+  ]);
+
+  await notifyUser(
+    investor.referringAgent.user,
+    `You earned ₹${split.agentShare} (10% deal profit share) for investor ${investor.investorCode ?? ""}. It's now in your wallet.`,
+    "Deal profit share credited"
+  );
+  await notifyUser(
+    investor.user,
+    `A profit of ₹${split.investorShare.toLocaleString("en-IN")} has been credited to your investor ledger.`,
+    "Profit credited"
+  );
+
+  return distribution;
+}
+
+// Renewal alert system for investor 1-year expiries — §3.14 Admin Panel.
+export async function getInvestorsExpiringSoon(withinDays = 30) {
+  const now = new Date();
+  const horizon = new Date(now.getTime() + withinDays * 24 * 60 * 60 * 1000);
+  return prisma.investorProfile.findMany({
+    where: { feeStatus: "PAID", expiresAt: { not: null, lte: horizon } },
+    include: { user: { select: { name: true } }, referringAgent: { select: { agentCode: true } } },
+    orderBy: { expiresAt: "asc" },
+  });
+}
+
+export async function getInvestorLedger(investorProfileId: string) {
+  const [entries, distributions] = await Promise.all([
+    prisma.investorLedgerEntry.findMany({
+      where: { investorProfileId },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.profitDistribution.findMany({
+      where: { investorProfileId },
+      orderBy: { distributedAt: "desc" },
+    }),
+  ]);
+  const totalProfit = entries.reduce((sum, entry) => sum + entry.amount, 0);
+  return { entries, distributions, totalProfit };
 }

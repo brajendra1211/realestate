@@ -367,6 +367,7 @@ exports.Prisma.SiteSettingsScalarFieldEnum = {
   ogImage: 'ogImage',
   googleAnalyticsId: 'googleAnalyticsId',
   googleSiteVerification: 'googleSiteVerification',
+  tdsPercent: 'tdsPercent',
   updatedAt: 'updatedAt'
 };
 
@@ -389,7 +390,9 @@ exports.Prisma.AgentProfileScalarFieldEnum = {
   primeStatus: 'primeStatus',
   walletBalance: 'walletBalance',
   warningCount: 'warningCount',
+  ratingAvg: 'ratingAvg',
   verifiedAt: 'verifiedAt',
+  referringAgentId: 'referringAgentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -409,6 +412,7 @@ exports.Prisma.InvestorProfileScalarFieldEnum = {
   referringAgentId: 'referringAgentId',
   registrationFee: 'registrationFee',
   feeStatus: 'feeStatus',
+  feePaymentMode: 'feePaymentMode',
   registeredAt: 'registeredAt',
   expiresAt: 'expiresAt',
   totalInvested: 'totalInvested',
@@ -439,6 +443,8 @@ exports.Prisma.AgentListingScalarFieldEnum = {
   id: 'id',
   masterPropertyId: 'masterPropertyId',
   agentId: 'agentId',
+  source: 'source',
+  approvalStatus: 'approvalStatus',
   slug: 'slug',
   title: 'title',
   description: 'description',
@@ -450,6 +456,8 @@ exports.Prisma.AgentListingScalarFieldEnum = {
   price: 'price',
   exactAddress: 'exactAddress',
   amenities: 'amenities',
+  nearbyAmenities: 'nearbyAmenities',
+  videoUrl: 'videoUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -468,6 +476,213 @@ exports.Prisma.PropertyUnlockScalarFieldEnum = {
   amount: 'amount',
   agentSplit: 'agentSplit',
   companySplit: 'companySplit',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GoldListingPurchaseScalarFieldEnum = {
+  id: 'id',
+  agentListingId: 'agentListingId',
+  buyerId: 'buyerId',
+  amount: 'amount',
+  agentSplit: 'agentSplit',
+  companySplit: 'companySplit',
+  razorpayOrderId: 'razorpayOrderId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DealScalarFieldEnum = {
+  id: 'id',
+  dealValue: 'dealValue',
+  buyerAgentId: 'buyerAgentId',
+  sellerAgentId: 'sellerAgentId',
+  buyerCommission: 'buyerCommission',
+  sellerCommission: 'sellerCommission',
+  paymentMode: 'paymentMode',
+  note: 'note',
+  dealDate: 'dealDate',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ProfitDistributionScalarFieldEnum = {
+  id: 'id',
+  investorProfileId: 'investorProfileId',
+  agentId: 'agentId',
+  totalProfit: 'totalProfit',
+  agentShare: 'agentShare',
+  expenseShare: 'expenseShare',
+  investorShare: 'investorShare',
+  companyShare: 'companyShare',
+  paymentMode: 'paymentMode',
+  note: 'note',
+  distributedAt: 'distributedAt'
+};
+
+exports.Prisma.InvestorLedgerEntryScalarFieldEnum = {
+  id: 'id',
+  investorProfileId: 'investorProfileId',
+  amount: 'amount',
+  customerTransactionRef: 'customerTransactionRef',
+  holdDurationDays: 'holdDurationDays',
+  refId: 'refId',
+  note: 'note',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PayoutRequestScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  grossAmount: 'grossAmount',
+  tdsPercent: 'tdsPercent',
+  tdsAmount: 'tdsAmount',
+  netAmount: 'netAmount',
+  status: 'status',
+  paymentMode: 'paymentMode',
+  requestedAt: 'requestedAt',
+  processedAt: 'processedAt'
+};
+
+exports.Prisma.DispatchRequestScalarFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  amount: 'amount',
+  agentSplit: 'agentSplit',
+  companySplit: 'companySplit',
+  paymentMode: 'paymentMode',
+  razorpayOrderId: 'razorpayOrderId',
+  status: 'status',
+  currentRadiusKm: 'currentRadiusKm',
+  currentBatch: 'currentBatch',
+  batchStartedAt: 'batchStartedAt',
+  acceptedByAgentId: 'acceptedByAgentId',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DispatchNotificationScalarFieldEnum = {
+  id: 'id',
+  dispatchRequestId: 'dispatchRequestId',
+  agentId: 'agentId',
+  batch: 'batch',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BroadcastScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  radiusKm: 'radiusKm',
+  society: 'society',
+  flatSize: 'flatSize',
+  txnType: 'txnType',
+  budgetMin: 'budgetMin',
+  budgetMax: 'budgetMax',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BroadcastResponseScalarFieldEnum = {
+  id: 'id',
+  broadcastId: 'broadcastId',
+  agentId: 'agentId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AgentChatMessageScalarFieldEnum = {
+  id: 'id',
+  broadcastId: 'broadcastId',
+  fromAgentId: 'fromAgentId',
+  toAgentId: 'toAgentId',
+  message: 'message',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PropertyVisitLogScalarFieldEnum = {
+  id: 'id',
+  customerPhone: 'customerPhone',
+  customerName: 'customerName',
+  masterPropertyId: 'masterPropertyId',
+  agentId: 'agentId',
+  otpVerified: 'otpVerified',
+  isPrimaryOwner: 'isPrimaryOwner',
+  conflictWithAgentId: 'conflictWithAgentId',
+  visitedAt: 'visitedAt'
+};
+
+exports.Prisma.AgentRatingScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  customerPhone: 'customerPhone',
+  masterPropertyId: 'masterPropertyId',
+  stars: 'stars',
+  review: 'review',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AgentWarningScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  reason: 'reason',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CustomerAgentBlockScalarFieldEnum = {
+  id: 'id',
+  customerPhone: 'customerPhone',
+  agentId: 'agentId',
+  reason: 'reason',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AgentSwitchLogScalarFieldEnum = {
+  id: 'id',
+  customerPhone: 'customerPhone',
+  fromAgentId: 'fromAgentId',
+  toAgentId: 'toAgentId',
+  reason: 'reason',
+  isComplaint: 'isComplaint',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DocumentVaultItemScalarFieldEnum = {
+  id: 'id',
+  masterPropertyId: 'masterPropertyId',
+  dealId: 'dealId',
+  agentId: 'agentId',
+  investorId: 'investorId',
+  type: 'type',
+  title: 'title',
+  url: 'url',
+  uploadedByUserId: 'uploadedByUserId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CustomerInvestorAgreementScalarFieldEnum = {
+  id: 'id',
+  investorId: 'investorId',
+  customerName: 'customerName',
+  customerPhone: 'customerPhone',
+  agreementDate: 'agreementDate',
+  lockInPeriodMonths: 'lockInPeriodMonths',
+  flatUnitNumber: 'flatUnitNumber',
+  terms: 'terms',
+  signedCopyUrl: 'signedCopyUrl',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.VisitAppointmentScalarFieldEnum = {
+  id: 'id',
+  bookingCode: 'bookingCode',
+  buyerId: 'buyerId',
+  agentId: 'agentId',
+  masterPropertyId: 'masterPropertyId',
+  scheduledAt: 'scheduledAt',
+  status: 'status',
+  followUpDueAt: 'followUpDueAt',
+  reminderSentAt: 'reminderSentAt',
   createdAt: 'createdAt'
 };
 
@@ -677,7 +892,8 @@ exports.Prisma.AgentProfileOrderByRelevanceFieldEnum = {
   alternatePhone: 'alternatePhone',
   reraNumber: 'reraNumber',
   gstNumber: 'gstNumber',
-  rejectionReason: 'rejectionReason'
+  rejectionReason: 'rejectionReason',
+  referringAgentId: 'referringAgentId'
 };
 
 exports.Prisma.AgentDocumentOrderByRelevanceFieldEnum = {
@@ -715,7 +931,9 @@ exports.Prisma.AgentListingOrderByRelevanceFieldEnum = {
   title: 'title',
   description: 'description',
   exactAddress: 'exactAddress',
-  amenities: 'amenities'
+  amenities: 'amenities',
+  nearbyAmenities: 'nearbyAmenities',
+  videoUrl: 'videoUrl'
 };
 
 exports.Prisma.AgentListingImageOrderByRelevanceFieldEnum = {
@@ -728,6 +946,141 @@ exports.Prisma.PropertyUnlockOrderByRelevanceFieldEnum = {
   id: 'id',
   agentListingId: 'agentListingId',
   buyerId: 'buyerId'
+};
+
+exports.Prisma.GoldListingPurchaseOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentListingId: 'agentListingId',
+  buyerId: 'buyerId',
+  razorpayOrderId: 'razorpayOrderId'
+};
+
+exports.Prisma.DealOrderByRelevanceFieldEnum = {
+  id: 'id',
+  buyerAgentId: 'buyerAgentId',
+  sellerAgentId: 'sellerAgentId',
+  note: 'note'
+};
+
+exports.Prisma.ProfitDistributionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  investorProfileId: 'investorProfileId',
+  agentId: 'agentId',
+  note: 'note'
+};
+
+exports.Prisma.InvestorLedgerEntryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  investorProfileId: 'investorProfileId',
+  customerTransactionRef: 'customerTransactionRef',
+  refId: 'refId',
+  note: 'note'
+};
+
+exports.Prisma.PayoutRequestOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentId: 'agentId'
+};
+
+exports.Prisma.DispatchRequestOrderByRelevanceFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  razorpayOrderId: 'razorpayOrderId',
+  acceptedByAgentId: 'acceptedByAgentId'
+};
+
+exports.Prisma.DispatchNotificationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  dispatchRequestId: 'dispatchRequestId',
+  agentId: 'agentId'
+};
+
+exports.Prisma.BroadcastOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  society: 'society',
+  flatSize: 'flatSize'
+};
+
+exports.Prisma.BroadcastResponseOrderByRelevanceFieldEnum = {
+  id: 'id',
+  broadcastId: 'broadcastId',
+  agentId: 'agentId'
+};
+
+exports.Prisma.AgentChatMessageOrderByRelevanceFieldEnum = {
+  id: 'id',
+  broadcastId: 'broadcastId',
+  fromAgentId: 'fromAgentId',
+  toAgentId: 'toAgentId',
+  message: 'message'
+};
+
+exports.Prisma.PropertyVisitLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerPhone: 'customerPhone',
+  customerName: 'customerName',
+  masterPropertyId: 'masterPropertyId',
+  agentId: 'agentId',
+  conflictWithAgentId: 'conflictWithAgentId'
+};
+
+exports.Prisma.AgentRatingOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  customerPhone: 'customerPhone',
+  masterPropertyId: 'masterPropertyId',
+  review: 'review'
+};
+
+exports.Prisma.AgentWarningOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  reason: 'reason'
+};
+
+exports.Prisma.CustomerAgentBlockOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerPhone: 'customerPhone',
+  agentId: 'agentId',
+  reason: 'reason'
+};
+
+exports.Prisma.AgentSwitchLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerPhone: 'customerPhone',
+  fromAgentId: 'fromAgentId',
+  toAgentId: 'toAgentId',
+  reason: 'reason'
+};
+
+exports.Prisma.DocumentVaultItemOrderByRelevanceFieldEnum = {
+  id: 'id',
+  masterPropertyId: 'masterPropertyId',
+  dealId: 'dealId',
+  agentId: 'agentId',
+  investorId: 'investorId',
+  title: 'title',
+  url: 'url',
+  uploadedByUserId: 'uploadedByUserId'
+};
+
+exports.Prisma.CustomerInvestorAgreementOrderByRelevanceFieldEnum = {
+  id: 'id',
+  investorId: 'investorId',
+  customerName: 'customerName',
+  customerPhone: 'customerPhone',
+  flatUnitNumber: 'flatUnitNumber',
+  terms: 'terms',
+  signedCopyUrl: 'signedCopyUrl'
+};
+
+exports.Prisma.VisitAppointmentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  bookingCode: 'bookingCode',
+  buyerId: 'buyerId',
+  agentId: 'agentId',
+  masterPropertyId: 'masterPropertyId'
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
@@ -819,12 +1172,69 @@ exports.InvestorFeeStatus = exports.$Enums.InvestorFeeStatus = {
   PAID: 'PAID'
 };
 
+exports.PaymentMode = exports.$Enums.PaymentMode = {
+  BANK_TRANSFER: 'BANK_TRANSFER',
+  CHEQUE: 'CHEQUE',
+  CASH: 'CASH',
+  UPI: 'UPI',
+  NETBANKING: 'NETBANKING'
+};
+
 exports.CommissionType = exports.$Enums.CommissionType = {
   REGISTRATION_REFERRAL: 'REGISTRATION_REFERRAL',
   DEAL_PROFIT_SHARE: 'DEAL_PROFIT_SHARE',
   BROKERAGE: 'BROKERAGE',
   UNLOCK_SPLIT: 'UNLOCK_SPLIT',
-  GOLD_SPLIT: 'GOLD_SPLIT'
+  GOLD_SPLIT: 'GOLD_SPLIT',
+  AGENT_REFERRAL: 'AGENT_REFERRAL'
+};
+
+exports.ListingSource = exports.$Enums.ListingSource = {
+  AGENT: 'AGENT',
+  CUSTOMER_GOLD: 'CUSTOMER_GOLD'
+};
+
+exports.PayoutStatus = exports.$Enums.PayoutStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  REJECTED: 'REJECTED'
+};
+
+exports.DispatchStatus = exports.$Enums.DispatchStatus = {
+  SEARCHING: 'SEARCHING',
+  MATCHED: 'MATCHED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.BroadcastTxnType = exports.$Enums.BroadcastTxnType = {
+  RENT: 'RENT',
+  BUY: 'BUY',
+  SELL: 'SELL',
+  LETOUT: 'LETOUT'
+};
+
+exports.BroadcastStatus = exports.$Enums.BroadcastStatus = {
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED'
+};
+
+exports.DocumentVaultType = exports.$Enums.DocumentVaultType = {
+  REGISTRY: 'REGISTRY',
+  SALE_DEED: 'SALE_DEED',
+  AGREEMENT_TO_SELL: 'AGREEMENT_TO_SELL',
+  ENCUMBRANCE_CERTIFICATE: 'ENCUMBRANCE_CERTIFICATE',
+  LAYOUT_PLAN: 'LAYOUT_PLAN',
+  PAYMENT_RECEIPT: 'PAYMENT_RECEIPT',
+  SIGNED_AGREEMENT: 'SIGNED_AGREEMENT',
+  OTHER: 'OTHER'
+};
+
+exports.AppointmentStatus = exports.$Enums.AppointmentStatus = {
+  SCHEDULED: 'SCHEDULED',
+  COMPLETED: 'COMPLETED',
+  NO_SHOW: 'NO_SHOW',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.Prisma.ModelName = {
@@ -853,7 +1263,25 @@ exports.Prisma.ModelName = {
   MasterProperty: 'MasterProperty',
   AgentListing: 'AgentListing',
   AgentListingImage: 'AgentListingImage',
-  PropertyUnlock: 'PropertyUnlock'
+  PropertyUnlock: 'PropertyUnlock',
+  GoldListingPurchase: 'GoldListingPurchase',
+  Deal: 'Deal',
+  ProfitDistribution: 'ProfitDistribution',
+  InvestorLedgerEntry: 'InvestorLedgerEntry',
+  PayoutRequest: 'PayoutRequest',
+  DispatchRequest: 'DispatchRequest',
+  DispatchNotification: 'DispatchNotification',
+  Broadcast: 'Broadcast',
+  BroadcastResponse: 'BroadcastResponse',
+  AgentChatMessage: 'AgentChatMessage',
+  PropertyVisitLog: 'PropertyVisitLog',
+  AgentRating: 'AgentRating',
+  AgentWarning: 'AgentWarning',
+  CustomerAgentBlock: 'CustomerAgentBlock',
+  AgentSwitchLog: 'AgentSwitchLog',
+  DocumentVaultItem: 'DocumentVaultItem',
+  CustomerInvestorAgreement: 'CustomerInvestorAgreement',
+  VisitAppointment: 'VisitAppointment'
 };
 
 /**

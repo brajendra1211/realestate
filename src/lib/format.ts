@@ -62,3 +62,15 @@ export const IMAGE_CATEGORY_LABELS: Record<string, string> = {
 export const IMAGE_CATEGORIES = Object.keys(IMAGE_CATEGORY_LABELS) as Array<
   keyof typeof IMAGE_CATEGORY_LABELS
 >;
+
+export const PAYMENT_MODE_LABELS: Record<string, string> = {
+  BANK_TRANSFER: "Bank Transfer",
+  CHEQUE: "Cheque",
+  CASH: "Cash",
+  UPI: "UPI",
+  NETBANKING: "Net Banking",
+};
+
+export const PAYMENT_MODES = Object.keys(PAYMENT_MODE_LABELS) as Array<
+  keyof typeof PAYMENT_MODE_LABELS
+>;

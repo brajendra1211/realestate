@@ -3,6 +3,9 @@ import { hashPassword } from "@/lib/password";
 import { slugify } from "@/lib/slug";
 import { notifyUser } from "@/lib/notify";
 import { generateAgentCode } from "@/lib/codes";
+import { geocodeLocation } from "@/lib/geocode";
+import { indexAgentLocation } from "@/lib/agentGeo";
+import type { AgentProfile, Prisma } from "@/generated/prisma";
 
 export class AgentServiceError extends Error {}
 
@@ -38,6 +41,7 @@ export type AgentApplicationInput = {
   reraNumber?: string | null;
   gstNumber?: string | null;
   documents?: AgentDocumentInput[];
+  referredByAgentCode?: string | null;
 };
 
 export async function submitAgentApplication(input: AgentApplicationInput) {
@@ -56,6 +60,28 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
     throw new AgentServiceError("duplicate");
   }
 
+  // §3.1 — "Agent's map pin is fixed to their registered shop location."
+  // Geocoded once at registration, same Nominatim helper City/Locality/
+  // Project already use — this is also what makes an agent findable by
+  // Phase 4's radius dispatch/broadcast (an agent with no coordinates can
+  // never be matched to a nearby customer).
+  const shopCoords = await geocodeLocation(`${input.shopAddress.trim()}, ${input.city.trim()}`);
+
+  // §3.20 — Agent-to-agent referral. Resolve the referring agent's code
+  // now, at registration time, but the 10% commission itself is only
+  // credited once, when this new agent's Prime activates (see
+  // `activateAgentPrime`) — referring someone who never pays for Prime
+  // earns nothing, same as the investor-referral precedent (§3.11).
+  let referringAgentId: string | null = null;
+  const referredByAgentCode = input.referredByAgentCode?.trim();
+  if (referredByAgentCode) {
+    const referrer = await prisma.agentProfile.findUnique({
+      where: { agentCode: referredByAgentCode },
+    });
+    if (!referrer) throw new AgentServiceError("referrerNotFound");
+    referringAgentId = referrer.id;
+  }
+
   const user = await prisma.user.create({
     data: {
       name,
@@ -69,11 +95,14 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
           city: input.city.trim(),
           shopName: input.shopName.trim(),
           shopAddress: input.shopAddress.trim(),
+          shopLatitude: shopCoords?.latitude ?? null,
+          shopLongitude: shopCoords?.longitude ?? null,
           alternatePhone: input.alternatePhone?.trim() || null,
           yearsExperience: input.yearsExperience ?? null,
           staffCount: input.staffCount ?? null,
           reraNumber: input.reraNumber?.trim() || null,
           gstNumber: input.gstNumber?.trim() || null,
+          referringAgentId,
           documents: input.documents?.length
             ? { create: input.documents.map((doc) => ({ type: doc.type, url: doc.url })) }
             : undefined,
@@ -107,9 +136,21 @@ export async function rejectAgent(agentProfileId: string, reason: string) {
   });
 }
 
+// 10% of the referred agent's first Prime subscription payment — §3.20, a
+// one-time credit (confirmed with the client as the reading of "10%
+// commission from the new agent's code"), the direct parallel to
+// §3.11's investor-referral credit.
+const AGENT_REFERRAL_RATE = 0.1;
+
 export async function activateAgentPrime(agentProfileId: string, planId: string) {
   const [agent, plan] = await Promise.all([
-    prisma.agentProfile.findUnique({ where: { id: agentProfileId }, include: { user: true } }),
+    prisma.agentProfile.findUnique({
+      where: { id: agentProfileId },
+      include: {
+        user: true,
+        referringAgent: { include: { user: { select: { phone: true, email: true } } } },
+      },
+    }),
     prisma.plan.findUnique({ where: { id: planId } }),
   ]);
   if (!agent) throw new AgentServiceError("notFound");
@@ -118,9 +159,15 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
   }
   if (!plan) throw new AgentServiceError("planNotFound");
 
+  // The referral credit is one-time, so it only fires the first time this
+  // agent ever activates Prime — i.e. before an Agent Code has been minted.
+  // Renewals (agent.agentCode already set) never re-trigger it.
+  const isFirstActivation = !agent.agentCode;
   const agentCode = agent.agentCode ?? (await generateAgentCode(agent.city));
+  const referralAmount =
+    isFirstActivation && agent.referringAgent ? Math.round(plan.price * AGENT_REFERRAL_RATE) : 0;
 
-  const [, updatedAgent] = await prisma.$transaction([
+  const ops: Prisma.PrismaPromise<unknown>[] = [
     prisma.subscription.updateMany({
       where: { userId: agent.userId, status: "ACTIVE" },
       data: { status: "CANCELLED" },
@@ -140,13 +187,47 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
           : null,
       },
     }),
-  ]);
+  ];
+
+  if (referralAmount > 0 && agent.referringAgent) {
+    ops.push(
+      prisma.commissionLedgerEntry.create({
+        data: {
+          agentId: agent.referringAgent.id,
+          type: "AGENT_REFERRAL",
+          amount: referralAmount,
+          refId: agentProfileId,
+          note: `10% referral for agent ${agentCode}'s first Prime payment`,
+        },
+      }),
+      prisma.agentProfile.update({
+        where: { id: agent.referringAgent.id },
+        data: { walletBalance: { increment: referralAmount } },
+      })
+    );
+  }
+
+  const [, updatedAgent] = (await prisma.$transaction(ops)) as [unknown, AgentProfile, ...unknown[]];
+
+  // Phase 4 — only Prime agents with known coordinates are dispatch/broadcast
+  // candidates; index (or re-index, on renewal) them the moment Prime is live.
+  if (agent.shopLatitude != null && agent.shopLongitude != null) {
+    await indexAgentLocation(agentProfileId, agent.shopLatitude, agent.shopLongitude);
+  }
 
   await notifyUser(
     agent.user,
     `Your Prime plan is active. Your Agent Code is ${agentCode}.`,
     "Prime activated — Agent Code assigned"
   );
+
+  if (referralAmount > 0 && agent.referringAgent) {
+    await notifyUser(
+      agent.referringAgent.user,
+      `You earned ₹${referralAmount} for referring agent ${agentCode}, who just activated Prime. It's now in your wallet.`,
+      "Agent referral commission credited"
+    );
+  }
 
   return updatedAgent;
 }
@@ -170,6 +251,7 @@ export async function getAgentCommissionSummary(agentProfileId: string) {
     BROKERAGE: 0,
     UNLOCK_SPLIT: 0,
     GOLD_SPLIT: 0,
+    AGENT_REFERRAL: 0,
   };
   for (const entry of entries) {
     totals[entry.type] = (totals[entry.type] ?? 0) + entry.amount;

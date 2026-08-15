@@ -88,6 +88,92 @@ const NAV_ITEMS: PanelNavItem[] = [
     ),
   },
   {
+    href: "/admin/deals",
+    label: "Deals & Commissions",
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="9" strokeWidth={1.75} />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 7v10M9 9.5a2.5 2.5 0 012.5-2h1a2.5 2.5 0 010 5h-1a2.5 2.5 0 000 5h1a2.5 2.5 0 002.5-2" />
+      </>
+    ),
+  },
+  {
+    href: "/admin/analytics",
+    label: "Financial Analytics",
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 19V9m6 10V5m6 14v-7m6 7V3" />
+    ),
+  },
+  {
+    href: "/admin/trust",
+    label: "Trust & Retention",
+    icon: (
+      <>
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.75}
+          d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"
+        />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12l2 2 4-4" />
+      </>
+    ),
+  },
+  {
+    href: "/admin/billing",
+    label: "Prime Billing",
+    icon: (
+      <>
+        <rect x="2" y="5" width="20" height="14" rx="2" strokeWidth={1.75} />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M2 10h20" />
+      </>
+    ),
+  },
+  {
+    href: "/admin/gold-listings",
+    label: "Gold Listing Moderation",
+    icon: (
+      <>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 2l2.6 6.5L21 9l-5 4.5L17.5 21 12 17.5 6.5 21 8 13.5 3 9l6.4-.5z" />
+      </>
+    ),
+  },
+  {
+    href: "/admin/documents",
+    label: "Document Vault",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.75}
+        d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1zM14 3v5h5"
+      />
+    ),
+  },
+  {
+    href: "/admin/hierarchy",
+    label: "Hierarchy Map",
+    icon: (
+      <>
+        <circle cx="12" cy="5" r="2" strokeWidth={1.75} />
+        <circle cx="6" cy="12" r="2" strokeWidth={1.75} />
+        <circle cx="18" cy="12" r="2" strokeWidth={1.75} />
+        <circle cx="12" cy="19" r="2" strokeWidth={1.75} />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 7v3m-4.5 3.5L10 15m8-2.5L15.5 15m-3.5 2v-2" />
+      </>
+    ),
+  },
+  {
+    href: "/admin/payouts",
+    label: "Agent Payouts",
+    icon: (
+      <>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 7h18v12H3V7zm0 0l2-4h14l2 4" />
+        <circle cx="12" cy="13" r="2.5" strokeWidth={1.75} />
+      </>
+    ),
+  },
+  {
     href: "/admin/developers",
     label: "Developers",
     icon: (

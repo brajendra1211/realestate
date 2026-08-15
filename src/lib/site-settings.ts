@@ -25,6 +25,7 @@ const DEFAULT_SETTINGS = {
   ogImage: null as string | null,
   googleAnalyticsId: null as string | null,
   googleSiteVerification: null as string | null,
+  tdsPercent: 5,
 };
 
 export async function getSiteSettings() {

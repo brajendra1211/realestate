@@ -543,6 +543,12 @@ function text(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim() || null;
 }
 
+function tdsPercentFrom(formData: FormData) {
+  const raw = Number(formData.get("tdsPercent"));
+  if (!Number.isFinite(raw) || raw < 0 || raw > 100) return 5;
+  return raw;
+}
+
 export async function updateSiteSettings(formData: FormData) {
   await requireAdmin();
 
@@ -572,6 +578,7 @@ export async function updateSiteSettings(formData: FormData) {
       ogImage: text(formData, "ogImage"),
       googleAnalyticsId: text(formData, "googleAnalyticsId"),
       googleSiteVerification: text(formData, "googleSiteVerification"),
+      tdsPercent: tdsPercentFrom(formData),
     },
     create: {
       id: "singleton",
@@ -598,6 +605,7 @@ export async function updateSiteSettings(formData: FormData) {
       ogImage: text(formData, "ogImage"),
       googleAnalyticsId: text(formData, "googleAnalyticsId"),
       googleSiteVerification: text(formData, "googleSiteVerification"),
+      tdsPercent: tdsPercentFrom(formData),
     },
   });
 

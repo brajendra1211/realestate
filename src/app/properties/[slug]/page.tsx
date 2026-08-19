@@ -10,10 +10,9 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PropertyGallery } from "@/components/PropertyGallery";
 import { isOwnerPublic, isPropertyExpired } from "@/lib/propertyVisibility";
 import { toggleSavedProperty } from "@/app/buyer/actions";
-import { submitEnquiry } from "./actions";
+import { EnquiryForm } from "./EnquiryForm";
 
 type Params = Promise<{ slug: string }>;
-type SearchParams = Promise<{ enquiry?: string }>;
 
 async function getProperty(slug: string) {
   const property = await prisma.property.findUnique({
@@ -74,15 +73,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   };
 }
 
-export default async function PropertyDetailPage({
-  params,
-  searchParams,
-}: {
-  params: Params;
-  searchParams: SearchParams;
-}) {
+export default async function PropertyDetailPage({ params }: { params: Params }) {
   const { slug } = await params;
-  const { enquiry } = await searchParams;
 
   const property = await getProperty(slug);
 
@@ -299,57 +291,13 @@ export default async function PropertyDetailPage({
 
               <h3 className="mt-5 text-sm font-semibold text-slate-900">Send an enquiry</h3>
 
-              {enquiry === "sent" && (
-                <p className="mt-2 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
-                  Thanks! Your enquiry has been sent.
-                </p>
-              )}
-              {enquiry === "error" && (
-                <p className="mt-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-                  Please fill in your name and phone number.
-                </p>
-              )}
-
-              <form action={submitEnquiry} className="mt-3 space-y-3">
-                <input type="hidden" name="propertyId" value={property.id} />
-                <input type="hidden" name="slug" value={property.slug} />
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  defaultValue={buyer?.name && buyer.name !== "Buyer" ? buyer.name : undefined}
-                  placeholder="Your name"
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  required
-                  defaultValue={buyer?.phone ?? undefined}
-                  placeholder="Phone number"
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  defaultValue={buyer?.email ?? undefined}
-                  placeholder="Email (optional)"
-                  suppressHydrationWarning
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-                />
-                <textarea
-                  name="message"
-                  rows={3}
-                  placeholder="Message (optional)"
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="w-full rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-                >
-                  Send enquiry
-                </button>
-              </form>
+              <EnquiryForm
+                propertyId={property.id}
+                slug={property.slug}
+                defaultName={buyer?.name && buyer.name !== "Buyer" ? buyer.name : undefined}
+                defaultPhone={buyer?.phone ?? undefined}
+                defaultEmail={buyer?.email ?? undefined}
+              />
             </div>
           </div>
         </div>

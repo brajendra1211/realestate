@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import {
   createDispatchOrder,
@@ -88,5 +89,5 @@ export async function cancelDispatchAction(formData: FormData) {
     // will show the current real status on next render regardless.
   }
 
-  redirect(`/dispatch/${dispatchRequestId}`);
+  revalidatePath(`/dispatch/${dispatchRequestId}`);
 }

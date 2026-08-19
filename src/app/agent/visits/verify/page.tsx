@@ -1,20 +1,14 @@
-import { logVisitAction } from "../actions";
+import { VerifyVisitForm } from "./VerifyVisitForm";
 
 type SearchParams = Promise<{
   customerPhone?: string;
   masterId?: string;
   customerName?: string;
   channel?: string;
-  error?: string;
 }>;
 
-const ERROR_MESSAGES: Record<string, string> = {
-  invalidOtp: "That code is incorrect or has expired.",
-  propertyNotFound: "No listing found with that Master Property ID.",
-};
-
 export default async function VerifyVisitPage({ searchParams }: { searchParams: SearchParams }) {
-  const { customerPhone, masterId, customerName, channel, error } = await searchParams;
+  const { customerPhone, masterId, customerName, channel } = await searchParams;
 
   if (!customerPhone || !masterId) {
     return (
@@ -35,35 +29,7 @@ export default async function VerifyVisitPage({ searchParams }: { searchParams: 
         {channel === "EMAIL" ? "email" : "WhatsApp"}. Have the customer read it out to you.
       </p>
 
-      {error && (
-        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-          {ERROR_MESSAGES[error] ?? "Something went wrong. Try again."}
-        </p>
-      )}
-
-      <form action={logVisitAction} className="mt-6 space-y-4">
-        <input type="hidden" name="customerPhone" value={customerPhone} />
-        <input type="hidden" name="masterId" value={masterId} />
-        <input type="hidden" name="customerName" value={customerName ?? ""} />
-        <div>
-          <label className="text-sm font-medium text-slate-700">6-digit code</label>
-          <input
-            type="text"
-            name="otp"
-            required
-            inputMode="numeric"
-            maxLength={6}
-            placeholder="123456"
-            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-center text-lg tracking-[0.5em] focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
-        >
-          Verify & log visit
-        </button>
-      </form>
+      <VerifyVisitForm customerPhone={customerPhone} masterId={masterId} customerName={customerName} />
     </div>
   );
 }

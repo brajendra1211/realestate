@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { DocumentUploadField } from "@/components/DocumentUploadField";
+import { PAYMENT_MODES, PAYMENT_MODE_LABELS } from "@/lib/format";
 import { uploadDocumentAction, createAgreementAction } from "./actions";
 
 type SearchParams = Promise<{ saved?: string; error?: string }>;
@@ -132,6 +133,25 @@ export default async function AdminDocumentsPage({ searchParams }: { searchParam
             <div>
               <label className="text-sm font-medium text-slate-700">Terms</label>
               <textarea name="terms" rows={2} className={inputClass} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-sm font-medium text-slate-700">
+                  Investor → customer payment (₹)
+                </label>
+                <input type="number" name="paymentAmount" min={0} className={inputClass} />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-slate-700">Payment mode</label>
+                <select name="paymentMode" defaultValue="" className={inputClass}>
+                  <option value="">— none —</option>
+                  {PAYMENT_MODES.map((mode) => (
+                    <option key={mode} value={mode}>
+                      {PAYMENT_MODE_LABELS[mode]}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <DocumentUploadField name="signedCopyUrl" label="Signed copy (PDF)" />
             <button

@@ -3,12 +3,10 @@ import { slugify } from "@/lib/slug";
 import { notifyUser } from "@/lib/notify";
 import { generateInvestorCode } from "@/lib/codes";
 import { computeProfitSplit } from "@/lib/commission";
+import { getSiteSettings } from "@/lib/site-settings";
 import type { PaymentMode } from "@/generated/prisma";
 
 export class InvestorServiceError extends Error {}
-
-// 10% of the ₹20,000 registration fee — docs/platform-requirements.md §3.11
-export const REGISTRATION_REFERRAL_SHARE = 2000;
 
 async function uniqueInvestorUserSlug(name: string) {
   const base = slugify(name) || "investor";
@@ -46,6 +44,11 @@ export async function registerInvestor(agentProfileId: string, input: InvestorRe
     throw new InvestorServiceError("duplicate");
   }
 
+  // registrationFee is stamped at registration time from the currently
+  // configured rate — later admin changes to investorRegistrationFee don't
+  // retroactively change what an already-registered investor owes.
+  const settings = await getSiteSettings();
+
   const user = await prisma.user.create({
     data: {
       name,
@@ -56,6 +59,7 @@ export async function registerInvestor(agentProfileId: string, input: InvestorRe
       investorProfile: {
         create: {
           referringAgentId: agentProfileId,
+          registrationFee: settings.investorRegistrationFee,
         },
       },
     },
@@ -77,6 +81,13 @@ export async function confirmInvestorPayment(investorProfileId: string, paymentM
   const now = new Date();
   const expiresAt = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
 
+  const settings = await getSiteSettings();
+  // Referral % applies to *this* investor's actual registrationFee (stamped
+  // at registration time), not whatever investorRegistrationFee is
+  // currently configured — a later fee change shouldn't change what an
+  // already-registered investor's referral was worth.
+  const referralShare = Math.round(investor.registrationFee * (settings.investorReferralPercent / 100));
+
   const [updatedInvestor] = await prisma.$transaction([
     prisma.investorProfile.update({
       where: { id: investorProfileId },
@@ -86,20 +97,20 @@ export async function confirmInvestorPayment(investorProfileId: string, paymentM
       data: {
         agentId: investor.referringAgentId,
         type: "REGISTRATION_REFERRAL",
-        amount: REGISTRATION_REFERRAL_SHARE,
+        amount: referralShare,
         refId: investorProfileId,
-        note: `10% referral for investor ${investorCode} registration fee`,
+        note: `${settings.investorReferralPercent}% referral for investor ${investorCode} registration fee`,
       },
     }),
     prisma.agentProfile.update({
       where: { id: investor.referringAgentId },
-      data: { walletBalance: { increment: REGISTRATION_REFERRAL_SHARE } },
+      data: { walletBalance: { increment: referralShare } },
     }),
   ]);
 
   await notifyUser(
     investor.referringAgent.user,
-    `You earned ₹${REGISTRATION_REFERRAL_SHARE} for referring investor ${investorCode}. It's now in your wallet.`,
+    `You earned ₹${referralShare} for referring investor ${investorCode}. It's now in your wallet.`,
     "Referral commission credited"
   );
 
@@ -164,7 +175,12 @@ export async function distributeInvestorDealProfit(input: DistributeProfitInput)
   });
   if (!investor) throw new InvestorServiceError("notFound");
 
-  const split = computeProfitSplit(input.totalProfit);
+  const settings = await getSiteSettings();
+  const split = computeProfitSplit(input.totalProfit, {
+    agentPercent: settings.profitAgentSharePercent,
+    expensePercent: settings.profitExpenseSharePercent,
+    investorPercent: settings.profitInvestorSharePercent,
+  });
   const now = new Date();
   // "Hold duration (days)" — §3.14's Investor Portal ledger spec. Measured
   // from when the investor's registration became active to this profit
@@ -192,7 +208,7 @@ export async function distributeInvestorDealProfit(input: DistributeProfitInput)
         type: "DEAL_PROFIT_SHARE",
         amount: split.agentShare,
         refId: investor.id,
-        note: `10% investor deal profit share for ${investor.investorCode ?? investor.id}`,
+        note: `${settings.profitAgentSharePercent}% investor deal profit share for ${investor.investorCode ?? investor.id}`,
       },
     }),
     prisma.agentProfile.update({
@@ -206,14 +222,14 @@ export async function distributeInvestorDealProfit(input: DistributeProfitInput)
         refId: investor.id,
         customerTransactionRef: input.customerTransactionRef?.trim() || null,
         holdDurationDays,
-        note: `40% profit share on ₹${input.totalProfit.toLocaleString("en-IN")} deal profit`,
+        note: `${settings.profitInvestorSharePercent}% profit share on ₹${input.totalProfit.toLocaleString("en-IN")} deal profit`,
       },
     }),
   ]);
 
   await notifyUser(
     investor.referringAgent.user,
-    `You earned ₹${split.agentShare} (10% deal profit share) for investor ${investor.investorCode ?? ""}. It's now in your wallet.`,
+    `You earned ₹${split.agentShare} (${settings.profitAgentSharePercent}% deal profit share) for investor ${investor.investorCode ?? ""}. It's now in your wallet.`,
     "Deal profit share credited"
   );
   await notifyUser(

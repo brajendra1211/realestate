@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
@@ -137,7 +138,7 @@ export async function updateDeveloper(formData: FormData) {
     },
   });
 
-  redirect(`/admin/developers/${id}/edit?saved=1`);
+  revalidatePath(`/admin/developers/${id}/edit`);
 }
 
 export async function deleteDeveloper(formData: FormData) {
@@ -223,7 +224,7 @@ export async function updateProject(formData: FormData) {
     }),
   ]);
 
-  redirect(`/admin/developers/${developerId}/projects/${id}/edit?saved=1`);
+  revalidatePath(`/admin/developers/${developerId}/projects/${id}/edit`);
 }
 
 export async function deleteProject(formData: FormData) {
@@ -239,14 +240,14 @@ export async function createCountry(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
   const slug = await uniqueCountrySlug(name);
   await prisma.country.create({ data: { name, slug } });
-  redirect("/admin/locations?saved=1");
+  revalidatePath("/admin/locations");
 }
 
 export async function deleteCountry(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await prisma.country.delete({ where: { id } });
-  redirect("/admin/locations");
+  revalidatePath("/admin/locations");
 }
 
 export async function createState(formData: FormData) {
@@ -257,14 +258,14 @@ export async function createState(formData: FormData) {
 
   const slug = await uniqueStateSlug(name, countryId);
   await prisma.state.create({ data: { name, slug, countryId } });
-  redirect("/admin/locations?saved=1");
+  revalidatePath("/admin/locations");
 }
 
 export async function deleteState(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await prisma.state.delete({ where: { id } });
-  redirect("/admin/locations");
+  revalidatePath("/admin/locations");
 }
 
 function readGeoPageFields(formData: FormData) {
@@ -330,7 +331,7 @@ export async function updateCity(formData: FormData) {
     },
   });
 
-  redirect(`/admin/locations/cities/${id}/edit?saved=1`);
+  revalidatePath(`/admin/locations/cities/${id}/edit`);
 }
 
 export async function refetchCityCoordinates(formData: FormData) {
@@ -348,7 +349,7 @@ export async function refetchCityCoordinates(formData: FormData) {
     data: { latitude: coords?.latitude ?? null, longitude: coords?.longitude ?? null },
   });
 
-  redirect(`/admin/locations/cities/${id}/edit?saved=1`);
+  revalidatePath(`/admin/locations/cities/${id}/edit`);
 }
 
 export async function deleteCity(formData: FormData) {
@@ -404,7 +405,7 @@ export async function refetchLocalityCoordinates(formData: FormData) {
     data: { latitude: coords?.latitude ?? null, longitude: coords?.longitude ?? null },
   });
 
-  redirect(`/admin/locations/localities/${id}/edit?saved=1`);
+  revalidatePath(`/admin/locations/localities/${id}/edit`);
 }
 
 export async function updateLocality(formData: FormData) {
@@ -462,7 +463,7 @@ export async function approveProperty(formData: FormData) {
     `Your listing "${property.title}" has been approved and is now live on BayaEstate.`,
     "Listing approved"
   );
-  redirect("/admin");
+  revalidatePath("/admin");
 }
 
 export async function rejectProperty(formData: FormData) {
@@ -472,7 +473,7 @@ export async function rejectProperty(formData: FormData) {
     where: { id },
     data: { approvalStatus: "REJECTED" },
   });
-  redirect("/admin");
+  revalidatePath("/admin");
 }
 
 async function uniqueAmenitySlug(name: string, ignoreId?: string) {
@@ -496,7 +497,7 @@ export async function createAmenity(formData: FormData) {
   const slug = await uniqueAmenitySlug(name);
   const count = await prisma.amenity.count();
   await prisma.amenity.create({ data: { name, slug, order: count } });
-  redirect("/admin/amenities?saved=1");
+  revalidatePath("/admin/amenities");
 }
 
 export async function updateAmenity(formData: FormData) {
@@ -510,14 +511,14 @@ export async function updateAmenity(formData: FormData) {
 
   const slug = name !== amenity!.name ? await uniqueAmenitySlug(name, id) : amenity!.slug;
   await prisma.amenity.update({ where: { id }, data: { name, slug } });
-  redirect("/admin/amenities?saved=1");
+  revalidatePath("/admin/amenities");
 }
 
 export async function deleteAmenity(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await prisma.amenity.delete({ where: { id } });
-  redirect("/admin/amenities");
+  revalidatePath("/admin/amenities");
 }
 
 export async function verifyUser(formData: FormData) {
@@ -529,14 +530,14 @@ export async function verifyUser(formData: FormData) {
     "Your BayaEstate profile is verified — it and your listings are now live on the public site.",
     "Profile verified"
   );
-  redirect("/admin/users");
+  revalidatePath("/admin/users");
 }
 
 export async function unverifyUser(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await prisma.user.update({ where: { id }, data: { verified: false } });
-  redirect("/admin/users");
+  revalidatePath("/admin/users");
 }
 
 function text(formData: FormData, key: string) {
@@ -549,8 +550,36 @@ function tdsPercentFrom(formData: FormData) {
   return raw;
 }
 
+// Shared parser for every commission-rate/amount field on the settings form
+// (docs/platform-requirements.md §3.11-§3.14/§3.17 — all admin-editable, no
+// hardcoded rate should require a code change to adjust). Falls back to the
+// given default on missing/invalid/out-of-range input rather than erroring
+// the whole settings save over one bad field.
+function intFrom(formData: FormData, key: string, fallback: number, min: number, max: number) {
+  const raw = Number(formData.get(key));
+  if (!Number.isFinite(raw) || raw < min || raw > max) return fallback;
+  return Math.round(raw);
+}
+
+function commissionSettingsFrom(formData: FormData) {
+  return {
+    brokeragePercent: intFrom(formData, "brokeragePercent", 1, 0, 100),
+    profitAgentSharePercent: intFrom(formData, "profitAgentSharePercent", 10, 0, 100),
+    profitExpenseSharePercent: intFrom(formData, "profitExpenseSharePercent", 10, 0, 100),
+    profitInvestorSharePercent: intFrom(formData, "profitInvestorSharePercent", 40, 0, 100),
+    investorRegistrationFee: intFrom(formData, "investorRegistrationFee", 20000, 0, 100_000_000),
+    investorReferralPercent: intFrom(formData, "investorReferralPercent", 10, 0, 100),
+    agentReferralPercent: intFrom(formData, "agentReferralPercent", 10, 0, 100),
+    unlockPassAmount: intFrom(formData, "unlockPassAmount", 100, 1, 100_000_000),
+    unlockAgentSplitPercent: intFrom(formData, "unlockAgentSplitPercent", 50, 0, 100),
+    goldListingAmount: intFrom(formData, "goldListingAmount", 500, 1, 100_000_000),
+    goldAgentSplitPercent: intFrom(formData, "goldAgentSplitPercent", 50, 0, 100),
+  };
+}
+
 export async function updateSiteSettings(formData: FormData) {
   await requireAdmin();
+  const commissionSettings = commissionSettingsFrom(formData);
 
   await prisma.siteSettings.upsert({
     where: { id: "singleton" },
@@ -579,6 +608,7 @@ export async function updateSiteSettings(formData: FormData) {
       googleAnalyticsId: text(formData, "googleAnalyticsId"),
       googleSiteVerification: text(formData, "googleSiteVerification"),
       tdsPercent: tdsPercentFrom(formData),
+      ...commissionSettings,
     },
     create: {
       id: "singleton",
@@ -606,10 +636,11 @@ export async function updateSiteSettings(formData: FormData) {
       googleAnalyticsId: text(formData, "googleAnalyticsId"),
       googleSiteVerification: text(formData, "googleSiteVerification"),
       tdsPercent: tdsPercentFrom(formData),
+      ...commissionSettings,
     },
   });
 
-  redirect("/admin/settings?saved=1");
+  revalidatePath("/admin/settings");
 }
 
 export async function createPlan(formData: FormData) {
@@ -630,7 +661,7 @@ export async function createPlan(formData: FormData) {
     },
   });
 
-  redirect("/admin/plans?saved=1");
+  revalidatePath("/admin/plans");
 }
 
 export async function updatePlan(formData: FormData) {
@@ -654,14 +685,14 @@ export async function updatePlan(formData: FormData) {
     },
   });
 
-  redirect("/admin/plans?saved=1");
+  revalidatePath("/admin/plans");
 }
 
 export async function deletePlan(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await prisma.plan.delete({ where: { id } });
-  redirect("/admin/plans");
+  revalidatePath("/admin/plans");
 }
 
 export async function assignSubscription(formData: FormData) {
@@ -691,7 +722,7 @@ export async function assignSubscription(formData: FormData) {
     }),
   ]);
 
-  redirect("/admin/users?saved=1");
+  revalidatePath("/admin/users");
 }
 
 export async function cancelSubscription(formData: FormData) {
@@ -701,7 +732,7 @@ export async function cancelSubscription(formData: FormData) {
     where: { userId, status: "ACTIVE" },
     data: { status: "CANCELLED" },
   });
-  redirect("/admin/users?saved=1");
+  revalidatePath("/admin/users");
 }
 
 export async function approveSubscriptionRequest(formData: FormData) {
@@ -737,7 +768,7 @@ export async function approveSubscriptionRequest(formData: FormData) {
     "Plan activated"
   );
 
-  redirect("/admin/users?saved=1");
+  revalidatePath("/admin/users");
 }
 
 export async function rejectSubscriptionRequest(formData: FormData) {
@@ -747,7 +778,7 @@ export async function rejectSubscriptionRequest(formData: FormData) {
     where: { id, status: "PENDING" },
     data: { status: "CANCELLED" },
   });
-  redirect("/admin/users?saved=1");
+  revalidatePath("/admin/users");
 }
 
 export async function toggleCityPublished(formData: FormData) {
@@ -756,7 +787,7 @@ export async function toggleCityPublished(formData: FormData) {
   const city = await prisma.city.findUnique({ where: { id }, select: { published: true } });
   if (!city) redirect("/admin/sitemap");
   await prisma.city.update({ where: { id }, data: { published: !city.published } });
-  redirect("/admin/sitemap");
+  revalidatePath("/admin/sitemap");
 }
 
 export async function toggleLocalityPublished(formData: FormData) {
@@ -765,7 +796,7 @@ export async function toggleLocalityPublished(formData: FormData) {
   const locality = await prisma.locality.findUnique({ where: { id }, select: { published: true } });
   if (!locality) redirect("/admin/sitemap");
   await prisma.locality.update({ where: { id }, data: { published: !locality.published } });
-  redirect("/admin/sitemap");
+  revalidatePath("/admin/sitemap");
 }
 
 export async function createSubAdmin(formData: FormData) {
@@ -794,7 +825,7 @@ export async function createSubAdmin(formData: FormData) {
     },
   });
 
-  redirect("/admin/subadmins?saved=1");
+  revalidatePath("/admin/subadmins");
 }
 
 export async function deleteSubAdmin(formData: FormData) {
@@ -811,5 +842,5 @@ export async function deleteSubAdmin(formData: FormData) {
   }
 
   await prisma.user.delete({ where: { id } });
-  redirect("/admin/subadmins");
+  revalidatePath("/admin/subadmins");
 }

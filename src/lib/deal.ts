@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { computeBrokerage } from "@/lib/commission";
+import { getSiteSettings } from "@/lib/site-settings";
 import type { Deal, PaymentMode, Prisma } from "@/generated/prisma";
 
 export class DealServiceError extends Error {}
@@ -41,8 +42,9 @@ export async function recordDeal(input: RecordDealInput) {
   if (input.buyerAgentId && !buyerAgent) throw new DealServiceError("buyerAgentNotFound");
   if (input.sellerAgentId && !sellerAgent) throw new DealServiceError("sellerAgentNotFound");
 
-  const buyerCommission = buyerAgent ? computeBrokerage(input.dealValue) : null;
-  const sellerCommission = sellerAgent ? computeBrokerage(input.dealValue) : null;
+  const settings = await getSiteSettings();
+  const buyerCommission = buyerAgent ? computeBrokerage(input.dealValue, settings.brokeragePercent) : null;
+  const sellerCommission = sellerAgent ? computeBrokerage(input.dealValue, settings.brokeragePercent) : null;
 
   const ops: Prisma.PrismaPromise<unknown>[] = [
     prisma.deal.create({
@@ -65,7 +67,7 @@ export async function recordDeal(input: RecordDealInput) {
           agentId: buyerAgent.id,
           type: "BROKERAGE",
           amount: buyerCommission,
-          note: `1% buyer-side brokerage on ₹${input.dealValue.toLocaleString("en-IN")} deal`,
+          note: `${settings.brokeragePercent}% buyer-side brokerage on ₹${input.dealValue.toLocaleString("en-IN")} deal`,
         },
       }),
       prisma.agentProfile.update({
@@ -81,7 +83,7 @@ export async function recordDeal(input: RecordDealInput) {
           agentId: sellerAgent.id,
           type: "BROKERAGE",
           amount: sellerCommission,
-          note: `1% seller-side brokerage on ₹${input.dealValue.toLocaleString("en-IN")} deal`,
+          note: `${settings.brokeragePercent}% seller-side brokerage on ₹${input.dealValue.toLocaleString("en-IN")} deal`,
         },
       }),
       prisma.agentProfile.update({
@@ -96,14 +98,14 @@ export async function recordDeal(input: RecordDealInput) {
   if (buyerAgent && buyerCommission) {
     await notifyUser(
       buyerAgent.user,
-      `You earned ₹${buyerCommission} (1% buyer-side brokerage) on a ₹${input.dealValue.toLocaleString("en-IN")} deal. It's now in your wallet.`,
+      `You earned ₹${buyerCommission} (${settings.brokeragePercent}% buyer-side brokerage) on a ₹${input.dealValue.toLocaleString("en-IN")} deal. It's now in your wallet.`,
       "Brokerage commission credited"
     );
   }
   if (sellerAgent && sellerCommission) {
     await notifyUser(
       sellerAgent.user,
-      `You earned ₹${sellerCommission} (1% seller-side brokerage) on a ₹${input.dealValue.toLocaleString("en-IN")} deal. It's now in your wallet.`,
+      `You earned ₹${sellerCommission} (${settings.brokeragePercent}% seller-side brokerage) on a ₹${input.dealValue.toLocaleString("en-IN")} deal. It's now in your wallet.`,
       "Brokerage commission credited"
     );
   }

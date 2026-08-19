@@ -2,7 +2,15 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword } from "@/lib/password";
-import { verifyOtp, looksLikeEmail } from "@/lib/otp";
+import { verifyOtp, looksLikeEmail, phoneDigitsMatch } from "@/lib/otp";
+import type { Role } from "@/generated/prisma";
+
+async function findUserByPhone(identifier: string, role?: Role) {
+  const candidates = await prisma.user.findMany({
+    where: { phone: { not: null }, ...(role ? { role } : {}) },
+  });
+  return candidates.find((u) => phoneDigitsMatch(u.phone, identifier)) ?? null;
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
@@ -54,7 +62,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const isEmail = looksLikeEmail(identifier);
         const existing = isEmail
           ? await prisma.user.findUnique({ where: { email: identifier } })
-          : await prisma.user.findFirst({ where: { phone: identifier } });
+          : await findUserByPhone(identifier);
 
         const user =
           existing ??
@@ -98,7 +106,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // them (docs/platform-requirements.md §3.11).
         const user = isEmail
           ? await prisma.user.findUnique({ where: { email: identifier } })
-          : await prisma.user.findFirst({ where: { phone: identifier } });
+          : await findUserByPhone(identifier, "INVESTOR");
 
         if (!user || user.role !== "INVESTOR") return null;
 

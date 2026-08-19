@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
@@ -57,5 +58,5 @@ export async function updateProfile(formData: FormData) {
     },
   });
 
-  redirect("/dashboard/profile?saved=1");
+  revalidatePath("/dashboard/profile");
 }

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { findNearbyAgents } from "@/lib/agentGeo";
+import { findAssignedAgentsForLocation } from "@/lib/areaRouting";
 import { emitToAgent, emitToDispatch } from "@/lib/socket";
 import {
   scheduleBatchTimeout,
@@ -8,12 +9,11 @@ import {
   isDispatchQueueConfigured,
 } from "@/lib/queues/dispatchQueue";
 import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
+import { computeSplit } from "@/lib/commission";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export class DispatchServiceError extends Error {}
 
-const DISPATCH_AMOUNT = 100;
-const AGENT_SPLIT = 50;
-const COMPANY_SPLIT = 50;
 const BATCH_SIZE = 8; // "5-10 nearest Prime agents" — §3.5
 // Cascading radius ladder — §3.5 says "radius scan (1-5 km)" and "Batch 2:
 // next 5-10 agents", read together as widening the search each time a batch
@@ -37,7 +37,8 @@ export async function createDispatchOrder(input: CreateDispatchInput) {
   }
   if (!isRazorpayConfigured()) return { order: null, keyId: null };
 
-  const order = await createRazorpayOrder(DISPATCH_AMOUNT, `dispatch_${input.buyerId}_${Date.now()}`);
+  const settings = await getSiteSettings();
+  const order = await createRazorpayOrder(settings.unlockPassAmount, `dispatch_${input.buyerId}_${Date.now()}`);
   return { order, keyId: order ? process.env.RAZORPAY_KEY_ID ?? null : null };
 }
 
@@ -61,14 +62,25 @@ async function createDispatchRecordAndCascade(
   razorpayOrderId: string | null,
   overrides?: { amount: number; agentSplit: number; companySplit: number; excludeAgentIds?: string[] }
 ) {
+  let amount = overrides?.amount;
+  let agentSplit = overrides?.agentSplit;
+  let companySplit = overrides?.companySplit;
+  if (amount === undefined || agentSplit === undefined || companySplit === undefined) {
+    const settings = await getSiteSettings();
+    const split = computeSplit(settings.unlockPassAmount, settings.unlockAgentSplitPercent);
+    amount = settings.unlockPassAmount;
+    agentSplit = split.agentSplit;
+    companySplit = split.companySplit;
+  }
+
   const dispatch = await prisma.dispatchRequest.create({
     data: {
       buyerId: input.buyerId,
       latitude: input.latitude,
       longitude: input.longitude,
-      amount: overrides?.amount ?? DISPATCH_AMOUNT,
-      agentSplit: overrides?.agentSplit ?? AGENT_SPLIT,
-      companySplit: overrides?.companySplit ?? COMPANY_SPLIT,
+      amount,
+      agentSplit,
+      companySplit,
       razorpayOrderId,
       currentRadiusKm: RADIUS_LADDER_KM[0],
       currentBatch: 1,
@@ -123,7 +135,17 @@ async function dispatchBatch(
   });
   const excludeAgentIds = [...alreadyNotified.map((n) => n.agentId), ...extraExcludeAgentIds];
 
-  const nearby = await findNearbyAgents(latitude, longitude, radiusKm, BATCH_SIZE, excludeAgentIds);
+  // Pincode-based admin override takes priority over the default radius
+  // search — "call random na jaakar sirf aur sirf unhi chuninda area agents
+  // ko jayegi" (client's Agent Registration doc). Once those assigned
+  // agents have all been notified (and are therefore in excludeAgentIds on
+  // a later batch), this naturally returns empty and falls through to the
+  // normal radius cascade — no special-casing by batch number needed.
+  const assigned = await findAssignedAgentsForLocation(latitude, longitude, excludeAgentIds);
+  const nearby =
+    assigned.length > 0
+      ? assigned.slice(0, BATCH_SIZE)
+      : await findNearbyAgents(latitude, longitude, radiusKm, BATCH_SIZE, excludeAgentIds);
 
   if (nearby.length === 0) {
     // Nobody at this rung — widen immediately and try again rather than

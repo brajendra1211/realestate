@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { recordDeal, DealServiceError } from "@/lib/deal";
 import { distributeInvestorDealProfit, InvestorServiceError } from "@/lib/investor";
@@ -30,7 +31,11 @@ export async function recordDealAction(formData: FormData) {
     redirect(`/admin/deals?error=${code}`);
   }
 
-  redirect("/admin/deals?saved=deal");
+  // This Next.js build's client router doesn't reliably process a Server
+  // Action's redirect() (see src/app/login/LoginForm.tsx for the deeper
+  // writeup) — revalidatePath + staying on the same route sidesteps it
+  // entirely instead of redirecting back to where we already are.
+  revalidatePath("/admin/deals");
 }
 
 export async function distributeProfitAction(formData: FormData) {
@@ -55,5 +60,5 @@ export async function distributeProfitAction(formData: FormData) {
     redirect(`/admin/deals?error=${code}`);
   }
 
-  redirect("/admin/deals?saved=profit");
+  revalidatePath("/admin/deals");
 }

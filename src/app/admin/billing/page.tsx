@@ -1,15 +1,11 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { runBillingCheckAction } from "./actions";
+import { RunBillingCheckButton } from "./RunBillingCheckButton";
 
-type SearchParams = Promise<{ saved?: string; renewed?: string; demoted?: string }>;
-
-export default async function AdminBillingPage({ searchParams }: { searchParams: SearchParams }) {
+export default async function AdminBillingPage() {
   const session = await auth();
   if (!session || session.user.role !== "ADMIN") redirect("/login");
-
-  const { saved, renewed, demoted } = await searchParams;
 
   const dueToday = await prisma.subscription.count({
     where: { status: "ACTIVE", endDate: { lte: new Date() } },
@@ -33,24 +29,11 @@ export default async function AdminBillingPage({ searchParams }: { searchParams:
         new leads until they top up and reactivate.
       </p>
 
-      {saved === "1" && (
-        <p className="mt-4 max-w-2xl rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
-          Billing check ran: {renewed} renewed, {demoted} demoted.
-        </p>
-      )}
-
       <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
         <p className="text-sm text-slate-600">
           {dueToday} subscription{dueToday === 1 ? "" : "s"} due for renewal right now.
         </p>
-        <form action={runBillingCheckAction} className="mt-3">
-          <button
-            type="submit"
-            className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-          >
-            Run billing check now
-          </button>
-        </form>
+        <RunBillingCheckButton />
       </div>
 
       <h2 className="mt-8 text-lg font-semibold text-slate-900">Currently demoted agents</h2>

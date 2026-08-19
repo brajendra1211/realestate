@@ -1,22 +1,23 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { requestOtp } from "@/lib/otp";
 
-export async function requestBuyerOtp(formData: FormData) {
+export type BuyerLoginState = { error?: string; redirectTo?: string };
+
+export async function requestBuyerOtp(
+  _prevState: BuyerLoginState,
+  formData: FormData
+): Promise<BuyerLoginState> {
   const raw = String(formData.get("identifier") ?? "").trim();
   const next = String(formData.get("next") ?? "").trim();
   const nextQuery = next.startsWith("/") ? `&next=${encodeURIComponent(next)}` : "";
 
-  if (!raw) redirect(`/buyer/login?error=required${nextQuery}`);
+  if (!raw) return { error: "required" };
 
   const result = await requestOtp(raw);
+  if (!result.sent) return { error: "send" };
 
-  if (!result.sent) {
-    redirect(`/buyer/login?error=send&identifier=${encodeURIComponent(raw)}${nextQuery}`);
-  }
-
-  redirect(
-    `/buyer/verify?identifier=${encodeURIComponent(result.identifier)}&channel=${result.channel}${nextQuery}`
-  );
+  return {
+    redirectTo: `/buyer/verify?identifier=${encodeURIComponent(result.identifier)}&channel=${result.channel}${nextQuery}`,
+  };
 }

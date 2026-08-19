@@ -1,13 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
+import { computeSplit } from "@/lib/commission";
+import { getSiteSettings } from "@/lib/site-settings";
 import type { Prisma } from "@/generated/prisma";
 
 export class UnlockServiceError extends Error {}
-
-const UNLOCK_AMOUNT = 100;
-const AGENT_SPLIT = 50;
-const COMPANY_SPLIT = 50;
 
 // The real-payment seam, now wired: if RAZORPAY_KEY_ID/SECRET are set, this
 // creates a real order and the caller (Server Action) opens Razorpay Checkout
@@ -25,7 +23,8 @@ export async function createUnlockOrder(buyerId: string, agentListingId: string)
   const listing = await prisma.agentListing.findUnique({ where: { id: agentListingId } });
   if (!listing) throw new UnlockServiceError("notFound");
 
-  const order = await createRazorpayOrder(UNLOCK_AMOUNT, `unlock_${agentListingId}_${buyerId}`);
+  const settings = await getSiteSettings();
+  const order = await createRazorpayOrder(settings.unlockPassAmount, `unlock_${agentListingId}_${buyerId}`);
   return { alreadyUnlocked: false as const, order };
 }
 
@@ -63,14 +62,17 @@ export async function unlockAgentListing(buyerId: string, agentListingId: string
   });
   if (!listing) throw new UnlockServiceError("notFound");
 
+  const settings = await getSiteSettings();
+  const { agentSplit, companySplit } = computeSplit(settings.unlockPassAmount, settings.unlockAgentSplitPercent);
+
   const ops: Prisma.PrismaPromise<unknown>[] = [
     prisma.propertyUnlock.create({
       data: {
         agentListingId,
         buyerId,
-        amount: UNLOCK_AMOUNT,
-        agentSplit: listing.agentId ? AGENT_SPLIT : 0,
-        companySplit: listing.agentId ? COMPANY_SPLIT : UNLOCK_AMOUNT,
+        amount: settings.unlockPassAmount,
+        agentSplit: listing.agentId ? agentSplit : 0,
+        companySplit: listing.agentId ? companySplit : settings.unlockPassAmount,
       },
     }),
   ];
@@ -81,14 +83,14 @@ export async function unlockAgentListing(buyerId: string, agentListingId: string
         data: {
           agentId: listing.agentId,
           type: "UNLOCK_SPLIT",
-          amount: AGENT_SPLIT,
+          amount: agentSplit,
           refId: agentListingId,
-          note: `50% of ₹${UNLOCK_AMOUNT} unlock pass for listing "${listing.title}"`,
+          note: `${settings.unlockAgentSplitPercent}% of ₹${settings.unlockPassAmount} unlock pass for listing "${listing.title}"`,
         },
       }),
       prisma.agentProfile.update({
         where: { id: listing.agentId },
-        data: { walletBalance: { increment: AGENT_SPLIT } },
+        data: { walletBalance: { increment: agentSplit } },
       })
     );
   }
@@ -98,7 +100,7 @@ export async function unlockAgentListing(buyerId: string, agentListingId: string
   if (listing.agentId && listing.agent) {
     await notifyUser(
       listing.agent.user,
-      `Your listing "${listing.title}" was unlocked by a customer. ₹${AGENT_SPLIT} has been credited to your wallet.`,
+      `Your listing "${listing.title}" was unlocked by a customer. ₹${agentSplit} has been credited to your wallet.`,
       "Listing unlocked — wallet credited"
     );
   }

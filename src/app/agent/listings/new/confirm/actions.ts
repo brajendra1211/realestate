@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { getAgentByUserId } from "@/lib/agent";
 import {
@@ -9,14 +10,19 @@ import {
   type CreateAgentListingInput,
 } from "@/lib/listing";
 
-export async function submitAgentListing(formData: FormData) {
+export type SubmitAgentListingState = { error?: string; redirectTo?: string };
+
+export async function submitAgentListing(
+  _prevState: SubmitAgentListingState,
+  formData: FormData
+): Promise<SubmitAgentListingState> {
   const session = await auth();
   if (!session || session.user.role !== "AGENT") redirect("/login");
 
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) redirect("/register/agent");
   if (agent.status !== "APPROVED" || !agent.primeStatus) {
-    redirect("/agent/listings/new?error=notPrime");
+    return { error: "notPrime" };
   }
 
   const masterPropertyId = String(formData.get("masterPropertyId") ?? "").trim() || null;
@@ -25,13 +31,6 @@ export async function submitAgentListing(formData: FormData) {
   const latitude = Number(formData.get("latitude"));
   const longitude = Number(formData.get("longitude"));
   const images = formData.getAll("imageUrls").map(String).filter(Boolean);
-
-  const backParams = new URLSearchParams({
-    city,
-    locality,
-    lat: String(latitude),
-    lng: String(longitude),
-  });
 
   try {
     await createAgentListingService(agent.id, {
@@ -56,11 +55,11 @@ export async function submitAgentListing(formData: FormData) {
     });
   } catch (error) {
     if (error instanceof ListingServiceError) {
-      backParams.set("error", error.message);
-      redirect(`/agent/listings/new/confirm?${backParams.toString()}`);
+      return { error: error.message };
     }
     throw error;
   }
 
-  redirect("/agent/listings?saved=1");
+  revalidatePath("/agent/listings");
+  return { redirectTo: "/agent/listings?saved=1" };
 }

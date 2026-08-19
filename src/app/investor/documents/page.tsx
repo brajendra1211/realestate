@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getInvestorByUserId } from "@/lib/investor";
 import { getDocumentsForInvestor, getAgreementsForInvestor } from "@/lib/documentVault";
+import { PAYMENT_MODE_LABELS } from "@/lib/format";
 
 const DOC_TYPE_LABELS: Record<string, string> = {
   REGISTRY: "Registry",
@@ -70,6 +71,10 @@ export default async function InvestorDocumentsPage() {
               <p className="text-xs text-slate-500">
                 {agreement.agreementDate.toLocaleDateString("en-IN")}
                 {agreement.lockInPeriodMonths && ` · ${agreement.lockInPeriodMonths}mo lock-in`}
+                {agreement.paymentAmount != null &&
+                  ` · ₹${agreement.paymentAmount.toLocaleString("en-IN")} paid${
+                    agreement.paymentMode ? ` (${PAYMENT_MODE_LABELS[agreement.paymentMode]})` : ""
+                  }`}
               </p>
               <a
                 href={agreement.signedCopyUrl}

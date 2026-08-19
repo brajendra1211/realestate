@@ -1,20 +1,13 @@
-import { verifyInvestorOtp, resendInvestorOtp } from "./actions";
+import { InvestorVerifyForm } from "./InvestorVerifyForm";
 
 type SearchParams = Promise<{
   identifier?: string;
   channel?: string;
-  error?: string;
   resent?: string;
 }>;
 
-const ERROR_MESSAGES: Record<string, string> = {
-  required: "Enter the code we sent you.",
-  invalid:
-    "That code is incorrect/expired, or no investor account exists for this phone/email yet.",
-};
-
 export default async function InvestorVerifyPage({ searchParams }: { searchParams: SearchParams }) {
-  const { identifier, channel, error, resent } = await searchParams;
+  const { identifier, channel, resent } = await searchParams;
 
   if (!identifier) {
     return (
@@ -38,41 +31,8 @@ export default async function InvestorVerifyPage({ searchParams }: { searchParam
       {resent === "1" && (
         <p className="mt-4 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">Code resent.</p>
       )}
-      {error && (
-        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-          {ERROR_MESSAGES[error] ?? "Something went wrong. Try again."}
-        </p>
-      )}
 
-      <form action={verifyInvestorOtp} className="mt-6 space-y-4">
-        <input type="hidden" name="identifier" value={identifier} />
-        <div>
-          <label className="text-sm font-medium text-slate-700">6-digit code</label>
-          <input
-            type="text"
-            name="otp"
-            required
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            maxLength={6}
-            placeholder="123456"
-            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-center text-lg tracking-[0.5em] focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
-        >
-          Verify &amp; continue
-        </button>
-      </form>
-
-      <form action={resendInvestorOtp} className="mt-3 text-center">
-        <input type="hidden" name="identifier" value={identifier} />
-        <button type="submit" className="text-sm font-medium text-blue-600 hover:underline">
-          Resend code
-        </button>
-      </form>
+      <InvestorVerifyForm identifier={identifier} />
     </div>
   );
 }

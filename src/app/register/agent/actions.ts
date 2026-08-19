@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 import { submitAgentApplication, AgentServiceError, type AgentDocumentInput } from "@/lib/agent";
@@ -14,7 +13,12 @@ function readDoc(
   return url ? { type, url } : null;
 }
 
-export async function registerAgent(formData: FormData) {
+export type RegisterAgentState = { error?: string; redirectTo?: string };
+
+export async function registerAgent(
+  _prevState: RegisterAgentState,
+  formData: FormData
+): Promise<RegisterAgentState> {
   const email = String(formData.get("email") ?? "")
     .trim()
     .toLowerCase();
@@ -47,16 +51,22 @@ export async function registerAgent(formData: FormData) {
     });
   } catch (error) {
     if (error instanceof AgentServiceError) {
-      redirect(`/register/agent?error=${error.message}`);
+      return { error: error.message };
     }
     throw error;
   }
 
   try {
-    await signIn("credentials", { email, password, redirectTo: "/agent/dashboard" });
+    const redirectTo = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+      redirectTo: "/agent/dashboard",
+    });
+    return { redirectTo: typeof redirectTo === "string" ? redirectTo : "/agent/dashboard" };
   } catch (error) {
     if (error instanceof AuthError) {
-      redirect("/login");
+      return { redirectTo: "/login" };
     }
     throw error;
   }

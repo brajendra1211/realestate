@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* This app is light-theme only. Without this, any section that doesn't
+     set its own background falls back to `body`'s var(--background), which
+     otherwise flips near-black under OS/browser dark mode — showing up as
+     random black patches (e.g. the homepage's "Featured properties"
+     section had no bg class of its own). `color-scheme: light` also keeps
+     native form controls (selects, date pickers, scrollbars) from
+     rendering in dark style regardless of the OS setting. */
+  color-scheme: light;
 }
 
 @theme inline {
@@ -10,13 +18,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 html {

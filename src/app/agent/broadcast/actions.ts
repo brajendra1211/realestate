@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { getAgentByUserId } from "@/lib/agent";
@@ -73,12 +74,12 @@ export async function sendChatMessageAction(formData: FormData) {
     // no destructive state to roll back.
   }
 
-  redirect(`/agent/broadcast/${broadcastId}/chat/${toAgentId}`);
+  revalidatePath(`/agent/broadcast/${broadcastId}/chat/${toAgentId}`);
 }
 
 export async function closeBroadcastAction(formData: FormData) {
   const agent = await requirePrimeAgent();
   const broadcastId = String(formData.get("broadcastId") ?? "");
   await closeBroadcast(broadcastId, agent.id);
-  redirect("/agent/broadcast?saved=closed");
+  revalidatePath("/agent/broadcast");
 }

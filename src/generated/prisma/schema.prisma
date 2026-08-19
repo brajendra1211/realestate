@@ -376,9 +376,9 @@ model Amenity {
 }
 
 model SiteSettings {
-  id                     String   @id @default("singleton")
-  siteName               String   @default("BayaEstate")
-  tagline                String?  @db.Text
+  id                     String  @id @default("singleton")
+  siteName               String  @default("BayaEstate")
+  tagline                String? @db.Text
   logoUrl                String?
   favicon                String?
   heroImage              String?
@@ -389,19 +389,35 @@ model SiteSettings {
   whatsappNumber         String?
   contactEmail           String?
   contactPhone           String?
-  contactAddress         String?  @db.Text
+  contactAddress         String? @db.Text
   instagramUrl           String?
   facebookUrl            String?
   youtubeUrl             String?
   linkedinUrl            String?
-  footerText             String?  @db.Text
+  footerText             String? @db.Text
   metaTitle              String?
-  metaDescription        String?  @db.Text
+  metaDescription        String? @db.Text
   ogImage                String?
   googleAnalyticsId      String?
   googleSiteVerification String?
-  tdsPercent             Int      @default(5)
-  updatedAt              DateTime @updatedAt
+  tdsPercent             Int     @default(5)
+
+  // Commission & payout rates — docs/platform-requirements.md §3.11-§3.14,
+  // §3.17. All admin-editable from /admin/settings so nothing here is a
+  // hardcoded constant the client would need a code change to adjust.
+  brokeragePercent           Int @default(1) // §3.12 — 1% each side of a deal
+  profitAgentSharePercent    Int @default(10) // §3.13 — investor+company deal profit split
+  profitExpenseSharePercent  Int @default(10)
+  profitInvestorSharePercent Int @default(40) // companyShare is always the remainder
+  investorRegistrationFee    Int @default(20000) // §3.11 — new investor registrations only
+  investorReferralPercent    Int @default(10) // % of registrationFee credited to referring agent
+  agentReferralPercent       Int @default(10) // §3.20 — % of a referred agent's first Prime payment
+  unlockPassAmount           Int @default(100) // §3.3 — also reused by dispatch (§3.5/§6 item 2)
+  unlockAgentSplitPercent    Int @default(50)
+  goldListingAmount          Int @default(500) // §3.4
+  goldAgentSplitPercent      Int @default(50)
+
+  updatedAt DateTime @updatedAt
 }
 
 // --- Phase 1: Agent + Investor foundation (docs/platform-requirements.md §7) ---
@@ -478,9 +494,28 @@ model AgentProfile {
   customerBlocks        CustomerAgentBlock[]
   documentVaultItems    DocumentVaultItem[]
   visitAppointments     VisitAppointment[]
+  areaAssignments       AreaAgentAssignment[]
 
   @@index([status])
   @@index([referringAgentId])
+}
+
+// "Company har Pincode ya Area Code ko specific Agents ke IDs ke sath link
+// (map) kar deti hai... toh call random na jaakar sirf aur sirf unhi
+// chuninda area agents ko jayegi" — Agent Registration doc, "Company Rules
+// (Area-Wise Auto Allocation)". Admin-managed override on top of the
+// default radius-based dispatch (src/lib/agentGeo.ts): when a dispatch's
+// pincode has any assignments here, only these agents are notified for the
+// first batch instead of the nearest-by-distance ones.
+model AreaAgentAssignment {
+  id        String       @id @default(cuid())
+  pincode   String
+  agentId   String
+  agent     AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  createdAt DateTime     @default(now())
+
+  @@unique([pincode, agentId])
+  @@index([pincode])
 }
 
 model AgentDocument {
@@ -985,6 +1020,12 @@ model CustomerInvestorAgreement {
   flatUnitNumber     String?
   terms              String?         @db.Text
   signedCopyUrl      String
+  // "Investor ne customer ki property buy/book karne ke liye kitna payment
+  // diya aur uska payment mode kya tha" — the Investor→Customer leg, tracked
+  // separately from the Investor→Company registration-fee leg
+  // (InvestorProfile.feePaymentMode).
+  paymentAmount      Int?
+  paymentMode        PaymentMode?
   createdAt          DateTime        @default(now())
 
   @@index([investorId])

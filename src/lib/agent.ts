@@ -5,6 +5,7 @@ import { notifyUser } from "@/lib/notify";
 import { generateAgentCode } from "@/lib/codes";
 import { geocodeLocation } from "@/lib/geocode";
 import { indexAgentLocation } from "@/lib/agentGeo";
+import { getSiteSettings } from "@/lib/site-settings";
 import type { AgentProfile, Prisma } from "@/generated/prisma";
 
 export class AgentServiceError extends Error {}
@@ -136,14 +137,13 @@ export async function rejectAgent(agentProfileId: string, reason: string) {
   });
 }
 
-// 10% of the referred agent's first Prime subscription payment — §3.20, a
+// % of the referred agent's first Prime subscription payment — §3.20, a
 // one-time credit (confirmed with the client as the reading of "10%
 // commission from the new agent's code"), the direct parallel to
-// §3.11's investor-referral credit.
-const AGENT_REFERRAL_RATE = 0.1;
-
+// §3.11's investor-referral credit. Rate is admin-editable
+// (SiteSettings.agentReferralPercent), fetched below.
 export async function activateAgentPrime(agentProfileId: string, planId: string) {
-  const [agent, plan] = await Promise.all([
+  const [agent, plan, settings] = await Promise.all([
     prisma.agentProfile.findUnique({
       where: { id: agentProfileId },
       include: {
@@ -152,6 +152,7 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
       },
     }),
     prisma.plan.findUnique({ where: { id: planId } }),
+    getSiteSettings(),
   ]);
   if (!agent) throw new AgentServiceError("notFound");
   if (agent.status !== "APPROVED") {
@@ -165,7 +166,9 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
   const isFirstActivation = !agent.agentCode;
   const agentCode = agent.agentCode ?? (await generateAgentCode(agent.city));
   const referralAmount =
-    isFirstActivation && agent.referringAgent ? Math.round(plan.price * AGENT_REFERRAL_RATE) : 0;
+    isFirstActivation && agent.referringAgent
+      ? Math.round(plan.price * (settings.agentReferralPercent / 100))
+      : 0;
 
   const ops: Prisma.PrismaPromise<unknown>[] = [
     prisma.subscription.updateMany({
@@ -197,7 +200,7 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
           type: "AGENT_REFERRAL",
           amount: referralAmount,
           refId: agentProfileId,
-          note: `10% referral for agent ${agentCode}'s first Prime payment`,
+          note: `${settings.agentReferralPercent}% referral for agent ${agentCode}'s first Prime payment`,
         },
       }),
       prisma.agentProfile.update({

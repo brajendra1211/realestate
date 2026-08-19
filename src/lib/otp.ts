@@ -15,6 +15,19 @@ export function normalizeIdentifier(raw: string) {
   return trimmed.replace(/[^\d]/g, "");
 }
 
+// Phone numbers get stored in whatever format they were entered in (e.g.
+// registration forms save "+91 90000 00003"), while OTP identifiers are
+// digits-only with no country code. An exact-match lookup between the two
+// never matches. Compare by the last 10 digits instead, so a stored number
+// with or without a country code/spaces/dashes still matches what the user
+// types to request an OTP.
+export function phoneDigitsMatch(a: string | null | undefined, b: string | null | undefined) {
+  if (!a || !b) return false;
+  const digitsA = a.replace(/[^\d]/g, "").slice(-10);
+  const digitsB = b.replace(/[^\d]/g, "").slice(-10);
+  return digitsA.length === 10 && digitsA === digitsB;
+}
+
 function generateCode() {
   return String(Math.floor(100000 + Math.random() * 900000));
 }
@@ -28,6 +41,12 @@ export function resolveOtpChannel(identifier: string): OtpChannel {
   if (looksLikeEmail(identifier)) return "EMAIL";
   return isWhatsAppConfigured() ? "WHATSAPP" : "EMAIL";
 }
+
+// Dev-only: when WhatsApp/email aren't configured (or delivery fails) in a
+// non-production environment, print the code to the server console instead
+// of blocking the login flow, so OTP login is testable without real
+// WhatsApp/SMTP credentials.
+const isDev = process.env.NODE_ENV !== "production";
 
 export async function requestOtp(rawIdentifier: string) {
   const identifier = normalizeIdentifier(rawIdentifier);
@@ -43,16 +62,31 @@ export async function requestOtp(rawIdentifier: string) {
     // WhatsApp delivery failed (e.g. no approved template + outside the 24h
     // window) — fall back to email only if this identifier looks like one,
     // which it won't for a phone number, so just report the failure.
+    if (isDev) {
+      console.log(`[dev otp] ${identifier} (${channel}): ${code}`);
+      return { sent: true, channel, identifier };
+    }
     return { sent: false, channel, identifier };
   }
 
-  if (!isMailerConfigured()) return { sent: false, channel, identifier };
+  if (!isMailerConfigured()) {
+    if (isDev) {
+      console.log(`[dev otp] ${identifier} (${channel}): ${code}`);
+      return { sent: true, channel, identifier };
+    }
+    return { sent: false, channel, identifier };
+  }
   const sent = await sendEmail(
     identifier,
     "Your BayaEstate login code",
     `<p>Your login code is <strong>${code}</strong>. It expires in ${OTP_EXPIRY_MINUTES} minutes.</p>`
   );
-  return { sent, channel, identifier };
+  if (sent) return { sent: true, channel, identifier };
+  if (isDev) {
+    console.log(`[dev otp] ${identifier} (${channel}): ${code}`);
+    return { sent: true, channel, identifier };
+  }
+  return { sent: false, channel, identifier };
 }
 
 export async function verifyOtp(identifier: string, code: string) {

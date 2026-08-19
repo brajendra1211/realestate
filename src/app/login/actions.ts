@@ -1,25 +1,26 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 
-export async function login(formData: FormData) {
+export type LoginState = { error?: string; redirectTo?: string };
+
+export async function login(_prevState: LoginState, formData: FormData): Promise<LoginState> {
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
   const callbackUrl = String(formData.get("callbackUrl") ?? "/");
 
   try {
-    await signIn("credentials", {
+    const redirectTo = await signIn("credentials", {
       email,
       password,
+      redirect: false,
       redirectTo: callbackUrl,
     });
+    return { redirectTo: typeof redirectTo === "string" ? redirectTo : callbackUrl };
   } catch (error) {
     if (error instanceof AuthError) {
-      redirect(
-        `/login?error=1&callbackUrl=${encodeURIComponent(callbackUrl)}`
-      );
+      return { error: "Invalid email or password." };
     }
     throw error;
   }

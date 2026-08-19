@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { getAgentByUserId } from "@/lib/agent";
 import { requestVisitOtp, logVisit, VisitLogServiceError } from "@/lib/visitLog";
@@ -14,27 +15,37 @@ async function requireAgent() {
   return agent;
 }
 
-export async function requestVisitOtpAction(formData: FormData) {
+export type VisitOtpState = { error?: string; redirectTo?: string };
+
+export async function requestVisitOtpAction(
+  _prevState: VisitOtpState,
+  formData: FormData
+): Promise<VisitOtpState> {
   await requireAgent();
   const customerPhone = String(formData.get("customerPhone") ?? "").trim();
   const masterId = String(formData.get("masterId") ?? "").trim();
   const customerName = String(formData.get("customerName") ?? "").trim();
 
   if (!customerPhone || !masterId) {
-    redirect("/agent/visits/new?error=validation");
+    return { error: "validation" };
   }
 
   const result = await requestVisitOtp(customerPhone);
   if (!result.sent) {
-    redirect(`/agent/visits/new?error=send&customerPhone=${encodeURIComponent(customerPhone)}&masterId=${encodeURIComponent(masterId)}`);
+    return { error: "send" };
   }
 
-  redirect(
-    `/agent/visits/verify?customerPhone=${encodeURIComponent(result.identifier)}&masterId=${encodeURIComponent(masterId)}&customerName=${encodeURIComponent(customerName)}&channel=${result.channel}`
-  );
+  return {
+    redirectTo: `/agent/visits/verify?customerPhone=${encodeURIComponent(result.identifier)}&masterId=${encodeURIComponent(masterId)}&customerName=${encodeURIComponent(customerName)}&channel=${result.channel}`,
+  };
 }
 
-export async function logVisitAction(formData: FormData) {
+export type LogVisitState = { error?: string; redirectTo?: string };
+
+export async function logVisitAction(
+  _prevState: LogVisitState,
+  formData: FormData
+): Promise<LogVisitState> {
   const agent = await requireAgent();
   const customerPhone = String(formData.get("customerPhone") ?? "").trim();
   const customerName = String(formData.get("customerName") ?? "").trim();
@@ -43,9 +54,7 @@ export async function logVisitAction(formData: FormData) {
 
   const masterProperty = await prisma.masterProperty.findUnique({ where: { masterId } });
   if (!masterProperty) {
-    redirect(
-      `/agent/visits/verify?customerPhone=${encodeURIComponent(customerPhone)}&masterId=${encodeURIComponent(masterId)}&customerName=${encodeURIComponent(customerName)}&error=propertyNotFound`
-    );
+    return { error: "propertyNotFound" };
   }
 
   try {
@@ -53,21 +62,20 @@ export async function logVisitAction(formData: FormData) {
       agentId: agent.id,
       customerPhone,
       customerName,
-      masterPropertyId: masterProperty!.id,
+      masterPropertyId: masterProperty.id,
       otp,
     });
 
     if (result.isConflict) {
-      redirect(
-        `/agent/visits?conflict=1&masterId=${encodeURIComponent(masterId)}&originalAgent=${encodeURIComponent(result.originalAgentCode ?? "")}`
-      );
+      return {
+        redirectTo: `/agent/visits?conflict=1&masterId=${encodeURIComponent(masterId)}&originalAgent=${encodeURIComponent(result.originalAgentCode ?? "")}`,
+      };
     }
-    redirect("/agent/visits?saved=1");
+    revalidatePath("/agent/visits");
+    return { redirectTo: "/agent/visits" };
   } catch (error) {
     if (error instanceof VisitLogServiceError) {
-      redirect(
-        `/agent/visits/verify?customerPhone=${encodeURIComponent(customerPhone)}&masterId=${encodeURIComponent(masterId)}&customerName=${encodeURIComponent(customerName)}&error=${error.message}`
-      );
+      return { error: error.message };
     }
     throw error;
   }

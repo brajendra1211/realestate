@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { unlockAgentListing, createUnlockOrder, verifyAndUnlockListing } from "@/lib/unlock";
 import { getRazorpayKeyId } from "@/lib/razorpay";
@@ -15,7 +16,7 @@ export async function unlockListing(formData: FormData) {
   }
 
   await unlockAgentListing(session.user.id, agentListingId);
-  redirect(`/listings/${slug}?unlocked=1`);
+  revalidatePath(`/listings/${slug}`);
 }
 
 // Called from the client-side UnlockButton when Razorpay is configured —
@@ -35,8 +36,13 @@ export async function createUnlockOrderAction(agentListingId: string, slug: stri
   return { alreadyUnlocked: false as const, order: result.order, keyId: getRazorpayKeyId() };
 }
 
-// Called from the client after Razorpay Checkout reports success — verifies
-// the signature server-side before crediting anything.
+// Called directly from the client (UnlockButton) after Razorpay Checkout
+// reports success — verifies the signature server-side before crediting
+// anything. Returns rather than calling redirect(): this is invoked as a
+// plain async call inside the caller's own try/catch, and a thrown
+// NEXT_REDIRECT would be swallowed by that catch as if it were a real
+// failure — UnlockButton does the actual navigation itself via
+// window.location.href once this resolves, same as its alreadyUnlocked path.
 export async function verifyUnlockPaymentAction(input: {
   agentListingId: string;
   slug: string;
@@ -56,5 +62,4 @@ export async function verifyUnlockPaymentAction(input: {
     input.razorpayPaymentId,
     input.razorpaySignature
   );
-  redirect(`/listings/${input.slug}?unlocked=1`);
 }

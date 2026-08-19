@@ -1,18 +1,24 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { getAgentByUserId } from "@/lib/agent";
 import { registerInvestor, InvestorServiceError } from "@/lib/investor";
 
-export async function createInvestor(formData: FormData) {
+export type CreateInvestorState = { error?: string; redirectTo?: string };
+
+export async function createInvestor(
+  _prevState: CreateInvestorState,
+  formData: FormData
+): Promise<CreateInvestorState> {
   const session = await auth();
   if (!session || session.user.role !== "AGENT") redirect("/login");
 
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) redirect("/register/agent");
   if (agent.status !== "APPROVED" || !agent.primeStatus) {
-    redirect("/agent/investors/new?error=notPrime");
+    return { error: "notPrime" };
   }
 
   try {
@@ -23,10 +29,11 @@ export async function createInvestor(formData: FormData) {
     });
   } catch (error) {
     if (error instanceof InvestorServiceError) {
-      redirect(`/agent/investors/new?error=${error.message}`);
+      return { error: error.message };
     }
     throw error;
   }
 
-  redirect("/agent/investors?saved=1");
+  revalidatePath("/agent/investors");
+  return { redirectTo: "/agent/investors?saved=1" };
 }

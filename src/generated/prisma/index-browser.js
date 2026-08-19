@@ -368,6 +368,17 @@ exports.Prisma.SiteSettingsScalarFieldEnum = {
   googleAnalyticsId: 'googleAnalyticsId',
   googleSiteVerification: 'googleSiteVerification',
   tdsPercent: 'tdsPercent',
+  brokeragePercent: 'brokeragePercent',
+  profitAgentSharePercent: 'profitAgentSharePercent',
+  profitExpenseSharePercent: 'profitExpenseSharePercent',
+  profitInvestorSharePercent: 'profitInvestorSharePercent',
+  investorRegistrationFee: 'investorRegistrationFee',
+  investorReferralPercent: 'investorReferralPercent',
+  agentReferralPercent: 'agentReferralPercent',
+  unlockPassAmount: 'unlockPassAmount',
+  unlockAgentSplitPercent: 'unlockAgentSplitPercent',
+  goldListingAmount: 'goldListingAmount',
+  goldAgentSplitPercent: 'goldAgentSplitPercent',
   updatedAt: 'updatedAt'
 };
 
@@ -395,6 +406,13 @@ exports.Prisma.AgentProfileScalarFieldEnum = {
   referringAgentId: 'referringAgentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AreaAgentAssignmentScalarFieldEnum = {
+  id: 'id',
+  pincode: 'pincode',
+  agentId: 'agentId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AgentDocumentScalarFieldEnum = {
@@ -670,6 +688,8 @@ exports.Prisma.CustomerInvestorAgreementScalarFieldEnum = {
   flatUnitNumber: 'flatUnitNumber',
   terms: 'terms',
   signedCopyUrl: 'signedCopyUrl',
+  paymentAmount: 'paymentAmount',
+  paymentMode: 'paymentMode',
   createdAt: 'createdAt'
 };
 
@@ -894,6 +914,12 @@ exports.Prisma.AgentProfileOrderByRelevanceFieldEnum = {
   gstNumber: 'gstNumber',
   rejectionReason: 'rejectionReason',
   referringAgentId: 'referringAgentId'
+};
+
+exports.Prisma.AreaAgentAssignmentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  pincode: 'pincode',
+  agentId: 'agentId'
 };
 
 exports.Prisma.AgentDocumentOrderByRelevanceFieldEnum = {
@@ -1257,6 +1283,7 @@ exports.Prisma.ModelName = {
   Amenity: 'Amenity',
   SiteSettings: 'SiteSettings',
   AgentProfile: 'AgentProfile',
+  AreaAgentAssignment: 'AreaAgentAssignment',
   AgentDocument: 'AgentDocument',
   InvestorProfile: 'InvestorProfile',
   CommissionLedgerEntry: 'CommissionLedgerEntry',

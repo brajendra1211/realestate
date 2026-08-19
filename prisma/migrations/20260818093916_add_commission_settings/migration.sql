@@ -1,0 +1,12 @@
+-- AlterTable
+ALTER TABLE `sitesettings` ADD COLUMN `agentReferralPercent` INTEGER NOT NULL DEFAULT 10,
+    ADD COLUMN `brokeragePercent` INTEGER NOT NULL DEFAULT 1,
+    ADD COLUMN `goldAgentSplitPercent` INTEGER NOT NULL DEFAULT 50,
+    ADD COLUMN `goldListingAmount` INTEGER NOT NULL DEFAULT 500,
+    ADD COLUMN `investorReferralPercent` INTEGER NOT NULL DEFAULT 10,
+    ADD COLUMN `investorRegistrationFee` INTEGER NOT NULL DEFAULT 20000,
+    ADD COLUMN `profitAgentSharePercent` INTEGER NOT NULL DEFAULT 10,
+    ADD COLUMN `profitExpenseSharePercent` INTEGER NOT NULL DEFAULT 10,
+    ADD COLUMN `profitInvestorSharePercent` INTEGER NOT NULL DEFAULT 40,
+    ADD COLUMN `unlockAgentSplitPercent` INTEGER NOT NULL DEFAULT 50,
+    ADD COLUMN `unlockPassAmount` INTEGER NOT NULL DEFAULT 100;

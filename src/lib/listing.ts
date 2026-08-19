@@ -91,6 +91,15 @@ export async function getListingsForAgent(agentProfileId: string) {
   });
 }
 
+// 2-tier priority — "Top Priority (Prime Subscribed Agents): sabse pehle un
+// Prime Agents ki properties top par show hongi... Second Priority
+// (Radius-Based): iske baad... kisi bhi doosre agent dwara daali gayi
+// listings show hongi" (client's Agent Registration doc, §"Priority Listing
+// Engine"). A listing's agent may have since lost Prime (demoted) or, for a
+// Gold self-listing with no referring agent, have no agent at all — both
+// rank below currently-Prime agents' listings. `agent: { primeStatus: "desc" }`
+// sorts true first, then false, then NULL (no agent) last — MySQL's default
+// null-ordering for DESC — which is exactly this tiering, no raw SQL needed.
 export async function getPublicListings(filters?: { city?: string; listingType?: "SALE" | "RENT" }) {
   return prisma.agentListing.findMany({
     where: {
@@ -99,7 +108,7 @@ export async function getPublicListings(filters?: { city?: string; listingType?:
       ...(filters?.listingType ? { listingType: filters.listingType } : {}),
     },
     include: { images: true, masterProperty: true },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ agent: { primeStatus: "desc" } }, { createdAt: "desc" }],
   });
 }
 

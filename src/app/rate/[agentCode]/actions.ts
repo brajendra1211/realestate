@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { submitRating, RatingServiceError } from "@/lib/rating";
 
@@ -20,5 +21,5 @@ export async function submitRatingAction(formData: FormData) {
     redirect(`/rate/${agentCode}?error=${code}`);
   }
 
-  redirect(`/rate/${agentCode}?saved=1`);
+  revalidatePath(`/rate/${agentCode}`);
 }

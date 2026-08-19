@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { REGISTRATION_REFERRAL_SHARE } from "@/lib/investor";
 
 // Live financial analytics — §3.14 Admin Panel: net profit, total investor
 // returns, agent payouts, operating expenses. Company revenue is only the
@@ -10,7 +9,7 @@ import { REGISTRATION_REFERRAL_SHARE } from "@/lib/investor";
 // payouts are reported separately as a cash-out metric, not subtracted from
 // net profit.
 export async function getFinancialAnalytics() {
-  const [profitAgg, unlockAgg, paidInvestors, investorReturnsAgg, paidPayoutsAgg] =
+  const [profitAgg, unlockAgg, paidInvestors, registrationReferralAgg, investorReturnsAgg, paidPayoutsAgg] =
     await Promise.all([
       prisma.profitDistribution.aggregate({
         _sum: { companyShare: true, expenseShare: true, totalProfit: true },
@@ -19,7 +18,14 @@ export async function getFinancialAnalytics() {
       prisma.investorProfile.aggregate({
         where: { feeStatus: "PAID" },
         _sum: { registrationFee: true },
-        _count: true,
+      }),
+      // Sum of actual REGISTRATION_REFERRAL ledger entries, not
+      // count * a fixed constant — investorReferralPercent/registrationFee
+      // are admin-editable and can change over time, so each investor's
+      // referral credit may differ.
+      prisma.commissionLedgerEntry.aggregate({
+        where: { type: "REGISTRATION_REFERRAL" },
+        _sum: { amount: true },
       }),
       prisma.investorLedgerEntry.aggregate({ _sum: { amount: true } }),
       prisma.payoutRequest.aggregate({
@@ -31,7 +37,7 @@ export async function getFinancialAnalytics() {
   const profitDistributionCompanyRevenue = profitAgg._sum.companyShare ?? 0;
   const unlockCompanyRevenue = unlockAgg._sum.companySplit ?? 0;
   const investorRegistrationCompanyRevenue =
-    (paidInvestors._sum.registrationFee ?? 0) - paidInvestors._count * REGISTRATION_REFERRAL_SHARE;
+    (paidInvestors._sum.registrationFee ?? 0) - (registrationReferralAgg._sum.amount ?? 0);
 
   const companyRevenue =
     profitDistributionCompanyRevenue + unlockCompanyRevenue + investorRegistrationCompanyRevenue;

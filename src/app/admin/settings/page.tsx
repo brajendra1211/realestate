@@ -192,6 +192,93 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
           />
         </Section>
 
+        <Section
+          title="Commission rates"
+          description="Every payout % and fee in the platform — docs/platform-requirements.md §3.11-§3.14/§3.17. Changing a rate only affects deals/payments recorded after the change; past ledger entries keep whatever rate was in effect when they were credited."
+        >
+          <Field
+            label="Brokerage per side (%)"
+            name="brokeragePercent"
+            type="number"
+            defaultValue={String(settings?.brokeragePercent ?? 1)}
+            placeholder="1% of deal value, to each of buyer's/seller's agent — §3.12"
+            span
+          />
+          <Field
+            label="Investor+company deal profit — agent share (%)"
+            name="profitAgentSharePercent"
+            type="number"
+            defaultValue={String(settings?.profitAgentSharePercent ?? 10)}
+          />
+          <Field
+            label="Investor+company deal profit — expense share (%)"
+            name="profitExpenseSharePercent"
+            type="number"
+            defaultValue={String(settings?.profitExpenseSharePercent ?? 10)}
+          />
+          <Field
+            label="Investor+company deal profit — investor share (%)"
+            name="profitInvestorSharePercent"
+            type="number"
+            defaultValue={String(settings?.profitInvestorSharePercent ?? 40)}
+          />
+          <div>
+            <label className="text-sm font-medium text-slate-700">Investor+company deal profit — company share</label>
+            <p className={inputClass + " bg-slate-50 text-slate-500"}>
+              Remainder — 100% minus the three shares above
+            </p>
+          </div>
+          <Field
+            label="Investor registration fee (₹)"
+            name="investorRegistrationFee"
+            type="number"
+            defaultValue={String(settings?.investorRegistrationFee ?? 20000)}
+            placeholder="§3.11 — new investor registrations only, doesn't change existing investors' fee"
+          />
+          <Field
+            label="Investor registration referral (%)"
+            name="investorReferralPercent"
+            type="number"
+            defaultValue={String(settings?.investorReferralPercent ?? 10)}
+            placeholder="% of the registration fee credited to the referring agent"
+          />
+          <Field
+            label="Agent-to-agent referral (%)"
+            name="agentReferralPercent"
+            type="number"
+            defaultValue={String(settings?.agentReferralPercent ?? 10)}
+            placeholder="§3.20 — % of a referred agent's first Prime payment, one-time"
+          />
+          <Field
+            label="Customer unlock pass (₹)"
+            name="unlockPassAmount"
+            type="number"
+            defaultValue={String(settings?.unlockPassAmount ?? 100)}
+            placeholder="§3.3 — also reused for the dispatch trigger fee (§3.5)"
+          />
+          <Field
+            label="Unlock pass — agent split (%)"
+            name="unlockAgentSplitPercent"
+            type="number"
+            defaultValue={String(settings?.unlockAgentSplitPercent ?? 50)}
+            placeholder="Rest goes to the company"
+          />
+          <Field
+            label="Gold self-listing fee (₹)"
+            name="goldListingAmount"
+            type="number"
+            defaultValue={String(settings?.goldListingAmount ?? 500)}
+            placeholder="§3.4"
+          />
+          <Field
+            label="Gold listing — agent split (%)"
+            name="goldAgentSplitPercent"
+            type="number"
+            defaultValue={String(settings?.goldAgentSplitPercent ?? 50)}
+            placeholder="Rest goes to the company"
+          />
+        </Section>
+
         <Section title="Footer">
           <TextAreaField label="Footer text" name="footerText" defaultValue={settings?.footerText} />
         </Section>

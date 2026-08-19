@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { getAgentByUserId } from "@/lib/agent";
 import { requestAgentPayout, PayoutServiceError } from "@/lib/payout";
@@ -21,5 +22,5 @@ export async function requestPayoutAction(formData: FormData) {
     redirect(`/agent/dashboard?error=${code}`);
   }
 
-  redirect("/agent/dashboard?saved=payout");
+  revalidatePath("/agent/dashboard");
 }

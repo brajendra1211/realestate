@@ -53,7 +53,7 @@ export function NearMeButton({ className }: { className?: string }) {
       >
         📍 {loading ? "Finding you…" : "Properties near me"}
       </button>
-      {error && <p className="mt-2 text-xs text-red-200">{error}</p>}
+      {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { approveAgent, rejectAgent, activateAgentPrime, AgentServiceError } from "@/lib/agent";
 
@@ -16,7 +17,7 @@ export async function approveAgentAction(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await approveAgent(id);
-  redirect("/admin/agents?saved=1");
+  revalidatePath("/admin/agents");
 }
 
 export async function rejectAgentAction(formData: FormData) {
@@ -24,7 +25,7 @@ export async function rejectAgentAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const reason = String(formData.get("reason") ?? "");
   await rejectAgent(id, reason);
-  redirect("/admin/agents?saved=1");
+  revalidatePath("/admin/agents");
 }
 
 export async function activatePrimeAction(formData: FormData) {
@@ -42,5 +43,5 @@ export async function activatePrimeAction(formData: FormData) {
     throw error;
   }
 
-  redirect("/admin/agents?saved=1");
+  revalidatePath("/admin/agents");
 }

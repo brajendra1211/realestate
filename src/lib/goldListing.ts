@@ -6,14 +6,12 @@ import { findNearbyAgents } from "@/lib/agentGeo";
 import { emitToAgent } from "@/lib/socket";
 import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
 import { getNearbyAmenities, formatAmenitiesNote } from "@/lib/amenityLookup";
+import { computeSplit } from "@/lib/commission";
+import { getSiteSettings } from "@/lib/site-settings";
 import type { ListingType, PropertyType } from "@/generated/prisma";
 
 export class GoldListingServiceError extends Error {}
 
-const GOLD_AMOUNT = 500;
-const AGENT_SPLIT = 250;
-const COMPANY_SPLIT_NO_AGENT = 500;
-const COMPANY_SPLIT_WITH_AGENT = 250;
 const AUTO_INJECT_RADIUS_KM = 5; // "1-5 km" — §3.4
 const AUTO_INJECT_MAX_AGENTS = 50; // one-shot push, not a batched cascade
 
@@ -71,7 +69,8 @@ export async function createGoldListingOrder(input: CreateGoldListingInput) {
   validate(input);
   if (!isRazorpayConfigured()) return { order: null, keyId: null };
 
-  const order = await createRazorpayOrder(GOLD_AMOUNT, `gold_${input.buyerId}_${Date.now()}`);
+  const settings = await getSiteSettings();
+  const order = await createRazorpayOrder(settings.goldListingAmount, `gold_${input.buyerId}_${Date.now()}`);
   return { order, keyId: order ? process.env.RAZORPAY_KEY_ID ?? null : null };
 }
 
@@ -139,14 +138,19 @@ async function createGoldListingRecord(input: CreateGoldListingInput, razorpayOr
     include: { images: true, masterProperty: true },
   });
 
-  const agentSplit = referringAgentId ? AGENT_SPLIT : 0;
-  const companySplit = referringAgentId ? COMPANY_SPLIT_WITH_AGENT : COMPANY_SPLIT_NO_AGENT;
+  const settings = await getSiteSettings();
+  const { agentSplit: splitAgentShare, companySplit: splitCompanyShare } = computeSplit(
+    settings.goldListingAmount,
+    settings.goldAgentSplitPercent
+  );
+  const agentSplit = referringAgentId ? splitAgentShare : 0;
+  const companySplit = referringAgentId ? splitCompanyShare : settings.goldListingAmount;
 
   await prisma.goldListingPurchase.create({
     data: {
       agentListingId: listing.id,
       buyerId: input.buyerId,
-      amount: GOLD_AMOUNT,
+      amount: settings.goldListingAmount,
       agentSplit,
       companySplit,
       razorpayOrderId,
@@ -164,20 +168,20 @@ async function createGoldListingRecord(input: CreateGoldListingInput, razorpayOr
         data: {
           agentId: referringAgentId,
           type: "GOLD_SPLIT",
-          amount: AGENT_SPLIT,
+          amount: agentSplit,
           refId: listing.id,
-          note: `50% of ₹${GOLD_AMOUNT} Gold Membership self-listing "${listing.title}"`,
+          note: `${settings.goldAgentSplitPercent}% of ₹${settings.goldListingAmount} Gold Membership self-listing "${listing.title}"`,
         },
       }),
       prisma.agentProfile.update({
         where: { id: referringAgentId },
-        data: { walletBalance: { increment: AGENT_SPLIT } },
+        data: { walletBalance: { increment: agentSplit } },
       }),
     ]);
 
     await notifyUser(
       agent.user,
-      `A customer used your Agent Code to self-list a property (Gold Membership). ₹${AGENT_SPLIT} has been credited to your wallet.`,
+      `A customer used your Agent Code to self-list a property (Gold Membership). ₹${agentSplit} has been credited to your wallet.`,
       "Gold listing referral credited"
     );
   }

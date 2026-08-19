@@ -1,10 +1,11 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { uploadDocument, createCustomerInvestorAgreement, DocumentVaultServiceError } from "@/lib/documentVault";
-import type { DocumentVaultType } from "@/generated/prisma";
+import type { DocumentVaultType, PaymentMode } from "@/generated/prisma";
 
 async function requireAdmin() {
   const session = await auth();
@@ -40,7 +41,7 @@ export async function uploadDocumentAction(formData: FormData) {
     redirect(`/admin/documents?error=${code}`);
   }
 
-  redirect("/admin/documents?saved=1");
+  revalidatePath("/admin/documents");
 }
 
 export async function createAgreementAction(formData: FormData) {
@@ -62,11 +63,13 @@ export async function createAgreementAction(formData: FormData) {
       flatUnitNumber: String(formData.get("flatUnitNumber") ?? ""),
       terms: String(formData.get("terms") ?? ""),
       signedCopyUrl: String(formData.get("signedCopyUrl") ?? ""),
+      paymentAmount: formData.get("paymentAmount") ? Number(formData.get("paymentAmount")) : null,
+      paymentMode: (String(formData.get("paymentMode") ?? "").trim() || null) as PaymentMode | null,
     });
   } catch (error) {
     const code = error instanceof DocumentVaultServiceError ? error.message : "unknown";
     redirect(`/admin/documents?error=${code}`);
   }
 
-  redirect("/admin/documents?saved=agreement");
+  revalidatePath("/admin/documents");
 }

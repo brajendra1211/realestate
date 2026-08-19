@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { switchAgent, AgentSwitchServiceError } from "@/lib/agentSwitch";
@@ -34,7 +35,7 @@ export async function switchAgentAction(formData: FormData) {
     redirect(`/buyer/dashboard?switchError=${code}`);
   }
 
-  redirect("/buyer/dashboard?switchSaved=1");
+  revalidatePath("/buyer/dashboard");
 }
 
 // §3.7's no-show escalation — buyer flags an agent who didn't show for a
@@ -70,7 +71,7 @@ export async function toggleSavedProperty(formData: FormData) {
     await prisma.savedProperty.create({ data: { userId: session.user.id, propertyId } });
   }
 
-  redirect(redirectTo);
+  revalidatePath(redirectTo.split("?")[0]);
 }
 
 export async function updateBuyerProfile(formData: FormData) {
@@ -95,5 +96,5 @@ export async function updateBuyerProfile(formData: FormData) {
     },
   });
 
-  redirect("/buyer/dashboard?saved=1");
+  revalidatePath("/buyer/dashboard");
 }

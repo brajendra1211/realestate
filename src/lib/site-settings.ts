@@ -26,6 +26,17 @@ const DEFAULT_SETTINGS = {
   googleAnalyticsId: null as string | null,
   googleSiteVerification: null as string | null,
   tdsPercent: 5,
+  brokeragePercent: 1,
+  profitAgentSharePercent: 10,
+  profitExpenseSharePercent: 10,
+  profitInvestorSharePercent: 40,
+  investorRegistrationFee: 20000,
+  investorReferralPercent: 10,
+  agentReferralPercent: 10,
+  unlockPassAmount: 100,
+  unlockAgentSplitPercent: 50,
+  goldListingAmount: 500,
+  goldAgentSplitPercent: 50,
 };
 
 export async function getSiteSettings() {

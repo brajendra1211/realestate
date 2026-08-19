@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { getAgentByUserId } from "@/lib/agent";
 import { uploadDocument, deleteDocument, DocumentVaultServiceError } from "@/lib/documentVault";
@@ -34,7 +35,7 @@ export async function uploadAgentDocumentAction(formData: FormData) {
     redirect(`/agent/documents?error=${code}`);
   }
 
-  redirect("/agent/documents?saved=1");
+  revalidatePath("/agent/documents");
 }
 
 export async function deleteAgentDocumentAction(formData: FormData) {
@@ -48,5 +49,5 @@ export async function deleteAgentDocumentAction(formData: FormData) {
   if (doc && doc.agentId === agent.id) {
     await deleteDocument(id);
   }
-  redirect("/agent/documents?saved=1");
+  revalidatePath("/agent/documents");
 }

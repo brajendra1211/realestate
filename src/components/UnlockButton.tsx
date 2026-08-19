@@ -66,6 +66,7 @@ export function UnlockButton({ agentListingId, slug }: { agentListingId: string;
               razorpayPaymentId: response.razorpay_payment_id,
               razorpaySignature: response.razorpay_signature,
             });
+            window.location.href = `/listings/${slug}?unlocked=1`;
           } catch {
             setError("Payment succeeded but unlock failed to confirm — contact support.");
             setLoading(false);

@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { confirmInvestorPayment, updateInvestorCapital, InvestorServiceError } from "@/lib/investor";
 import type { PaymentMode } from "@/generated/prisma";
@@ -18,7 +19,7 @@ export async function confirmInvestorPaymentAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const paymentMode = String(formData.get("paymentMode") ?? "BANK_TRANSFER") as PaymentMode;
   await confirmInvestorPayment(id, paymentMode);
-  redirect("/admin/investors?saved=1");
+  revalidatePath("/admin/investors");
 }
 
 export async function updateInvestorCapitalAction(formData: FormData) {
@@ -33,5 +34,5 @@ export async function updateInvestorCapitalAction(formData: FormData) {
     redirect(`/admin/investors?error=${code}`);
   }
 
-  redirect("/admin/investors?saved=capital");
+  revalidatePath("/admin/investors");
 }

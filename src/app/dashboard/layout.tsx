@@ -13,9 +13,17 @@ const ROLE_LABELS: Record<string, string> = {
 const LISTER_ONLY_HREFS = new Set(["/dashboard/properties/new", "/dashboard/enquiries"]);
 const BILLING_ONLY_HREFS = new Set(["/dashboard/billing"]);
 
+const ALLOWED_ROLES = new Set(["OWNER", "DEALER", "SUBADMIN", "ADMIN"]);
+
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session) redirect("/login");
+  // This dashboard is for listers (owner/dealer/sub-admin) only — AGENT,
+  // INVESTOR, and BUYER have their own portals. Without this guard, those
+  // roles could open e.g. /dashboard/properties/new directly, where a
+  // Prisma query assumes the role is a valid listing-plan role and crashes
+  // instead of cleanly redirecting.
+  if (!ALLOWED_ROLES.has(session.user.role)) redirect("/");
 
   const isLister =
     session.user.role === "OWNER" || session.user.role === "DEALER" || session.user.role === "SUBADMIN";

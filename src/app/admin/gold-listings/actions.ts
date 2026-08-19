@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { approveGoldListing, rejectGoldListing } from "@/lib/goldListing";
 
@@ -13,12 +14,12 @@ export async function approveGoldListingAction(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await approveGoldListing(id);
-  redirect("/admin/gold-listings?saved=approved");
+  revalidatePath("/admin/gold-listings");
 }
 
 export async function rejectGoldListingAction(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await rejectGoldListing(id);
-  redirect("/admin/gold-listings?saved=rejected");
+  revalidatePath("/admin/gold-listings");
 }

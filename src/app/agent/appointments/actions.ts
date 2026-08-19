@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { getAgentByUserId } from "@/lib/agent";
 import { createAppointment, markCompleted, cancelAppointment, AppointmentServiceError } from "@/lib/appointment";
@@ -36,19 +37,19 @@ export async function scheduleAppointmentAction(formData: FormData) {
     redirect(`/agent/appointments?error=${code}`);
   }
 
-  redirect("/agent/appointments?saved=1");
+  revalidatePath("/agent/appointments");
 }
 
 export async function markCompletedAction(formData: FormData) {
   await requireAgent();
   const id = String(formData.get("id") ?? "");
   await markCompleted(id);
-  redirect("/agent/appointments?saved=completed");
+  revalidatePath("/agent/appointments");
 }
 
 export async function cancelAppointmentAction(formData: FormData) {
   await requireAgent();
   const id = String(formData.get("id") ?? "");
   await cancelAppointment(id);
-  redirect("/agent/appointments?saved=cancelled");
+  revalidatePath("/agent/appointments");
 }

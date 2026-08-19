@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { DocumentVaultType } from "@/generated/prisma";
+import type { DocumentVaultType, PaymentMode } from "@/generated/prisma";
 
 export class DocumentVaultServiceError extends Error {}
 
@@ -79,6 +79,10 @@ export type CreateAgreementInput = {
   flatUnitNumber?: string | null;
   terms?: string | null;
   signedCopyUrl: string;
+  // Investor → Customer/Property payment leg — distinct from the
+  // Investor → Company registration fee leg tracked on InvestorProfile.
+  paymentAmount?: number | null;
+  paymentMode?: PaymentMode | null;
 };
 
 // §3.10's named sub-requirement: "Customer↔Investor agreement records."
@@ -97,6 +101,8 @@ export async function createCustomerInvestorAgreement(input: CreateAgreementInpu
       flatUnitNumber: input.flatUnitNumber?.trim() || null,
       terms: input.terms?.trim() || null,
       signedCopyUrl: input.signedCopyUrl.trim(),
+      paymentAmount: input.paymentAmount ?? null,
+      paymentMode: input.paymentMode ?? null,
     },
   });
 }

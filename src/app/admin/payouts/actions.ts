@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { processAgentPayout, rejectAgentPayout } from "@/lib/payout";
 import type { PaymentMode } from "@/generated/prisma";
@@ -18,12 +19,12 @@ export async function processPayoutAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const paymentMode = String(formData.get("paymentMode") ?? "BANK_TRANSFER") as PaymentMode;
   await processAgentPayout(id, paymentMode);
-  redirect("/admin/payouts?saved=paid");
+  revalidatePath("/admin/payouts");
 }
 
 export async function rejectPayoutAction(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await rejectAgentPayout(id);
-  redirect("/admin/payouts?saved=rejected");
+  revalidatePath("/admin/payouts");
 }

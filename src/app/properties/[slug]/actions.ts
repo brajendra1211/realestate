@@ -1,11 +1,15 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 
-export async function submitEnquiry(formData: FormData) {
+export type SubmitEnquiryState = { sent?: boolean; error?: boolean };
+
+export async function submitEnquiry(
+  _prevState: SubmitEnquiryState,
+  formData: FormData
+): Promise<SubmitEnquiryState> {
   const propertyId = String(formData.get("propertyId") ?? "");
   const slug = String(formData.get("slug") ?? "");
   const name = String(formData.get("name") ?? "").trim();
@@ -14,7 +18,7 @@ export async function submitEnquiry(formData: FormData) {
   const message = String(formData.get("message") ?? "").trim();
 
   if (!propertyId || !slug || !name || !phone) {
-    redirect(`/properties/${slug}?enquiry=error`);
+    return { error: true };
   }
 
   const session = await auth();
@@ -42,5 +46,5 @@ export async function submitEnquiry(formData: FormData) {
     );
   }
 
-  redirect(`/properties/${slug}?enquiry=sent`);
+  return { sent: true };
 }

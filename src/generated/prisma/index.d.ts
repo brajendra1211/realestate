@@ -109,6 +109,11 @@ export type SiteSettings = $Result.DefaultSelection<Prisma.$SiteSettingsPayload>
  */
 export type AgentProfile = $Result.DefaultSelection<Prisma.$AgentProfilePayload>
 /**
+ * Model AreaAgentAssignment
+ * 
+ */
+export type AreaAgentAssignment = $Result.DefaultSelection<Prisma.$AreaAgentAssignmentPayload>
+/**
  * Model AgentDocument
  * 
  */
@@ -860,6 +865,16 @@ export class PrismaClient<
   get agentProfile(): Prisma.AgentProfileDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.areaAgentAssignment`: Exposes CRUD operations for the **AreaAgentAssignment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AreaAgentAssignments
+    * const areaAgentAssignments = await prisma.areaAgentAssignment.findMany()
+    * ```
+    */
+  get areaAgentAssignment(): Prisma.AreaAgentAssignmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.agentDocument`: Exposes CRUD operations for the **AgentDocument** model.
     * Example usage:
     * ```ts
@@ -1574,6 +1589,7 @@ export namespace Prisma {
     Amenity: 'Amenity',
     SiteSettings: 'SiteSettings',
     AgentProfile: 'AgentProfile',
+    AreaAgentAssignment: 'AreaAgentAssignment',
     AgentDocument: 'AgentDocument',
     InvestorProfile: 'InvestorProfile',
     CommissionLedgerEntry: 'CommissionLedgerEntry',
@@ -1614,7 +1630,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "amenity" | "siteSettings" | "agentProfile" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment"
+      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2869,6 +2885,72 @@ export namespace Prisma {
           count: {
             args: Prisma.AgentProfileCountArgs<ExtArgs>
             result: $Utils.Optional<AgentProfileCountAggregateOutputType> | number
+          }
+        }
+      }
+      AreaAgentAssignment: {
+        payload: Prisma.$AreaAgentAssignmentPayload<ExtArgs>
+        fields: Prisma.AreaAgentAssignmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AreaAgentAssignmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaAgentAssignmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AreaAgentAssignmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaAgentAssignmentPayload>
+          }
+          findFirst: {
+            args: Prisma.AreaAgentAssignmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaAgentAssignmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AreaAgentAssignmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaAgentAssignmentPayload>
+          }
+          findMany: {
+            args: Prisma.AreaAgentAssignmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaAgentAssignmentPayload>[]
+          }
+          create: {
+            args: Prisma.AreaAgentAssignmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaAgentAssignmentPayload>
+          }
+          createMany: {
+            args: Prisma.AreaAgentAssignmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.AreaAgentAssignmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaAgentAssignmentPayload>
+          }
+          update: {
+            args: Prisma.AreaAgentAssignmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaAgentAssignmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.AreaAgentAssignmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AreaAgentAssignmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AreaAgentAssignmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AreaAgentAssignmentPayload>
+          }
+          aggregate: {
+            args: Prisma.AreaAgentAssignmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAreaAgentAssignment>
+          }
+          groupBy: {
+            args: Prisma.AreaAgentAssignmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AreaAgentAssignmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AreaAgentAssignmentCountArgs<ExtArgs>
+            result: $Utils.Optional<AreaAgentAssignmentCountAggregateOutputType> | number
           }
         }
       }
@@ -4664,6 +4746,7 @@ export namespace Prisma {
     amenity?: AmenityOmit
     siteSettings?: SiteSettingsOmit
     agentProfile?: AgentProfileOmit
+    areaAgentAssignment?: AreaAgentAssignmentOmit
     agentDocument?: AgentDocumentOmit
     investorProfile?: InvestorProfileOmit
     commissionLedgerEntry?: CommissionLedgerEntryOmit
@@ -5168,6 +5251,7 @@ export namespace Prisma {
     customerBlocks: number
     documentVaultItems: number
     visitAppointments: number
+    areaAssignments: number
   }
 
   export type AgentProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5192,6 +5276,7 @@ export namespace Prisma {
     customerBlocks?: boolean | AgentProfileCountOutputTypeCountCustomerBlocksArgs
     documentVaultItems?: boolean | AgentProfileCountOutputTypeCountDocumentVaultItemsArgs
     visitAppointments?: boolean | AgentProfileCountOutputTypeCountVisitAppointmentsArgs
+    areaAssignments?: boolean | AgentProfileCountOutputTypeCountAreaAssignmentsArgs
   }
 
   // Custom InputTypes
@@ -5350,6 +5435,13 @@ export namespace Prisma {
    */
   export type AgentProfileCountOutputTypeCountVisitAppointmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VisitAppointmentWhereInput
+  }
+
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeCountAreaAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AreaAgentAssignmentWhereInput
   }
 
 
@@ -23355,10 +23447,32 @@ export namespace Prisma {
 
   export type SiteSettingsAvgAggregateOutputType = {
     tdsPercent: number | null
+    brokeragePercent: number | null
+    profitAgentSharePercent: number | null
+    profitExpenseSharePercent: number | null
+    profitInvestorSharePercent: number | null
+    investorRegistrationFee: number | null
+    investorReferralPercent: number | null
+    agentReferralPercent: number | null
+    unlockPassAmount: number | null
+    unlockAgentSplitPercent: number | null
+    goldListingAmount: number | null
+    goldAgentSplitPercent: number | null
   }
 
   export type SiteSettingsSumAggregateOutputType = {
     tdsPercent: number | null
+    brokeragePercent: number | null
+    profitAgentSharePercent: number | null
+    profitExpenseSharePercent: number | null
+    profitInvestorSharePercent: number | null
+    investorRegistrationFee: number | null
+    investorReferralPercent: number | null
+    agentReferralPercent: number | null
+    unlockPassAmount: number | null
+    unlockAgentSplitPercent: number | null
+    goldListingAmount: number | null
+    goldAgentSplitPercent: number | null
   }
 
   export type SiteSettingsMinAggregateOutputType = {
@@ -23387,6 +23501,17 @@ export namespace Prisma {
     googleAnalyticsId: string | null
     googleSiteVerification: string | null
     tdsPercent: number | null
+    brokeragePercent: number | null
+    profitAgentSharePercent: number | null
+    profitExpenseSharePercent: number | null
+    profitInvestorSharePercent: number | null
+    investorRegistrationFee: number | null
+    investorReferralPercent: number | null
+    agentReferralPercent: number | null
+    unlockPassAmount: number | null
+    unlockAgentSplitPercent: number | null
+    goldListingAmount: number | null
+    goldAgentSplitPercent: number | null
     updatedAt: Date | null
   }
 
@@ -23416,6 +23541,17 @@ export namespace Prisma {
     googleAnalyticsId: string | null
     googleSiteVerification: string | null
     tdsPercent: number | null
+    brokeragePercent: number | null
+    profitAgentSharePercent: number | null
+    profitExpenseSharePercent: number | null
+    profitInvestorSharePercent: number | null
+    investorRegistrationFee: number | null
+    investorReferralPercent: number | null
+    agentReferralPercent: number | null
+    unlockPassAmount: number | null
+    unlockAgentSplitPercent: number | null
+    goldListingAmount: number | null
+    goldAgentSplitPercent: number | null
     updatedAt: Date | null
   }
 
@@ -23445,6 +23581,17 @@ export namespace Prisma {
     googleAnalyticsId: number
     googleSiteVerification: number
     tdsPercent: number
+    brokeragePercent: number
+    profitAgentSharePercent: number
+    profitExpenseSharePercent: number
+    profitInvestorSharePercent: number
+    investorRegistrationFee: number
+    investorReferralPercent: number
+    agentReferralPercent: number
+    unlockPassAmount: number
+    unlockAgentSplitPercent: number
+    goldListingAmount: number
+    goldAgentSplitPercent: number
     updatedAt: number
     _all: number
   }
@@ -23452,10 +23599,32 @@ export namespace Prisma {
 
   export type SiteSettingsAvgAggregateInputType = {
     tdsPercent?: true
+    brokeragePercent?: true
+    profitAgentSharePercent?: true
+    profitExpenseSharePercent?: true
+    profitInvestorSharePercent?: true
+    investorRegistrationFee?: true
+    investorReferralPercent?: true
+    agentReferralPercent?: true
+    unlockPassAmount?: true
+    unlockAgentSplitPercent?: true
+    goldListingAmount?: true
+    goldAgentSplitPercent?: true
   }
 
   export type SiteSettingsSumAggregateInputType = {
     tdsPercent?: true
+    brokeragePercent?: true
+    profitAgentSharePercent?: true
+    profitExpenseSharePercent?: true
+    profitInvestorSharePercent?: true
+    investorRegistrationFee?: true
+    investorReferralPercent?: true
+    agentReferralPercent?: true
+    unlockPassAmount?: true
+    unlockAgentSplitPercent?: true
+    goldListingAmount?: true
+    goldAgentSplitPercent?: true
   }
 
   export type SiteSettingsMinAggregateInputType = {
@@ -23484,6 +23653,17 @@ export namespace Prisma {
     googleAnalyticsId?: true
     googleSiteVerification?: true
     tdsPercent?: true
+    brokeragePercent?: true
+    profitAgentSharePercent?: true
+    profitExpenseSharePercent?: true
+    profitInvestorSharePercent?: true
+    investorRegistrationFee?: true
+    investorReferralPercent?: true
+    agentReferralPercent?: true
+    unlockPassAmount?: true
+    unlockAgentSplitPercent?: true
+    goldListingAmount?: true
+    goldAgentSplitPercent?: true
     updatedAt?: true
   }
 
@@ -23513,6 +23693,17 @@ export namespace Prisma {
     googleAnalyticsId?: true
     googleSiteVerification?: true
     tdsPercent?: true
+    brokeragePercent?: true
+    profitAgentSharePercent?: true
+    profitExpenseSharePercent?: true
+    profitInvestorSharePercent?: true
+    investorRegistrationFee?: true
+    investorReferralPercent?: true
+    agentReferralPercent?: true
+    unlockPassAmount?: true
+    unlockAgentSplitPercent?: true
+    goldListingAmount?: true
+    goldAgentSplitPercent?: true
     updatedAt?: true
   }
 
@@ -23542,6 +23733,17 @@ export namespace Prisma {
     googleAnalyticsId?: true
     googleSiteVerification?: true
     tdsPercent?: true
+    brokeragePercent?: true
+    profitAgentSharePercent?: true
+    profitExpenseSharePercent?: true
+    profitInvestorSharePercent?: true
+    investorRegistrationFee?: true
+    investorReferralPercent?: true
+    agentReferralPercent?: true
+    unlockPassAmount?: true
+    unlockAgentSplitPercent?: true
+    goldListingAmount?: true
+    goldAgentSplitPercent?: true
     updatedAt?: true
     _all?: true
   }
@@ -23658,6 +23860,17 @@ export namespace Prisma {
     googleAnalyticsId: string | null
     googleSiteVerification: string | null
     tdsPercent: number
+    brokeragePercent: number
+    profitAgentSharePercent: number
+    profitExpenseSharePercent: number
+    profitInvestorSharePercent: number
+    investorRegistrationFee: number
+    investorReferralPercent: number
+    agentReferralPercent: number
+    unlockPassAmount: number
+    unlockAgentSplitPercent: number
+    goldListingAmount: number
+    goldAgentSplitPercent: number
     updatedAt: Date
     _count: SiteSettingsCountAggregateOutputType | null
     _avg: SiteSettingsAvgAggregateOutputType | null
@@ -23706,6 +23919,17 @@ export namespace Prisma {
     googleAnalyticsId?: boolean
     googleSiteVerification?: boolean
     tdsPercent?: boolean
+    brokeragePercent?: boolean
+    profitAgentSharePercent?: boolean
+    profitExpenseSharePercent?: boolean
+    profitInvestorSharePercent?: boolean
+    investorRegistrationFee?: boolean
+    investorReferralPercent?: boolean
+    agentReferralPercent?: boolean
+    unlockPassAmount?: boolean
+    unlockAgentSplitPercent?: boolean
+    goldListingAmount?: boolean
+    goldAgentSplitPercent?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["siteSettings"]>
 
@@ -23737,10 +23961,21 @@ export namespace Prisma {
     googleAnalyticsId?: boolean
     googleSiteVerification?: boolean
     tdsPercent?: boolean
+    brokeragePercent?: boolean
+    profitAgentSharePercent?: boolean
+    profitExpenseSharePercent?: boolean
+    profitInvestorSharePercent?: boolean
+    investorRegistrationFee?: boolean
+    investorReferralPercent?: boolean
+    agentReferralPercent?: boolean
+    unlockPassAmount?: boolean
+    unlockAgentSplitPercent?: boolean
+    goldListingAmount?: boolean
+    goldAgentSplitPercent?: boolean
     updatedAt?: boolean
   }
 
-  export type SiteSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "tagline" | "logoUrl" | "favicon" | "heroImage" | "heroTitle" | "heroSubtitle" | "ctaText" | "ctaLink" | "whatsappNumber" | "contactEmail" | "contactPhone" | "contactAddress" | "instagramUrl" | "facebookUrl" | "youtubeUrl" | "linkedinUrl" | "footerText" | "metaTitle" | "metaDescription" | "ogImage" | "googleAnalyticsId" | "googleSiteVerification" | "tdsPercent" | "updatedAt", ExtArgs["result"]["siteSettings"]>
+  export type SiteSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "tagline" | "logoUrl" | "favicon" | "heroImage" | "heroTitle" | "heroSubtitle" | "ctaText" | "ctaLink" | "whatsappNumber" | "contactEmail" | "contactPhone" | "contactAddress" | "instagramUrl" | "facebookUrl" | "youtubeUrl" | "linkedinUrl" | "footerText" | "metaTitle" | "metaDescription" | "ogImage" | "googleAnalyticsId" | "googleSiteVerification" | "tdsPercent" | "brokeragePercent" | "profitAgentSharePercent" | "profitExpenseSharePercent" | "profitInvestorSharePercent" | "investorRegistrationFee" | "investorReferralPercent" | "agentReferralPercent" | "unlockPassAmount" | "unlockAgentSplitPercent" | "goldListingAmount" | "goldAgentSplitPercent" | "updatedAt", ExtArgs["result"]["siteSettings"]>
 
   export type $SiteSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SiteSettings"
@@ -23771,6 +24006,17 @@ export namespace Prisma {
       googleAnalyticsId: string | null
       googleSiteVerification: string | null
       tdsPercent: number
+      brokeragePercent: number
+      profitAgentSharePercent: number
+      profitExpenseSharePercent: number
+      profitInvestorSharePercent: number
+      investorRegistrationFee: number
+      investorReferralPercent: number
+      agentReferralPercent: number
+      unlockPassAmount: number
+      unlockAgentSplitPercent: number
+      goldListingAmount: number
+      goldAgentSplitPercent: number
       updatedAt: Date
     }, ExtArgs["result"]["siteSettings"]>
     composites: {}
@@ -24166,6 +24412,17 @@ export namespace Prisma {
     readonly googleAnalyticsId: FieldRef<"SiteSettings", 'String'>
     readonly googleSiteVerification: FieldRef<"SiteSettings", 'String'>
     readonly tdsPercent: FieldRef<"SiteSettings", 'Int'>
+    readonly brokeragePercent: FieldRef<"SiteSettings", 'Int'>
+    readonly profitAgentSharePercent: FieldRef<"SiteSettings", 'Int'>
+    readonly profitExpenseSharePercent: FieldRef<"SiteSettings", 'Int'>
+    readonly profitInvestorSharePercent: FieldRef<"SiteSettings", 'Int'>
+    readonly investorRegistrationFee: FieldRef<"SiteSettings", 'Int'>
+    readonly investorReferralPercent: FieldRef<"SiteSettings", 'Int'>
+    readonly agentReferralPercent: FieldRef<"SiteSettings", 'Int'>
+    readonly unlockPassAmount: FieldRef<"SiteSettings", 'Int'>
+    readonly unlockAgentSplitPercent: FieldRef<"SiteSettings", 'Int'>
+    readonly goldListingAmount: FieldRef<"SiteSettings", 'Int'>
+    readonly goldAgentSplitPercent: FieldRef<"SiteSettings", 'Int'>
     readonly updatedAt: FieldRef<"SiteSettings", 'DateTime'>
   }
     
@@ -24882,6 +25139,7 @@ export namespace Prisma {
     customerBlocks?: boolean | AgentProfile$customerBlocksArgs<ExtArgs>
     documentVaultItems?: boolean | AgentProfile$documentVaultItemsArgs<ExtArgs>
     visitAppointments?: boolean | AgentProfile$visitAppointmentsArgs<ExtArgs>
+    areaAssignments?: boolean | AgentProfile$areaAssignmentsArgs<ExtArgs>
     _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentProfile"]>
 
@@ -24938,6 +25196,7 @@ export namespace Prisma {
     customerBlocks?: boolean | AgentProfile$customerBlocksArgs<ExtArgs>
     documentVaultItems?: boolean | AgentProfile$documentVaultItemsArgs<ExtArgs>
     visitAppointments?: boolean | AgentProfile$visitAppointmentsArgs<ExtArgs>
+    areaAssignments?: boolean | AgentProfile$areaAssignmentsArgs<ExtArgs>
     _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -24967,6 +25226,7 @@ export namespace Prisma {
       customerBlocks: Prisma.$CustomerAgentBlockPayload<ExtArgs>[]
       documentVaultItems: Prisma.$DocumentVaultItemPayload<ExtArgs>[]
       visitAppointments: Prisma.$VisitAppointmentPayload<ExtArgs>[]
+      areaAssignments: Prisma.$AreaAgentAssignmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -25355,6 +25615,7 @@ export namespace Prisma {
     customerBlocks<T extends AgentProfile$customerBlocksArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$customerBlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerAgentBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documentVaultItems<T extends AgentProfile$documentVaultItemsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$documentVaultItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentVaultItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     visitAppointments<T extends AgentProfile$visitAppointmentsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$visitAppointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitAppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    areaAssignments<T extends AgentProfile$areaAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$areaAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -26278,6 +26539,30 @@ export namespace Prisma {
   }
 
   /**
+   * AgentProfile.areaAssignments
+   */
+  export type AgentProfile$areaAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    where?: AreaAgentAssignmentWhereInput
+    orderBy?: AreaAgentAssignmentOrderByWithRelationInput | AreaAgentAssignmentOrderByWithRelationInput[]
+    cursor?: AreaAgentAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AreaAgentAssignmentScalarFieldEnum | AreaAgentAssignmentScalarFieldEnum[]
+  }
+
+  /**
    * AgentProfile without action
    */
   export type AgentProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -26293,6 +26578,929 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AgentProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AreaAgentAssignment
+   */
+
+  export type AggregateAreaAgentAssignment = {
+    _count: AreaAgentAssignmentCountAggregateOutputType | null
+    _min: AreaAgentAssignmentMinAggregateOutputType | null
+    _max: AreaAgentAssignmentMaxAggregateOutputType | null
+  }
+
+  export type AreaAgentAssignmentMinAggregateOutputType = {
+    id: string | null
+    pincode: string | null
+    agentId: string | null
+    createdAt: Date | null
+  }
+
+  export type AreaAgentAssignmentMaxAggregateOutputType = {
+    id: string | null
+    pincode: string | null
+    agentId: string | null
+    createdAt: Date | null
+  }
+
+  export type AreaAgentAssignmentCountAggregateOutputType = {
+    id: number
+    pincode: number
+    agentId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AreaAgentAssignmentMinAggregateInputType = {
+    id?: true
+    pincode?: true
+    agentId?: true
+    createdAt?: true
+  }
+
+  export type AreaAgentAssignmentMaxAggregateInputType = {
+    id?: true
+    pincode?: true
+    agentId?: true
+    createdAt?: true
+  }
+
+  export type AreaAgentAssignmentCountAggregateInputType = {
+    id?: true
+    pincode?: true
+    agentId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AreaAgentAssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AreaAgentAssignment to aggregate.
+     */
+    where?: AreaAgentAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AreaAgentAssignments to fetch.
+     */
+    orderBy?: AreaAgentAssignmentOrderByWithRelationInput | AreaAgentAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AreaAgentAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AreaAgentAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AreaAgentAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AreaAgentAssignments
+    **/
+    _count?: true | AreaAgentAssignmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AreaAgentAssignmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AreaAgentAssignmentMaxAggregateInputType
+  }
+
+  export type GetAreaAgentAssignmentAggregateType<T extends AreaAgentAssignmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAreaAgentAssignment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAreaAgentAssignment[P]>
+      : GetScalarType<T[P], AggregateAreaAgentAssignment[P]>
+  }
+
+
+
+
+  export type AreaAgentAssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AreaAgentAssignmentWhereInput
+    orderBy?: AreaAgentAssignmentOrderByWithAggregationInput | AreaAgentAssignmentOrderByWithAggregationInput[]
+    by: AreaAgentAssignmentScalarFieldEnum[] | AreaAgentAssignmentScalarFieldEnum
+    having?: AreaAgentAssignmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AreaAgentAssignmentCountAggregateInputType | true
+    _min?: AreaAgentAssignmentMinAggregateInputType
+    _max?: AreaAgentAssignmentMaxAggregateInputType
+  }
+
+  export type AreaAgentAssignmentGroupByOutputType = {
+    id: string
+    pincode: string
+    agentId: string
+    createdAt: Date
+    _count: AreaAgentAssignmentCountAggregateOutputType | null
+    _min: AreaAgentAssignmentMinAggregateOutputType | null
+    _max: AreaAgentAssignmentMaxAggregateOutputType | null
+  }
+
+  type GetAreaAgentAssignmentGroupByPayload<T extends AreaAgentAssignmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AreaAgentAssignmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AreaAgentAssignmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AreaAgentAssignmentGroupByOutputType[P]>
+            : GetScalarType<T[P], AreaAgentAssignmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AreaAgentAssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pincode?: boolean
+    agentId?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["areaAgentAssignment"]>
+
+
+
+  export type AreaAgentAssignmentSelectScalar = {
+    id?: boolean
+    pincode?: boolean
+    agentId?: boolean
+    createdAt?: boolean
+  }
+
+  export type AreaAgentAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pincode" | "agentId" | "createdAt", ExtArgs["result"]["areaAgentAssignment"]>
+  export type AreaAgentAssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $AreaAgentAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AreaAgentAssignment"
+    objects: {
+      agent: Prisma.$AgentProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pincode: string
+      agentId: string
+      createdAt: Date
+    }, ExtArgs["result"]["areaAgentAssignment"]>
+    composites: {}
+  }
+
+  type AreaAgentAssignmentGetPayload<S extends boolean | null | undefined | AreaAgentAssignmentDefaultArgs> = $Result.GetResult<Prisma.$AreaAgentAssignmentPayload, S>
+
+  type AreaAgentAssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AreaAgentAssignmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AreaAgentAssignmentCountAggregateInputType | true
+    }
+
+  export interface AreaAgentAssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AreaAgentAssignment'], meta: { name: 'AreaAgentAssignment' } }
+    /**
+     * Find zero or one AreaAgentAssignment that matches the filter.
+     * @param {AreaAgentAssignmentFindUniqueArgs} args - Arguments to find a AreaAgentAssignment
+     * @example
+     * // Get one AreaAgentAssignment
+     * const areaAgentAssignment = await prisma.areaAgentAssignment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AreaAgentAssignmentFindUniqueArgs>(args: SelectSubset<T, AreaAgentAssignmentFindUniqueArgs<ExtArgs>>): Prisma__AreaAgentAssignmentClient<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AreaAgentAssignment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AreaAgentAssignmentFindUniqueOrThrowArgs} args - Arguments to find a AreaAgentAssignment
+     * @example
+     * // Get one AreaAgentAssignment
+     * const areaAgentAssignment = await prisma.areaAgentAssignment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AreaAgentAssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, AreaAgentAssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AreaAgentAssignmentClient<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AreaAgentAssignment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaAgentAssignmentFindFirstArgs} args - Arguments to find a AreaAgentAssignment
+     * @example
+     * // Get one AreaAgentAssignment
+     * const areaAgentAssignment = await prisma.areaAgentAssignment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AreaAgentAssignmentFindFirstArgs>(args?: SelectSubset<T, AreaAgentAssignmentFindFirstArgs<ExtArgs>>): Prisma__AreaAgentAssignmentClient<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AreaAgentAssignment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaAgentAssignmentFindFirstOrThrowArgs} args - Arguments to find a AreaAgentAssignment
+     * @example
+     * // Get one AreaAgentAssignment
+     * const areaAgentAssignment = await prisma.areaAgentAssignment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AreaAgentAssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, AreaAgentAssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AreaAgentAssignmentClient<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AreaAgentAssignments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaAgentAssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AreaAgentAssignments
+     * const areaAgentAssignments = await prisma.areaAgentAssignment.findMany()
+     * 
+     * // Get first 10 AreaAgentAssignments
+     * const areaAgentAssignments = await prisma.areaAgentAssignment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const areaAgentAssignmentWithIdOnly = await prisma.areaAgentAssignment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AreaAgentAssignmentFindManyArgs>(args?: SelectSubset<T, AreaAgentAssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AreaAgentAssignment.
+     * @param {AreaAgentAssignmentCreateArgs} args - Arguments to create a AreaAgentAssignment.
+     * @example
+     * // Create one AreaAgentAssignment
+     * const AreaAgentAssignment = await prisma.areaAgentAssignment.create({
+     *   data: {
+     *     // ... data to create a AreaAgentAssignment
+     *   }
+     * })
+     * 
+     */
+    create<T extends AreaAgentAssignmentCreateArgs>(args: SelectSubset<T, AreaAgentAssignmentCreateArgs<ExtArgs>>): Prisma__AreaAgentAssignmentClient<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AreaAgentAssignments.
+     * @param {AreaAgentAssignmentCreateManyArgs} args - Arguments to create many AreaAgentAssignments.
+     * @example
+     * // Create many AreaAgentAssignments
+     * const areaAgentAssignment = await prisma.areaAgentAssignment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AreaAgentAssignmentCreateManyArgs>(args?: SelectSubset<T, AreaAgentAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AreaAgentAssignment.
+     * @param {AreaAgentAssignmentDeleteArgs} args - Arguments to delete one AreaAgentAssignment.
+     * @example
+     * // Delete one AreaAgentAssignment
+     * const AreaAgentAssignment = await prisma.areaAgentAssignment.delete({
+     *   where: {
+     *     // ... filter to delete one AreaAgentAssignment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AreaAgentAssignmentDeleteArgs>(args: SelectSubset<T, AreaAgentAssignmentDeleteArgs<ExtArgs>>): Prisma__AreaAgentAssignmentClient<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AreaAgentAssignment.
+     * @param {AreaAgentAssignmentUpdateArgs} args - Arguments to update one AreaAgentAssignment.
+     * @example
+     * // Update one AreaAgentAssignment
+     * const areaAgentAssignment = await prisma.areaAgentAssignment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AreaAgentAssignmentUpdateArgs>(args: SelectSubset<T, AreaAgentAssignmentUpdateArgs<ExtArgs>>): Prisma__AreaAgentAssignmentClient<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AreaAgentAssignments.
+     * @param {AreaAgentAssignmentDeleteManyArgs} args - Arguments to filter AreaAgentAssignments to delete.
+     * @example
+     * // Delete a few AreaAgentAssignments
+     * const { count } = await prisma.areaAgentAssignment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AreaAgentAssignmentDeleteManyArgs>(args?: SelectSubset<T, AreaAgentAssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AreaAgentAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaAgentAssignmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AreaAgentAssignments
+     * const areaAgentAssignment = await prisma.areaAgentAssignment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AreaAgentAssignmentUpdateManyArgs>(args: SelectSubset<T, AreaAgentAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AreaAgentAssignment.
+     * @param {AreaAgentAssignmentUpsertArgs} args - Arguments to update or create a AreaAgentAssignment.
+     * @example
+     * // Update or create a AreaAgentAssignment
+     * const areaAgentAssignment = await prisma.areaAgentAssignment.upsert({
+     *   create: {
+     *     // ... data to create a AreaAgentAssignment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AreaAgentAssignment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AreaAgentAssignmentUpsertArgs>(args: SelectSubset<T, AreaAgentAssignmentUpsertArgs<ExtArgs>>): Prisma__AreaAgentAssignmentClient<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AreaAgentAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaAgentAssignmentCountArgs} args - Arguments to filter AreaAgentAssignments to count.
+     * @example
+     * // Count the number of AreaAgentAssignments
+     * const count = await prisma.areaAgentAssignment.count({
+     *   where: {
+     *     // ... the filter for the AreaAgentAssignments we want to count
+     *   }
+     * })
+    **/
+    count<T extends AreaAgentAssignmentCountArgs>(
+      args?: Subset<T, AreaAgentAssignmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AreaAgentAssignmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AreaAgentAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaAgentAssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AreaAgentAssignmentAggregateArgs>(args: Subset<T, AreaAgentAssignmentAggregateArgs>): Prisma.PrismaPromise<GetAreaAgentAssignmentAggregateType<T>>
+
+    /**
+     * Group by AreaAgentAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AreaAgentAssignmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AreaAgentAssignmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AreaAgentAssignmentGroupByArgs['orderBy'] }
+        : { orderBy?: AreaAgentAssignmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AreaAgentAssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAreaAgentAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AreaAgentAssignment model
+   */
+  readonly fields: AreaAgentAssignmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AreaAgentAssignment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AreaAgentAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agent<T extends AgentProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfileDefaultArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AreaAgentAssignment model
+   */
+  interface AreaAgentAssignmentFieldRefs {
+    readonly id: FieldRef<"AreaAgentAssignment", 'String'>
+    readonly pincode: FieldRef<"AreaAgentAssignment", 'String'>
+    readonly agentId: FieldRef<"AreaAgentAssignment", 'String'>
+    readonly createdAt: FieldRef<"AreaAgentAssignment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AreaAgentAssignment findUnique
+   */
+  export type AreaAgentAssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which AreaAgentAssignment to fetch.
+     */
+    where: AreaAgentAssignmentWhereUniqueInput
+  }
+
+  /**
+   * AreaAgentAssignment findUniqueOrThrow
+   */
+  export type AreaAgentAssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which AreaAgentAssignment to fetch.
+     */
+    where: AreaAgentAssignmentWhereUniqueInput
+  }
+
+  /**
+   * AreaAgentAssignment findFirst
+   */
+  export type AreaAgentAssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which AreaAgentAssignment to fetch.
+     */
+    where?: AreaAgentAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AreaAgentAssignments to fetch.
+     */
+    orderBy?: AreaAgentAssignmentOrderByWithRelationInput | AreaAgentAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AreaAgentAssignments.
+     */
+    cursor?: AreaAgentAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AreaAgentAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AreaAgentAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AreaAgentAssignments.
+     */
+    distinct?: AreaAgentAssignmentScalarFieldEnum | AreaAgentAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * AreaAgentAssignment findFirstOrThrow
+   */
+  export type AreaAgentAssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which AreaAgentAssignment to fetch.
+     */
+    where?: AreaAgentAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AreaAgentAssignments to fetch.
+     */
+    orderBy?: AreaAgentAssignmentOrderByWithRelationInput | AreaAgentAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AreaAgentAssignments.
+     */
+    cursor?: AreaAgentAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AreaAgentAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AreaAgentAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AreaAgentAssignments.
+     */
+    distinct?: AreaAgentAssignmentScalarFieldEnum | AreaAgentAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * AreaAgentAssignment findMany
+   */
+  export type AreaAgentAssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which AreaAgentAssignments to fetch.
+     */
+    where?: AreaAgentAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AreaAgentAssignments to fetch.
+     */
+    orderBy?: AreaAgentAssignmentOrderByWithRelationInput | AreaAgentAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AreaAgentAssignments.
+     */
+    cursor?: AreaAgentAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AreaAgentAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AreaAgentAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AreaAgentAssignments.
+     */
+    distinct?: AreaAgentAssignmentScalarFieldEnum | AreaAgentAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * AreaAgentAssignment create
+   */
+  export type AreaAgentAssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AreaAgentAssignment.
+     */
+    data: XOR<AreaAgentAssignmentCreateInput, AreaAgentAssignmentUncheckedCreateInput>
+  }
+
+  /**
+   * AreaAgentAssignment createMany
+   */
+  export type AreaAgentAssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AreaAgentAssignments.
+     */
+    data: AreaAgentAssignmentCreateManyInput | AreaAgentAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AreaAgentAssignment update
+   */
+  export type AreaAgentAssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AreaAgentAssignment.
+     */
+    data: XOR<AreaAgentAssignmentUpdateInput, AreaAgentAssignmentUncheckedUpdateInput>
+    /**
+     * Choose, which AreaAgentAssignment to update.
+     */
+    where: AreaAgentAssignmentWhereUniqueInput
+  }
+
+  /**
+   * AreaAgentAssignment updateMany
+   */
+  export type AreaAgentAssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AreaAgentAssignments.
+     */
+    data: XOR<AreaAgentAssignmentUpdateManyMutationInput, AreaAgentAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which AreaAgentAssignments to update
+     */
+    where?: AreaAgentAssignmentWhereInput
+    /**
+     * Limit how many AreaAgentAssignments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AreaAgentAssignment upsert
+   */
+  export type AreaAgentAssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AreaAgentAssignment to update in case it exists.
+     */
+    where: AreaAgentAssignmentWhereUniqueInput
+    /**
+     * In case the AreaAgentAssignment found by the `where` argument doesn't exist, create a new AreaAgentAssignment with this data.
+     */
+    create: XOR<AreaAgentAssignmentCreateInput, AreaAgentAssignmentUncheckedCreateInput>
+    /**
+     * In case the AreaAgentAssignment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AreaAgentAssignmentUpdateInput, AreaAgentAssignmentUncheckedUpdateInput>
+  }
+
+  /**
+   * AreaAgentAssignment delete
+   */
+  export type AreaAgentAssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter which AreaAgentAssignment to delete.
+     */
+    where: AreaAgentAssignmentWhereUniqueInput
+  }
+
+  /**
+   * AreaAgentAssignment deleteMany
+   */
+  export type AreaAgentAssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AreaAgentAssignments to delete
+     */
+    where?: AreaAgentAssignmentWhereInput
+    /**
+     * Limit how many AreaAgentAssignments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AreaAgentAssignment without action
+   */
+  export type AreaAgentAssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AreaAgentAssignment
+     */
+    select?: AreaAgentAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AreaAgentAssignment
+     */
+    omit?: AreaAgentAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AreaAgentAssignmentInclude<ExtArgs> | null
   }
 
 
@@ -49822,10 +51030,12 @@ export namespace Prisma {
 
   export type CustomerInvestorAgreementAvgAggregateOutputType = {
     lockInPeriodMonths: number | null
+    paymentAmount: number | null
   }
 
   export type CustomerInvestorAgreementSumAggregateOutputType = {
     lockInPeriodMonths: number | null
+    paymentAmount: number | null
   }
 
   export type CustomerInvestorAgreementMinAggregateOutputType = {
@@ -49838,6 +51048,8 @@ export namespace Prisma {
     flatUnitNumber: string | null
     terms: string | null
     signedCopyUrl: string | null
+    paymentAmount: number | null
+    paymentMode: $Enums.PaymentMode | null
     createdAt: Date | null
   }
 
@@ -49851,6 +51063,8 @@ export namespace Prisma {
     flatUnitNumber: string | null
     terms: string | null
     signedCopyUrl: string | null
+    paymentAmount: number | null
+    paymentMode: $Enums.PaymentMode | null
     createdAt: Date | null
   }
 
@@ -49864,6 +51078,8 @@ export namespace Prisma {
     flatUnitNumber: number
     terms: number
     signedCopyUrl: number
+    paymentAmount: number
+    paymentMode: number
     createdAt: number
     _all: number
   }
@@ -49871,10 +51087,12 @@ export namespace Prisma {
 
   export type CustomerInvestorAgreementAvgAggregateInputType = {
     lockInPeriodMonths?: true
+    paymentAmount?: true
   }
 
   export type CustomerInvestorAgreementSumAggregateInputType = {
     lockInPeriodMonths?: true
+    paymentAmount?: true
   }
 
   export type CustomerInvestorAgreementMinAggregateInputType = {
@@ -49887,6 +51105,8 @@ export namespace Prisma {
     flatUnitNumber?: true
     terms?: true
     signedCopyUrl?: true
+    paymentAmount?: true
+    paymentMode?: true
     createdAt?: true
   }
 
@@ -49900,6 +51120,8 @@ export namespace Prisma {
     flatUnitNumber?: true
     terms?: true
     signedCopyUrl?: true
+    paymentAmount?: true
+    paymentMode?: true
     createdAt?: true
   }
 
@@ -49913,6 +51135,8 @@ export namespace Prisma {
     flatUnitNumber?: true
     terms?: true
     signedCopyUrl?: true
+    paymentAmount?: true
+    paymentMode?: true
     createdAt?: true
     _all?: true
   }
@@ -50013,6 +51237,8 @@ export namespace Prisma {
     flatUnitNumber: string | null
     terms: string | null
     signedCopyUrl: string
+    paymentAmount: number | null
+    paymentMode: $Enums.PaymentMode | null
     createdAt: Date
     _count: CustomerInvestorAgreementCountAggregateOutputType | null
     _avg: CustomerInvestorAgreementAvgAggregateOutputType | null
@@ -50045,6 +51271,8 @@ export namespace Prisma {
     flatUnitNumber?: boolean
     terms?: boolean
     signedCopyUrl?: boolean
+    paymentAmount?: boolean
+    paymentMode?: boolean
     createdAt?: boolean
     investor?: boolean | InvestorProfileDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["customerInvestorAgreement"]>
@@ -50061,10 +51289,12 @@ export namespace Prisma {
     flatUnitNumber?: boolean
     terms?: boolean
     signedCopyUrl?: boolean
+    paymentAmount?: boolean
+    paymentMode?: boolean
     createdAt?: boolean
   }
 
-  export type CustomerInvestorAgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "investorId" | "customerName" | "customerPhone" | "agreementDate" | "lockInPeriodMonths" | "flatUnitNumber" | "terms" | "signedCopyUrl" | "createdAt", ExtArgs["result"]["customerInvestorAgreement"]>
+  export type CustomerInvestorAgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "investorId" | "customerName" | "customerPhone" | "agreementDate" | "lockInPeriodMonths" | "flatUnitNumber" | "terms" | "signedCopyUrl" | "paymentAmount" | "paymentMode" | "createdAt", ExtArgs["result"]["customerInvestorAgreement"]>
   export type CustomerInvestorAgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     investor?: boolean | InvestorProfileDefaultArgs<ExtArgs>
   }
@@ -50084,6 +51314,8 @@ export namespace Prisma {
       flatUnitNumber: string | null
       terms: string | null
       signedCopyUrl: string
+      paymentAmount: number | null
+      paymentMode: $Enums.PaymentMode | null
       createdAt: Date
     }, ExtArgs["result"]["customerInvestorAgreement"]>
     composites: {}
@@ -50464,6 +51696,8 @@ export namespace Prisma {
     readonly flatUnitNumber: FieldRef<"CustomerInvestorAgreement", 'String'>
     readonly terms: FieldRef<"CustomerInvestorAgreement", 'String'>
     readonly signedCopyUrl: FieldRef<"CustomerInvestorAgreement", 'String'>
+    readonly paymentAmount: FieldRef<"CustomerInvestorAgreement", 'Int'>
+    readonly paymentMode: FieldRef<"CustomerInvestorAgreement", 'PaymentMode'>
     readonly createdAt: FieldRef<"CustomerInvestorAgreement", 'DateTime'>
   }
     
@@ -52160,6 +53394,17 @@ export namespace Prisma {
     googleAnalyticsId: 'googleAnalyticsId',
     googleSiteVerification: 'googleSiteVerification',
     tdsPercent: 'tdsPercent',
+    brokeragePercent: 'brokeragePercent',
+    profitAgentSharePercent: 'profitAgentSharePercent',
+    profitExpenseSharePercent: 'profitExpenseSharePercent',
+    profitInvestorSharePercent: 'profitInvestorSharePercent',
+    investorRegistrationFee: 'investorRegistrationFee',
+    investorReferralPercent: 'investorReferralPercent',
+    agentReferralPercent: 'agentReferralPercent',
+    unlockPassAmount: 'unlockPassAmount',
+    unlockAgentSplitPercent: 'unlockAgentSplitPercent',
+    goldListingAmount: 'goldListingAmount',
+    goldAgentSplitPercent: 'goldAgentSplitPercent',
     updatedAt: 'updatedAt'
   };
 
@@ -52193,6 +53438,16 @@ export namespace Prisma {
   };
 
   export type AgentProfileScalarFieldEnum = (typeof AgentProfileScalarFieldEnum)[keyof typeof AgentProfileScalarFieldEnum]
+
+
+  export const AreaAgentAssignmentScalarFieldEnum: {
+    id: 'id',
+    pincode: 'pincode',
+    agentId: 'agentId',
+    createdAt: 'createdAt'
+  };
+
+  export type AreaAgentAssignmentScalarFieldEnum = (typeof AreaAgentAssignmentScalarFieldEnum)[keyof typeof AreaAgentAssignmentScalarFieldEnum]
 
 
   export const AgentDocumentScalarFieldEnum: {
@@ -52537,6 +53792,8 @@ export namespace Prisma {
     flatUnitNumber: 'flatUnitNumber',
     terms: 'terms',
     signedCopyUrl: 'signedCopyUrl',
+    paymentAmount: 'paymentAmount',
+    paymentMode: 'paymentMode',
     createdAt: 'createdAt'
   };
 
@@ -52830,6 +54087,15 @@ export namespace Prisma {
   };
 
   export type AgentProfileOrderByRelevanceFieldEnum = (typeof AgentProfileOrderByRelevanceFieldEnum)[keyof typeof AgentProfileOrderByRelevanceFieldEnum]
+
+
+  export const AreaAgentAssignmentOrderByRelevanceFieldEnum: {
+    id: 'id',
+    pincode: 'pincode',
+    agentId: 'agentId'
+  };
+
+  export type AreaAgentAssignmentOrderByRelevanceFieldEnum = (typeof AreaAgentAssignmentOrderByRelevanceFieldEnum)[keyof typeof AreaAgentAssignmentOrderByRelevanceFieldEnum]
 
 
   export const AgentDocumentOrderByRelevanceFieldEnum: {
@@ -54787,6 +56053,17 @@ export namespace Prisma {
     googleAnalyticsId?: StringNullableFilter<"SiteSettings"> | string | null
     googleSiteVerification?: StringNullableFilter<"SiteSettings"> | string | null
     tdsPercent?: IntFilter<"SiteSettings"> | number
+    brokeragePercent?: IntFilter<"SiteSettings"> | number
+    profitAgentSharePercent?: IntFilter<"SiteSettings"> | number
+    profitExpenseSharePercent?: IntFilter<"SiteSettings"> | number
+    profitInvestorSharePercent?: IntFilter<"SiteSettings"> | number
+    investorRegistrationFee?: IntFilter<"SiteSettings"> | number
+    investorReferralPercent?: IntFilter<"SiteSettings"> | number
+    agentReferralPercent?: IntFilter<"SiteSettings"> | number
+    unlockPassAmount?: IntFilter<"SiteSettings"> | number
+    unlockAgentSplitPercent?: IntFilter<"SiteSettings"> | number
+    goldListingAmount?: IntFilter<"SiteSettings"> | number
+    goldAgentSplitPercent?: IntFilter<"SiteSettings"> | number
     updatedAt?: DateTimeFilter<"SiteSettings"> | Date | string
   }
 
@@ -54816,6 +56093,17 @@ export namespace Prisma {
     googleAnalyticsId?: SortOrderInput | SortOrder
     googleSiteVerification?: SortOrderInput | SortOrder
     tdsPercent?: SortOrder
+    brokeragePercent?: SortOrder
+    profitAgentSharePercent?: SortOrder
+    profitExpenseSharePercent?: SortOrder
+    profitInvestorSharePercent?: SortOrder
+    investorRegistrationFee?: SortOrder
+    investorReferralPercent?: SortOrder
+    agentReferralPercent?: SortOrder
+    unlockPassAmount?: SortOrder
+    unlockAgentSplitPercent?: SortOrder
+    goldListingAmount?: SortOrder
+    goldAgentSplitPercent?: SortOrder
     updatedAt?: SortOrder
     _relevance?: SiteSettingsOrderByRelevanceInput
   }
@@ -54849,6 +56137,17 @@ export namespace Prisma {
     googleAnalyticsId?: StringNullableFilter<"SiteSettings"> | string | null
     googleSiteVerification?: StringNullableFilter<"SiteSettings"> | string | null
     tdsPercent?: IntFilter<"SiteSettings"> | number
+    brokeragePercent?: IntFilter<"SiteSettings"> | number
+    profitAgentSharePercent?: IntFilter<"SiteSettings"> | number
+    profitExpenseSharePercent?: IntFilter<"SiteSettings"> | number
+    profitInvestorSharePercent?: IntFilter<"SiteSettings"> | number
+    investorRegistrationFee?: IntFilter<"SiteSettings"> | number
+    investorReferralPercent?: IntFilter<"SiteSettings"> | number
+    agentReferralPercent?: IntFilter<"SiteSettings"> | number
+    unlockPassAmount?: IntFilter<"SiteSettings"> | number
+    unlockAgentSplitPercent?: IntFilter<"SiteSettings"> | number
+    goldListingAmount?: IntFilter<"SiteSettings"> | number
+    goldAgentSplitPercent?: IntFilter<"SiteSettings"> | number
     updatedAt?: DateTimeFilter<"SiteSettings"> | Date | string
   }, "id">
 
@@ -54878,6 +56177,17 @@ export namespace Prisma {
     googleAnalyticsId?: SortOrderInput | SortOrder
     googleSiteVerification?: SortOrderInput | SortOrder
     tdsPercent?: SortOrder
+    brokeragePercent?: SortOrder
+    profitAgentSharePercent?: SortOrder
+    profitExpenseSharePercent?: SortOrder
+    profitInvestorSharePercent?: SortOrder
+    investorRegistrationFee?: SortOrder
+    investorReferralPercent?: SortOrder
+    agentReferralPercent?: SortOrder
+    unlockPassAmount?: SortOrder
+    unlockAgentSplitPercent?: SortOrder
+    goldListingAmount?: SortOrder
+    goldAgentSplitPercent?: SortOrder
     updatedAt?: SortOrder
     _count?: SiteSettingsCountOrderByAggregateInput
     _avg?: SiteSettingsAvgOrderByAggregateInput
@@ -54915,6 +56225,17 @@ export namespace Prisma {
     googleAnalyticsId?: StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
     googleSiteVerification?: StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
     tdsPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    brokeragePercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    profitAgentSharePercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    profitExpenseSharePercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    profitInvestorSharePercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    investorRegistrationFee?: IntWithAggregatesFilter<"SiteSettings"> | number
+    investorReferralPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    agentReferralPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    unlockPassAmount?: IntWithAggregatesFilter<"SiteSettings"> | number
+    unlockAgentSplitPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    goldListingAmount?: IntWithAggregatesFilter<"SiteSettings"> | number
+    goldAgentSplitPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"SiteSettings"> | Date | string
   }
 
@@ -54968,6 +56289,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockListRelationFilter
     documentVaultItems?: DocumentVaultItemListRelationFilter
     visitAppointments?: VisitAppointmentListRelationFilter
+    areaAssignments?: AreaAgentAssignmentListRelationFilter
   }
 
   export type AgentProfileOrderByWithRelationInput = {
@@ -55017,6 +56339,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockOrderByRelationAggregateInput
     documentVaultItems?: DocumentVaultItemOrderByRelationAggregateInput
     visitAppointments?: VisitAppointmentOrderByRelationAggregateInput
+    areaAssignments?: AreaAgentAssignmentOrderByRelationAggregateInput
     _relevance?: AgentProfileOrderByRelevanceInput
   }
 
@@ -55070,6 +56393,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockListRelationFilter
     documentVaultItems?: DocumentVaultItemListRelationFilter
     visitAppointments?: VisitAppointmentListRelationFilter
+    areaAssignments?: AreaAgentAssignmentListRelationFilter
   }, "id" | "userId" | "agentCode">
 
   export type AgentProfileOrderByWithAggregationInput = {
@@ -55130,6 +56454,58 @@ export namespace Prisma {
     referringAgentId?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AgentProfile"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AgentProfile"> | Date | string
+  }
+
+  export type AreaAgentAssignmentWhereInput = {
+    AND?: AreaAgentAssignmentWhereInput | AreaAgentAssignmentWhereInput[]
+    OR?: AreaAgentAssignmentWhereInput[]
+    NOT?: AreaAgentAssignmentWhereInput | AreaAgentAssignmentWhereInput[]
+    id?: StringFilter<"AreaAgentAssignment"> | string
+    pincode?: StringFilter<"AreaAgentAssignment"> | string
+    agentId?: StringFilter<"AreaAgentAssignment"> | string
+    createdAt?: DateTimeFilter<"AreaAgentAssignment"> | Date | string
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }
+
+  export type AreaAgentAssignmentOrderByWithRelationInput = {
+    id?: SortOrder
+    pincode?: SortOrder
+    agentId?: SortOrder
+    createdAt?: SortOrder
+    agent?: AgentProfileOrderByWithRelationInput
+    _relevance?: AreaAgentAssignmentOrderByRelevanceInput
+  }
+
+  export type AreaAgentAssignmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    pincode_agentId?: AreaAgentAssignmentPincodeAgentIdCompoundUniqueInput
+    AND?: AreaAgentAssignmentWhereInput | AreaAgentAssignmentWhereInput[]
+    OR?: AreaAgentAssignmentWhereInput[]
+    NOT?: AreaAgentAssignmentWhereInput | AreaAgentAssignmentWhereInput[]
+    pincode?: StringFilter<"AreaAgentAssignment"> | string
+    agentId?: StringFilter<"AreaAgentAssignment"> | string
+    createdAt?: DateTimeFilter<"AreaAgentAssignment"> | Date | string
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }, "id" | "pincode_agentId">
+
+  export type AreaAgentAssignmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    pincode?: SortOrder
+    agentId?: SortOrder
+    createdAt?: SortOrder
+    _count?: AreaAgentAssignmentCountOrderByAggregateInput
+    _max?: AreaAgentAssignmentMaxOrderByAggregateInput
+    _min?: AreaAgentAssignmentMinOrderByAggregateInput
+  }
+
+  export type AreaAgentAssignmentScalarWhereWithAggregatesInput = {
+    AND?: AreaAgentAssignmentScalarWhereWithAggregatesInput | AreaAgentAssignmentScalarWhereWithAggregatesInput[]
+    OR?: AreaAgentAssignmentScalarWhereWithAggregatesInput[]
+    NOT?: AreaAgentAssignmentScalarWhereWithAggregatesInput | AreaAgentAssignmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AreaAgentAssignment"> | string
+    pincode?: StringWithAggregatesFilter<"AreaAgentAssignment"> | string
+    agentId?: StringWithAggregatesFilter<"AreaAgentAssignment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AreaAgentAssignment"> | Date | string
   }
 
   export type AgentDocumentWhereInput = {
@@ -56940,6 +58316,8 @@ export namespace Prisma {
     flatUnitNumber?: StringNullableFilter<"CustomerInvestorAgreement"> | string | null
     terms?: StringNullableFilter<"CustomerInvestorAgreement"> | string | null
     signedCopyUrl?: StringFilter<"CustomerInvestorAgreement"> | string
+    paymentAmount?: IntNullableFilter<"CustomerInvestorAgreement"> | number | null
+    paymentMode?: EnumPaymentModeNullableFilter<"CustomerInvestorAgreement"> | $Enums.PaymentMode | null
     createdAt?: DateTimeFilter<"CustomerInvestorAgreement"> | Date | string
     investor?: XOR<InvestorProfileScalarRelationFilter, InvestorProfileWhereInput>
   }
@@ -56954,6 +58332,8 @@ export namespace Prisma {
     flatUnitNumber?: SortOrderInput | SortOrder
     terms?: SortOrderInput | SortOrder
     signedCopyUrl?: SortOrder
+    paymentAmount?: SortOrderInput | SortOrder
+    paymentMode?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     investor?: InvestorProfileOrderByWithRelationInput
     _relevance?: CustomerInvestorAgreementOrderByRelevanceInput
@@ -56972,6 +58352,8 @@ export namespace Prisma {
     flatUnitNumber?: StringNullableFilter<"CustomerInvestorAgreement"> | string | null
     terms?: StringNullableFilter<"CustomerInvestorAgreement"> | string | null
     signedCopyUrl?: StringFilter<"CustomerInvestorAgreement"> | string
+    paymentAmount?: IntNullableFilter<"CustomerInvestorAgreement"> | number | null
+    paymentMode?: EnumPaymentModeNullableFilter<"CustomerInvestorAgreement"> | $Enums.PaymentMode | null
     createdAt?: DateTimeFilter<"CustomerInvestorAgreement"> | Date | string
     investor?: XOR<InvestorProfileScalarRelationFilter, InvestorProfileWhereInput>
   }, "id">
@@ -56986,6 +58368,8 @@ export namespace Prisma {
     flatUnitNumber?: SortOrderInput | SortOrder
     terms?: SortOrderInput | SortOrder
     signedCopyUrl?: SortOrder
+    paymentAmount?: SortOrderInput | SortOrder
+    paymentMode?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: CustomerInvestorAgreementCountOrderByAggregateInput
     _avg?: CustomerInvestorAgreementAvgOrderByAggregateInput
@@ -57007,6 +58391,8 @@ export namespace Prisma {
     flatUnitNumber?: StringNullableWithAggregatesFilter<"CustomerInvestorAgreement"> | string | null
     terms?: StringNullableWithAggregatesFilter<"CustomerInvestorAgreement"> | string | null
     signedCopyUrl?: StringWithAggregatesFilter<"CustomerInvestorAgreement"> | string
+    paymentAmount?: IntNullableWithAggregatesFilter<"CustomerInvestorAgreement"> | number | null
+    paymentMode?: EnumPaymentModeNullableWithAggregatesFilter<"CustomerInvestorAgreement"> | $Enums.PaymentMode | null
     createdAt?: DateTimeWithAggregatesFilter<"CustomerInvestorAgreement"> | Date | string
   }
 
@@ -58749,6 +60135,17 @@ export namespace Prisma {
     googleAnalyticsId?: string | null
     googleSiteVerification?: string | null
     tdsPercent?: number
+    brokeragePercent?: number
+    profitAgentSharePercent?: number
+    profitExpenseSharePercent?: number
+    profitInvestorSharePercent?: number
+    investorRegistrationFee?: number
+    investorReferralPercent?: number
+    agentReferralPercent?: number
+    unlockPassAmount?: number
+    unlockAgentSplitPercent?: number
+    goldListingAmount?: number
+    goldAgentSplitPercent?: number
     updatedAt?: Date | string
   }
 
@@ -58778,6 +60175,17 @@ export namespace Prisma {
     googleAnalyticsId?: string | null
     googleSiteVerification?: string | null
     tdsPercent?: number
+    brokeragePercent?: number
+    profitAgentSharePercent?: number
+    profitExpenseSharePercent?: number
+    profitInvestorSharePercent?: number
+    investorRegistrationFee?: number
+    investorReferralPercent?: number
+    agentReferralPercent?: number
+    unlockPassAmount?: number
+    unlockAgentSplitPercent?: number
+    goldListingAmount?: number
+    goldAgentSplitPercent?: number
     updatedAt?: Date | string
   }
 
@@ -58807,6 +60215,17 @@ export namespace Prisma {
     googleAnalyticsId?: NullableStringFieldUpdateOperationsInput | string | null
     googleSiteVerification?: NullableStringFieldUpdateOperationsInput | string | null
     tdsPercent?: IntFieldUpdateOperationsInput | number
+    brokeragePercent?: IntFieldUpdateOperationsInput | number
+    profitAgentSharePercent?: IntFieldUpdateOperationsInput | number
+    profitExpenseSharePercent?: IntFieldUpdateOperationsInput | number
+    profitInvestorSharePercent?: IntFieldUpdateOperationsInput | number
+    investorRegistrationFee?: IntFieldUpdateOperationsInput | number
+    investorReferralPercent?: IntFieldUpdateOperationsInput | number
+    agentReferralPercent?: IntFieldUpdateOperationsInput | number
+    unlockPassAmount?: IntFieldUpdateOperationsInput | number
+    unlockAgentSplitPercent?: IntFieldUpdateOperationsInput | number
+    goldListingAmount?: IntFieldUpdateOperationsInput | number
+    goldAgentSplitPercent?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -58836,6 +60255,17 @@ export namespace Prisma {
     googleAnalyticsId?: NullableStringFieldUpdateOperationsInput | string | null
     googleSiteVerification?: NullableStringFieldUpdateOperationsInput | string | null
     tdsPercent?: IntFieldUpdateOperationsInput | number
+    brokeragePercent?: IntFieldUpdateOperationsInput | number
+    profitAgentSharePercent?: IntFieldUpdateOperationsInput | number
+    profitExpenseSharePercent?: IntFieldUpdateOperationsInput | number
+    profitInvestorSharePercent?: IntFieldUpdateOperationsInput | number
+    investorRegistrationFee?: IntFieldUpdateOperationsInput | number
+    investorReferralPercent?: IntFieldUpdateOperationsInput | number
+    agentReferralPercent?: IntFieldUpdateOperationsInput | number
+    unlockPassAmount?: IntFieldUpdateOperationsInput | number
+    unlockAgentSplitPercent?: IntFieldUpdateOperationsInput | number
+    goldListingAmount?: IntFieldUpdateOperationsInput | number
+    goldAgentSplitPercent?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -58865,6 +60295,17 @@ export namespace Prisma {
     googleAnalyticsId?: string | null
     googleSiteVerification?: string | null
     tdsPercent?: number
+    brokeragePercent?: number
+    profitAgentSharePercent?: number
+    profitExpenseSharePercent?: number
+    profitInvestorSharePercent?: number
+    investorRegistrationFee?: number
+    investorReferralPercent?: number
+    agentReferralPercent?: number
+    unlockPassAmount?: number
+    unlockAgentSplitPercent?: number
+    goldListingAmount?: number
+    goldAgentSplitPercent?: number
     updatedAt?: Date | string
   }
 
@@ -58894,6 +60335,17 @@ export namespace Prisma {
     googleAnalyticsId?: NullableStringFieldUpdateOperationsInput | string | null
     googleSiteVerification?: NullableStringFieldUpdateOperationsInput | string | null
     tdsPercent?: IntFieldUpdateOperationsInput | number
+    brokeragePercent?: IntFieldUpdateOperationsInput | number
+    profitAgentSharePercent?: IntFieldUpdateOperationsInput | number
+    profitExpenseSharePercent?: IntFieldUpdateOperationsInput | number
+    profitInvestorSharePercent?: IntFieldUpdateOperationsInput | number
+    investorRegistrationFee?: IntFieldUpdateOperationsInput | number
+    investorReferralPercent?: IntFieldUpdateOperationsInput | number
+    agentReferralPercent?: IntFieldUpdateOperationsInput | number
+    unlockPassAmount?: IntFieldUpdateOperationsInput | number
+    unlockAgentSplitPercent?: IntFieldUpdateOperationsInput | number
+    goldListingAmount?: IntFieldUpdateOperationsInput | number
+    goldAgentSplitPercent?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -58923,6 +60375,17 @@ export namespace Prisma {
     googleAnalyticsId?: NullableStringFieldUpdateOperationsInput | string | null
     googleSiteVerification?: NullableStringFieldUpdateOperationsInput | string | null
     tdsPercent?: IntFieldUpdateOperationsInput | number
+    brokeragePercent?: IntFieldUpdateOperationsInput | number
+    profitAgentSharePercent?: IntFieldUpdateOperationsInput | number
+    profitExpenseSharePercent?: IntFieldUpdateOperationsInput | number
+    profitInvestorSharePercent?: IntFieldUpdateOperationsInput | number
+    investorRegistrationFee?: IntFieldUpdateOperationsInput | number
+    investorReferralPercent?: IntFieldUpdateOperationsInput | number
+    agentReferralPercent?: IntFieldUpdateOperationsInput | number
+    unlockPassAmount?: IntFieldUpdateOperationsInput | number
+    unlockAgentSplitPercent?: IntFieldUpdateOperationsInput | number
+    goldListingAmount?: IntFieldUpdateOperationsInput | number
+    goldAgentSplitPercent?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -58971,6 +60434,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateInput = {
@@ -59018,6 +60482,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUpdateInput = {
@@ -59065,6 +60530,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateInput = {
@@ -59112,6 +60578,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileCreateManyInput = {
@@ -59188,6 +60655,54 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AreaAgentAssignmentCreateInput = {
+    id?: string
+    pincode: string
+    createdAt?: Date | string
+    agent: AgentProfileCreateNestedOneWithoutAreaAssignmentsInput
+  }
+
+  export type AreaAgentAssignmentUncheckedCreateInput = {
+    id?: string
+    pincode: string
+    agentId: string
+    createdAt?: Date | string
+  }
+
+  export type AreaAgentAssignmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pincode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentProfileUpdateOneRequiredWithoutAreaAssignmentsNestedInput
+  }
+
+  export type AreaAgentAssignmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pincode?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AreaAgentAssignmentCreateManyInput = {
+    id?: string
+    pincode: string
+    agentId: string
+    createdAt?: Date | string
+  }
+
+  export type AreaAgentAssignmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pincode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AreaAgentAssignmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pincode?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AgentDocumentCreateInput = {
@@ -61061,6 +62576,8 @@ export namespace Prisma {
     flatUnitNumber?: string | null
     terms?: string | null
     signedCopyUrl: string
+    paymentAmount?: number | null
+    paymentMode?: $Enums.PaymentMode | null
     createdAt?: Date | string
     investor: InvestorProfileCreateNestedOneWithoutAgreementsInput
   }
@@ -61075,6 +62592,8 @@ export namespace Prisma {
     flatUnitNumber?: string | null
     terms?: string | null
     signedCopyUrl: string
+    paymentAmount?: number | null
+    paymentMode?: $Enums.PaymentMode | null
     createdAt?: Date | string
   }
 
@@ -61087,6 +62606,8 @@ export namespace Prisma {
     flatUnitNumber?: NullableStringFieldUpdateOperationsInput | string | null
     terms?: NullableStringFieldUpdateOperationsInput | string | null
     signedCopyUrl?: StringFieldUpdateOperationsInput | string
+    paymentAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     investor?: InvestorProfileUpdateOneRequiredWithoutAgreementsNestedInput
   }
@@ -61101,6 +62622,8 @@ export namespace Prisma {
     flatUnitNumber?: NullableStringFieldUpdateOperationsInput | string | null
     terms?: NullableStringFieldUpdateOperationsInput | string | null
     signedCopyUrl?: StringFieldUpdateOperationsInput | string
+    paymentAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -61114,6 +62637,8 @@ export namespace Prisma {
     flatUnitNumber?: string | null
     terms?: string | null
     signedCopyUrl: string
+    paymentAmount?: number | null
+    paymentMode?: $Enums.PaymentMode | null
     createdAt?: Date | string
   }
 
@@ -61126,6 +62651,8 @@ export namespace Prisma {
     flatUnitNumber?: NullableStringFieldUpdateOperationsInput | string | null
     terms?: NullableStringFieldUpdateOperationsInput | string | null
     signedCopyUrl?: StringFieldUpdateOperationsInput | string
+    paymentAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -61139,6 +62666,8 @@ export namespace Prisma {
     flatUnitNumber?: NullableStringFieldUpdateOperationsInput | string | null
     terms?: NullableStringFieldUpdateOperationsInput | string | null
     signedCopyUrl?: StringFieldUpdateOperationsInput | string
+    paymentAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -62762,11 +64291,33 @@ export namespace Prisma {
     googleAnalyticsId?: SortOrder
     googleSiteVerification?: SortOrder
     tdsPercent?: SortOrder
+    brokeragePercent?: SortOrder
+    profitAgentSharePercent?: SortOrder
+    profitExpenseSharePercent?: SortOrder
+    profitInvestorSharePercent?: SortOrder
+    investorRegistrationFee?: SortOrder
+    investorReferralPercent?: SortOrder
+    agentReferralPercent?: SortOrder
+    unlockPassAmount?: SortOrder
+    unlockAgentSplitPercent?: SortOrder
+    goldListingAmount?: SortOrder
+    goldAgentSplitPercent?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type SiteSettingsAvgOrderByAggregateInput = {
     tdsPercent?: SortOrder
+    brokeragePercent?: SortOrder
+    profitAgentSharePercent?: SortOrder
+    profitExpenseSharePercent?: SortOrder
+    profitInvestorSharePercent?: SortOrder
+    investorRegistrationFee?: SortOrder
+    investorReferralPercent?: SortOrder
+    agentReferralPercent?: SortOrder
+    unlockPassAmount?: SortOrder
+    unlockAgentSplitPercent?: SortOrder
+    goldListingAmount?: SortOrder
+    goldAgentSplitPercent?: SortOrder
   }
 
   export type SiteSettingsMaxOrderByAggregateInput = {
@@ -62795,6 +64346,17 @@ export namespace Prisma {
     googleAnalyticsId?: SortOrder
     googleSiteVerification?: SortOrder
     tdsPercent?: SortOrder
+    brokeragePercent?: SortOrder
+    profitAgentSharePercent?: SortOrder
+    profitExpenseSharePercent?: SortOrder
+    profitInvestorSharePercent?: SortOrder
+    investorRegistrationFee?: SortOrder
+    investorReferralPercent?: SortOrder
+    agentReferralPercent?: SortOrder
+    unlockPassAmount?: SortOrder
+    unlockAgentSplitPercent?: SortOrder
+    goldListingAmount?: SortOrder
+    goldAgentSplitPercent?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -62824,11 +64386,33 @@ export namespace Prisma {
     googleAnalyticsId?: SortOrder
     googleSiteVerification?: SortOrder
     tdsPercent?: SortOrder
+    brokeragePercent?: SortOrder
+    profitAgentSharePercent?: SortOrder
+    profitExpenseSharePercent?: SortOrder
+    profitInvestorSharePercent?: SortOrder
+    investorRegistrationFee?: SortOrder
+    investorReferralPercent?: SortOrder
+    agentReferralPercent?: SortOrder
+    unlockPassAmount?: SortOrder
+    unlockAgentSplitPercent?: SortOrder
+    goldListingAmount?: SortOrder
+    goldAgentSplitPercent?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type SiteSettingsSumOrderByAggregateInput = {
     tdsPercent?: SortOrder
+    brokeragePercent?: SortOrder
+    profitAgentSharePercent?: SortOrder
+    profitExpenseSharePercent?: SortOrder
+    profitInvestorSharePercent?: SortOrder
+    investorRegistrationFee?: SortOrder
+    investorReferralPercent?: SortOrder
+    agentReferralPercent?: SortOrder
+    unlockPassAmount?: SortOrder
+    unlockAgentSplitPercent?: SortOrder
+    goldListingAmount?: SortOrder
+    goldAgentSplitPercent?: SortOrder
   }
 
   export type AgentProfileListRelationFilter = {
@@ -62933,6 +64517,12 @@ export namespace Prisma {
     none?: DocumentVaultItemWhereInput
   }
 
+  export type AreaAgentAssignmentListRelationFilter = {
+    every?: AreaAgentAssignmentWhereInput
+    some?: AreaAgentAssignmentWhereInput
+    none?: AreaAgentAssignmentWhereInput
+  }
+
   export type AgentProfileOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -62998,6 +64588,10 @@ export namespace Prisma {
   }
 
   export type DocumentVaultItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AreaAgentAssignmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -63105,16 +64699,48 @@ export namespace Prisma {
     ratingAvg?: SortOrder
   }
 
+  export type AgentProfileScalarRelationFilter = {
+    is?: AgentProfileWhereInput
+    isNot?: AgentProfileWhereInput
+  }
+
+  export type AreaAgentAssignmentOrderByRelevanceInput = {
+    fields: AreaAgentAssignmentOrderByRelevanceFieldEnum | AreaAgentAssignmentOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type AreaAgentAssignmentPincodeAgentIdCompoundUniqueInput = {
+    pincode: string
+    agentId: string
+  }
+
+  export type AreaAgentAssignmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    pincode?: SortOrder
+    agentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AreaAgentAssignmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pincode?: SortOrder
+    agentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AreaAgentAssignmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    pincode?: SortOrder
+    agentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type EnumAgentDocumentTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.AgentDocumentType | EnumAgentDocumentTypeFieldRefInput<$PrismaModel>
     in?: $Enums.AgentDocumentType[]
     notIn?: $Enums.AgentDocumentType[]
     not?: NestedEnumAgentDocumentTypeFilter<$PrismaModel> | $Enums.AgentDocumentType
-  }
-
-  export type AgentProfileScalarRelationFilter = {
-    is?: AgentProfileWhereInput
-    isNot?: AgentProfileWhereInput
   }
 
   export type AgentDocumentOrderByRelevanceInput = {
@@ -64530,11 +66156,14 @@ export namespace Prisma {
     flatUnitNumber?: SortOrder
     terms?: SortOrder
     signedCopyUrl?: SortOrder
+    paymentAmount?: SortOrder
+    paymentMode?: SortOrder
     createdAt?: SortOrder
   }
 
   export type CustomerInvestorAgreementAvgOrderByAggregateInput = {
     lockInPeriodMonths?: SortOrder
+    paymentAmount?: SortOrder
   }
 
   export type CustomerInvestorAgreementMaxOrderByAggregateInput = {
@@ -64547,6 +66176,8 @@ export namespace Prisma {
     flatUnitNumber?: SortOrder
     terms?: SortOrder
     signedCopyUrl?: SortOrder
+    paymentAmount?: SortOrder
+    paymentMode?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -64560,11 +66191,14 @@ export namespace Prisma {
     flatUnitNumber?: SortOrder
     terms?: SortOrder
     signedCopyUrl?: SortOrder
+    paymentAmount?: SortOrder
+    paymentMode?: SortOrder
     createdAt?: SortOrder
   }
 
   export type CustomerInvestorAgreementSumOrderByAggregateInput = {
     lockInPeriodMonths?: SortOrder
+    paymentAmount?: SortOrder
   }
 
   export type EnumAppointmentStatusFilter<$PrismaModel = never> = {
@@ -66010,6 +67644,13 @@ export namespace Prisma {
     connect?: VisitAppointmentWhereUniqueInput | VisitAppointmentWhereUniqueInput[]
   }
 
+  export type AreaAgentAssignmentCreateNestedManyWithoutAgentInput = {
+    create?: XOR<AreaAgentAssignmentCreateWithoutAgentInput, AreaAgentAssignmentUncheckedCreateWithoutAgentInput> | AreaAgentAssignmentCreateWithoutAgentInput[] | AreaAgentAssignmentUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AreaAgentAssignmentCreateOrConnectWithoutAgentInput | AreaAgentAssignmentCreateOrConnectWithoutAgentInput[]
+    createMany?: AreaAgentAssignmentCreateManyAgentInputEnvelope
+    connect?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+  }
+
   export type AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput = {
     create?: XOR<AgentProfileCreateWithoutReferringAgentInput, AgentProfileUncheckedCreateWithoutReferringAgentInput> | AgentProfileCreateWithoutReferringAgentInput[] | AgentProfileUncheckedCreateWithoutReferringAgentInput[]
     connectOrCreate?: AgentProfileCreateOrConnectWithoutReferringAgentInput | AgentProfileCreateOrConnectWithoutReferringAgentInput[]
@@ -66155,6 +67796,13 @@ export namespace Prisma {
     connectOrCreate?: VisitAppointmentCreateOrConnectWithoutAgentInput | VisitAppointmentCreateOrConnectWithoutAgentInput[]
     createMany?: VisitAppointmentCreateManyAgentInputEnvelope
     connect?: VisitAppointmentWhereUniqueInput | VisitAppointmentWhereUniqueInput[]
+  }
+
+  export type AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput = {
+    create?: XOR<AreaAgentAssignmentCreateWithoutAgentInput, AreaAgentAssignmentUncheckedCreateWithoutAgentInput> | AreaAgentAssignmentCreateWithoutAgentInput[] | AreaAgentAssignmentUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AreaAgentAssignmentCreateOrConnectWithoutAgentInput | AreaAgentAssignmentCreateOrConnectWithoutAgentInput[]
+    createMany?: AreaAgentAssignmentCreateManyAgentInputEnvelope
+    connect?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutAgentProfileNestedInput = {
@@ -66469,6 +68117,20 @@ export namespace Prisma {
     deleteMany?: VisitAppointmentScalarWhereInput | VisitAppointmentScalarWhereInput[]
   }
 
+  export type AreaAgentAssignmentUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<AreaAgentAssignmentCreateWithoutAgentInput, AreaAgentAssignmentUncheckedCreateWithoutAgentInput> | AreaAgentAssignmentCreateWithoutAgentInput[] | AreaAgentAssignmentUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AreaAgentAssignmentCreateOrConnectWithoutAgentInput | AreaAgentAssignmentCreateOrConnectWithoutAgentInput[]
+    upsert?: AreaAgentAssignmentUpsertWithWhereUniqueWithoutAgentInput | AreaAgentAssignmentUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: AreaAgentAssignmentCreateManyAgentInputEnvelope
+    set?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+    disconnect?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+    delete?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+    connect?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+    update?: AreaAgentAssignmentUpdateWithWhereUniqueWithoutAgentInput | AreaAgentAssignmentUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: AreaAgentAssignmentUpdateManyWithWhereWithoutAgentInput | AreaAgentAssignmentUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: AreaAgentAssignmentScalarWhereInput | AreaAgentAssignmentScalarWhereInput[]
+  }
+
   export type AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput = {
     create?: XOR<AgentProfileCreateWithoutReferringAgentInput, AgentProfileUncheckedCreateWithoutReferringAgentInput> | AgentProfileCreateWithoutReferringAgentInput[] | AgentProfileUncheckedCreateWithoutReferringAgentInput[]
     connectOrCreate?: AgentProfileCreateOrConnectWithoutReferringAgentInput | AgentProfileCreateOrConnectWithoutReferringAgentInput[]
@@ -66761,6 +68423,34 @@ export namespace Prisma {
     update?: VisitAppointmentUpdateWithWhereUniqueWithoutAgentInput | VisitAppointmentUpdateWithWhereUniqueWithoutAgentInput[]
     updateMany?: VisitAppointmentUpdateManyWithWhereWithoutAgentInput | VisitAppointmentUpdateManyWithWhereWithoutAgentInput[]
     deleteMany?: VisitAppointmentScalarWhereInput | VisitAppointmentScalarWhereInput[]
+  }
+
+  export type AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<AreaAgentAssignmentCreateWithoutAgentInput, AreaAgentAssignmentUncheckedCreateWithoutAgentInput> | AreaAgentAssignmentCreateWithoutAgentInput[] | AreaAgentAssignmentUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: AreaAgentAssignmentCreateOrConnectWithoutAgentInput | AreaAgentAssignmentCreateOrConnectWithoutAgentInput[]
+    upsert?: AreaAgentAssignmentUpsertWithWhereUniqueWithoutAgentInput | AreaAgentAssignmentUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: AreaAgentAssignmentCreateManyAgentInputEnvelope
+    set?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+    disconnect?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+    delete?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+    connect?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+    update?: AreaAgentAssignmentUpdateWithWhereUniqueWithoutAgentInput | AreaAgentAssignmentUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: AreaAgentAssignmentUpdateManyWithWhereWithoutAgentInput | AreaAgentAssignmentUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: AreaAgentAssignmentScalarWhereInput | AreaAgentAssignmentScalarWhereInput[]
+  }
+
+  export type AgentProfileCreateNestedOneWithoutAreaAssignmentsInput = {
+    create?: XOR<AgentProfileCreateWithoutAreaAssignmentsInput, AgentProfileUncheckedCreateWithoutAreaAssignmentsInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutAreaAssignmentsInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
+  export type AgentProfileUpdateOneRequiredWithoutAreaAssignmentsNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutAreaAssignmentsInput, AgentProfileUncheckedCreateWithoutAreaAssignmentsInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutAreaAssignmentsInput
+    upsert?: AgentProfileUpsertWithoutAreaAssignmentsInput
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutAreaAssignmentsInput, AgentProfileUpdateWithoutAreaAssignmentsInput>, AgentProfileUncheckedUpdateWithoutAreaAssignmentsInput>
   }
 
   export type AgentProfileCreateNestedOneWithoutDocumentsInput = {
@@ -68819,6 +70509,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutUserInput = {
@@ -68865,6 +70556,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutUserInput = {
@@ -69271,6 +70963,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutUserInput = {
@@ -69317,6 +71010,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type InvestorProfileUpsertWithoutUserInput = {
@@ -72024,6 +73718,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutReferredAgentsInput = {
@@ -72070,6 +73765,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutReferredAgentsInput = {
@@ -72121,6 +73817,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutReferringAgentInput = {
@@ -72167,6 +73864,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutReferringAgentInput = {
@@ -72839,6 +74537,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AreaAgentAssignmentCreateWithoutAgentInput = {
+    id?: string
+    pincode: string
+    createdAt?: Date | string
+  }
+
+  export type AreaAgentAssignmentUncheckedCreateWithoutAgentInput = {
+    id?: string
+    pincode: string
+    createdAt?: Date | string
+  }
+
+  export type AreaAgentAssignmentCreateOrConnectWithoutAgentInput = {
+    where: AreaAgentAssignmentWhereUniqueInput
+    create: XOR<AreaAgentAssignmentCreateWithoutAgentInput, AreaAgentAssignmentUncheckedCreateWithoutAgentInput>
+  }
+
+  export type AreaAgentAssignmentCreateManyAgentInputEnvelope = {
+    data: AreaAgentAssignmentCreateManyAgentInput | AreaAgentAssignmentCreateManyAgentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutAgentProfileInput = {
     update: XOR<UserUpdateWithoutAgentProfileInput, UserUncheckedUpdateWithoutAgentProfileInput>
     create: XOR<UserCreateWithoutAgentProfileInput, UserUncheckedCreateWithoutAgentProfileInput>
@@ -72965,6 +74685,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutReferredAgentsInput = {
@@ -73011,6 +74732,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUpsertWithWhereUniqueWithoutReferringAgentInput = {
@@ -73611,6 +75333,236 @@ export namespace Prisma {
     data: XOR<VisitAppointmentUpdateManyMutationInput, VisitAppointmentUncheckedUpdateManyWithoutAgentInput>
   }
 
+  export type AreaAgentAssignmentUpsertWithWhereUniqueWithoutAgentInput = {
+    where: AreaAgentAssignmentWhereUniqueInput
+    update: XOR<AreaAgentAssignmentUpdateWithoutAgentInput, AreaAgentAssignmentUncheckedUpdateWithoutAgentInput>
+    create: XOR<AreaAgentAssignmentCreateWithoutAgentInput, AreaAgentAssignmentUncheckedCreateWithoutAgentInput>
+  }
+
+  export type AreaAgentAssignmentUpdateWithWhereUniqueWithoutAgentInput = {
+    where: AreaAgentAssignmentWhereUniqueInput
+    data: XOR<AreaAgentAssignmentUpdateWithoutAgentInput, AreaAgentAssignmentUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type AreaAgentAssignmentUpdateManyWithWhereWithoutAgentInput = {
+    where: AreaAgentAssignmentScalarWhereInput
+    data: XOR<AreaAgentAssignmentUpdateManyMutationInput, AreaAgentAssignmentUncheckedUpdateManyWithoutAgentInput>
+  }
+
+  export type AreaAgentAssignmentScalarWhereInput = {
+    AND?: AreaAgentAssignmentScalarWhereInput | AreaAgentAssignmentScalarWhereInput[]
+    OR?: AreaAgentAssignmentScalarWhereInput[]
+    NOT?: AreaAgentAssignmentScalarWhereInput | AreaAgentAssignmentScalarWhereInput[]
+    id?: StringFilter<"AreaAgentAssignment"> | string
+    pincode?: StringFilter<"AreaAgentAssignment"> | string
+    agentId?: StringFilter<"AreaAgentAssignment"> | string
+    createdAt?: DateTimeFilter<"AreaAgentAssignment"> | Date | string
+  }
+
+  export type AgentProfileCreateWithoutAreaAssignmentsInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
+    referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutAreaAssignmentsInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    primeStatus?: boolean
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    referringAgentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealUncheckedCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealUncheckedCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionUncheckedCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestUncheckedCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationUncheckedCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestUncheckedCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastUncheckedCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseUncheckedCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageUncheckedCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageUncheckedCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogUncheckedCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingUncheckedCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningUncheckedCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutAreaAssignmentsInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutAreaAssignmentsInput, AgentProfileUncheckedCreateWithoutAreaAssignmentsInput>
+  }
+
+  export type AgentProfileUpsertWithoutAreaAssignmentsInput = {
+    update: XOR<AgentProfileUpdateWithoutAreaAssignmentsInput, AgentProfileUncheckedUpdateWithoutAreaAssignmentsInput>
+    create: XOR<AgentProfileCreateWithoutAreaAssignmentsInput, AgentProfileUncheckedCreateWithoutAreaAssignmentsInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutAreaAssignmentsInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutAreaAssignmentsInput, AgentProfileUncheckedUpdateWithoutAreaAssignmentsInput>
+  }
+
+  export type AgentProfileUpdateWithoutAreaAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
+    referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
+    dealsAsBuyerAgent?: DealUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutAreaAssignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
+    dealsAsBuyerAgent?: DealUncheckedUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUncheckedUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUncheckedUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUncheckedUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUncheckedUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUncheckedUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUncheckedUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUncheckedUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUncheckedUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUncheckedUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
   export type AgentProfileCreateWithoutDocumentsInput = {
     id?: string
     agentCode?: string | null
@@ -73655,6 +75607,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDocumentsInput = {
@@ -73701,6 +75654,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDocumentsInput = {
@@ -73763,6 +75717,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDocumentsInput = {
@@ -73809,6 +75764,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type UserCreateWithoutInvestorProfileInput = {
@@ -73920,6 +75876,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutInvestorsInput = {
@@ -73966,6 +75923,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutInvestorsInput = {
@@ -74082,6 +76040,8 @@ export namespace Prisma {
     flatUnitNumber?: string | null
     terms?: string | null
     signedCopyUrl: string
+    paymentAmount?: number | null
+    paymentMode?: $Enums.PaymentMode | null
     createdAt?: Date | string
   }
 
@@ -74094,6 +76054,8 @@ export namespace Prisma {
     flatUnitNumber?: string | null
     terms?: string | null
     signedCopyUrl: string
+    paymentAmount?: number | null
+    paymentMode?: $Enums.PaymentMode | null
     createdAt?: Date | string
   }
 
@@ -74233,6 +76195,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutInvestorsInput = {
@@ -74279,6 +76242,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type ProfitDistributionUpsertWithWhereUniqueWithoutInvestorProfileInput = {
@@ -74372,6 +76336,8 @@ export namespace Prisma {
     flatUnitNumber?: StringNullableFilter<"CustomerInvestorAgreement"> | string | null
     terms?: StringNullableFilter<"CustomerInvestorAgreement"> | string | null
     signedCopyUrl?: StringFilter<"CustomerInvestorAgreement"> | string
+    paymentAmount?: IntNullableFilter<"CustomerInvestorAgreement"> | number | null
+    paymentMode?: EnumPaymentModeNullableFilter<"CustomerInvestorAgreement"> | $Enums.PaymentMode | null
     createdAt?: DateTimeFilter<"CustomerInvestorAgreement"> | Date | string
   }
 
@@ -74419,6 +76385,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutCommissionEntriesInput = {
@@ -74465,6 +76432,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutCommissionEntriesInput = {
@@ -74527,6 +76495,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutCommissionEntriesInput = {
@@ -74573,6 +76542,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentListingCreateWithoutMasterPropertyInput = {
@@ -74874,6 +76844,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutListingsInput = {
@@ -74920,6 +76891,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutListingsInput = {
@@ -75094,6 +77066,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutListingsInput = {
@@ -75140,6 +77113,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentListingImageUpsertWithWhereUniqueWithoutAgentListingInput = {
@@ -75879,6 +77853,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDealsAsBuyerAgentInput = {
@@ -75925,6 +77900,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDealsAsBuyerAgentInput = {
@@ -75976,6 +77952,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDealsAsSellerAgentInput = {
@@ -76022,6 +77999,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDealsAsSellerAgentInput = {
@@ -76084,6 +78062,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDealsAsBuyerAgentInput = {
@@ -76130,6 +78109,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUpsertWithoutDealsAsSellerAgentInput = {
@@ -76187,6 +78167,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDealsAsSellerAgentInput = {
@@ -76233,6 +78214,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type InvestorProfileCreateWithoutProfitDistributionsInput = {
@@ -76318,6 +78300,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutProfitDistributionsInput = {
@@ -76364,6 +78347,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutProfitDistributionsInput = {
@@ -76471,6 +78455,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutProfitDistributionsInput = {
@@ -76517,6 +78502,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type InvestorProfileCreateWithoutLedgerEntriesInput = {
@@ -76647,6 +78633,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutPayoutRequestsInput = {
@@ -76693,6 +78680,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutPayoutRequestsInput = {
@@ -76755,6 +78743,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutPayoutRequestsInput = {
@@ -76801,6 +78790,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type UserCreateWithoutDispatchRequestsInput = {
@@ -76912,6 +78902,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDispatchesAcceptedInput = {
@@ -76958,6 +78949,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDispatchesAcceptedInput = {
@@ -77115,6 +79107,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDispatchesAcceptedInput = {
@@ -77161,6 +79154,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type DispatchNotificationUpsertWithWhereUniqueWithoutDispatchRequestInput = {
@@ -77266,6 +79260,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDispatchNotificationsInput = {
@@ -77312,6 +79307,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDispatchNotificationsInput = {
@@ -77423,6 +79419,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDispatchNotificationsInput = {
@@ -77469,6 +79466,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutBroadcastsPostedInput = {
@@ -77515,6 +79513,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutBroadcastsPostedInput = {
@@ -77561,6 +79560,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutBroadcastsPostedInput = {
@@ -77673,6 +79673,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutBroadcastsPostedInput = {
@@ -77719,6 +79720,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type BroadcastResponseUpsertWithWhereUniqueWithoutBroadcastInput = {
@@ -77834,6 +79836,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutBroadcastResponsesInput = {
@@ -77880,6 +79883,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutBroadcastResponsesInput = {
@@ -77985,6 +79989,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutBroadcastResponsesInput = {
@@ -78031,6 +80036,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type BroadcastCreateWithoutMessagesInput = {
@@ -78114,6 +80120,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutChatMessagesSentInput = {
@@ -78160,6 +80167,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutChatMessagesSentInput = {
@@ -78211,6 +80219,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutChatMessagesReceivedInput = {
@@ -78257,6 +80266,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutChatMessagesReceivedInput = {
@@ -78362,6 +80372,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutChatMessagesSentInput = {
@@ -78408,6 +80419,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUpsertWithoutChatMessagesReceivedInput = {
@@ -78465,6 +80477,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutChatMessagesReceivedInput = {
@@ -78511,6 +80524,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type MasterPropertyCreateWithoutVisitLogsInput = {
@@ -78588,6 +80602,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutVisitLogsInput = {
@@ -78634,6 +80649,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutVisitLogsInput = {
@@ -78733,6 +80749,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutVisitLogsInput = {
@@ -78779,6 +80796,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutRatingsInput = {
@@ -78825,6 +80843,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutRatingsInput = {
@@ -78871,6 +80890,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutRatingsInput = {
@@ -78933,6 +80953,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutRatingsInput = {
@@ -78979,6 +81000,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutWarningsInput = {
@@ -79025,6 +81047,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutWarningsInput = {
@@ -79071,6 +81094,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutWarningsInput = {
@@ -79133,6 +81157,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutWarningsInput = {
@@ -79179,6 +81204,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutCustomerBlocksInput = {
@@ -79225,6 +81251,7 @@ export namespace Prisma {
     warnings?: AgentWarningCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutCustomerBlocksInput = {
@@ -79271,6 +81298,7 @@ export namespace Prisma {
     warnings?: AgentWarningUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutCustomerBlocksInput = {
@@ -79333,6 +81361,7 @@ export namespace Prisma {
     warnings?: AgentWarningUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutCustomerBlocksInput = {
@@ -79379,6 +81408,7 @@ export namespace Prisma {
     warnings?: AgentWarningUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type MasterPropertyCreateWithoutDocumentVaultItemsInput = {
@@ -79456,6 +81486,7 @@ export namespace Prisma {
     warnings?: AgentWarningCreateNestedManyWithoutAgentInput
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDocumentVaultItemsInput = {
@@ -79502,6 +81533,7 @@ export namespace Prisma {
     warnings?: AgentWarningUncheckedCreateNestedManyWithoutAgentInput
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDocumentVaultItemsInput = {
@@ -79640,6 +81672,7 @@ export namespace Prisma {
     warnings?: AgentWarningUpdateManyWithoutAgentNestedInput
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDocumentVaultItemsInput = {
@@ -79686,6 +81719,7 @@ export namespace Prisma {
     warnings?: AgentWarningUncheckedUpdateManyWithoutAgentNestedInput
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type InvestorProfileUpsertWithoutDocumentVaultItemsInput = {
@@ -79926,6 +81960,7 @@ export namespace Prisma {
     warnings?: AgentWarningCreateNestedManyWithoutAgentInput
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutVisitAppointmentsInput = {
@@ -79972,6 +82007,7 @@ export namespace Prisma {
     warnings?: AgentWarningUncheckedCreateNestedManyWithoutAgentInput
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutVisitAppointmentsInput = {
@@ -80136,6 +82172,7 @@ export namespace Prisma {
     warnings?: AgentWarningUpdateManyWithoutAgentNestedInput
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutVisitAppointmentsInput = {
@@ -80182,6 +82219,7 @@ export namespace Prisma {
     warnings?: AgentWarningUncheckedUpdateManyWithoutAgentNestedInput
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type MasterPropertyUpsertWithoutVisitAppointmentsInput = {
@@ -81488,6 +83526,12 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type AreaAgentAssignmentCreateManyAgentInput = {
+    id?: string
+    pincode: string
+    createdAt?: Date | string
+  }
+
   export type AgentProfileUpdateWithoutReferringAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     agentCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81532,6 +83576,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutReferringAgentInput = {
@@ -81578,6 +83623,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateManyWithoutReferringAgentInput = {
@@ -82285,6 +84331,24 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AreaAgentAssignmentUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pincode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AreaAgentAssignmentUncheckedUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pincode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AreaAgentAssignmentUncheckedUpdateManyWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pincode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProfitDistributionCreateManyInvestorProfileInput = {
     id?: string
     agentId: string
@@ -82329,6 +84393,8 @@ export namespace Prisma {
     flatUnitNumber?: string | null
     terms?: string | null
     signedCopyUrl: string
+    paymentAmount?: number | null
+    paymentMode?: $Enums.PaymentMode | null
     createdAt?: Date | string
   }
 
@@ -82446,6 +84512,8 @@ export namespace Prisma {
     flatUnitNumber?: NullableStringFieldUpdateOperationsInput | string | null
     terms?: NullableStringFieldUpdateOperationsInput | string | null
     signedCopyUrl?: StringFieldUpdateOperationsInput | string
+    paymentAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -82458,6 +84526,8 @@ export namespace Prisma {
     flatUnitNumber?: NullableStringFieldUpdateOperationsInput | string | null
     terms?: NullableStringFieldUpdateOperationsInput | string | null
     signedCopyUrl?: StringFieldUpdateOperationsInput | string
+    paymentAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -82470,6 +84540,8 @@ export namespace Prisma {
     flatUnitNumber?: NullableStringFieldUpdateOperationsInput | string | null
     terms?: NullableStringFieldUpdateOperationsInput | string | null
     signedCopyUrl?: StringFieldUpdateOperationsInput | string
+    paymentAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    paymentMode?: NullableEnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

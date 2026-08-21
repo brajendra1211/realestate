@@ -1,5 +1,5 @@
 -- AlterTable
-ALTER TABLE `customerinvestoragreement` ADD COLUMN `paymentAmount` INTEGER NULL,
+ALTER TABLE `CustomerInvestorAgreement` ADD COLUMN `paymentAmount` INTEGER NULL,
     ADD COLUMN `paymentMode` ENUM('BANK_TRANSFER', 'CHEQUE', 'CASH', 'UPI', 'NETBANKING') NULL;
 
 -- CreateTable

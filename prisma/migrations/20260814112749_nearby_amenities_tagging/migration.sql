@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE `agentlisting` ADD COLUMN `nearbyAmenities` TEXT NULL;
+ALTER TABLE `AgentListing` ADD COLUMN `nearbyAmenities` TEXT NULL;

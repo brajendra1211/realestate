@@ -1,5 +1,5 @@
 -- AlterTable
-ALTER TABLE `agentprofile` ADD COLUMN `ratingAvg` DOUBLE NULL DEFAULT 0;
+ALTER TABLE `AgentProfile` ADD COLUMN `ratingAvg` DOUBLE NULL DEFAULT 0;
 
 -- CreateTable
 CREATE TABLE `PropertyVisitLog` (

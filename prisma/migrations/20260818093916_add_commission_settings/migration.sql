@@ -1,5 +1,5 @@
 -- AlterTable
-ALTER TABLE `sitesettings` ADD COLUMN `agentReferralPercent` INTEGER NOT NULL DEFAULT 10,
+ALTER TABLE `SiteSettings` ADD COLUMN `agentReferralPercent` INTEGER NOT NULL DEFAULT 10,
     ADD COLUMN `brokeragePercent` INTEGER NOT NULL DEFAULT 1,
     ADD COLUMN `goldAgentSplitPercent` INTEGER NOT NULL DEFAULT 50,
     ADD COLUMN `goldListingAmount` INTEGER NOT NULL DEFAULT 500,

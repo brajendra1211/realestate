@@ -1,8 +1,8 @@
 -- AlterTable
-ALTER TABLE `investorprofile` ADD COLUMN `feePaymentMode` ENUM('BANK_TRANSFER', 'CHEQUE', 'CASH', 'UPI', 'NETBANKING') NULL;
+ALTER TABLE `InvestorProfile` ADD COLUMN `feePaymentMode` ENUM('BANK_TRANSFER', 'CHEQUE', 'CASH', 'UPI', 'NETBANKING') NULL;
 
 -- AlterTable
-ALTER TABLE `sitesettings` ADD COLUMN `tdsPercent` INTEGER NOT NULL DEFAULT 5;
+ALTER TABLE `SiteSettings` ADD COLUMN `tdsPercent` INTEGER NOT NULL DEFAULT 5;
 
 -- CreateTable
 CREATE TABLE `Deal` (

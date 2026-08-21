@@ -1,3 +1,3 @@
 -- AlterTable
-ALTER TABLE `investorledgerentry` ADD COLUMN `customerTransactionRef` VARCHAR(191) NULL,
+ALTER TABLE `InvestorLedgerEntry` ADD COLUMN `customerTransactionRef` VARCHAR(191) NULL,
     ADD COLUMN `holdDurationDays` INTEGER NULL;

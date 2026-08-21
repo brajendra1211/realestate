@@ -47,7 +47,7 @@ export function PanelSidebar({
   }, [open]);
 
   const navContent = (
-    <nav className="flex-1 space-y-0.5 px-3 py-2">
+    <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-2">
       {navItems.map((item) => {
         const active = isActive(pathname, item.href, homeHref);
         return (

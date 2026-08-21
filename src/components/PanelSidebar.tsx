@@ -6,10 +6,48 @@ import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
 export type PanelNavItem = { href: string; label: string; icon: ReactNode };
+export type PanelNavGroup = { label: string; items: PanelNavItem[] };
+export type PanelNavEntry = PanelNavItem | PanelNavGroup;
+
+function isGroup(entry: PanelNavEntry): entry is PanelNavGroup {
+  return "items" in entry;
+}
 
 function isActive(pathname: string, href: string, indexHref: string) {
   if (href === indexHref) return pathname === indexHref;
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function groupHasActiveItem(pathname: string, group: PanelNavGroup, indexHref: string) {
+  return group.items.some((item) => isActive(pathname, item.href, indexHref));
+}
+
+function NavLink({
+  item,
+  active,
+  indent,
+}: {
+  item: PanelNavItem;
+  active: boolean;
+  indent?: boolean;
+}) {
+  return (
+    <Link
+      href={item.href}
+      className={`flex items-center gap-3 rounded-xl py-2.5 text-sm font-medium transition ${
+        indent ? "pl-9 pr-3" : "px-3"
+      } ${active ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"}`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className={`h-5 w-5 shrink-0 ${active ? "text-blue-600" : "text-slate-400"}`}
+      >
+        {item.icon}
+      </svg>
+      <span className="whitespace-nowrap">{item.label}</span>
+    </Link>
+  );
 }
 
 export function PanelSidebar({
@@ -24,7 +62,7 @@ export function PanelSidebar({
   homeHref: string;
   brandLabel: string;
   subLabel: string;
-  navItems: PanelNavItem[];
+  navItems: PanelNavEntry[];
   personName: string;
   personRole: string;
   logoutButton: ReactNode;
@@ -38,6 +76,30 @@ export function PanelSidebar({
     setOpen(false);
   }
 
+  // Groups containing the active route start expanded; collapsed groups stay
+  // collapsed across navigation so the sidebar doesn't jump around.
+  const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(() => {
+    const collapsed = new Set<string>();
+    for (const entry of navItems) {
+      if (isGroup(entry) && !groupHasActiveItem(pathname, entry, homeHref)) {
+        collapsed.add(entry.label);
+      }
+    }
+    return collapsed;
+  });
+
+  function toggleGroup(label: string) {
+    setCollapsedGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(label)) {
+        next.delete(label);
+      } else {
+        next.add(label);
+      }
+      return next;
+    });
+  }
+
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
@@ -48,27 +110,39 @@ export function PanelSidebar({
 
   const navContent = (
     <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-2">
-      {navItems.map((item) => {
-        const active = isActive(pathname, item.href, homeHref);
+      {navItems.map((entry) => {
+        if (!isGroup(entry)) {
+          return (
+            <NavLink key={entry.href} item={entry} active={isActive(pathname, entry.href, homeHref)} />
+          );
+        }
+
+        const expanded = !collapsedGroups.has(entry.label);
         return (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${
-              active
-                ? "bg-blue-50 text-blue-700"
-                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-            }`}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              className={`h-5 w-5 shrink-0 ${active ? "text-blue-600" : "text-slate-400"}`}
+          <div key={entry.label} className="pt-2 first:pt-0">
+            <button
+              type="button"
+              onClick={() => toggleGroup(entry.label)}
+              aria-expanded={expanded}
+              className="flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400 transition hover:text-slate-600"
             >
-              {item.icon}
-            </svg>
-            <span className="whitespace-nowrap">{item.label}</span>
-          </Link>
+              <span>{entry.label}</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className={`h-3.5 w-3.5 shrink-0 transition-transform ${expanded ? "rotate-180" : ""}`}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            {expanded && (
+              <div className="space-y-0.5 pt-0.5">
+                {entry.items.map((item) => (
+                  <NavLink key={item.href} item={item} active={isActive(pathname, item.href, homeHref)} indent />
+                ))}
+              </div>
+            )}
+          </div>
         );
       })}
     </nav>

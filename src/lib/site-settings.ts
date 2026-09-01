@@ -37,6 +37,12 @@ const DEFAULT_SETTINGS = {
   unlockAgentSplitPercent: 50,
   goldListingAmount: 500,
   goldAgentSplitPercent: 50,
+  agentBasicPlanPrice: 1000,
+  agentPrimePlanPrice: 2000,
+  agentPlanSplitPercent: 50,
+  basicListingFee: 200,
+  goldListingFee: 500,
+  listingSplitPercent: 50,
 };
 
 export async function getSiteSettings() {

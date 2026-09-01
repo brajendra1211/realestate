@@ -97,6 +97,8 @@ model User {
   dispatchRequests     DispatchRequest[]
   goldListingPurchases GoldListingPurchase[]
   visitAppointments    VisitAppointment[]
+  directVisits         DirectPropertyVisit[]         @relation("DirectVisitBuyer")
+  antiBypassAgreements PlatformAntiBypassAgreement[] @relation("AntiBypassBuyer")
 }
 
 enum PlanRole {
@@ -416,11 +418,27 @@ model SiteSettings {
   unlockAgentSplitPercent    Int @default(50)
   goldListingAmount          Int @default(500) // §3.4
   goldAgentSplitPercent      Int @default(50)
+  agentBasicPlanPrice        Int @default(1000) // PDF 1 P.1 — Basic Agent Plan ₹1,000
+  agentPrimePlanPrice        Int @default(2000) // PDF 1 P.1 — Prime Agent Plan ₹2,000
+  agentPlanSplitPercent      Int @default(50) // PDF 1 P.1 — 50% referral split to agent wallet
+  basicListingFee            Int @default(200) // PDF 1 P.1 — Basic Property Listing ₹200 (1 Month)
+  goldListingFee             Int @default(500) // PDF 1 P.1 — Gold Property Listing ₹500 (3 Months)
+  listingSplitPercent        Int @default(50) // PDF 1 P.1 — 50% split to agent wallet
 
   updatedAt DateTime @updatedAt
 }
 
 // --- Phase 1: Agent + Investor foundation (docs/platform-requirements.md §7) ---
+
+enum AgentPlanTier {
+  BASIC
+  PRIME
+}
+
+enum ListingPlanTier {
+  BASIC
+  GOLD
+}
 
 enum AgentDocumentType {
   RERA_CERTIFICATE
@@ -444,35 +462,50 @@ enum CommissionType {
 }
 
 model AgentProfile {
-  id               String         @id @default(cuid())
-  userId           String         @unique
-  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  agentCode        String?        @unique
-  city             String?
-  shopName         String?
-  shopAddress      String?        @db.Text
-  shopLatitude     Float?
-  shopLongitude    Float?
-  alternatePhone   String?
-  yearsExperience  Int?
-  staffCount       Int?
-  reraNumber       String?
-  gstNumber        String?
-  status           ApprovalStatus @default(PENDING)
-  rejectionReason  String?        @db.Text
-  primeStatus      Boolean        @default(false)
-  walletBalance    Int            @default(0)
-  warningCount     Int            @default(0)
-  ratingAvg        Float?         @default(0)
-  verifiedAt       DateTime?
+  id                      String         @id @default(cuid())
+  userId                  String         @unique
+  user                    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agentCode               String?        @unique
+  city                    String?
+  shopName                String?
+  shopAddress             String?        @db.Text
+  shopLatitude            Float?
+  shopLongitude           Float?
+  alternatePhone          String?
+  yearsExperience         Int?
+  staffCount              Int?
+  reraNumber              String?
+  gstNumber               String?
+  status                  ApprovalStatus @default(PENDING)
+  rejectionReason         String?        @db.Text
+  planTier                AgentPlanTier  @default(PRIME)
+  primeStatus             Boolean        @default(false)
+  visibilityDeprioritized Boolean        @default(false)
+  autoPayMandate          String?
+  autoPayActive           Boolean        @default(false)
+  renewalAlertSentAt      DateTime?
+  walletBalance           Int            @default(0)
+  warningCount            Int            @default(0)
+  ratingAvg               Float?         @default(0)
+  verifiedAt              DateTime?
+  // PDF 1 Page 7 & 12: 60-Day Review Cycle, Target Counts & Tier Promotion/Demotion
+  cycleStartDate          DateTime?      @default(now())
+  cycleEndDate            DateTime?
+  cycleListingsTarget     Int            @default(5)
+  cycleDealsTarget        Int            @default(1)
+  cycleVisitsTarget       Int            @default(3)
+  carryForwardScore       Int            @default(0)
+  cycleCompletedCount     Int            @default(0)
+  activeDiscountCoupon    String?
+  couponExpiresAt         DateTime?
   // §3.20 — the agent who referred this agent (self-referential, same shape
   // as InvestorProfile.referringAgentId below). Nullable: most agents have
   // no referrer.
-  referringAgentId String?
-  referringAgent   AgentProfile?  @relation("AgentReferral", fields: [referringAgentId], references: [id])
-  referredAgents   AgentProfile[] @relation("AgentReferral")
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  referringAgentId        String?
+  referringAgent          AgentProfile?  @relation("AgentReferral", fields: [referringAgentId], references: [id])
+  referredAgents          AgentProfile[] @relation("AgentReferral")
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
 
   documents             AgentDocument[]
   investors             InvestorProfile[]
@@ -495,6 +528,7 @@ model AgentProfile {
   documentVaultItems    DocumentVaultItem[]
   visitAppointments     VisitAppointment[]
   areaAssignments       AreaAgentAssignment[]
+  assignedUnlocks       PropertyUnlock[]
 
   @@index([status])
   @@index([referringAgentId])
@@ -590,46 +624,66 @@ enum ListingSource {
 }
 
 model AgentListing {
-  id               String         @id @default(cuid())
-  masterPropertyId String
-  masterProperty   MasterProperty @relation(fields: [masterPropertyId], references: [id], onDelete: Cascade)
+  id                    String          @id @default(cuid())
+  masterPropertyId      String
+  masterProperty        MasterProperty  @relation(fields: [masterPropertyId], references: [id], onDelete: Cascade)
   // Nullable: a Gold self-listing (§3.4) with no referring agent has no
   // agent at all — "company's number is shown... not any specific agent's."
   // When present on a CUSTOMER_GOLD listing, it's the *referring* agent
   // (who gets the 50% split), not necessarily who's actively selling it.
-  agentId          String?
-  agent            AgentProfile?  @relation(fields: [agentId], references: [id], onDelete: Cascade)
-  source           ListingSource  @default(AGENT)
+  agentId               String?
+  agent                 AgentProfile?   @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  source                ListingSource   @default(AGENT)
   // AGENT listings go live immediately (unchanged Phase 2 behavior);
   // CUSTOMER_GOLD listings default PENDING and need admin moderation
   // ("anti-fake-listing check") before they're public or auto-injected.
-  approvalStatus   ApprovalStatus @default(APPROVED)
-  slug             String         @unique
-  title            String
-  description      String         @db.Text
-  listingType      ListingType
-  propertyType     PropertyType
-  bedrooms         Int?
-  bathrooms        Int?
-  areaSqft         Int?
-  price            Int
-  exactAddress     String         @db.Text
-  amenities        String?        @db.Text
+  approvalStatus        ApprovalStatus  @default(APPROVED)
+  slug                  String          @unique
+  title                 String
+  description           String          @db.Text
+  listingType           ListingType
+  propertyType          PropertyType
+  bedrooms              Int?
+  bathrooms             Int?
+  areaSqft              Int?
+  price                 Int
+  exactAddress          String          @db.Text
+  amenities             String?         @db.Text
   // §3.15 — nearest Metro/Railway/Bus/Hospital/Grocery, auto-pulled at
   // creation time, never typed manually. Distinct from `amenities` above
   // (on-property features like gym/pool), this is *nearby places*.
-  nearbyAmenities  String?        @db.Text
-  videoUrl         String?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  nearbyAmenities       String?         @db.Text
+  videoUrl              String?
+  // PDF 1 P.1 & P.2: Basic (₹200 / 30d) vs Gold (₹500 / 90d) auto-delist
+  listingPlan           ListingPlanTier @default(BASIC)
+  listingFee            Int             @default(200)
+  listingAgentSplit     Int             @default(100)
+  listingCompanySplit   Int             @default(100)
+  listingExpiresAt      DateTime?
+  isDelisted            Boolean         @default(false)
+  delistedAt            DateTime?
+  expiryWarning7dSentAt DateTime?
+  expiryWarning2dSentAt DateTime?
 
-  images       AgentListingImage[]
-  unlocks      PropertyUnlock[]
-  goldPurchase GoldListingPurchase?
+  // PDF 2 P.12 & P.13: 6-Month Agreement Countdown & Hot Deals Engine
+  agreementStartDate    DateTime?
+  agreementExpiryDate   DateTime?
+  hotDealAlert30dSentAt DateTime?
+  hotDealAlert15dSentAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images               AgentListingImage[]
+  unlocks              PropertyUnlock[]
+  goldPurchase         GoldListingPurchase?
+  directVisits         DirectPropertyVisit[]
+  antiBypassAgreements PlatformAntiBypassAgreement[]
 
   @@index([masterPropertyId])
   @@index([agentId])
   @@index([source, approvalStatus])
+  @@index([isDelisted, agreementExpiryDate])
 }
 
 model AgentListingImage {
@@ -641,18 +695,25 @@ model AgentListingImage {
 }
 
 model PropertyUnlock {
-  id             String       @id @default(cuid())
-  agentListingId String
-  agentListing   AgentListing @relation(fields: [agentListingId], references: [id], onDelete: Cascade)
-  buyerId        String
-  buyer          User         @relation(fields: [buyerId], references: [id], onDelete: Cascade)
-  amount         Int          @default(100)
-  agentSplit     Int          @default(50)
-  companySplit   Int          @default(50)
-  createdAt      DateTime     @default(now())
+  id              String        @id @default(cuid())
+  agentListingId  String
+  agentListing    AgentListing  @relation(fields: [agentListingId], references: [id], onDelete: Cascade)
+  buyerId         String
+  buyer           User          @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  amount          Int           @default(100)
+  agentSplit      Int           @default(50)
+  companySplit    Int           @default(50)
+  assignedAgentId String?
+  assignedAgent   AgentProfile? @relation(fields: [assignedAgentId], references: [id])
+  switchedAgent   Boolean       @default(false)
+  switchedAt      DateTime?
+  switchReason    String?       @db.Text
+  expiresAt       DateTime? // PDF 1 P.2 & PDF 2 P.8: 24-Hour Exclusivity Window
+  createdAt       DateTime      @default(now())
 
   @@unique([agentListingId, buyerId])
   @@index([buyerId])
+  @@index([assignedAgentId])
 }
 
 // The one-time ₹500 Gold Membership payment — §3.4. One per listing
@@ -687,24 +748,51 @@ enum PayoutStatus {
   REJECTED
 }
 
-// Direct buyer/seller brokerage on a closed deal — §3.12. 1% each side, 100%
-// to the respective agent (no company cut on this line, per the source doc).
+enum DealStatus {
+  ACTIVE
+  TOKEN_RECEIVED
+  AGREEMENT_DONE
+  REGISTRY_COMPLETED
+  CLOSED
+  CANCELLED
+}
+
+// PDF 1 Page 11 & PDF 2 Page 11:
+// 5-Stage B2B Deal Lifecycle Engine & Commission Distribution:
+// - ACTIVE (Negotiation) -> TOKEN_RECEIVED -> AGREEMENT_DONE -> REGISTRY_COMPLETED -> CLOSED
+// - 10% platform fee automatically retained by company.
+// - Remaining 90% split 50-50 between Buyer Agent (45%) & Seller Agent (45%).
 model Deal {
-  id               String        @id @default(cuid())
-  dealValue        Int
-  buyerAgentId     String?
-  buyerAgent       AgentProfile? @relation("DealBuyerAgent", fields: [buyerAgentId], references: [id])
-  sellerAgentId    String?
-  sellerAgent      AgentProfile? @relation("DealSellerAgent", fields: [sellerAgentId], references: [id])
-  buyerCommission  Int?
-  sellerCommission Int?
-  paymentMode      PaymentMode
-  note             String?       @db.Text
-  dealDate         DateTime      @default(now())
-  createdAt        DateTime      @default(now())
+  id                    String        @id @default(cuid())
+  dealValue             Int
+  status                DealStatus    @default(ACTIVE)
+  propertyTitle         String?
+  broadcastId           String?
+  broadcast             Broadcast?    @relation(fields: [broadcastId], references: [id])
+  buyerAgentId          String?
+  buyerAgent            AgentProfile? @relation("DealBuyerAgent", fields: [buyerAgentId], references: [id])
+  sellerAgentId         String?
+  sellerAgent           AgentProfile? @relation("DealSellerAgent", fields: [sellerAgentId], references: [id])
+  totalCommission       Int           @default(0)
+  platformPercent       Int           @default(10)
+  platformCommission    Int           @default(0)
+  buyerCommission       Int?
+  sellerCommission      Int?
+  tokenAmount           Int?
+  tokenDate             DateTime?
+  agreementDate         DateTime?
+  registryDate          DateTime?
+  commissionDistributed Boolean       @default(false)
+  paymentMode           PaymentMode   @default(BANK_TRANSFER)
+  note                  String?       @db.Text
+  dealDate              DateTime      @default(now())
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @default(now()) @updatedAt
 
   @@index([buyerAgentId])
   @@index([sellerAgentId])
+  @@index([status])
+  @@index([broadcastId])
 }
 
 // Investor+Company joint deal profit split — §3.13. 10% agent / 10% company
@@ -856,6 +944,7 @@ model Broadcast {
 
   responses BroadcastResponse[]
   messages  AgentChatMessage[]
+  deals     Deal[]
 
   @@index([agentId])
   @@index([status])
@@ -1063,4 +1152,58 @@ model VisitAppointment {
   @@index([buyerId])
   @@index([agentId])
   @@index([status])
+}
+
+// PDF 2 Page 10:
+// Direct Customer-Owner Property Visit with OTP Verification & GPS proof
+model DirectPropertyVisit {
+  id               String       @id @default(cuid())
+  agentListingId   String
+  agentListing     AgentListing @relation(fields: [agentListingId], references: [id], onDelete: Cascade)
+  buyerId          String
+  buyer            User         @relation("DirectVisitBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  ownerPhone       String?
+  otp              String?
+  otpVerified      Boolean      @default(false)
+  otpVerifiedAt    DateTime?
+  latitude         Float?
+  longitude        Float?
+  locationAccuracy Float?
+  notes            String?      @db.Text
+  createdAt        DateTime     @default(now())
+
+  antiBypassAgreements PlatformAntiBypassAgreement[]
+
+  @@index([agentListingId])
+  @@index([buyerId])
+}
+
+// PDF 2 Page 11:
+// Platform Anti-Bypass Legal Agreement Deed
+// Automatically generated upon verified physical site visit to prevent buyer/seller from bypassing platform fee
+model PlatformAntiBypassAgreement {
+  id                String               @id @default(cuid())
+  directVisitId     String?
+  directVisit       DirectPropertyVisit? @relation(fields: [directVisitId], references: [id], onDelete: SetNull)
+  agentListingId    String
+  agentListing      AgentListing         @relation(fields: [agentListingId], references: [id], onDelete: Cascade)
+  buyerId           String
+  buyer             User                 @relation("AntiBypassBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  sellerPhone       String
+  sellerName        String?
+  buyerName         String?
+  buyerPhone        String?
+  propertyAddress   String               @db.Text
+  legalTermsSummary String               @db.Text
+  serviceFeePercent Float                @default(1.0)
+  buyerSigned       Boolean              @default(false)
+  buyerSignedAt     DateTime?
+  sellerSigned      Boolean              @default(false)
+  sellerSignedAt    DateTime?
+  status            String               @default("ACTIVE")
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @default(now()) @updatedAt
+
+  @@index([agentListingId])
+  @@index([buyerId])
 }

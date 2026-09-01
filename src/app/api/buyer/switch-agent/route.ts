@@ -31,6 +31,17 @@ export async function POST(request: Request) {
   }
 
   try {
+    if (body.agentListingId) {
+      const { switchUnlockedListingAgent } = await import("@/lib/agentSwitch");
+      const result = await switchUnlockedListingAgent({
+        buyerId: session.user.id,
+        agentListingId: String(body.agentListingId),
+        reason: String(body.reason ?? ""),
+        isComplaint: Boolean(body.isComplaint),
+      });
+      return NextResponse.json(result, { status: 200 });
+    }
+
     const result = await switchAgent({
       customerPhone: user.phone,
       fromAgentId: String(body.fromAgentId ?? ""),

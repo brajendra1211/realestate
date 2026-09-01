@@ -54,22 +54,31 @@ export default async function AdminGoldListingsPage({ searchParams }: { searchPa
                     Purchase: {listing.goldPurchase ? formatINR(listing.goldPurchase.amount) : "—"}
                     {listing.goldPurchase?.agentSplit ? ` (₹${listing.goldPurchase.agentSplit} referral credited)` : " (no referring agent)"}
                   </p>
+                  <p className="mt-1 text-xs font-medium text-slate-700">
+                    <span className="text-slate-400">Exact Address:</span> {listing.exactAddress}
+                  </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <form action={approveGoldListingAction}>
                     <input type="hidden" name="id" value={listing.id} />
                     <button
                       type="submit"
-                      className="rounded-lg bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700"
+                      className="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-green-700"
                     >
-                      Approve
+                      Approve (Live 90d)
                     </button>
                   </form>
-                  <form action={rejectGoldListingAction}>
+                  <form action={rejectGoldListingAction} className="flex items-center gap-1">
                     <input type="hidden" name="id" value={listing.id} />
+                    <input
+                      type="text"
+                      name="reason"
+                      placeholder="Reason for rejection"
+                      className="w-36 rounded-lg border border-slate-300 px-2 py-1 text-xs"
+                    />
                     <button
                       type="submit"
-                      className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50"
+                      className="rounded-lg border border-red-200 px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-50"
                     >
                       Reject
                     </button>

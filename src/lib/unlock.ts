@@ -73,6 +73,8 @@ export async function unlockAgentListing(buyerId: string, agentListingId: string
         amount: settings.unlockPassAmount,
         agentSplit: listing.agentId ? agentSplit : 0,
         companySplit: listing.agentId ? companySplit : settings.unlockPassAmount,
+        assignedAgentId: listing.agentId ?? null,
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // PDF 1 & 2: 24-hour exclusivity lock
       },
     }),
   ];

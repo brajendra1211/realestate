@@ -1,12 +1,15 @@
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import { getListingBySlug } from "@/lib/listing";
+import { getAgreementUrgency } from "@/lib/listingDelist";
 import { getUnlockForBuyer } from "@/lib/unlock";
 import { isRazorpayConfigured } from "@/lib/razorpay";
 import { getSiteSettings } from "@/lib/site-settings";
 import { formatINR } from "@/lib/format";
 import { PROPERTY_TYPE_LABELS } from "@/lib/format";
 import { UnlockButton } from "@/components/UnlockButton";
+import { SwitchAgentButton } from "@/components/SwitchAgentButton";
+import { DirectVisitVerification } from "@/components/DirectVisitVerification";
 import { unlockListing } from "./actions";
 
 type Params = Promise<{ slug: string }>;
@@ -25,16 +28,27 @@ export default async function ListingDetailPage({
   const listing = await getListingBySlug(slug);
   if (!listing) notFound();
 
+  const urgency = getAgreementUrgency(listing.agreementExpiryDate, listing.agreementStartDate);
+
   const session = await auth();
   const isBuyer = session?.user.role === "BUYER";
   const unlock = isBuyer ? await getUnlockForBuyer(session!.user.id, listing.id) : null;
   const isUnlocked = Boolean(unlock);
 
+  let activeAgent = listing.agent;
+  if (unlock?.assignedAgentId && unlock.assignedAgentId !== listing.agentId) {
+    const { prisma } = await import("@/lib/prisma");
+    activeAgent = await prisma.agentProfile.findUnique({
+      where: { id: unlock.assignedAgentId },
+      include: { user: true },
+    });
+  }
+
   const amenities = listing.amenities
     ? listing.amenities.split(",").map((a) => a.trim()).filter(Boolean)
     : [];
 
-  const agent = listing.agent;
+  const agent = activeAgent;
   const mapsUrl =
     agent?.shopLatitude != null && agent?.shopLongitude != null
       ? `https://www.google.com/maps/search/?api=1&query=${agent.shopLatitude},${agent.shopLongitude}`
@@ -57,6 +71,23 @@ export default async function ListingDetailPage({
       <p className="mt-1 text-sm text-slate-500">
         {listing.masterProperty.locality ?? listing.masterProperty.city}, {listing.masterProperty.city}
       </p>
+
+      {urgency.tier === "HOT_DEAL" && (
+        <div className="mt-3 flex items-center justify-between rounded-xl bg-gradient-to-r from-red-600 to-amber-600 px-4 py-2.5 text-white shadow-md">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">🔥</span>
+            <p className="text-sm font-bold">Hot Deal / Urgent Sale — Final 30 Days of Agreement</p>
+          </div>
+          <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-semibold backdrop-blur">
+            {urgency.daysRemaining} days left
+          </span>
+        </div>
+      )}
+      {urgency.tier === "PRIORITY" && (
+        <div className="mt-3 flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-amber-900">
+          <p className="text-xs font-semibold">⚡ Priority Listing ({urgency.daysRemaining} days remaining on agreement)</p>
+        </div>
+      )}
 
       {listing.images.length > 0 && (
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -172,6 +203,21 @@ export default async function ListingDetailPage({
                   </p>
                 )}
               </>
+            )}
+
+            {agent && unlock && (
+              <SwitchAgentButton
+                listingId={listing.id}
+                switchedAlready={Boolean(unlock.switchedAgent)}
+                expiresAt={unlock.expiresAt?.toISOString() ?? null}
+              />
+            )}
+
+            {isUnlocked && (
+              <DirectVisitVerification
+                listingId={listing.id}
+                isUnlocked={isUnlocked}
+              />
             )}
           </>
         ) : (

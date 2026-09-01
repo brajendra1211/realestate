@@ -52,6 +52,7 @@ export async function POST(request: Request) {
       exactAddress: String(body.exactAddress ?? ""),
       amenities: body.amenities ? String(body.amenities) : null,
       images: Array.isArray(body.images) ? body.images.map(String) : [],
+      listingPlan: body.listingPlan === "GOLD" ? "GOLD" : "BASIC",
     });
     return NextResponse.json(listing, { status: 201 });
   } catch (error) {

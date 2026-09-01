@@ -992,3 +992,332 @@ four points that were specified but not built. All four are now built, migrated,
 - No new endpoint — `src/app/leaderboard/page.tsx` already had the WhatsApp `wa.me` link on each
   card; added a `tel:{phone}` link alongside it, same card, same phone number, matching the
   spec's "direct call/WhatsApp button" wording literally instead of just the WhatsApp half.
+
+---
+
+## Geographic & Media Upload Infrastructure
+
+Supporting catalog, geo-hierarchy, and asset-upload routes used across registration, listings, and location cascading dropdowns:
+
+### `GET /api/geo/countries`
+- **Auth**: Authenticated session
+- **Purpose**: List all countries.
+- **200 response**: `Country[]` (`id`, `name`, `code`)
+
+### `GET /api/geo/states?countryId={id}`
+- **Auth**: Authenticated session
+- **Purpose**: List states within a country.
+- **200 response**: `State[]` (`id`, `name`)
+
+### `GET /api/geo/cities?stateId={id}`
+- **Auth**: Authenticated session
+- **Purpose**: List published cities within a state.
+- **200 response**: `City[]` (`id`, `name`)
+
+### `GET /api/geo/localities?cityId={id}`
+- **Auth**: Authenticated session
+- **Purpose**: List published localities within a city.
+- **200 response**: `Locality[]` (`id`, `name`)
+
+### `GET /api/geo/nearest?lat={lat}&lng={lng}`
+- **Auth**: Public
+- **Purpose**: Find nearest published city (within 100km) and its localities based on GPS coordinates.
+- **200 response**: `{ city: { slug, name, lat, lng }, localities: [...] }`
+- **400**: `{ "error": "Missing or invalid lat/lng" }`
+- **404**: `{ "error": "No nearby locations available" }`
+
+### `GET /api/geo/location-listings?cityId={cityId}&localityId={localityId}&excludeId={id}`
+- **Auth**: Authenticated session
+- **Purpose**: Fetch projects and properties matching selected city/locality for dropdown selectors and co-listing suggestions.
+- **200 response**: `{ city, projects: [...], properties: [...] }`
+
+### `GET /api/admin/geo/states?countryId={id}`
+- **Auth**: Admin session required
+- **Purpose**: Admin view of states filtered by country.
+- **200 response**: `State[]` (`id`, `name`)
+
+### `GET /api/admin/geo/cities?stateId={id}`
+- **Auth**: Admin session required
+- **Purpose**: Admin view of cities filtered by state.
+- **200 response**: `City[]` (`id`, `name`)
+
+### `POST /api/upload`
+- **Auth**: Authenticated session
+- **Purpose**: Upload and validate image assets (JPEG/PNG/WEBP up to 10MB) for avatars and listing media.
+- **201 response**: `{ "url": "string", "filename": "string" }`
+- **400**: `{ "error": "<validation error message>" }`
+
+### `POST /api/upload/document`
+- **Auth**: Authenticated session
+- **Purpose**: Upload compliance and agreement documents (PDF/DOC up to 10MB).
+- **201 response**: `{ "url": "string", "filename": "string" }`
+- **400**: `{ "error": "<validation error message>" }`
+
+---
+
+## Module 1 — Agent Subscription Tiers & Auto-Pay Mandates (PDF 1 & 2)
+
+### `GET /api/agent/subscription/plans`
+- **Auth**: Public or Agent session
+- **Purpose**: Retrieve active agent membership tiers:
+  - **Basic Plan**: ₹1,000 / month (₹500 referring agent wallet split, ₹500 company)
+  - **Prime Plan**: ₹2,000 / month (₹1,000 referring agent wallet split, ₹1,000 company)
+- **200 response**: `AgentPlanDefinition[]` with price, validity, and split breakdowns.
+
+### `GET /api/agent/subscription/status`
+- **Auth**: Agent session required
+- **Purpose**: Returns current subscription status, days to renewal, 5-day warning flag, Auto-Pay mandate, and visibility pushback penalty status.
+- **200 response**: `{ agentCode, planTier, primeStatus, visibilityDeprioritized, walletBalance, autoPayActive, autoPayMandate, daysRemaining, renewalAlertActive, currentSubscription }`
+- **401**: Not an agent / not logged in.
+
+### `POST /api/agent/subscription/autopay-mandate`
+- **Auth**: Agent session required
+- **Purpose**: Link or update UPI / Google Pay Auto-Pay mandate as automated renewal fallback when wallet balance is low.
+- **Request body**: `{ "vpa": "string (e.g. mobile@okhdfcbank)" }`
+- **200 response**: `{ "success": true, "autoPayActive": true, "autoPayMandate": "string" }`
+- **400**: `{ "error": "validation" }`
+
+---
+
+## Module 2 — Auto-Delisting Engine & 6-Month Hot Deals Agreement Countdown (PDF 1 & 2)
+
+### `GET /api/listings/hot-deals`
+- **Auth**: Public
+- **Query Params**: `city?: string`, `listingType?: "SALE" | "RENT"`
+- **Purpose**: Retrieve active listings ordered by 6-month agreement expiry (`agreementExpiryDate ASC`, closest to expiry shows first) with dynamic urgency tags (Green Months 1-3, Yellow Months 4-5 Priority, Red Month 6 Hot Deal).
+- **200 response**: `(AgentListing & { urgency: AgreementUrgencyInfo })[]`
+
+### `GET /api/agent/listings/delisted`
+- **Auth**: Agent session required
+- **Purpose**: Retrieve the agent's expired / auto-delisted properties available for 1-click renewal.
+- **200 response**: `AgentListing[]`
+
+### `POST /api/agent/listings/[id]/renew`
+- **Auth**: Agent session required
+- **Purpose**: Extend listing validity for 30 days (Basic ₹200) or 90 days (Gold ₹500), credits 50% split to agent wallet, and restores to active public feed.
+- **Request body**: `{ "planTier": "BASIC" | "GOLD" }`
+- **200 response**: `{ "success": true, "listing": AgentListing, "message": "string" }`
+- **400**: `{ "error": "<error message>" }`
+
+---
+
+## Module 3 — Lead / Pass Engine: ₹100 Unlock Pass (50-50 Split), 24h Exclusivity & 1-Time Customer Switch (PDF 1 & 2)
+
+### `POST /api/listings/[slug]/unlock`
+- **Auth**: Buyer session required
+- **Price**: ₹100 Unlock Pass
+- **Split**: 50% (₹50) credited immediately to listing agent's wallet with ledger entry, 50% to company.
+- **Exclusivity Lock**: 24-hour exclusivity window assigned to buyer (`PropertyUnlock.expiresAt`).
+- **200 response**: `{ "unlocked": true, "agent": AgentProfile, "exactAddress": "string" }`
+
+### `POST /api/buyer/switch-agent`
+- **Auth**: Buyer session required
+- **Purpose**: Customer Protection Policy (PDF 2 Page 8). Customer gets **1-Time Free Switch** within 24 hours of unlocking a property if the assigned agent is unresponsive or customer is unsatisfied.
+- **Request body**:
+  ```json
+  {
+    "agentListingId": "string (optional — switches agent for this specific unlocked listing)",
+    "reason": "string (required)",
+    "isComplaint": "boolean (optional — if true, files formal complaint and blocks current agent)"
+  }
+  ```
+- **200 response**:
+  ```json
+  {
+    "success": true,
+    "previousAgentId": "string",
+    "newAgent": {
+      "id": "string",
+      "agentCode": "string",
+      "shopName": "string",
+      "phone": "string",
+      "ratingAvg": 4.8
+    }
+  }
+  ```
+- **400**:
+  - `switchAlreadyUsed`: 1 free switch limit already utilized for this unlock.
+  - `exclusivityExpired`: 24-hour protection window has elapsed.
+  - `reasonRequired`: Mandatory explanation must be provided.
+
+### Cascade Broadcast Ladder
+- **Batch 1**: 5km radius (2 minutes to accept)
+- **Batch 2**: 10km radius
+- **Batch 3**: 25km (Citywide broadcast)
+
+---
+
+## Module 4 — B2B Property Broadcast & In-App Inter-Agent Chat with Deal Lifecycle Engine (PDF 1 & 2)
+
+### `GET /api/agent/deals`
+- **Auth**: Agent session required
+- **Purpose**: Retrieve deals where the authenticated agent is buyer agent or seller agent.
+- **200 response**: `Deal[]` including status, stage timestamps, commissions, and buyer/seller agent codes.
+
+### `POST /api/agent/deals`
+- **Auth**: Agent session required
+- **Purpose**: Initiate a new B2B deal between two agents (optionally linked to a broadcast requirement).
+- **Request body**:
+  ```json
+  {
+    "dealValue": 5000000,
+    "totalCommission": 100000,
+    "buyerAgentId": "string (optional — defaults to current agent)",
+    "sellerAgentId": "string (other agent ID)",
+    "broadcastId": "string (optional)",
+    "propertyTitle": "string",
+    "paymentMode": "BANK_TRANSFER"
+  }
+  ```
+- **Platform Split & Brokerage Pool**:
+  - Automatically calculates 10% platform share (`platformCommission`) for the company.
+  - Remaining 90% is split 50-50: 45% buyer agent, 45% seller agent.
+- **201 response**: `Deal` (status `ACTIVE`, `commissionDistributed: false`)
+
+### `PATCH /api/agent/deals/[id]/stage`
+- **Auth**: Agent session or Admin
+- **Purpose**: Advance deal through the 5-stage lifecycle:
+  - `ACTIVE` $\to$ `TOKEN_RECEIVED` (pass `tokenAmount`) $\to$ `AGREEMENT_DONE` $\to$ `REGISTRY_COMPLETED` $\to$ `CLOSED`
+- **Automated Payout**:
+  - Reaching `REGISTRY_COMPLETED` or `CLOSED` automatically credits the 45% commission into buyer and seller agent platform wallets with `CommissionLedgerEntry`.
+- **Request body**:
+  ```json
+  {
+    "status": "TOKEN_RECEIVED | AGREEMENT_DONE | REGISTRY_COMPLETED | CLOSED | CANCELLED",
+    "tokenAmount": 50000,
+    "note": "Token advance received"
+  }
+  ```
+- **200 response**: Updated `Deal`
+
+---
+
+## Module 5 — Direct Customer Property Visit with OTP & Anti-Bypass Agreement Engine (PDF 2 Pages 10 & 11)
+
+### `POST /api/buyer/direct-visit/request`
+- **Auth**: Buyer session required
+- **Purpose**: Request OTP verification for an in-person direct site visit with GPS coordinates. Sends 6-digit verification code to the property owner/representative.
+- **Request body**:
+  ```json
+  {
+    "agentListingId": "string (required)",
+    "latitude": 28.6139,
+    "longitude": 77.2090,
+    "locationAccuracy": 12.5,
+    "notes": "string (optional)"
+  }
+  ```
+- **201 response**: `{ "visitId": "string", "status": "OTP_SENT", "message": "string" }`
+
+### `POST /api/buyer/direct-visit/verify`
+- **Auth**: Buyer session required
+- **Purpose**: Confirm OTP given by the owner on site. Marks physical visit verified and automatically generates the legally-enforceable Platform Anti-Bypass Agreement deed.
+- **Request body**:
+  ```json
+  {
+    "visitId": "string",
+    "otp": "123456"
+  }
+  ```
+- **200 response**:
+  ```json
+  {
+    "success": true,
+    "visitId": "string",
+    "agreementId": "string",
+    "verifiedAt": "ISO date",
+    "agreement": {
+      "id": "string",
+      "legalTermsSummary": "string",
+      "serviceFeePercent": 1.0,
+      "buyerSigned": true
+    }
+  }
+  ```
+
+### `POST /api/agreements/[id]/sign`
+- **Auth**: Authenticated user (Buyer or Seller)
+- **Purpose**: Digitally sign/accept the platform anti-bypass legal deed.
+- **200 response**: Updated `PlatformAntiBypassAgreement`
+
+---
+
+## Module 6 — 60-Day Review Cycle, Tier Demotion/Promotion & 20% Pre-Expiry Discount Coupon (PDF 1 Pages 7 & 12)
+
+### `GET /api/agent/cycle`
+- **Auth**: Agent session required
+- **Purpose**: Retrieve the agent's active 60-day performance review cycle progress, targets, activity metrics, carry-forward score, and active discount coupons.
+- **200 response**:
+  ```json
+  {
+    "cycleStartDate": "ISO date",
+    "cycleEndDate": "ISO date",
+    "daysRemaining": 42,
+    "planTier": "PRIME",
+    "targets": {
+      "listings": 5,
+      "deals": 1,
+      "visits": 3
+    },
+    "achieved": {
+      "listings": 3,
+      "deals": 1,
+      "visits": 2
+    },
+    "isTargetMet": true,
+    "carryForwardScore": 200,
+    "cycleCompletedCount": 2,
+    "coupon": {
+      "code": "RENEW20-AG101-ABCD",
+      "discountPercent": 20,
+      "expiresAt": "ISO date"
+    }
+  }
+  ```
+
+### `POST /api/agent/cycle/coupon`
+- **Auth**: Agent session required
+- **Purpose**: Issue 20% Pre-Expiry Discount Coupon within 48 hours of listing/membership expiry.
+- **200 response**:
+  ```json
+  {
+    "code": "RENEW20-AG101-ABCD",
+    "discountPercent": 20,
+    "expiresAt": "ISO date"
+  }
+  ```
+
+---
+
+## Module 7 — Customer Direct Gold Self-Listing (₹500 / 50-50 Split) & Anti-Fake Moderation (PDF 1 Page 1 & PDF 2 Page 9)
+
+### `POST /api/gold-listings`
+- **Auth**: Buyer / Customer session required
+- **Fee**: ₹500 Gold Self-Listing Pass (90 days validity).
+- **Split**: If referred by an Agent Code, 50% (₹250) is instantly credited to the agent's wallet with ledger entry `GOLD_SPLIT`, 50% to company. If no referrer, 100% to company.
+- **Initial Status**: Enters company moderation queue as `PENDING` (Anti-Fake check).
+- **201 response**: `AgentListing` (status `PENDING`)
+
+### `POST /api/admin/gold-listings/[id]/approve`
+- **Auth**: Admin only
+- **Purpose**: Anti-fake check approval. Listing goes LIVE on public search feeds, activates 90-day validity timer (`listingExpiresAt`), 6-month agreement countdown (`agreementExpiryDate`), and auto-injects into the CRM feed of the top 5 nearest Prime agents within 5km.
+- **200 response**: Updated `AgentListing` (status `APPROVED`)
+
+### `POST /api/admin/gold-listings/[id]/reject`
+- **Auth**: Admin only
+- **Purpose**: Rejects fake, duplicate, or inaccurate listing with reason. Dispatches notification to customer.
+- **Request body**: `{ "reason": "string" }`
+- **200 response**: Updated `AgentListing` (status `REJECTED`)
+
+### `GET /api/agent/gold-listings`
+- **Auth**: Prime Agent session required
+- **Purpose**: Live radius feed of approved direct customer listings within 5km of the agent's shop. Agents can contact owner or upload high-res photos on top of the Master Property ID.
+- **200 response**: `(AgentListing & { distanceKm: number })[]`
+
+
+
+
+
+
+
+

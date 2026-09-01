@@ -24,3 +24,27 @@ export async function requestPayoutAction(formData: FormData) {
 
   revalidatePath("/agent/dashboard");
 }
+
+export async function setAutoPayMandateAction(formData: FormData) {
+  const session = await auth();
+  if (!session) redirect("/login");
+
+  const agent = await getAgentByUserId(session.user.id);
+  if (!agent) redirect("/register/agent");
+
+  const vpa = String(formData.get("vpa") ?? "").trim();
+  if (!vpa || !vpa.includes("@")) {
+    redirect("/agent/dashboard?mandateError=invalid");
+  }
+
+  const { setAgentAutoPayMandate } = await import("@/lib/agentPlans");
+  try {
+    await setAgentAutoPayMandate(agent.id, vpa);
+  } catch {
+    redirect("/agent/dashboard?mandateError=failed");
+  }
+
+  revalidatePath("/agent/dashboard");
+  redirect("/agent/dashboard?saved=mandate");
+}
+

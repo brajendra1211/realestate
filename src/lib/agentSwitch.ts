@@ -161,3 +161,123 @@ export async function getWarningsForAgent(agentProfileId: string) {
     orderBy: { createdAt: "desc" },
   });
 }
+
+/**
+ * Customer Protection Policy — 1-Time Free Switch Agent within 24 Hours
+ * (PDF 2 Page 8):
+ * If the assigned agent does not respond or customer is dissatisfied,
+ * customer can switch agent within 24 hours of unlocking.
+ * Finds next top-rated/nearest Prime agent in locality and assigns them for free.
+ */
+export async function switchUnlockedListingAgent(input: {
+  buyerId: string;
+  agentListingId: string;
+  reason: string;
+  isComplaint?: boolean;
+}) {
+  const reason = input.reason.trim();
+  if (!reason) throw new AgentSwitchServiceError("reasonRequired");
+
+  const unlock = await prisma.propertyUnlock.findUnique({
+    where: {
+      agentListingId_buyerId: {
+        agentListingId: input.agentListingId,
+        buyerId: input.buyerId,
+      },
+    },
+    include: {
+      buyer: true,
+      agentListing: { include: { masterProperty: true } },
+      assignedAgent: { include: { user: true } },
+    },
+  });
+  if (!unlock) throw new AgentSwitchServiceError("notFound");
+
+  // Check 1: Must be within 24 hours exclusivity window
+  const now = new Date();
+  if (unlock.expiresAt && now > unlock.expiresAt) {
+    throw new AgentSwitchServiceError("exclusivityExpired");
+  }
+
+  // Check 2: Max 1 free switch per unlock
+  if (unlock.switchedAgent) {
+    throw new AgentSwitchServiceError("switchAlreadyUsed");
+  }
+
+  const currentAgentId = unlock.assignedAgentId ?? unlock.agentListing.agentId ?? "";
+  const prop = unlock.agentListing.masterProperty;
+
+  // Find next best agent in the property's coordinates or locality
+  const replacement = await findReplacementAgent(
+    unlock.buyer.phone ?? unlock.buyerId,
+    prop.latitude ?? 28.6139,
+    prop.longitude ?? 77.209,
+    10, // 10km scan
+    currentAgentId
+  );
+
+  if (!replacement) {
+    throw new AgentSwitchServiceError("noAlternativeAgentAvailable");
+  }
+
+  const replacementAgent = await prisma.agentProfile.findUnique({
+    where: { id: replacement.agentProfileId },
+    include: { user: true },
+  });
+  if (!replacementAgent) {
+    throw new AgentSwitchServiceError("noAlternativeAgentAvailable");
+  }
+
+  // Update PropertyUnlock with new assigned agent
+  await prisma.propertyUnlock.update({
+    where: { id: unlock.id },
+    data: {
+      assignedAgentId: replacementAgent.id,
+      switchedAgent: true,
+      switchedAt: now,
+      switchReason: reason,
+    },
+  });
+
+  // Log in agent switch log
+  await prisma.agentSwitchLog.create({
+    data: {
+      customerPhone: unlock.buyer.phone ?? unlock.buyerId,
+      fromAgentId: currentAgentId,
+      toAgentId: replacementAgent.id,
+      reason,
+      isComplaint: Boolean(input.isComplaint),
+    },
+  });
+
+  // If complaint, record block against previous agent
+  if (input.isComplaint && currentAgentId && unlock.buyer.phone) {
+    await recordComplaint(currentAgentId, unlock.buyer.phone, reason);
+  }
+
+  // Notify new agent
+  await notifyUser(
+    replacementAgent.user,
+    `New Customer Lead: You have been assigned to buyer for "${unlock.agentListing.title}" in ${prop.locality ?? prop.city}. Customer Phone: ${unlock.buyer.phone ?? "Registered User"}.`,
+    "Lead Reassigned to You"
+  );
+
+  // Notify customer
+  await notifyUser(
+    unlock.buyer,
+    `Your request to switch agent was approved. New Agent: ${replacementAgent.shopName || "Prime Agent"} (Code: ${replacementAgent.agentCode}). Contact: ${replacementAgent.user.phone || "Available in app"}.`,
+    "Agent Switched Successfully"
+  );
+
+  return {
+    success: true,
+    previousAgentId: currentAgentId,
+    newAgent: {
+      id: replacementAgent.id,
+      agentCode: replacementAgent.agentCode,
+      shopName: replacementAgent.shopName,
+      phone: replacementAgent.user.phone,
+      ratingAvg: replacementAgent.ratingAvg,
+    },
+  };
+}

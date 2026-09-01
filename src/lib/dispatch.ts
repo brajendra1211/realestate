@@ -15,10 +15,9 @@ import { getSiteSettings } from "@/lib/site-settings";
 export class DispatchServiceError extends Error {}
 
 const BATCH_SIZE = 8; // "5-10 nearest Prime agents" — §3.5
-// Cascading radius ladder — §3.5 says "radius scan (1-5 km)" and "Batch 2:
-// next 5-10 agents", read together as widening the search each time a batch
-// times out rather than just re-querying the same 1-5km window.
-const RADIUS_LADDER_KM = [1, 3, 5];
+// PDF 1 Page 4 & 5, PDF 2 Page 7: Cascade Broadcast Radius Ladder
+// Batch 1 (5km radius) -> Batch 2 (10km radius) -> Batch 3 (Citywide 25km radius)
+const RADIUS_LADDER_KM = [5, 10, 25];
 
 export type CreateDispatchInput = {
   buyerId: string;

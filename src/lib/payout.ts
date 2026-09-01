@@ -16,6 +16,12 @@ export async function requestAgentPayout(agentProfileId: string, amount: number)
 
   const agent = await prisma.agentProfile.findUnique({ where: { id: agentProfileId } });
   if (!agent) throw new PayoutServiceError("notFound");
+
+  // PDF 2 Page 6: "agent code ka renewal nahi hai to wo paise ko withdraw nahi karwa sakta"
+  if (!agent.primeStatus || agent.visibilityDeprioritized) {
+    throw new PayoutServiceError("renewalRequired");
+  }
+
   if (amount > agent.walletBalance) throw new PayoutServiceError("insufficientBalance");
 
   const settings = await getSiteSettings();

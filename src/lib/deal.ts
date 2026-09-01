@@ -123,3 +123,196 @@ export async function getDealHistory() {
     take: 100,
   });
 }
+
+export type CreateB2BDealInput = {
+  dealValue: number;
+  totalCommission?: number;
+  buyerAgentId?: string | null;
+  sellerAgentId?: string | null;
+  broadcastId?: string | null;
+  propertyTitle?: string | null;
+  note?: string | null;
+  paymentMode?: PaymentMode;
+};
+
+// PDF 1 Page 11 & PDF 2 Page 11:
+// Creates a B2B Deal with 10% platform deduction and 50-50 split between Buyer & Seller agent
+export async function createB2BDeal(input: CreateB2BDealInput) {
+  if (!Number.isFinite(input.dealValue) || input.dealValue <= 0) {
+    throw new DealServiceError("validation");
+  }
+
+  const [buyerAgent, sellerAgent, settings] = await Promise.all([
+    input.buyerAgentId ? prisma.agentProfile.findUnique({ where: { id: input.buyerAgentId } }) : null,
+    input.sellerAgentId ? prisma.agentProfile.findUnique({ where: { id: input.sellerAgentId } }) : null,
+    getSiteSettings(),
+  ]);
+
+  // Total brokerage: default to 2% (1% each side) or custom commission
+  const totalCommission =
+    input.totalCommission && input.totalCommission > 0
+      ? input.totalCommission
+      : Math.round(input.dealValue * ((settings.brokeragePercent * 2) / 100));
+
+  // 10% platform share automatically deducted for company
+  const platformPercent = 10;
+  const platformCommission = Math.round(totalCommission * (platformPercent / 100));
+  const agentPool = totalCommission - platformCommission; // 90%
+
+  // 50-50 split between Buyer Agent & Seller Agent (45% each)
+  const buyerCommission = buyerAgent ? Math.round(agentPool / 2) : 0;
+  const sellerCommission = sellerAgent ? agentPool - buyerCommission : 0;
+
+  const deal = await prisma.deal.create({
+    data: {
+      dealValue: input.dealValue,
+      propertyTitle: input.propertyTitle?.trim() || null,
+      broadcastId: input.broadcastId || null,
+      buyerAgentId: input.buyerAgentId || null,
+      sellerAgentId: input.sellerAgentId || null,
+      status: "ACTIVE",
+      totalCommission,
+      platformPercent,
+      platformCommission,
+      buyerCommission,
+      sellerCommission,
+      paymentMode: input.paymentMode ?? "BANK_TRANSFER",
+      commissionDistributed: false,
+      note: input.note?.trim() || null,
+    },
+    include: {
+      buyerAgent: { select: { agentCode: true, user: { select: { name: true, phone: true } } } },
+      sellerAgent: { select: { agentCode: true, user: { select: { name: true, phone: true } } } },
+    },
+  });
+
+  return deal;
+}
+
+// Advances the deal through the 5-stage lifecycle:
+// ACTIVE -> TOKEN_RECEIVED -> AGREEMENT_DONE -> REGISTRY_COMPLETED -> CLOSED
+export async function advanceDealStage(
+  dealId: string,
+  targetStatus: import("@/generated/prisma").DealStatus,
+  metadata?: { tokenAmount?: number; note?: string }
+) {
+  const deal = await prisma.deal.findUnique({
+    where: { id: dealId },
+    include: {
+      buyerAgent: { include: { user: true } },
+      sellerAgent: { include: { user: true } },
+    },
+  });
+  if (!deal) throw new DealServiceError("notFound");
+
+  const now = new Date();
+  const updateData: Prisma.DealUpdateInput = {
+    status: targetStatus,
+  };
+
+  if (targetStatus === "TOKEN_RECEIVED") {
+    updateData.tokenDate = now;
+    if (metadata?.tokenAmount) updateData.tokenAmount = metadata.tokenAmount;
+  } else if (targetStatus === "AGREEMENT_DONE") {
+    updateData.agreementDate = now;
+  } else if (targetStatus === "REGISTRY_COMPLETED" || targetStatus === "CLOSED") {
+    updateData.registryDate = now;
+  }
+
+  // Distribute commissions to agents' platform wallets on Registry Completed / Closed
+  if (
+    (targetStatus === "REGISTRY_COMPLETED" || targetStatus === "CLOSED") &&
+    !deal.commissionDistributed
+  ) {
+    updateData.commissionDistributed = true;
+
+    const ops: Prisma.PrismaPromise<unknown>[] = [
+      prisma.deal.update({
+        where: { id: dealId },
+        data: updateData,
+      }),
+    ];
+
+    if (deal.buyerAgent && deal.buyerCommission && deal.buyerCommission > 0) {
+      ops.push(
+        prisma.commissionLedgerEntry.create({
+          data: {
+            agentId: deal.buyerAgent.id,
+            type: "DEAL_PROFIT_SHARE",
+            amount: deal.buyerCommission,
+            refId: dealId,
+            note: `45% B2B deal commission for registry on "${deal.propertyTitle || "Property Deal"}"`,
+          },
+        }),
+        prisma.agentProfile.update({
+          where: { id: deal.buyerAgent.id },
+          data: { walletBalance: { increment: deal.buyerCommission } },
+        })
+      );
+    }
+
+    if (deal.sellerAgent && deal.sellerCommission && deal.sellerCommission > 0) {
+      ops.push(
+        prisma.commissionLedgerEntry.create({
+          data: {
+            agentId: deal.sellerAgent.id,
+            type: "DEAL_PROFIT_SHARE",
+            amount: deal.sellerCommission,
+            refId: dealId,
+            note: `45% B2B deal commission for registry on "${deal.propertyTitle || "Property Deal"}"`,
+          },
+        }),
+        prisma.agentProfile.update({
+          where: { id: deal.sellerAgent.id },
+          data: { walletBalance: { increment: deal.sellerCommission } },
+        })
+      );
+    }
+
+    const [updatedDeal] = (await prisma.$transaction(ops)) as [Deal, ...unknown[]];
+
+    if (deal.buyerAgent && deal.buyerCommission) {
+      await notifyUser(
+        deal.buyerAgent.user,
+        `Registry Completed! Your 45% deal commission of ₹${deal.buyerCommission.toLocaleString(
+          "en-IN"
+        )} on "${deal.propertyTitle || "Deal"}" has been credited to your wallet.`,
+        "Deal Commission Credited"
+      );
+    }
+    if (deal.sellerAgent && deal.sellerCommission) {
+      await notifyUser(
+        deal.sellerAgent.user,
+        `Registry Completed! Your 45% deal commission of ₹${deal.sellerCommission.toLocaleString(
+          "en-IN"
+        )} on "${deal.propertyTitle || "Deal"}" has been credited to your wallet.`,
+        "Deal Commission Credited"
+      );
+    }
+
+    return updatedDeal;
+  }
+
+  return prisma.deal.update({
+    where: { id: dealId },
+    data: updateData,
+    include: {
+      buyerAgent: { select: { agentCode: true, user: { select: { name: true } } } },
+      sellerAgent: { select: { agentCode: true, user: { select: { name: true } } } },
+    },
+  });
+}
+
+export async function getDealsForAgent(agentProfileId: string) {
+  return prisma.deal.findMany({
+    where: {
+      OR: [{ buyerAgentId: agentProfileId }, { sellerAgentId: agentProfileId }],
+    },
+    include: {
+      buyerAgent: { select: { agentCode: true, user: { select: { name: true, phone: true } } } },
+      sellerAgent: { select: { agentCode: true, user: { select: { name: true, phone: true } } } },
+      broadcast: { select: { flatSize: true, txnType: true, society: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}

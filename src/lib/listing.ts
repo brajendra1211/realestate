@@ -35,6 +35,7 @@ export type CreateAgentListingInput = {
   exactAddress: string;
   amenities?: string | null;
   images: string[];
+  listingPlan?: "BASIC" | "GOLD";
 };
 
 export async function createAgentListing(agentProfileId: string, input: CreateAgentListingInput) {
@@ -57,30 +58,66 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
     longitude: input.longitude,
   });
 
-  // §3.15 — "agent never types this manually." Best-effort: a slow/down
-  // Overpass API returns [] rather than blocking listing creation.
+  // §3.15 — nearest Metro/Railway/Bus/Hospital/Grocery
   const nearby = await getNearbyAmenities(input.latitude, input.longitude);
 
-  return prisma.agentListing.create({
-    data: {
-      masterPropertyId: masterProperty.id,
-      agentId: agentProfileId,
-      slug: await uniqueListingSlug(title),
-      title,
-      description: input.description.trim(),
-      listingType: input.listingType,
-      propertyType: input.propertyType,
-      bedrooms: input.bedrooms ?? null,
-      bathrooms: input.bathrooms ?? null,
-      areaSqft: input.areaSqft ?? null,
-      price: input.price,
-      exactAddress: input.exactAddress.trim(),
-      amenities: input.amenities?.trim() || null,
-      nearbyAmenities: formatAmenitiesNote(nearby),
-      images: { create: input.images.map((url, order) => ({ url, order })) },
-    },
-    include: { images: true, masterProperty: true },
-  });
+  // PDF 1 P.1 & P.2: Basic (₹200 / 30d) vs Gold (₹500 / 90d) auto-delisting
+  const listingPlan = input.listingPlan ?? "BASIC";
+  const fee = listingPlan === "GOLD" ? 500 : 200;
+  const validityDays = listingPlan === "GOLD" ? 90 : 30;
+  const splitPercent = 50;
+  const agentSplit = Math.round(fee * (splitPercent / 100));
+  const companySplit = fee - agentSplit;
+
+  const now = new Date();
+  const listingExpiresAt = new Date(now.getTime() + validityDays * 24 * 60 * 60 * 1000);
+  const agreementExpiryDate = new Date(now.getTime() + 180 * 24 * 60 * 60 * 1000); // 6-Month agreement
+
+  const [listing] = await prisma.$transaction([
+    prisma.agentListing.create({
+      data: {
+        masterPropertyId: masterProperty.id,
+        agentId: agentProfileId,
+        slug: await uniqueListingSlug(title),
+        title,
+        description: input.description.trim(),
+        listingType: input.listingType,
+        propertyType: input.propertyType,
+        bedrooms: input.bedrooms ?? null,
+        bathrooms: input.bathrooms ?? null,
+        areaSqft: input.areaSqft ?? null,
+        price: input.price,
+        exactAddress: input.exactAddress.trim(),
+        amenities: input.amenities?.trim() || null,
+        nearbyAmenities: formatAmenitiesNote(nearby),
+        listingPlan,
+        listingFee: fee,
+        listingAgentSplit: agentSplit,
+        listingCompanySplit: companySplit,
+        listingExpiresAt,
+        isDelisted: false,
+        agreementStartDate: now,
+        agreementExpiryDate,
+        images: { create: input.images.map((url, order) => ({ url, order })) },
+      },
+      include: { images: true, masterProperty: true },
+    }),
+    // 50% listing fee split credited to agent wallet
+    prisma.agentProfile.update({
+      where: { id: agentProfileId },
+      data: { walletBalance: { increment: agentSplit } },
+    }),
+    prisma.commissionLedgerEntry.create({
+      data: {
+        agentId: agentProfileId,
+        type: listingPlan === "GOLD" ? "GOLD_SPLIT" : "UNLOCK_SPLIT",
+        amount: agentSplit,
+        note: `50% split for new ${listingPlan} listing "${title}"`,
+      },
+    }),
+  ]);
+
+  return listing;
 }
 
 export async function getListingsForAgent(agentProfileId: string) {
@@ -91,24 +128,25 @@ export async function getListingsForAgent(agentProfileId: string) {
   });
 }
 
-// 2-tier priority — "Top Priority (Prime Subscribed Agents): sabse pehle un
-// Prime Agents ki properties top par show hongi... Second Priority
-// (Radius-Based): iske baad... kisi bhi doosre agent dwara daali gayi
-// listings show hongi" (client's Agent Registration doc, §"Priority Listing
-// Engine"). A listing's agent may have since lost Prime (demoted) or, for a
-// Gold self-listing with no referring agent, have no agent at all — both
-// rank below currently-Prime agents' listings. `agent: { primeStatus: "desc" }`
-// sorts true first, then false, then NULL (no agent) last — MySQL's default
-// null-ordering for DESC — which is exactly this tiering, no raw SQL needed.
+// PDF 2 Page 12 & Page 1:
+// - Non-renewal pushback: deprioritized agents sorted last.
+// - Automatic Sorting Engine: agreementExpiryDate ASC (closest to 6-month agreement expiry shows first as Hot Deals).
+// - Exclude auto-delisted properties (isDelisted: false).
 export async function getPublicListings(filters?: { city?: string; listingType?: "SALE" | "RENT" }) {
   return prisma.agentListing.findMany({
     where: {
       approvalStatus: "APPROVED",
+      isDelisted: false,
       ...(filters?.city ? { masterProperty: { city: filters.city } } : {}),
       ...(filters?.listingType ? { listingType: filters.listingType } : {}),
     },
-    include: { images: true, masterProperty: true },
-    orderBy: [{ agent: { primeStatus: "desc" } }, { createdAt: "desc" }],
+    include: { images: true, masterProperty: true, agent: true },
+    orderBy: [
+      { agent: { visibilityDeprioritized: "asc" } },
+      { agreementExpiryDate: "asc" },
+      { agent: { primeStatus: "desc" } },
+      { createdAt: "desc" },
+    ],
   });
 }
 

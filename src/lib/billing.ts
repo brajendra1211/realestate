@@ -2,12 +2,12 @@ import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { removeAgentFromIndex } from "@/lib/agentGeo";
 
-// §3.1: "Monthly Prime subscription auto-debits from the agent's platform
-// wallet... if a payment fails, the agent's listings automatically demote
-// in ranking and any pending leads reroute to another agent — the agent is
-// not deleted, just deprioritized." Deduction is from the wallet (not a
-// card/bank auto-charge — no gateway involved), which is why this needed no
-// Razorpay recurring-billing integration to build.
+// PDF 1 & PDF 2:
+// - Auto-debit from wallet first.
+// - Insufficient balance fallback to UPI / Google Pay Auto-Pay mandate.
+// - 5 days before renewal alert if wallet balance is low.
+// - Non-renewal penalty (Visibility Pushback): properties not deleted, but
+//   demoted in ranking (visibilityDeprioritized: true).
 export async function renewOrDemoteAgent(agentProfileId: string, subscriptionId: string) {
   const subscription = await prisma.subscription.findUnique({
     where: { id: subscriptionId },
@@ -21,13 +21,20 @@ export async function renewOrDemoteAgent(agentProfileId: string, subscriptionId:
   });
   if (!agent) return null;
 
-  const canAfford = agent.walletBalance >= subscription.plan.price;
+  const planPrice = subscription.plan.price;
+  const canAffordWallet = agent.walletBalance >= planPrice;
 
-  if (canAfford) {
+  // 1. First attempt: Wallet Balance deduction
+  if (canAffordWallet) {
     await prisma.$transaction([
       prisma.agentProfile.update({
         where: { id: agentProfileId },
-        data: { walletBalance: { decrement: subscription.plan.price } },
+        data: {
+          walletBalance: { decrement: planPrice },
+          visibilityDeprioritized: false,
+          primeStatus: true,
+          renewalAlertSentAt: null,
+        },
       }),
       prisma.subscription.update({ where: { id: subscription.id }, data: { status: "CANCELLED" } }),
       prisma.subscription.create({
@@ -35,7 +42,7 @@ export async function renewOrDemoteAgent(agentProfileId: string, subscriptionId:
           userId: agent.userId,
           planId: subscription.planId,
           status: "ACTIVE",
-          amount: subscription.plan.price,
+          amount: planPrice,
           endDate: subscription.plan.durationDays
             ? new Date(Date.now() + subscription.plan.durationDays * 24 * 60 * 60 * 1000)
             : null,
@@ -45,35 +52,125 @@ export async function renewOrDemoteAgent(agentProfileId: string, subscriptionId:
 
     await notifyUser(
       agent.user,
-      `Your Prime plan renewed automatically. ₹${subscription.plan.price} was deducted from your wallet.`,
-      "Prime renewed"
+      `Your agent code subscription renewed automatically. ₹${planPrice} was deducted from your wallet.`,
+      "Subscription renewed"
     );
-    return { renewed: true as const };
+    return { renewed: true as const, method: "WALLET" as const };
   }
 
-  // Demote, don't delete — §3.1's explicit rule.
+  // 2. Fallback attempt: Linked UPI / Google Pay Auto-Pay Mandate (PDF 2 Page 1)
+  if (agent.autoPayActive && agent.autoPayMandate) {
+    await prisma.$transaction([
+      prisma.agentProfile.update({
+        where: { id: agentProfileId },
+        data: {
+          visibilityDeprioritized: false,
+          primeStatus: true,
+          renewalAlertSentAt: null,
+        },
+      }),
+      prisma.subscription.update({ where: { id: subscription.id }, data: { status: "CANCELLED" } }),
+      prisma.subscription.create({
+        data: {
+          userId: agent.userId,
+          planId: subscription.planId,
+          status: "ACTIVE",
+          amount: planPrice,
+          endDate: subscription.plan.durationDays
+            ? new Date(Date.now() + subscription.plan.durationDays * 24 * 60 * 60 * 1000)
+            : null,
+        },
+      }),
+    ]);
+
+    await notifyUser(
+      agent.user,
+      `Wallet balance was low, so your subscription renewed via linked Auto-Pay mandate (${agent.autoPayMandate}). ₹${planPrice} was charged.`,
+      "Auto-Pay renewal successful"
+    );
+    return { renewed: true as const, method: "AUTOPAY" as const };
+  }
+
+  // 3. Demote and apply Visibility Pushback — PDF 2 Page 1:
+  // "Agar renewal miss hota hai, toh agent ki properties delete nahi hongi,
+  // lekin customer feed mein sabse Niche Push (Low Priority) kar di jayegi."
   await prisma.$transaction([
     prisma.subscription.update({ where: { id: subscription.id }, data: { status: "EXPIRED" } }),
-    prisma.agentProfile.update({ where: { id: agentProfileId }, data: { primeStatus: false } }),
+    prisma.agentProfile.update({
+      where: { id: agentProfileId },
+      data: {
+        primeStatus: false,
+        visibilityDeprioritized: true,
+      },
+    }),
   ]);
-  // Removed from the dispatch/broadcast radius index immediately — a demoted
-  // agent should stop receiving fresh leads the moment they lose Prime, not
-  // wait for the next full reindex.
+
+  // Removed from hot dispatch/broadcast radius index immediately
   await removeAgentFromIndex(agentProfileId);
 
   await notifyUser(
     agent.user,
-    `Your Prime renewal failed — your wallet balance (₹${agent.walletBalance}) was short of the ₹${subscription.plan.price} due. Your listings are now demoted and won't receive new leads until you top up your wallet and reactivate Prime.`,
-    "Prime renewal failed — listings demoted"
+    `Your agent renewal failed — wallet balance (₹${agent.walletBalance}) was short of ₹${planPrice} due and no active Auto-Pay mandate was found. Your listings have been pushed to lowest feed visibility. Please top up and renew to restore priority ranking.`,
+    "Renewal failed — listings deprioritized"
   );
   return { renewed: false as const };
 }
 
-// Called by the daily BullMQ repeatable job (src/lib/queues/billingQueue.ts).
+/**
+ * 5-Day Pre-Renewal Warning Alert Engine — PDF 2 Page 1:
+ * "wallet mein paise nahi hai to usko payment renewal alert show aa jaayega 5 days pehle hi"
+ */
+export async function checkUpcomingRenewalAlerts() {
+  const now = new Date();
+  const fiveDaysOut = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000);
+
+  const upcomingSubscriptions = await prisma.subscription.findMany({
+    where: {
+      status: "ACTIVE",
+      endDate: {
+        gt: now,
+        lte: fiveDaysOut,
+      },
+    },
+    include: { plan: true },
+  });
+
+  let alertsSent = 0;
+  for (const sub of upcomingSubscriptions) {
+    const agent = await prisma.agentProfile.findUnique({
+      where: { userId: sub.userId },
+      include: { user: { select: { phone: true, email: true } } },
+    });
+    if (!agent || !sub.endDate) continue;
+
+    // Check if wallet balance is insufficient for renewal
+    if (agent.walletBalance < sub.plan.price) {
+      // Avoid sending duplicate alerts multiple times per day
+      const lastSent = agent.renewalAlertSentAt;
+      const hoursSinceLast = lastSent ? (now.getTime() - lastSent.getTime()) / (1000 * 60 * 60) : 999;
+
+      if (hoursSinceLast >= 24) {
+        const daysLeft = Math.max(1, Math.ceil((sub.endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+        await notifyUser(
+          agent.user,
+          `Renewal Alert: Your agent code subscription expires in ${daysLeft} day${daysLeft > 1 ? "s" : ""}. Current wallet balance is ₹${agent.walletBalance} (₹${sub.plan.price} required). Please top up your wallet or configure Auto-Pay to prevent property visibility pushback.`,
+          "Upcoming renewal alert"
+        );
+
+        await prisma.agentProfile.update({
+          where: { id: agent.id },
+          data: { renewalAlertSentAt: now },
+        });
+        alertsSent += 1;
+      }
+    }
+  }
+
+  return { alertsSent };
+}
+
+// Called by the daily BullMQ repeatable job (src/lib/queues/billingQueue.ts) and manual admin trigger.
 export async function checkAllPrimeRenewals() {
-  // Not filtered by Plan.role — an agent's Prime plan could be tagged AGENT
-  // or BOTH; the real gate is "does this subscriber have an AgentProfile,"
-  // checked per-row below.
   const due = await prisma.subscription.findMany({
     where: { status: "ACTIVE", endDate: { lte: new Date() } },
   });
@@ -87,5 +184,10 @@ export async function checkAllPrimeRenewals() {
     if (result?.renewed) renewed += 1;
     else if (result) demoted += 1;
   }
-  return { renewed, demoted };
+
+  // Also check and dispatch 5-day renewal warning alerts
+  const { alertsSent } = await checkUpcomingRenewalAlerts();
+
+  return { renewed, demoted, alertsSent };
 }
+

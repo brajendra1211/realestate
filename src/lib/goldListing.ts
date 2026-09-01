@@ -113,6 +113,13 @@ async function createGoldListingRecord(input: CreateGoldListingInput, razorpayOr
   });
 
   const nearby = await getNearbyAmenities(input.latitude, input.longitude);
+  const settings = await getSiteSettings();
+  const { agentSplit: splitAgentShare, companySplit: splitCompanyShare } = computeSplit(
+    settings.goldListingAmount,
+    settings.goldAgentSplitPercent
+  );
+  const agentSplit = referringAgentId ? splitAgentShare : 0;
+  const companySplit = referringAgentId ? splitCompanyShare : settings.goldListingAmount;
 
   const listing = await prisma.agentListing.create({
     data: {
@@ -133,18 +140,14 @@ async function createGoldListingRecord(input: CreateGoldListingInput, razorpayOr
       amenities: input.amenities?.trim() || null,
       nearbyAmenities: formatAmenitiesNote(nearby),
       videoUrl: input.videoUrl?.trim() || null,
+      listingPlan: "GOLD",
+      listingFee: settings.goldListingAmount,
+      listingAgentSplit: agentSplit,
+      listingCompanySplit: companySplit,
       images: { create: input.images.map((url, order) => ({ url, order })) },
     },
     include: { images: true, masterProperty: true },
   });
-
-  const settings = await getSiteSettings();
-  const { agentSplit: splitAgentShare, companySplit: splitCompanyShare } = computeSplit(
-    settings.goldListingAmount,
-    settings.goldAgentSplitPercent
-  );
-  const agentSplit = referringAgentId ? splitAgentShare : 0;
-  const companySplit = referringAgentId ? splitCompanyShare : settings.goldListingAmount;
 
   await prisma.goldListingPurchase.create({
     data: {
@@ -189,24 +192,57 @@ async function createGoldListingRecord(input: CreateGoldListingInput, razorpayOr
   return listing;
 }
 
-// "Goes to company moderation queue (anti-fake-listing check) before going
-// live" — §3.4.
+// "Goes to company moderation queue (anti-fake-listing check) before going live" — §3.4, PDF 1 Page 1 & PDF 2 Page 9.
 export async function approveGoldListing(agentListingId: string) {
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000); // 90-day validity
+  const agreementExpiry = new Date(now.getTime() + 180 * 24 * 60 * 60 * 1000); // 6-month agreement countdown
+
   const listing = await prisma.agentListing.update({
     where: { id: agentListingId },
-    data: { approvalStatus: "APPROVED" },
-    include: { masterProperty: true },
+    data: {
+      approvalStatus: "APPROVED",
+      listingExpiresAt: expiresAt,
+      agreementStartDate: now,
+      agreementExpiryDate: agreementExpiry,
+      isDelisted: false,
+    },
+    include: {
+      masterProperty: true,
+      goldPurchase: { include: { buyer: true } },
+    },
   });
+
+  if (listing.goldPurchase?.buyer) {
+    await notifyUser(
+      listing.goldPurchase.buyer,
+      `Your Gold Listing "${listing.title}" passed anti-fake moderation checks and is now LIVE on the platform! Valid for 90 days.`,
+      "Gold Listing Approved & Live"
+    );
+  }
 
   await injectToNearbyAgents(listing.id, listing.masterProperty.latitude, listing.masterProperty.longitude);
   return listing;
 }
 
-export async function rejectGoldListing(agentListingId: string) {
-  return prisma.agentListing.update({
+export async function rejectGoldListing(agentListingId: string, reason?: string) {
+  const listing = await prisma.agentListing.update({
     where: { id: agentListingId },
     data: { approvalStatus: "REJECTED" },
+    include: { goldPurchase: { include: { buyer: true } } },
   });
+
+  if (listing.goldPurchase?.buyer) {
+    await notifyUser(
+      listing.goldPurchase.buyer,
+      `Your Gold Listing "${listing.title}" could not be approved. Reason: ${
+        reason || "Failed verification checks (address/pricing sanity)"
+      }. Please edit and resubmit.`,
+      "Gold Listing Rejected"
+    );
+  }
+
+  return listing;
 }
 
 // "Auto-injected into every active Prime Agent's CRM within a 1-5 km

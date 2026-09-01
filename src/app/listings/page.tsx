@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPublicListings } from "@/lib/listing";
+import { getAgreementUrgency } from "@/lib/listingDelist";
 import { formatINR } from "@/lib/format";
 import { PROPERTY_TYPE_LABELS } from "@/lib/format";
 
@@ -81,6 +82,24 @@ export default async function ListingsPage({ searchParams }: { searchParams: Sea
                 <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur">
                   🔒 Unlock for ₹100
                 </span>
+                {(() => {
+                  const urgency = getAgreementUrgency(listing.agreementExpiryDate, listing.agreementStartDate);
+                  if (urgency.tier === "HOT_DEAL") {
+                    return (
+                      <span className="absolute right-3 top-3 rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold text-white shadow-md animate-pulse">
+                        🔥 Hot Deal
+                      </span>
+                    );
+                  }
+                  if (urgency.tier === "PRIORITY") {
+                    return (
+                      <span className="absolute right-3 top-3 rounded-full bg-amber-500 px-2.5 py-1 text-xs font-bold text-white shadow-md">
+                        ⚡ Priority
+                      </span>
+                    );
+                  }
+                  return null;
+                })()}
               </div>
               <div className="p-4">
                 <p className="text-lg font-bold text-slate-900">{formatINR(listing.price)}</p>

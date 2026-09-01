@@ -165,9 +165,11 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
   // Renewals (agent.agentCode already set) never re-trigger it.
   const isFirstActivation = !agent.agentCode;
   const agentCode = agent.agentCode ?? (await generateAgentCode(agent.city));
+  const planTier = plan.price <= 1000 ? "BASIC" : "PRIME";
+  const splitPercent = settings.agentPlanSplitPercent ?? 50;
   const referralAmount =
     isFirstActivation && agent.referringAgent
-      ? Math.round(plan.price * (settings.agentReferralPercent / 100))
+      ? Math.round(plan.price * (splitPercent / 100))
       : 0;
 
   const ops: Prisma.PrismaPromise<unknown>[] = [
@@ -177,7 +179,13 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
     }),
     prisma.agentProfile.update({
       where: { id: agentProfileId },
-      data: { primeStatus: true, agentCode },
+      data: {
+        primeStatus: true,
+        visibilityDeprioritized: false,
+        planTier,
+        agentCode,
+        renewalAlertSentAt: null,
+      },
     }),
     prisma.subscription.create({
       data: {
@@ -200,7 +208,7 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
           type: "AGENT_REFERRAL",
           amount: referralAmount,
           refId: agentProfileId,
-          note: `${settings.agentReferralPercent}% referral for agent ${agentCode}'s first Prime payment`,
+          note: `${splitPercent}% referral for agent ${agentCode}'s first ${planTier} registration payment`,
         },
       }),
       prisma.agentProfile.update({

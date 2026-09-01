@@ -7,7 +7,7 @@ import { getRatingsForAgent, isTopRatedAgent } from "@/lib/rating";
 import { haversineDistanceKm } from "@/lib/geo";
 import { formatINR } from "@/lib/format";
 import { DispatchNotifications } from "@/components/agent/DispatchNotifications";
-import { requestPayoutAction } from "./actions";
+import { requestPayoutAction, setAutoPayMandateAction } from "./actions";
 
 const STATUS_COPY: Record<string, { title: string; body: string; tone: string }> = {
   PENDING: {
@@ -40,15 +40,14 @@ const PAYOUT_ERROR_MESSAGES: Record<string, string> = {
   validation: "Enter a valid payout amount.",
   insufficientBalance: "That's more than your current wallet balance.",
   notFound: "Agent profile not found.",
+  renewalRequired: "Active subscription renewal is required before wallet payout can be withdrawn.",
 };
 
 const DISPATCH_ERROR_MESSAGES: Record<string, string> = {
   notPrime: "Your Prime plan isn't active — reactivate it to accept new leads.",
-  alreadyMatched: "Another agent already accepted this lead.",
-  notNotified: "This lead is no longer available to you.",
 };
 
-type SearchParams = Promise<{ saved?: string; error?: string; dispatchError?: string }>;
+type SearchParams = Promise<{ saved?: string; error?: string; dispatchError?: string; mandateError?: string }>;
 
 export default async function AgentDashboardPage({ searchParams }: { searchParams: SearchParams }) {
   const session = await auth();
@@ -57,22 +56,56 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) redirect("/register/agent");
 
-  const { saved, error, dispatchError } = await searchParams;
-  const [{ totals }, payouts, activeDispatches, { count: ratingCount }] = await Promise.all([
+  const { saved, error, dispatchError, mandateError } = await searchParams;
+  const { getAgentSubscriptionStatus } = await import("@/lib/agentPlans");
+  const { getAgentCycleProgress } = await import("@/lib/targetCycle");
+
+  const [{ totals }, payouts, activeDispatches, { count: ratingCount }, subStatus, cycleProgress] = await Promise.all([
     getAgentCommissionSummary(agent.id),
     getPayoutsForAgent(agent.id),
     agent.primeStatus ? getActiveDispatchesForAgent(agent.id) : Promise.resolve([]),
     getRatingsForAgent(agent.id),
+    getAgentSubscriptionStatus(agent.id),
+    getAgentCycleProgress(agent.id).catch(() => null),
   ]);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
       <h1 className="text-2xl font-bold text-slate-900">Agent Dashboard</h1>
 
+      {saved === "mandate" && (
+        <p className="mt-4 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
+          Auto-Pay UPI mandate saved successfully.
+        </p>
+      )}
+      {mandateError && (
+        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+          {mandateError === "invalid" ? "Please enter a valid UPI VPA (e.g. name@upi)." : "Failed to update Auto-Pay mandate."}
+        </p>
+      )}
+
       {dispatchError && (
         <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
           {DISPATCH_ERROR_MESSAGES[dispatchError] ?? "Something went wrong. Try again."}
         </p>
+      )}
+
+      {subStatus?.visibilityDeprioritized && (
+        <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+          <p className="font-bold">⚠️ Visibility Pushback Active</p>
+          <p className="mt-1">
+            Your agent code subscription has expired. Per system rules, your property listings have been pushed to lowest feed visibility (demoted) and new leads are rerouted. Payout withdrawals are locked until renewed.
+          </p>
+        </div>
+      )}
+
+      {subStatus?.renewalAlertActive && !subStatus?.visibilityDeprioritized && (
+        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+          <p className="font-bold">🔔 Upcoming Renewal Alert ({subStatus.daysRemaining} Days Remaining)</p>
+          <p className="mt-1">
+            Your {subStatus.planTier} Plan renewal is due soon. Current wallet balance is insufficient for auto-debit. Please top up your wallet or configure Auto-Pay to prevent property visibility pushback.
+          </p>
+        </div>
       )}
 
       {agent.status !== "APPROVED" || !agent.primeStatus ? (
@@ -85,10 +118,100 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
         </div>
       ) : (
         <div className="mt-4 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">
-          <p className="font-semibold">Prime active</p>
-          <p className="mt-1">
-            Your Agent Code is <span className="font-mono font-semibold">{agent.agentCode}</span>
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <p className="font-semibold">{subStatus?.planTier === "BASIC" ? "Basic Plan Active" : "Prime Plan Active"}</p>
+              <p className="mt-1">
+                Your Agent Code is <span className="font-mono font-semibold">{agent.agentCode}</span>
+              </p>
+            </div>
+            {subStatus?.daysRemaining != null && (
+              <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
+                {subStatus.daysRemaining} days to renewal
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {cycleProgress && (
+        <div className="mt-6 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/70 via-white to-purple-50/40 p-5 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span className="rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-bold text-indigo-800 uppercase tracking-wider">
+                60-Day Performance Review Cycle
+              </span>
+              <h2 className="mt-1 text-base font-bold text-slate-900">
+                {cycleProgress.daysRemaining} Days Remaining in Current Cycle
+              </h2>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="rounded-xl bg-white border border-indigo-100 px-3 py-1 text-right shadow-xs">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Carry-Forward Score</span>
+                <p className="text-sm font-extrabold text-indigo-700">+{cycleProgress.carryForwardScore} Pts</p>
+              </div>
+              {cycleProgress.isTargetMet && (
+                <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
+                  ✓ Target Achieved
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Progress Bars */}
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="rounded-xl border border-slate-100 bg-white p-3 shadow-xs">
+              <div className="flex justify-between text-xs font-semibold">
+                <span className="text-slate-600">Listings Target</span>
+                <span className="text-indigo-600">{cycleProgress.achieved.listings} / {cycleProgress.targets.listings}</span>
+              </div>
+              <div className="mt-2 h-2 w-full rounded-full bg-slate-100">
+                <div
+                  className="h-2 rounded-full bg-indigo-600 transition-all"
+                  style={{ width: `${Math.min(100, (cycleProgress.achieved.listings / cycleProgress.targets.listings) * 100)}%` }}
+                />
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-slate-100 bg-white p-3 shadow-xs">
+              <div className="flex justify-between text-xs font-semibold">
+                <span className="text-slate-600">Deals Closed</span>
+                <span className="text-indigo-600">{cycleProgress.achieved.deals} / {cycleProgress.targets.deals}</span>
+              </div>
+              <div className="mt-2 h-2 w-full rounded-full bg-slate-100">
+                <div
+                  className="h-2 rounded-full bg-indigo-600 transition-all"
+                  style={{ width: `${Math.min(100, (cycleProgress.achieved.deals / cycleProgress.targets.deals) * 100)}%` }}
+                />
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-slate-100 bg-white p-3 shadow-xs">
+              <div className="flex justify-between text-xs font-semibold">
+                <span className="text-slate-600">Site Visits Logged</span>
+                <span className="text-indigo-600">{cycleProgress.achieved.visits} / {cycleProgress.targets.visits}</span>
+              </div>
+              <div className="mt-2 h-2 w-full rounded-full bg-slate-100">
+                <div
+                  className="h-2 rounded-full bg-indigo-600 transition-all"
+                  style={{ width: `${Math.min(100, (cycleProgress.achieved.visits / cycleProgress.targets.visits) * 100)}%` }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {cycleProgress.coupon && (
+            <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50/70 p-3 flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🏷️</span>
+                <div>
+                  <p className="text-xs font-bold text-amber-900">20% Pre-Expiry Discount Coupon Active!</p>
+                  <p className="text-[11px] text-amber-700">Code: <span className="font-mono font-bold">{cycleProgress.coupon.code}</span> (Valid for 48 hours)</p>
+                </div>
+              </div>
+              <span className="rounded-lg bg-amber-600 px-2.5 py-1 text-xs font-bold text-white">Save 20% on Renewal</span>
+            </div>
+          )}
         </div>
       )}
 
@@ -119,17 +242,22 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
         </div>
       )}
 
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Wallet balance</p>
           <p className="mt-1 text-2xl font-bold text-slate-900">{formatINR(agent.walletBalance)}</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Linked investors</p>
-          <p className="mt-1 text-2xl font-bold text-slate-900">{agent.investors.length}</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Plan Tier</p>
+          <p className="mt-1 text-xl font-bold text-slate-900">
+            {subStatus?.planTier === "BASIC" ? "Basic (₹1,000/mo)" : "Prime (₹2,000/mo)"}
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            {subStatus?.visibilityDeprioritized ? "Expired (Deprioritized)" : "Active Membership"}
+          </p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Rating</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Rating & Trust</p>
           <p className="mt-1 text-2xl font-bold text-slate-900">
             {(agent.ratingAvg ?? 0).toFixed(1)} ★{" "}
             <span className="text-sm font-normal text-slate-400">({ratingCount})</span>
@@ -140,6 +268,45 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
             </span>
           )}
         </div>
+      </div>
+
+      <div className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 className="text-base font-semibold text-slate-900">Auto-Pay Mandate (UPI / Google Pay)</h2>
+            <p className="mt-0.5 text-xs text-slate-500">
+              PDF 2 Rule: If wallet balance is insufficient at renewal date, system deducts via linked mandate to prevent visibility pushback.
+            </p>
+          </div>
+          <span
+            className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+              agent.autoPayActive && agent.autoPayMandate
+                ? "bg-green-50 text-green-700"
+                : "bg-slate-100 text-slate-600"
+            }`}
+          >
+            {agent.autoPayActive && agent.autoPayMandate ? `Active: ${agent.autoPayMandate}` : "Not Configured"}
+          </span>
+        </div>
+
+        <form action={setAutoPayMandateAction} className="mt-4 flex flex-wrap items-center gap-3">
+          <div className="flex-1 min-w-[220px]">
+            <input
+              type="text"
+              name="vpa"
+              placeholder="Enter UPI ID (e.g. mobile@okhdfcbank)"
+              defaultValue={agent.autoPayMandate ?? ""}
+              required
+              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+            />
+          </div>
+          <button
+            type="submit"
+            className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+          >
+            {agent.autoPayMandate ? "Update Mandate" : "Link Auto-Pay"}
+          </button>
+        </form>
       </div>
 
       <h2 className="mt-8 text-lg font-semibold text-slate-900">Commission breakdown</h2>

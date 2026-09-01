@@ -238,6 +238,16 @@ export type CustomerInvestorAgreement = $Result.DefaultSelection<Prisma.$Custome
  * 
  */
 export type VisitAppointment = $Result.DefaultSelection<Prisma.$VisitAppointmentPayload>
+/**
+ * Model DirectPropertyVisit
+ * 
+ */
+export type DirectPropertyVisit = $Result.DefaultSelection<Prisma.$DirectPropertyVisitPayload>
+/**
+ * Model PlatformAntiBypassAgreement
+ * 
+ */
+export type PlatformAntiBypassAgreement = $Result.DefaultSelection<Prisma.$PlatformAntiBypassAgreementPayload>
 
 /**
  * Enums
@@ -354,6 +364,22 @@ export const OtpChannel: {
 export type OtpChannel = (typeof OtpChannel)[keyof typeof OtpChannel]
 
 
+export const AgentPlanTier: {
+  BASIC: 'BASIC',
+  PRIME: 'PRIME'
+};
+
+export type AgentPlanTier = (typeof AgentPlanTier)[keyof typeof AgentPlanTier]
+
+
+export const ListingPlanTier: {
+  BASIC: 'BASIC',
+  GOLD: 'GOLD'
+};
+
+export type ListingPlanTier = (typeof ListingPlanTier)[keyof typeof ListingPlanTier]
+
+
 export const AgentDocumentType: {
   RERA_CERTIFICATE: 'RERA_CERTIFICATE',
   TRADE_LICENSE: 'TRADE_LICENSE',
@@ -410,6 +436,18 @@ export const PayoutStatus: {
 };
 
 export type PayoutStatus = (typeof PayoutStatus)[keyof typeof PayoutStatus]
+
+
+export const DealStatus: {
+  ACTIVE: 'ACTIVE',
+  TOKEN_RECEIVED: 'TOKEN_RECEIVED',
+  AGREEMENT_DONE: 'AGREEMENT_DONE',
+  REGISTRY_COMPLETED: 'REGISTRY_COMPLETED',
+  CLOSED: 'CLOSED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type DealStatus = (typeof DealStatus)[keyof typeof DealStatus]
 
 
 export const DispatchStatus: {
@@ -509,6 +547,14 @@ export type OtpChannel = $Enums.OtpChannel
 
 export const OtpChannel: typeof $Enums.OtpChannel
 
+export type AgentPlanTier = $Enums.AgentPlanTier
+
+export const AgentPlanTier: typeof $Enums.AgentPlanTier
+
+export type ListingPlanTier = $Enums.ListingPlanTier
+
+export const ListingPlanTier: typeof $Enums.ListingPlanTier
+
 export type AgentDocumentType = $Enums.AgentDocumentType
 
 export const AgentDocumentType: typeof $Enums.AgentDocumentType
@@ -532,6 +578,10 @@ export const PaymentMode: typeof $Enums.PaymentMode
 export type PayoutStatus = $Enums.PayoutStatus
 
 export const PayoutStatus: typeof $Enums.PayoutStatus
+
+export type DealStatus = $Enums.DealStatus
+
+export const DealStatus: typeof $Enums.DealStatus
 
 export type DispatchStatus = $Enums.DispatchStatus
 
@@ -1123,6 +1173,26 @@ export class PrismaClient<
     * ```
     */
   get visitAppointment(): Prisma.VisitAppointmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.directPropertyVisit`: Exposes CRUD operations for the **DirectPropertyVisit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DirectPropertyVisits
+    * const directPropertyVisits = await prisma.directPropertyVisit.findMany()
+    * ```
+    */
+  get directPropertyVisit(): Prisma.DirectPropertyVisitDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.platformAntiBypassAgreement`: Exposes CRUD operations for the **PlatformAntiBypassAgreement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlatformAntiBypassAgreements
+    * const platformAntiBypassAgreements = await prisma.platformAntiBypassAgreement.findMany()
+    * ```
+    */
+  get platformAntiBypassAgreement(): Prisma.PlatformAntiBypassAgreementDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1614,7 +1684,9 @@ export namespace Prisma {
     AgentSwitchLog: 'AgentSwitchLog',
     DocumentVaultItem: 'DocumentVaultItem',
     CustomerInvestorAgreement: 'CustomerInvestorAgreement',
-    VisitAppointment: 'VisitAppointment'
+    VisitAppointment: 'VisitAppointment',
+    DirectPropertyVisit: 'DirectPropertyVisit',
+    PlatformAntiBypassAgreement: 'PlatformAntiBypassAgreement'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1630,7 +1702,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment"
+      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment" | "directPropertyVisit" | "platformAntiBypassAgreement"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4604,6 +4676,138 @@ export namespace Prisma {
           }
         }
       }
+      DirectPropertyVisit: {
+        payload: Prisma.$DirectPropertyVisitPayload<ExtArgs>
+        fields: Prisma.DirectPropertyVisitFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DirectPropertyVisitFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DirectPropertyVisitPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DirectPropertyVisitFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DirectPropertyVisitPayload>
+          }
+          findFirst: {
+            args: Prisma.DirectPropertyVisitFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DirectPropertyVisitPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DirectPropertyVisitFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DirectPropertyVisitPayload>
+          }
+          findMany: {
+            args: Prisma.DirectPropertyVisitFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DirectPropertyVisitPayload>[]
+          }
+          create: {
+            args: Prisma.DirectPropertyVisitCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DirectPropertyVisitPayload>
+          }
+          createMany: {
+            args: Prisma.DirectPropertyVisitCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.DirectPropertyVisitDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DirectPropertyVisitPayload>
+          }
+          update: {
+            args: Prisma.DirectPropertyVisitUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DirectPropertyVisitPayload>
+          }
+          deleteMany: {
+            args: Prisma.DirectPropertyVisitDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DirectPropertyVisitUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.DirectPropertyVisitUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DirectPropertyVisitPayload>
+          }
+          aggregate: {
+            args: Prisma.DirectPropertyVisitAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDirectPropertyVisit>
+          }
+          groupBy: {
+            args: Prisma.DirectPropertyVisitGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DirectPropertyVisitGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DirectPropertyVisitCountArgs<ExtArgs>
+            result: $Utils.Optional<DirectPropertyVisitCountAggregateOutputType> | number
+          }
+        }
+      }
+      PlatformAntiBypassAgreement: {
+        payload: Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>
+        fields: Prisma.PlatformAntiBypassAgreementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlatformAntiBypassAgreementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAntiBypassAgreementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlatformAntiBypassAgreementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAntiBypassAgreementPayload>
+          }
+          findFirst: {
+            args: Prisma.PlatformAntiBypassAgreementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAntiBypassAgreementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlatformAntiBypassAgreementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAntiBypassAgreementPayload>
+          }
+          findMany: {
+            args: Prisma.PlatformAntiBypassAgreementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAntiBypassAgreementPayload>[]
+          }
+          create: {
+            args: Prisma.PlatformAntiBypassAgreementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAntiBypassAgreementPayload>
+          }
+          createMany: {
+            args: Prisma.PlatformAntiBypassAgreementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PlatformAntiBypassAgreementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAntiBypassAgreementPayload>
+          }
+          update: {
+            args: Prisma.PlatformAntiBypassAgreementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAntiBypassAgreementPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlatformAntiBypassAgreementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlatformAntiBypassAgreementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PlatformAntiBypassAgreementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformAntiBypassAgreementPayload>
+          }
+          aggregate: {
+            args: Prisma.PlatformAntiBypassAgreementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlatformAntiBypassAgreement>
+          }
+          groupBy: {
+            args: Prisma.PlatformAntiBypassAgreementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlatformAntiBypassAgreementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlatformAntiBypassAgreementCountArgs<ExtArgs>
+            result: $Utils.Optional<PlatformAntiBypassAgreementCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4772,6 +4976,8 @@ export namespace Prisma {
     documentVaultItem?: DocumentVaultItemOmit
     customerInvestorAgreement?: CustomerInvestorAgreementOmit
     visitAppointment?: VisitAppointmentOmit
+    directPropertyVisit?: DirectPropertyVisitOmit
+    platformAntiBypassAgreement?: PlatformAntiBypassAgreementOmit
   }
 
   /* Types for Logging */
@@ -4861,6 +5067,8 @@ export namespace Prisma {
     dispatchRequests: number
     goldListingPurchases: number
     visitAppointments: number
+    directVisits: number
+    antiBypassAgreements: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4873,6 +5081,8 @@ export namespace Prisma {
     dispatchRequests?: boolean | UserCountOutputTypeCountDispatchRequestsArgs
     goldListingPurchases?: boolean | UserCountOutputTypeCountGoldListingPurchasesArgs
     visitAppointments?: boolean | UserCountOutputTypeCountVisitAppointmentsArgs
+    directVisits?: boolean | UserCountOutputTypeCountDirectVisitsArgs
+    antiBypassAgreements?: boolean | UserCountOutputTypeCountAntiBypassAgreementsArgs
   }
 
   // Custom InputTypes
@@ -4947,6 +5157,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountVisitAppointmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VisitAppointmentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDirectVisitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DirectPropertyVisitWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAntiBypassAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformAntiBypassAgreementWhereInput
   }
 
 
@@ -5252,6 +5476,7 @@ export namespace Prisma {
     documentVaultItems: number
     visitAppointments: number
     areaAssignments: number
+    assignedUnlocks: number
   }
 
   export type AgentProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5277,6 +5502,7 @@ export namespace Prisma {
     documentVaultItems?: boolean | AgentProfileCountOutputTypeCountDocumentVaultItemsArgs
     visitAppointments?: boolean | AgentProfileCountOutputTypeCountVisitAppointmentsArgs
     areaAssignments?: boolean | AgentProfileCountOutputTypeCountAreaAssignmentsArgs
+    assignedUnlocks?: boolean | AgentProfileCountOutputTypeCountAssignedUnlocksArgs
   }
 
   // Custom InputTypes
@@ -5444,6 +5670,13 @@ export namespace Prisma {
     where?: AreaAgentAssignmentWhereInput
   }
 
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeCountAssignedUnlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropertyUnlockWhereInput
+  }
+
 
   /**
    * Count Type InvestorProfileCountOutputType
@@ -5568,11 +5801,15 @@ export namespace Prisma {
   export type AgentListingCountOutputType = {
     images: number
     unlocks: number
+    directVisits: number
+    antiBypassAgreements: number
   }
 
   export type AgentListingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | AgentListingCountOutputTypeCountImagesArgs
     unlocks?: boolean | AgentListingCountOutputTypeCountUnlocksArgs
+    directVisits?: boolean | AgentListingCountOutputTypeCountDirectVisitsArgs
+    antiBypassAgreements?: boolean | AgentListingCountOutputTypeCountAntiBypassAgreementsArgs
   }
 
   // Custom InputTypes
@@ -5598,6 +5835,20 @@ export namespace Prisma {
    */
   export type AgentListingCountOutputTypeCountUnlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PropertyUnlockWhereInput
+  }
+
+  /**
+   * AgentListingCountOutputType without action
+   */
+  export type AgentListingCountOutputTypeCountDirectVisitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DirectPropertyVisitWhereInput
+  }
+
+  /**
+   * AgentListingCountOutputType without action
+   */
+  export type AgentListingCountOutputTypeCountAntiBypassAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformAntiBypassAgreementWhereInput
   }
 
 
@@ -5639,11 +5890,13 @@ export namespace Prisma {
   export type BroadcastCountOutputType = {
     responses: number
     messages: number
+    deals: number
   }
 
   export type BroadcastCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     responses?: boolean | BroadcastCountOutputTypeCountResponsesArgs
     messages?: boolean | BroadcastCountOutputTypeCountMessagesArgs
+    deals?: boolean | BroadcastCountOutputTypeCountDealsArgs
   }
 
   // Custom InputTypes
@@ -5669,6 +5922,44 @@ export namespace Prisma {
    */
   export type BroadcastCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AgentChatMessageWhereInput
+  }
+
+  /**
+   * BroadcastCountOutputType without action
+   */
+  export type BroadcastCountOutputTypeCountDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealWhereInput
+  }
+
+
+  /**
+   * Count Type DirectPropertyVisitCountOutputType
+   */
+
+  export type DirectPropertyVisitCountOutputType = {
+    antiBypassAgreements: number
+  }
+
+  export type DirectPropertyVisitCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    antiBypassAgreements?: boolean | DirectPropertyVisitCountOutputTypeCountAntiBypassAgreementsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DirectPropertyVisitCountOutputType without action
+   */
+  export type DirectPropertyVisitCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisitCountOutputType
+     */
+    select?: DirectPropertyVisitCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DirectPropertyVisitCountOutputType without action
+   */
+  export type DirectPropertyVisitCountOutputTypeCountAntiBypassAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformAntiBypassAgreementWhereInput
   }
 
 
@@ -5947,6 +6238,8 @@ export namespace Prisma {
     dispatchRequests?: boolean | User$dispatchRequestsArgs<ExtArgs>
     goldListingPurchases?: boolean | User$goldListingPurchasesArgs<ExtArgs>
     visitAppointments?: boolean | User$visitAppointmentsArgs<ExtArgs>
+    directVisits?: boolean | User$directVisitsArgs<ExtArgs>
+    antiBypassAgreements?: boolean | User$antiBypassAgreementsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5985,6 +6278,8 @@ export namespace Prisma {
     dispatchRequests?: boolean | User$dispatchRequestsArgs<ExtArgs>
     goldListingPurchases?: boolean | User$goldListingPurchasesArgs<ExtArgs>
     visitAppointments?: boolean | User$visitAppointmentsArgs<ExtArgs>
+    directVisits?: boolean | User$directVisitsArgs<ExtArgs>
+    antiBypassAgreements?: boolean | User$antiBypassAgreementsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6002,6 +6297,8 @@ export namespace Prisma {
       dispatchRequests: Prisma.$DispatchRequestPayload<ExtArgs>[]
       goldListingPurchases: Prisma.$GoldListingPurchasePayload<ExtArgs>[]
       visitAppointments: Prisma.$VisitAppointmentPayload<ExtArgs>[]
+      directVisits: Prisma.$DirectPropertyVisitPayload<ExtArgs>[]
+      antiBypassAgreements: Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6372,6 +6669,8 @@ export namespace Prisma {
     dispatchRequests<T extends User$dispatchRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$dispatchRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DispatchRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     goldListingPurchases<T extends User$goldListingPurchasesArgs<ExtArgs> = {}>(args?: Subset<T, User$goldListingPurchasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoldListingPurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     visitAppointments<T extends User$visitAppointmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$visitAppointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitAppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    directVisits<T extends User$directVisitsArgs<ExtArgs> = {}>(args?: Subset<T, User$directVisitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    antiBypassAgreements<T extends User$antiBypassAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, User$antiBypassAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7017,6 +7316,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VisitAppointmentScalarFieldEnum | VisitAppointmentScalarFieldEnum[]
+  }
+
+  /**
+   * User.directVisits
+   */
+  export type User$directVisitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    where?: DirectPropertyVisitWhereInput
+    orderBy?: DirectPropertyVisitOrderByWithRelationInput | DirectPropertyVisitOrderByWithRelationInput[]
+    cursor?: DirectPropertyVisitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DirectPropertyVisitScalarFieldEnum | DirectPropertyVisitScalarFieldEnum[]
+  }
+
+  /**
+   * User.antiBypassAgreements
+   */
+  export type User$antiBypassAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    where?: PlatformAntiBypassAgreementWhereInput
+    orderBy?: PlatformAntiBypassAgreementOrderByWithRelationInput | PlatformAntiBypassAgreementOrderByWithRelationInput[]
+    cursor?: PlatformAntiBypassAgreementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlatformAntiBypassAgreementScalarFieldEnum | PlatformAntiBypassAgreementScalarFieldEnum[]
   }
 
   /**
@@ -23458,6 +23805,12 @@ export namespace Prisma {
     unlockAgentSplitPercent: number | null
     goldListingAmount: number | null
     goldAgentSplitPercent: number | null
+    agentBasicPlanPrice: number | null
+    agentPrimePlanPrice: number | null
+    agentPlanSplitPercent: number | null
+    basicListingFee: number | null
+    goldListingFee: number | null
+    listingSplitPercent: number | null
   }
 
   export type SiteSettingsSumAggregateOutputType = {
@@ -23473,6 +23826,12 @@ export namespace Prisma {
     unlockAgentSplitPercent: number | null
     goldListingAmount: number | null
     goldAgentSplitPercent: number | null
+    agentBasicPlanPrice: number | null
+    agentPrimePlanPrice: number | null
+    agentPlanSplitPercent: number | null
+    basicListingFee: number | null
+    goldListingFee: number | null
+    listingSplitPercent: number | null
   }
 
   export type SiteSettingsMinAggregateOutputType = {
@@ -23512,6 +23871,12 @@ export namespace Prisma {
     unlockAgentSplitPercent: number | null
     goldListingAmount: number | null
     goldAgentSplitPercent: number | null
+    agentBasicPlanPrice: number | null
+    agentPrimePlanPrice: number | null
+    agentPlanSplitPercent: number | null
+    basicListingFee: number | null
+    goldListingFee: number | null
+    listingSplitPercent: number | null
     updatedAt: Date | null
   }
 
@@ -23552,6 +23917,12 @@ export namespace Prisma {
     unlockAgentSplitPercent: number | null
     goldListingAmount: number | null
     goldAgentSplitPercent: number | null
+    agentBasicPlanPrice: number | null
+    agentPrimePlanPrice: number | null
+    agentPlanSplitPercent: number | null
+    basicListingFee: number | null
+    goldListingFee: number | null
+    listingSplitPercent: number | null
     updatedAt: Date | null
   }
 
@@ -23592,6 +23963,12 @@ export namespace Prisma {
     unlockAgentSplitPercent: number
     goldListingAmount: number
     goldAgentSplitPercent: number
+    agentBasicPlanPrice: number
+    agentPrimePlanPrice: number
+    agentPlanSplitPercent: number
+    basicListingFee: number
+    goldListingFee: number
+    listingSplitPercent: number
     updatedAt: number
     _all: number
   }
@@ -23610,6 +23987,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: true
     goldListingAmount?: true
     goldAgentSplitPercent?: true
+    agentBasicPlanPrice?: true
+    agentPrimePlanPrice?: true
+    agentPlanSplitPercent?: true
+    basicListingFee?: true
+    goldListingFee?: true
+    listingSplitPercent?: true
   }
 
   export type SiteSettingsSumAggregateInputType = {
@@ -23625,6 +24008,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: true
     goldListingAmount?: true
     goldAgentSplitPercent?: true
+    agentBasicPlanPrice?: true
+    agentPrimePlanPrice?: true
+    agentPlanSplitPercent?: true
+    basicListingFee?: true
+    goldListingFee?: true
+    listingSplitPercent?: true
   }
 
   export type SiteSettingsMinAggregateInputType = {
@@ -23664,6 +24053,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: true
     goldListingAmount?: true
     goldAgentSplitPercent?: true
+    agentBasicPlanPrice?: true
+    agentPrimePlanPrice?: true
+    agentPlanSplitPercent?: true
+    basicListingFee?: true
+    goldListingFee?: true
+    listingSplitPercent?: true
     updatedAt?: true
   }
 
@@ -23704,6 +24099,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: true
     goldListingAmount?: true
     goldAgentSplitPercent?: true
+    agentBasicPlanPrice?: true
+    agentPrimePlanPrice?: true
+    agentPlanSplitPercent?: true
+    basicListingFee?: true
+    goldListingFee?: true
+    listingSplitPercent?: true
     updatedAt?: true
   }
 
@@ -23744,6 +24145,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: true
     goldListingAmount?: true
     goldAgentSplitPercent?: true
+    agentBasicPlanPrice?: true
+    agentPrimePlanPrice?: true
+    agentPlanSplitPercent?: true
+    basicListingFee?: true
+    goldListingFee?: true
+    listingSplitPercent?: true
     updatedAt?: true
     _all?: true
   }
@@ -23871,6 +24278,12 @@ export namespace Prisma {
     unlockAgentSplitPercent: number
     goldListingAmount: number
     goldAgentSplitPercent: number
+    agentBasicPlanPrice: number
+    agentPrimePlanPrice: number
+    agentPlanSplitPercent: number
+    basicListingFee: number
+    goldListingFee: number
+    listingSplitPercent: number
     updatedAt: Date
     _count: SiteSettingsCountAggregateOutputType | null
     _avg: SiteSettingsAvgAggregateOutputType | null
@@ -23930,6 +24343,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: boolean
     goldListingAmount?: boolean
     goldAgentSplitPercent?: boolean
+    agentBasicPlanPrice?: boolean
+    agentPrimePlanPrice?: boolean
+    agentPlanSplitPercent?: boolean
+    basicListingFee?: boolean
+    goldListingFee?: boolean
+    listingSplitPercent?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["siteSettings"]>
 
@@ -23972,10 +24391,16 @@ export namespace Prisma {
     unlockAgentSplitPercent?: boolean
     goldListingAmount?: boolean
     goldAgentSplitPercent?: boolean
+    agentBasicPlanPrice?: boolean
+    agentPrimePlanPrice?: boolean
+    agentPlanSplitPercent?: boolean
+    basicListingFee?: boolean
+    goldListingFee?: boolean
+    listingSplitPercent?: boolean
     updatedAt?: boolean
   }
 
-  export type SiteSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "tagline" | "logoUrl" | "favicon" | "heroImage" | "heroTitle" | "heroSubtitle" | "ctaText" | "ctaLink" | "whatsappNumber" | "contactEmail" | "contactPhone" | "contactAddress" | "instagramUrl" | "facebookUrl" | "youtubeUrl" | "linkedinUrl" | "footerText" | "metaTitle" | "metaDescription" | "ogImage" | "googleAnalyticsId" | "googleSiteVerification" | "tdsPercent" | "brokeragePercent" | "profitAgentSharePercent" | "profitExpenseSharePercent" | "profitInvestorSharePercent" | "investorRegistrationFee" | "investorReferralPercent" | "agentReferralPercent" | "unlockPassAmount" | "unlockAgentSplitPercent" | "goldListingAmount" | "goldAgentSplitPercent" | "updatedAt", ExtArgs["result"]["siteSettings"]>
+  export type SiteSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "tagline" | "logoUrl" | "favicon" | "heroImage" | "heroTitle" | "heroSubtitle" | "ctaText" | "ctaLink" | "whatsappNumber" | "contactEmail" | "contactPhone" | "contactAddress" | "instagramUrl" | "facebookUrl" | "youtubeUrl" | "linkedinUrl" | "footerText" | "metaTitle" | "metaDescription" | "ogImage" | "googleAnalyticsId" | "googleSiteVerification" | "tdsPercent" | "brokeragePercent" | "profitAgentSharePercent" | "profitExpenseSharePercent" | "profitInvestorSharePercent" | "investorRegistrationFee" | "investorReferralPercent" | "agentReferralPercent" | "unlockPassAmount" | "unlockAgentSplitPercent" | "goldListingAmount" | "goldAgentSplitPercent" | "agentBasicPlanPrice" | "agentPrimePlanPrice" | "agentPlanSplitPercent" | "basicListingFee" | "goldListingFee" | "listingSplitPercent" | "updatedAt", ExtArgs["result"]["siteSettings"]>
 
   export type $SiteSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SiteSettings"
@@ -24017,6 +24442,12 @@ export namespace Prisma {
       unlockAgentSplitPercent: number
       goldListingAmount: number
       goldAgentSplitPercent: number
+      agentBasicPlanPrice: number
+      agentPrimePlanPrice: number
+      agentPlanSplitPercent: number
+      basicListingFee: number
+      goldListingFee: number
+      listingSplitPercent: number
       updatedAt: Date
     }, ExtArgs["result"]["siteSettings"]>
     composites: {}
@@ -24423,6 +24854,12 @@ export namespace Prisma {
     readonly unlockAgentSplitPercent: FieldRef<"SiteSettings", 'Int'>
     readonly goldListingAmount: FieldRef<"SiteSettings", 'Int'>
     readonly goldAgentSplitPercent: FieldRef<"SiteSettings", 'Int'>
+    readonly agentBasicPlanPrice: FieldRef<"SiteSettings", 'Int'>
+    readonly agentPrimePlanPrice: FieldRef<"SiteSettings", 'Int'>
+    readonly agentPlanSplitPercent: FieldRef<"SiteSettings", 'Int'>
+    readonly basicListingFee: FieldRef<"SiteSettings", 'Int'>
+    readonly goldListingFee: FieldRef<"SiteSettings", 'Int'>
+    readonly listingSplitPercent: FieldRef<"SiteSettings", 'Int'>
     readonly updatedAt: FieldRef<"SiteSettings", 'DateTime'>
   }
     
@@ -24770,6 +25207,11 @@ export namespace Prisma {
     walletBalance: number | null
     warningCount: number | null
     ratingAvg: number | null
+    cycleListingsTarget: number | null
+    cycleDealsTarget: number | null
+    cycleVisitsTarget: number | null
+    carryForwardScore: number | null
+    cycleCompletedCount: number | null
   }
 
   export type AgentProfileSumAggregateOutputType = {
@@ -24780,6 +25222,11 @@ export namespace Prisma {
     walletBalance: number | null
     warningCount: number | null
     ratingAvg: number | null
+    cycleListingsTarget: number | null
+    cycleDealsTarget: number | null
+    cycleVisitsTarget: number | null
+    carryForwardScore: number | null
+    cycleCompletedCount: number | null
   }
 
   export type AgentProfileMinAggregateOutputType = {
@@ -24798,11 +25245,25 @@ export namespace Prisma {
     gstNumber: string | null
     status: $Enums.ApprovalStatus | null
     rejectionReason: string | null
+    planTier: $Enums.AgentPlanTier | null
     primeStatus: boolean | null
+    visibilityDeprioritized: boolean | null
+    autoPayMandate: string | null
+    autoPayActive: boolean | null
+    renewalAlertSentAt: Date | null
     walletBalance: number | null
     warningCount: number | null
     ratingAvg: number | null
     verifiedAt: Date | null
+    cycleStartDate: Date | null
+    cycleEndDate: Date | null
+    cycleListingsTarget: number | null
+    cycleDealsTarget: number | null
+    cycleVisitsTarget: number | null
+    carryForwardScore: number | null
+    cycleCompletedCount: number | null
+    activeDiscountCoupon: string | null
+    couponExpiresAt: Date | null
     referringAgentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -24824,11 +25285,25 @@ export namespace Prisma {
     gstNumber: string | null
     status: $Enums.ApprovalStatus | null
     rejectionReason: string | null
+    planTier: $Enums.AgentPlanTier | null
     primeStatus: boolean | null
+    visibilityDeprioritized: boolean | null
+    autoPayMandate: string | null
+    autoPayActive: boolean | null
+    renewalAlertSentAt: Date | null
     walletBalance: number | null
     warningCount: number | null
     ratingAvg: number | null
     verifiedAt: Date | null
+    cycleStartDate: Date | null
+    cycleEndDate: Date | null
+    cycleListingsTarget: number | null
+    cycleDealsTarget: number | null
+    cycleVisitsTarget: number | null
+    carryForwardScore: number | null
+    cycleCompletedCount: number | null
+    activeDiscountCoupon: string | null
+    couponExpiresAt: Date | null
     referringAgentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -24850,11 +25325,25 @@ export namespace Prisma {
     gstNumber: number
     status: number
     rejectionReason: number
+    planTier: number
     primeStatus: number
+    visibilityDeprioritized: number
+    autoPayMandate: number
+    autoPayActive: number
+    renewalAlertSentAt: number
     walletBalance: number
     warningCount: number
     ratingAvg: number
     verifiedAt: number
+    cycleStartDate: number
+    cycleEndDate: number
+    cycleListingsTarget: number
+    cycleDealsTarget: number
+    cycleVisitsTarget: number
+    carryForwardScore: number
+    cycleCompletedCount: number
+    activeDiscountCoupon: number
+    couponExpiresAt: number
     referringAgentId: number
     createdAt: number
     updatedAt: number
@@ -24870,6 +25359,11 @@ export namespace Prisma {
     walletBalance?: true
     warningCount?: true
     ratingAvg?: true
+    cycleListingsTarget?: true
+    cycleDealsTarget?: true
+    cycleVisitsTarget?: true
+    carryForwardScore?: true
+    cycleCompletedCount?: true
   }
 
   export type AgentProfileSumAggregateInputType = {
@@ -24880,6 +25374,11 @@ export namespace Prisma {
     walletBalance?: true
     warningCount?: true
     ratingAvg?: true
+    cycleListingsTarget?: true
+    cycleDealsTarget?: true
+    cycleVisitsTarget?: true
+    carryForwardScore?: true
+    cycleCompletedCount?: true
   }
 
   export type AgentProfileMinAggregateInputType = {
@@ -24898,11 +25397,25 @@ export namespace Prisma {
     gstNumber?: true
     status?: true
     rejectionReason?: true
+    planTier?: true
     primeStatus?: true
+    visibilityDeprioritized?: true
+    autoPayMandate?: true
+    autoPayActive?: true
+    renewalAlertSentAt?: true
     walletBalance?: true
     warningCount?: true
     ratingAvg?: true
     verifiedAt?: true
+    cycleStartDate?: true
+    cycleEndDate?: true
+    cycleListingsTarget?: true
+    cycleDealsTarget?: true
+    cycleVisitsTarget?: true
+    carryForwardScore?: true
+    cycleCompletedCount?: true
+    activeDiscountCoupon?: true
+    couponExpiresAt?: true
     referringAgentId?: true
     createdAt?: true
     updatedAt?: true
@@ -24924,11 +25437,25 @@ export namespace Prisma {
     gstNumber?: true
     status?: true
     rejectionReason?: true
+    planTier?: true
     primeStatus?: true
+    visibilityDeprioritized?: true
+    autoPayMandate?: true
+    autoPayActive?: true
+    renewalAlertSentAt?: true
     walletBalance?: true
     warningCount?: true
     ratingAvg?: true
     verifiedAt?: true
+    cycleStartDate?: true
+    cycleEndDate?: true
+    cycleListingsTarget?: true
+    cycleDealsTarget?: true
+    cycleVisitsTarget?: true
+    carryForwardScore?: true
+    cycleCompletedCount?: true
+    activeDiscountCoupon?: true
+    couponExpiresAt?: true
     referringAgentId?: true
     createdAt?: true
     updatedAt?: true
@@ -24950,11 +25477,25 @@ export namespace Prisma {
     gstNumber?: true
     status?: true
     rejectionReason?: true
+    planTier?: true
     primeStatus?: true
+    visibilityDeprioritized?: true
+    autoPayMandate?: true
+    autoPayActive?: true
+    renewalAlertSentAt?: true
     walletBalance?: true
     warningCount?: true
     ratingAvg?: true
     verifiedAt?: true
+    cycleStartDate?: true
+    cycleEndDate?: true
+    cycleListingsTarget?: true
+    cycleDealsTarget?: true
+    cycleVisitsTarget?: true
+    carryForwardScore?: true
+    cycleCompletedCount?: true
+    activeDiscountCoupon?: true
+    couponExpiresAt?: true
     referringAgentId?: true
     createdAt?: true
     updatedAt?: true
@@ -25063,11 +25604,25 @@ export namespace Prisma {
     gstNumber: string | null
     status: $Enums.ApprovalStatus
     rejectionReason: string | null
+    planTier: $Enums.AgentPlanTier
     primeStatus: boolean
+    visibilityDeprioritized: boolean
+    autoPayMandate: string | null
+    autoPayActive: boolean
+    renewalAlertSentAt: Date | null
     walletBalance: number
     warningCount: number
     ratingAvg: number | null
     verifiedAt: Date | null
+    cycleStartDate: Date | null
+    cycleEndDate: Date | null
+    cycleListingsTarget: number
+    cycleDealsTarget: number
+    cycleVisitsTarget: number
+    carryForwardScore: number
+    cycleCompletedCount: number
+    activeDiscountCoupon: string | null
+    couponExpiresAt: Date | null
     referringAgentId: string | null
     createdAt: Date
     updatedAt: Date
@@ -25108,11 +25663,25 @@ export namespace Prisma {
     gstNumber?: boolean
     status?: boolean
     rejectionReason?: boolean
+    planTier?: boolean
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: boolean
+    autoPayActive?: boolean
+    renewalAlertSentAt?: boolean
     walletBalance?: boolean
     warningCount?: boolean
     ratingAvg?: boolean
     verifiedAt?: boolean
+    cycleStartDate?: boolean
+    cycleEndDate?: boolean
+    cycleListingsTarget?: boolean
+    cycleDealsTarget?: boolean
+    cycleVisitsTarget?: boolean
+    carryForwardScore?: boolean
+    cycleCompletedCount?: boolean
+    activeDiscountCoupon?: boolean
+    couponExpiresAt?: boolean
     referringAgentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -25140,6 +25709,7 @@ export namespace Prisma {
     documentVaultItems?: boolean | AgentProfile$documentVaultItemsArgs<ExtArgs>
     visitAppointments?: boolean | AgentProfile$visitAppointmentsArgs<ExtArgs>
     areaAssignments?: boolean | AgentProfile$areaAssignmentsArgs<ExtArgs>
+    assignedUnlocks?: boolean | AgentProfile$assignedUnlocksArgs<ExtArgs>
     _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentProfile"]>
 
@@ -25161,17 +25731,31 @@ export namespace Prisma {
     gstNumber?: boolean
     status?: boolean
     rejectionReason?: boolean
+    planTier?: boolean
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: boolean
+    autoPayActive?: boolean
+    renewalAlertSentAt?: boolean
     walletBalance?: boolean
     warningCount?: boolean
     ratingAvg?: boolean
     verifiedAt?: boolean
+    cycleStartDate?: boolean
+    cycleEndDate?: boolean
+    cycleListingsTarget?: boolean
+    cycleDealsTarget?: boolean
+    cycleVisitsTarget?: boolean
+    carryForwardScore?: boolean
+    cycleCompletedCount?: boolean
+    activeDiscountCoupon?: boolean
+    couponExpiresAt?: boolean
     referringAgentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "primeStatus" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
+  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
   export type AgentProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     referringAgent?: boolean | AgentProfile$referringAgentArgs<ExtArgs>
@@ -25197,6 +25781,7 @@ export namespace Prisma {
     documentVaultItems?: boolean | AgentProfile$documentVaultItemsArgs<ExtArgs>
     visitAppointments?: boolean | AgentProfile$visitAppointmentsArgs<ExtArgs>
     areaAssignments?: boolean | AgentProfile$areaAssignmentsArgs<ExtArgs>
+    assignedUnlocks?: boolean | AgentProfile$assignedUnlocksArgs<ExtArgs>
     _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -25227,6 +25812,7 @@ export namespace Prisma {
       documentVaultItems: Prisma.$DocumentVaultItemPayload<ExtArgs>[]
       visitAppointments: Prisma.$VisitAppointmentPayload<ExtArgs>[]
       areaAssignments: Prisma.$AreaAgentAssignmentPayload<ExtArgs>[]
+      assignedUnlocks: Prisma.$PropertyUnlockPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -25244,11 +25830,25 @@ export namespace Prisma {
       gstNumber: string | null
       status: $Enums.ApprovalStatus
       rejectionReason: string | null
+      planTier: $Enums.AgentPlanTier
       primeStatus: boolean
+      visibilityDeprioritized: boolean
+      autoPayMandate: string | null
+      autoPayActive: boolean
+      renewalAlertSentAt: Date | null
       walletBalance: number
       warningCount: number
       ratingAvg: number | null
       verifiedAt: Date | null
+      cycleStartDate: Date | null
+      cycleEndDate: Date | null
+      cycleListingsTarget: number
+      cycleDealsTarget: number
+      cycleVisitsTarget: number
+      carryForwardScore: number
+      cycleCompletedCount: number
+      activeDiscountCoupon: string | null
+      couponExpiresAt: Date | null
       referringAgentId: string | null
       createdAt: Date
       updatedAt: Date
@@ -25616,6 +26216,7 @@ export namespace Prisma {
     documentVaultItems<T extends AgentProfile$documentVaultItemsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$documentVaultItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentVaultItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     visitAppointments<T extends AgentProfile$visitAppointmentsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$visitAppointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitAppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     areaAssignments<T extends AgentProfile$areaAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$areaAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assignedUnlocks<T extends AgentProfile$assignedUnlocksArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$assignedUnlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25660,11 +26261,25 @@ export namespace Prisma {
     readonly gstNumber: FieldRef<"AgentProfile", 'String'>
     readonly status: FieldRef<"AgentProfile", 'ApprovalStatus'>
     readonly rejectionReason: FieldRef<"AgentProfile", 'String'>
+    readonly planTier: FieldRef<"AgentProfile", 'AgentPlanTier'>
     readonly primeStatus: FieldRef<"AgentProfile", 'Boolean'>
+    readonly visibilityDeprioritized: FieldRef<"AgentProfile", 'Boolean'>
+    readonly autoPayMandate: FieldRef<"AgentProfile", 'String'>
+    readonly autoPayActive: FieldRef<"AgentProfile", 'Boolean'>
+    readonly renewalAlertSentAt: FieldRef<"AgentProfile", 'DateTime'>
     readonly walletBalance: FieldRef<"AgentProfile", 'Int'>
     readonly warningCount: FieldRef<"AgentProfile", 'Int'>
     readonly ratingAvg: FieldRef<"AgentProfile", 'Float'>
     readonly verifiedAt: FieldRef<"AgentProfile", 'DateTime'>
+    readonly cycleStartDate: FieldRef<"AgentProfile", 'DateTime'>
+    readonly cycleEndDate: FieldRef<"AgentProfile", 'DateTime'>
+    readonly cycleListingsTarget: FieldRef<"AgentProfile", 'Int'>
+    readonly cycleDealsTarget: FieldRef<"AgentProfile", 'Int'>
+    readonly cycleVisitsTarget: FieldRef<"AgentProfile", 'Int'>
+    readonly carryForwardScore: FieldRef<"AgentProfile", 'Int'>
+    readonly cycleCompletedCount: FieldRef<"AgentProfile", 'Int'>
+    readonly activeDiscountCoupon: FieldRef<"AgentProfile", 'String'>
+    readonly couponExpiresAt: FieldRef<"AgentProfile", 'DateTime'>
     readonly referringAgentId: FieldRef<"AgentProfile", 'String'>
     readonly createdAt: FieldRef<"AgentProfile", 'DateTime'>
     readonly updatedAt: FieldRef<"AgentProfile", 'DateTime'>
@@ -26560,6 +27175,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AreaAgentAssignmentScalarFieldEnum | AreaAgentAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile.assignedUnlocks
+   */
+  export type AgentProfile$assignedUnlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyUnlock
+     */
+    select?: PropertyUnlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyUnlock
+     */
+    omit?: PropertyUnlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyUnlockInclude<ExtArgs> | null
+    where?: PropertyUnlockWhereInput
+    orderBy?: PropertyUnlockOrderByWithRelationInput | PropertyUnlockOrderByWithRelationInput[]
+    cursor?: PropertyUnlockWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropertyUnlockScalarFieldEnum | PropertyUnlockScalarFieldEnum[]
   }
 
   /**
@@ -31705,6 +32344,9 @@ export namespace Prisma {
     bathrooms: number | null
     areaSqft: number | null
     price: number | null
+    listingFee: number | null
+    listingAgentSplit: number | null
+    listingCompanySplit: number | null
   }
 
   export type AgentListingSumAggregateOutputType = {
@@ -31712,6 +32354,9 @@ export namespace Prisma {
     bathrooms: number | null
     areaSqft: number | null
     price: number | null
+    listingFee: number | null
+    listingAgentSplit: number | null
+    listingCompanySplit: number | null
   }
 
   export type AgentListingMinAggregateOutputType = {
@@ -31733,6 +32378,19 @@ export namespace Prisma {
     amenities: string | null
     nearbyAmenities: string | null
     videoUrl: string | null
+    listingPlan: $Enums.ListingPlanTier | null
+    listingFee: number | null
+    listingAgentSplit: number | null
+    listingCompanySplit: number | null
+    listingExpiresAt: Date | null
+    isDelisted: boolean | null
+    delistedAt: Date | null
+    expiryWarning7dSentAt: Date | null
+    expiryWarning2dSentAt: Date | null
+    agreementStartDate: Date | null
+    agreementExpiryDate: Date | null
+    hotDealAlert30dSentAt: Date | null
+    hotDealAlert15dSentAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -31756,6 +32414,19 @@ export namespace Prisma {
     amenities: string | null
     nearbyAmenities: string | null
     videoUrl: string | null
+    listingPlan: $Enums.ListingPlanTier | null
+    listingFee: number | null
+    listingAgentSplit: number | null
+    listingCompanySplit: number | null
+    listingExpiresAt: Date | null
+    isDelisted: boolean | null
+    delistedAt: Date | null
+    expiryWarning7dSentAt: Date | null
+    expiryWarning2dSentAt: Date | null
+    agreementStartDate: Date | null
+    agreementExpiryDate: Date | null
+    hotDealAlert30dSentAt: Date | null
+    hotDealAlert15dSentAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -31779,6 +32450,19 @@ export namespace Prisma {
     amenities: number
     nearbyAmenities: number
     videoUrl: number
+    listingPlan: number
+    listingFee: number
+    listingAgentSplit: number
+    listingCompanySplit: number
+    listingExpiresAt: number
+    isDelisted: number
+    delistedAt: number
+    expiryWarning7dSentAt: number
+    expiryWarning2dSentAt: number
+    agreementStartDate: number
+    agreementExpiryDate: number
+    hotDealAlert30dSentAt: number
+    hotDealAlert15dSentAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -31790,6 +32474,9 @@ export namespace Prisma {
     bathrooms?: true
     areaSqft?: true
     price?: true
+    listingFee?: true
+    listingAgentSplit?: true
+    listingCompanySplit?: true
   }
 
   export type AgentListingSumAggregateInputType = {
@@ -31797,6 +32484,9 @@ export namespace Prisma {
     bathrooms?: true
     areaSqft?: true
     price?: true
+    listingFee?: true
+    listingAgentSplit?: true
+    listingCompanySplit?: true
   }
 
   export type AgentListingMinAggregateInputType = {
@@ -31818,6 +32508,19 @@ export namespace Prisma {
     amenities?: true
     nearbyAmenities?: true
     videoUrl?: true
+    listingPlan?: true
+    listingFee?: true
+    listingAgentSplit?: true
+    listingCompanySplit?: true
+    listingExpiresAt?: true
+    isDelisted?: true
+    delistedAt?: true
+    expiryWarning7dSentAt?: true
+    expiryWarning2dSentAt?: true
+    agreementStartDate?: true
+    agreementExpiryDate?: true
+    hotDealAlert30dSentAt?: true
+    hotDealAlert15dSentAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -31841,6 +32544,19 @@ export namespace Prisma {
     amenities?: true
     nearbyAmenities?: true
     videoUrl?: true
+    listingPlan?: true
+    listingFee?: true
+    listingAgentSplit?: true
+    listingCompanySplit?: true
+    listingExpiresAt?: true
+    isDelisted?: true
+    delistedAt?: true
+    expiryWarning7dSentAt?: true
+    expiryWarning2dSentAt?: true
+    agreementStartDate?: true
+    agreementExpiryDate?: true
+    hotDealAlert30dSentAt?: true
+    hotDealAlert15dSentAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -31864,6 +32580,19 @@ export namespace Prisma {
     amenities?: true
     nearbyAmenities?: true
     videoUrl?: true
+    listingPlan?: true
+    listingFee?: true
+    listingAgentSplit?: true
+    listingCompanySplit?: true
+    listingExpiresAt?: true
+    isDelisted?: true
+    delistedAt?: true
+    expiryWarning7dSentAt?: true
+    expiryWarning2dSentAt?: true
+    agreementStartDate?: true
+    agreementExpiryDate?: true
+    hotDealAlert30dSentAt?: true
+    hotDealAlert15dSentAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -31974,6 +32703,19 @@ export namespace Prisma {
     amenities: string | null
     nearbyAmenities: string | null
     videoUrl: string | null
+    listingPlan: $Enums.ListingPlanTier
+    listingFee: number
+    listingAgentSplit: number
+    listingCompanySplit: number
+    listingExpiresAt: Date | null
+    isDelisted: boolean
+    delistedAt: Date | null
+    expiryWarning7dSentAt: Date | null
+    expiryWarning2dSentAt: Date | null
+    agreementStartDate: Date | null
+    agreementExpiryDate: Date | null
+    hotDealAlert30dSentAt: Date | null
+    hotDealAlert15dSentAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: AgentListingCountAggregateOutputType | null
@@ -32016,6 +32758,19 @@ export namespace Prisma {
     amenities?: boolean
     nearbyAmenities?: boolean
     videoUrl?: boolean
+    listingPlan?: boolean
+    listingFee?: boolean
+    listingAgentSplit?: boolean
+    listingCompanySplit?: boolean
+    listingExpiresAt?: boolean
+    isDelisted?: boolean
+    delistedAt?: boolean
+    expiryWarning7dSentAt?: boolean
+    expiryWarning2dSentAt?: boolean
+    agreementStartDate?: boolean
+    agreementExpiryDate?: boolean
+    hotDealAlert30dSentAt?: boolean
+    hotDealAlert15dSentAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     masterProperty?: boolean | MasterPropertyDefaultArgs<ExtArgs>
@@ -32023,6 +32778,8 @@ export namespace Prisma {
     images?: boolean | AgentListing$imagesArgs<ExtArgs>
     unlocks?: boolean | AgentListing$unlocksArgs<ExtArgs>
     goldPurchase?: boolean | AgentListing$goldPurchaseArgs<ExtArgs>
+    directVisits?: boolean | AgentListing$directVisitsArgs<ExtArgs>
+    antiBypassAgreements?: boolean | AgentListing$antiBypassAgreementsArgs<ExtArgs>
     _count?: boolean | AgentListingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentListing"]>
 
@@ -32047,17 +32804,32 @@ export namespace Prisma {
     amenities?: boolean
     nearbyAmenities?: boolean
     videoUrl?: boolean
+    listingPlan?: boolean
+    listingFee?: boolean
+    listingAgentSplit?: boolean
+    listingCompanySplit?: boolean
+    listingExpiresAt?: boolean
+    isDelisted?: boolean
+    delistedAt?: boolean
+    expiryWarning7dSentAt?: boolean
+    expiryWarning2dSentAt?: boolean
+    agreementStartDate?: boolean
+    agreementExpiryDate?: boolean
+    hotDealAlert30dSentAt?: boolean
+    hotDealAlert15dSentAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AgentListingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "masterPropertyId" | "agentId" | "source" | "approvalStatus" | "slug" | "title" | "description" | "listingType" | "propertyType" | "bedrooms" | "bathrooms" | "areaSqft" | "price" | "exactAddress" | "amenities" | "nearbyAmenities" | "videoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["agentListing"]>
+  export type AgentListingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "masterPropertyId" | "agentId" | "source" | "approvalStatus" | "slug" | "title" | "description" | "listingType" | "propertyType" | "bedrooms" | "bathrooms" | "areaSqft" | "price" | "exactAddress" | "amenities" | "nearbyAmenities" | "videoUrl" | "listingPlan" | "listingFee" | "listingAgentSplit" | "listingCompanySplit" | "listingExpiresAt" | "isDelisted" | "delistedAt" | "expiryWarning7dSentAt" | "expiryWarning2dSentAt" | "agreementStartDate" | "agreementExpiryDate" | "hotDealAlert30dSentAt" | "hotDealAlert15dSentAt" | "createdAt" | "updatedAt", ExtArgs["result"]["agentListing"]>
   export type AgentListingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     masterProperty?: boolean | MasterPropertyDefaultArgs<ExtArgs>
     agent?: boolean | AgentListing$agentArgs<ExtArgs>
     images?: boolean | AgentListing$imagesArgs<ExtArgs>
     unlocks?: boolean | AgentListing$unlocksArgs<ExtArgs>
     goldPurchase?: boolean | AgentListing$goldPurchaseArgs<ExtArgs>
+    directVisits?: boolean | AgentListing$directVisitsArgs<ExtArgs>
+    antiBypassAgreements?: boolean | AgentListing$antiBypassAgreementsArgs<ExtArgs>
     _count?: boolean | AgentListingCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -32069,6 +32841,8 @@ export namespace Prisma {
       images: Prisma.$AgentListingImagePayload<ExtArgs>[]
       unlocks: Prisma.$PropertyUnlockPayload<ExtArgs>[]
       goldPurchase: Prisma.$GoldListingPurchasePayload<ExtArgs> | null
+      directVisits: Prisma.$DirectPropertyVisitPayload<ExtArgs>[]
+      antiBypassAgreements: Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -32089,6 +32863,19 @@ export namespace Prisma {
       amenities: string | null
       nearbyAmenities: string | null
       videoUrl: string | null
+      listingPlan: $Enums.ListingPlanTier
+      listingFee: number
+      listingAgentSplit: number
+      listingCompanySplit: number
+      listingExpiresAt: Date | null
+      isDelisted: boolean
+      delistedAt: Date | null
+      expiryWarning7dSentAt: Date | null
+      expiryWarning2dSentAt: Date | null
+      agreementStartDate: Date | null
+      agreementExpiryDate: Date | null
+      hotDealAlert30dSentAt: Date | null
+      hotDealAlert15dSentAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["agentListing"]>
@@ -32436,6 +33223,8 @@ export namespace Prisma {
     images<T extends AgentListing$imagesArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentListingImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     unlocks<T extends AgentListing$unlocksArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$unlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     goldPurchase<T extends AgentListing$goldPurchaseArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$goldPurchaseArgs<ExtArgs>>): Prisma__GoldListingPurchaseClient<$Result.GetResult<Prisma.$GoldListingPurchasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    directVisits<T extends AgentListing$directVisitsArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$directVisitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    antiBypassAgreements<T extends AgentListing$antiBypassAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$antiBypassAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -32483,6 +33272,19 @@ export namespace Prisma {
     readonly amenities: FieldRef<"AgentListing", 'String'>
     readonly nearbyAmenities: FieldRef<"AgentListing", 'String'>
     readonly videoUrl: FieldRef<"AgentListing", 'String'>
+    readonly listingPlan: FieldRef<"AgentListing", 'ListingPlanTier'>
+    readonly listingFee: FieldRef<"AgentListing", 'Int'>
+    readonly listingAgentSplit: FieldRef<"AgentListing", 'Int'>
+    readonly listingCompanySplit: FieldRef<"AgentListing", 'Int'>
+    readonly listingExpiresAt: FieldRef<"AgentListing", 'DateTime'>
+    readonly isDelisted: FieldRef<"AgentListing", 'Boolean'>
+    readonly delistedAt: FieldRef<"AgentListing", 'DateTime'>
+    readonly expiryWarning7dSentAt: FieldRef<"AgentListing", 'DateTime'>
+    readonly expiryWarning2dSentAt: FieldRef<"AgentListing", 'DateTime'>
+    readonly agreementStartDate: FieldRef<"AgentListing", 'DateTime'>
+    readonly agreementExpiryDate: FieldRef<"AgentListing", 'DateTime'>
+    readonly hotDealAlert30dSentAt: FieldRef<"AgentListing", 'DateTime'>
+    readonly hotDealAlert15dSentAt: FieldRef<"AgentListing", 'DateTime'>
     readonly createdAt: FieldRef<"AgentListing", 'DateTime'>
     readonly updatedAt: FieldRef<"AgentListing", 'DateTime'>
   }
@@ -32916,6 +33718,54 @@ export namespace Prisma {
      */
     include?: GoldListingPurchaseInclude<ExtArgs> | null
     where?: GoldListingPurchaseWhereInput
+  }
+
+  /**
+   * AgentListing.directVisits
+   */
+  export type AgentListing$directVisitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    where?: DirectPropertyVisitWhereInput
+    orderBy?: DirectPropertyVisitOrderByWithRelationInput | DirectPropertyVisitOrderByWithRelationInput[]
+    cursor?: DirectPropertyVisitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DirectPropertyVisitScalarFieldEnum | DirectPropertyVisitScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListing.antiBypassAgreements
+   */
+  export type AgentListing$antiBypassAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    where?: PlatformAntiBypassAgreementWhereInput
+    orderBy?: PlatformAntiBypassAgreementOrderByWithRelationInput | PlatformAntiBypassAgreementOrderByWithRelationInput[]
+    cursor?: PlatformAntiBypassAgreementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlatformAntiBypassAgreementScalarFieldEnum | PlatformAntiBypassAgreementScalarFieldEnum[]
   }
 
   /**
@@ -33925,6 +34775,11 @@ export namespace Prisma {
     amount: number | null
     agentSplit: number | null
     companySplit: number | null
+    assignedAgentId: string | null
+    switchedAgent: boolean | null
+    switchedAt: Date | null
+    switchReason: string | null
+    expiresAt: Date | null
     createdAt: Date | null
   }
 
@@ -33935,6 +34790,11 @@ export namespace Prisma {
     amount: number | null
     agentSplit: number | null
     companySplit: number | null
+    assignedAgentId: string | null
+    switchedAgent: boolean | null
+    switchedAt: Date | null
+    switchReason: string | null
+    expiresAt: Date | null
     createdAt: Date | null
   }
 
@@ -33945,6 +34805,11 @@ export namespace Prisma {
     amount: number
     agentSplit: number
     companySplit: number
+    assignedAgentId: number
+    switchedAgent: number
+    switchedAt: number
+    switchReason: number
+    expiresAt: number
     createdAt: number
     _all: number
   }
@@ -33969,6 +34834,11 @@ export namespace Prisma {
     amount?: true
     agentSplit?: true
     companySplit?: true
+    assignedAgentId?: true
+    switchedAgent?: true
+    switchedAt?: true
+    switchReason?: true
+    expiresAt?: true
     createdAt?: true
   }
 
@@ -33979,6 +34849,11 @@ export namespace Prisma {
     amount?: true
     agentSplit?: true
     companySplit?: true
+    assignedAgentId?: true
+    switchedAgent?: true
+    switchedAt?: true
+    switchReason?: true
+    expiresAt?: true
     createdAt?: true
   }
 
@@ -33989,6 +34864,11 @@ export namespace Prisma {
     amount?: true
     agentSplit?: true
     companySplit?: true
+    assignedAgentId?: true
+    switchedAgent?: true
+    switchedAt?: true
+    switchReason?: true
+    expiresAt?: true
     createdAt?: true
     _all?: true
   }
@@ -34086,6 +34966,11 @@ export namespace Prisma {
     amount: number
     agentSplit: number
     companySplit: number
+    assignedAgentId: string | null
+    switchedAgent: boolean
+    switchedAt: Date | null
+    switchReason: string | null
+    expiresAt: Date | null
     createdAt: Date
     _count: PropertyUnlockCountAggregateOutputType | null
     _avg: PropertyUnlockAvgAggregateOutputType | null
@@ -34115,9 +35000,15 @@ export namespace Prisma {
     amount?: boolean
     agentSplit?: boolean
     companySplit?: boolean
+    assignedAgentId?: boolean
+    switchedAgent?: boolean
+    switchedAt?: boolean
+    switchReason?: boolean
+    expiresAt?: boolean
     createdAt?: boolean
     agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
+    assignedAgent?: boolean | PropertyUnlock$assignedAgentArgs<ExtArgs>
   }, ExtArgs["result"]["propertyUnlock"]>
 
 
@@ -34129,13 +35020,19 @@ export namespace Prisma {
     amount?: boolean
     agentSplit?: boolean
     companySplit?: boolean
+    assignedAgentId?: boolean
+    switchedAgent?: boolean
+    switchedAt?: boolean
+    switchReason?: boolean
+    expiresAt?: boolean
     createdAt?: boolean
   }
 
-  export type PropertyUnlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentListingId" | "buyerId" | "amount" | "agentSplit" | "companySplit" | "createdAt", ExtArgs["result"]["propertyUnlock"]>
+  export type PropertyUnlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentListingId" | "buyerId" | "amount" | "agentSplit" | "companySplit" | "assignedAgentId" | "switchedAgent" | "switchedAt" | "switchReason" | "expiresAt" | "createdAt", ExtArgs["result"]["propertyUnlock"]>
   export type PropertyUnlockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
+    assignedAgent?: boolean | PropertyUnlock$assignedAgentArgs<ExtArgs>
   }
 
   export type $PropertyUnlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -34143,6 +35040,7 @@ export namespace Prisma {
     objects: {
       agentListing: Prisma.$AgentListingPayload<ExtArgs>
       buyer: Prisma.$UserPayload<ExtArgs>
+      assignedAgent: Prisma.$AgentProfilePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -34151,6 +35049,11 @@ export namespace Prisma {
       amount: number
       agentSplit: number
       companySplit: number
+      assignedAgentId: string | null
+      switchedAgent: boolean
+      switchedAt: Date | null
+      switchReason: string | null
+      expiresAt: Date | null
       createdAt: Date
     }, ExtArgs["result"]["propertyUnlock"]>
     composites: {}
@@ -34494,6 +35397,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     agentListing<T extends AgentListingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentListingDefaultArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignedAgent<T extends PropertyUnlock$assignedAgentArgs<ExtArgs> = {}>(args?: Subset<T, PropertyUnlock$assignedAgentArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -34529,6 +35433,11 @@ export namespace Prisma {
     readonly amount: FieldRef<"PropertyUnlock", 'Int'>
     readonly agentSplit: FieldRef<"PropertyUnlock", 'Int'>
     readonly companySplit: FieldRef<"PropertyUnlock", 'Int'>
+    readonly assignedAgentId: FieldRef<"PropertyUnlock", 'String'>
+    readonly switchedAgent: FieldRef<"PropertyUnlock", 'Boolean'>
+    readonly switchedAt: FieldRef<"PropertyUnlock", 'DateTime'>
+    readonly switchReason: FieldRef<"PropertyUnlock", 'String'>
+    readonly expiresAt: FieldRef<"PropertyUnlock", 'DateTime'>
     readonly createdAt: FieldRef<"PropertyUnlock", 'DateTime'>
   }
     
@@ -34875,6 +35784,25 @@ export namespace Prisma {
      * Limit how many PropertyUnlocks to delete.
      */
     limit?: number
+  }
+
+  /**
+   * PropertyUnlock.assignedAgent
+   */
+  export type PropertyUnlock$assignedAgentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    where?: AgentProfileWhereInput
   }
 
   /**
@@ -35923,106 +36851,194 @@ export namespace Prisma {
 
   export type DealAvgAggregateOutputType = {
     dealValue: number | null
+    totalCommission: number | null
+    platformPercent: number | null
+    platformCommission: number | null
     buyerCommission: number | null
     sellerCommission: number | null
+    tokenAmount: number | null
   }
 
   export type DealSumAggregateOutputType = {
     dealValue: number | null
+    totalCommission: number | null
+    platformPercent: number | null
+    platformCommission: number | null
     buyerCommission: number | null
     sellerCommission: number | null
+    tokenAmount: number | null
   }
 
   export type DealMinAggregateOutputType = {
     id: string | null
     dealValue: number | null
+    status: $Enums.DealStatus | null
+    propertyTitle: string | null
+    broadcastId: string | null
     buyerAgentId: string | null
     sellerAgentId: string | null
+    totalCommission: number | null
+    platformPercent: number | null
+    platformCommission: number | null
     buyerCommission: number | null
     sellerCommission: number | null
+    tokenAmount: number | null
+    tokenDate: Date | null
+    agreementDate: Date | null
+    registryDate: Date | null
+    commissionDistributed: boolean | null
     paymentMode: $Enums.PaymentMode | null
     note: string | null
     dealDate: Date | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DealMaxAggregateOutputType = {
     id: string | null
     dealValue: number | null
+    status: $Enums.DealStatus | null
+    propertyTitle: string | null
+    broadcastId: string | null
     buyerAgentId: string | null
     sellerAgentId: string | null
+    totalCommission: number | null
+    platformPercent: number | null
+    platformCommission: number | null
     buyerCommission: number | null
     sellerCommission: number | null
+    tokenAmount: number | null
+    tokenDate: Date | null
+    agreementDate: Date | null
+    registryDate: Date | null
+    commissionDistributed: boolean | null
     paymentMode: $Enums.PaymentMode | null
     note: string | null
     dealDate: Date | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DealCountAggregateOutputType = {
     id: number
     dealValue: number
+    status: number
+    propertyTitle: number
+    broadcastId: number
     buyerAgentId: number
     sellerAgentId: number
+    totalCommission: number
+    platformPercent: number
+    platformCommission: number
     buyerCommission: number
     sellerCommission: number
+    tokenAmount: number
+    tokenDate: number
+    agreementDate: number
+    registryDate: number
+    commissionDistributed: number
     paymentMode: number
     note: number
     dealDate: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type DealAvgAggregateInputType = {
     dealValue?: true
+    totalCommission?: true
+    platformPercent?: true
+    platformCommission?: true
     buyerCommission?: true
     sellerCommission?: true
+    tokenAmount?: true
   }
 
   export type DealSumAggregateInputType = {
     dealValue?: true
+    totalCommission?: true
+    platformPercent?: true
+    platformCommission?: true
     buyerCommission?: true
     sellerCommission?: true
+    tokenAmount?: true
   }
 
   export type DealMinAggregateInputType = {
     id?: true
     dealValue?: true
+    status?: true
+    propertyTitle?: true
+    broadcastId?: true
     buyerAgentId?: true
     sellerAgentId?: true
+    totalCommission?: true
+    platformPercent?: true
+    platformCommission?: true
     buyerCommission?: true
     sellerCommission?: true
+    tokenAmount?: true
+    tokenDate?: true
+    agreementDate?: true
+    registryDate?: true
+    commissionDistributed?: true
     paymentMode?: true
     note?: true
     dealDate?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type DealMaxAggregateInputType = {
     id?: true
     dealValue?: true
+    status?: true
+    propertyTitle?: true
+    broadcastId?: true
     buyerAgentId?: true
     sellerAgentId?: true
+    totalCommission?: true
+    platformPercent?: true
+    platformCommission?: true
     buyerCommission?: true
     sellerCommission?: true
+    tokenAmount?: true
+    tokenDate?: true
+    agreementDate?: true
+    registryDate?: true
+    commissionDistributed?: true
     paymentMode?: true
     note?: true
     dealDate?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type DealCountAggregateInputType = {
     id?: true
     dealValue?: true
+    status?: true
+    propertyTitle?: true
+    broadcastId?: true
     buyerAgentId?: true
     sellerAgentId?: true
+    totalCommission?: true
+    platformPercent?: true
+    platformCommission?: true
     buyerCommission?: true
     sellerCommission?: true
+    tokenAmount?: true
+    tokenDate?: true
+    agreementDate?: true
+    registryDate?: true
+    commissionDistributed?: true
     paymentMode?: true
     note?: true
     dealDate?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -36115,14 +37131,26 @@ export namespace Prisma {
   export type DealGroupByOutputType = {
     id: string
     dealValue: number
+    status: $Enums.DealStatus
+    propertyTitle: string | null
+    broadcastId: string | null
     buyerAgentId: string | null
     sellerAgentId: string | null
+    totalCommission: number
+    platformPercent: number
+    platformCommission: number
     buyerCommission: number | null
     sellerCommission: number | null
+    tokenAmount: number | null
+    tokenDate: Date | null
+    agreementDate: Date | null
+    registryDate: Date | null
+    commissionDistributed: boolean
     paymentMode: $Enums.PaymentMode
     note: string | null
     dealDate: Date
     createdAt: Date
+    updatedAt: Date
     _count: DealCountAggregateOutputType | null
     _avg: DealAvgAggregateOutputType | null
     _sum: DealSumAggregateOutputType | null
@@ -36147,14 +37175,27 @@ export namespace Prisma {
   export type DealSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     dealValue?: boolean
+    status?: boolean
+    propertyTitle?: boolean
+    broadcastId?: boolean
     buyerAgentId?: boolean
     sellerAgentId?: boolean
+    totalCommission?: boolean
+    platformPercent?: boolean
+    platformCommission?: boolean
     buyerCommission?: boolean
     sellerCommission?: boolean
+    tokenAmount?: boolean
+    tokenDate?: boolean
+    agreementDate?: boolean
+    registryDate?: boolean
+    commissionDistributed?: boolean
     paymentMode?: boolean
     note?: boolean
     dealDate?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
+    broadcast?: boolean | Deal$broadcastArgs<ExtArgs>
     buyerAgent?: boolean | Deal$buyerAgentArgs<ExtArgs>
     sellerAgent?: boolean | Deal$sellerAgentArgs<ExtArgs>
   }, ExtArgs["result"]["deal"]>
@@ -36164,18 +37205,31 @@ export namespace Prisma {
   export type DealSelectScalar = {
     id?: boolean
     dealValue?: boolean
+    status?: boolean
+    propertyTitle?: boolean
+    broadcastId?: boolean
     buyerAgentId?: boolean
     sellerAgentId?: boolean
+    totalCommission?: boolean
+    platformPercent?: boolean
+    platformCommission?: boolean
     buyerCommission?: boolean
     sellerCommission?: boolean
+    tokenAmount?: boolean
+    tokenDate?: boolean
+    agreementDate?: boolean
+    registryDate?: boolean
+    commissionDistributed?: boolean
     paymentMode?: boolean
     note?: boolean
     dealDate?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type DealOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dealValue" | "buyerAgentId" | "sellerAgentId" | "buyerCommission" | "sellerCommission" | "paymentMode" | "note" | "dealDate" | "createdAt", ExtArgs["result"]["deal"]>
+  export type DealOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dealValue" | "status" | "propertyTitle" | "broadcastId" | "buyerAgentId" | "sellerAgentId" | "totalCommission" | "platformPercent" | "platformCommission" | "buyerCommission" | "sellerCommission" | "tokenAmount" | "tokenDate" | "agreementDate" | "registryDate" | "commissionDistributed" | "paymentMode" | "note" | "dealDate" | "createdAt" | "updatedAt", ExtArgs["result"]["deal"]>
   export type DealInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    broadcast?: boolean | Deal$broadcastArgs<ExtArgs>
     buyerAgent?: boolean | Deal$buyerAgentArgs<ExtArgs>
     sellerAgent?: boolean | Deal$sellerAgentArgs<ExtArgs>
   }
@@ -36183,20 +37237,33 @@ export namespace Prisma {
   export type $DealPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Deal"
     objects: {
+      broadcast: Prisma.$BroadcastPayload<ExtArgs> | null
       buyerAgent: Prisma.$AgentProfilePayload<ExtArgs> | null
       sellerAgent: Prisma.$AgentProfilePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       dealValue: number
+      status: $Enums.DealStatus
+      propertyTitle: string | null
+      broadcastId: string | null
       buyerAgentId: string | null
       sellerAgentId: string | null
+      totalCommission: number
+      platformPercent: number
+      platformCommission: number
       buyerCommission: number | null
       sellerCommission: number | null
+      tokenAmount: number | null
+      tokenDate: Date | null
+      agreementDate: Date | null
+      registryDate: Date | null
+      commissionDistributed: boolean
       paymentMode: $Enums.PaymentMode
       note: string | null
       dealDate: Date
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["deal"]>
     composites: {}
   }
@@ -36537,6 +37604,7 @@ export namespace Prisma {
    */
   export interface Prisma__DealClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    broadcast<T extends Deal$broadcastArgs<ExtArgs> = {}>(args?: Subset<T, Deal$broadcastArgs<ExtArgs>>): Prisma__BroadcastClient<$Result.GetResult<Prisma.$BroadcastPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     buyerAgent<T extends Deal$buyerAgentArgs<ExtArgs> = {}>(args?: Subset<T, Deal$buyerAgentArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     sellerAgent<T extends Deal$sellerAgentArgs<ExtArgs> = {}>(args?: Subset<T, Deal$sellerAgentArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -36570,14 +37638,26 @@ export namespace Prisma {
   interface DealFieldRefs {
     readonly id: FieldRef<"Deal", 'String'>
     readonly dealValue: FieldRef<"Deal", 'Int'>
+    readonly status: FieldRef<"Deal", 'DealStatus'>
+    readonly propertyTitle: FieldRef<"Deal", 'String'>
+    readonly broadcastId: FieldRef<"Deal", 'String'>
     readonly buyerAgentId: FieldRef<"Deal", 'String'>
     readonly sellerAgentId: FieldRef<"Deal", 'String'>
+    readonly totalCommission: FieldRef<"Deal", 'Int'>
+    readonly platformPercent: FieldRef<"Deal", 'Int'>
+    readonly platformCommission: FieldRef<"Deal", 'Int'>
     readonly buyerCommission: FieldRef<"Deal", 'Int'>
     readonly sellerCommission: FieldRef<"Deal", 'Int'>
+    readonly tokenAmount: FieldRef<"Deal", 'Int'>
+    readonly tokenDate: FieldRef<"Deal", 'DateTime'>
+    readonly agreementDate: FieldRef<"Deal", 'DateTime'>
+    readonly registryDate: FieldRef<"Deal", 'DateTime'>
+    readonly commissionDistributed: FieldRef<"Deal", 'Boolean'>
     readonly paymentMode: FieldRef<"Deal", 'PaymentMode'>
     readonly note: FieldRef<"Deal", 'String'>
     readonly dealDate: FieldRef<"Deal", 'DateTime'>
     readonly createdAt: FieldRef<"Deal", 'DateTime'>
+    readonly updatedAt: FieldRef<"Deal", 'DateTime'>
   }
     
 
@@ -36923,6 +38003,25 @@ export namespace Prisma {
      * Limit how many Deals to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Deal.broadcast
+   */
+  export type Deal$broadcastArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Broadcast
+     */
+    select?: BroadcastSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Broadcast
+     */
+    omit?: BroadcastOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BroadcastInclude<ExtArgs> | null
+    where?: BroadcastWhereInput
   }
 
   /**
@@ -42487,6 +43586,7 @@ export namespace Prisma {
     agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
     responses?: boolean | Broadcast$responsesArgs<ExtArgs>
     messages?: boolean | Broadcast$messagesArgs<ExtArgs>
+    deals?: boolean | Broadcast$dealsArgs<ExtArgs>
     _count?: boolean | BroadcastCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["broadcast"]>
 
@@ -42512,6 +43612,7 @@ export namespace Prisma {
     agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
     responses?: boolean | Broadcast$responsesArgs<ExtArgs>
     messages?: boolean | Broadcast$messagesArgs<ExtArgs>
+    deals?: boolean | Broadcast$dealsArgs<ExtArgs>
     _count?: boolean | BroadcastCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -42521,6 +43622,7 @@ export namespace Prisma {
       agent: Prisma.$AgentProfilePayload<ExtArgs>
       responses: Prisma.$BroadcastResponsePayload<ExtArgs>[]
       messages: Prisma.$AgentChatMessagePayload<ExtArgs>[]
+      deals: Prisma.$DealPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -42878,6 +43980,7 @@ export namespace Prisma {
     agent<T extends AgentProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfileDefaultArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     responses<T extends Broadcast$responsesArgs<ExtArgs> = {}>(args?: Subset<T, Broadcast$responsesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BroadcastResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     messages<T extends Broadcast$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Broadcast$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    deals<T extends Broadcast$dealsArgs<ExtArgs> = {}>(args?: Subset<T, Broadcast$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -43312,6 +44415,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AgentChatMessageScalarFieldEnum | AgentChatMessageScalarFieldEnum[]
+  }
+
+  /**
+   * Broadcast.deals
+   */
+  export type Broadcast$dealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Deal
+     */
+    select?: DealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Deal
+     */
+    omit?: DealOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealInclude<ExtArgs> | null
+    where?: DealWhereInput
+    orderBy?: DealOrderByWithRelationInput | DealOrderByWithRelationInput[]
+    cursor?: DealWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealScalarFieldEnum | DealScalarFieldEnum[]
   }
 
   /**
@@ -53082,6 +54209,2231 @@ export namespace Prisma {
 
 
   /**
+   * Model DirectPropertyVisit
+   */
+
+  export type AggregateDirectPropertyVisit = {
+    _count: DirectPropertyVisitCountAggregateOutputType | null
+    _avg: DirectPropertyVisitAvgAggregateOutputType | null
+    _sum: DirectPropertyVisitSumAggregateOutputType | null
+    _min: DirectPropertyVisitMinAggregateOutputType | null
+    _max: DirectPropertyVisitMaxAggregateOutputType | null
+  }
+
+  export type DirectPropertyVisitAvgAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
+    locationAccuracy: number | null
+  }
+
+  export type DirectPropertyVisitSumAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
+    locationAccuracy: number | null
+  }
+
+  export type DirectPropertyVisitMinAggregateOutputType = {
+    id: string | null
+    agentListingId: string | null
+    buyerId: string | null
+    ownerPhone: string | null
+    otp: string | null
+    otpVerified: boolean | null
+    otpVerifiedAt: Date | null
+    latitude: number | null
+    longitude: number | null
+    locationAccuracy: number | null
+    notes: string | null
+    createdAt: Date | null
+  }
+
+  export type DirectPropertyVisitMaxAggregateOutputType = {
+    id: string | null
+    agentListingId: string | null
+    buyerId: string | null
+    ownerPhone: string | null
+    otp: string | null
+    otpVerified: boolean | null
+    otpVerifiedAt: Date | null
+    latitude: number | null
+    longitude: number | null
+    locationAccuracy: number | null
+    notes: string | null
+    createdAt: Date | null
+  }
+
+  export type DirectPropertyVisitCountAggregateOutputType = {
+    id: number
+    agentListingId: number
+    buyerId: number
+    ownerPhone: number
+    otp: number
+    otpVerified: number
+    otpVerifiedAt: number
+    latitude: number
+    longitude: number
+    locationAccuracy: number
+    notes: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type DirectPropertyVisitAvgAggregateInputType = {
+    latitude?: true
+    longitude?: true
+    locationAccuracy?: true
+  }
+
+  export type DirectPropertyVisitSumAggregateInputType = {
+    latitude?: true
+    longitude?: true
+    locationAccuracy?: true
+  }
+
+  export type DirectPropertyVisitMinAggregateInputType = {
+    id?: true
+    agentListingId?: true
+    buyerId?: true
+    ownerPhone?: true
+    otp?: true
+    otpVerified?: true
+    otpVerifiedAt?: true
+    latitude?: true
+    longitude?: true
+    locationAccuracy?: true
+    notes?: true
+    createdAt?: true
+  }
+
+  export type DirectPropertyVisitMaxAggregateInputType = {
+    id?: true
+    agentListingId?: true
+    buyerId?: true
+    ownerPhone?: true
+    otp?: true
+    otpVerified?: true
+    otpVerifiedAt?: true
+    latitude?: true
+    longitude?: true
+    locationAccuracy?: true
+    notes?: true
+    createdAt?: true
+  }
+
+  export type DirectPropertyVisitCountAggregateInputType = {
+    id?: true
+    agentListingId?: true
+    buyerId?: true
+    ownerPhone?: true
+    otp?: true
+    otpVerified?: true
+    otpVerifiedAt?: true
+    latitude?: true
+    longitude?: true
+    locationAccuracy?: true
+    notes?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type DirectPropertyVisitAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DirectPropertyVisit to aggregate.
+     */
+    where?: DirectPropertyVisitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DirectPropertyVisits to fetch.
+     */
+    orderBy?: DirectPropertyVisitOrderByWithRelationInput | DirectPropertyVisitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DirectPropertyVisitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DirectPropertyVisits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DirectPropertyVisits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DirectPropertyVisits
+    **/
+    _count?: true | DirectPropertyVisitCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DirectPropertyVisitAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DirectPropertyVisitSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DirectPropertyVisitMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DirectPropertyVisitMaxAggregateInputType
+  }
+
+  export type GetDirectPropertyVisitAggregateType<T extends DirectPropertyVisitAggregateArgs> = {
+        [P in keyof T & keyof AggregateDirectPropertyVisit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDirectPropertyVisit[P]>
+      : GetScalarType<T[P], AggregateDirectPropertyVisit[P]>
+  }
+
+
+
+
+  export type DirectPropertyVisitGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DirectPropertyVisitWhereInput
+    orderBy?: DirectPropertyVisitOrderByWithAggregationInput | DirectPropertyVisitOrderByWithAggregationInput[]
+    by: DirectPropertyVisitScalarFieldEnum[] | DirectPropertyVisitScalarFieldEnum
+    having?: DirectPropertyVisitScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DirectPropertyVisitCountAggregateInputType | true
+    _avg?: DirectPropertyVisitAvgAggregateInputType
+    _sum?: DirectPropertyVisitSumAggregateInputType
+    _min?: DirectPropertyVisitMinAggregateInputType
+    _max?: DirectPropertyVisitMaxAggregateInputType
+  }
+
+  export type DirectPropertyVisitGroupByOutputType = {
+    id: string
+    agentListingId: string
+    buyerId: string
+    ownerPhone: string | null
+    otp: string | null
+    otpVerified: boolean
+    otpVerifiedAt: Date | null
+    latitude: number | null
+    longitude: number | null
+    locationAccuracy: number | null
+    notes: string | null
+    createdAt: Date
+    _count: DirectPropertyVisitCountAggregateOutputType | null
+    _avg: DirectPropertyVisitAvgAggregateOutputType | null
+    _sum: DirectPropertyVisitSumAggregateOutputType | null
+    _min: DirectPropertyVisitMinAggregateOutputType | null
+    _max: DirectPropertyVisitMaxAggregateOutputType | null
+  }
+
+  type GetDirectPropertyVisitGroupByPayload<T extends DirectPropertyVisitGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DirectPropertyVisitGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DirectPropertyVisitGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DirectPropertyVisitGroupByOutputType[P]>
+            : GetScalarType<T[P], DirectPropertyVisitGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DirectPropertyVisitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentListingId?: boolean
+    buyerId?: boolean
+    ownerPhone?: boolean
+    otp?: boolean
+    otpVerified?: boolean
+    otpVerifiedAt?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    locationAccuracy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    antiBypassAgreements?: boolean | DirectPropertyVisit$antiBypassAgreementsArgs<ExtArgs>
+    _count?: boolean | DirectPropertyVisitCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["directPropertyVisit"]>
+
+
+
+  export type DirectPropertyVisitSelectScalar = {
+    id?: boolean
+    agentListingId?: boolean
+    buyerId?: boolean
+    ownerPhone?: boolean
+    otp?: boolean
+    otpVerified?: boolean
+    otpVerifiedAt?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    locationAccuracy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+  }
+
+  export type DirectPropertyVisitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentListingId" | "buyerId" | "ownerPhone" | "otp" | "otpVerified" | "otpVerifiedAt" | "latitude" | "longitude" | "locationAccuracy" | "notes" | "createdAt", ExtArgs["result"]["directPropertyVisit"]>
+  export type DirectPropertyVisitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    antiBypassAgreements?: boolean | DirectPropertyVisit$antiBypassAgreementsArgs<ExtArgs>
+    _count?: boolean | DirectPropertyVisitCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $DirectPropertyVisitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DirectPropertyVisit"
+    objects: {
+      agentListing: Prisma.$AgentListingPayload<ExtArgs>
+      buyer: Prisma.$UserPayload<ExtArgs>
+      antiBypassAgreements: Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      agentListingId: string
+      buyerId: string
+      ownerPhone: string | null
+      otp: string | null
+      otpVerified: boolean
+      otpVerifiedAt: Date | null
+      latitude: number | null
+      longitude: number | null
+      locationAccuracy: number | null
+      notes: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["directPropertyVisit"]>
+    composites: {}
+  }
+
+  type DirectPropertyVisitGetPayload<S extends boolean | null | undefined | DirectPropertyVisitDefaultArgs> = $Result.GetResult<Prisma.$DirectPropertyVisitPayload, S>
+
+  type DirectPropertyVisitCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DirectPropertyVisitFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DirectPropertyVisitCountAggregateInputType | true
+    }
+
+  export interface DirectPropertyVisitDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DirectPropertyVisit'], meta: { name: 'DirectPropertyVisit' } }
+    /**
+     * Find zero or one DirectPropertyVisit that matches the filter.
+     * @param {DirectPropertyVisitFindUniqueArgs} args - Arguments to find a DirectPropertyVisit
+     * @example
+     * // Get one DirectPropertyVisit
+     * const directPropertyVisit = await prisma.directPropertyVisit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DirectPropertyVisitFindUniqueArgs>(args: SelectSubset<T, DirectPropertyVisitFindUniqueArgs<ExtArgs>>): Prisma__DirectPropertyVisitClient<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DirectPropertyVisit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DirectPropertyVisitFindUniqueOrThrowArgs} args - Arguments to find a DirectPropertyVisit
+     * @example
+     * // Get one DirectPropertyVisit
+     * const directPropertyVisit = await prisma.directPropertyVisit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DirectPropertyVisitFindUniqueOrThrowArgs>(args: SelectSubset<T, DirectPropertyVisitFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DirectPropertyVisitClient<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DirectPropertyVisit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DirectPropertyVisitFindFirstArgs} args - Arguments to find a DirectPropertyVisit
+     * @example
+     * // Get one DirectPropertyVisit
+     * const directPropertyVisit = await prisma.directPropertyVisit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DirectPropertyVisitFindFirstArgs>(args?: SelectSubset<T, DirectPropertyVisitFindFirstArgs<ExtArgs>>): Prisma__DirectPropertyVisitClient<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DirectPropertyVisit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DirectPropertyVisitFindFirstOrThrowArgs} args - Arguments to find a DirectPropertyVisit
+     * @example
+     * // Get one DirectPropertyVisit
+     * const directPropertyVisit = await prisma.directPropertyVisit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DirectPropertyVisitFindFirstOrThrowArgs>(args?: SelectSubset<T, DirectPropertyVisitFindFirstOrThrowArgs<ExtArgs>>): Prisma__DirectPropertyVisitClient<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DirectPropertyVisits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DirectPropertyVisitFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DirectPropertyVisits
+     * const directPropertyVisits = await prisma.directPropertyVisit.findMany()
+     * 
+     * // Get first 10 DirectPropertyVisits
+     * const directPropertyVisits = await prisma.directPropertyVisit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const directPropertyVisitWithIdOnly = await prisma.directPropertyVisit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DirectPropertyVisitFindManyArgs>(args?: SelectSubset<T, DirectPropertyVisitFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DirectPropertyVisit.
+     * @param {DirectPropertyVisitCreateArgs} args - Arguments to create a DirectPropertyVisit.
+     * @example
+     * // Create one DirectPropertyVisit
+     * const DirectPropertyVisit = await prisma.directPropertyVisit.create({
+     *   data: {
+     *     // ... data to create a DirectPropertyVisit
+     *   }
+     * })
+     * 
+     */
+    create<T extends DirectPropertyVisitCreateArgs>(args: SelectSubset<T, DirectPropertyVisitCreateArgs<ExtArgs>>): Prisma__DirectPropertyVisitClient<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DirectPropertyVisits.
+     * @param {DirectPropertyVisitCreateManyArgs} args - Arguments to create many DirectPropertyVisits.
+     * @example
+     * // Create many DirectPropertyVisits
+     * const directPropertyVisit = await prisma.directPropertyVisit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DirectPropertyVisitCreateManyArgs>(args?: SelectSubset<T, DirectPropertyVisitCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a DirectPropertyVisit.
+     * @param {DirectPropertyVisitDeleteArgs} args - Arguments to delete one DirectPropertyVisit.
+     * @example
+     * // Delete one DirectPropertyVisit
+     * const DirectPropertyVisit = await prisma.directPropertyVisit.delete({
+     *   where: {
+     *     // ... filter to delete one DirectPropertyVisit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DirectPropertyVisitDeleteArgs>(args: SelectSubset<T, DirectPropertyVisitDeleteArgs<ExtArgs>>): Prisma__DirectPropertyVisitClient<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DirectPropertyVisit.
+     * @param {DirectPropertyVisitUpdateArgs} args - Arguments to update one DirectPropertyVisit.
+     * @example
+     * // Update one DirectPropertyVisit
+     * const directPropertyVisit = await prisma.directPropertyVisit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DirectPropertyVisitUpdateArgs>(args: SelectSubset<T, DirectPropertyVisitUpdateArgs<ExtArgs>>): Prisma__DirectPropertyVisitClient<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DirectPropertyVisits.
+     * @param {DirectPropertyVisitDeleteManyArgs} args - Arguments to filter DirectPropertyVisits to delete.
+     * @example
+     * // Delete a few DirectPropertyVisits
+     * const { count } = await prisma.directPropertyVisit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DirectPropertyVisitDeleteManyArgs>(args?: SelectSubset<T, DirectPropertyVisitDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DirectPropertyVisits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DirectPropertyVisitUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DirectPropertyVisits
+     * const directPropertyVisit = await prisma.directPropertyVisit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DirectPropertyVisitUpdateManyArgs>(args: SelectSubset<T, DirectPropertyVisitUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one DirectPropertyVisit.
+     * @param {DirectPropertyVisitUpsertArgs} args - Arguments to update or create a DirectPropertyVisit.
+     * @example
+     * // Update or create a DirectPropertyVisit
+     * const directPropertyVisit = await prisma.directPropertyVisit.upsert({
+     *   create: {
+     *     // ... data to create a DirectPropertyVisit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DirectPropertyVisit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DirectPropertyVisitUpsertArgs>(args: SelectSubset<T, DirectPropertyVisitUpsertArgs<ExtArgs>>): Prisma__DirectPropertyVisitClient<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DirectPropertyVisits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DirectPropertyVisitCountArgs} args - Arguments to filter DirectPropertyVisits to count.
+     * @example
+     * // Count the number of DirectPropertyVisits
+     * const count = await prisma.directPropertyVisit.count({
+     *   where: {
+     *     // ... the filter for the DirectPropertyVisits we want to count
+     *   }
+     * })
+    **/
+    count<T extends DirectPropertyVisitCountArgs>(
+      args?: Subset<T, DirectPropertyVisitCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DirectPropertyVisitCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DirectPropertyVisit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DirectPropertyVisitAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DirectPropertyVisitAggregateArgs>(args: Subset<T, DirectPropertyVisitAggregateArgs>): Prisma.PrismaPromise<GetDirectPropertyVisitAggregateType<T>>
+
+    /**
+     * Group by DirectPropertyVisit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DirectPropertyVisitGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DirectPropertyVisitGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DirectPropertyVisitGroupByArgs['orderBy'] }
+        : { orderBy?: DirectPropertyVisitGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DirectPropertyVisitGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDirectPropertyVisitGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DirectPropertyVisit model
+   */
+  readonly fields: DirectPropertyVisitFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DirectPropertyVisit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DirectPropertyVisitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agentListing<T extends AgentListingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentListingDefaultArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    antiBypassAgreements<T extends DirectPropertyVisit$antiBypassAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, DirectPropertyVisit$antiBypassAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DirectPropertyVisit model
+   */
+  interface DirectPropertyVisitFieldRefs {
+    readonly id: FieldRef<"DirectPropertyVisit", 'String'>
+    readonly agentListingId: FieldRef<"DirectPropertyVisit", 'String'>
+    readonly buyerId: FieldRef<"DirectPropertyVisit", 'String'>
+    readonly ownerPhone: FieldRef<"DirectPropertyVisit", 'String'>
+    readonly otp: FieldRef<"DirectPropertyVisit", 'String'>
+    readonly otpVerified: FieldRef<"DirectPropertyVisit", 'Boolean'>
+    readonly otpVerifiedAt: FieldRef<"DirectPropertyVisit", 'DateTime'>
+    readonly latitude: FieldRef<"DirectPropertyVisit", 'Float'>
+    readonly longitude: FieldRef<"DirectPropertyVisit", 'Float'>
+    readonly locationAccuracy: FieldRef<"DirectPropertyVisit", 'Float'>
+    readonly notes: FieldRef<"DirectPropertyVisit", 'String'>
+    readonly createdAt: FieldRef<"DirectPropertyVisit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DirectPropertyVisit findUnique
+   */
+  export type DirectPropertyVisitFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    /**
+     * Filter, which DirectPropertyVisit to fetch.
+     */
+    where: DirectPropertyVisitWhereUniqueInput
+  }
+
+  /**
+   * DirectPropertyVisit findUniqueOrThrow
+   */
+  export type DirectPropertyVisitFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    /**
+     * Filter, which DirectPropertyVisit to fetch.
+     */
+    where: DirectPropertyVisitWhereUniqueInput
+  }
+
+  /**
+   * DirectPropertyVisit findFirst
+   */
+  export type DirectPropertyVisitFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    /**
+     * Filter, which DirectPropertyVisit to fetch.
+     */
+    where?: DirectPropertyVisitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DirectPropertyVisits to fetch.
+     */
+    orderBy?: DirectPropertyVisitOrderByWithRelationInput | DirectPropertyVisitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DirectPropertyVisits.
+     */
+    cursor?: DirectPropertyVisitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DirectPropertyVisits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DirectPropertyVisits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DirectPropertyVisits.
+     */
+    distinct?: DirectPropertyVisitScalarFieldEnum | DirectPropertyVisitScalarFieldEnum[]
+  }
+
+  /**
+   * DirectPropertyVisit findFirstOrThrow
+   */
+  export type DirectPropertyVisitFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    /**
+     * Filter, which DirectPropertyVisit to fetch.
+     */
+    where?: DirectPropertyVisitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DirectPropertyVisits to fetch.
+     */
+    orderBy?: DirectPropertyVisitOrderByWithRelationInput | DirectPropertyVisitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DirectPropertyVisits.
+     */
+    cursor?: DirectPropertyVisitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DirectPropertyVisits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DirectPropertyVisits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DirectPropertyVisits.
+     */
+    distinct?: DirectPropertyVisitScalarFieldEnum | DirectPropertyVisitScalarFieldEnum[]
+  }
+
+  /**
+   * DirectPropertyVisit findMany
+   */
+  export type DirectPropertyVisitFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    /**
+     * Filter, which DirectPropertyVisits to fetch.
+     */
+    where?: DirectPropertyVisitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DirectPropertyVisits to fetch.
+     */
+    orderBy?: DirectPropertyVisitOrderByWithRelationInput | DirectPropertyVisitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DirectPropertyVisits.
+     */
+    cursor?: DirectPropertyVisitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DirectPropertyVisits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DirectPropertyVisits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DirectPropertyVisits.
+     */
+    distinct?: DirectPropertyVisitScalarFieldEnum | DirectPropertyVisitScalarFieldEnum[]
+  }
+
+  /**
+   * DirectPropertyVisit create
+   */
+  export type DirectPropertyVisitCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DirectPropertyVisit.
+     */
+    data: XOR<DirectPropertyVisitCreateInput, DirectPropertyVisitUncheckedCreateInput>
+  }
+
+  /**
+   * DirectPropertyVisit createMany
+   */
+  export type DirectPropertyVisitCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DirectPropertyVisits.
+     */
+    data: DirectPropertyVisitCreateManyInput | DirectPropertyVisitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DirectPropertyVisit update
+   */
+  export type DirectPropertyVisitUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DirectPropertyVisit.
+     */
+    data: XOR<DirectPropertyVisitUpdateInput, DirectPropertyVisitUncheckedUpdateInput>
+    /**
+     * Choose, which DirectPropertyVisit to update.
+     */
+    where: DirectPropertyVisitWhereUniqueInput
+  }
+
+  /**
+   * DirectPropertyVisit updateMany
+   */
+  export type DirectPropertyVisitUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DirectPropertyVisits.
+     */
+    data: XOR<DirectPropertyVisitUpdateManyMutationInput, DirectPropertyVisitUncheckedUpdateManyInput>
+    /**
+     * Filter which DirectPropertyVisits to update
+     */
+    where?: DirectPropertyVisitWhereInput
+    /**
+     * Limit how many DirectPropertyVisits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DirectPropertyVisit upsert
+   */
+  export type DirectPropertyVisitUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DirectPropertyVisit to update in case it exists.
+     */
+    where: DirectPropertyVisitWhereUniqueInput
+    /**
+     * In case the DirectPropertyVisit found by the `where` argument doesn't exist, create a new DirectPropertyVisit with this data.
+     */
+    create: XOR<DirectPropertyVisitCreateInput, DirectPropertyVisitUncheckedCreateInput>
+    /**
+     * In case the DirectPropertyVisit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DirectPropertyVisitUpdateInput, DirectPropertyVisitUncheckedUpdateInput>
+  }
+
+  /**
+   * DirectPropertyVisit delete
+   */
+  export type DirectPropertyVisitDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    /**
+     * Filter which DirectPropertyVisit to delete.
+     */
+    where: DirectPropertyVisitWhereUniqueInput
+  }
+
+  /**
+   * DirectPropertyVisit deleteMany
+   */
+  export type DirectPropertyVisitDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DirectPropertyVisits to delete
+     */
+    where?: DirectPropertyVisitWhereInput
+    /**
+     * Limit how many DirectPropertyVisits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DirectPropertyVisit.antiBypassAgreements
+   */
+  export type DirectPropertyVisit$antiBypassAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    where?: PlatformAntiBypassAgreementWhereInput
+    orderBy?: PlatformAntiBypassAgreementOrderByWithRelationInput | PlatformAntiBypassAgreementOrderByWithRelationInput[]
+    cursor?: PlatformAntiBypassAgreementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlatformAntiBypassAgreementScalarFieldEnum | PlatformAntiBypassAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * DirectPropertyVisit without action
+   */
+  export type DirectPropertyVisitDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PlatformAntiBypassAgreement
+   */
+
+  export type AggregatePlatformAntiBypassAgreement = {
+    _count: PlatformAntiBypassAgreementCountAggregateOutputType | null
+    _avg: PlatformAntiBypassAgreementAvgAggregateOutputType | null
+    _sum: PlatformAntiBypassAgreementSumAggregateOutputType | null
+    _min: PlatformAntiBypassAgreementMinAggregateOutputType | null
+    _max: PlatformAntiBypassAgreementMaxAggregateOutputType | null
+  }
+
+  export type PlatformAntiBypassAgreementAvgAggregateOutputType = {
+    serviceFeePercent: number | null
+  }
+
+  export type PlatformAntiBypassAgreementSumAggregateOutputType = {
+    serviceFeePercent: number | null
+  }
+
+  export type PlatformAntiBypassAgreementMinAggregateOutputType = {
+    id: string | null
+    directVisitId: string | null
+    agentListingId: string | null
+    buyerId: string | null
+    sellerPhone: string | null
+    sellerName: string | null
+    buyerName: string | null
+    buyerPhone: string | null
+    propertyAddress: string | null
+    legalTermsSummary: string | null
+    serviceFeePercent: number | null
+    buyerSigned: boolean | null
+    buyerSignedAt: Date | null
+    sellerSigned: boolean | null
+    sellerSignedAt: Date | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PlatformAntiBypassAgreementMaxAggregateOutputType = {
+    id: string | null
+    directVisitId: string | null
+    agentListingId: string | null
+    buyerId: string | null
+    sellerPhone: string | null
+    sellerName: string | null
+    buyerName: string | null
+    buyerPhone: string | null
+    propertyAddress: string | null
+    legalTermsSummary: string | null
+    serviceFeePercent: number | null
+    buyerSigned: boolean | null
+    buyerSignedAt: Date | null
+    sellerSigned: boolean | null
+    sellerSignedAt: Date | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PlatformAntiBypassAgreementCountAggregateOutputType = {
+    id: number
+    directVisitId: number
+    agentListingId: number
+    buyerId: number
+    sellerPhone: number
+    sellerName: number
+    buyerName: number
+    buyerPhone: number
+    propertyAddress: number
+    legalTermsSummary: number
+    serviceFeePercent: number
+    buyerSigned: number
+    buyerSignedAt: number
+    sellerSigned: number
+    sellerSignedAt: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PlatformAntiBypassAgreementAvgAggregateInputType = {
+    serviceFeePercent?: true
+  }
+
+  export type PlatformAntiBypassAgreementSumAggregateInputType = {
+    serviceFeePercent?: true
+  }
+
+  export type PlatformAntiBypassAgreementMinAggregateInputType = {
+    id?: true
+    directVisitId?: true
+    agentListingId?: true
+    buyerId?: true
+    sellerPhone?: true
+    sellerName?: true
+    buyerName?: true
+    buyerPhone?: true
+    propertyAddress?: true
+    legalTermsSummary?: true
+    serviceFeePercent?: true
+    buyerSigned?: true
+    buyerSignedAt?: true
+    sellerSigned?: true
+    sellerSignedAt?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PlatformAntiBypassAgreementMaxAggregateInputType = {
+    id?: true
+    directVisitId?: true
+    agentListingId?: true
+    buyerId?: true
+    sellerPhone?: true
+    sellerName?: true
+    buyerName?: true
+    buyerPhone?: true
+    propertyAddress?: true
+    legalTermsSummary?: true
+    serviceFeePercent?: true
+    buyerSigned?: true
+    buyerSignedAt?: true
+    sellerSigned?: true
+    sellerSignedAt?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PlatformAntiBypassAgreementCountAggregateInputType = {
+    id?: true
+    directVisitId?: true
+    agentListingId?: true
+    buyerId?: true
+    sellerPhone?: true
+    sellerName?: true
+    buyerName?: true
+    buyerPhone?: true
+    propertyAddress?: true
+    legalTermsSummary?: true
+    serviceFeePercent?: true
+    buyerSigned?: true
+    buyerSignedAt?: true
+    sellerSigned?: true
+    sellerSignedAt?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PlatformAntiBypassAgreementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformAntiBypassAgreement to aggregate.
+     */
+    where?: PlatformAntiBypassAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformAntiBypassAgreements to fetch.
+     */
+    orderBy?: PlatformAntiBypassAgreementOrderByWithRelationInput | PlatformAntiBypassAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlatformAntiBypassAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformAntiBypassAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformAntiBypassAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlatformAntiBypassAgreements
+    **/
+    _count?: true | PlatformAntiBypassAgreementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PlatformAntiBypassAgreementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlatformAntiBypassAgreementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlatformAntiBypassAgreementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlatformAntiBypassAgreementMaxAggregateInputType
+  }
+
+  export type GetPlatformAntiBypassAgreementAggregateType<T extends PlatformAntiBypassAgreementAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlatformAntiBypassAgreement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlatformAntiBypassAgreement[P]>
+      : GetScalarType<T[P], AggregatePlatformAntiBypassAgreement[P]>
+  }
+
+
+
+
+  export type PlatformAntiBypassAgreementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformAntiBypassAgreementWhereInput
+    orderBy?: PlatformAntiBypassAgreementOrderByWithAggregationInput | PlatformAntiBypassAgreementOrderByWithAggregationInput[]
+    by: PlatformAntiBypassAgreementScalarFieldEnum[] | PlatformAntiBypassAgreementScalarFieldEnum
+    having?: PlatformAntiBypassAgreementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlatformAntiBypassAgreementCountAggregateInputType | true
+    _avg?: PlatformAntiBypassAgreementAvgAggregateInputType
+    _sum?: PlatformAntiBypassAgreementSumAggregateInputType
+    _min?: PlatformAntiBypassAgreementMinAggregateInputType
+    _max?: PlatformAntiBypassAgreementMaxAggregateInputType
+  }
+
+  export type PlatformAntiBypassAgreementGroupByOutputType = {
+    id: string
+    directVisitId: string | null
+    agentListingId: string
+    buyerId: string
+    sellerPhone: string
+    sellerName: string | null
+    buyerName: string | null
+    buyerPhone: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent: number
+    buyerSigned: boolean
+    buyerSignedAt: Date | null
+    sellerSigned: boolean
+    sellerSignedAt: Date | null
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PlatformAntiBypassAgreementCountAggregateOutputType | null
+    _avg: PlatformAntiBypassAgreementAvgAggregateOutputType | null
+    _sum: PlatformAntiBypassAgreementSumAggregateOutputType | null
+    _min: PlatformAntiBypassAgreementMinAggregateOutputType | null
+    _max: PlatformAntiBypassAgreementMaxAggregateOutputType | null
+  }
+
+  type GetPlatformAntiBypassAgreementGroupByPayload<T extends PlatformAntiBypassAgreementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlatformAntiBypassAgreementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlatformAntiBypassAgreementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlatformAntiBypassAgreementGroupByOutputType[P]>
+            : GetScalarType<T[P], PlatformAntiBypassAgreementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlatformAntiBypassAgreementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    directVisitId?: boolean
+    agentListingId?: boolean
+    buyerId?: boolean
+    sellerPhone?: boolean
+    sellerName?: boolean
+    buyerName?: boolean
+    buyerPhone?: boolean
+    propertyAddress?: boolean
+    legalTermsSummary?: boolean
+    serviceFeePercent?: boolean
+    buyerSigned?: boolean
+    buyerSignedAt?: boolean
+    sellerSigned?: boolean
+    sellerSignedAt?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    directVisit?: boolean | PlatformAntiBypassAgreement$directVisitArgs<ExtArgs>
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["platformAntiBypassAgreement"]>
+
+
+
+  export type PlatformAntiBypassAgreementSelectScalar = {
+    id?: boolean
+    directVisitId?: boolean
+    agentListingId?: boolean
+    buyerId?: boolean
+    sellerPhone?: boolean
+    sellerName?: boolean
+    buyerName?: boolean
+    buyerPhone?: boolean
+    propertyAddress?: boolean
+    legalTermsSummary?: boolean
+    serviceFeePercent?: boolean
+    buyerSigned?: boolean
+    buyerSignedAt?: boolean
+    sellerSigned?: boolean
+    sellerSignedAt?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PlatformAntiBypassAgreementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "directVisitId" | "agentListingId" | "buyerId" | "sellerPhone" | "sellerName" | "buyerName" | "buyerPhone" | "propertyAddress" | "legalTermsSummary" | "serviceFeePercent" | "buyerSigned" | "buyerSignedAt" | "sellerSigned" | "sellerSignedAt" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["platformAntiBypassAgreement"]>
+  export type PlatformAntiBypassAgreementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    directVisit?: boolean | PlatformAntiBypassAgreement$directVisitArgs<ExtArgs>
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PlatformAntiBypassAgreementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlatformAntiBypassAgreement"
+    objects: {
+      directVisit: Prisma.$DirectPropertyVisitPayload<ExtArgs> | null
+      agentListing: Prisma.$AgentListingPayload<ExtArgs>
+      buyer: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      directVisitId: string | null
+      agentListingId: string
+      buyerId: string
+      sellerPhone: string
+      sellerName: string | null
+      buyerName: string | null
+      buyerPhone: string | null
+      propertyAddress: string
+      legalTermsSummary: string
+      serviceFeePercent: number
+      buyerSigned: boolean
+      buyerSignedAt: Date | null
+      sellerSigned: boolean
+      sellerSignedAt: Date | null
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["platformAntiBypassAgreement"]>
+    composites: {}
+  }
+
+  type PlatformAntiBypassAgreementGetPayload<S extends boolean | null | undefined | PlatformAntiBypassAgreementDefaultArgs> = $Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload, S>
+
+  type PlatformAntiBypassAgreementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlatformAntiBypassAgreementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlatformAntiBypassAgreementCountAggregateInputType | true
+    }
+
+  export interface PlatformAntiBypassAgreementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlatformAntiBypassAgreement'], meta: { name: 'PlatformAntiBypassAgreement' } }
+    /**
+     * Find zero or one PlatformAntiBypassAgreement that matches the filter.
+     * @param {PlatformAntiBypassAgreementFindUniqueArgs} args - Arguments to find a PlatformAntiBypassAgreement
+     * @example
+     * // Get one PlatformAntiBypassAgreement
+     * const platformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlatformAntiBypassAgreementFindUniqueArgs>(args: SelectSubset<T, PlatformAntiBypassAgreementFindUniqueArgs<ExtArgs>>): Prisma__PlatformAntiBypassAgreementClient<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PlatformAntiBypassAgreement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlatformAntiBypassAgreementFindUniqueOrThrowArgs} args - Arguments to find a PlatformAntiBypassAgreement
+     * @example
+     * // Get one PlatformAntiBypassAgreement
+     * const platformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlatformAntiBypassAgreementFindUniqueOrThrowArgs>(args: SelectSubset<T, PlatformAntiBypassAgreementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlatformAntiBypassAgreementClient<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformAntiBypassAgreement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAntiBypassAgreementFindFirstArgs} args - Arguments to find a PlatformAntiBypassAgreement
+     * @example
+     * // Get one PlatformAntiBypassAgreement
+     * const platformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlatformAntiBypassAgreementFindFirstArgs>(args?: SelectSubset<T, PlatformAntiBypassAgreementFindFirstArgs<ExtArgs>>): Prisma__PlatformAntiBypassAgreementClient<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformAntiBypassAgreement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAntiBypassAgreementFindFirstOrThrowArgs} args - Arguments to find a PlatformAntiBypassAgreement
+     * @example
+     * // Get one PlatformAntiBypassAgreement
+     * const platformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlatformAntiBypassAgreementFindFirstOrThrowArgs>(args?: SelectSubset<T, PlatformAntiBypassAgreementFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlatformAntiBypassAgreementClient<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PlatformAntiBypassAgreements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAntiBypassAgreementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlatformAntiBypassAgreements
+     * const platformAntiBypassAgreements = await prisma.platformAntiBypassAgreement.findMany()
+     * 
+     * // Get first 10 PlatformAntiBypassAgreements
+     * const platformAntiBypassAgreements = await prisma.platformAntiBypassAgreement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const platformAntiBypassAgreementWithIdOnly = await prisma.platformAntiBypassAgreement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlatformAntiBypassAgreementFindManyArgs>(args?: SelectSubset<T, PlatformAntiBypassAgreementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PlatformAntiBypassAgreement.
+     * @param {PlatformAntiBypassAgreementCreateArgs} args - Arguments to create a PlatformAntiBypassAgreement.
+     * @example
+     * // Create one PlatformAntiBypassAgreement
+     * const PlatformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.create({
+     *   data: {
+     *     // ... data to create a PlatformAntiBypassAgreement
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlatformAntiBypassAgreementCreateArgs>(args: SelectSubset<T, PlatformAntiBypassAgreementCreateArgs<ExtArgs>>): Prisma__PlatformAntiBypassAgreementClient<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PlatformAntiBypassAgreements.
+     * @param {PlatformAntiBypassAgreementCreateManyArgs} args - Arguments to create many PlatformAntiBypassAgreements.
+     * @example
+     * // Create many PlatformAntiBypassAgreements
+     * const platformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlatformAntiBypassAgreementCreateManyArgs>(args?: SelectSubset<T, PlatformAntiBypassAgreementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PlatformAntiBypassAgreement.
+     * @param {PlatformAntiBypassAgreementDeleteArgs} args - Arguments to delete one PlatformAntiBypassAgreement.
+     * @example
+     * // Delete one PlatformAntiBypassAgreement
+     * const PlatformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.delete({
+     *   where: {
+     *     // ... filter to delete one PlatformAntiBypassAgreement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlatformAntiBypassAgreementDeleteArgs>(args: SelectSubset<T, PlatformAntiBypassAgreementDeleteArgs<ExtArgs>>): Prisma__PlatformAntiBypassAgreementClient<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PlatformAntiBypassAgreement.
+     * @param {PlatformAntiBypassAgreementUpdateArgs} args - Arguments to update one PlatformAntiBypassAgreement.
+     * @example
+     * // Update one PlatformAntiBypassAgreement
+     * const platformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlatformAntiBypassAgreementUpdateArgs>(args: SelectSubset<T, PlatformAntiBypassAgreementUpdateArgs<ExtArgs>>): Prisma__PlatformAntiBypassAgreementClient<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PlatformAntiBypassAgreements.
+     * @param {PlatformAntiBypassAgreementDeleteManyArgs} args - Arguments to filter PlatformAntiBypassAgreements to delete.
+     * @example
+     * // Delete a few PlatformAntiBypassAgreements
+     * const { count } = await prisma.platformAntiBypassAgreement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlatformAntiBypassAgreementDeleteManyArgs>(args?: SelectSubset<T, PlatformAntiBypassAgreementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformAntiBypassAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAntiBypassAgreementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlatformAntiBypassAgreements
+     * const platformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlatformAntiBypassAgreementUpdateManyArgs>(args: SelectSubset<T, PlatformAntiBypassAgreementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PlatformAntiBypassAgreement.
+     * @param {PlatformAntiBypassAgreementUpsertArgs} args - Arguments to update or create a PlatformAntiBypassAgreement.
+     * @example
+     * // Update or create a PlatformAntiBypassAgreement
+     * const platformAntiBypassAgreement = await prisma.platformAntiBypassAgreement.upsert({
+     *   create: {
+     *     // ... data to create a PlatformAntiBypassAgreement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlatformAntiBypassAgreement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlatformAntiBypassAgreementUpsertArgs>(args: SelectSubset<T, PlatformAntiBypassAgreementUpsertArgs<ExtArgs>>): Prisma__PlatformAntiBypassAgreementClient<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PlatformAntiBypassAgreements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAntiBypassAgreementCountArgs} args - Arguments to filter PlatformAntiBypassAgreements to count.
+     * @example
+     * // Count the number of PlatformAntiBypassAgreements
+     * const count = await prisma.platformAntiBypassAgreement.count({
+     *   where: {
+     *     // ... the filter for the PlatformAntiBypassAgreements we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlatformAntiBypassAgreementCountArgs>(
+      args?: Subset<T, PlatformAntiBypassAgreementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlatformAntiBypassAgreementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlatformAntiBypassAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAntiBypassAgreementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlatformAntiBypassAgreementAggregateArgs>(args: Subset<T, PlatformAntiBypassAgreementAggregateArgs>): Prisma.PrismaPromise<GetPlatformAntiBypassAgreementAggregateType<T>>
+
+    /**
+     * Group by PlatformAntiBypassAgreement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformAntiBypassAgreementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlatformAntiBypassAgreementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlatformAntiBypassAgreementGroupByArgs['orderBy'] }
+        : { orderBy?: PlatformAntiBypassAgreementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlatformAntiBypassAgreementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlatformAntiBypassAgreementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlatformAntiBypassAgreement model
+   */
+  readonly fields: PlatformAntiBypassAgreementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlatformAntiBypassAgreement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlatformAntiBypassAgreementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    directVisit<T extends PlatformAntiBypassAgreement$directVisitArgs<ExtArgs> = {}>(args?: Subset<T, PlatformAntiBypassAgreement$directVisitArgs<ExtArgs>>): Prisma__DirectPropertyVisitClient<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    agentListing<T extends AgentListingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentListingDefaultArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlatformAntiBypassAgreement model
+   */
+  interface PlatformAntiBypassAgreementFieldRefs {
+    readonly id: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly directVisitId: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly agentListingId: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly buyerId: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly sellerPhone: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly sellerName: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly buyerName: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly buyerPhone: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly propertyAddress: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly legalTermsSummary: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly serviceFeePercent: FieldRef<"PlatformAntiBypassAgreement", 'Float'>
+    readonly buyerSigned: FieldRef<"PlatformAntiBypassAgreement", 'Boolean'>
+    readonly buyerSignedAt: FieldRef<"PlatformAntiBypassAgreement", 'DateTime'>
+    readonly sellerSigned: FieldRef<"PlatformAntiBypassAgreement", 'Boolean'>
+    readonly sellerSignedAt: FieldRef<"PlatformAntiBypassAgreement", 'DateTime'>
+    readonly status: FieldRef<"PlatformAntiBypassAgreement", 'String'>
+    readonly createdAt: FieldRef<"PlatformAntiBypassAgreement", 'DateTime'>
+    readonly updatedAt: FieldRef<"PlatformAntiBypassAgreement", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlatformAntiBypassAgreement findUnique
+   */
+  export type PlatformAntiBypassAgreementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAntiBypassAgreement to fetch.
+     */
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+  }
+
+  /**
+   * PlatformAntiBypassAgreement findUniqueOrThrow
+   */
+  export type PlatformAntiBypassAgreementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAntiBypassAgreement to fetch.
+     */
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+  }
+
+  /**
+   * PlatformAntiBypassAgreement findFirst
+   */
+  export type PlatformAntiBypassAgreementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAntiBypassAgreement to fetch.
+     */
+    where?: PlatformAntiBypassAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformAntiBypassAgreements to fetch.
+     */
+    orderBy?: PlatformAntiBypassAgreementOrderByWithRelationInput | PlatformAntiBypassAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformAntiBypassAgreements.
+     */
+    cursor?: PlatformAntiBypassAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformAntiBypassAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformAntiBypassAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformAntiBypassAgreements.
+     */
+    distinct?: PlatformAntiBypassAgreementScalarFieldEnum | PlatformAntiBypassAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformAntiBypassAgreement findFirstOrThrow
+   */
+  export type PlatformAntiBypassAgreementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAntiBypassAgreement to fetch.
+     */
+    where?: PlatformAntiBypassAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformAntiBypassAgreements to fetch.
+     */
+    orderBy?: PlatformAntiBypassAgreementOrderByWithRelationInput | PlatformAntiBypassAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformAntiBypassAgreements.
+     */
+    cursor?: PlatformAntiBypassAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformAntiBypassAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformAntiBypassAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformAntiBypassAgreements.
+     */
+    distinct?: PlatformAntiBypassAgreementScalarFieldEnum | PlatformAntiBypassAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformAntiBypassAgreement findMany
+   */
+  export type PlatformAntiBypassAgreementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    /**
+     * Filter, which PlatformAntiBypassAgreements to fetch.
+     */
+    where?: PlatformAntiBypassAgreementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformAntiBypassAgreements to fetch.
+     */
+    orderBy?: PlatformAntiBypassAgreementOrderByWithRelationInput | PlatformAntiBypassAgreementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlatformAntiBypassAgreements.
+     */
+    cursor?: PlatformAntiBypassAgreementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformAntiBypassAgreements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformAntiBypassAgreements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformAntiBypassAgreements.
+     */
+    distinct?: PlatformAntiBypassAgreementScalarFieldEnum | PlatformAntiBypassAgreementScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformAntiBypassAgreement create
+   */
+  export type PlatformAntiBypassAgreementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PlatformAntiBypassAgreement.
+     */
+    data: XOR<PlatformAntiBypassAgreementCreateInput, PlatformAntiBypassAgreementUncheckedCreateInput>
+  }
+
+  /**
+   * PlatformAntiBypassAgreement createMany
+   */
+  export type PlatformAntiBypassAgreementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlatformAntiBypassAgreements.
+     */
+    data: PlatformAntiBypassAgreementCreateManyInput | PlatformAntiBypassAgreementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PlatformAntiBypassAgreement update
+   */
+  export type PlatformAntiBypassAgreementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PlatformAntiBypassAgreement.
+     */
+    data: XOR<PlatformAntiBypassAgreementUpdateInput, PlatformAntiBypassAgreementUncheckedUpdateInput>
+    /**
+     * Choose, which PlatformAntiBypassAgreement to update.
+     */
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+  }
+
+  /**
+   * PlatformAntiBypassAgreement updateMany
+   */
+  export type PlatformAntiBypassAgreementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlatformAntiBypassAgreements.
+     */
+    data: XOR<PlatformAntiBypassAgreementUpdateManyMutationInput, PlatformAntiBypassAgreementUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformAntiBypassAgreements to update
+     */
+    where?: PlatformAntiBypassAgreementWhereInput
+    /**
+     * Limit how many PlatformAntiBypassAgreements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformAntiBypassAgreement upsert
+   */
+  export type PlatformAntiBypassAgreementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PlatformAntiBypassAgreement to update in case it exists.
+     */
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    /**
+     * In case the PlatformAntiBypassAgreement found by the `where` argument doesn't exist, create a new PlatformAntiBypassAgreement with this data.
+     */
+    create: XOR<PlatformAntiBypassAgreementCreateInput, PlatformAntiBypassAgreementUncheckedCreateInput>
+    /**
+     * In case the PlatformAntiBypassAgreement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlatformAntiBypassAgreementUpdateInput, PlatformAntiBypassAgreementUncheckedUpdateInput>
+  }
+
+  /**
+   * PlatformAntiBypassAgreement delete
+   */
+  export type PlatformAntiBypassAgreementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+    /**
+     * Filter which PlatformAntiBypassAgreement to delete.
+     */
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+  }
+
+  /**
+   * PlatformAntiBypassAgreement deleteMany
+   */
+  export type PlatformAntiBypassAgreementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformAntiBypassAgreements to delete
+     */
+    where?: PlatformAntiBypassAgreementWhereInput
+    /**
+     * Limit how many PlatformAntiBypassAgreements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformAntiBypassAgreement.directVisit
+   */
+  export type PlatformAntiBypassAgreement$directVisitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DirectPropertyVisit
+     */
+    select?: DirectPropertyVisitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DirectPropertyVisit
+     */
+    omit?: DirectPropertyVisitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DirectPropertyVisitInclude<ExtArgs> | null
+    where?: DirectPropertyVisitWhereInput
+  }
+
+  /**
+   * PlatformAntiBypassAgreement without action
+   */
+  export type PlatformAntiBypassAgreementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformAntiBypassAgreement
+     */
+    select?: PlatformAntiBypassAgreementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformAntiBypassAgreement
+     */
+    omit?: PlatformAntiBypassAgreementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlatformAntiBypassAgreementInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -53405,6 +56757,12 @@ export namespace Prisma {
     unlockAgentSplitPercent: 'unlockAgentSplitPercent',
     goldListingAmount: 'goldListingAmount',
     goldAgentSplitPercent: 'goldAgentSplitPercent',
+    agentBasicPlanPrice: 'agentBasicPlanPrice',
+    agentPrimePlanPrice: 'agentPrimePlanPrice',
+    agentPlanSplitPercent: 'agentPlanSplitPercent',
+    basicListingFee: 'basicListingFee',
+    goldListingFee: 'goldListingFee',
+    listingSplitPercent: 'listingSplitPercent',
     updatedAt: 'updatedAt'
   };
 
@@ -53427,11 +56785,25 @@ export namespace Prisma {
     gstNumber: 'gstNumber',
     status: 'status',
     rejectionReason: 'rejectionReason',
+    planTier: 'planTier',
     primeStatus: 'primeStatus',
+    visibilityDeprioritized: 'visibilityDeprioritized',
+    autoPayMandate: 'autoPayMandate',
+    autoPayActive: 'autoPayActive',
+    renewalAlertSentAt: 'renewalAlertSentAt',
     walletBalance: 'walletBalance',
     warningCount: 'warningCount',
     ratingAvg: 'ratingAvg',
     verifiedAt: 'verifiedAt',
+    cycleStartDate: 'cycleStartDate',
+    cycleEndDate: 'cycleEndDate',
+    cycleListingsTarget: 'cycleListingsTarget',
+    cycleDealsTarget: 'cycleDealsTarget',
+    cycleVisitsTarget: 'cycleVisitsTarget',
+    carryForwardScore: 'carryForwardScore',
+    cycleCompletedCount: 'cycleCompletedCount',
+    activeDiscountCoupon: 'activeDiscountCoupon',
+    couponExpiresAt: 'couponExpiresAt',
     referringAgentId: 'referringAgentId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -53523,6 +56895,19 @@ export namespace Prisma {
     amenities: 'amenities',
     nearbyAmenities: 'nearbyAmenities',
     videoUrl: 'videoUrl',
+    listingPlan: 'listingPlan',
+    listingFee: 'listingFee',
+    listingAgentSplit: 'listingAgentSplit',
+    listingCompanySplit: 'listingCompanySplit',
+    listingExpiresAt: 'listingExpiresAt',
+    isDelisted: 'isDelisted',
+    delistedAt: 'delistedAt',
+    expiryWarning7dSentAt: 'expiryWarning7dSentAt',
+    expiryWarning2dSentAt: 'expiryWarning2dSentAt',
+    agreementStartDate: 'agreementStartDate',
+    agreementExpiryDate: 'agreementExpiryDate',
+    hotDealAlert30dSentAt: 'hotDealAlert30dSentAt',
+    hotDealAlert15dSentAt: 'hotDealAlert15dSentAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -53547,6 +56932,11 @@ export namespace Prisma {
     amount: 'amount',
     agentSplit: 'agentSplit',
     companySplit: 'companySplit',
+    assignedAgentId: 'assignedAgentId',
+    switchedAgent: 'switchedAgent',
+    switchedAt: 'switchedAt',
+    switchReason: 'switchReason',
+    expiresAt: 'expiresAt',
     createdAt: 'createdAt'
   };
 
@@ -53570,14 +56960,26 @@ export namespace Prisma {
   export const DealScalarFieldEnum: {
     id: 'id',
     dealValue: 'dealValue',
+    status: 'status',
+    propertyTitle: 'propertyTitle',
+    broadcastId: 'broadcastId',
     buyerAgentId: 'buyerAgentId',
     sellerAgentId: 'sellerAgentId',
+    totalCommission: 'totalCommission',
+    platformPercent: 'platformPercent',
+    platformCommission: 'platformCommission',
     buyerCommission: 'buyerCommission',
     sellerCommission: 'sellerCommission',
+    tokenAmount: 'tokenAmount',
+    tokenDate: 'tokenDate',
+    agreementDate: 'agreementDate',
+    registryDate: 'registryDate',
+    commissionDistributed: 'commissionDistributed',
     paymentMode: 'paymentMode',
     note: 'note',
     dealDate: 'dealDate',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type DealScalarFieldEnum = (typeof DealScalarFieldEnum)[keyof typeof DealScalarFieldEnum]
@@ -53814,6 +57216,48 @@ export namespace Prisma {
   };
 
   export type VisitAppointmentScalarFieldEnum = (typeof VisitAppointmentScalarFieldEnum)[keyof typeof VisitAppointmentScalarFieldEnum]
+
+
+  export const DirectPropertyVisitScalarFieldEnum: {
+    id: 'id',
+    agentListingId: 'agentListingId',
+    buyerId: 'buyerId',
+    ownerPhone: 'ownerPhone',
+    otp: 'otp',
+    otpVerified: 'otpVerified',
+    otpVerifiedAt: 'otpVerifiedAt',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    locationAccuracy: 'locationAccuracy',
+    notes: 'notes',
+    createdAt: 'createdAt'
+  };
+
+  export type DirectPropertyVisitScalarFieldEnum = (typeof DirectPropertyVisitScalarFieldEnum)[keyof typeof DirectPropertyVisitScalarFieldEnum]
+
+
+  export const PlatformAntiBypassAgreementScalarFieldEnum: {
+    id: 'id',
+    directVisitId: 'directVisitId',
+    agentListingId: 'agentListingId',
+    buyerId: 'buyerId',
+    sellerPhone: 'sellerPhone',
+    sellerName: 'sellerName',
+    buyerName: 'buyerName',
+    buyerPhone: 'buyerPhone',
+    propertyAddress: 'propertyAddress',
+    legalTermsSummary: 'legalTermsSummary',
+    serviceFeePercent: 'serviceFeePercent',
+    buyerSigned: 'buyerSigned',
+    buyerSignedAt: 'buyerSignedAt',
+    sellerSigned: 'sellerSigned',
+    sellerSignedAt: 'sellerSignedAt',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PlatformAntiBypassAgreementScalarFieldEnum = (typeof PlatformAntiBypassAgreementScalarFieldEnum)[keyof typeof PlatformAntiBypassAgreementScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -54083,6 +57527,8 @@ export namespace Prisma {
     reraNumber: 'reraNumber',
     gstNumber: 'gstNumber',
     rejectionReason: 'rejectionReason',
+    autoPayMandate: 'autoPayMandate',
+    activeDiscountCoupon: 'activeDiscountCoupon',
     referringAgentId: 'referringAgentId'
   };
 
@@ -54165,7 +57611,9 @@ export namespace Prisma {
   export const PropertyUnlockOrderByRelevanceFieldEnum: {
     id: 'id',
     agentListingId: 'agentListingId',
-    buyerId: 'buyerId'
+    buyerId: 'buyerId',
+    assignedAgentId: 'assignedAgentId',
+    switchReason: 'switchReason'
   };
 
   export type PropertyUnlockOrderByRelevanceFieldEnum = (typeof PropertyUnlockOrderByRelevanceFieldEnum)[keyof typeof PropertyUnlockOrderByRelevanceFieldEnum]
@@ -54183,6 +57631,8 @@ export namespace Prisma {
 
   export const DealOrderByRelevanceFieldEnum: {
     id: 'id',
+    propertyTitle: 'propertyTitle',
+    broadcastId: 'broadcastId',
     buyerAgentId: 'buyerAgentId',
     sellerAgentId: 'sellerAgentId',
     note: 'note'
@@ -54360,6 +57810,35 @@ export namespace Prisma {
   export type VisitAppointmentOrderByRelevanceFieldEnum = (typeof VisitAppointmentOrderByRelevanceFieldEnum)[keyof typeof VisitAppointmentOrderByRelevanceFieldEnum]
 
 
+  export const DirectPropertyVisitOrderByRelevanceFieldEnum: {
+    id: 'id',
+    agentListingId: 'agentListingId',
+    buyerId: 'buyerId',
+    ownerPhone: 'ownerPhone',
+    otp: 'otp',
+    notes: 'notes'
+  };
+
+  export type DirectPropertyVisitOrderByRelevanceFieldEnum = (typeof DirectPropertyVisitOrderByRelevanceFieldEnum)[keyof typeof DirectPropertyVisitOrderByRelevanceFieldEnum]
+
+
+  export const PlatformAntiBypassAgreementOrderByRelevanceFieldEnum: {
+    id: 'id',
+    directVisitId: 'directVisitId',
+    agentListingId: 'agentListingId',
+    buyerId: 'buyerId',
+    sellerPhone: 'sellerPhone',
+    sellerName: 'sellerName',
+    buyerName: 'buyerName',
+    buyerPhone: 'buyerPhone',
+    propertyAddress: 'propertyAddress',
+    legalTermsSummary: 'legalTermsSummary',
+    status: 'status'
+  };
+
+  export type PlatformAntiBypassAgreementOrderByRelevanceFieldEnum = (typeof PlatformAntiBypassAgreementOrderByRelevanceFieldEnum)[keyof typeof PlatformAntiBypassAgreementOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -54478,6 +57957,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AgentPlanTier'
+   */
+  export type EnumAgentPlanTierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentPlanTier'>
+    
+
+
+  /**
    * Reference to a field of type 'AgentDocumentType'
    */
   export type EnumAgentDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentDocumentType'>
@@ -54509,6 +57995,20 @@ export namespace Prisma {
    * Reference to a field of type 'ListingSource'
    */
   export type EnumListingSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingSource'>
+    
+
+
+  /**
+   * Reference to a field of type 'ListingPlanTier'
+   */
+  export type EnumListingPlanTierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingPlanTier'>
+    
+
+
+  /**
+   * Reference to a field of type 'DealStatus'
+   */
+  export type EnumDealStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealStatus'>
     
 
 
@@ -54589,6 +58089,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestListRelationFilter
     goldListingPurchases?: GoldListingPurchaseListRelationFilter
     visitAppointments?: VisitAppointmentListRelationFilter
+    directVisits?: DirectPropertyVisitListRelationFilter
+    antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -54620,6 +58122,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestOrderByRelationAggregateInput
     goldListingPurchases?: GoldListingPurchaseOrderByRelationAggregateInput
     visitAppointments?: VisitAppointmentOrderByRelationAggregateInput
+    directVisits?: DirectPropertyVisitOrderByRelationAggregateInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -54655,6 +58159,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestListRelationFilter
     goldListingPurchases?: GoldListingPurchaseListRelationFilter
     visitAppointments?: VisitAppointmentListRelationFilter
+    directVisits?: DirectPropertyVisitListRelationFilter
+    antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
   }, "id" | "email" | "slug">
 
   export type UserOrderByWithAggregationInput = {
@@ -56064,6 +59570,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: IntFilter<"SiteSettings"> | number
     goldListingAmount?: IntFilter<"SiteSettings"> | number
     goldAgentSplitPercent?: IntFilter<"SiteSettings"> | number
+    agentBasicPlanPrice?: IntFilter<"SiteSettings"> | number
+    agentPrimePlanPrice?: IntFilter<"SiteSettings"> | number
+    agentPlanSplitPercent?: IntFilter<"SiteSettings"> | number
+    basicListingFee?: IntFilter<"SiteSettings"> | number
+    goldListingFee?: IntFilter<"SiteSettings"> | number
+    listingSplitPercent?: IntFilter<"SiteSettings"> | number
     updatedAt?: DateTimeFilter<"SiteSettings"> | Date | string
   }
 
@@ -56104,6 +59616,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: SortOrder
     goldListingAmount?: SortOrder
     goldAgentSplitPercent?: SortOrder
+    agentBasicPlanPrice?: SortOrder
+    agentPrimePlanPrice?: SortOrder
+    agentPlanSplitPercent?: SortOrder
+    basicListingFee?: SortOrder
+    goldListingFee?: SortOrder
+    listingSplitPercent?: SortOrder
     updatedAt?: SortOrder
     _relevance?: SiteSettingsOrderByRelevanceInput
   }
@@ -56148,6 +59666,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: IntFilter<"SiteSettings"> | number
     goldListingAmount?: IntFilter<"SiteSettings"> | number
     goldAgentSplitPercent?: IntFilter<"SiteSettings"> | number
+    agentBasicPlanPrice?: IntFilter<"SiteSettings"> | number
+    agentPrimePlanPrice?: IntFilter<"SiteSettings"> | number
+    agentPlanSplitPercent?: IntFilter<"SiteSettings"> | number
+    basicListingFee?: IntFilter<"SiteSettings"> | number
+    goldListingFee?: IntFilter<"SiteSettings"> | number
+    listingSplitPercent?: IntFilter<"SiteSettings"> | number
     updatedAt?: DateTimeFilter<"SiteSettings"> | Date | string
   }, "id">
 
@@ -56188,6 +59712,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: SortOrder
     goldListingAmount?: SortOrder
     goldAgentSplitPercent?: SortOrder
+    agentBasicPlanPrice?: SortOrder
+    agentPrimePlanPrice?: SortOrder
+    agentPlanSplitPercent?: SortOrder
+    basicListingFee?: SortOrder
+    goldListingFee?: SortOrder
+    listingSplitPercent?: SortOrder
     updatedAt?: SortOrder
     _count?: SiteSettingsCountOrderByAggregateInput
     _avg?: SiteSettingsAvgOrderByAggregateInput
@@ -56236,6 +59766,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
     goldListingAmount?: IntWithAggregatesFilter<"SiteSettings"> | number
     goldAgentSplitPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    agentBasicPlanPrice?: IntWithAggregatesFilter<"SiteSettings"> | number
+    agentPrimePlanPrice?: IntWithAggregatesFilter<"SiteSettings"> | number
+    agentPlanSplitPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    basicListingFee?: IntWithAggregatesFilter<"SiteSettings"> | number
+    goldListingFee?: IntWithAggregatesFilter<"SiteSettings"> | number
+    listingSplitPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"SiteSettings"> | Date | string
   }
 
@@ -56258,11 +59794,25 @@ export namespace Prisma {
     gstNumber?: StringNullableFilter<"AgentProfile"> | string | null
     status?: EnumApprovalStatusFilter<"AgentProfile"> | $Enums.ApprovalStatus
     rejectionReason?: StringNullableFilter<"AgentProfile"> | string | null
+    planTier?: EnumAgentPlanTierFilter<"AgentProfile"> | $Enums.AgentPlanTier
     primeStatus?: BoolFilter<"AgentProfile"> | boolean
+    visibilityDeprioritized?: BoolFilter<"AgentProfile"> | boolean
+    autoPayMandate?: StringNullableFilter<"AgentProfile"> | string | null
+    autoPayActive?: BoolFilter<"AgentProfile"> | boolean
+    renewalAlertSentAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     walletBalance?: IntFilter<"AgentProfile"> | number
     warningCount?: IntFilter<"AgentProfile"> | number
     ratingAvg?: FloatNullableFilter<"AgentProfile"> | number | null
     verifiedAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleStartDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleEndDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleListingsTarget?: IntFilter<"AgentProfile"> | number
+    cycleDealsTarget?: IntFilter<"AgentProfile"> | number
+    cycleVisitsTarget?: IntFilter<"AgentProfile"> | number
+    carryForwardScore?: IntFilter<"AgentProfile"> | number
+    cycleCompletedCount?: IntFilter<"AgentProfile"> | number
+    activeDiscountCoupon?: StringNullableFilter<"AgentProfile"> | string | null
+    couponExpiresAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     referringAgentId?: StringNullableFilter<"AgentProfile"> | string | null
     createdAt?: DateTimeFilter<"AgentProfile"> | Date | string
     updatedAt?: DateTimeFilter<"AgentProfile"> | Date | string
@@ -56290,6 +59840,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemListRelationFilter
     visitAppointments?: VisitAppointmentListRelationFilter
     areaAssignments?: AreaAgentAssignmentListRelationFilter
+    assignedUnlocks?: PropertyUnlockListRelationFilter
   }
 
   export type AgentProfileOrderByWithRelationInput = {
@@ -56308,11 +59859,25 @@ export namespace Prisma {
     gstNumber?: SortOrderInput | SortOrder
     status?: SortOrder
     rejectionReason?: SortOrderInput | SortOrder
+    planTier?: SortOrder
     primeStatus?: SortOrder
+    visibilityDeprioritized?: SortOrder
+    autoPayMandate?: SortOrderInput | SortOrder
+    autoPayActive?: SortOrder
+    renewalAlertSentAt?: SortOrderInput | SortOrder
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrderInput | SortOrder
     verifiedAt?: SortOrderInput | SortOrder
+    cycleStartDate?: SortOrderInput | SortOrder
+    cycleEndDate?: SortOrderInput | SortOrder
+    cycleListingsTarget?: SortOrder
+    cycleDealsTarget?: SortOrder
+    cycleVisitsTarget?: SortOrder
+    carryForwardScore?: SortOrder
+    cycleCompletedCount?: SortOrder
+    activeDiscountCoupon?: SortOrderInput | SortOrder
+    couponExpiresAt?: SortOrderInput | SortOrder
     referringAgentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -56340,6 +59905,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemOrderByRelationAggregateInput
     visitAppointments?: VisitAppointmentOrderByRelationAggregateInput
     areaAssignments?: AreaAgentAssignmentOrderByRelationAggregateInput
+    assignedUnlocks?: PropertyUnlockOrderByRelationAggregateInput
     _relevance?: AgentProfileOrderByRelevanceInput
   }
 
@@ -56362,11 +59928,25 @@ export namespace Prisma {
     gstNumber?: StringNullableFilter<"AgentProfile"> | string | null
     status?: EnumApprovalStatusFilter<"AgentProfile"> | $Enums.ApprovalStatus
     rejectionReason?: StringNullableFilter<"AgentProfile"> | string | null
+    planTier?: EnumAgentPlanTierFilter<"AgentProfile"> | $Enums.AgentPlanTier
     primeStatus?: BoolFilter<"AgentProfile"> | boolean
+    visibilityDeprioritized?: BoolFilter<"AgentProfile"> | boolean
+    autoPayMandate?: StringNullableFilter<"AgentProfile"> | string | null
+    autoPayActive?: BoolFilter<"AgentProfile"> | boolean
+    renewalAlertSentAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     walletBalance?: IntFilter<"AgentProfile"> | number
     warningCount?: IntFilter<"AgentProfile"> | number
     ratingAvg?: FloatNullableFilter<"AgentProfile"> | number | null
     verifiedAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleStartDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleEndDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleListingsTarget?: IntFilter<"AgentProfile"> | number
+    cycleDealsTarget?: IntFilter<"AgentProfile"> | number
+    cycleVisitsTarget?: IntFilter<"AgentProfile"> | number
+    carryForwardScore?: IntFilter<"AgentProfile"> | number
+    cycleCompletedCount?: IntFilter<"AgentProfile"> | number
+    activeDiscountCoupon?: StringNullableFilter<"AgentProfile"> | string | null
+    couponExpiresAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     referringAgentId?: StringNullableFilter<"AgentProfile"> | string | null
     createdAt?: DateTimeFilter<"AgentProfile"> | Date | string
     updatedAt?: DateTimeFilter<"AgentProfile"> | Date | string
@@ -56394,6 +59974,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemListRelationFilter
     visitAppointments?: VisitAppointmentListRelationFilter
     areaAssignments?: AreaAgentAssignmentListRelationFilter
+    assignedUnlocks?: PropertyUnlockListRelationFilter
   }, "id" | "userId" | "agentCode">
 
   export type AgentProfileOrderByWithAggregationInput = {
@@ -56412,11 +59993,25 @@ export namespace Prisma {
     gstNumber?: SortOrderInput | SortOrder
     status?: SortOrder
     rejectionReason?: SortOrderInput | SortOrder
+    planTier?: SortOrder
     primeStatus?: SortOrder
+    visibilityDeprioritized?: SortOrder
+    autoPayMandate?: SortOrderInput | SortOrder
+    autoPayActive?: SortOrder
+    renewalAlertSentAt?: SortOrderInput | SortOrder
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrderInput | SortOrder
     verifiedAt?: SortOrderInput | SortOrder
+    cycleStartDate?: SortOrderInput | SortOrder
+    cycleEndDate?: SortOrderInput | SortOrder
+    cycleListingsTarget?: SortOrder
+    cycleDealsTarget?: SortOrder
+    cycleVisitsTarget?: SortOrder
+    carryForwardScore?: SortOrder
+    cycleCompletedCount?: SortOrder
+    activeDiscountCoupon?: SortOrderInput | SortOrder
+    couponExpiresAt?: SortOrderInput | SortOrder
     referringAgentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -56446,11 +60041,25 @@ export namespace Prisma {
     gstNumber?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
     status?: EnumApprovalStatusWithAggregatesFilter<"AgentProfile"> | $Enums.ApprovalStatus
     rejectionReason?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    planTier?: EnumAgentPlanTierWithAggregatesFilter<"AgentProfile"> | $Enums.AgentPlanTier
     primeStatus?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
+    visibilityDeprioritized?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
+    autoPayMandate?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    autoPayActive?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
+    renewalAlertSentAt?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
     walletBalance?: IntWithAggregatesFilter<"AgentProfile"> | number
     warningCount?: IntWithAggregatesFilter<"AgentProfile"> | number
     ratingAvg?: FloatNullableWithAggregatesFilter<"AgentProfile"> | number | null
     verifiedAt?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
+    cycleStartDate?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
+    cycleEndDate?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
+    cycleListingsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
+    cycleDealsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
+    cycleVisitsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
+    carryForwardScore?: IntWithAggregatesFilter<"AgentProfile"> | number
+    cycleCompletedCount?: IntWithAggregatesFilter<"AgentProfile"> | number
+    activeDiscountCoupon?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
+    couponExpiresAt?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
     referringAgentId?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AgentProfile"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AgentProfile"> | Date | string
@@ -56834,6 +60443,19 @@ export namespace Prisma {
     amenities?: StringNullableFilter<"AgentListing"> | string | null
     nearbyAmenities?: StringNullableFilter<"AgentListing"> | string | null
     videoUrl?: StringNullableFilter<"AgentListing"> | string | null
+    listingPlan?: EnumListingPlanTierFilter<"AgentListing"> | $Enums.ListingPlanTier
+    listingFee?: IntFilter<"AgentListing"> | number
+    listingAgentSplit?: IntFilter<"AgentListing"> | number
+    listingCompanySplit?: IntFilter<"AgentListing"> | number
+    listingExpiresAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    isDelisted?: BoolFilter<"AgentListing"> | boolean
+    delistedAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    expiryWarning7dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    expiryWarning2dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    agreementStartDate?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    agreementExpiryDate?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    hotDealAlert30dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    hotDealAlert15dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
     createdAt?: DateTimeFilter<"AgentListing"> | Date | string
     updatedAt?: DateTimeFilter<"AgentListing"> | Date | string
     masterProperty?: XOR<MasterPropertyScalarRelationFilter, MasterPropertyWhereInput>
@@ -56841,6 +60463,8 @@ export namespace Prisma {
     images?: AgentListingImageListRelationFilter
     unlocks?: PropertyUnlockListRelationFilter
     goldPurchase?: XOR<GoldListingPurchaseNullableScalarRelationFilter, GoldListingPurchaseWhereInput> | null
+    directVisits?: DirectPropertyVisitListRelationFilter
+    antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
   }
 
   export type AgentListingOrderByWithRelationInput = {
@@ -56862,6 +60486,19 @@ export namespace Prisma {
     amenities?: SortOrderInput | SortOrder
     nearbyAmenities?: SortOrderInput | SortOrder
     videoUrl?: SortOrderInput | SortOrder
+    listingPlan?: SortOrder
+    listingFee?: SortOrder
+    listingAgentSplit?: SortOrder
+    listingCompanySplit?: SortOrder
+    listingExpiresAt?: SortOrderInput | SortOrder
+    isDelisted?: SortOrder
+    delistedAt?: SortOrderInput | SortOrder
+    expiryWarning7dSentAt?: SortOrderInput | SortOrder
+    expiryWarning2dSentAt?: SortOrderInput | SortOrder
+    agreementStartDate?: SortOrderInput | SortOrder
+    agreementExpiryDate?: SortOrderInput | SortOrder
+    hotDealAlert30dSentAt?: SortOrderInput | SortOrder
+    hotDealAlert15dSentAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     masterProperty?: MasterPropertyOrderByWithRelationInput
@@ -56869,6 +60506,8 @@ export namespace Prisma {
     images?: AgentListingImageOrderByRelationAggregateInput
     unlocks?: PropertyUnlockOrderByRelationAggregateInput
     goldPurchase?: GoldListingPurchaseOrderByWithRelationInput
+    directVisits?: DirectPropertyVisitOrderByRelationAggregateInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementOrderByRelationAggregateInput
     _relevance?: AgentListingOrderByRelevanceInput
   }
 
@@ -56894,6 +60533,19 @@ export namespace Prisma {
     amenities?: StringNullableFilter<"AgentListing"> | string | null
     nearbyAmenities?: StringNullableFilter<"AgentListing"> | string | null
     videoUrl?: StringNullableFilter<"AgentListing"> | string | null
+    listingPlan?: EnumListingPlanTierFilter<"AgentListing"> | $Enums.ListingPlanTier
+    listingFee?: IntFilter<"AgentListing"> | number
+    listingAgentSplit?: IntFilter<"AgentListing"> | number
+    listingCompanySplit?: IntFilter<"AgentListing"> | number
+    listingExpiresAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    isDelisted?: BoolFilter<"AgentListing"> | boolean
+    delistedAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    expiryWarning7dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    expiryWarning2dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    agreementStartDate?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    agreementExpiryDate?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    hotDealAlert30dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    hotDealAlert15dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
     createdAt?: DateTimeFilter<"AgentListing"> | Date | string
     updatedAt?: DateTimeFilter<"AgentListing"> | Date | string
     masterProperty?: XOR<MasterPropertyScalarRelationFilter, MasterPropertyWhereInput>
@@ -56901,6 +60553,8 @@ export namespace Prisma {
     images?: AgentListingImageListRelationFilter
     unlocks?: PropertyUnlockListRelationFilter
     goldPurchase?: XOR<GoldListingPurchaseNullableScalarRelationFilter, GoldListingPurchaseWhereInput> | null
+    directVisits?: DirectPropertyVisitListRelationFilter
+    antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
   }, "id" | "slug">
 
   export type AgentListingOrderByWithAggregationInput = {
@@ -56922,6 +60576,19 @@ export namespace Prisma {
     amenities?: SortOrderInput | SortOrder
     nearbyAmenities?: SortOrderInput | SortOrder
     videoUrl?: SortOrderInput | SortOrder
+    listingPlan?: SortOrder
+    listingFee?: SortOrder
+    listingAgentSplit?: SortOrder
+    listingCompanySplit?: SortOrder
+    listingExpiresAt?: SortOrderInput | SortOrder
+    isDelisted?: SortOrder
+    delistedAt?: SortOrderInput | SortOrder
+    expiryWarning7dSentAt?: SortOrderInput | SortOrder
+    expiryWarning2dSentAt?: SortOrderInput | SortOrder
+    agreementStartDate?: SortOrderInput | SortOrder
+    agreementExpiryDate?: SortOrderInput | SortOrder
+    hotDealAlert30dSentAt?: SortOrderInput | SortOrder
+    hotDealAlert15dSentAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AgentListingCountOrderByAggregateInput
@@ -56953,6 +60620,19 @@ export namespace Prisma {
     amenities?: StringNullableWithAggregatesFilter<"AgentListing"> | string | null
     nearbyAmenities?: StringNullableWithAggregatesFilter<"AgentListing"> | string | null
     videoUrl?: StringNullableWithAggregatesFilter<"AgentListing"> | string | null
+    listingPlan?: EnumListingPlanTierWithAggregatesFilter<"AgentListing"> | $Enums.ListingPlanTier
+    listingFee?: IntWithAggregatesFilter<"AgentListing"> | number
+    listingAgentSplit?: IntWithAggregatesFilter<"AgentListing"> | number
+    listingCompanySplit?: IntWithAggregatesFilter<"AgentListing"> | number
+    listingExpiresAt?: DateTimeNullableWithAggregatesFilter<"AgentListing"> | Date | string | null
+    isDelisted?: BoolWithAggregatesFilter<"AgentListing"> | boolean
+    delistedAt?: DateTimeNullableWithAggregatesFilter<"AgentListing"> | Date | string | null
+    expiryWarning7dSentAt?: DateTimeNullableWithAggregatesFilter<"AgentListing"> | Date | string | null
+    expiryWarning2dSentAt?: DateTimeNullableWithAggregatesFilter<"AgentListing"> | Date | string | null
+    agreementStartDate?: DateTimeNullableWithAggregatesFilter<"AgentListing"> | Date | string | null
+    agreementExpiryDate?: DateTimeNullableWithAggregatesFilter<"AgentListing"> | Date | string | null
+    hotDealAlert30dSentAt?: DateTimeNullableWithAggregatesFilter<"AgentListing"> | Date | string | null
+    hotDealAlert15dSentAt?: DateTimeNullableWithAggregatesFilter<"AgentListing"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AgentListing"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AgentListing"> | Date | string
   }
@@ -57020,9 +60700,15 @@ export namespace Prisma {
     amount?: IntFilter<"PropertyUnlock"> | number
     agentSplit?: IntFilter<"PropertyUnlock"> | number
     companySplit?: IntFilter<"PropertyUnlock"> | number
+    assignedAgentId?: StringNullableFilter<"PropertyUnlock"> | string | null
+    switchedAgent?: BoolFilter<"PropertyUnlock"> | boolean
+    switchedAt?: DateTimeNullableFilter<"PropertyUnlock"> | Date | string | null
+    switchReason?: StringNullableFilter<"PropertyUnlock"> | string | null
+    expiresAt?: DateTimeNullableFilter<"PropertyUnlock"> | Date | string | null
     createdAt?: DateTimeFilter<"PropertyUnlock"> | Date | string
     agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    assignedAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
   }
 
   export type PropertyUnlockOrderByWithRelationInput = {
@@ -57032,9 +60718,15 @@ export namespace Prisma {
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
+    assignedAgentId?: SortOrderInput | SortOrder
+    switchedAgent?: SortOrder
+    switchedAt?: SortOrderInput | SortOrder
+    switchReason?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     agentListing?: AgentListingOrderByWithRelationInput
     buyer?: UserOrderByWithRelationInput
+    assignedAgent?: AgentProfileOrderByWithRelationInput
     _relevance?: PropertyUnlockOrderByRelevanceInput
   }
 
@@ -57049,9 +60741,15 @@ export namespace Prisma {
     amount?: IntFilter<"PropertyUnlock"> | number
     agentSplit?: IntFilter<"PropertyUnlock"> | number
     companySplit?: IntFilter<"PropertyUnlock"> | number
+    assignedAgentId?: StringNullableFilter<"PropertyUnlock"> | string | null
+    switchedAgent?: BoolFilter<"PropertyUnlock"> | boolean
+    switchedAt?: DateTimeNullableFilter<"PropertyUnlock"> | Date | string | null
+    switchReason?: StringNullableFilter<"PropertyUnlock"> | string | null
+    expiresAt?: DateTimeNullableFilter<"PropertyUnlock"> | Date | string | null
     createdAt?: DateTimeFilter<"PropertyUnlock"> | Date | string
     agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    assignedAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
   }, "id" | "agentListingId_buyerId">
 
   export type PropertyUnlockOrderByWithAggregationInput = {
@@ -57061,6 +60759,11 @@ export namespace Prisma {
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
+    assignedAgentId?: SortOrderInput | SortOrder
+    switchedAgent?: SortOrder
+    switchedAt?: SortOrderInput | SortOrder
+    switchReason?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: PropertyUnlockCountOrderByAggregateInput
     _avg?: PropertyUnlockAvgOrderByAggregateInput
@@ -57079,6 +60782,11 @@ export namespace Prisma {
     amount?: IntWithAggregatesFilter<"PropertyUnlock"> | number
     agentSplit?: IntWithAggregatesFilter<"PropertyUnlock"> | number
     companySplit?: IntWithAggregatesFilter<"PropertyUnlock"> | number
+    assignedAgentId?: StringNullableWithAggregatesFilter<"PropertyUnlock"> | string | null
+    switchedAgent?: BoolWithAggregatesFilter<"PropertyUnlock"> | boolean
+    switchedAt?: DateTimeNullableWithAggregatesFilter<"PropertyUnlock"> | Date | string | null
+    switchReason?: StringNullableWithAggregatesFilter<"PropertyUnlock"> | string | null
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"PropertyUnlock"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"PropertyUnlock"> | Date | string
   }
 
@@ -57164,14 +60872,27 @@ export namespace Prisma {
     NOT?: DealWhereInput | DealWhereInput[]
     id?: StringFilter<"Deal"> | string
     dealValue?: IntFilter<"Deal"> | number
+    status?: EnumDealStatusFilter<"Deal"> | $Enums.DealStatus
+    propertyTitle?: StringNullableFilter<"Deal"> | string | null
+    broadcastId?: StringNullableFilter<"Deal"> | string | null
     buyerAgentId?: StringNullableFilter<"Deal"> | string | null
     sellerAgentId?: StringNullableFilter<"Deal"> | string | null
+    totalCommission?: IntFilter<"Deal"> | number
+    platformPercent?: IntFilter<"Deal"> | number
+    platformCommission?: IntFilter<"Deal"> | number
     buyerCommission?: IntNullableFilter<"Deal"> | number | null
     sellerCommission?: IntNullableFilter<"Deal"> | number | null
+    tokenAmount?: IntNullableFilter<"Deal"> | number | null
+    tokenDate?: DateTimeNullableFilter<"Deal"> | Date | string | null
+    agreementDate?: DateTimeNullableFilter<"Deal"> | Date | string | null
+    registryDate?: DateTimeNullableFilter<"Deal"> | Date | string | null
+    commissionDistributed?: BoolFilter<"Deal"> | boolean
     paymentMode?: EnumPaymentModeFilter<"Deal"> | $Enums.PaymentMode
     note?: StringNullableFilter<"Deal"> | string | null
     dealDate?: DateTimeFilter<"Deal"> | Date | string
     createdAt?: DateTimeFilter<"Deal"> | Date | string
+    updatedAt?: DateTimeFilter<"Deal"> | Date | string
+    broadcast?: XOR<BroadcastNullableScalarRelationFilter, BroadcastWhereInput> | null
     buyerAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
     sellerAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
   }
@@ -57179,14 +60900,27 @@ export namespace Prisma {
   export type DealOrderByWithRelationInput = {
     id?: SortOrder
     dealValue?: SortOrder
+    status?: SortOrder
+    propertyTitle?: SortOrderInput | SortOrder
+    broadcastId?: SortOrderInput | SortOrder
     buyerAgentId?: SortOrderInput | SortOrder
     sellerAgentId?: SortOrderInput | SortOrder
+    totalCommission?: SortOrder
+    platformPercent?: SortOrder
+    platformCommission?: SortOrder
     buyerCommission?: SortOrderInput | SortOrder
     sellerCommission?: SortOrderInput | SortOrder
+    tokenAmount?: SortOrderInput | SortOrder
+    tokenDate?: SortOrderInput | SortOrder
+    agreementDate?: SortOrderInput | SortOrder
+    registryDate?: SortOrderInput | SortOrder
+    commissionDistributed?: SortOrder
     paymentMode?: SortOrder
     note?: SortOrderInput | SortOrder
     dealDate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
+    broadcast?: BroadcastOrderByWithRelationInput
     buyerAgent?: AgentProfileOrderByWithRelationInput
     sellerAgent?: AgentProfileOrderByWithRelationInput
     _relevance?: DealOrderByRelevanceInput
@@ -57198,14 +60932,27 @@ export namespace Prisma {
     OR?: DealWhereInput[]
     NOT?: DealWhereInput | DealWhereInput[]
     dealValue?: IntFilter<"Deal"> | number
+    status?: EnumDealStatusFilter<"Deal"> | $Enums.DealStatus
+    propertyTitle?: StringNullableFilter<"Deal"> | string | null
+    broadcastId?: StringNullableFilter<"Deal"> | string | null
     buyerAgentId?: StringNullableFilter<"Deal"> | string | null
     sellerAgentId?: StringNullableFilter<"Deal"> | string | null
+    totalCommission?: IntFilter<"Deal"> | number
+    platformPercent?: IntFilter<"Deal"> | number
+    platformCommission?: IntFilter<"Deal"> | number
     buyerCommission?: IntNullableFilter<"Deal"> | number | null
     sellerCommission?: IntNullableFilter<"Deal"> | number | null
+    tokenAmount?: IntNullableFilter<"Deal"> | number | null
+    tokenDate?: DateTimeNullableFilter<"Deal"> | Date | string | null
+    agreementDate?: DateTimeNullableFilter<"Deal"> | Date | string | null
+    registryDate?: DateTimeNullableFilter<"Deal"> | Date | string | null
+    commissionDistributed?: BoolFilter<"Deal"> | boolean
     paymentMode?: EnumPaymentModeFilter<"Deal"> | $Enums.PaymentMode
     note?: StringNullableFilter<"Deal"> | string | null
     dealDate?: DateTimeFilter<"Deal"> | Date | string
     createdAt?: DateTimeFilter<"Deal"> | Date | string
+    updatedAt?: DateTimeFilter<"Deal"> | Date | string
+    broadcast?: XOR<BroadcastNullableScalarRelationFilter, BroadcastWhereInput> | null
     buyerAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
     sellerAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
   }, "id">
@@ -57213,14 +60960,26 @@ export namespace Prisma {
   export type DealOrderByWithAggregationInput = {
     id?: SortOrder
     dealValue?: SortOrder
+    status?: SortOrder
+    propertyTitle?: SortOrderInput | SortOrder
+    broadcastId?: SortOrderInput | SortOrder
     buyerAgentId?: SortOrderInput | SortOrder
     sellerAgentId?: SortOrderInput | SortOrder
+    totalCommission?: SortOrder
+    platformPercent?: SortOrder
+    platformCommission?: SortOrder
     buyerCommission?: SortOrderInput | SortOrder
     sellerCommission?: SortOrderInput | SortOrder
+    tokenAmount?: SortOrderInput | SortOrder
+    tokenDate?: SortOrderInput | SortOrder
+    agreementDate?: SortOrderInput | SortOrder
+    registryDate?: SortOrderInput | SortOrder
+    commissionDistributed?: SortOrder
     paymentMode?: SortOrder
     note?: SortOrderInput | SortOrder
     dealDate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: DealCountOrderByAggregateInput
     _avg?: DealAvgOrderByAggregateInput
     _max?: DealMaxOrderByAggregateInput
@@ -57234,14 +60993,26 @@ export namespace Prisma {
     NOT?: DealScalarWhereWithAggregatesInput | DealScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Deal"> | string
     dealValue?: IntWithAggregatesFilter<"Deal"> | number
+    status?: EnumDealStatusWithAggregatesFilter<"Deal"> | $Enums.DealStatus
+    propertyTitle?: StringNullableWithAggregatesFilter<"Deal"> | string | null
+    broadcastId?: StringNullableWithAggregatesFilter<"Deal"> | string | null
     buyerAgentId?: StringNullableWithAggregatesFilter<"Deal"> | string | null
     sellerAgentId?: StringNullableWithAggregatesFilter<"Deal"> | string | null
+    totalCommission?: IntWithAggregatesFilter<"Deal"> | number
+    platformPercent?: IntWithAggregatesFilter<"Deal"> | number
+    platformCommission?: IntWithAggregatesFilter<"Deal"> | number
     buyerCommission?: IntNullableWithAggregatesFilter<"Deal"> | number | null
     sellerCommission?: IntNullableWithAggregatesFilter<"Deal"> | number | null
+    tokenAmount?: IntNullableWithAggregatesFilter<"Deal"> | number | null
+    tokenDate?: DateTimeNullableWithAggregatesFilter<"Deal"> | Date | string | null
+    agreementDate?: DateTimeNullableWithAggregatesFilter<"Deal"> | Date | string | null
+    registryDate?: DateTimeNullableWithAggregatesFilter<"Deal"> | Date | string | null
+    commissionDistributed?: BoolWithAggregatesFilter<"Deal"> | boolean
     paymentMode?: EnumPaymentModeWithAggregatesFilter<"Deal"> | $Enums.PaymentMode
     note?: StringNullableWithAggregatesFilter<"Deal"> | string | null
     dealDate?: DateTimeWithAggregatesFilter<"Deal"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Deal"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Deal"> | Date | string
   }
 
   export type ProfitDistributionWhereInput = {
@@ -57691,6 +61462,7 @@ export namespace Prisma {
     agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
     responses?: BroadcastResponseListRelationFilter
     messages?: AgentChatMessageListRelationFilter
+    deals?: DealListRelationFilter
   }
 
   export type BroadcastOrderByWithRelationInput = {
@@ -57709,6 +61481,7 @@ export namespace Prisma {
     agent?: AgentProfileOrderByWithRelationInput
     responses?: BroadcastResponseOrderByRelationAggregateInput
     messages?: AgentChatMessageOrderByRelationAggregateInput
+    deals?: DealOrderByRelationAggregateInput
     _relevance?: BroadcastOrderByRelevanceInput
   }
 
@@ -57731,6 +61504,7 @@ export namespace Prisma {
     agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
     responses?: BroadcastResponseListRelationFilter
     messages?: AgentChatMessageListRelationFilter
+    deals?: DealListRelationFilter
   }, "id">
 
   export type BroadcastOrderByWithAggregationInput = {
@@ -58483,6 +62257,234 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"VisitAppointment"> | Date | string
   }
 
+  export type DirectPropertyVisitWhereInput = {
+    AND?: DirectPropertyVisitWhereInput | DirectPropertyVisitWhereInput[]
+    OR?: DirectPropertyVisitWhereInput[]
+    NOT?: DirectPropertyVisitWhereInput | DirectPropertyVisitWhereInput[]
+    id?: StringFilter<"DirectPropertyVisit"> | string
+    agentListingId?: StringFilter<"DirectPropertyVisit"> | string
+    buyerId?: StringFilter<"DirectPropertyVisit"> | string
+    ownerPhone?: StringNullableFilter<"DirectPropertyVisit"> | string | null
+    otp?: StringNullableFilter<"DirectPropertyVisit"> | string | null
+    otpVerified?: BoolFilter<"DirectPropertyVisit"> | boolean
+    otpVerifiedAt?: DateTimeNullableFilter<"DirectPropertyVisit"> | Date | string | null
+    latitude?: FloatNullableFilter<"DirectPropertyVisit"> | number | null
+    longitude?: FloatNullableFilter<"DirectPropertyVisit"> | number | null
+    locationAccuracy?: FloatNullableFilter<"DirectPropertyVisit"> | number | null
+    notes?: StringNullableFilter<"DirectPropertyVisit"> | string | null
+    createdAt?: DateTimeFilter<"DirectPropertyVisit"> | Date | string
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
+  }
+
+  export type DirectPropertyVisitOrderByWithRelationInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    ownerPhone?: SortOrderInput | SortOrder
+    otp?: SortOrderInput | SortOrder
+    otpVerified?: SortOrder
+    otpVerifiedAt?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    locationAccuracy?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    agentListing?: AgentListingOrderByWithRelationInput
+    buyer?: UserOrderByWithRelationInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementOrderByRelationAggregateInput
+    _relevance?: DirectPropertyVisitOrderByRelevanceInput
+  }
+
+  export type DirectPropertyVisitWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DirectPropertyVisitWhereInput | DirectPropertyVisitWhereInput[]
+    OR?: DirectPropertyVisitWhereInput[]
+    NOT?: DirectPropertyVisitWhereInput | DirectPropertyVisitWhereInput[]
+    agentListingId?: StringFilter<"DirectPropertyVisit"> | string
+    buyerId?: StringFilter<"DirectPropertyVisit"> | string
+    ownerPhone?: StringNullableFilter<"DirectPropertyVisit"> | string | null
+    otp?: StringNullableFilter<"DirectPropertyVisit"> | string | null
+    otpVerified?: BoolFilter<"DirectPropertyVisit"> | boolean
+    otpVerifiedAt?: DateTimeNullableFilter<"DirectPropertyVisit"> | Date | string | null
+    latitude?: FloatNullableFilter<"DirectPropertyVisit"> | number | null
+    longitude?: FloatNullableFilter<"DirectPropertyVisit"> | number | null
+    locationAccuracy?: FloatNullableFilter<"DirectPropertyVisit"> | number | null
+    notes?: StringNullableFilter<"DirectPropertyVisit"> | string | null
+    createdAt?: DateTimeFilter<"DirectPropertyVisit"> | Date | string
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
+  }, "id">
+
+  export type DirectPropertyVisitOrderByWithAggregationInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    ownerPhone?: SortOrderInput | SortOrder
+    otp?: SortOrderInput | SortOrder
+    otpVerified?: SortOrder
+    otpVerifiedAt?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    locationAccuracy?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: DirectPropertyVisitCountOrderByAggregateInput
+    _avg?: DirectPropertyVisitAvgOrderByAggregateInput
+    _max?: DirectPropertyVisitMaxOrderByAggregateInput
+    _min?: DirectPropertyVisitMinOrderByAggregateInput
+    _sum?: DirectPropertyVisitSumOrderByAggregateInput
+  }
+
+  export type DirectPropertyVisitScalarWhereWithAggregatesInput = {
+    AND?: DirectPropertyVisitScalarWhereWithAggregatesInput | DirectPropertyVisitScalarWhereWithAggregatesInput[]
+    OR?: DirectPropertyVisitScalarWhereWithAggregatesInput[]
+    NOT?: DirectPropertyVisitScalarWhereWithAggregatesInput | DirectPropertyVisitScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DirectPropertyVisit"> | string
+    agentListingId?: StringWithAggregatesFilter<"DirectPropertyVisit"> | string
+    buyerId?: StringWithAggregatesFilter<"DirectPropertyVisit"> | string
+    ownerPhone?: StringNullableWithAggregatesFilter<"DirectPropertyVisit"> | string | null
+    otp?: StringNullableWithAggregatesFilter<"DirectPropertyVisit"> | string | null
+    otpVerified?: BoolWithAggregatesFilter<"DirectPropertyVisit"> | boolean
+    otpVerifiedAt?: DateTimeNullableWithAggregatesFilter<"DirectPropertyVisit"> | Date | string | null
+    latitude?: FloatNullableWithAggregatesFilter<"DirectPropertyVisit"> | number | null
+    longitude?: FloatNullableWithAggregatesFilter<"DirectPropertyVisit"> | number | null
+    locationAccuracy?: FloatNullableWithAggregatesFilter<"DirectPropertyVisit"> | number | null
+    notes?: StringNullableWithAggregatesFilter<"DirectPropertyVisit"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"DirectPropertyVisit"> | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementWhereInput = {
+    AND?: PlatformAntiBypassAgreementWhereInput | PlatformAntiBypassAgreementWhereInput[]
+    OR?: PlatformAntiBypassAgreementWhereInput[]
+    NOT?: PlatformAntiBypassAgreementWhereInput | PlatformAntiBypassAgreementWhereInput[]
+    id?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    directVisitId?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    agentListingId?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    buyerId?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    sellerPhone?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    sellerName?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    buyerName?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    buyerPhone?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    propertyAddress?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    legalTermsSummary?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    serviceFeePercent?: FloatFilter<"PlatformAntiBypassAgreement"> | number
+    buyerSigned?: BoolFilter<"PlatformAntiBypassAgreement"> | boolean
+    buyerSignedAt?: DateTimeNullableFilter<"PlatformAntiBypassAgreement"> | Date | string | null
+    sellerSigned?: BoolFilter<"PlatformAntiBypassAgreement"> | boolean
+    sellerSignedAt?: DateTimeNullableFilter<"PlatformAntiBypassAgreement"> | Date | string | null
+    status?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    createdAt?: DateTimeFilter<"PlatformAntiBypassAgreement"> | Date | string
+    updatedAt?: DateTimeFilter<"PlatformAntiBypassAgreement"> | Date | string
+    directVisit?: XOR<DirectPropertyVisitNullableScalarRelationFilter, DirectPropertyVisitWhereInput> | null
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PlatformAntiBypassAgreementOrderByWithRelationInput = {
+    id?: SortOrder
+    directVisitId?: SortOrderInput | SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    sellerPhone?: SortOrder
+    sellerName?: SortOrderInput | SortOrder
+    buyerName?: SortOrderInput | SortOrder
+    buyerPhone?: SortOrderInput | SortOrder
+    propertyAddress?: SortOrder
+    legalTermsSummary?: SortOrder
+    serviceFeePercent?: SortOrder
+    buyerSigned?: SortOrder
+    buyerSignedAt?: SortOrderInput | SortOrder
+    sellerSigned?: SortOrder
+    sellerSignedAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    directVisit?: DirectPropertyVisitOrderByWithRelationInput
+    agentListing?: AgentListingOrderByWithRelationInput
+    buyer?: UserOrderByWithRelationInput
+    _relevance?: PlatformAntiBypassAgreementOrderByRelevanceInput
+  }
+
+  export type PlatformAntiBypassAgreementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PlatformAntiBypassAgreementWhereInput | PlatformAntiBypassAgreementWhereInput[]
+    OR?: PlatformAntiBypassAgreementWhereInput[]
+    NOT?: PlatformAntiBypassAgreementWhereInput | PlatformAntiBypassAgreementWhereInput[]
+    directVisitId?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    agentListingId?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    buyerId?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    sellerPhone?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    sellerName?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    buyerName?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    buyerPhone?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    propertyAddress?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    legalTermsSummary?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    serviceFeePercent?: FloatFilter<"PlatformAntiBypassAgreement"> | number
+    buyerSigned?: BoolFilter<"PlatformAntiBypassAgreement"> | boolean
+    buyerSignedAt?: DateTimeNullableFilter<"PlatformAntiBypassAgreement"> | Date | string | null
+    sellerSigned?: BoolFilter<"PlatformAntiBypassAgreement"> | boolean
+    sellerSignedAt?: DateTimeNullableFilter<"PlatformAntiBypassAgreement"> | Date | string | null
+    status?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    createdAt?: DateTimeFilter<"PlatformAntiBypassAgreement"> | Date | string
+    updatedAt?: DateTimeFilter<"PlatformAntiBypassAgreement"> | Date | string
+    directVisit?: XOR<DirectPropertyVisitNullableScalarRelationFilter, DirectPropertyVisitWhereInput> | null
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type PlatformAntiBypassAgreementOrderByWithAggregationInput = {
+    id?: SortOrder
+    directVisitId?: SortOrderInput | SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    sellerPhone?: SortOrder
+    sellerName?: SortOrderInput | SortOrder
+    buyerName?: SortOrderInput | SortOrder
+    buyerPhone?: SortOrderInput | SortOrder
+    propertyAddress?: SortOrder
+    legalTermsSummary?: SortOrder
+    serviceFeePercent?: SortOrder
+    buyerSigned?: SortOrder
+    buyerSignedAt?: SortOrderInput | SortOrder
+    sellerSigned?: SortOrder
+    sellerSignedAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PlatformAntiBypassAgreementCountOrderByAggregateInput
+    _avg?: PlatformAntiBypassAgreementAvgOrderByAggregateInput
+    _max?: PlatformAntiBypassAgreementMaxOrderByAggregateInput
+    _min?: PlatformAntiBypassAgreementMinOrderByAggregateInput
+    _sum?: PlatformAntiBypassAgreementSumOrderByAggregateInput
+  }
+
+  export type PlatformAntiBypassAgreementScalarWhereWithAggregatesInput = {
+    AND?: PlatformAntiBypassAgreementScalarWhereWithAggregatesInput | PlatformAntiBypassAgreementScalarWhereWithAggregatesInput[]
+    OR?: PlatformAntiBypassAgreementScalarWhereWithAggregatesInput[]
+    NOT?: PlatformAntiBypassAgreementScalarWhereWithAggregatesInput | PlatformAntiBypassAgreementScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string
+    directVisitId?: StringNullableWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string | null
+    agentListingId?: StringWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string
+    buyerId?: StringWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string
+    sellerPhone?: StringWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string
+    sellerName?: StringNullableWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string | null
+    buyerName?: StringNullableWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string | null
+    buyerPhone?: StringNullableWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string | null
+    propertyAddress?: StringWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string
+    legalTermsSummary?: StringWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string
+    serviceFeePercent?: FloatWithAggregatesFilter<"PlatformAntiBypassAgreement"> | number
+    buyerSigned?: BoolWithAggregatesFilter<"PlatformAntiBypassAgreement"> | boolean
+    buyerSignedAt?: DateTimeNullableWithAggregatesFilter<"PlatformAntiBypassAgreement"> | Date | string | null
+    sellerSigned?: BoolWithAggregatesFilter<"PlatformAntiBypassAgreement"> | boolean
+    sellerSignedAt?: DateTimeNullableWithAggregatesFilter<"PlatformAntiBypassAgreement"> | Date | string | null
+    status?: StringWithAggregatesFilter<"PlatformAntiBypassAgreement"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PlatformAntiBypassAgreement"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PlatformAntiBypassAgreement"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -58512,6 +62514,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -58543,6 +62547,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUpdateInput = {
@@ -58574,6 +62580,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -58605,6 +62613,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -60146,6 +64156,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: number
     goldListingAmount?: number
     goldAgentSplitPercent?: number
+    agentBasicPlanPrice?: number
+    agentPrimePlanPrice?: number
+    agentPlanSplitPercent?: number
+    basicListingFee?: number
+    goldListingFee?: number
+    listingSplitPercent?: number
     updatedAt?: Date | string
   }
 
@@ -60186,6 +64202,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: number
     goldListingAmount?: number
     goldAgentSplitPercent?: number
+    agentBasicPlanPrice?: number
+    agentPrimePlanPrice?: number
+    agentPlanSplitPercent?: number
+    basicListingFee?: number
+    goldListingFee?: number
+    listingSplitPercent?: number
     updatedAt?: Date | string
   }
 
@@ -60226,6 +64248,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: IntFieldUpdateOperationsInput | number
     goldListingAmount?: IntFieldUpdateOperationsInput | number
     goldAgentSplitPercent?: IntFieldUpdateOperationsInput | number
+    agentBasicPlanPrice?: IntFieldUpdateOperationsInput | number
+    agentPrimePlanPrice?: IntFieldUpdateOperationsInput | number
+    agentPlanSplitPercent?: IntFieldUpdateOperationsInput | number
+    basicListingFee?: IntFieldUpdateOperationsInput | number
+    goldListingFee?: IntFieldUpdateOperationsInput | number
+    listingSplitPercent?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -60266,6 +64294,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: IntFieldUpdateOperationsInput | number
     goldListingAmount?: IntFieldUpdateOperationsInput | number
     goldAgentSplitPercent?: IntFieldUpdateOperationsInput | number
+    agentBasicPlanPrice?: IntFieldUpdateOperationsInput | number
+    agentPrimePlanPrice?: IntFieldUpdateOperationsInput | number
+    agentPlanSplitPercent?: IntFieldUpdateOperationsInput | number
+    basicListingFee?: IntFieldUpdateOperationsInput | number
+    goldListingFee?: IntFieldUpdateOperationsInput | number
+    listingSplitPercent?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -60306,6 +64340,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: number
     goldListingAmount?: number
     goldAgentSplitPercent?: number
+    agentBasicPlanPrice?: number
+    agentPrimePlanPrice?: number
+    agentPlanSplitPercent?: number
+    basicListingFee?: number
+    goldListingFee?: number
+    listingSplitPercent?: number
     updatedAt?: Date | string
   }
 
@@ -60346,6 +64386,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: IntFieldUpdateOperationsInput | number
     goldListingAmount?: IntFieldUpdateOperationsInput | number
     goldAgentSplitPercent?: IntFieldUpdateOperationsInput | number
+    agentBasicPlanPrice?: IntFieldUpdateOperationsInput | number
+    agentPrimePlanPrice?: IntFieldUpdateOperationsInput | number
+    agentPlanSplitPercent?: IntFieldUpdateOperationsInput | number
+    basicListingFee?: IntFieldUpdateOperationsInput | number
+    goldListingFee?: IntFieldUpdateOperationsInput | number
+    listingSplitPercent?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -60386,6 +64432,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: IntFieldUpdateOperationsInput | number
     goldListingAmount?: IntFieldUpdateOperationsInput | number
     goldAgentSplitPercent?: IntFieldUpdateOperationsInput | number
+    agentBasicPlanPrice?: IntFieldUpdateOperationsInput | number
+    agentPrimePlanPrice?: IntFieldUpdateOperationsInput | number
+    agentPlanSplitPercent?: IntFieldUpdateOperationsInput | number
+    basicListingFee?: IntFieldUpdateOperationsInput | number
+    goldListingFee?: IntFieldUpdateOperationsInput | number
+    listingSplitPercent?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -60404,11 +64456,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -60435,6 +64501,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateInput = {
@@ -60453,11 +64520,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60483,6 +64564,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUpdateInput = {
@@ -60500,11 +64582,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -60531,6 +64627,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateInput = {
@@ -60549,11 +64646,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60579,6 +64690,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateManyInput = {
@@ -60597,11 +64709,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60622,11 +64748,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -60647,11 +64787,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -61044,6 +65198,19 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
@@ -61051,6 +65218,8 @@ export namespace Prisma {
     images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
     unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateInput = {
@@ -61072,11 +65241,26 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
     unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUpdateInput = {
@@ -61096,6 +65280,19 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
@@ -61103,6 +65300,8 @@ export namespace Prisma {
     images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
     unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateInput = {
@@ -61124,11 +65323,26 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
     unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingCreateManyInput = {
@@ -61150,6 +65364,19 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -61171,6 +65398,19 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -61194,6 +65434,19 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -61251,9 +65504,14 @@ export namespace Prisma {
     amount?: number
     agentSplit?: number
     companySplit?: number
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
     createdAt?: Date | string
     agentListing: AgentListingCreateNestedOneWithoutUnlocksInput
     buyer: UserCreateNestedOneWithoutPropertyUnlocksInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedUnlocksInput
   }
 
   export type PropertyUnlockUncheckedCreateInput = {
@@ -61263,6 +65521,11 @@ export namespace Prisma {
     amount?: number
     agentSplit?: number
     companySplit?: number
+    assignedAgentId?: string | null
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -61271,9 +65534,14 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agentListing?: AgentListingUpdateOneRequiredWithoutUnlocksNestedInput
     buyer?: UserUpdateOneRequiredWithoutPropertyUnlocksNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedUnlocksNestedInput
   }
 
   export type PropertyUnlockUncheckedUpdateInput = {
@@ -61283,6 +65551,11 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -61293,6 +65566,11 @@ export namespace Prisma {
     amount?: number
     agentSplit?: number
     companySplit?: number
+    assignedAgentId?: string | null
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -61301,6 +65579,10 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -61311,6 +65593,11 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -61392,12 +65679,24 @@ export namespace Prisma {
   export type DealCreateInput = {
     id?: string
     dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
     buyerCommission?: number | null
     sellerCommission?: number | null
-    paymentMode: $Enums.PaymentMode
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
     note?: string | null
     dealDate?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
+    broadcast?: BroadcastCreateNestedOneWithoutDealsInput
     buyerAgent?: AgentProfileCreateNestedOneWithoutDealsAsBuyerAgentInput
     sellerAgent?: AgentProfileCreateNestedOneWithoutDealsAsSellerAgentInput
   }
@@ -61405,25 +65704,49 @@ export namespace Prisma {
   export type DealUncheckedCreateInput = {
     id?: string
     dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    broadcastId?: string | null
     buyerAgentId?: string | null
     sellerAgentId?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
     buyerCommission?: number | null
     sellerCommission?: number | null
-    paymentMode: $Enums.PaymentMode
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
     note?: string | null
     dealDate?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DealUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    broadcast?: BroadcastUpdateOneWithoutDealsNestedInput
     buyerAgent?: AgentProfileUpdateOneWithoutDealsAsBuyerAgentNestedInput
     sellerAgent?: AgentProfileUpdateOneWithoutDealsAsSellerAgentNestedInput
   }
@@ -61431,51 +65754,98 @@ export namespace Prisma {
   export type DealUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    broadcastId?: NullableStringFieldUpdateOperationsInput | string | null
     buyerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DealCreateManyInput = {
     id?: string
     dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    broadcastId?: string | null
     buyerAgentId?: string | null
     sellerAgentId?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
     buyerCommission?: number | null
     sellerCommission?: number | null
-    paymentMode: $Enums.PaymentMode
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
     note?: string | null
     dealDate?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DealUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DealUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    broadcastId?: NullableStringFieldUpdateOperationsInput | string | null
     buyerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProfitDistributionCreateInput = {
@@ -61944,6 +66314,7 @@ export namespace Prisma {
     agent: AgentProfileCreateNestedOneWithoutBroadcastsPostedInput
     responses?: BroadcastResponseCreateNestedManyWithoutBroadcastInput
     messages?: AgentChatMessageCreateNestedManyWithoutBroadcastInput
+    deals?: DealCreateNestedManyWithoutBroadcastInput
   }
 
   export type BroadcastUncheckedCreateInput = {
@@ -61961,6 +66332,7 @@ export namespace Prisma {
     createdAt?: Date | string
     responses?: BroadcastResponseUncheckedCreateNestedManyWithoutBroadcastInput
     messages?: AgentChatMessageUncheckedCreateNestedManyWithoutBroadcastInput
+    deals?: DealUncheckedCreateNestedManyWithoutBroadcastInput
   }
 
   export type BroadcastUpdateInput = {
@@ -61978,6 +66350,7 @@ export namespace Prisma {
     agent?: AgentProfileUpdateOneRequiredWithoutBroadcastsPostedNestedInput
     responses?: BroadcastResponseUpdateManyWithoutBroadcastNestedInput
     messages?: AgentChatMessageUpdateManyWithoutBroadcastNestedInput
+    deals?: DealUpdateManyWithoutBroadcastNestedInput
   }
 
   export type BroadcastUncheckedUpdateInput = {
@@ -61995,6 +66368,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     responses?: BroadcastResponseUncheckedUpdateManyWithoutBroadcastNestedInput
     messages?: AgentChatMessageUncheckedUpdateManyWithoutBroadcastNestedInput
+    deals?: DealUncheckedUpdateManyWithoutBroadcastNestedInput
   }
 
   export type BroadcastCreateManyInput = {
@@ -62759,6 +67133,257 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DirectPropertyVisitCreateInput = {
+    id?: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    agentListing: AgentListingCreateNestedOneWithoutDirectVisitsInput
+    buyer: UserCreateNestedOneWithoutDirectVisitsInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutDirectVisitInput
+  }
+
+  export type DirectPropertyVisitUncheckedCreateInput = {
+    id?: string
+    agentListingId: string
+    buyerId: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutDirectVisitInput
+  }
+
+  export type DirectPropertyVisitUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentListing?: AgentListingUpdateOneRequiredWithoutDirectVisitsNestedInput
+    buyer?: UserUpdateOneRequiredWithoutDirectVisitsNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutDirectVisitNestedInput
+  }
+
+  export type DirectPropertyVisitUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutDirectVisitNestedInput
+  }
+
+  export type DirectPropertyVisitCreateManyInput = {
+    id?: string
+    agentListingId: string
+    buyerId: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+  }
+
+  export type DirectPropertyVisitUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DirectPropertyVisitUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementCreateInput = {
+    id?: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    directVisit?: DirectPropertyVisitCreateNestedOneWithoutAntiBypassAgreementsInput
+    agentListing: AgentListingCreateNestedOneWithoutAntiBypassAgreementsInput
+    buyer: UserCreateNestedOneWithoutAntiBypassAgreementsInput
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedCreateInput = {
+    id?: string
+    directVisitId?: string | null
+    agentListingId: string
+    buyerId: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    directVisit?: DirectPropertyVisitUpdateOneWithoutAntiBypassAgreementsNestedInput
+    agentListing?: AgentListingUpdateOneRequiredWithoutAntiBypassAgreementsNestedInput
+    buyer?: UserUpdateOneRequiredWithoutAntiBypassAgreementsNestedInput
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    directVisitId?: NullableStringFieldUpdateOperationsInput | string | null
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementCreateManyInput = {
+    id?: string
+    directVisitId?: string | null
+    agentListingId: string
+    buyerId: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    directVisitId?: NullableStringFieldUpdateOperationsInput | string | null
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -62876,6 +67501,18 @@ export namespace Prisma {
     none?: VisitAppointmentWhereInput
   }
 
+  export type DirectPropertyVisitListRelationFilter = {
+    every?: DirectPropertyVisitWhereInput
+    some?: DirectPropertyVisitWhereInput
+    none?: DirectPropertyVisitWhereInput
+  }
+
+  export type PlatformAntiBypassAgreementListRelationFilter = {
+    every?: PlatformAntiBypassAgreementWhereInput
+    some?: PlatformAntiBypassAgreementWhereInput
+    none?: PlatformAntiBypassAgreementWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -62914,6 +67551,14 @@ export namespace Prisma {
   }
 
   export type VisitAppointmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DirectPropertyVisitOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PlatformAntiBypassAgreementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -64302,6 +68947,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: SortOrder
     goldListingAmount?: SortOrder
     goldAgentSplitPercent?: SortOrder
+    agentBasicPlanPrice?: SortOrder
+    agentPrimePlanPrice?: SortOrder
+    agentPlanSplitPercent?: SortOrder
+    basicListingFee?: SortOrder
+    goldListingFee?: SortOrder
+    listingSplitPercent?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -64318,6 +68969,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: SortOrder
     goldListingAmount?: SortOrder
     goldAgentSplitPercent?: SortOrder
+    agentBasicPlanPrice?: SortOrder
+    agentPrimePlanPrice?: SortOrder
+    agentPlanSplitPercent?: SortOrder
+    basicListingFee?: SortOrder
+    goldListingFee?: SortOrder
+    listingSplitPercent?: SortOrder
   }
 
   export type SiteSettingsMaxOrderByAggregateInput = {
@@ -64357,6 +69014,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: SortOrder
     goldListingAmount?: SortOrder
     goldAgentSplitPercent?: SortOrder
+    agentBasicPlanPrice?: SortOrder
+    agentPrimePlanPrice?: SortOrder
+    agentPlanSplitPercent?: SortOrder
+    basicListingFee?: SortOrder
+    goldListingFee?: SortOrder
+    listingSplitPercent?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -64397,6 +69060,12 @@ export namespace Prisma {
     unlockAgentSplitPercent?: SortOrder
     goldListingAmount?: SortOrder
     goldAgentSplitPercent?: SortOrder
+    agentBasicPlanPrice?: SortOrder
+    agentPrimePlanPrice?: SortOrder
+    agentPlanSplitPercent?: SortOrder
+    basicListingFee?: SortOrder
+    goldListingFee?: SortOrder
+    listingSplitPercent?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -64413,6 +69082,19 @@ export namespace Prisma {
     unlockAgentSplitPercent?: SortOrder
     goldListingAmount?: SortOrder
     goldAgentSplitPercent?: SortOrder
+    agentBasicPlanPrice?: SortOrder
+    agentPrimePlanPrice?: SortOrder
+    agentPlanSplitPercent?: SortOrder
+    basicListingFee?: SortOrder
+    goldListingFee?: SortOrder
+    listingSplitPercent?: SortOrder
+  }
+
+  export type EnumAgentPlanTierFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentPlanTier | EnumAgentPlanTierFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentPlanTier[]
+    notIn?: $Enums.AgentPlanTier[]
+    not?: NestedEnumAgentPlanTierFilter<$PrismaModel> | $Enums.AgentPlanTier
   }
 
   export type AgentProfileListRelationFilter = {
@@ -64617,11 +69299,25 @@ export namespace Prisma {
     gstNumber?: SortOrder
     status?: SortOrder
     rejectionReason?: SortOrder
+    planTier?: SortOrder
     primeStatus?: SortOrder
+    visibilityDeprioritized?: SortOrder
+    autoPayMandate?: SortOrder
+    autoPayActive?: SortOrder
+    renewalAlertSentAt?: SortOrder
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrder
     verifiedAt?: SortOrder
+    cycleStartDate?: SortOrder
+    cycleEndDate?: SortOrder
+    cycleListingsTarget?: SortOrder
+    cycleDealsTarget?: SortOrder
+    cycleVisitsTarget?: SortOrder
+    carryForwardScore?: SortOrder
+    cycleCompletedCount?: SortOrder
+    activeDiscountCoupon?: SortOrder
+    couponExpiresAt?: SortOrder
     referringAgentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -64635,6 +69331,11 @@ export namespace Prisma {
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrder
+    cycleListingsTarget?: SortOrder
+    cycleDealsTarget?: SortOrder
+    cycleVisitsTarget?: SortOrder
+    carryForwardScore?: SortOrder
+    cycleCompletedCount?: SortOrder
   }
 
   export type AgentProfileMaxOrderByAggregateInput = {
@@ -64653,11 +69354,25 @@ export namespace Prisma {
     gstNumber?: SortOrder
     status?: SortOrder
     rejectionReason?: SortOrder
+    planTier?: SortOrder
     primeStatus?: SortOrder
+    visibilityDeprioritized?: SortOrder
+    autoPayMandate?: SortOrder
+    autoPayActive?: SortOrder
+    renewalAlertSentAt?: SortOrder
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrder
     verifiedAt?: SortOrder
+    cycleStartDate?: SortOrder
+    cycleEndDate?: SortOrder
+    cycleListingsTarget?: SortOrder
+    cycleDealsTarget?: SortOrder
+    cycleVisitsTarget?: SortOrder
+    carryForwardScore?: SortOrder
+    cycleCompletedCount?: SortOrder
+    activeDiscountCoupon?: SortOrder
+    couponExpiresAt?: SortOrder
     referringAgentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -64679,11 +69394,25 @@ export namespace Prisma {
     gstNumber?: SortOrder
     status?: SortOrder
     rejectionReason?: SortOrder
+    planTier?: SortOrder
     primeStatus?: SortOrder
+    visibilityDeprioritized?: SortOrder
+    autoPayMandate?: SortOrder
+    autoPayActive?: SortOrder
+    renewalAlertSentAt?: SortOrder
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrder
     verifiedAt?: SortOrder
+    cycleStartDate?: SortOrder
+    cycleEndDate?: SortOrder
+    cycleListingsTarget?: SortOrder
+    cycleDealsTarget?: SortOrder
+    cycleVisitsTarget?: SortOrder
+    carryForwardScore?: SortOrder
+    cycleCompletedCount?: SortOrder
+    activeDiscountCoupon?: SortOrder
+    couponExpiresAt?: SortOrder
     referringAgentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -64697,6 +69426,21 @@ export namespace Prisma {
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrder
+    cycleListingsTarget?: SortOrder
+    cycleDealsTarget?: SortOrder
+    cycleVisitsTarget?: SortOrder
+    carryForwardScore?: SortOrder
+    cycleCompletedCount?: SortOrder
+  }
+
+  export type EnumAgentPlanTierWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentPlanTier | EnumAgentPlanTierFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentPlanTier[]
+    notIn?: $Enums.AgentPlanTier[]
+    not?: NestedEnumAgentPlanTierWithAggregatesFilter<$PrismaModel> | $Enums.AgentPlanTier
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAgentPlanTierFilter<$PrismaModel>
+    _max?: NestedEnumAgentPlanTierFilter<$PrismaModel>
   }
 
   export type AgentProfileScalarRelationFilter = {
@@ -65036,6 +69780,13 @@ export namespace Prisma {
     not?: NestedEnumListingSourceFilter<$PrismaModel> | $Enums.ListingSource
   }
 
+  export type EnumListingPlanTierFilter<$PrismaModel = never> = {
+    equals?: $Enums.ListingPlanTier | EnumListingPlanTierFieldRefInput<$PrismaModel>
+    in?: $Enums.ListingPlanTier[]
+    notIn?: $Enums.ListingPlanTier[]
+    not?: NestedEnumListingPlanTierFilter<$PrismaModel> | $Enums.ListingPlanTier
+  }
+
   export type MasterPropertyScalarRelationFilter = {
     is?: MasterPropertyWhereInput
     isNot?: MasterPropertyWhereInput
@@ -65081,6 +69832,19 @@ export namespace Prisma {
     amenities?: SortOrder
     nearbyAmenities?: SortOrder
     videoUrl?: SortOrder
+    listingPlan?: SortOrder
+    listingFee?: SortOrder
+    listingAgentSplit?: SortOrder
+    listingCompanySplit?: SortOrder
+    listingExpiresAt?: SortOrder
+    isDelisted?: SortOrder
+    delistedAt?: SortOrder
+    expiryWarning7dSentAt?: SortOrder
+    expiryWarning2dSentAt?: SortOrder
+    agreementStartDate?: SortOrder
+    agreementExpiryDate?: SortOrder
+    hotDealAlert30dSentAt?: SortOrder
+    hotDealAlert15dSentAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65090,6 +69854,9 @@ export namespace Prisma {
     bathrooms?: SortOrder
     areaSqft?: SortOrder
     price?: SortOrder
+    listingFee?: SortOrder
+    listingAgentSplit?: SortOrder
+    listingCompanySplit?: SortOrder
   }
 
   export type AgentListingMaxOrderByAggregateInput = {
@@ -65111,6 +69878,19 @@ export namespace Prisma {
     amenities?: SortOrder
     nearbyAmenities?: SortOrder
     videoUrl?: SortOrder
+    listingPlan?: SortOrder
+    listingFee?: SortOrder
+    listingAgentSplit?: SortOrder
+    listingCompanySplit?: SortOrder
+    listingExpiresAt?: SortOrder
+    isDelisted?: SortOrder
+    delistedAt?: SortOrder
+    expiryWarning7dSentAt?: SortOrder
+    expiryWarning2dSentAt?: SortOrder
+    agreementStartDate?: SortOrder
+    agreementExpiryDate?: SortOrder
+    hotDealAlert30dSentAt?: SortOrder
+    hotDealAlert15dSentAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65134,6 +69914,19 @@ export namespace Prisma {
     amenities?: SortOrder
     nearbyAmenities?: SortOrder
     videoUrl?: SortOrder
+    listingPlan?: SortOrder
+    listingFee?: SortOrder
+    listingAgentSplit?: SortOrder
+    listingCompanySplit?: SortOrder
+    listingExpiresAt?: SortOrder
+    isDelisted?: SortOrder
+    delistedAt?: SortOrder
+    expiryWarning7dSentAt?: SortOrder
+    expiryWarning2dSentAt?: SortOrder
+    agreementStartDate?: SortOrder
+    agreementExpiryDate?: SortOrder
+    hotDealAlert30dSentAt?: SortOrder
+    hotDealAlert15dSentAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65143,6 +69936,9 @@ export namespace Prisma {
     bathrooms?: SortOrder
     areaSqft?: SortOrder
     price?: SortOrder
+    listingFee?: SortOrder
+    listingAgentSplit?: SortOrder
+    listingCompanySplit?: SortOrder
   }
 
   export type EnumListingSourceWithAggregatesFilter<$PrismaModel = never> = {
@@ -65153,6 +69949,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumListingSourceFilter<$PrismaModel>
     _max?: NestedEnumListingSourceFilter<$PrismaModel>
+  }
+
+  export type EnumListingPlanTierWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ListingPlanTier | EnumListingPlanTierFieldRefInput<$PrismaModel>
+    in?: $Enums.ListingPlanTier[]
+    notIn?: $Enums.ListingPlanTier[]
+    not?: NestedEnumListingPlanTierWithAggregatesFilter<$PrismaModel> | $Enums.ListingPlanTier
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumListingPlanTierFilter<$PrismaModel>
+    _max?: NestedEnumListingPlanTierFilter<$PrismaModel>
   }
 
   export type AgentListingScalarRelationFilter = {
@@ -65213,6 +70019,11 @@ export namespace Prisma {
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
+    assignedAgentId?: SortOrder
+    switchedAgent?: SortOrder
+    switchedAt?: SortOrder
+    switchReason?: SortOrder
+    expiresAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -65229,6 +70040,11 @@ export namespace Prisma {
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
+    assignedAgentId?: SortOrder
+    switchedAgent?: SortOrder
+    switchedAt?: SortOrder
+    switchReason?: SortOrder
+    expiresAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -65239,6 +70055,11 @@ export namespace Prisma {
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
+    assignedAgentId?: SortOrder
+    switchedAgent?: SortOrder
+    switchedAt?: SortOrder
+    switchReason?: SortOrder
+    expiresAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -65299,11 +70120,23 @@ export namespace Prisma {
     companySplit?: SortOrder
   }
 
+  export type EnumDealStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatus | EnumDealStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatus[]
+    notIn?: $Enums.DealStatus[]
+    not?: NestedEnumDealStatusFilter<$PrismaModel> | $Enums.DealStatus
+  }
+
   export type EnumPaymentModeFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentMode | EnumPaymentModeFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentMode[]
     notIn?: $Enums.PaymentMode[]
     not?: NestedEnumPaymentModeFilter<$PrismaModel> | $Enums.PaymentMode
+  }
+
+  export type BroadcastNullableScalarRelationFilter = {
+    is?: BroadcastWhereInput | null
+    isNot?: BroadcastWhereInput | null
   }
 
   export type DealOrderByRelevanceInput = {
@@ -65315,52 +70148,106 @@ export namespace Prisma {
   export type DealCountOrderByAggregateInput = {
     id?: SortOrder
     dealValue?: SortOrder
+    status?: SortOrder
+    propertyTitle?: SortOrder
+    broadcastId?: SortOrder
     buyerAgentId?: SortOrder
     sellerAgentId?: SortOrder
+    totalCommission?: SortOrder
+    platformPercent?: SortOrder
+    platformCommission?: SortOrder
     buyerCommission?: SortOrder
     sellerCommission?: SortOrder
+    tokenAmount?: SortOrder
+    tokenDate?: SortOrder
+    agreementDate?: SortOrder
+    registryDate?: SortOrder
+    commissionDistributed?: SortOrder
     paymentMode?: SortOrder
     note?: SortOrder
     dealDate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DealAvgOrderByAggregateInput = {
     dealValue?: SortOrder
+    totalCommission?: SortOrder
+    platformPercent?: SortOrder
+    platformCommission?: SortOrder
     buyerCommission?: SortOrder
     sellerCommission?: SortOrder
+    tokenAmount?: SortOrder
   }
 
   export type DealMaxOrderByAggregateInput = {
     id?: SortOrder
     dealValue?: SortOrder
+    status?: SortOrder
+    propertyTitle?: SortOrder
+    broadcastId?: SortOrder
     buyerAgentId?: SortOrder
     sellerAgentId?: SortOrder
+    totalCommission?: SortOrder
+    platformPercent?: SortOrder
+    platformCommission?: SortOrder
     buyerCommission?: SortOrder
     sellerCommission?: SortOrder
+    tokenAmount?: SortOrder
+    tokenDate?: SortOrder
+    agreementDate?: SortOrder
+    registryDate?: SortOrder
+    commissionDistributed?: SortOrder
     paymentMode?: SortOrder
     note?: SortOrder
     dealDate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DealMinOrderByAggregateInput = {
     id?: SortOrder
     dealValue?: SortOrder
+    status?: SortOrder
+    propertyTitle?: SortOrder
+    broadcastId?: SortOrder
     buyerAgentId?: SortOrder
     sellerAgentId?: SortOrder
+    totalCommission?: SortOrder
+    platformPercent?: SortOrder
+    platformCommission?: SortOrder
     buyerCommission?: SortOrder
     sellerCommission?: SortOrder
+    tokenAmount?: SortOrder
+    tokenDate?: SortOrder
+    agreementDate?: SortOrder
+    registryDate?: SortOrder
+    commissionDistributed?: SortOrder
     paymentMode?: SortOrder
     note?: SortOrder
     dealDate?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DealSumOrderByAggregateInput = {
     dealValue?: SortOrder
+    totalCommission?: SortOrder
+    platformPercent?: SortOrder
+    platformCommission?: SortOrder
     buyerCommission?: SortOrder
     sellerCommission?: SortOrder
+    tokenAmount?: SortOrder
+  }
+
+  export type EnumDealStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatus | EnumDealStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatus[]
+    notIn?: $Enums.DealStatus[]
+    not?: NestedEnumDealStatusWithAggregatesFilter<$PrismaModel> | $Enums.DealStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDealStatusFilter<$PrismaModel>
+    _max?: NestedEnumDealStatusFilter<$PrismaModel>
   }
 
   export type EnumPaymentModeWithAggregatesFilter<$PrismaModel = never> = {
@@ -66263,6 +71150,151 @@ export namespace Prisma {
     _max?: NestedEnumAppointmentStatusFilter<$PrismaModel>
   }
 
+  export type DirectPropertyVisitOrderByRelevanceInput = {
+    fields: DirectPropertyVisitOrderByRelevanceFieldEnum | DirectPropertyVisitOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type DirectPropertyVisitCountOrderByAggregateInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    ownerPhone?: SortOrder
+    otp?: SortOrder
+    otpVerified?: SortOrder
+    otpVerifiedAt?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    locationAccuracy?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DirectPropertyVisitAvgOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
+    locationAccuracy?: SortOrder
+  }
+
+  export type DirectPropertyVisitMaxOrderByAggregateInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    ownerPhone?: SortOrder
+    otp?: SortOrder
+    otpVerified?: SortOrder
+    otpVerifiedAt?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    locationAccuracy?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DirectPropertyVisitMinOrderByAggregateInput = {
+    id?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    ownerPhone?: SortOrder
+    otp?: SortOrder
+    otpVerified?: SortOrder
+    otpVerifiedAt?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    locationAccuracy?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DirectPropertyVisitSumOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
+    locationAccuracy?: SortOrder
+  }
+
+  export type DirectPropertyVisitNullableScalarRelationFilter = {
+    is?: DirectPropertyVisitWhereInput | null
+    isNot?: DirectPropertyVisitWhereInput | null
+  }
+
+  export type PlatformAntiBypassAgreementOrderByRelevanceInput = {
+    fields: PlatformAntiBypassAgreementOrderByRelevanceFieldEnum | PlatformAntiBypassAgreementOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type PlatformAntiBypassAgreementCountOrderByAggregateInput = {
+    id?: SortOrder
+    directVisitId?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    sellerPhone?: SortOrder
+    sellerName?: SortOrder
+    buyerName?: SortOrder
+    buyerPhone?: SortOrder
+    propertyAddress?: SortOrder
+    legalTermsSummary?: SortOrder
+    serviceFeePercent?: SortOrder
+    buyerSigned?: SortOrder
+    buyerSignedAt?: SortOrder
+    sellerSigned?: SortOrder
+    sellerSignedAt?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlatformAntiBypassAgreementAvgOrderByAggregateInput = {
+    serviceFeePercent?: SortOrder
+  }
+
+  export type PlatformAntiBypassAgreementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    directVisitId?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    sellerPhone?: SortOrder
+    sellerName?: SortOrder
+    buyerName?: SortOrder
+    buyerPhone?: SortOrder
+    propertyAddress?: SortOrder
+    legalTermsSummary?: SortOrder
+    serviceFeePercent?: SortOrder
+    buyerSigned?: SortOrder
+    buyerSignedAt?: SortOrder
+    sellerSigned?: SortOrder
+    sellerSignedAt?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlatformAntiBypassAgreementMinOrderByAggregateInput = {
+    id?: SortOrder
+    directVisitId?: SortOrder
+    agentListingId?: SortOrder
+    buyerId?: SortOrder
+    sellerPhone?: SortOrder
+    sellerName?: SortOrder
+    buyerName?: SortOrder
+    buyerPhone?: SortOrder
+    propertyAddress?: SortOrder
+    legalTermsSummary?: SortOrder
+    serviceFeePercent?: SortOrder
+    buyerSigned?: SortOrder
+    buyerSignedAt?: SortOrder
+    sellerSigned?: SortOrder
+    sellerSignedAt?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PlatformAntiBypassAgreementSumOrderByAggregateInput = {
+    serviceFeePercent?: SortOrder
+  }
+
   export type PropertyCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -66338,6 +71370,20 @@ export namespace Prisma {
     connect?: VisitAppointmentWhereUniqueInput | VisitAppointmentWhereUniqueInput[]
   }
 
+  export type DirectPropertyVisitCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutBuyerInput, DirectPropertyVisitUncheckedCreateWithoutBuyerInput> | DirectPropertyVisitCreateWithoutBuyerInput[] | DirectPropertyVisitUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutBuyerInput | DirectPropertyVisitCreateOrConnectWithoutBuyerInput[]
+    createMany?: DirectPropertyVisitCreateManyBuyerInputEnvelope
+    connect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+  }
+
+  export type PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutBuyerInput, PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput> | PlatformAntiBypassAgreementCreateWithoutBuyerInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutBuyerInput | PlatformAntiBypassAgreementCreateOrConnectWithoutBuyerInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyBuyerInputEnvelope
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+  }
+
   export type PropertyUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -66411,6 +71457,20 @@ export namespace Prisma {
     connectOrCreate?: VisitAppointmentCreateOrConnectWithoutBuyerInput | VisitAppointmentCreateOrConnectWithoutBuyerInput[]
     createMany?: VisitAppointmentCreateManyBuyerInputEnvelope
     connect?: VisitAppointmentWhereUniqueInput | VisitAppointmentWhereUniqueInput[]
+  }
+
+  export type DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutBuyerInput, DirectPropertyVisitUncheckedCreateWithoutBuyerInput> | DirectPropertyVisitCreateWithoutBuyerInput[] | DirectPropertyVisitUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutBuyerInput | DirectPropertyVisitCreateOrConnectWithoutBuyerInput[]
+    createMany?: DirectPropertyVisitCreateManyBuyerInputEnvelope
+    connect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutBuyerInput, PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput> | PlatformAntiBypassAgreementCreateWithoutBuyerInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutBuyerInput | PlatformAntiBypassAgreementCreateOrConnectWithoutBuyerInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyBuyerInputEnvelope
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -66579,6 +71639,34 @@ export namespace Prisma {
     deleteMany?: VisitAppointmentScalarWhereInput | VisitAppointmentScalarWhereInput[]
   }
 
+  export type DirectPropertyVisitUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutBuyerInput, DirectPropertyVisitUncheckedCreateWithoutBuyerInput> | DirectPropertyVisitCreateWithoutBuyerInput[] | DirectPropertyVisitUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutBuyerInput | DirectPropertyVisitCreateOrConnectWithoutBuyerInput[]
+    upsert?: DirectPropertyVisitUpsertWithWhereUniqueWithoutBuyerInput | DirectPropertyVisitUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: DirectPropertyVisitCreateManyBuyerInputEnvelope
+    set?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    disconnect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    delete?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    connect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    update?: DirectPropertyVisitUpdateWithWhereUniqueWithoutBuyerInput | DirectPropertyVisitUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: DirectPropertyVisitUpdateManyWithWhereWithoutBuyerInput | DirectPropertyVisitUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: DirectPropertyVisitScalarWhereInput | DirectPropertyVisitScalarWhereInput[]
+  }
+
+  export type PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutBuyerInput, PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput> | PlatformAntiBypassAgreementCreateWithoutBuyerInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutBuyerInput | PlatformAntiBypassAgreementCreateOrConnectWithoutBuyerInput[]
+    upsert?: PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutBuyerInput | PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyBuyerInputEnvelope
+    set?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    disconnect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    delete?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    update?: PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutBuyerInput | PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: PlatformAntiBypassAgreementUpdateManyWithWhereWithoutBuyerInput | PlatformAntiBypassAgreementUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
+  }
+
   export type PropertyUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -66723,6 +71811,34 @@ export namespace Prisma {
     update?: VisitAppointmentUpdateWithWhereUniqueWithoutBuyerInput | VisitAppointmentUpdateWithWhereUniqueWithoutBuyerInput[]
     updateMany?: VisitAppointmentUpdateManyWithWhereWithoutBuyerInput | VisitAppointmentUpdateManyWithWhereWithoutBuyerInput[]
     deleteMany?: VisitAppointmentScalarWhereInput | VisitAppointmentScalarWhereInput[]
+  }
+
+  export type DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutBuyerInput, DirectPropertyVisitUncheckedCreateWithoutBuyerInput> | DirectPropertyVisitCreateWithoutBuyerInput[] | DirectPropertyVisitUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutBuyerInput | DirectPropertyVisitCreateOrConnectWithoutBuyerInput[]
+    upsert?: DirectPropertyVisitUpsertWithWhereUniqueWithoutBuyerInput | DirectPropertyVisitUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: DirectPropertyVisitCreateManyBuyerInputEnvelope
+    set?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    disconnect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    delete?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    connect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    update?: DirectPropertyVisitUpdateWithWhereUniqueWithoutBuyerInput | DirectPropertyVisitUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: DirectPropertyVisitUpdateManyWithWhereWithoutBuyerInput | DirectPropertyVisitUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: DirectPropertyVisitScalarWhereInput | DirectPropertyVisitScalarWhereInput[]
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutBuyerInput, PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput> | PlatformAntiBypassAgreementCreateWithoutBuyerInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutBuyerInput | PlatformAntiBypassAgreementCreateOrConnectWithoutBuyerInput[]
+    upsert?: PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutBuyerInput | PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyBuyerInputEnvelope
+    set?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    disconnect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    delete?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    update?: PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutBuyerInput | PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: PlatformAntiBypassAgreementUpdateManyWithWhereWithoutBuyerInput | PlatformAntiBypassAgreementUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
   }
 
   export type SubscriptionCreateNestedManyWithoutPlanInput = {
@@ -67651,6 +72767,13 @@ export namespace Prisma {
     connect?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
   }
 
+  export type PropertyUnlockCreateNestedManyWithoutAssignedAgentInput = {
+    create?: XOR<PropertyUnlockCreateWithoutAssignedAgentInput, PropertyUnlockUncheckedCreateWithoutAssignedAgentInput> | PropertyUnlockCreateWithoutAssignedAgentInput[] | PropertyUnlockUncheckedCreateWithoutAssignedAgentInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutAssignedAgentInput | PropertyUnlockCreateOrConnectWithoutAssignedAgentInput[]
+    createMany?: PropertyUnlockCreateManyAssignedAgentInputEnvelope
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+  }
+
   export type AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput = {
     create?: XOR<AgentProfileCreateWithoutReferringAgentInput, AgentProfileUncheckedCreateWithoutReferringAgentInput> | AgentProfileCreateWithoutReferringAgentInput[] | AgentProfileUncheckedCreateWithoutReferringAgentInput[]
     connectOrCreate?: AgentProfileCreateOrConnectWithoutReferringAgentInput | AgentProfileCreateOrConnectWithoutReferringAgentInput[]
@@ -67803,6 +72926,17 @@ export namespace Prisma {
     connectOrCreate?: AreaAgentAssignmentCreateOrConnectWithoutAgentInput | AreaAgentAssignmentCreateOrConnectWithoutAgentInput[]
     createMany?: AreaAgentAssignmentCreateManyAgentInputEnvelope
     connect?: AreaAgentAssignmentWhereUniqueInput | AreaAgentAssignmentWhereUniqueInput[]
+  }
+
+  export type PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput = {
+    create?: XOR<PropertyUnlockCreateWithoutAssignedAgentInput, PropertyUnlockUncheckedCreateWithoutAssignedAgentInput> | PropertyUnlockCreateWithoutAssignedAgentInput[] | PropertyUnlockUncheckedCreateWithoutAssignedAgentInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutAssignedAgentInput | PropertyUnlockCreateOrConnectWithoutAssignedAgentInput[]
+    createMany?: PropertyUnlockCreateManyAssignedAgentInputEnvelope
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+  }
+
+  export type EnumAgentPlanTierFieldUpdateOperationsInput = {
+    set?: $Enums.AgentPlanTier
   }
 
   export type UserUpdateOneRequiredWithoutAgentProfileNestedInput = {
@@ -68131,6 +73265,20 @@ export namespace Prisma {
     deleteMany?: AreaAgentAssignmentScalarWhereInput | AreaAgentAssignmentScalarWhereInput[]
   }
 
+  export type PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput = {
+    create?: XOR<PropertyUnlockCreateWithoutAssignedAgentInput, PropertyUnlockUncheckedCreateWithoutAssignedAgentInput> | PropertyUnlockCreateWithoutAssignedAgentInput[] | PropertyUnlockUncheckedCreateWithoutAssignedAgentInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutAssignedAgentInput | PropertyUnlockCreateOrConnectWithoutAssignedAgentInput[]
+    upsert?: PropertyUnlockUpsertWithWhereUniqueWithoutAssignedAgentInput | PropertyUnlockUpsertWithWhereUniqueWithoutAssignedAgentInput[]
+    createMany?: PropertyUnlockCreateManyAssignedAgentInputEnvelope
+    set?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    disconnect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    delete?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    update?: PropertyUnlockUpdateWithWhereUniqueWithoutAssignedAgentInput | PropertyUnlockUpdateWithWhereUniqueWithoutAssignedAgentInput[]
+    updateMany?: PropertyUnlockUpdateManyWithWhereWithoutAssignedAgentInput | PropertyUnlockUpdateManyWithWhereWithoutAssignedAgentInput[]
+    deleteMany?: PropertyUnlockScalarWhereInput | PropertyUnlockScalarWhereInput[]
+  }
+
   export type AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput = {
     create?: XOR<AgentProfileCreateWithoutReferringAgentInput, AgentProfileUncheckedCreateWithoutReferringAgentInput> | AgentProfileCreateWithoutReferringAgentInput[] | AgentProfileUncheckedCreateWithoutReferringAgentInput[]
     connectOrCreate?: AgentProfileCreateOrConnectWithoutReferringAgentInput | AgentProfileCreateOrConnectWithoutReferringAgentInput[]
@@ -68437,6 +73585,20 @@ export namespace Prisma {
     update?: AreaAgentAssignmentUpdateWithWhereUniqueWithoutAgentInput | AreaAgentAssignmentUpdateWithWhereUniqueWithoutAgentInput[]
     updateMany?: AreaAgentAssignmentUpdateManyWithWhereWithoutAgentInput | AreaAgentAssignmentUpdateManyWithWhereWithoutAgentInput[]
     deleteMany?: AreaAgentAssignmentScalarWhereInput | AreaAgentAssignmentScalarWhereInput[]
+  }
+
+  export type PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput = {
+    create?: XOR<PropertyUnlockCreateWithoutAssignedAgentInput, PropertyUnlockUncheckedCreateWithoutAssignedAgentInput> | PropertyUnlockCreateWithoutAssignedAgentInput[] | PropertyUnlockUncheckedCreateWithoutAssignedAgentInput[]
+    connectOrCreate?: PropertyUnlockCreateOrConnectWithoutAssignedAgentInput | PropertyUnlockCreateOrConnectWithoutAssignedAgentInput[]
+    upsert?: PropertyUnlockUpsertWithWhereUniqueWithoutAssignedAgentInput | PropertyUnlockUpsertWithWhereUniqueWithoutAssignedAgentInput[]
+    createMany?: PropertyUnlockCreateManyAssignedAgentInputEnvelope
+    set?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    disconnect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    delete?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    connect?: PropertyUnlockWhereUniqueInput | PropertyUnlockWhereUniqueInput[]
+    update?: PropertyUnlockUpdateWithWhereUniqueWithoutAssignedAgentInput | PropertyUnlockUpdateWithWhereUniqueWithoutAssignedAgentInput[]
+    updateMany?: PropertyUnlockUpdateManyWithWhereWithoutAssignedAgentInput | PropertyUnlockUpdateManyWithWhereWithoutAssignedAgentInput[]
+    deleteMany?: PropertyUnlockScalarWhereInput | PropertyUnlockScalarWhereInput[]
   }
 
   export type AgentProfileCreateNestedOneWithoutAreaAssignmentsInput = {
@@ -68901,6 +74063,20 @@ export namespace Prisma {
     connect?: GoldListingPurchaseWhereUniqueInput
   }
 
+  export type DirectPropertyVisitCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutAgentListingInput, DirectPropertyVisitUncheckedCreateWithoutAgentListingInput> | DirectPropertyVisitCreateWithoutAgentListingInput[] | DirectPropertyVisitUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutAgentListingInput | DirectPropertyVisitCreateOrConnectWithoutAgentListingInput[]
+    createMany?: DirectPropertyVisitCreateManyAgentListingInputEnvelope
+    connect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+  }
+
+  export type PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutAgentListingInput, PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput> | PlatformAntiBypassAgreementCreateWithoutAgentListingInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput | PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyAgentListingInputEnvelope
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+  }
+
   export type AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput = {
     create?: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput> | AgentListingImageCreateWithoutAgentListingInput[] | AgentListingImageUncheckedCreateWithoutAgentListingInput[]
     connectOrCreate?: AgentListingImageCreateOrConnectWithoutAgentListingInput | AgentListingImageCreateOrConnectWithoutAgentListingInput[]
@@ -68921,8 +74097,26 @@ export namespace Prisma {
     connect?: GoldListingPurchaseWhereUniqueInput
   }
 
+  export type DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutAgentListingInput, DirectPropertyVisitUncheckedCreateWithoutAgentListingInput> | DirectPropertyVisitCreateWithoutAgentListingInput[] | DirectPropertyVisitUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutAgentListingInput | DirectPropertyVisitCreateOrConnectWithoutAgentListingInput[]
+    createMany?: DirectPropertyVisitCreateManyAgentListingInputEnvelope
+    connect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutAgentListingInput, PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput> | PlatformAntiBypassAgreementCreateWithoutAgentListingInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput | PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyAgentListingInputEnvelope
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+  }
+
   export type EnumListingSourceFieldUpdateOperationsInput = {
     set?: $Enums.ListingSource
+  }
+
+  export type EnumListingPlanTierFieldUpdateOperationsInput = {
+    set?: $Enums.ListingPlanTier
   }
 
   export type MasterPropertyUpdateOneRequiredWithoutListingsNestedInput = {
@@ -68981,6 +74175,34 @@ export namespace Prisma {
     update?: XOR<XOR<GoldListingPurchaseUpdateToOneWithWhereWithoutAgentListingInput, GoldListingPurchaseUpdateWithoutAgentListingInput>, GoldListingPurchaseUncheckedUpdateWithoutAgentListingInput>
   }
 
+  export type DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutAgentListingInput, DirectPropertyVisitUncheckedCreateWithoutAgentListingInput> | DirectPropertyVisitCreateWithoutAgentListingInput[] | DirectPropertyVisitUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutAgentListingInput | DirectPropertyVisitCreateOrConnectWithoutAgentListingInput[]
+    upsert?: DirectPropertyVisitUpsertWithWhereUniqueWithoutAgentListingInput | DirectPropertyVisitUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: DirectPropertyVisitCreateManyAgentListingInputEnvelope
+    set?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    disconnect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    delete?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    connect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    update?: DirectPropertyVisitUpdateWithWhereUniqueWithoutAgentListingInput | DirectPropertyVisitUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: DirectPropertyVisitUpdateManyWithWhereWithoutAgentListingInput | DirectPropertyVisitUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: DirectPropertyVisitScalarWhereInput | DirectPropertyVisitScalarWhereInput[]
+  }
+
+  export type PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutAgentListingInput, PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput> | PlatformAntiBypassAgreementCreateWithoutAgentListingInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput | PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput[]
+    upsert?: PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutAgentListingInput | PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyAgentListingInputEnvelope
+    set?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    disconnect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    delete?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    update?: PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutAgentListingInput | PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: PlatformAntiBypassAgreementUpdateManyWithWhereWithoutAgentListingInput | PlatformAntiBypassAgreementUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
+  }
+
   export type AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput = {
     create?: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput> | AgentListingImageCreateWithoutAgentListingInput[] | AgentListingImageUncheckedCreateWithoutAgentListingInput[]
     connectOrCreate?: AgentListingImageCreateOrConnectWithoutAgentListingInput | AgentListingImageCreateOrConnectWithoutAgentListingInput[]
@@ -69019,6 +74241,34 @@ export namespace Prisma {
     update?: XOR<XOR<GoldListingPurchaseUpdateToOneWithWhereWithoutAgentListingInput, GoldListingPurchaseUpdateWithoutAgentListingInput>, GoldListingPurchaseUncheckedUpdateWithoutAgentListingInput>
   }
 
+  export type DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutAgentListingInput, DirectPropertyVisitUncheckedCreateWithoutAgentListingInput> | DirectPropertyVisitCreateWithoutAgentListingInput[] | DirectPropertyVisitUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutAgentListingInput | DirectPropertyVisitCreateOrConnectWithoutAgentListingInput[]
+    upsert?: DirectPropertyVisitUpsertWithWhereUniqueWithoutAgentListingInput | DirectPropertyVisitUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: DirectPropertyVisitCreateManyAgentListingInputEnvelope
+    set?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    disconnect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    delete?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    connect?: DirectPropertyVisitWhereUniqueInput | DirectPropertyVisitWhereUniqueInput[]
+    update?: DirectPropertyVisitUpdateWithWhereUniqueWithoutAgentListingInput | DirectPropertyVisitUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: DirectPropertyVisitUpdateManyWithWhereWithoutAgentListingInput | DirectPropertyVisitUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: DirectPropertyVisitScalarWhereInput | DirectPropertyVisitScalarWhereInput[]
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutAgentListingInput, PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput> | PlatformAntiBypassAgreementCreateWithoutAgentListingInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput | PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput[]
+    upsert?: PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutAgentListingInput | PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyAgentListingInputEnvelope
+    set?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    disconnect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    delete?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    update?: PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutAgentListingInput | PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: PlatformAntiBypassAgreementUpdateManyWithWhereWithoutAgentListingInput | PlatformAntiBypassAgreementUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
+  }
+
   export type AgentListingCreateNestedOneWithoutImagesInput = {
     create?: XOR<AgentListingCreateWithoutImagesInput, AgentListingUncheckedCreateWithoutImagesInput>
     connectOrCreate?: AgentListingCreateOrConnectWithoutImagesInput
@@ -69045,6 +74295,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type AgentProfileCreateNestedOneWithoutAssignedUnlocksInput = {
+    create?: XOR<AgentProfileCreateWithoutAssignedUnlocksInput, AgentProfileUncheckedCreateWithoutAssignedUnlocksInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutAssignedUnlocksInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
   export type AgentListingUpdateOneRequiredWithoutUnlocksNestedInput = {
     create?: XOR<AgentListingCreateWithoutUnlocksInput, AgentListingUncheckedCreateWithoutUnlocksInput>
     connectOrCreate?: AgentListingCreateOrConnectWithoutUnlocksInput
@@ -69059,6 +74315,16 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPropertyUnlocksInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPropertyUnlocksInput, UserUpdateWithoutPropertyUnlocksInput>, UserUncheckedUpdateWithoutPropertyUnlocksInput>
+  }
+
+  export type AgentProfileUpdateOneWithoutAssignedUnlocksNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutAssignedUnlocksInput, AgentProfileUncheckedCreateWithoutAssignedUnlocksInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutAssignedUnlocksInput
+    upsert?: AgentProfileUpsertWithoutAssignedUnlocksInput
+    disconnect?: AgentProfileWhereInput | boolean
+    delete?: AgentProfileWhereInput | boolean
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutAssignedUnlocksInput, AgentProfileUpdateWithoutAssignedUnlocksInput>, AgentProfileUncheckedUpdateWithoutAssignedUnlocksInput>
   }
 
   export type AgentListingCreateNestedOneWithoutGoldPurchaseInput = {
@@ -69089,6 +74355,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGoldListingPurchasesInput, UserUpdateWithoutGoldListingPurchasesInput>, UserUncheckedUpdateWithoutGoldListingPurchasesInput>
   }
 
+  export type BroadcastCreateNestedOneWithoutDealsInput = {
+    create?: XOR<BroadcastCreateWithoutDealsInput, BroadcastUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: BroadcastCreateOrConnectWithoutDealsInput
+    connect?: BroadcastWhereUniqueInput
+  }
+
   export type AgentProfileCreateNestedOneWithoutDealsAsBuyerAgentInput = {
     create?: XOR<AgentProfileCreateWithoutDealsAsBuyerAgentInput, AgentProfileUncheckedCreateWithoutDealsAsBuyerAgentInput>
     connectOrCreate?: AgentProfileCreateOrConnectWithoutDealsAsBuyerAgentInput
@@ -69101,8 +74373,22 @@ export namespace Prisma {
     connect?: AgentProfileWhereUniqueInput
   }
 
+  export type EnumDealStatusFieldUpdateOperationsInput = {
+    set?: $Enums.DealStatus
+  }
+
   export type EnumPaymentModeFieldUpdateOperationsInput = {
     set?: $Enums.PaymentMode
+  }
+
+  export type BroadcastUpdateOneWithoutDealsNestedInput = {
+    create?: XOR<BroadcastCreateWithoutDealsInput, BroadcastUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: BroadcastCreateOrConnectWithoutDealsInput
+    upsert?: BroadcastUpsertWithoutDealsInput
+    disconnect?: BroadcastWhereInput | boolean
+    delete?: BroadcastWhereInput | boolean
+    connect?: BroadcastWhereUniqueInput
+    update?: XOR<XOR<BroadcastUpdateToOneWithWhereWithoutDealsInput, BroadcastUpdateWithoutDealsInput>, BroadcastUncheckedUpdateWithoutDealsInput>
   }
 
   export type AgentProfileUpdateOneWithoutDealsAsBuyerAgentNestedInput = {
@@ -69309,6 +74595,13 @@ export namespace Prisma {
     connect?: AgentChatMessageWhereUniqueInput | AgentChatMessageWhereUniqueInput[]
   }
 
+  export type DealCreateNestedManyWithoutBroadcastInput = {
+    create?: XOR<DealCreateWithoutBroadcastInput, DealUncheckedCreateWithoutBroadcastInput> | DealCreateWithoutBroadcastInput[] | DealUncheckedCreateWithoutBroadcastInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutBroadcastInput | DealCreateOrConnectWithoutBroadcastInput[]
+    createMany?: DealCreateManyBroadcastInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
   export type BroadcastResponseUncheckedCreateNestedManyWithoutBroadcastInput = {
     create?: XOR<BroadcastResponseCreateWithoutBroadcastInput, BroadcastResponseUncheckedCreateWithoutBroadcastInput> | BroadcastResponseCreateWithoutBroadcastInput[] | BroadcastResponseUncheckedCreateWithoutBroadcastInput[]
     connectOrCreate?: BroadcastResponseCreateOrConnectWithoutBroadcastInput | BroadcastResponseCreateOrConnectWithoutBroadcastInput[]
@@ -69321,6 +74614,13 @@ export namespace Prisma {
     connectOrCreate?: AgentChatMessageCreateOrConnectWithoutBroadcastInput | AgentChatMessageCreateOrConnectWithoutBroadcastInput[]
     createMany?: AgentChatMessageCreateManyBroadcastInputEnvelope
     connect?: AgentChatMessageWhereUniqueInput | AgentChatMessageWhereUniqueInput[]
+  }
+
+  export type DealUncheckedCreateNestedManyWithoutBroadcastInput = {
+    create?: XOR<DealCreateWithoutBroadcastInput, DealUncheckedCreateWithoutBroadcastInput> | DealCreateWithoutBroadcastInput[] | DealUncheckedCreateWithoutBroadcastInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutBroadcastInput | DealCreateOrConnectWithoutBroadcastInput[]
+    createMany?: DealCreateManyBroadcastInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
   }
 
   export type EnumBroadcastTxnTypeFieldUpdateOperationsInput = {
@@ -69367,6 +74667,20 @@ export namespace Prisma {
     deleteMany?: AgentChatMessageScalarWhereInput | AgentChatMessageScalarWhereInput[]
   }
 
+  export type DealUpdateManyWithoutBroadcastNestedInput = {
+    create?: XOR<DealCreateWithoutBroadcastInput, DealUncheckedCreateWithoutBroadcastInput> | DealCreateWithoutBroadcastInput[] | DealUncheckedCreateWithoutBroadcastInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutBroadcastInput | DealCreateOrConnectWithoutBroadcastInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutBroadcastInput | DealUpsertWithWhereUniqueWithoutBroadcastInput[]
+    createMany?: DealCreateManyBroadcastInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutBroadcastInput | DealUpdateWithWhereUniqueWithoutBroadcastInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutBroadcastInput | DealUpdateManyWithWhereWithoutBroadcastInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
   export type BroadcastResponseUncheckedUpdateManyWithoutBroadcastNestedInput = {
     create?: XOR<BroadcastResponseCreateWithoutBroadcastInput, BroadcastResponseUncheckedCreateWithoutBroadcastInput> | BroadcastResponseCreateWithoutBroadcastInput[] | BroadcastResponseUncheckedCreateWithoutBroadcastInput[]
     connectOrCreate?: BroadcastResponseCreateOrConnectWithoutBroadcastInput | BroadcastResponseCreateOrConnectWithoutBroadcastInput[]
@@ -69393,6 +74707,20 @@ export namespace Prisma {
     update?: AgentChatMessageUpdateWithWhereUniqueWithoutBroadcastInput | AgentChatMessageUpdateWithWhereUniqueWithoutBroadcastInput[]
     updateMany?: AgentChatMessageUpdateManyWithWhereWithoutBroadcastInput | AgentChatMessageUpdateManyWithWhereWithoutBroadcastInput[]
     deleteMany?: AgentChatMessageScalarWhereInput | AgentChatMessageScalarWhereInput[]
+  }
+
+  export type DealUncheckedUpdateManyWithoutBroadcastNestedInput = {
+    create?: XOR<DealCreateWithoutBroadcastInput, DealUncheckedCreateWithoutBroadcastInput> | DealCreateWithoutBroadcastInput[] | DealUncheckedCreateWithoutBroadcastInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutBroadcastInput | DealCreateOrConnectWithoutBroadcastInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutBroadcastInput | DealUpsertWithWhereUniqueWithoutBroadcastInput[]
+    createMany?: DealCreateManyBroadcastInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutBroadcastInput | DealUpdateWithWhereUniqueWithoutBroadcastInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutBroadcastInput | DealUpdateManyWithWhereWithoutBroadcastInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
   }
 
   export type BroadcastCreateNestedOneWithoutResponsesInput = {
@@ -69647,6 +74975,120 @@ export namespace Prisma {
     delete?: MasterPropertyWhereInput | boolean
     connect?: MasterPropertyWhereUniqueInput
     update?: XOR<XOR<MasterPropertyUpdateToOneWithWhereWithoutVisitAppointmentsInput, MasterPropertyUpdateWithoutVisitAppointmentsInput>, MasterPropertyUncheckedUpdateWithoutVisitAppointmentsInput>
+  }
+
+  export type AgentListingCreateNestedOneWithoutDirectVisitsInput = {
+    create?: XOR<AgentListingCreateWithoutDirectVisitsInput, AgentListingUncheckedCreateWithoutDirectVisitsInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutDirectVisitsInput
+    connect?: AgentListingWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutDirectVisitsInput = {
+    create?: XOR<UserCreateWithoutDirectVisitsInput, UserUncheckedCreateWithoutDirectVisitsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDirectVisitsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PlatformAntiBypassAgreementCreateNestedManyWithoutDirectVisitInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutDirectVisitInput, PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput> | PlatformAntiBypassAgreementCreateWithoutDirectVisitInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutDirectVisitInput | PlatformAntiBypassAgreementCreateOrConnectWithoutDirectVisitInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyDirectVisitInputEnvelope
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutDirectVisitInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutDirectVisitInput, PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput> | PlatformAntiBypassAgreementCreateWithoutDirectVisitInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutDirectVisitInput | PlatformAntiBypassAgreementCreateOrConnectWithoutDirectVisitInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyDirectVisitInputEnvelope
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+  }
+
+  export type AgentListingUpdateOneRequiredWithoutDirectVisitsNestedInput = {
+    create?: XOR<AgentListingCreateWithoutDirectVisitsInput, AgentListingUncheckedCreateWithoutDirectVisitsInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutDirectVisitsInput
+    upsert?: AgentListingUpsertWithoutDirectVisitsInput
+    connect?: AgentListingWhereUniqueInput
+    update?: XOR<XOR<AgentListingUpdateToOneWithWhereWithoutDirectVisitsInput, AgentListingUpdateWithoutDirectVisitsInput>, AgentListingUncheckedUpdateWithoutDirectVisitsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutDirectVisitsNestedInput = {
+    create?: XOR<UserCreateWithoutDirectVisitsInput, UserUncheckedCreateWithoutDirectVisitsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDirectVisitsInput
+    upsert?: UserUpsertWithoutDirectVisitsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDirectVisitsInput, UserUpdateWithoutDirectVisitsInput>, UserUncheckedUpdateWithoutDirectVisitsInput>
+  }
+
+  export type PlatformAntiBypassAgreementUpdateManyWithoutDirectVisitNestedInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutDirectVisitInput, PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput> | PlatformAntiBypassAgreementCreateWithoutDirectVisitInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutDirectVisitInput | PlatformAntiBypassAgreementCreateOrConnectWithoutDirectVisitInput[]
+    upsert?: PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutDirectVisitInput | PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutDirectVisitInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyDirectVisitInputEnvelope
+    set?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    disconnect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    delete?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    update?: PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutDirectVisitInput | PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutDirectVisitInput[]
+    updateMany?: PlatformAntiBypassAgreementUpdateManyWithWhereWithoutDirectVisitInput | PlatformAntiBypassAgreementUpdateManyWithWhereWithoutDirectVisitInput[]
+    deleteMany?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateManyWithoutDirectVisitNestedInput = {
+    create?: XOR<PlatformAntiBypassAgreementCreateWithoutDirectVisitInput, PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput> | PlatformAntiBypassAgreementCreateWithoutDirectVisitInput[] | PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput[]
+    connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutDirectVisitInput | PlatformAntiBypassAgreementCreateOrConnectWithoutDirectVisitInput[]
+    upsert?: PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutDirectVisitInput | PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutDirectVisitInput[]
+    createMany?: PlatformAntiBypassAgreementCreateManyDirectVisitInputEnvelope
+    set?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    disconnect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    delete?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+    update?: PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutDirectVisitInput | PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutDirectVisitInput[]
+    updateMany?: PlatformAntiBypassAgreementUpdateManyWithWhereWithoutDirectVisitInput | PlatformAntiBypassAgreementUpdateManyWithWhereWithoutDirectVisitInput[]
+    deleteMany?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
+  }
+
+  export type DirectPropertyVisitCreateNestedOneWithoutAntiBypassAgreementsInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutAntiBypassAgreementsInput, DirectPropertyVisitUncheckedCreateWithoutAntiBypassAgreementsInput>
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutAntiBypassAgreementsInput
+    connect?: DirectPropertyVisitWhereUniqueInput
+  }
+
+  export type AgentListingCreateNestedOneWithoutAntiBypassAgreementsInput = {
+    create?: XOR<AgentListingCreateWithoutAntiBypassAgreementsInput, AgentListingUncheckedCreateWithoutAntiBypassAgreementsInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutAntiBypassAgreementsInput
+    connect?: AgentListingWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAntiBypassAgreementsInput = {
+    create?: XOR<UserCreateWithoutAntiBypassAgreementsInput, UserUncheckedCreateWithoutAntiBypassAgreementsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAntiBypassAgreementsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DirectPropertyVisitUpdateOneWithoutAntiBypassAgreementsNestedInput = {
+    create?: XOR<DirectPropertyVisitCreateWithoutAntiBypassAgreementsInput, DirectPropertyVisitUncheckedCreateWithoutAntiBypassAgreementsInput>
+    connectOrCreate?: DirectPropertyVisitCreateOrConnectWithoutAntiBypassAgreementsInput
+    upsert?: DirectPropertyVisitUpsertWithoutAntiBypassAgreementsInput
+    disconnect?: DirectPropertyVisitWhereInput | boolean
+    delete?: DirectPropertyVisitWhereInput | boolean
+    connect?: DirectPropertyVisitWhereUniqueInput
+    update?: XOR<XOR<DirectPropertyVisitUpdateToOneWithWhereWithoutAntiBypassAgreementsInput, DirectPropertyVisitUpdateWithoutAntiBypassAgreementsInput>, DirectPropertyVisitUncheckedUpdateWithoutAntiBypassAgreementsInput>
+  }
+
+  export type AgentListingUpdateOneRequiredWithoutAntiBypassAgreementsNestedInput = {
+    create?: XOR<AgentListingCreateWithoutAntiBypassAgreementsInput, AgentListingUncheckedCreateWithoutAntiBypassAgreementsInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutAntiBypassAgreementsInput
+    upsert?: AgentListingUpsertWithoutAntiBypassAgreementsInput
+    connect?: AgentListingWhereUniqueInput
+    update?: XOR<XOR<AgentListingUpdateToOneWithWhereWithoutAntiBypassAgreementsInput, AgentListingUpdateWithoutAntiBypassAgreementsInput>, AgentListingUncheckedUpdateWithoutAntiBypassAgreementsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAntiBypassAgreementsNestedInput = {
+    create?: XOR<UserCreateWithoutAntiBypassAgreementsInput, UserUncheckedCreateWithoutAntiBypassAgreementsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAntiBypassAgreementsInput
+    upsert?: UserUpsertWithoutAntiBypassAgreementsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAntiBypassAgreementsInput, UserUpdateWithoutAntiBypassAgreementsInput>, UserUncheckedUpdateWithoutAntiBypassAgreementsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -70057,6 +75499,23 @@ export namespace Prisma {
     _max?: NestedEnumOtpChannelFilter<$PrismaModel>
   }
 
+  export type NestedEnumAgentPlanTierFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentPlanTier | EnumAgentPlanTierFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentPlanTier[]
+    notIn?: $Enums.AgentPlanTier[]
+    not?: NestedEnumAgentPlanTierFilter<$PrismaModel> | $Enums.AgentPlanTier
+  }
+
+  export type NestedEnumAgentPlanTierWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentPlanTier | EnumAgentPlanTierFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentPlanTier[]
+    notIn?: $Enums.AgentPlanTier[]
+    not?: NestedEnumAgentPlanTierWithAggregatesFilter<$PrismaModel> | $Enums.AgentPlanTier
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAgentPlanTierFilter<$PrismaModel>
+    _max?: NestedEnumAgentPlanTierFilter<$PrismaModel>
+  }
+
   export type NestedEnumAgentDocumentTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.AgentDocumentType | EnumAgentDocumentTypeFieldRefInput<$PrismaModel>
     in?: $Enums.AgentDocumentType[]
@@ -70148,6 +75607,13 @@ export namespace Prisma {
     not?: NestedEnumListingSourceFilter<$PrismaModel> | $Enums.ListingSource
   }
 
+  export type NestedEnumListingPlanTierFilter<$PrismaModel = never> = {
+    equals?: $Enums.ListingPlanTier | EnumListingPlanTierFieldRefInput<$PrismaModel>
+    in?: $Enums.ListingPlanTier[]
+    notIn?: $Enums.ListingPlanTier[]
+    not?: NestedEnumListingPlanTierFilter<$PrismaModel> | $Enums.ListingPlanTier
+  }
+
   export type NestedEnumListingSourceWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ListingSource | EnumListingSourceFieldRefInput<$PrismaModel>
     in?: $Enums.ListingSource[]
@@ -70158,11 +75624,38 @@ export namespace Prisma {
     _max?: NestedEnumListingSourceFilter<$PrismaModel>
   }
 
+  export type NestedEnumListingPlanTierWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ListingPlanTier | EnumListingPlanTierFieldRefInput<$PrismaModel>
+    in?: $Enums.ListingPlanTier[]
+    notIn?: $Enums.ListingPlanTier[]
+    not?: NestedEnumListingPlanTierWithAggregatesFilter<$PrismaModel> | $Enums.ListingPlanTier
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumListingPlanTierFilter<$PrismaModel>
+    _max?: NestedEnumListingPlanTierFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDealStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatus | EnumDealStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatus[]
+    notIn?: $Enums.DealStatus[]
+    not?: NestedEnumDealStatusFilter<$PrismaModel> | $Enums.DealStatus
+  }
+
   export type NestedEnumPaymentModeFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentMode | EnumPaymentModeFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentMode[]
     notIn?: $Enums.PaymentMode[]
     not?: NestedEnumPaymentModeFilter<$PrismaModel> | $Enums.PaymentMode
+  }
+
+  export type NestedEnumDealStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatus | EnumDealStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatus[]
+    notIn?: $Enums.DealStatus[]
+    not?: NestedEnumDealStatusWithAggregatesFilter<$PrismaModel> | $Enums.DealStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDealStatusFilter<$PrismaModel>
+    _max?: NestedEnumDealStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumPaymentModeWithAggregatesFilter<$PrismaModel = never> = {
@@ -70480,11 +75973,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
@@ -70510,6 +76017,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutUserInput = {
@@ -70527,11 +76035,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -70557,6 +76079,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutUserInput = {
@@ -70608,8 +76131,13 @@ export namespace Prisma {
     amount?: number
     agentSplit?: number
     companySplit?: number
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
     createdAt?: Date | string
     agentListing: AgentListingCreateNestedOneWithoutUnlocksInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedUnlocksInput
   }
 
   export type PropertyUnlockUncheckedCreateWithoutBuyerInput = {
@@ -70618,6 +76146,11 @@ export namespace Prisma {
     amount?: number
     agentSplit?: number
     companySplit?: number
+    assignedAgentId?: string | null
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -70740,6 +76273,96 @@ export namespace Prisma {
 
   export type VisitAppointmentCreateManyBuyerInputEnvelope = {
     data: VisitAppointmentCreateManyBuyerInput | VisitAppointmentCreateManyBuyerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DirectPropertyVisitCreateWithoutBuyerInput = {
+    id?: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    agentListing: AgentListingCreateNestedOneWithoutDirectVisitsInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutDirectVisitInput
+  }
+
+  export type DirectPropertyVisitUncheckedCreateWithoutBuyerInput = {
+    id?: string
+    agentListingId: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutDirectVisitInput
+  }
+
+  export type DirectPropertyVisitCreateOrConnectWithoutBuyerInput = {
+    where: DirectPropertyVisitWhereUniqueInput
+    create: XOR<DirectPropertyVisitCreateWithoutBuyerInput, DirectPropertyVisitUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type DirectPropertyVisitCreateManyBuyerInputEnvelope = {
+    data: DirectPropertyVisitCreateManyBuyerInput | DirectPropertyVisitCreateManyBuyerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PlatformAntiBypassAgreementCreateWithoutBuyerInput = {
+    id?: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    directVisit?: DirectPropertyVisitCreateNestedOneWithoutAntiBypassAgreementsInput
+    agentListing: AgentListingCreateNestedOneWithoutAntiBypassAgreementsInput
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput = {
+    id?: string
+    directVisitId?: string | null
+    agentListingId: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformAntiBypassAgreementCreateOrConnectWithoutBuyerInput = {
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    create: XOR<PlatformAntiBypassAgreementCreateWithoutBuyerInput, PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type PlatformAntiBypassAgreementCreateManyBuyerInputEnvelope = {
+    data: PlatformAntiBypassAgreementCreateManyBuyerInput | PlatformAntiBypassAgreementCreateManyBuyerInput[]
     skipDuplicates?: boolean
   }
 
@@ -70934,11 +76557,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
@@ -70964,6 +76601,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutUserInput = {
@@ -70981,11 +76619,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -71011,6 +76663,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type InvestorProfileUpsertWithoutUserInput = {
@@ -71084,6 +76737,11 @@ export namespace Prisma {
     amount?: IntFilter<"PropertyUnlock"> | number
     agentSplit?: IntFilter<"PropertyUnlock"> | number
     companySplit?: IntFilter<"PropertyUnlock"> | number
+    assignedAgentId?: StringNullableFilter<"PropertyUnlock"> | string | null
+    switchedAgent?: BoolFilter<"PropertyUnlock"> | boolean
+    switchedAt?: DateTimeNullableFilter<"PropertyUnlock"> | Date | string | null
+    switchReason?: StringNullableFilter<"PropertyUnlock"> | string | null
+    expiresAt?: DateTimeNullableFilter<"PropertyUnlock"> | Date | string | null
     createdAt?: DateTimeFilter<"PropertyUnlock"> | Date | string
   }
 
@@ -71187,6 +76845,80 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"VisitAppointment"> | Date | string
   }
 
+  export type DirectPropertyVisitUpsertWithWhereUniqueWithoutBuyerInput = {
+    where: DirectPropertyVisitWhereUniqueInput
+    update: XOR<DirectPropertyVisitUpdateWithoutBuyerInput, DirectPropertyVisitUncheckedUpdateWithoutBuyerInput>
+    create: XOR<DirectPropertyVisitCreateWithoutBuyerInput, DirectPropertyVisitUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type DirectPropertyVisitUpdateWithWhereUniqueWithoutBuyerInput = {
+    where: DirectPropertyVisitWhereUniqueInput
+    data: XOR<DirectPropertyVisitUpdateWithoutBuyerInput, DirectPropertyVisitUncheckedUpdateWithoutBuyerInput>
+  }
+
+  export type DirectPropertyVisitUpdateManyWithWhereWithoutBuyerInput = {
+    where: DirectPropertyVisitScalarWhereInput
+    data: XOR<DirectPropertyVisitUpdateManyMutationInput, DirectPropertyVisitUncheckedUpdateManyWithoutBuyerInput>
+  }
+
+  export type DirectPropertyVisitScalarWhereInput = {
+    AND?: DirectPropertyVisitScalarWhereInput | DirectPropertyVisitScalarWhereInput[]
+    OR?: DirectPropertyVisitScalarWhereInput[]
+    NOT?: DirectPropertyVisitScalarWhereInput | DirectPropertyVisitScalarWhereInput[]
+    id?: StringFilter<"DirectPropertyVisit"> | string
+    agentListingId?: StringFilter<"DirectPropertyVisit"> | string
+    buyerId?: StringFilter<"DirectPropertyVisit"> | string
+    ownerPhone?: StringNullableFilter<"DirectPropertyVisit"> | string | null
+    otp?: StringNullableFilter<"DirectPropertyVisit"> | string | null
+    otpVerified?: BoolFilter<"DirectPropertyVisit"> | boolean
+    otpVerifiedAt?: DateTimeNullableFilter<"DirectPropertyVisit"> | Date | string | null
+    latitude?: FloatNullableFilter<"DirectPropertyVisit"> | number | null
+    longitude?: FloatNullableFilter<"DirectPropertyVisit"> | number | null
+    locationAccuracy?: FloatNullableFilter<"DirectPropertyVisit"> | number | null
+    notes?: StringNullableFilter<"DirectPropertyVisit"> | string | null
+    createdAt?: DateTimeFilter<"DirectPropertyVisit"> | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutBuyerInput = {
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    update: XOR<PlatformAntiBypassAgreementUpdateWithoutBuyerInput, PlatformAntiBypassAgreementUncheckedUpdateWithoutBuyerInput>
+    create: XOR<PlatformAntiBypassAgreementCreateWithoutBuyerInput, PlatformAntiBypassAgreementUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutBuyerInput = {
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    data: XOR<PlatformAntiBypassAgreementUpdateWithoutBuyerInput, PlatformAntiBypassAgreementUncheckedUpdateWithoutBuyerInput>
+  }
+
+  export type PlatformAntiBypassAgreementUpdateManyWithWhereWithoutBuyerInput = {
+    where: PlatformAntiBypassAgreementScalarWhereInput
+    data: XOR<PlatformAntiBypassAgreementUpdateManyMutationInput, PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerInput>
+  }
+
+  export type PlatformAntiBypassAgreementScalarWhereInput = {
+    AND?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
+    OR?: PlatformAntiBypassAgreementScalarWhereInput[]
+    NOT?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
+    id?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    directVisitId?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    agentListingId?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    buyerId?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    sellerPhone?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    sellerName?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    buyerName?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    buyerPhone?: StringNullableFilter<"PlatformAntiBypassAgreement"> | string | null
+    propertyAddress?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    legalTermsSummary?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    serviceFeePercent?: FloatFilter<"PlatformAntiBypassAgreement"> | number
+    buyerSigned?: BoolFilter<"PlatformAntiBypassAgreement"> | boolean
+    buyerSignedAt?: DateTimeNullableFilter<"PlatformAntiBypassAgreement"> | Date | string | null
+    sellerSigned?: BoolFilter<"PlatformAntiBypassAgreement"> | boolean
+    sellerSignedAt?: DateTimeNullableFilter<"PlatformAntiBypassAgreement"> | Date | string | null
+    status?: StringFilter<"PlatformAntiBypassAgreement"> | string
+    createdAt?: DateTimeFilter<"PlatformAntiBypassAgreement"> | Date | string
+    updatedAt?: DateTimeFilter<"PlatformAntiBypassAgreement"> | Date | string
+  }
+
   export type SubscriptionCreateWithoutPlanInput = {
     id?: string
     status?: $Enums.SubscriptionStatus
@@ -71261,6 +76993,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -71291,6 +77025,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -71368,6 +77104,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -71398,6 +77136,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PlanUpsertWithoutSubscriptionsInput = {
@@ -71465,6 +77205,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutLeadViewsInput = {
@@ -71495,6 +77237,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutLeadViewsInput = {
@@ -71568,6 +77312,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeadViewsInput = {
@@ -71598,6 +77344,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type EnquiryUpsertWithoutLeadViewsInput = {
@@ -72470,6 +78218,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutPropertiesInput = {
@@ -72500,6 +78250,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutPropertiesInput = {
@@ -72673,6 +78425,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertiesInput = {
@@ -72703,6 +78457,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type ProjectUpsertWithoutUnitsInput = {
@@ -73084,6 +78840,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutEnquiriesInput = {
@@ -73114,6 +78872,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutEnquiriesInput = {
@@ -73265,6 +79025,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnquiriesInput = {
@@ -73295,6 +79057,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type LeadViewUpsertWithWhereUniqueWithoutEnquiryInput = {
@@ -73341,6 +79105,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutSavedPropertiesInput = {
@@ -73371,6 +79137,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutSavedPropertiesInput = {
@@ -73494,6 +79262,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedPropertiesInput = {
@@ -73524,6 +79294,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PropertyUpsertWithoutSavedByInput = {
@@ -73637,6 +79409,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutAgentProfileInput = {
@@ -73667,6 +79441,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutAgentProfileInput = {
@@ -73689,11 +79465,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -73719,6 +79509,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutReferredAgentsInput = {
@@ -73737,11 +79528,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -73766,6 +79571,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutReferredAgentsInput = {
@@ -73788,11 +79594,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -73818,6 +79638,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutReferringAgentInput = {
@@ -73836,11 +79657,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -73865,6 +79700,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutReferringAgentInput = {
@@ -73990,12 +79826,27 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
     images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
     unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutAgentInput = {
@@ -74016,11 +79867,26 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
     unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutAgentInput = {
@@ -74036,25 +79902,49 @@ export namespace Prisma {
   export type DealCreateWithoutBuyerAgentInput = {
     id?: string
     dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
     buyerCommission?: number | null
     sellerCommission?: number | null
-    paymentMode: $Enums.PaymentMode
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
     note?: string | null
     dealDate?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
+    broadcast?: BroadcastCreateNestedOneWithoutDealsInput
     sellerAgent?: AgentProfileCreateNestedOneWithoutDealsAsSellerAgentInput
   }
 
   export type DealUncheckedCreateWithoutBuyerAgentInput = {
     id?: string
     dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    broadcastId?: string | null
     sellerAgentId?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
     buyerCommission?: number | null
     sellerCommission?: number | null
-    paymentMode: $Enums.PaymentMode
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
     note?: string | null
     dealDate?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DealCreateOrConnectWithoutBuyerAgentInput = {
@@ -74070,25 +79960,49 @@ export namespace Prisma {
   export type DealCreateWithoutSellerAgentInput = {
     id?: string
     dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
     buyerCommission?: number | null
     sellerCommission?: number | null
-    paymentMode: $Enums.PaymentMode
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
     note?: string | null
     dealDate?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
+    broadcast?: BroadcastCreateNestedOneWithoutDealsInput
     buyerAgent?: AgentProfileCreateNestedOneWithoutDealsAsBuyerAgentInput
   }
 
   export type DealUncheckedCreateWithoutSellerAgentInput = {
     id?: string
     dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    broadcastId?: string | null
     buyerAgentId?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
     buyerCommission?: number | null
     sellerCommission?: number | null
-    paymentMode: $Enums.PaymentMode
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
     note?: string | null
     dealDate?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DealCreateOrConnectWithoutSellerAgentInput = {
@@ -74257,6 +80171,7 @@ export namespace Prisma {
     createdAt?: Date | string
     responses?: BroadcastResponseCreateNestedManyWithoutBroadcastInput
     messages?: AgentChatMessageCreateNestedManyWithoutBroadcastInput
+    deals?: DealCreateNestedManyWithoutBroadcastInput
   }
 
   export type BroadcastUncheckedCreateWithoutAgentInput = {
@@ -74273,6 +80188,7 @@ export namespace Prisma {
     createdAt?: Date | string
     responses?: BroadcastResponseUncheckedCreateNestedManyWithoutBroadcastInput
     messages?: AgentChatMessageUncheckedCreateNestedManyWithoutBroadcastInput
+    deals?: DealUncheckedCreateNestedManyWithoutBroadcastInput
   }
 
   export type BroadcastCreateOrConnectWithoutAgentInput = {
@@ -74559,6 +80475,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PropertyUnlockCreateWithoutAssignedAgentInput = {
+    id?: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    agentListing: AgentListingCreateNestedOneWithoutUnlocksInput
+    buyer: UserCreateNestedOneWithoutPropertyUnlocksInput
+  }
+
+  export type PropertyUnlockUncheckedCreateWithoutAssignedAgentInput = {
+    id?: string
+    agentListingId: string
+    buyerId: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type PropertyUnlockCreateOrConnectWithoutAssignedAgentInput = {
+    where: PropertyUnlockWhereUniqueInput
+    create: XOR<PropertyUnlockCreateWithoutAssignedAgentInput, PropertyUnlockUncheckedCreateWithoutAssignedAgentInput>
+  }
+
+  export type PropertyUnlockCreateManyAssignedAgentInputEnvelope = {
+    data: PropertyUnlockCreateManyAssignedAgentInput | PropertyUnlockCreateManyAssignedAgentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutAgentProfileInput = {
     update: XOR<UserUpdateWithoutAgentProfileInput, UserUncheckedUpdateWithoutAgentProfileInput>
     create: XOR<UserCreateWithoutAgentProfileInput, UserUncheckedCreateWithoutAgentProfileInput>
@@ -74598,6 +80552,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentProfileInput = {
@@ -74628,6 +80584,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutReferredAgentsInput = {
@@ -74656,11 +80614,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -74686,6 +80658,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutReferredAgentsInput = {
@@ -74704,11 +80677,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74733,6 +80720,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUpsertWithWhereUniqueWithoutReferringAgentInput = {
@@ -74770,11 +80758,25 @@ export namespace Prisma {
     gstNumber?: StringNullableFilter<"AgentProfile"> | string | null
     status?: EnumApprovalStatusFilter<"AgentProfile"> | $Enums.ApprovalStatus
     rejectionReason?: StringNullableFilter<"AgentProfile"> | string | null
+    planTier?: EnumAgentPlanTierFilter<"AgentProfile"> | $Enums.AgentPlanTier
     primeStatus?: BoolFilter<"AgentProfile"> | boolean
+    visibilityDeprioritized?: BoolFilter<"AgentProfile"> | boolean
+    autoPayMandate?: StringNullableFilter<"AgentProfile"> | string | null
+    autoPayActive?: BoolFilter<"AgentProfile"> | boolean
+    renewalAlertSentAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     walletBalance?: IntFilter<"AgentProfile"> | number
     warningCount?: IntFilter<"AgentProfile"> | number
     ratingAvg?: FloatNullableFilter<"AgentProfile"> | number | null
     verifiedAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleStartDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleEndDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleListingsTarget?: IntFilter<"AgentProfile"> | number
+    cycleDealsTarget?: IntFilter<"AgentProfile"> | number
+    cycleVisitsTarget?: IntFilter<"AgentProfile"> | number
+    carryForwardScore?: IntFilter<"AgentProfile"> | number
+    cycleCompletedCount?: IntFilter<"AgentProfile"> | number
+    activeDiscountCoupon?: StringNullableFilter<"AgentProfile"> | string | null
+    couponExpiresAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     referringAgentId?: StringNullableFilter<"AgentProfile"> | string | null
     createdAt?: DateTimeFilter<"AgentProfile"> | Date | string
     updatedAt?: DateTimeFilter<"AgentProfile"> | Date | string
@@ -74907,6 +80909,19 @@ export namespace Prisma {
     amenities?: StringNullableFilter<"AgentListing"> | string | null
     nearbyAmenities?: StringNullableFilter<"AgentListing"> | string | null
     videoUrl?: StringNullableFilter<"AgentListing"> | string | null
+    listingPlan?: EnumListingPlanTierFilter<"AgentListing"> | $Enums.ListingPlanTier
+    listingFee?: IntFilter<"AgentListing"> | number
+    listingAgentSplit?: IntFilter<"AgentListing"> | number
+    listingCompanySplit?: IntFilter<"AgentListing"> | number
+    listingExpiresAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    isDelisted?: BoolFilter<"AgentListing"> | boolean
+    delistedAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    expiryWarning7dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    expiryWarning2dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    agreementStartDate?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    agreementExpiryDate?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    hotDealAlert30dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
+    hotDealAlert15dSentAt?: DateTimeNullableFilter<"AgentListing"> | Date | string | null
     createdAt?: DateTimeFilter<"AgentListing"> | Date | string
     updatedAt?: DateTimeFilter<"AgentListing"> | Date | string
   }
@@ -74933,14 +80948,26 @@ export namespace Prisma {
     NOT?: DealScalarWhereInput | DealScalarWhereInput[]
     id?: StringFilter<"Deal"> | string
     dealValue?: IntFilter<"Deal"> | number
+    status?: EnumDealStatusFilter<"Deal"> | $Enums.DealStatus
+    propertyTitle?: StringNullableFilter<"Deal"> | string | null
+    broadcastId?: StringNullableFilter<"Deal"> | string | null
     buyerAgentId?: StringNullableFilter<"Deal"> | string | null
     sellerAgentId?: StringNullableFilter<"Deal"> | string | null
+    totalCommission?: IntFilter<"Deal"> | number
+    platformPercent?: IntFilter<"Deal"> | number
+    platformCommission?: IntFilter<"Deal"> | number
     buyerCommission?: IntNullableFilter<"Deal"> | number | null
     sellerCommission?: IntNullableFilter<"Deal"> | number | null
+    tokenAmount?: IntNullableFilter<"Deal"> | number | null
+    tokenDate?: DateTimeNullableFilter<"Deal"> | Date | string | null
+    agreementDate?: DateTimeNullableFilter<"Deal"> | Date | string | null
+    registryDate?: DateTimeNullableFilter<"Deal"> | Date | string | null
+    commissionDistributed?: BoolFilter<"Deal"> | boolean
     paymentMode?: EnumPaymentModeFilter<"Deal"> | $Enums.PaymentMode
     note?: StringNullableFilter<"Deal"> | string | null
     dealDate?: DateTimeFilter<"Deal"> | Date | string
     createdAt?: DateTimeFilter<"Deal"> | Date | string
+    updatedAt?: DateTimeFilter<"Deal"> | Date | string
   }
 
   export type DealUpsertWithWhereUniqueWithoutSellerAgentInput = {
@@ -75359,6 +81386,22 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AreaAgentAssignment"> | Date | string
   }
 
+  export type PropertyUnlockUpsertWithWhereUniqueWithoutAssignedAgentInput = {
+    where: PropertyUnlockWhereUniqueInput
+    update: XOR<PropertyUnlockUpdateWithoutAssignedAgentInput, PropertyUnlockUncheckedUpdateWithoutAssignedAgentInput>
+    create: XOR<PropertyUnlockCreateWithoutAssignedAgentInput, PropertyUnlockUncheckedCreateWithoutAssignedAgentInput>
+  }
+
+  export type PropertyUnlockUpdateWithWhereUniqueWithoutAssignedAgentInput = {
+    where: PropertyUnlockWhereUniqueInput
+    data: XOR<PropertyUnlockUpdateWithoutAssignedAgentInput, PropertyUnlockUncheckedUpdateWithoutAssignedAgentInput>
+  }
+
+  export type PropertyUnlockUpdateManyWithWhereWithoutAssignedAgentInput = {
+    where: PropertyUnlockScalarWhereInput
+    data: XOR<PropertyUnlockUpdateManyMutationInput, PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentInput>
+  }
+
   export type AgentProfileCreateWithoutAreaAssignmentsInput = {
     id?: string
     agentCode?: string | null
@@ -75374,11 +81417,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -75404,6 +81461,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutAreaAssignmentsInput = {
@@ -75422,11 +81480,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -75451,6 +81523,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutAreaAssignmentsInput = {
@@ -75484,11 +81557,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -75514,6 +81601,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutAreaAssignmentsInput = {
@@ -75532,11 +81620,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75561,6 +81663,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutDocumentsInput = {
@@ -75578,11 +81681,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -75608,6 +81725,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDocumentsInput = {
@@ -75626,11 +81744,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -75655,6 +81787,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDocumentsInput = {
@@ -75688,11 +81821,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -75718,6 +81865,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDocumentsInput = {
@@ -75736,11 +81884,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75765,6 +81927,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type UserCreateWithoutInvestorProfileInput = {
@@ -75795,6 +81958,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutInvestorProfileInput = {
@@ -75825,6 +81990,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutInvestorProfileInput = {
@@ -75847,11 +82014,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -75877,6 +82058,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutInvestorsInput = {
@@ -75895,11 +82077,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -75924,6 +82120,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutInvestorsInput = {
@@ -76108,6 +82305,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvestorProfileInput = {
@@ -76138,6 +82337,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutInvestorsInput = {
@@ -76166,11 +82367,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -76196,6 +82411,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutInvestorsInput = {
@@ -76214,11 +82430,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -76243,6 +82473,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type ProfitDistributionUpsertWithWhereUniqueWithoutInvestorProfileInput = {
@@ -76356,11 +82587,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -76386,6 +82631,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutCommissionEntriesInput = {
@@ -76404,11 +82650,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -76433,6 +82693,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutCommissionEntriesInput = {
@@ -76466,11 +82727,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -76496,6 +82771,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutCommissionEntriesInput = {
@@ -76514,11 +82790,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -76543,6 +82833,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentListingCreateWithoutMasterPropertyInput = {
@@ -76562,12 +82853,27 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     agent?: AgentProfileCreateNestedOneWithoutListingsInput
     images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
     unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutMasterPropertyInput = {
@@ -76588,11 +82894,26 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
     unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutMasterPropertyInput = {
@@ -76815,11 +83136,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -76845,6 +83180,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutListingsInput = {
@@ -76863,11 +83199,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -76892,6 +83242,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutListingsInput = {
@@ -76926,8 +83277,13 @@ export namespace Prisma {
     amount?: number
     agentSplit?: number
     companySplit?: number
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
     createdAt?: Date | string
     buyer: UserCreateNestedOneWithoutPropertyUnlocksInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedUnlocksInput
   }
 
   export type PropertyUnlockUncheckedCreateWithoutAgentListingInput = {
@@ -76936,6 +83292,11 @@ export namespace Prisma {
     amount?: number
     agentSplit?: number
     companySplit?: number
+    assignedAgentId?: string | null
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -76972,6 +83333,96 @@ export namespace Prisma {
   export type GoldListingPurchaseCreateOrConnectWithoutAgentListingInput = {
     where: GoldListingPurchaseWhereUniqueInput
     create: XOR<GoldListingPurchaseCreateWithoutAgentListingInput, GoldListingPurchaseUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type DirectPropertyVisitCreateWithoutAgentListingInput = {
+    id?: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    buyer: UserCreateNestedOneWithoutDirectVisitsInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutDirectVisitInput
+  }
+
+  export type DirectPropertyVisitUncheckedCreateWithoutAgentListingInput = {
+    id?: string
+    buyerId: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutDirectVisitInput
+  }
+
+  export type DirectPropertyVisitCreateOrConnectWithoutAgentListingInput = {
+    where: DirectPropertyVisitWhereUniqueInput
+    create: XOR<DirectPropertyVisitCreateWithoutAgentListingInput, DirectPropertyVisitUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type DirectPropertyVisitCreateManyAgentListingInputEnvelope = {
+    data: DirectPropertyVisitCreateManyAgentListingInput | DirectPropertyVisitCreateManyAgentListingInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PlatformAntiBypassAgreementCreateWithoutAgentListingInput = {
+    id?: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    directVisit?: DirectPropertyVisitCreateNestedOneWithoutAntiBypassAgreementsInput
+    buyer: UserCreateNestedOneWithoutAntiBypassAgreementsInput
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput = {
+    id?: string
+    directVisitId?: string | null
+    buyerId: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput = {
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    create: XOR<PlatformAntiBypassAgreementCreateWithoutAgentListingInput, PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type PlatformAntiBypassAgreementCreateManyAgentListingInputEnvelope = {
+    data: PlatformAntiBypassAgreementCreateManyAgentListingInput | PlatformAntiBypassAgreementCreateManyAgentListingInput[]
+    skipDuplicates?: boolean
   }
 
   export type MasterPropertyUpsertWithoutListingsInput = {
@@ -77037,11 +83488,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -77067,6 +83532,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutListingsInput = {
@@ -77085,11 +83551,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -77114,6 +83594,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentListingImageUpsertWithWhereUniqueWithoutAgentListingInput = {
@@ -77189,6 +83670,38 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DirectPropertyVisitUpsertWithWhereUniqueWithoutAgentListingInput = {
+    where: DirectPropertyVisitWhereUniqueInput
+    update: XOR<DirectPropertyVisitUpdateWithoutAgentListingInput, DirectPropertyVisitUncheckedUpdateWithoutAgentListingInput>
+    create: XOR<DirectPropertyVisitCreateWithoutAgentListingInput, DirectPropertyVisitUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type DirectPropertyVisitUpdateWithWhereUniqueWithoutAgentListingInput = {
+    where: DirectPropertyVisitWhereUniqueInput
+    data: XOR<DirectPropertyVisitUpdateWithoutAgentListingInput, DirectPropertyVisitUncheckedUpdateWithoutAgentListingInput>
+  }
+
+  export type DirectPropertyVisitUpdateManyWithWhereWithoutAgentListingInput = {
+    where: DirectPropertyVisitScalarWhereInput
+    data: XOR<DirectPropertyVisitUpdateManyMutationInput, DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingInput>
+  }
+
+  export type PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutAgentListingInput = {
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    update: XOR<PlatformAntiBypassAgreementUpdateWithoutAgentListingInput, PlatformAntiBypassAgreementUncheckedUpdateWithoutAgentListingInput>
+    create: XOR<PlatformAntiBypassAgreementCreateWithoutAgentListingInput, PlatformAntiBypassAgreementUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutAgentListingInput = {
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    data: XOR<PlatformAntiBypassAgreementUpdateWithoutAgentListingInput, PlatformAntiBypassAgreementUncheckedUpdateWithoutAgentListingInput>
+  }
+
+  export type PlatformAntiBypassAgreementUpdateManyWithWhereWithoutAgentListingInput = {
+    where: PlatformAntiBypassAgreementScalarWhereInput
+    data: XOR<PlatformAntiBypassAgreementUpdateManyMutationInput, PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingInput>
+  }
+
   export type AgentListingCreateWithoutImagesInput = {
     id?: string
     source?: $Enums.ListingSource
@@ -77206,12 +83719,27 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
     agent?: AgentProfileCreateNestedOneWithoutListingsInput
     unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutImagesInput = {
@@ -77233,10 +83761,25 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutImagesInput = {
@@ -77272,12 +83815,27 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
     agent?: AgentProfileUpdateOneWithoutListingsNestedInput
     unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutImagesInput = {
@@ -77299,10 +83857,25 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingCreateWithoutUnlocksInput = {
@@ -77322,12 +83895,27 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
     agent?: AgentProfileCreateNestedOneWithoutListingsInput
     images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutUnlocksInput = {
@@ -77349,10 +83937,25 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutUnlocksInput = {
@@ -77388,6 +83991,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutPropertyUnlocksInput = {
@@ -77418,11 +84023,142 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutPropertyUnlocksInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutPropertyUnlocksInput, UserUncheckedCreateWithoutPropertyUnlocksInput>
+  }
+
+  export type AgentProfileCreateWithoutAssignedUnlocksInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
+    primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
+    referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutAssignedUnlocksInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
+    primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
+    referringAgentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealUncheckedCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealUncheckedCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionUncheckedCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestUncheckedCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationUncheckedCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestUncheckedCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastUncheckedCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseUncheckedCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageUncheckedCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageUncheckedCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogUncheckedCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingUncheckedCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningUncheckedCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutAssignedUnlocksInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutAssignedUnlocksInput, AgentProfileUncheckedCreateWithoutAssignedUnlocksInput>
   }
 
   export type AgentListingUpsertWithoutUnlocksInput = {
@@ -77453,12 +84189,27 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
     agent?: AgentProfileUpdateOneWithoutListingsNestedInput
     images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutUnlocksInput = {
@@ -77480,10 +84231,25 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type UserUpsertWithoutPropertyUnlocksInput = {
@@ -77525,6 +84291,8 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertyUnlocksInput = {
@@ -77555,6 +84323,143 @@ export namespace Prisma {
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type AgentProfileUpsertWithoutAssignedUnlocksInput = {
+    update: XOR<AgentProfileUpdateWithoutAssignedUnlocksInput, AgentProfileUncheckedUpdateWithoutAssignedUnlocksInput>
+    create: XOR<AgentProfileCreateWithoutAssignedUnlocksInput, AgentProfileUncheckedCreateWithoutAssignedUnlocksInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutAssignedUnlocksInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutAssignedUnlocksInput, AgentProfileUncheckedUpdateWithoutAssignedUnlocksInput>
+  }
+
+  export type AgentProfileUpdateWithoutAssignedUnlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
+    referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
+    dealsAsBuyerAgent?: DealUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutAssignedUnlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
+    dealsAsBuyerAgent?: DealUncheckedUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUncheckedUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUncheckedUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUncheckedUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUncheckedUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUncheckedUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUncheckedUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUncheckedUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUncheckedUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUncheckedUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
   }
 
   export type AgentListingCreateWithoutGoldPurchaseInput = {
@@ -77574,12 +84479,27 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
     agent?: AgentProfileCreateNestedOneWithoutListingsInput
     images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
     unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutGoldPurchaseInput = {
@@ -77601,10 +84521,25 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
     unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutGoldPurchaseInput = {
@@ -77640,6 +84575,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutGoldListingPurchasesInput = {
@@ -77670,6 +84607,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutGoldListingPurchasesInput = {
@@ -77705,12 +84644,27 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
     agent?: AgentProfileUpdateOneWithoutListingsNestedInput
     images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
     unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutGoldPurchaseInput = {
@@ -77732,10 +84686,25 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
     unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type UserUpsertWithoutGoldListingPurchasesInput = {
@@ -77777,6 +84746,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoldListingPurchasesInput = {
@@ -77807,6 +84778,47 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type BroadcastCreateWithoutDealsInput = {
+    id?: string
+    latitude: number
+    longitude: number
+    radiusKm: number
+    society?: string | null
+    flatSize: string
+    txnType: $Enums.BroadcastTxnType
+    budgetMin: number
+    budgetMax: number
+    status?: $Enums.BroadcastStatus
+    createdAt?: Date | string
+    agent: AgentProfileCreateNestedOneWithoutBroadcastsPostedInput
+    responses?: BroadcastResponseCreateNestedManyWithoutBroadcastInput
+    messages?: AgentChatMessageCreateNestedManyWithoutBroadcastInput
+  }
+
+  export type BroadcastUncheckedCreateWithoutDealsInput = {
+    id?: string
+    agentId: string
+    latitude: number
+    longitude: number
+    radiusKm: number
+    society?: string | null
+    flatSize: string
+    txnType: $Enums.BroadcastTxnType
+    budgetMin: number
+    budgetMax: number
+    status?: $Enums.BroadcastStatus
+    createdAt?: Date | string
+    responses?: BroadcastResponseUncheckedCreateNestedManyWithoutBroadcastInput
+    messages?: AgentChatMessageUncheckedCreateNestedManyWithoutBroadcastInput
+  }
+
+  export type BroadcastCreateOrConnectWithoutDealsInput = {
+    where: BroadcastWhereUniqueInput
+    create: XOR<BroadcastCreateWithoutDealsInput, BroadcastUncheckedCreateWithoutDealsInput>
   }
 
   export type AgentProfileCreateWithoutDealsAsBuyerAgentInput = {
@@ -77824,11 +84836,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -77854,6 +84880,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDealsAsBuyerAgentInput = {
@@ -77872,11 +84899,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -77901,6 +84942,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDealsAsBuyerAgentInput = {
@@ -77923,11 +84965,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -77953,6 +85009,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDealsAsSellerAgentInput = {
@@ -77971,11 +85028,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -78000,11 +85071,57 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDealsAsSellerAgentInput = {
     where: AgentProfileWhereUniqueInput
     create: XOR<AgentProfileCreateWithoutDealsAsSellerAgentInput, AgentProfileUncheckedCreateWithoutDealsAsSellerAgentInput>
+  }
+
+  export type BroadcastUpsertWithoutDealsInput = {
+    update: XOR<BroadcastUpdateWithoutDealsInput, BroadcastUncheckedUpdateWithoutDealsInput>
+    create: XOR<BroadcastCreateWithoutDealsInput, BroadcastUncheckedCreateWithoutDealsInput>
+    where?: BroadcastWhereInput
+  }
+
+  export type BroadcastUpdateToOneWithWhereWithoutDealsInput = {
+    where?: BroadcastWhereInput
+    data: XOR<BroadcastUpdateWithoutDealsInput, BroadcastUncheckedUpdateWithoutDealsInput>
+  }
+
+  export type BroadcastUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    radiusKm?: IntFieldUpdateOperationsInput | number
+    society?: NullableStringFieldUpdateOperationsInput | string | null
+    flatSize?: StringFieldUpdateOperationsInput | string
+    txnType?: EnumBroadcastTxnTypeFieldUpdateOperationsInput | $Enums.BroadcastTxnType
+    budgetMin?: IntFieldUpdateOperationsInput | number
+    budgetMax?: IntFieldUpdateOperationsInput | number
+    status?: EnumBroadcastStatusFieldUpdateOperationsInput | $Enums.BroadcastStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentProfileUpdateOneRequiredWithoutBroadcastsPostedNestedInput
+    responses?: BroadcastResponseUpdateManyWithoutBroadcastNestedInput
+    messages?: AgentChatMessageUpdateManyWithoutBroadcastNestedInput
+  }
+
+  export type BroadcastUncheckedUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    radiusKm?: IntFieldUpdateOperationsInput | number
+    society?: NullableStringFieldUpdateOperationsInput | string | null
+    flatSize?: StringFieldUpdateOperationsInput | string
+    txnType?: EnumBroadcastTxnTypeFieldUpdateOperationsInput | $Enums.BroadcastTxnType
+    budgetMin?: IntFieldUpdateOperationsInput | number
+    budgetMax?: IntFieldUpdateOperationsInput | number
+    status?: EnumBroadcastStatusFieldUpdateOperationsInput | $Enums.BroadcastStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    responses?: BroadcastResponseUncheckedUpdateManyWithoutBroadcastNestedInput
+    messages?: AgentChatMessageUncheckedUpdateManyWithoutBroadcastNestedInput
   }
 
   export type AgentProfileUpsertWithoutDealsAsBuyerAgentInput = {
@@ -78033,11 +85150,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -78063,6 +85194,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDealsAsBuyerAgentInput = {
@@ -78081,11 +85213,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -78110,6 +85256,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUpsertWithoutDealsAsSellerAgentInput = {
@@ -78138,11 +85285,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -78168,6 +85329,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDealsAsSellerAgentInput = {
@@ -78186,11 +85348,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -78215,6 +85391,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type InvestorProfileCreateWithoutProfitDistributionsInput = {
@@ -78271,11 +85448,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -78301,6 +85492,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutProfitDistributionsInput = {
@@ -78319,11 +85511,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -78348,6 +85554,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutProfitDistributionsInput = {
@@ -78426,11 +85633,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -78456,6 +85677,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutProfitDistributionsInput = {
@@ -78474,11 +85696,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -78503,6 +85739,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type InvestorProfileCreateWithoutLedgerEntriesInput = {
@@ -78604,11 +85841,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -78634,6 +85885,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutPayoutRequestsInput = {
@@ -78652,11 +85904,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -78681,6 +85947,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutPayoutRequestsInput = {
@@ -78714,11 +85981,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -78744,6 +86025,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutPayoutRequestsInput = {
@@ -78762,11 +86044,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -78791,6 +86087,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type UserCreateWithoutDispatchRequestsInput = {
@@ -78821,6 +86118,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutDispatchRequestsInput = {
@@ -78851,6 +86150,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutDispatchRequestsInput = {
@@ -78873,11 +86174,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -78903,6 +86218,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDispatchesAcceptedInput = {
@@ -78921,11 +86237,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -78950,6 +86280,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDispatchesAcceptedInput = {
@@ -79020,6 +86351,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDispatchRequestsInput = {
@@ -79050,6 +86383,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutDispatchesAcceptedInput = {
@@ -79078,11 +86413,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -79108,6 +86457,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDispatchesAcceptedInput = {
@@ -79126,11 +86476,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -79155,6 +86519,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type DispatchNotificationUpsertWithWhereUniqueWithoutDispatchRequestInput = {
@@ -79231,11 +86596,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -79261,6 +86640,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDispatchNotificationsInput = {
@@ -79279,11 +86659,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -79308,6 +86702,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDispatchNotificationsInput = {
@@ -79390,11 +86785,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -79420,6 +86829,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDispatchNotificationsInput = {
@@ -79438,11 +86848,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -79467,6 +86891,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutBroadcastsPostedInput = {
@@ -79484,11 +86909,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -79514,6 +86953,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutBroadcastsPostedInput = {
@@ -79532,11 +86972,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -79561,6 +87015,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutBroadcastsPostedInput = {
@@ -79618,6 +87073,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DealCreateWithoutBroadcastInput = {
+    id?: string
+    dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
+    buyerCommission?: number | null
+    sellerCommission?: number | null
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
+    note?: string | null
+    dealDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buyerAgent?: AgentProfileCreateNestedOneWithoutDealsAsBuyerAgentInput
+    sellerAgent?: AgentProfileCreateNestedOneWithoutDealsAsSellerAgentInput
+  }
+
+  export type DealUncheckedCreateWithoutBroadcastInput = {
+    id?: string
+    dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    buyerAgentId?: string | null
+    sellerAgentId?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
+    buyerCommission?: number | null
+    sellerCommission?: number | null
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
+    note?: string | null
+    dealDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealCreateOrConnectWithoutBroadcastInput = {
+    where: DealWhereUniqueInput
+    create: XOR<DealCreateWithoutBroadcastInput, DealUncheckedCreateWithoutBroadcastInput>
+  }
+
+  export type DealCreateManyBroadcastInputEnvelope = {
+    data: DealCreateManyBroadcastInput | DealCreateManyBroadcastInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AgentProfileUpsertWithoutBroadcastsPostedInput = {
     update: XOR<AgentProfileUpdateWithoutBroadcastsPostedInput, AgentProfileUncheckedUpdateWithoutBroadcastsPostedInput>
     create: XOR<AgentProfileCreateWithoutBroadcastsPostedInput, AgentProfileUncheckedCreateWithoutBroadcastsPostedInput>
@@ -79644,11 +87157,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -79674,6 +87201,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutBroadcastsPostedInput = {
@@ -79692,11 +87220,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -79721,6 +87263,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type BroadcastResponseUpsertWithWhereUniqueWithoutBroadcastInput = {
@@ -79755,6 +87298,22 @@ export namespace Prisma {
     data: XOR<AgentChatMessageUpdateManyMutationInput, AgentChatMessageUncheckedUpdateManyWithoutBroadcastInput>
   }
 
+  export type DealUpsertWithWhereUniqueWithoutBroadcastInput = {
+    where: DealWhereUniqueInput
+    update: XOR<DealUpdateWithoutBroadcastInput, DealUncheckedUpdateWithoutBroadcastInput>
+    create: XOR<DealCreateWithoutBroadcastInput, DealUncheckedCreateWithoutBroadcastInput>
+  }
+
+  export type DealUpdateWithWhereUniqueWithoutBroadcastInput = {
+    where: DealWhereUniqueInput
+    data: XOR<DealUpdateWithoutBroadcastInput, DealUncheckedUpdateWithoutBroadcastInput>
+  }
+
+  export type DealUpdateManyWithWhereWithoutBroadcastInput = {
+    where: DealScalarWhereInput
+    data: XOR<DealUpdateManyMutationInput, DealUncheckedUpdateManyWithoutBroadcastInput>
+  }
+
   export type BroadcastCreateWithoutResponsesInput = {
     id?: string
     latitude: number
@@ -79769,6 +87328,7 @@ export namespace Prisma {
     createdAt?: Date | string
     agent: AgentProfileCreateNestedOneWithoutBroadcastsPostedInput
     messages?: AgentChatMessageCreateNestedManyWithoutBroadcastInput
+    deals?: DealCreateNestedManyWithoutBroadcastInput
   }
 
   export type BroadcastUncheckedCreateWithoutResponsesInput = {
@@ -79785,6 +87345,7 @@ export namespace Prisma {
     status?: $Enums.BroadcastStatus
     createdAt?: Date | string
     messages?: AgentChatMessageUncheckedCreateNestedManyWithoutBroadcastInput
+    deals?: DealUncheckedCreateNestedManyWithoutBroadcastInput
   }
 
   export type BroadcastCreateOrConnectWithoutResponsesInput = {
@@ -79807,11 +87368,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -79837,6 +87412,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutBroadcastResponsesInput = {
@@ -79855,11 +87431,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -79884,6 +87474,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutBroadcastResponsesInput = {
@@ -79916,6 +87507,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agent?: AgentProfileUpdateOneRequiredWithoutBroadcastsPostedNestedInput
     messages?: AgentChatMessageUpdateManyWithoutBroadcastNestedInput
+    deals?: DealUpdateManyWithoutBroadcastNestedInput
   }
 
   export type BroadcastUncheckedUpdateWithoutResponsesInput = {
@@ -79932,6 +87524,7 @@ export namespace Prisma {
     status?: EnumBroadcastStatusFieldUpdateOperationsInput | $Enums.BroadcastStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: AgentChatMessageUncheckedUpdateManyWithoutBroadcastNestedInput
+    deals?: DealUncheckedUpdateManyWithoutBroadcastNestedInput
   }
 
   export type AgentProfileUpsertWithoutBroadcastResponsesInput = {
@@ -79960,11 +87553,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -79990,6 +87597,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutBroadcastResponsesInput = {
@@ -80008,11 +87616,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80037,6 +87659,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type BroadcastCreateWithoutMessagesInput = {
@@ -80053,6 +87676,7 @@ export namespace Prisma {
     createdAt?: Date | string
     agent: AgentProfileCreateNestedOneWithoutBroadcastsPostedInput
     responses?: BroadcastResponseCreateNestedManyWithoutBroadcastInput
+    deals?: DealCreateNestedManyWithoutBroadcastInput
   }
 
   export type BroadcastUncheckedCreateWithoutMessagesInput = {
@@ -80069,6 +87693,7 @@ export namespace Prisma {
     status?: $Enums.BroadcastStatus
     createdAt?: Date | string
     responses?: BroadcastResponseUncheckedCreateNestedManyWithoutBroadcastInput
+    deals?: DealUncheckedCreateNestedManyWithoutBroadcastInput
   }
 
   export type BroadcastCreateOrConnectWithoutMessagesInput = {
@@ -80091,11 +87716,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -80121,6 +87760,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutChatMessagesSentInput = {
@@ -80139,11 +87779,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -80168,6 +87822,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutChatMessagesSentInput = {
@@ -80190,11 +87845,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -80220,6 +87889,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutChatMessagesReceivedInput = {
@@ -80238,11 +87908,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -80267,6 +87951,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutChatMessagesReceivedInput = {
@@ -80299,6 +87984,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agent?: AgentProfileUpdateOneRequiredWithoutBroadcastsPostedNestedInput
     responses?: BroadcastResponseUpdateManyWithoutBroadcastNestedInput
+    deals?: DealUpdateManyWithoutBroadcastNestedInput
   }
 
   export type BroadcastUncheckedUpdateWithoutMessagesInput = {
@@ -80315,6 +88001,7 @@ export namespace Prisma {
     status?: EnumBroadcastStatusFieldUpdateOperationsInput | $Enums.BroadcastStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     responses?: BroadcastResponseUncheckedUpdateManyWithoutBroadcastNestedInput
+    deals?: DealUncheckedUpdateManyWithoutBroadcastNestedInput
   }
 
   export type AgentProfileUpsertWithoutChatMessagesSentInput = {
@@ -80343,11 +88030,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -80373,6 +88074,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutChatMessagesSentInput = {
@@ -80391,11 +88093,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80420,6 +88136,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUpsertWithoutChatMessagesReceivedInput = {
@@ -80448,11 +88165,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -80478,6 +88209,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutChatMessagesReceivedInput = {
@@ -80496,11 +88228,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80525,6 +88271,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type MasterPropertyCreateWithoutVisitLogsInput = {
@@ -80573,11 +88320,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -80603,6 +88364,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutVisitLogsInput = {
@@ -80621,11 +88383,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -80650,6 +88426,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutVisitLogsInput = {
@@ -80720,11 +88497,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -80750,6 +88541,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutVisitLogsInput = {
@@ -80768,11 +88560,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80797,6 +88603,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutRatingsInput = {
@@ -80814,11 +88621,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -80844,6 +88665,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutRatingsInput = {
@@ -80862,11 +88684,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -80891,6 +88727,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutRatingsInput = {
@@ -80924,11 +88761,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -80954,6 +88805,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutRatingsInput = {
@@ -80972,11 +88824,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81001,6 +88867,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutWarningsInput = {
@@ -81018,11 +88885,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -81048,6 +88929,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutWarningsInput = {
@@ -81066,11 +88948,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -81095,6 +88991,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutWarningsInput = {
@@ -81128,11 +89025,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -81158,6 +89069,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutWarningsInput = {
@@ -81176,11 +89088,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81205,6 +89131,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutCustomerBlocksInput = {
@@ -81222,11 +89149,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -81252,6 +89193,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutCustomerBlocksInput = {
@@ -81270,11 +89212,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -81299,6 +89255,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutCustomerBlocksInput = {
@@ -81332,11 +89289,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -81362,6 +89333,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutCustomerBlocksInput = {
@@ -81380,11 +89352,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81409,6 +89395,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type MasterPropertyCreateWithoutDocumentVaultItemsInput = {
@@ -81457,11 +89444,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -81487,6 +89488,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDocumentVaultItemsInput = {
@@ -81505,11 +89507,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -81534,6 +89550,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDocumentVaultItemsInput = {
@@ -81643,11 +89660,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -81673,6 +89704,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDocumentVaultItemsInput = {
@@ -81691,11 +89723,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -81720,6 +89766,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type InvestorProfileUpsertWithoutDocumentVaultItemsInput = {
@@ -81879,6 +89926,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
     dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutVisitAppointmentsInput = {
@@ -81909,6 +89958,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
     dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
     goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutVisitAppointmentsInput = {
@@ -81931,11 +89982,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
@@ -81961,6 +90026,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutVisitAppointmentsInput = {
@@ -81979,11 +90045,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -82008,6 +90088,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
     documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutVisitAppointmentsInput = {
@@ -82085,6 +90166,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
     dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVisitAppointmentsInput = {
@@ -82115,6 +90198,8 @@ export namespace Prisma {
     propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
     goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutVisitAppointmentsInput = {
@@ -82143,11 +90228,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -82173,6 +90272,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutVisitAppointmentsInput = {
@@ -82191,11 +90291,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -82220,6 +90334,7 @@ export namespace Prisma {
     customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type MasterPropertyUpsertWithoutVisitAppointmentsInput = {
@@ -82257,6 +90372,788 @@ export namespace Prisma {
     listings?: AgentListingUncheckedUpdateManyWithoutMasterPropertyNestedInput
     visitLogs?: PropertyVisitLogUncheckedUpdateManyWithoutMasterPropertyNestedInput
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutMasterPropertyNestedInput
+  }
+
+  export type AgentListingCreateWithoutDirectVisitsInput = {
+    id?: string
+    source?: $Enums.ListingSource
+    approvalStatus?: $Enums.ApprovalStatus
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
+    agent?: AgentProfileCreateNestedOneWithoutListingsInput
+    images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
+    goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUncheckedCreateWithoutDirectVisitsInput = {
+    id?: string
+    masterPropertyId: string
+    agentId?: string | null
+    source?: $Enums.ListingSource
+    approvalStatus?: $Enums.ApprovalStatus
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
+    goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingCreateOrConnectWithoutDirectVisitsInput = {
+    where: AgentListingWhereUniqueInput
+    create: XOR<AgentListingCreateWithoutDirectVisitsInput, AgentListingUncheckedCreateWithoutDirectVisitsInput>
+  }
+
+  export type UserCreateWithoutDirectVisitsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserUncheckedCreateWithoutDirectVisitsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserCreateOrConnectWithoutDirectVisitsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDirectVisitsInput, UserUncheckedCreateWithoutDirectVisitsInput>
+  }
+
+  export type PlatformAntiBypassAgreementCreateWithoutDirectVisitInput = {
+    id?: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    agentListing: AgentListingCreateNestedOneWithoutAntiBypassAgreementsInput
+    buyer: UserCreateNestedOneWithoutAntiBypassAgreementsInput
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput = {
+    id?: string
+    agentListingId: string
+    buyerId: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformAntiBypassAgreementCreateOrConnectWithoutDirectVisitInput = {
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    create: XOR<PlatformAntiBypassAgreementCreateWithoutDirectVisitInput, PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput>
+  }
+
+  export type PlatformAntiBypassAgreementCreateManyDirectVisitInputEnvelope = {
+    data: PlatformAntiBypassAgreementCreateManyDirectVisitInput | PlatformAntiBypassAgreementCreateManyDirectVisitInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AgentListingUpsertWithoutDirectVisitsInput = {
+    update: XOR<AgentListingUpdateWithoutDirectVisitsInput, AgentListingUncheckedUpdateWithoutDirectVisitsInput>
+    create: XOR<AgentListingCreateWithoutDirectVisitsInput, AgentListingUncheckedCreateWithoutDirectVisitsInput>
+    where?: AgentListingWhereInput
+  }
+
+  export type AgentListingUpdateToOneWithWhereWithoutDirectVisitsInput = {
+    where?: AgentListingWhereInput
+    data: XOR<AgentListingUpdateWithoutDirectVisitsInput, AgentListingUncheckedUpdateWithoutDirectVisitsInput>
+  }
+
+  export type AgentListingUpdateWithoutDirectVisitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumListingSourceFieldUpdateOperationsInput | $Enums.ListingSource
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
+    agent?: AgentProfileUpdateOneWithoutListingsNestedInput
+    images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
+    goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateWithoutDirectVisitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    agentId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumListingSourceFieldUpdateOperationsInput | $Enums.ListingSource
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
+    goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type UserUpsertWithoutDirectVisitsInput = {
+    update: XOR<UserUpdateWithoutDirectVisitsInput, UserUncheckedUpdateWithoutDirectVisitsInput>
+    create: XOR<UserCreateWithoutDirectVisitsInput, UserUncheckedCreateWithoutDirectVisitsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDirectVisitsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDirectVisitsInput, UserUncheckedUpdateWithoutDirectVisitsInput>
+  }
+
+  export type UserUpdateWithoutDirectVisitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDirectVisitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutDirectVisitInput = {
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    update: XOR<PlatformAntiBypassAgreementUpdateWithoutDirectVisitInput, PlatformAntiBypassAgreementUncheckedUpdateWithoutDirectVisitInput>
+    create: XOR<PlatformAntiBypassAgreementCreateWithoutDirectVisitInput, PlatformAntiBypassAgreementUncheckedCreateWithoutDirectVisitInput>
+  }
+
+  export type PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutDirectVisitInput = {
+    where: PlatformAntiBypassAgreementWhereUniqueInput
+    data: XOR<PlatformAntiBypassAgreementUpdateWithoutDirectVisitInput, PlatformAntiBypassAgreementUncheckedUpdateWithoutDirectVisitInput>
+  }
+
+  export type PlatformAntiBypassAgreementUpdateManyWithWhereWithoutDirectVisitInput = {
+    where: PlatformAntiBypassAgreementScalarWhereInput
+    data: XOR<PlatformAntiBypassAgreementUpdateManyMutationInput, PlatformAntiBypassAgreementUncheckedUpdateManyWithoutDirectVisitInput>
+  }
+
+  export type DirectPropertyVisitCreateWithoutAntiBypassAgreementsInput = {
+    id?: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+    agentListing: AgentListingCreateNestedOneWithoutDirectVisitsInput
+    buyer: UserCreateNestedOneWithoutDirectVisitsInput
+  }
+
+  export type DirectPropertyVisitUncheckedCreateWithoutAntiBypassAgreementsInput = {
+    id?: string
+    agentListingId: string
+    buyerId: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+  }
+
+  export type DirectPropertyVisitCreateOrConnectWithoutAntiBypassAgreementsInput = {
+    where: DirectPropertyVisitWhereUniqueInput
+    create: XOR<DirectPropertyVisitCreateWithoutAntiBypassAgreementsInput, DirectPropertyVisitUncheckedCreateWithoutAntiBypassAgreementsInput>
+  }
+
+  export type AgentListingCreateWithoutAntiBypassAgreementsInput = {
+    id?: string
+    source?: $Enums.ListingSource
+    approvalStatus?: $Enums.ApprovalStatus
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
+    agent?: AgentProfileCreateNestedOneWithoutListingsInput
+    images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
+    goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUncheckedCreateWithoutAntiBypassAgreementsInput = {
+    id?: string
+    masterPropertyId: string
+    agentId?: string | null
+    source?: $Enums.ListingSource
+    approvalStatus?: $Enums.ApprovalStatus
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
+    goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingCreateOrConnectWithoutAntiBypassAgreementsInput = {
+    where: AgentListingWhereUniqueInput
+    create: XOR<AgentListingCreateWithoutAntiBypassAgreementsInput, AgentListingUncheckedCreateWithoutAntiBypassAgreementsInput>
+  }
+
+  export type UserCreateWithoutAntiBypassAgreementsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserUncheckedCreateWithoutAntiBypassAgreementsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserCreateOrConnectWithoutAntiBypassAgreementsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAntiBypassAgreementsInput, UserUncheckedCreateWithoutAntiBypassAgreementsInput>
+  }
+
+  export type DirectPropertyVisitUpsertWithoutAntiBypassAgreementsInput = {
+    update: XOR<DirectPropertyVisitUpdateWithoutAntiBypassAgreementsInput, DirectPropertyVisitUncheckedUpdateWithoutAntiBypassAgreementsInput>
+    create: XOR<DirectPropertyVisitCreateWithoutAntiBypassAgreementsInput, DirectPropertyVisitUncheckedCreateWithoutAntiBypassAgreementsInput>
+    where?: DirectPropertyVisitWhereInput
+  }
+
+  export type DirectPropertyVisitUpdateToOneWithWhereWithoutAntiBypassAgreementsInput = {
+    where?: DirectPropertyVisitWhereInput
+    data: XOR<DirectPropertyVisitUpdateWithoutAntiBypassAgreementsInput, DirectPropertyVisitUncheckedUpdateWithoutAntiBypassAgreementsInput>
+  }
+
+  export type DirectPropertyVisitUpdateWithoutAntiBypassAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentListing?: AgentListingUpdateOneRequiredWithoutDirectVisitsNestedInput
+    buyer?: UserUpdateOneRequiredWithoutDirectVisitsNestedInput
+  }
+
+  export type DirectPropertyVisitUncheckedUpdateWithoutAntiBypassAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingUpsertWithoutAntiBypassAgreementsInput = {
+    update: XOR<AgentListingUpdateWithoutAntiBypassAgreementsInput, AgentListingUncheckedUpdateWithoutAntiBypassAgreementsInput>
+    create: XOR<AgentListingCreateWithoutAntiBypassAgreementsInput, AgentListingUncheckedCreateWithoutAntiBypassAgreementsInput>
+    where?: AgentListingWhereInput
+  }
+
+  export type AgentListingUpdateToOneWithWhereWithoutAntiBypassAgreementsInput = {
+    where?: AgentListingWhereInput
+    data: XOR<AgentListingUpdateWithoutAntiBypassAgreementsInput, AgentListingUncheckedUpdateWithoutAntiBypassAgreementsInput>
+  }
+
+  export type AgentListingUpdateWithoutAntiBypassAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumListingSourceFieldUpdateOperationsInput | $Enums.ListingSource
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
+    agent?: AgentProfileUpdateOneWithoutListingsNestedInput
+    images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
+    goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateWithoutAntiBypassAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    agentId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumListingSourceFieldUpdateOperationsInput | $Enums.ListingSource
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
+    goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type UserUpsertWithoutAntiBypassAgreementsInput = {
+    update: XOR<UserUpdateWithoutAntiBypassAgreementsInput, UserUncheckedUpdateWithoutAntiBypassAgreementsInput>
+    create: XOR<UserCreateWithoutAntiBypassAgreementsInput, UserUncheckedCreateWithoutAntiBypassAgreementsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAntiBypassAgreementsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAntiBypassAgreementsInput, UserUncheckedUpdateWithoutAntiBypassAgreementsInput>
+  }
+
+  export type UserUpdateWithoutAntiBypassAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAntiBypassAgreementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PropertyCreateManyOwnerInput = {
@@ -82330,6 +91227,11 @@ export namespace Prisma {
     amount?: number
     agentSplit?: number
     companySplit?: number
+    assignedAgentId?: string | null
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -82371,6 +91273,40 @@ export namespace Prisma {
     followUpDueAt?: Date | string | null
     reminderSentAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type DirectPropertyVisitCreateManyBuyerInput = {
+    id?: string
+    agentListingId: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PlatformAntiBypassAgreementCreateManyBuyerInput = {
+    id?: string
+    directVisitId?: string | null
+    agentListingId: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PropertyUpdateWithoutOwnerInput = {
@@ -82581,8 +91517,13 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agentListing?: AgentListingUpdateOneRequiredWithoutUnlocksNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedUnlocksNestedInput
   }
 
   export type PropertyUnlockUncheckedUpdateWithoutBuyerInput = {
@@ -82591,6 +91532,11 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -82600,6 +91546,11 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -82723,6 +91674,110 @@ export namespace Prisma {
     followUpDueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reminderSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DirectPropertyVisitUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentListing?: AgentListingUpdateOneRequiredWithoutDirectVisitsNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutDirectVisitNestedInput
+  }
+
+  export type DirectPropertyVisitUncheckedUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutDirectVisitNestedInput
+  }
+
+  export type DirectPropertyVisitUncheckedUpdateManyWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    directVisit?: DirectPropertyVisitUpdateOneWithoutAntiBypassAgreementsNestedInput
+    agentListing?: AgentListingUpdateOneRequiredWithoutAntiBypassAgreementsNestedInput
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    directVisitId?: NullableStringFieldUpdateOperationsInput | string | null
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    directVisitId?: NullableStringFieldUpdateOperationsInput | string | null
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubscriptionCreateManyPlanInput = {
@@ -83297,11 +92352,25 @@ export namespace Prisma {
     gstNumber?: string | null
     status?: $Enums.ApprovalStatus
     rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
     walletBalance?: number
     warningCount?: number
     ratingAvg?: number | null
     verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -83353,6 +92422,19 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -83360,25 +92442,49 @@ export namespace Prisma {
   export type DealCreateManyBuyerAgentInput = {
     id?: string
     dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    broadcastId?: string | null
     sellerAgentId?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
     buyerCommission?: number | null
     sellerCommission?: number | null
-    paymentMode: $Enums.PaymentMode
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
     note?: string | null
     dealDate?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DealCreateManySellerAgentInput = {
     id?: string
     dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    broadcastId?: string | null
     buyerAgentId?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
     buyerCommission?: number | null
     sellerCommission?: number | null
-    paymentMode: $Enums.PaymentMode
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
     note?: string | null
     dealDate?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProfitDistributionCreateManyAgentInput = {
@@ -83532,6 +92638,20 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type PropertyUnlockCreateManyAssignedAgentInput = {
+    id?: string
+    agentListingId: string
+    buyerId: string
+    amount?: number
+    agentSplit?: number
+    companySplit?: number
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
   export type AgentProfileUpdateWithoutReferringAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     agentCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83547,11 +92667,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
@@ -83577,6 +92711,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutReferringAgentInput = {
@@ -83595,11 +92730,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -83624,6 +92773,7 @@ export namespace Prisma {
     documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateManyWithoutReferringAgentInput = {
@@ -83642,11 +92792,25 @@ export namespace Prisma {
     gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     walletBalance?: IntFieldUpdateOperationsInput | number
     warningCount?: IntFieldUpdateOperationsInput | number
     ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -83763,12 +92927,27 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
     images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
     unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutAgentInput = {
@@ -83789,11 +92968,26 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
     unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateManyWithoutAgentInput = {
@@ -83814,6 +93008,19 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -83821,73 +93028,145 @@ export namespace Prisma {
   export type DealUpdateWithoutBuyerAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    broadcast?: BroadcastUpdateOneWithoutDealsNestedInput
     sellerAgent?: AgentProfileUpdateOneWithoutDealsAsSellerAgentNestedInput
   }
 
   export type DealUncheckedUpdateWithoutBuyerAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    broadcastId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DealUncheckedUpdateManyWithoutBuyerAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    broadcastId?: NullableStringFieldUpdateOperationsInput | string | null
     sellerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DealUpdateWithoutSellerAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    broadcast?: BroadcastUpdateOneWithoutDealsNestedInput
     buyerAgent?: AgentProfileUpdateOneWithoutDealsAsBuyerAgentNestedInput
   }
 
   export type DealUncheckedUpdateWithoutSellerAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    broadcastId?: NullableStringFieldUpdateOperationsInput | string | null
     buyerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DealUncheckedUpdateManyWithoutSellerAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    broadcastId?: NullableStringFieldUpdateOperationsInput | string | null
     buyerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
     buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
     sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
     paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
     note?: NullableStringFieldUpdateOperationsInput | string | null
     dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProfitDistributionUpdateWithoutAgentInput = {
@@ -84056,6 +93335,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     responses?: BroadcastResponseUpdateManyWithoutBroadcastNestedInput
     messages?: AgentChatMessageUpdateManyWithoutBroadcastNestedInput
+    deals?: DealUpdateManyWithoutBroadcastNestedInput
   }
 
   export type BroadcastUncheckedUpdateWithoutAgentInput = {
@@ -84072,6 +93352,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     responses?: BroadcastResponseUncheckedUpdateManyWithoutBroadcastNestedInput
     messages?: AgentChatMessageUncheckedUpdateManyWithoutBroadcastNestedInput
+    deals?: DealUncheckedUpdateManyWithoutBroadcastNestedInput
   }
 
   export type BroadcastUncheckedUpdateManyWithoutAgentInput = {
@@ -84349,6 +93630,48 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PropertyUnlockUpdateWithoutAssignedAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentListing?: AgentListingUpdateOneRequiredWithoutUnlocksNestedInput
+    buyer?: UserUpdateOneRequiredWithoutPropertyUnlocksNestedInput
+  }
+
+  export type PropertyUnlockUncheckedUpdateWithoutAssignedAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    agentSplit?: IntFieldUpdateOperationsInput | number
+    companySplit?: IntFieldUpdateOperationsInput | number
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProfitDistributionCreateManyInvestorProfileInput = {
     id?: string
     agentId: string
@@ -84563,6 +93886,19 @@ export namespace Prisma {
     amenities?: string | null
     nearbyAmenities?: string | null
     videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -84619,12 +93955,27 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agent?: AgentProfileUpdateOneWithoutListingsNestedInput
     images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
     unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutMasterPropertyInput = {
@@ -84645,11 +93996,26 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
     unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateManyWithoutMasterPropertyInput = {
@@ -84670,6 +94036,19 @@ export namespace Prisma {
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
     nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -84791,7 +94170,46 @@ export namespace Prisma {
     amount?: number
     agentSplit?: number
     companySplit?: number
+    assignedAgentId?: string | null
+    switchedAgent?: boolean
+    switchedAt?: Date | string | null
+    switchReason?: string | null
+    expiresAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type DirectPropertyVisitCreateManyAgentListingInput = {
+    id?: string
+    buyerId: string
+    ownerPhone?: string | null
+    otp?: string | null
+    otpVerified?: boolean
+    otpVerifiedAt?: Date | string | null
+    latitude?: number | null
+    longitude?: number | null
+    locationAccuracy?: number | null
+    notes?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PlatformAntiBypassAgreementCreateManyAgentListingInput = {
+    id?: string
+    directVisitId?: string | null
+    buyerId: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AgentListingImageUpdateWithoutAgentListingInput = {
@@ -84817,8 +94235,13 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyer?: UserUpdateOneRequiredWithoutPropertyUnlocksNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedUnlocksNestedInput
   }
 
   export type PropertyUnlockUncheckedUpdateWithoutAgentListingInput = {
@@ -84827,6 +94250,11 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -84836,7 +94264,116 @@ export namespace Prisma {
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    switchedAgent?: BoolFieldUpdateOperationsInput | boolean
+    switchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    switchReason?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DirectPropertyVisitUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyer?: UserUpdateOneRequiredWithoutDirectVisitsNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutDirectVisitNestedInput
+  }
+
+  export type DirectPropertyVisitUncheckedUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutDirectVisitNestedInput
+  }
+
+  export type DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    ownerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    otp?: NullableStringFieldUpdateOperationsInput | string | null
+    otpVerified?: BoolFieldUpdateOperationsInput | boolean
+    otpVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationAccuracy?: NullableFloatFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    directVisit?: DirectPropertyVisitUpdateOneWithoutAntiBypassAgreementsNestedInput
+    buyer?: UserUpdateOneRequiredWithoutAntiBypassAgreementsNestedInput
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    directVisitId?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerId?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    directVisitId?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerId?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DispatchNotificationCreateManyDispatchRequestInput = {
@@ -84882,6 +94419,30 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type DealCreateManyBroadcastInput = {
+    id?: string
+    dealValue: number
+    status?: $Enums.DealStatus
+    propertyTitle?: string | null
+    buyerAgentId?: string | null
+    sellerAgentId?: string | null
+    totalCommission?: number
+    platformPercent?: number
+    platformCommission?: number
+    buyerCommission?: number | null
+    sellerCommission?: number | null
+    tokenAmount?: number | null
+    tokenDate?: Date | string | null
+    agreementDate?: Date | string | null
+    registryDate?: Date | string | null
+    commissionDistributed?: boolean
+    paymentMode?: $Enums.PaymentMode
+    note?: string | null
+    dealDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BroadcastResponseUpdateWithoutBroadcastInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -84925,6 +94486,158 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealUpdateWithoutBroadcastInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
+    buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
+    paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyerAgent?: AgentProfileUpdateOneWithoutDealsAsBuyerAgentNestedInput
+    sellerAgent?: AgentProfileUpdateOneWithoutDealsAsSellerAgentNestedInput
+  }
+
+  export type DealUncheckedUpdateWithoutBroadcastInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
+    buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
+    paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealUncheckedUpdateManyWithoutBroadcastInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dealValue?: IntFieldUpdateOperationsInput | number
+    status?: EnumDealStatusFieldUpdateOperationsInput | $Enums.DealStatus
+    propertyTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    sellerAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCommission?: IntFieldUpdateOperationsInput | number
+    platformPercent?: IntFieldUpdateOperationsInput | number
+    platformCommission?: IntFieldUpdateOperationsInput | number
+    buyerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    sellerCommission?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenAmount?: NullableIntFieldUpdateOperationsInput | number | null
+    tokenDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    registryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    commissionDistributed?: BoolFieldUpdateOperationsInput | boolean
+    paymentMode?: EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    dealDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementCreateManyDirectVisitInput = {
+    id?: string
+    agentListingId: string
+    buyerId: string
+    sellerPhone: string
+    sellerName?: string | null
+    buyerName?: string | null
+    buyerPhone?: string | null
+    propertyAddress: string
+    legalTermsSummary: string
+    serviceFeePercent?: number
+    buyerSigned?: boolean
+    buyerSignedAt?: Date | string | null
+    sellerSigned?: boolean
+    sellerSignedAt?: Date | string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUpdateWithoutDirectVisitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentListing?: AgentListingUpdateOneRequiredWithoutAntiBypassAgreementsNestedInput
+    buyer?: UserUpdateOneRequiredWithoutAntiBypassAgreementsNestedInput
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateWithoutDirectVisitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlatformAntiBypassAgreementUncheckedUpdateManyWithoutDirectVisitInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    sellerPhone?: StringFieldUpdateOperationsInput | string
+    sellerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerName?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    propertyAddress?: StringFieldUpdateOperationsInput | string
+    legalTermsSummary?: StringFieldUpdateOperationsInput | string
+    serviceFeePercent?: FloatFieldUpdateOperationsInput | number
+    buyerSigned?: BoolFieldUpdateOperationsInput | boolean
+    buyerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerSigned?: BoolFieldUpdateOperationsInput | boolean
+    sellerSignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -379,6 +379,12 @@ exports.Prisma.SiteSettingsScalarFieldEnum = {
   unlockAgentSplitPercent: 'unlockAgentSplitPercent',
   goldListingAmount: 'goldListingAmount',
   goldAgentSplitPercent: 'goldAgentSplitPercent',
+  agentBasicPlanPrice: 'agentBasicPlanPrice',
+  agentPrimePlanPrice: 'agentPrimePlanPrice',
+  agentPlanSplitPercent: 'agentPlanSplitPercent',
+  basicListingFee: 'basicListingFee',
+  goldListingFee: 'goldListingFee',
+  listingSplitPercent: 'listingSplitPercent',
   updatedAt: 'updatedAt'
 };
 
@@ -398,11 +404,25 @@ exports.Prisma.AgentProfileScalarFieldEnum = {
   gstNumber: 'gstNumber',
   status: 'status',
   rejectionReason: 'rejectionReason',
+  planTier: 'planTier',
   primeStatus: 'primeStatus',
+  visibilityDeprioritized: 'visibilityDeprioritized',
+  autoPayMandate: 'autoPayMandate',
+  autoPayActive: 'autoPayActive',
+  renewalAlertSentAt: 'renewalAlertSentAt',
   walletBalance: 'walletBalance',
   warningCount: 'warningCount',
   ratingAvg: 'ratingAvg',
   verifiedAt: 'verifiedAt',
+  cycleStartDate: 'cycleStartDate',
+  cycleEndDate: 'cycleEndDate',
+  cycleListingsTarget: 'cycleListingsTarget',
+  cycleDealsTarget: 'cycleDealsTarget',
+  cycleVisitsTarget: 'cycleVisitsTarget',
+  carryForwardScore: 'carryForwardScore',
+  cycleCompletedCount: 'cycleCompletedCount',
+  activeDiscountCoupon: 'activeDiscountCoupon',
+  couponExpiresAt: 'couponExpiresAt',
   referringAgentId: 'referringAgentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -476,6 +496,19 @@ exports.Prisma.AgentListingScalarFieldEnum = {
   amenities: 'amenities',
   nearbyAmenities: 'nearbyAmenities',
   videoUrl: 'videoUrl',
+  listingPlan: 'listingPlan',
+  listingFee: 'listingFee',
+  listingAgentSplit: 'listingAgentSplit',
+  listingCompanySplit: 'listingCompanySplit',
+  listingExpiresAt: 'listingExpiresAt',
+  isDelisted: 'isDelisted',
+  delistedAt: 'delistedAt',
+  expiryWarning7dSentAt: 'expiryWarning7dSentAt',
+  expiryWarning2dSentAt: 'expiryWarning2dSentAt',
+  agreementStartDate: 'agreementStartDate',
+  agreementExpiryDate: 'agreementExpiryDate',
+  hotDealAlert30dSentAt: 'hotDealAlert30dSentAt',
+  hotDealAlert15dSentAt: 'hotDealAlert15dSentAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -494,6 +527,11 @@ exports.Prisma.PropertyUnlockScalarFieldEnum = {
   amount: 'amount',
   agentSplit: 'agentSplit',
   companySplit: 'companySplit',
+  assignedAgentId: 'assignedAgentId',
+  switchedAgent: 'switchedAgent',
+  switchedAt: 'switchedAt',
+  switchReason: 'switchReason',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt'
 };
 
@@ -511,14 +549,26 @@ exports.Prisma.GoldListingPurchaseScalarFieldEnum = {
 exports.Prisma.DealScalarFieldEnum = {
   id: 'id',
   dealValue: 'dealValue',
+  status: 'status',
+  propertyTitle: 'propertyTitle',
+  broadcastId: 'broadcastId',
   buyerAgentId: 'buyerAgentId',
   sellerAgentId: 'sellerAgentId',
+  totalCommission: 'totalCommission',
+  platformPercent: 'platformPercent',
+  platformCommission: 'platformCommission',
   buyerCommission: 'buyerCommission',
   sellerCommission: 'sellerCommission',
+  tokenAmount: 'tokenAmount',
+  tokenDate: 'tokenDate',
+  agreementDate: 'agreementDate',
+  registryDate: 'registryDate',
+  commissionDistributed: 'commissionDistributed',
   paymentMode: 'paymentMode',
   note: 'note',
   dealDate: 'dealDate',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ProfitDistributionScalarFieldEnum = {
@@ -704,6 +754,42 @@ exports.Prisma.VisitAppointmentScalarFieldEnum = {
   followUpDueAt: 'followUpDueAt',
   reminderSentAt: 'reminderSentAt',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.DirectPropertyVisitScalarFieldEnum = {
+  id: 'id',
+  agentListingId: 'agentListingId',
+  buyerId: 'buyerId',
+  ownerPhone: 'ownerPhone',
+  otp: 'otp',
+  otpVerified: 'otpVerified',
+  otpVerifiedAt: 'otpVerifiedAt',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  locationAccuracy: 'locationAccuracy',
+  notes: 'notes',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PlatformAntiBypassAgreementScalarFieldEnum = {
+  id: 'id',
+  directVisitId: 'directVisitId',
+  agentListingId: 'agentListingId',
+  buyerId: 'buyerId',
+  sellerPhone: 'sellerPhone',
+  sellerName: 'sellerName',
+  buyerName: 'buyerName',
+  buyerPhone: 'buyerPhone',
+  propertyAddress: 'propertyAddress',
+  legalTermsSummary: 'legalTermsSummary',
+  serviceFeePercent: 'serviceFeePercent',
+  buyerSigned: 'buyerSigned',
+  buyerSignedAt: 'buyerSignedAt',
+  sellerSigned: 'sellerSigned',
+  sellerSignedAt: 'sellerSignedAt',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -913,6 +999,8 @@ exports.Prisma.AgentProfileOrderByRelevanceFieldEnum = {
   reraNumber: 'reraNumber',
   gstNumber: 'gstNumber',
   rejectionReason: 'rejectionReason',
+  autoPayMandate: 'autoPayMandate',
+  activeDiscountCoupon: 'activeDiscountCoupon',
   referringAgentId: 'referringAgentId'
 };
 
@@ -971,7 +1059,9 @@ exports.Prisma.AgentListingImageOrderByRelevanceFieldEnum = {
 exports.Prisma.PropertyUnlockOrderByRelevanceFieldEnum = {
   id: 'id',
   agentListingId: 'agentListingId',
-  buyerId: 'buyerId'
+  buyerId: 'buyerId',
+  assignedAgentId: 'assignedAgentId',
+  switchReason: 'switchReason'
 };
 
 exports.Prisma.GoldListingPurchaseOrderByRelevanceFieldEnum = {
@@ -983,6 +1073,8 @@ exports.Prisma.GoldListingPurchaseOrderByRelevanceFieldEnum = {
 
 exports.Prisma.DealOrderByRelevanceFieldEnum = {
   id: 'id',
+  propertyTitle: 'propertyTitle',
+  broadcastId: 'broadcastId',
   buyerAgentId: 'buyerAgentId',
   sellerAgentId: 'sellerAgentId',
   note: 'note'
@@ -1108,6 +1200,29 @@ exports.Prisma.VisitAppointmentOrderByRelevanceFieldEnum = {
   agentId: 'agentId',
   masterPropertyId: 'masterPropertyId'
 };
+
+exports.Prisma.DirectPropertyVisitOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentListingId: 'agentListingId',
+  buyerId: 'buyerId',
+  ownerPhone: 'ownerPhone',
+  otp: 'otp',
+  notes: 'notes'
+};
+
+exports.Prisma.PlatformAntiBypassAgreementOrderByRelevanceFieldEnum = {
+  id: 'id',
+  directVisitId: 'directVisitId',
+  agentListingId: 'agentListingId',
+  buyerId: 'buyerId',
+  sellerPhone: 'sellerPhone',
+  sellerName: 'sellerName',
+  buyerName: 'buyerName',
+  buyerPhone: 'buyerPhone',
+  propertyAddress: 'propertyAddress',
+  legalTermsSummary: 'legalTermsSummary',
+  status: 'status'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SUBADMIN: 'SUBADMIN',
@@ -1186,6 +1301,11 @@ exports.OtpChannel = exports.$Enums.OtpChannel = {
   EMAIL: 'EMAIL'
 };
 
+exports.AgentPlanTier = exports.$Enums.AgentPlanTier = {
+  BASIC: 'BASIC',
+  PRIME: 'PRIME'
+};
+
 exports.AgentDocumentType = exports.$Enums.AgentDocumentType = {
   RERA_CERTIFICATE: 'RERA_CERTIFICATE',
   TRADE_LICENSE: 'TRADE_LICENSE',
@@ -1218,6 +1338,20 @@ exports.CommissionType = exports.$Enums.CommissionType = {
 exports.ListingSource = exports.$Enums.ListingSource = {
   AGENT: 'AGENT',
   CUSTOMER_GOLD: 'CUSTOMER_GOLD'
+};
+
+exports.ListingPlanTier = exports.$Enums.ListingPlanTier = {
+  BASIC: 'BASIC',
+  GOLD: 'GOLD'
+};
+
+exports.DealStatus = exports.$Enums.DealStatus = {
+  ACTIVE: 'ACTIVE',
+  TOKEN_RECEIVED: 'TOKEN_RECEIVED',
+  AGREEMENT_DONE: 'AGREEMENT_DONE',
+  REGISTRY_COMPLETED: 'REGISTRY_COMPLETED',
+  CLOSED: 'CLOSED',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.PayoutStatus = exports.$Enums.PayoutStatus = {
@@ -1308,7 +1442,9 @@ exports.Prisma.ModelName = {
   AgentSwitchLog: 'AgentSwitchLog',
   DocumentVaultItem: 'DocumentVaultItem',
   CustomerInvestorAgreement: 'CustomerInvestorAgreement',
-  VisitAppointment: 'VisitAppointment'
+  VisitAppointment: 'VisitAppointment',
+  DirectPropertyVisit: 'DirectPropertyVisit',
+  PlatformAntiBypassAgreement: 'PlatformAntiBypassAgreement'
 };
 
 /**

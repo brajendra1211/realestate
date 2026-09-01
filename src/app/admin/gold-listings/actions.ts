@@ -20,6 +20,7 @@ export async function approveGoldListingAction(formData: FormData) {
 export async function rejectGoldListingAction(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
-  await rejectGoldListing(id);
+  const reason = String(formData.get("reason") ?? "");
+  await rejectGoldListing(id, reason || undefined);
   revalidatePath("/admin/gold-listings");
 }

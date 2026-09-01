@@ -25,8 +25,10 @@ export default async function AdminPage() {
       prisma.property.count({ where: { approvalStatus: "PENDING" } }),
       prisma.user.count({ where: { role: { in: ["OWNER", "DEALER"] } } }),
       prisma.user.count({ where: { role: { in: ["OWNER", "DEALER"] }, verified: false } }),
-      prisma.enquiry.count(),
-      prisma.developer.count(),
+      prisma.agentListing.count({ where: { source: "CUSTOMER_GOLD", approvalStatus: "PENDING" } }),
+      prisma.deal.count({ where: { status: { not: "CLOSED" } } }),
+      prisma.directPropertyVisit.count({ where: { otpVerified: true } }),
+      prisma.platformAntiBypassAgreement.count(),
     ]),
     prisma.enquiry.findMany({
       include: { property: { select: { title: true, slug: true } } },
@@ -35,8 +37,16 @@ export default async function AdminPage() {
     }),
   ]);
 
-  const [totalProperties, pendingCount, totalListers, pendingUserCount, totalEnquiries, totalDevelopers] =
-    stats;
+  const [
+    totalProperties,
+    pendingCount,
+    totalListers,
+    pendingUserCount,
+    pendingGoldCount,
+    activeDealsCount,
+    verifiedVisitsCount,
+    antiBypassCount,
+  ] = stats;
 
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
@@ -47,19 +57,25 @@ export default async function AdminPage() {
         </p>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
         {[
-          { label: "Total properties", value: totalProperties },
-          { label: "Pending approval", value: pendingCount },
-          { label: "Owners / dealers", value: totalListers },
-          { label: "Pending verification", value: pendingUserCount },
-          { label: "Developers", value: totalDevelopers },
-          { label: "Total enquiries", value: totalEnquiries },
+          { label: "Total properties", value: totalProperties, href: "/admin/properties" },
+          { label: "Pending approval", value: pendingCount, href: "/admin/properties" },
+          { label: "Gold Moderation", value: pendingGoldCount, href: "/admin/gold-listings" },
+          { label: "Active B2B Deals", value: activeDealsCount, href: "/admin/deals" },
+          { label: "Verified Visits", value: verifiedVisitsCount, href: "/admin/analytics" },
+          { label: "Anti-Bypass Deeds", value: antiBypassCount, href: "/admin/analytics" },
+          { label: "Owners / dealers", value: totalListers, href: "/admin/users" },
+          { label: "Pending verification", value: pendingUserCount, href: "/admin/users" },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-2xl border border-slate-200 bg-white p-4">
+          <Link
+            key={stat.label}
+            href={stat.href}
+            className="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-blue-400 hover:shadow-xs"
+          >
             <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
             <p className="text-xs text-slate-500">{stat.label}</p>
-          </div>
+          </Link>
         ))}
       </div>
 

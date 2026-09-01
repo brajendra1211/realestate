@@ -50,8 +50,22 @@ export function startBillingWorker() {
     QUEUE_NAME,
     async () => {
       const { checkAllPrimeRenewals } = await import("@/lib/billing");
-      const { renewed, demoted } = await checkAllPrimeRenewals();
-      console.log(`Prime billing check: ${renewed} renewed, ${demoted} demoted.`);
+      const { renewed, demoted, alertsSent } = await checkAllPrimeRenewals();
+      console.log(`Prime billing check: ${renewed} renewed, ${demoted} demoted, ${alertsSent} alerts.`);
+
+      const { checkAndDelistExpiredListings, checkUpcomingListingExpiries, checkAgreementExpiryAlerts } =
+        await import("@/lib/listingDelist");
+      const { delistedCount } = await checkAndDelistExpiredListings();
+      const { warnings7d, warnings2d } = await checkUpcomingListingExpiries();
+      const { alerts30d, alerts15d } = await checkAgreementExpiryAlerts();
+      console.log(
+        `Listing delist check: ${delistedCount} delisted, ${warnings7d} 7d-warnings, ${warnings2d} 2d-warnings, ${alerts30d} 30d-hotdeals, ${alerts15d} 15d-hotdeals.`
+      );
+
+      // PDF 1 Page 7 & 12: 60-Day Review Cycle rollover & tier promotion/demotion
+      const { evaluateAndRolloverCycles } = await import("@/lib/targetCycle");
+      const cycleRollovers = await evaluateAndRolloverCycles();
+      console.log(`60-Day Target Cycle Check: ${cycleRollovers.length} agent cycles evaluated/rolled over.`);
     },
     { connection: makeConnection() }
   );

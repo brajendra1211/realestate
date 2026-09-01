@@ -36,7 +36,16 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
 
   const { saved, error, switchSaved, switchError, appointmentError } = await searchParams;
 
-  const [user, savedProperties, enquiries, currentDispatch, switchGate, appointments] = await Promise.all([
+  const [
+    user,
+    savedProperties,
+    enquiries,
+    currentDispatch,
+    switchGate,
+    appointments,
+    unlockedProperties,
+    verifiedVisits,
+  ] = await Promise.all([
     prisma.user.findUniqueOrThrow({ where: { id: session.user.id } }),
     prisma.savedProperty.findMany({
       where: { userId: session.user.id },
@@ -58,6 +67,22 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
       return buyer?.phone ? canSwitchAgent(buyer.phone) : null;
     })(),
     getAppointmentsForBuyer(session.user.id),
+    prisma.propertyUnlock.findMany({
+      where: { buyerId: session.user.id },
+      include: {
+        agentListing: { select: { id: true, slug: true, title: true, exactAddress: true, price: true } },
+        assignedAgent: { include: { user: { select: { name: true, phone: true } } } },
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.directPropertyVisit.findMany({
+      where: { buyerId: session.user.id },
+      include: {
+        agentListing: { select: { id: true, slug: true, title: true } },
+        antiBypassAgreements: true,
+      },
+      orderBy: { createdAt: "desc" },
+    }),
   ]);
 
   return (
@@ -210,6 +235,97 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
                     </button>
                   </form>
                 )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Unlocked Properties with 24-hour protection & 1-time switch */}
+      <div className="mt-10 scroll-mt-20">
+        <div>
+          <h2 className="text-lg font-semibold text-slate-900">
+            Unlocked Properties ({unlockedProperties.length})
+          </h2>
+          <p className="text-xs text-slate-500">
+            ₹100 Unlock Pass unlocks exact address and contact details with 24-hour exclusivity lock.
+          </p>
+        </div>
+
+        {unlockedProperties.length === 0 ? (
+          <p className="mt-3 rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-xs text-slate-500">
+            No properties unlocked yet. Browse listings and unlock for ₹100 to reveal seller contact.
+          </p>
+        ) : (
+          <div className="mt-3 space-y-3">
+            {unlockedProperties.map((u) => (
+              <div key={u.id} className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <Link
+                      href={`/listings/${u.agentListing.slug}`}
+                      className="font-bold text-blue-600 hover:underline"
+                    >
+                      {u.agentListing.title}
+                    </Link>
+                    <p className="mt-0.5 text-xs text-slate-600">
+                      Exact Address: <span className="font-medium text-slate-900">{u.agentListing.exactAddress}</span>
+                    </p>
+                    {u.assignedAgent && (
+                      <p className="mt-0.5 text-xs text-slate-500">
+                        Assigned Agent: {u.assignedAgent.user.name} ({u.assignedAgent.agentCode}) · Phone:{" "}
+                        {u.assignedAgent.user.phone || "In App"}
+                      </p>
+                    )}
+                  </div>
+                  <div className="text-right">
+                    <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700">
+                      ✓ Unlocked
+                    </span>
+                    {u.switchedAgent ? (
+                      <p className="mt-1 text-[11px] text-slate-400">1-Time Free Switch Used</p>
+                    ) : (
+                      <p className="mt-1 text-[11px] text-blue-600">1-Time Free Switch Available</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Verified Site Visits & Anti-Bypass Agreements */}
+      {verifiedVisits.length > 0 && (
+        <div className="mt-10 scroll-mt-20">
+          <h2 className="text-lg font-semibold text-slate-900">
+            Verified Physical Site Visits ({verifiedVisits.length})
+          </h2>
+          <p className="text-xs text-slate-500">
+            GPS and OTP verified on-site visits with active Platform Anti-Bypass Legal Protection.
+          </p>
+
+          <div className="mt-3 space-y-3">
+            {verifiedVisits.map((v) => (
+              <div key={v.id} className="rounded-2xl border border-emerald-200 bg-emerald-50/30 p-4 text-sm">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <p className="font-bold text-slate-900">{v.agentListing.title}</p>
+                    <p className="text-xs text-slate-500">
+                      Visited: {v.createdAt.toLocaleDateString("en-IN")} · GPS: {v.latitude ?? "N/A"}, {v.longitude ?? "N/A"}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">
+                      {v.otpVerified ? "✓ OTP Verified" : "Pending OTP"}
+                    </span>
+                    {v.antiBypassAgreements[0] && (
+                      <p className="mt-1 text-[11px] font-medium text-emerald-700">
+                        Deed #{v.antiBypassAgreements[0].id.slice(0, 8)} Active
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
             ))}
           </div>

@@ -257,7 +257,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                     {dist.distributedAt.toLocaleDateString("en-IN")}
                   </td>
                   <td className="px-4 py-2 font-medium text-slate-900">
-                    {dist.investorProfile.investorCode}
+                    {dist.investorProfile.investorCode ?? dist.investorProfile.user?.name ?? "Investor"}
                   </td>
                   <td className="px-4 py-2">{formatINR(dist.totalProfit)}</td>
                   <td className="px-4 py-2">{formatINR(dist.agentShare)}</td>

@@ -22,6 +22,7 @@ export async function Navbar({
   const links: NavLink[] = [
     { href: "/", label: "Home" },
     { href: "/properties", label: "Properties" },
+    { href: "/projects", label: "Projects" },
     { href: "/developers", label: "Developers" },
     { href: "/dealers", label: "Dealers" },
     { href: "/owners", label: "Owners" },
@@ -35,6 +36,12 @@ export async function Navbar({
   }
   if (session?.user.role === "BUYER") {
     links.push({ href: "/buyer/dashboard", label: "My Account" });
+  }
+  if (session?.user.role === "AGENT") {
+    links.push({ href: "/agent/dashboard", label: "Agent Hub" });
+  }
+  if (session?.user.role === "INVESTOR") {
+    links.push({ href: "/investor/dashboard", label: "Investor Portal" });
   }
   if (session?.user.role === "ADMIN") {
     links.push({ href: "/admin", label: "Admin" });

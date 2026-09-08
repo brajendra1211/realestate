@@ -31,10 +31,14 @@ export default async function AgentInvestorsPage() {
           {investors.map((investor) => (
             <div key={investor.id} className="flex items-center justify-between px-4 py-3 text-sm">
               <div>
-                <p className="font-mono font-semibold text-slate-900">
-                  {investor.investorCode ?? "Pending code"}
+                <p className="font-semibold text-slate-900">
+                  {investor.user?.name ?? "Investor"}{" "}
+                  <span className="font-mono text-xs font-normal text-slate-500">
+                    ({investor.investorCode ?? "Pending code"})
+                  </span>
                 </p>
                 <p className="text-xs text-slate-500">
+                  {investor.user?.phone ? `${investor.user.phone} · ` : ""}
                   Registered {investor.registeredAt.toLocaleDateString("en-IN")}
                   {investor.expiresAt &&
                     ` · expires ${investor.expiresAt.toLocaleDateString("en-IN")}`}
@@ -51,7 +55,7 @@ export default async function AgentInvestorsPage() {
                   {investor.feeStatus === "PAID" ? "Active" : "Fee pending"}
                 </span>
                 <p className="mt-1 text-xs text-slate-400">
-                  {investor._count.profitDistributions === 0
+                  {investor._count.profitDistributions === 0 || !investor.profitDistributions?.[0]
                     ? "No deal cycles yet"
                     : `${investor._count.profitDistributions} deal cycle${investor._count.profitDistributions > 1 ? "s" : ""} · last ${investor.profitDistributions[0].distributedAt.toLocaleDateString("en-IN")}`}
                 </p>

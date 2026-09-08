@@ -128,6 +128,7 @@ export async function getInvestorsForAgent(agentProfileId: string) {
   return prisma.investorProfile.findMany({
     where: { referringAgentId: agentProfileId },
     include: {
+      user: { select: { name: true, email: true, phone: true } },
       profitDistributions: { orderBy: { distributedAt: "desc" }, take: 1 },
       _count: { select: { profitDistributions: true } },
     },

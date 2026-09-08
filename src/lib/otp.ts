@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { sendWhatsAppOtp, isWhatsAppConfigured } from "@/lib/whatsapp";
+import { sendAbwplOtp, verifyAbwplOtp, isAbwplConfigured, toAbwplPhone } from "@/lib/abwpl";
 import { sendEmail, isMailerConfigured } from "@/lib/mailer";
 
 const OTP_EXPIRY_MINUTES = 10;
@@ -34,12 +35,12 @@ function generateCode() {
 
 export type OtpChannel = "WHATSAPP" | "EMAIL";
 
-// WhatsApp is preferred whenever the identifier is a phone number and the
-// integration is configured; email is the fallback (and the only option for
-// email identifiers, or when WhatsApp isn't set up).
+// WhatsApp is preferred whenever the identifier is a phone number and either
+// WhatsApp integration is configured; email is the fallback (and the only
+// option for email identifiers, or when neither is set up).
 export function resolveOtpChannel(identifier: string): OtpChannel {
   if (looksLikeEmail(identifier)) return "EMAIL";
-  return isWhatsAppConfigured() ? "WHATSAPP" : "EMAIL";
+  return isAbwplConfigured() || isWhatsAppConfigured() ? "WHATSAPP" : "EMAIL";
 }
 
 // Dev-only: when WhatsApp/email aren't configured (or delivery fails) in a
@@ -51,6 +52,17 @@ const isDev = process.env.NODE_ENV !== "production";
 export async function requestOtp(rawIdentifier: string) {
   const identifier = normalizeIdentifier(rawIdentifier);
   const channel = resolveOtpChannel(identifier);
+
+  // abwpl (src/lib/abwpl.ts) owns code generation, delivery, and
+  // verification end-to-end for phone OTPs — no local OtpCode row is
+  // created for this path; verifyOtp() below delegates to abwpl too, using
+  // the same resolveOtpChannel() decision so the two stay in sync without
+  // needing to persist which provider handled a given identifier.
+  if (channel === "WHATSAPP" && isAbwplConfigured()) {
+    const sent = await sendAbwplOtp(toAbwplPhone(identifier));
+    return { sent, channel, identifier };
+  }
+
   const code = generateCode();
   const expiresAt = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000);
 
@@ -90,6 +102,10 @@ export async function requestOtp(rawIdentifier: string) {
 }
 
 export async function verifyOtp(identifier: string, code: string) {
+  if (resolveOtpChannel(identifier) === "WHATSAPP" && isAbwplConfigured()) {
+    return verifyAbwplOtp(toAbwplPhone(identifier), code);
+  }
+
   const record = await prisma.otpCode.findFirst({
     where: { identifier, code, consumedAt: null, expiresAt: { gt: new Date() } },
     orderBy: { createdAt: "desc" },

@@ -31,6 +31,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user || !user.passwordHash) return null;
 
+        // Password login is strictly restricted to ADMIN and SUBADMIN roles.
+        // All other roles (BUYER, INVESTOR, AGENT, DEALER, OWNER, etc.) must log in via OTP.
+        if (user.role !== "ADMIN" && user.role !== "SUBADMIN") {
+          return null;
+        }
+
         const valid = await verifyPassword(password, user.passwordHash);
         if (!valid) return null;
 

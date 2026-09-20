@@ -66,6 +66,42 @@ export function RegisterAgentForm() {
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">WhatsApp mobile number</label>
+          <input
+            type="tel"
+            name="whatsappNumber"
+            placeholder="WhatsApp number for leads"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">Website URL (optional)</label>
+          <input
+            type="url"
+            name="website"
+            placeholder="https://youragency.com"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">Age</label>
+          <input
+            type="number"
+            name="age"
+            min={18}
+            max={100}
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">Date of Birth (DOB)</label>
+          <input
+            type="date"
+            name="dateOfBirth"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
         <div className="sm:col-span-2">
           <label className="text-sm font-medium text-slate-700">Password</label>
           <input
@@ -80,9 +116,10 @@ export function RegisterAgentForm() {
 
       <hr className="border-slate-200" />
 
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Current Office / Shop Details</h3>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-medium text-slate-700">Shop / office name</label>
+          <label className="text-sm font-medium text-slate-700">Current office / shop name</label>
           <input
             type="text"
             name="shopName"
@@ -100,7 +137,7 @@ export function RegisterAgentForm() {
           />
         </div>
         <div className="sm:col-span-2">
-          <label className="text-sm font-medium text-slate-700">Shop / office address</label>
+          <label className="text-sm font-medium text-slate-700">Current office address</label>
           <textarea
             name="shopAddress"
             required
@@ -161,10 +198,79 @@ export function RegisterAgentForm() {
 
       <hr className="border-slate-200" />
 
-      <div className="space-y-4">
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Identity Proof & KYC Documents</h3>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label className="text-sm font-medium text-slate-700">PAN Card Number</label>
+          <input
+            type="text"
+            name="panNumber"
+            placeholder="ABCDE1234F"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm uppercase focus:border-blue-500 focus:outline-none font-mono"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">Aadhaar Card Number</label>
+          <input
+            type="text"
+            name="aadhaarNumber"
+            placeholder="12-digit Aadhaar Number"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none font-mono"
+          />
+        </div>
+      </div>
+
+      <div className="space-y-4 pt-2">
+        <DocumentUploadField name="panCardUrl" label="PAN Card Image / PDF" />
+        <DocumentUploadField name="aadhaarFrontUrl" label="Aadhaar Card (Front)" />
+        <DocumentUploadField name="aadhaarBackUrl" label="Aadhaar Card (Back)" />
         <DocumentUploadField name="reraDocUrl" label="RERA certificate (PDF)" />
         <DocumentUploadField name="tradeLicenseDocUrl" label="Property / trade license (PDF)" />
         <DocumentUploadField name="gstDocUrl" label="GST certificate (PDF)" />
+      </div>
+
+      <hr className="border-slate-200" />
+
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Banking Details & Cancelled Cheque</h3>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label className="text-sm font-medium text-slate-700">Bank Account Holder Name</label>
+          <input
+            type="text"
+            name="bankAccountName"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">Bank Account Number</label>
+          <input
+            type="text"
+            name="bankAccountNumber"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm font-mono focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">IFSC Code</label>
+          <input
+            type="text"
+            name="bankIfsc"
+            placeholder="HDFC0001234"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm uppercase font-mono focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">Bank Name & Branch</label>
+          <input
+            type="text"
+            name="bankName"
+            placeholder="e.g. HDFC Bank, Indirapuram"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <div className="pt-2">
+        <DocumentUploadField name="cancelledChequeUrl" label="Cancelled Cheque (Image / PDF)" />
       </div>
 
       <button

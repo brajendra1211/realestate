@@ -28,7 +28,14 @@ export async function registerAgent(
     readDoc(formData, "reraDocUrl", "RERA_CERTIFICATE"),
     readDoc(formData, "tradeLicenseDocUrl", "TRADE_LICENSE"),
     readDoc(formData, "gstDocUrl", "GST_CERTIFICATE"),
+    readDoc(formData, "aadhaarFrontUrl", "AADHAAR_CARD_FRONT"),
+    readDoc(formData, "aadhaarBackUrl", "AADHAAR_CARD_BACK"),
+    readDoc(formData, "panCardUrl", "PAN_CARD"),
+    readDoc(formData, "cancelledChequeUrl", "CANCELLED_CHEQUE"),
   ].filter((doc): doc is AgentDocumentInput => doc !== null);
+
+  const dobStr = String(formData.get("dateOfBirth") ?? "").trim();
+  const dateOfBirth = dobStr ? new Date(dobStr) : null;
 
   try {
     await submitAgentApplication({
@@ -36,6 +43,21 @@ export async function registerAgent(
       email,
       phone: String(formData.get("phone") ?? ""),
       alternatePhone: String(formData.get("alternatePhone") ?? ""),
+      whatsappNumber: String(formData.get("whatsappNumber") ?? ""),
+      age: formData.get("age") ? Number(formData.get("age")) : null,
+      dateOfBirth,
+      panNumber: String(formData.get("panNumber") ?? ""),
+      panCardUrl: String(formData.get("panCardUrl") ?? "") || null,
+      aadhaarNumber: String(formData.get("aadhaarNumber") ?? ""),
+      aadhaarFrontUrl: String(formData.get("aadhaarFrontUrl") ?? "") || null,
+      aadhaarBackUrl: String(formData.get("aadhaarBackUrl") ?? "") || null,
+      website: String(formData.get("website") ?? ""),
+      bankAccountName: String(formData.get("bankAccountName") ?? ""),
+      bankAccountNumber: String(formData.get("bankAccountNumber") ?? ""),
+      bankIfsc: String(formData.get("bankIfsc") ?? ""),
+      bankName: String(formData.get("bankName") ?? ""),
+      bankBranch: String(formData.get("bankBranch") ?? ""),
+      cancelledChequeUrl: String(formData.get("cancelledChequeUrl") ?? "") || null,
       password,
       shopName: String(formData.get("shopName") ?? ""),
       shopAddress: String(formData.get("shopAddress") ?? ""),

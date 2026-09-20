@@ -20,7 +20,7 @@ export async function getAgentCycleProgress(agentProfileId: string) {
   const daysRemaining = Math.max(0, Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
 
   // Count activity during current 60-day cycle
-  const [listingsCount, dealsCount, visitsCount] = await Promise.all([
+  const [listingsCount, dealsCount, visitsCount, directAgentsCount, investorsCount] = await Promise.all([
     prisma.agentListing.count({
       where: {
         agentId: agent.id,
@@ -40,13 +40,52 @@ export async function getAgentCycleProgress(agentProfileId: string) {
         visitedAt: { gte: startDate },
       },
     }),
+    prisma.agentProfile.count({
+      where: {
+        referringAgentId: agent.id,
+        createdAt: { gte: startDate },
+      },
+    }),
+    prisma.investorProfile.count({
+      where: {
+        referringAgentId: agent.id,
+        createdAt: { gte: startDate },
+      },
+    }),
   ]);
 
-  const targetListings = agent.cycleListingsTarget;
-  const targetDeals = agent.cycleDealsTarget;
-  const targetVisits = agent.cycleVisitsTarget;
+  // Client specific 2-month targets:
+  // 1. Direct 20 Customer property updates/listings
+  // 2. Direct 5 Investors
+  // 3. Direct 10 Agent codes
+  const targetCustomerProperties = agent.cycleCustomerPropertiesTarget || 20;
+  const targetInvestors = agent.cycleInvestorsTarget || 5;
+  const targetDirectAgents = agent.cycleDirectAgentsTarget || 10;
 
-  const isTargetMet = listingsCount >= targetListings && (dealsCount >= targetDeals || visitsCount >= targetVisits);
+  const is2MonthTaskMet =
+    listingsCount >= targetCustomerProperties &&
+    investorsCount >= targetInvestors &&
+    directAgentsCount >= targetDirectAgents;
+
+  // Traffic Light calculation (Red / Yellow / Green):
+  // Green = All 3 2-month targets achieved
+  // Yellow = In-progress (>50% overall average progress or within first 30 days)
+  // Red = Behind target (<50% progress after 30 days or expired)
+  const propProgress = Math.min(1, listingsCount / targetCustomerProperties);
+  const invProgress = Math.min(1, investorsCount / targetInvestors);
+  const agtProgress = Math.min(1, directAgentsCount / targetDirectAgents);
+  const overallAvgProgress = (propProgress + invProgress + agtProgress) / 3;
+
+  let trafficLight: "GREEN" | "YELLOW" | "RED" = "YELLOW";
+  if (is2MonthTaskMet) {
+    trafficLight = "GREEN";
+  } else if (daysRemaining <= 15 && overallAvgProgress < 0.5) {
+    trafficLight = "RED";
+  } else if (overallAvgProgress >= 0.5) {
+    trafficLight = "YELLOW";
+  } else {
+    trafficLight = daysRemaining <= 30 ? "RED" : "YELLOW";
+  }
 
   const isCouponActive =
     Boolean(agent.activeDiscountCoupon) &&
@@ -57,17 +96,24 @@ export async function getAgentCycleProgress(agentProfileId: string) {
     cycleEndDate: endDate,
     daysRemaining,
     planTier: agent.planTier,
+    trafficLight,
     targets: {
-      listings: targetListings,
-      deals: targetDeals,
-      visits: targetVisits,
+      listings: agent.cycleListingsTarget,
+      deals: agent.cycleDealsTarget,
+      visits: agent.cycleVisitsTarget,
+      customerProperties: targetCustomerProperties,
+      investors: targetInvestors,
+      directAgents: targetDirectAgents,
     },
     achieved: {
       listings: listingsCount,
       deals: dealsCount,
       visits: visitsCount,
+      customerProperties: listingsCount,
+      investors: investorsCount,
+      directAgents: directAgentsCount,
     },
-    isTargetMet,
+    isTargetMet: is2MonthTaskMet,
     carryForwardScore: agent.carryForwardScore,
     cycleCompletedCount: agent.cycleCompletedCount,
     coupon: isCouponActive
@@ -77,6 +123,69 @@ export async function getAgentCycleProgress(agentProfileId: string) {
           expiresAt: agent.couponExpiresAt,
         }
       : null,
+  };
+}
+
+/**
+ * Fetches all direct referred agent codes and direct customer property listings
+ * along with their expiry & renewal due dates so the agent can follow up via Call or WhatsApp.
+ */
+export async function getDirectNetworkAndRenewals(agentProfileId: string) {
+  const now = new Date();
+
+  // 1. Direct referred agents
+  const directAgents = await prisma.agentProfile.findMany({
+    where: { referringAgentId: agentProfileId },
+    include: { user: { select: { name: true, phone: true, whatsappNumber: true, email: true } } },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const formattedAgents = directAgents.map((a) => {
+    // Renewal date: 30 days after plan tier or cycleEndDate
+    const renewalDate = a.cycleEndDate ?? new Date(a.createdAt.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const daysToRenewal = Math.ceil((renewalDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    return {
+      id: a.id,
+      agentCode: a.agentCode ?? "Pending Code",
+      name: a.user.name,
+      phone: a.user.phone ?? a.alternatePhone ?? "",
+      whatsapp: a.user.whatsappNumber ?? a.user.phone ?? a.alternatePhone ?? "",
+      joinedAt: a.createdAt,
+      renewalDate,
+      daysToRenewal,
+      isExpired: daysToRenewal <= 0,
+      planTier: a.planTier,
+      primeStatus: a.primeStatus,
+    };
+  });
+
+  // 2. Direct customer property listings
+  const directListings = await prisma.agentListing.findMany({
+    where: { agentId: agentProfileId },
+    include: { masterProperty: { select: { masterId: true, city: true, locality: true } } },
+    orderBy: { listingExpiresAt: "asc" },
+  });
+
+  const formattedListings = directListings.map((l) => {
+    const expiresAt = l.listingExpiresAt ?? new Date(l.createdAt.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const daysToExpiry = Math.ceil((expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    return {
+      id: l.id,
+      slug: l.slug,
+      title: l.title,
+      price: l.price,
+      masterId: l.masterProperty.masterId,
+      listingPlan: l.listingPlan,
+      expiresAt,
+      daysToExpiry,
+      isExpired: daysToExpiry <= 0 || l.isDelisted,
+      agreementExpiryDate: l.agreementExpiryDate,
+    };
+  });
+
+  return {
+    agents: formattedAgents,
+    listings: formattedListings,
   };
 }
 

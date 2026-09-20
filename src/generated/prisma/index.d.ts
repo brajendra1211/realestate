@@ -384,6 +384,10 @@ export const AgentDocumentType: {
   RERA_CERTIFICATE: 'RERA_CERTIFICATE',
   TRADE_LICENSE: 'TRADE_LICENSE',
   GST_CERTIFICATE: 'GST_CERTIFICATE',
+  AADHAAR_CARD_FRONT: 'AADHAAR_CARD_FRONT',
+  AADHAAR_CARD_BACK: 'AADHAAR_CARD_BACK',
+  PAN_CARD: 'PAN_CARD',
+  CANCELLED_CHEQUE: 'CANCELLED_CHEQUE',
   OTHER: 'OTHER'
 };
 
@@ -404,7 +408,10 @@ export const CommissionType: {
   BROKERAGE: 'BROKERAGE',
   UNLOCK_SPLIT: 'UNLOCK_SPLIT',
   GOLD_SPLIT: 'GOLD_SPLIT',
-  AGENT_REFERRAL: 'AGENT_REFERRAL'
+  AGENT_REFERRAL: 'AGENT_REFERRAL',
+  CUSTOMER_PROPERTY_UPDATE: 'CUSTOMER_PROPERTY_UPDATE',
+  REFERRAL_CUSTOMER_RENEWAL: 'REFERRAL_CUSTOMER_RENEWAL',
+  COMPANY_FIVE_STAR_REWARD: 'COMPANY_FIVE_STAR_REWARD'
 };
 
 export type CommissionType = (typeof CommissionType)[keyof typeof CommissionType]
@@ -486,6 +493,11 @@ export const DocumentVaultType: {
   LAYOUT_PLAN: 'LAYOUT_PLAN',
   PAYMENT_RECEIPT: 'PAYMENT_RECEIPT',
   SIGNED_AGREEMENT: 'SIGNED_AGREEMENT',
+  CUSTOMER_BANK_LOAN_PAPERS: 'CUSTOMER_BANK_LOAN_PAPERS',
+  COMPANY_INVESTOR_AGREEMENT: 'COMPANY_INVESTOR_AGREEMENT',
+  CANCELLED_CHEQUE: 'CANCELLED_CHEQUE',
+  AADHAAR_CARD: 'AADHAAR_CARD',
+  PAN_CARD: 'PAN_CARD',
   OTHER: 'OTHER'
 };
 
@@ -5973,8 +5985,18 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    age: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    age: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -5995,6 +6017,22 @@ export namespace Prisma {
     role: $Enums.Role | null
     verified: boolean | null
     createdAt: Date | null
+    referredByAgentId: string | null
+    secondaryPhone: string | null
+    whatsappNumber: string | null
+    age: number | null
+    dateOfBirth: Date | null
+    panNumber: string | null
+    panCardUrl: string | null
+    aadhaarNumber: string | null
+    aadhaarFrontUrl: string | null
+    aadhaarBackUrl: string | null
+    bankAccountName: string | null
+    bankAccountNumber: string | null
+    bankIfsc: string | null
+    bankName: string | null
+    bankBranch: string | null
+    cancelledChequeUrl: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -6015,6 +6053,22 @@ export namespace Prisma {
     role: $Enums.Role | null
     verified: boolean | null
     createdAt: Date | null
+    referredByAgentId: string | null
+    secondaryPhone: string | null
+    whatsappNumber: string | null
+    age: number | null
+    dateOfBirth: Date | null
+    panNumber: string | null
+    panCardUrl: string | null
+    aadhaarNumber: string | null
+    aadhaarFrontUrl: string | null
+    aadhaarBackUrl: string | null
+    bankAccountName: string | null
+    bankAccountNumber: string | null
+    bankIfsc: string | null
+    bankName: string | null
+    bankBranch: string | null
+    cancelledChequeUrl: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -6035,9 +6089,33 @@ export namespace Prisma {
     role: number
     verified: number
     createdAt: number
+    referredByAgentId: number
+    secondaryPhone: number
+    whatsappNumber: number
+    age: number
+    dateOfBirth: number
+    panNumber: number
+    panCardUrl: number
+    aadhaarNumber: number
+    aadhaarFrontUrl: number
+    aadhaarBackUrl: number
+    bankAccountName: number
+    bankAccountNumber: number
+    bankIfsc: number
+    bankName: number
+    bankBranch: number
+    cancelledChequeUrl: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    age?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    age?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -6057,6 +6135,22 @@ export namespace Prisma {
     role?: true
     verified?: true
     createdAt?: true
+    referredByAgentId?: true
+    secondaryPhone?: true
+    whatsappNumber?: true
+    age?: true
+    dateOfBirth?: true
+    panNumber?: true
+    panCardUrl?: true
+    aadhaarNumber?: true
+    aadhaarFrontUrl?: true
+    aadhaarBackUrl?: true
+    bankAccountName?: true
+    bankAccountNumber?: true
+    bankIfsc?: true
+    bankName?: true
+    bankBranch?: true
+    cancelledChequeUrl?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -6077,6 +6171,22 @@ export namespace Prisma {
     role?: true
     verified?: true
     createdAt?: true
+    referredByAgentId?: true
+    secondaryPhone?: true
+    whatsappNumber?: true
+    age?: true
+    dateOfBirth?: true
+    panNumber?: true
+    panCardUrl?: true
+    aadhaarNumber?: true
+    aadhaarFrontUrl?: true
+    aadhaarBackUrl?: true
+    bankAccountName?: true
+    bankAccountNumber?: true
+    bankIfsc?: true
+    bankName?: true
+    bankBranch?: true
+    cancelledChequeUrl?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -6097,6 +6207,22 @@ export namespace Prisma {
     role?: true
     verified?: true
     createdAt?: true
+    referredByAgentId?: true
+    secondaryPhone?: true
+    whatsappNumber?: true
+    age?: true
+    dateOfBirth?: true
+    panNumber?: true
+    panCardUrl?: true
+    aadhaarNumber?: true
+    aadhaarFrontUrl?: true
+    aadhaarBackUrl?: true
+    bankAccountName?: true
+    bankAccountNumber?: true
+    bankIfsc?: true
+    bankName?: true
+    bankBranch?: true
+    cancelledChequeUrl?: true
     _all?: true
   }
 
@@ -6138,6 +6264,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -6168,6 +6306,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -6190,7 +6330,25 @@ export namespace Prisma {
     role: $Enums.Role
     verified: boolean
     createdAt: Date
+    referredByAgentId: string | null
+    secondaryPhone: string | null
+    whatsappNumber: string | null
+    age: number | null
+    dateOfBirth: Date | null
+    panNumber: string | null
+    panCardUrl: string | null
+    aadhaarNumber: string | null
+    aadhaarFrontUrl: string | null
+    aadhaarBackUrl: string | null
+    bankAccountName: string | null
+    bankAccountNumber: string | null
+    bankIfsc: string | null
+    bankName: string | null
+    bankBranch: string | null
+    cancelledChequeUrl: string | null
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -6227,6 +6385,22 @@ export namespace Prisma {
     role?: boolean
     verified?: boolean
     createdAt?: boolean
+    referredByAgentId?: boolean
+    secondaryPhone?: boolean
+    whatsappNumber?: boolean
+    age?: boolean
+    dateOfBirth?: boolean
+    panNumber?: boolean
+    panCardUrl?: boolean
+    aadhaarNumber?: boolean
+    aadhaarFrontUrl?: boolean
+    aadhaarBackUrl?: boolean
+    bankAccountName?: boolean
+    bankAccountNumber?: boolean
+    bankIfsc?: boolean
+    bankName?: boolean
+    bankBranch?: boolean
+    cancelledChequeUrl?: boolean
     properties?: boolean | User$propertiesArgs<ExtArgs>
     subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
     leadViews?: boolean | User$leadViewsArgs<ExtArgs>
@@ -6263,9 +6437,25 @@ export namespace Prisma {
     role?: boolean
     verified?: boolean
     createdAt?: boolean
+    referredByAgentId?: boolean
+    secondaryPhone?: boolean
+    whatsappNumber?: boolean
+    age?: boolean
+    dateOfBirth?: boolean
+    panNumber?: boolean
+    panCardUrl?: boolean
+    aadhaarNumber?: boolean
+    aadhaarFrontUrl?: boolean
+    aadhaarBackUrl?: boolean
+    bankAccountName?: boolean
+    bankAccountNumber?: boolean
+    bankIfsc?: boolean
+    bankName?: boolean
+    bankBranch?: boolean
+    cancelledChequeUrl?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "company" | "slug" | "about" | "logoUrl" | "licenseNumber" | "address" | "website" | "instagramUrl" | "facebookUrl" | "passwordHash" | "role" | "verified" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "company" | "slug" | "about" | "logoUrl" | "licenseNumber" | "address" | "website" | "instagramUrl" | "facebookUrl" | "passwordHash" | "role" | "verified" | "createdAt" | "referredByAgentId" | "secondaryPhone" | "whatsappNumber" | "age" | "dateOfBirth" | "panNumber" | "panCardUrl" | "aadhaarNumber" | "aadhaarFrontUrl" | "aadhaarBackUrl" | "bankAccountName" | "bankAccountNumber" | "bankIfsc" | "bankName" | "bankBranch" | "cancelledChequeUrl", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     properties?: boolean | User$propertiesArgs<ExtArgs>
     subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
@@ -6318,6 +6508,22 @@ export namespace Prisma {
       role: $Enums.Role
       verified: boolean
       createdAt: Date
+      referredByAgentId: string | null
+      secondaryPhone: string | null
+      whatsappNumber: string | null
+      age: number | null
+      dateOfBirth: Date | null
+      panNumber: string | null
+      panCardUrl: string | null
+      aadhaarNumber: string | null
+      aadhaarFrontUrl: string | null
+      aadhaarBackUrl: string | null
+      bankAccountName: string | null
+      bankAccountNumber: string | null
+      bankIfsc: string | null
+      bankName: string | null
+      bankBranch: string | null
+      cancelledChequeUrl: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6717,6 +6923,22 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'Role'>
     readonly verified: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly referredByAgentId: FieldRef<"User", 'String'>
+    readonly secondaryPhone: FieldRef<"User", 'String'>
+    readonly whatsappNumber: FieldRef<"User", 'String'>
+    readonly age: FieldRef<"User", 'Int'>
+    readonly dateOfBirth: FieldRef<"User", 'DateTime'>
+    readonly panNumber: FieldRef<"User", 'String'>
+    readonly panCardUrl: FieldRef<"User", 'String'>
+    readonly aadhaarNumber: FieldRef<"User", 'String'>
+    readonly aadhaarFrontUrl: FieldRef<"User", 'String'>
+    readonly aadhaarBackUrl: FieldRef<"User", 'String'>
+    readonly bankAccountName: FieldRef<"User", 'String'>
+    readonly bankAccountNumber: FieldRef<"User", 'String'>
+    readonly bankIfsc: FieldRef<"User", 'String'>
+    readonly bankName: FieldRef<"User", 'String'>
+    readonly bankBranch: FieldRef<"User", 'String'>
+    readonly cancelledChequeUrl: FieldRef<"User", 'String'>
   }
     
 
@@ -25210,6 +25432,9 @@ export namespace Prisma {
     cycleListingsTarget: number | null
     cycleDealsTarget: number | null
     cycleVisitsTarget: number | null
+    cycleDirectAgentsTarget: number | null
+    cycleCustomerPropertiesTarget: number | null
+    cycleInvestorsTarget: number | null
     carryForwardScore: number | null
     cycleCompletedCount: number | null
   }
@@ -25225,6 +25450,9 @@ export namespace Prisma {
     cycleListingsTarget: number | null
     cycleDealsTarget: number | null
     cycleVisitsTarget: number | null
+    cycleDirectAgentsTarget: number | null
+    cycleCustomerPropertiesTarget: number | null
+    cycleInvestorsTarget: number | null
     carryForwardScore: number | null
     cycleCompletedCount: number | null
   }
@@ -25260,6 +25488,10 @@ export namespace Prisma {
     cycleListingsTarget: number | null
     cycleDealsTarget: number | null
     cycleVisitsTarget: number | null
+    cycleDirectAgentsTarget: number | null
+    cycleCustomerPropertiesTarget: number | null
+    cycleInvestorsTarget: number | null
+    targetStatus: string | null
     carryForwardScore: number | null
     cycleCompletedCount: number | null
     activeDiscountCoupon: string | null
@@ -25300,6 +25532,10 @@ export namespace Prisma {
     cycleListingsTarget: number | null
     cycleDealsTarget: number | null
     cycleVisitsTarget: number | null
+    cycleDirectAgentsTarget: number | null
+    cycleCustomerPropertiesTarget: number | null
+    cycleInvestorsTarget: number | null
+    targetStatus: string | null
     carryForwardScore: number | null
     cycleCompletedCount: number | null
     activeDiscountCoupon: string | null
@@ -25340,6 +25576,10 @@ export namespace Prisma {
     cycleListingsTarget: number
     cycleDealsTarget: number
     cycleVisitsTarget: number
+    cycleDirectAgentsTarget: number
+    cycleCustomerPropertiesTarget: number
+    cycleInvestorsTarget: number
+    targetStatus: number
     carryForwardScore: number
     cycleCompletedCount: number
     activeDiscountCoupon: number
@@ -25362,6 +25602,9 @@ export namespace Prisma {
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
+    cycleDirectAgentsTarget?: true
+    cycleCustomerPropertiesTarget?: true
+    cycleInvestorsTarget?: true
     carryForwardScore?: true
     cycleCompletedCount?: true
   }
@@ -25377,6 +25620,9 @@ export namespace Prisma {
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
+    cycleDirectAgentsTarget?: true
+    cycleCustomerPropertiesTarget?: true
+    cycleInvestorsTarget?: true
     carryForwardScore?: true
     cycleCompletedCount?: true
   }
@@ -25412,6 +25658,10 @@ export namespace Prisma {
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
+    cycleDirectAgentsTarget?: true
+    cycleCustomerPropertiesTarget?: true
+    cycleInvestorsTarget?: true
+    targetStatus?: true
     carryForwardScore?: true
     cycleCompletedCount?: true
     activeDiscountCoupon?: true
@@ -25452,6 +25702,10 @@ export namespace Prisma {
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
+    cycleDirectAgentsTarget?: true
+    cycleCustomerPropertiesTarget?: true
+    cycleInvestorsTarget?: true
+    targetStatus?: true
     carryForwardScore?: true
     cycleCompletedCount?: true
     activeDiscountCoupon?: true
@@ -25492,6 +25746,10 @@ export namespace Prisma {
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
+    cycleDirectAgentsTarget?: true
+    cycleCustomerPropertiesTarget?: true
+    cycleInvestorsTarget?: true
+    targetStatus?: true
     carryForwardScore?: true
     cycleCompletedCount?: true
     activeDiscountCoupon?: true
@@ -25619,6 +25877,10 @@ export namespace Prisma {
     cycleListingsTarget: number
     cycleDealsTarget: number
     cycleVisitsTarget: number
+    cycleDirectAgentsTarget: number
+    cycleCustomerPropertiesTarget: number
+    cycleInvestorsTarget: number
+    targetStatus: string
     carryForwardScore: number
     cycleCompletedCount: number
     activeDiscountCoupon: string | null
@@ -25678,6 +25940,10 @@ export namespace Prisma {
     cycleListingsTarget?: boolean
     cycleDealsTarget?: boolean
     cycleVisitsTarget?: boolean
+    cycleDirectAgentsTarget?: boolean
+    cycleCustomerPropertiesTarget?: boolean
+    cycleInvestorsTarget?: boolean
+    targetStatus?: boolean
     carryForwardScore?: boolean
     cycleCompletedCount?: boolean
     activeDiscountCoupon?: boolean
@@ -25746,6 +26012,10 @@ export namespace Prisma {
     cycleListingsTarget?: boolean
     cycleDealsTarget?: boolean
     cycleVisitsTarget?: boolean
+    cycleDirectAgentsTarget?: boolean
+    cycleCustomerPropertiesTarget?: boolean
+    cycleInvestorsTarget?: boolean
+    targetStatus?: boolean
     carryForwardScore?: boolean
     cycleCompletedCount?: boolean
     activeDiscountCoupon?: boolean
@@ -25755,7 +26025,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
+  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "cycleDirectAgentsTarget" | "cycleCustomerPropertiesTarget" | "cycleInvestorsTarget" | "targetStatus" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
   export type AgentProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     referringAgent?: boolean | AgentProfile$referringAgentArgs<ExtArgs>
@@ -25845,6 +26115,10 @@ export namespace Prisma {
       cycleListingsTarget: number
       cycleDealsTarget: number
       cycleVisitsTarget: number
+      cycleDirectAgentsTarget: number
+      cycleCustomerPropertiesTarget: number
+      cycleInvestorsTarget: number
+      targetStatus: string
       carryForwardScore: number
       cycleCompletedCount: number
       activeDiscountCoupon: string | null
@@ -26276,6 +26550,10 @@ export namespace Prisma {
     readonly cycleListingsTarget: FieldRef<"AgentProfile", 'Int'>
     readonly cycleDealsTarget: FieldRef<"AgentProfile", 'Int'>
     readonly cycleVisitsTarget: FieldRef<"AgentProfile", 'Int'>
+    readonly cycleDirectAgentsTarget: FieldRef<"AgentProfile", 'Int'>
+    readonly cycleCustomerPropertiesTarget: FieldRef<"AgentProfile", 'Int'>
+    readonly cycleInvestorsTarget: FieldRef<"AgentProfile", 'Int'>
+    readonly targetStatus: FieldRef<"AgentProfile", 'String'>
     readonly carryForwardScore: FieldRef<"AgentProfile", 'Int'>
     readonly cycleCompletedCount: FieldRef<"AgentProfile", 'Int'>
     readonly activeDiscountCoupon: FieldRef<"AgentProfile", 'String'>
@@ -56464,7 +56742,23 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     role: 'role',
     verified: 'verified',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    referredByAgentId: 'referredByAgentId',
+    secondaryPhone: 'secondaryPhone',
+    whatsappNumber: 'whatsappNumber',
+    age: 'age',
+    dateOfBirth: 'dateOfBirth',
+    panNumber: 'panNumber',
+    panCardUrl: 'panCardUrl',
+    aadhaarNumber: 'aadhaarNumber',
+    aadhaarFrontUrl: 'aadhaarFrontUrl',
+    aadhaarBackUrl: 'aadhaarBackUrl',
+    bankAccountName: 'bankAccountName',
+    bankAccountNumber: 'bankAccountNumber',
+    bankIfsc: 'bankIfsc',
+    bankName: 'bankName',
+    bankBranch: 'bankBranch',
+    cancelledChequeUrl: 'cancelledChequeUrl'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -56800,6 +57094,10 @@ export namespace Prisma {
     cycleListingsTarget: 'cycleListingsTarget',
     cycleDealsTarget: 'cycleDealsTarget',
     cycleVisitsTarget: 'cycleVisitsTarget',
+    cycleDirectAgentsTarget: 'cycleDirectAgentsTarget',
+    cycleCustomerPropertiesTarget: 'cycleCustomerPropertiesTarget',
+    cycleInvestorsTarget: 'cycleInvestorsTarget',
+    targetStatus: 'targetStatus',
     carryForwardScore: 'carryForwardScore',
     cycleCompletedCount: 'cycleCompletedCount',
     activeDiscountCoupon: 'activeDiscountCoupon',
@@ -57290,7 +57588,21 @@ export namespace Prisma {
     website: 'website',
     instagramUrl: 'instagramUrl',
     facebookUrl: 'facebookUrl',
-    passwordHash: 'passwordHash'
+    passwordHash: 'passwordHash',
+    referredByAgentId: 'referredByAgentId',
+    secondaryPhone: 'secondaryPhone',
+    whatsappNumber: 'whatsappNumber',
+    panNumber: 'panNumber',
+    panCardUrl: 'panCardUrl',
+    aadhaarNumber: 'aadhaarNumber',
+    aadhaarFrontUrl: 'aadhaarFrontUrl',
+    aadhaarBackUrl: 'aadhaarBackUrl',
+    bankAccountName: 'bankAccountName',
+    bankAccountNumber: 'bankAccountNumber',
+    bankIfsc: 'bankIfsc',
+    bankName: 'bankName',
+    bankBranch: 'bankBranch',
+    cancelledChequeUrl: 'cancelledChequeUrl'
   };
 
   export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -57528,6 +57840,7 @@ export namespace Prisma {
     gstNumber: 'gstNumber',
     rejectionReason: 'rejectionReason',
     autoPayMandate: 'autoPayMandate',
+    targetStatus: 'targetStatus',
     activeDiscountCoupon: 'activeDiscountCoupon',
     referringAgentId: 'referringAgentId'
   };
@@ -57873,16 +58186,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'PlanRole'
+   * Reference to a field of type 'Int'
    */
-  export type EnumPlanRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlanRole'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'PlanRole'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type EnumPlanRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlanRole'>
     
 
 
@@ -58078,6 +58391,22 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     verified?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
+    referredByAgentId?: StringNullableFilter<"User"> | string | null
+    secondaryPhone?: StringNullableFilter<"User"> | string | null
+    whatsappNumber?: StringNullableFilter<"User"> | string | null
+    age?: IntNullableFilter<"User"> | number | null
+    dateOfBirth?: DateTimeNullableFilter<"User"> | Date | string | null
+    panNumber?: StringNullableFilter<"User"> | string | null
+    panCardUrl?: StringNullableFilter<"User"> | string | null
+    aadhaarNumber?: StringNullableFilter<"User"> | string | null
+    aadhaarFrontUrl?: StringNullableFilter<"User"> | string | null
+    aadhaarBackUrl?: StringNullableFilter<"User"> | string | null
+    bankAccountName?: StringNullableFilter<"User"> | string | null
+    bankAccountNumber?: StringNullableFilter<"User"> | string | null
+    bankIfsc?: StringNullableFilter<"User"> | string | null
+    bankName?: StringNullableFilter<"User"> | string | null
+    bankBranch?: StringNullableFilter<"User"> | string | null
+    cancelledChequeUrl?: StringNullableFilter<"User"> | string | null
     properties?: PropertyListRelationFilter
     subscriptions?: SubscriptionListRelationFilter
     leadViews?: LeadViewListRelationFilter
@@ -58111,6 +58440,22 @@ export namespace Prisma {
     role?: SortOrder
     verified?: SortOrder
     createdAt?: SortOrder
+    referredByAgentId?: SortOrderInput | SortOrder
+    secondaryPhone?: SortOrderInput | SortOrder
+    whatsappNumber?: SortOrderInput | SortOrder
+    age?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrderInput | SortOrder
+    panNumber?: SortOrderInput | SortOrder
+    panCardUrl?: SortOrderInput | SortOrder
+    aadhaarNumber?: SortOrderInput | SortOrder
+    aadhaarFrontUrl?: SortOrderInput | SortOrder
+    aadhaarBackUrl?: SortOrderInput | SortOrder
+    bankAccountName?: SortOrderInput | SortOrder
+    bankAccountNumber?: SortOrderInput | SortOrder
+    bankIfsc?: SortOrderInput | SortOrder
+    bankName?: SortOrderInput | SortOrder
+    bankBranch?: SortOrderInput | SortOrder
+    cancelledChequeUrl?: SortOrderInput | SortOrder
     properties?: PropertyOrderByRelationAggregateInput
     subscriptions?: SubscriptionOrderByRelationAggregateInput
     leadViews?: LeadViewOrderByRelationAggregateInput
@@ -58148,6 +58493,22 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     verified?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
+    referredByAgentId?: StringNullableFilter<"User"> | string | null
+    secondaryPhone?: StringNullableFilter<"User"> | string | null
+    whatsappNumber?: StringNullableFilter<"User"> | string | null
+    age?: IntNullableFilter<"User"> | number | null
+    dateOfBirth?: DateTimeNullableFilter<"User"> | Date | string | null
+    panNumber?: StringNullableFilter<"User"> | string | null
+    panCardUrl?: StringNullableFilter<"User"> | string | null
+    aadhaarNumber?: StringNullableFilter<"User"> | string | null
+    aadhaarFrontUrl?: StringNullableFilter<"User"> | string | null
+    aadhaarBackUrl?: StringNullableFilter<"User"> | string | null
+    bankAccountName?: StringNullableFilter<"User"> | string | null
+    bankAccountNumber?: StringNullableFilter<"User"> | string | null
+    bankIfsc?: StringNullableFilter<"User"> | string | null
+    bankName?: StringNullableFilter<"User"> | string | null
+    bankBranch?: StringNullableFilter<"User"> | string | null
+    cancelledChequeUrl?: StringNullableFilter<"User"> | string | null
     properties?: PropertyListRelationFilter
     subscriptions?: SubscriptionListRelationFilter
     leadViews?: LeadViewListRelationFilter
@@ -58181,9 +58542,27 @@ export namespace Prisma {
     role?: SortOrder
     verified?: SortOrder
     createdAt?: SortOrder
+    referredByAgentId?: SortOrderInput | SortOrder
+    secondaryPhone?: SortOrderInput | SortOrder
+    whatsappNumber?: SortOrderInput | SortOrder
+    age?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrderInput | SortOrder
+    panNumber?: SortOrderInput | SortOrder
+    panCardUrl?: SortOrderInput | SortOrder
+    aadhaarNumber?: SortOrderInput | SortOrder
+    aadhaarFrontUrl?: SortOrderInput | SortOrder
+    aadhaarBackUrl?: SortOrderInput | SortOrder
+    bankAccountName?: SortOrderInput | SortOrder
+    bankAccountNumber?: SortOrderInput | SortOrder
+    bankIfsc?: SortOrderInput | SortOrder
+    bankName?: SortOrderInput | SortOrder
+    bankBranch?: SortOrderInput | SortOrder
+    cancelledChequeUrl?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -58207,6 +58586,22 @@ export namespace Prisma {
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     verified?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    referredByAgentId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    secondaryPhone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    whatsappNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    age?: IntNullableWithAggregatesFilter<"User"> | number | null
+    dateOfBirth?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    panNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    panCardUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    aadhaarNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    aadhaarFrontUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    aadhaarBackUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bankAccountName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bankAccountNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bankIfsc?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bankName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bankBranch?: StringNullableWithAggregatesFilter<"User"> | string | null
+    cancelledChequeUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type PlanWhereInput = {
@@ -59809,6 +60204,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFilter<"AgentProfile"> | number
     cycleDealsTarget?: IntFilter<"AgentProfile"> | number
     cycleVisitsTarget?: IntFilter<"AgentProfile"> | number
+    cycleDirectAgentsTarget?: IntFilter<"AgentProfile"> | number
+    cycleCustomerPropertiesTarget?: IntFilter<"AgentProfile"> | number
+    cycleInvestorsTarget?: IntFilter<"AgentProfile"> | number
+    targetStatus?: StringFilter<"AgentProfile"> | string
     carryForwardScore?: IntFilter<"AgentProfile"> | number
     cycleCompletedCount?: IntFilter<"AgentProfile"> | number
     activeDiscountCoupon?: StringNullableFilter<"AgentProfile"> | string | null
@@ -59874,6 +60273,10 @@ export namespace Prisma {
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
+    cycleDirectAgentsTarget?: SortOrder
+    cycleCustomerPropertiesTarget?: SortOrder
+    cycleInvestorsTarget?: SortOrder
+    targetStatus?: SortOrder
     carryForwardScore?: SortOrder
     cycleCompletedCount?: SortOrder
     activeDiscountCoupon?: SortOrderInput | SortOrder
@@ -59943,6 +60346,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFilter<"AgentProfile"> | number
     cycleDealsTarget?: IntFilter<"AgentProfile"> | number
     cycleVisitsTarget?: IntFilter<"AgentProfile"> | number
+    cycleDirectAgentsTarget?: IntFilter<"AgentProfile"> | number
+    cycleCustomerPropertiesTarget?: IntFilter<"AgentProfile"> | number
+    cycleInvestorsTarget?: IntFilter<"AgentProfile"> | number
+    targetStatus?: StringFilter<"AgentProfile"> | string
     carryForwardScore?: IntFilter<"AgentProfile"> | number
     cycleCompletedCount?: IntFilter<"AgentProfile"> | number
     activeDiscountCoupon?: StringNullableFilter<"AgentProfile"> | string | null
@@ -60008,6 +60415,10 @@ export namespace Prisma {
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
+    cycleDirectAgentsTarget?: SortOrder
+    cycleCustomerPropertiesTarget?: SortOrder
+    cycleInvestorsTarget?: SortOrder
+    targetStatus?: SortOrder
     carryForwardScore?: SortOrder
     cycleCompletedCount?: SortOrder
     activeDiscountCoupon?: SortOrderInput | SortOrder
@@ -60056,6 +60467,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
     cycleDealsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
     cycleVisitsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
+    cycleDirectAgentsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
+    cycleCustomerPropertiesTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
+    cycleInvestorsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
+    targetStatus?: StringWithAggregatesFilter<"AgentProfile"> | string
     carryForwardScore?: IntWithAggregatesFilter<"AgentProfile"> | number
     cycleCompletedCount?: IntWithAggregatesFilter<"AgentProfile"> | number
     activeDiscountCoupon?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
@@ -62503,6 +62918,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -62536,6 +62967,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -62569,6 +63016,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -62602,6 +63065,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -62635,6 +63114,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -62655,6 +63150,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -62675,6 +63186,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PlanCreateInput = {
@@ -64471,6 +64998,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -64535,6 +65066,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -64597,6 +65132,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64661,6 +65200,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64724,6 +65267,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -64763,6 +65310,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64802,6 +65353,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -67437,6 +67992,28 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type PropertyListRelationFilter = {
     every?: PropertyWhereInput
     some?: PropertyWhereInput
@@ -67586,6 +68163,26 @@ export namespace Prisma {
     role?: SortOrder
     verified?: SortOrder
     createdAt?: SortOrder
+    referredByAgentId?: SortOrder
+    secondaryPhone?: SortOrder
+    whatsappNumber?: SortOrder
+    age?: SortOrder
+    dateOfBirth?: SortOrder
+    panNumber?: SortOrder
+    panCardUrl?: SortOrder
+    aadhaarNumber?: SortOrder
+    aadhaarFrontUrl?: SortOrder
+    aadhaarBackUrl?: SortOrder
+    bankAccountName?: SortOrder
+    bankAccountNumber?: SortOrder
+    bankIfsc?: SortOrder
+    bankName?: SortOrder
+    bankBranch?: SortOrder
+    cancelledChequeUrl?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    age?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -67606,6 +68203,22 @@ export namespace Prisma {
     role?: SortOrder
     verified?: SortOrder
     createdAt?: SortOrder
+    referredByAgentId?: SortOrder
+    secondaryPhone?: SortOrder
+    whatsappNumber?: SortOrder
+    age?: SortOrder
+    dateOfBirth?: SortOrder
+    panNumber?: SortOrder
+    panCardUrl?: SortOrder
+    aadhaarNumber?: SortOrder
+    aadhaarFrontUrl?: SortOrder
+    aadhaarBackUrl?: SortOrder
+    bankAccountName?: SortOrder
+    bankAccountNumber?: SortOrder
+    bankIfsc?: SortOrder
+    bankName?: SortOrder
+    bankBranch?: SortOrder
+    cancelledChequeUrl?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -67626,6 +68239,26 @@ export namespace Prisma {
     role?: SortOrder
     verified?: SortOrder
     createdAt?: SortOrder
+    referredByAgentId?: SortOrder
+    secondaryPhone?: SortOrder
+    whatsappNumber?: SortOrder
+    age?: SortOrder
+    dateOfBirth?: SortOrder
+    panNumber?: SortOrder
+    panCardUrl?: SortOrder
+    aadhaarNumber?: SortOrder
+    aadhaarFrontUrl?: SortOrder
+    aadhaarBackUrl?: SortOrder
+    bankAccountName?: SortOrder
+    bankAccountNumber?: SortOrder
+    bankIfsc?: SortOrder
+    bankName?: SortOrder
+    bankBranch?: SortOrder
+    cancelledChequeUrl?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    age?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -67696,6 +68329,36 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type EnumPlanRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.PlanRole | EnumPlanRoleFieldRefInput<$PrismaModel>
     in?: $Enums.PlanRole[]
@@ -67712,17 +68375,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type PlanOrderByRelevanceInput = {
@@ -67810,38 +68462,11 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
   export type EnumSubscriptionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SubscriptionStatus[]
     notIn?: $Enums.SubscriptionStatus[]
     not?: NestedEnumSubscriptionStatusFilter<$PrismaModel> | $Enums.SubscriptionStatus
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type UserScalarRelationFilter = {
@@ -67909,20 +68534,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
     _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnquiryScalarRelationFilter = {
@@ -69314,6 +69925,10 @@ export namespace Prisma {
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
+    cycleDirectAgentsTarget?: SortOrder
+    cycleCustomerPropertiesTarget?: SortOrder
+    cycleInvestorsTarget?: SortOrder
+    targetStatus?: SortOrder
     carryForwardScore?: SortOrder
     cycleCompletedCount?: SortOrder
     activeDiscountCoupon?: SortOrder
@@ -69334,6 +69949,9 @@ export namespace Prisma {
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
+    cycleDirectAgentsTarget?: SortOrder
+    cycleCustomerPropertiesTarget?: SortOrder
+    cycleInvestorsTarget?: SortOrder
     carryForwardScore?: SortOrder
     cycleCompletedCount?: SortOrder
   }
@@ -69369,6 +69987,10 @@ export namespace Prisma {
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
+    cycleDirectAgentsTarget?: SortOrder
+    cycleCustomerPropertiesTarget?: SortOrder
+    cycleInvestorsTarget?: SortOrder
+    targetStatus?: SortOrder
     carryForwardScore?: SortOrder
     cycleCompletedCount?: SortOrder
     activeDiscountCoupon?: SortOrder
@@ -69409,6 +70031,10 @@ export namespace Prisma {
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
+    cycleDirectAgentsTarget?: SortOrder
+    cycleCustomerPropertiesTarget?: SortOrder
+    cycleInvestorsTarget?: SortOrder
+    targetStatus?: SortOrder
     carryForwardScore?: SortOrder
     cycleCompletedCount?: SortOrder
     activeDiscountCoupon?: SortOrder
@@ -69429,6 +70055,9 @@ export namespace Prisma {
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
+    cycleDirectAgentsTarget?: SortOrder
+    cycleCustomerPropertiesTarget?: SortOrder
+    cycleInvestorsTarget?: SortOrder
     carryForwardScore?: SortOrder
     cycleCompletedCount?: SortOrder
   }
@@ -71493,6 +72122,18 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type PropertyUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -71867,14 +72508,6 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type SubscriptionUpdateManyWithoutPlanNestedInput = {
     create?: XOR<SubscriptionCreateWithoutPlanInput, SubscriptionUncheckedCreateWithoutPlanInput> | SubscriptionCreateWithoutPlanInput[] | SubscriptionUncheckedCreateWithoutPlanInput[]
     connectOrCreate?: SubscriptionCreateOrConnectWithoutPlanInput | SubscriptionCreateOrConnectWithoutPlanInput[]
@@ -71917,10 +72550,6 @@ export namespace Prisma {
 
   export type EnumSubscriptionStatusFieldUpdateOperationsInput = {
     set?: $Enums.SubscriptionStatus
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutSubscriptionsNestedInput = {
@@ -75144,6 +75773,28 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -75191,17 +75842,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[]
@@ -75232,6 +75872,47 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumPlanRoleFilter<$PrismaModel = never> = {
@@ -75278,49 +75959,11 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedEnumSubscriptionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SubscriptionStatus[]
     notIn?: $Enums.SubscriptionStatus[]
     not?: NestedEnumSubscriptionStatusFilter<$PrismaModel> | $Enums.SubscriptionStatus
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -75331,20 +75974,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
     _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumProjectStatusFilter<$PrismaModel = never> = {
@@ -75988,6 +76617,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -76050,6 +76683,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -76572,6 +77209,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76634,6 +77275,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76983,6 +77628,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
@@ -77015,6 +77676,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
@@ -77094,6 +77771,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
@@ -77126,6 +77819,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
@@ -77195,6 +77904,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
@@ -77227,6 +77952,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
@@ -77302,6 +78043,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
@@ -77334,6 +78091,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
@@ -78208,6 +78981,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
@@ -78240,6 +79029,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
     savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
@@ -78415,6 +79220,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
@@ -78447,6 +79268,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
     savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
@@ -78830,6 +79667,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -78862,6 +79715,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -79015,6 +79884,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -79047,6 +79932,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -79095,6 +79996,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -79127,6 +80044,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -79252,6 +80185,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -79284,6 +80233,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -79399,6 +80364,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -79431,6 +80412,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -79480,6 +80477,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -79543,6 +80544,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -79609,6 +80614,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -79672,6 +80681,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -80542,6 +81555,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -80574,6 +81603,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -80629,6 +81674,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80692,6 +81741,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80773,6 +81826,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFilter<"AgentProfile"> | number
     cycleDealsTarget?: IntFilter<"AgentProfile"> | number
     cycleVisitsTarget?: IntFilter<"AgentProfile"> | number
+    cycleDirectAgentsTarget?: IntFilter<"AgentProfile"> | number
+    cycleCustomerPropertiesTarget?: IntFilter<"AgentProfile"> | number
+    cycleInvestorsTarget?: IntFilter<"AgentProfile"> | number
+    targetStatus?: StringFilter<"AgentProfile"> | string
     carryForwardScore?: IntFilter<"AgentProfile"> | number
     cycleCompletedCount?: IntFilter<"AgentProfile"> | number
     activeDiscountCoupon?: StringNullableFilter<"AgentProfile"> | string | null
@@ -81432,6 +82489,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -81495,6 +82556,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -81572,6 +82637,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81635,6 +82704,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81696,6 +82769,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -81759,6 +82836,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -81836,6 +82917,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81899,6 +82984,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -81948,6 +83037,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -81980,6 +83085,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -82029,6 +83150,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -82092,6 +83217,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -82295,6 +83424,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -82327,6 +83472,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -82382,6 +83543,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82445,6 +83610,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82602,6 +83771,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -82665,6 +83838,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -82742,6 +83919,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -82805,6 +83986,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83151,6 +84336,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -83214,6 +84403,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -83503,6 +84696,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83566,6 +84763,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -83981,6 +85182,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -84013,6 +85230,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -84062,6 +85295,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -84125,6 +85362,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -84281,6 +85522,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -84313,6 +85570,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -84368,6 +85641,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84431,6 +85708,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84565,6 +85846,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -84597,6 +85894,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -84736,6 +86049,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -84768,6 +86097,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -84851,6 +86196,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -84914,6 +86263,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -84980,6 +86333,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -85043,6 +86400,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -85165,6 +86526,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85228,6 +86593,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85300,6 +86669,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85363,6 +86736,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85463,6 +86840,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -85526,6 +86907,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -85648,6 +87033,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85711,6 +87100,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85856,6 +87249,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -85919,6 +87316,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -85996,6 +87397,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86059,6 +87464,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86108,6 +87517,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -86140,6 +87565,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -86189,6 +87630,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -86252,6 +87697,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -86341,6 +87790,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -86373,6 +87838,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -86428,6 +87909,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86491,6 +87976,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86611,6 +88100,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -86674,6 +88167,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -86800,6 +88297,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86863,6 +88364,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -86924,6 +88429,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -86987,6 +88496,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -87172,6 +88685,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87235,6 +88752,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87383,6 +88904,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -87446,6 +88971,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -87568,6 +89097,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87631,6 +89164,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -87731,6 +89268,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -87794,6 +89335,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -87860,6 +89405,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -87923,6 +89472,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -88045,6 +89598,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88108,6 +89665,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88180,6 +89741,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88243,6 +89808,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88335,6 +89904,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -88398,6 +89971,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -88512,6 +90089,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88575,6 +90156,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88636,6 +90221,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -88699,6 +90288,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -88776,6 +90369,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88839,6 +90436,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -88900,6 +90501,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -88963,6 +90568,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -89040,6 +90649,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89103,6 +90716,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89164,6 +90781,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -89227,6 +90848,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -89304,6 +90929,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89367,6 +90996,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89459,6 +91092,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -89522,6 +91159,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -89675,6 +91316,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89738,6 +91383,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -89916,6 +91565,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -89948,6 +91613,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -89997,6 +91678,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -90060,6 +91745,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -90156,6 +91845,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -90188,6 +91893,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -90243,6 +91964,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90306,6 +92031,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90477,6 +92206,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -90509,6 +92254,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -90698,6 +92459,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -90730,6 +92507,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -90898,6 +92691,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     leadViews?: LeadViewCreateNestedManyWithoutUserInput
@@ -90930,6 +92739,22 @@ export namespace Prisma {
     role?: $Enums.Role
     verified?: boolean
     createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
     properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
@@ -91110,6 +92935,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUpdateManyWithoutUserNestedInput
@@ -91142,6 +92983,22 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
@@ -92367,6 +94224,10 @@ export namespace Prisma {
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
     carryForwardScore?: number
     cycleCompletedCount?: number
     activeDiscountCoupon?: string | null
@@ -92682,6 +94543,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92745,6 +94610,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92807,6 +94676,10 @@ export namespace Prisma {
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
     carryForwardScore?: IntFieldUpdateOperationsInput | number
     cycleCompletedCount?: IntFieldUpdateOperationsInput | number
     activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null

@@ -128,12 +128,57 @@ export async function getListingsForAgent(agentProfileId: string) {
   });
 }
 
-// PDF 2 Page 12 & Page 1:
-// - Non-renewal pushback: deprioritized agents sorted last.
-// - Automatic Sorting Engine: agreementExpiryDate ASC (closest to 6-month agreement expiry shows first as Hot Deals).
-// - Exclude auto-delisted properties (isDelisted: false).
-export async function getPublicListings(filters?: { city?: string; listingType?: "SALE" | "RENT" }) {
-  return prisma.agentListing.findMany({
+export type PublicListingFilters = {
+  city?: string;
+  listingType?: "SALE" | "RENT";
+  customerUserId?: string;
+  referringAgentCode?: string;
+  latitude?: number;
+  longitude?: number;
+};
+
+// Client Rule:
+// 1. Jis agent ne property upload ki wo uske customer ko pehle show hogi (Tier 1: Direct Agent)
+// 2. Us agent ke dwara naye agent ne jo property upload ki hai uske baad aage aage wo show hogi (Tier 2: Downline Network)
+// 3. Uske baad 1-5 km radius wali property show hogi (Tier 3: Local Radius & Global Feed)
+// 4. Non-renewal deprioritized agents sorted last.
+export async function getPublicListings(filters?: PublicListingFilters) {
+  let directAgentProfileId: string | null = null;
+  const downlineAgentIds = new Set<string>();
+
+  // Determine referring agent if customer or code is provided
+  if (filters?.customerUserId) {
+    const customer = await prisma.user.findUnique({
+      where: { id: filters.customerUserId },
+      select: { referredByAgentId: true },
+    });
+    if (customer?.referredByAgentId) {
+      directAgentProfileId = customer.referredByAgentId;
+    }
+  }
+
+  if (!directAgentProfileId && filters?.referringAgentCode) {
+    const refAgent = await prisma.agentProfile.findUnique({
+      where: { agentCode: filters.referringAgentCode.trim().toUpperCase() },
+      select: { id: true },
+    });
+    if (refAgent) {
+      directAgentProfileId = refAgent.id;
+    }
+  }
+
+  if (directAgentProfileId) {
+    // Fetch downline agents (agents referred by this direct agent)
+    const downline = await prisma.agentProfile.findMany({
+      where: { referringAgentId: directAgentProfileId },
+      select: { id: true },
+    });
+    for (const d of downline) {
+      downlineAgentIds.add(d.id);
+    }
+  }
+
+  const listings = await prisma.agentListing.findMany({
     where: {
       approvalStatus: "APPROVED",
       isDelisted: false,
@@ -147,6 +192,37 @@ export async function getPublicListings(filters?: { city?: string; listingType?:
       { agent: { primeStatus: "desc" } },
       { createdAt: "desc" },
     ],
+  });
+
+  // If no direct agent attribution, return listings in standard order
+  if (!directAgentProfileId) {
+    return listings;
+  }
+
+  // Tiered sorting:
+  // Tier 1 (rank 0): Direct Agent's properties
+  // Tier 2 (rank 1): Downline Agent's properties
+  // Tier 3 (rank 2): Other active properties
+  // Tier 4 (rank 3): Deprioritized properties
+  return listings.sort((a, b) => {
+    const getRank = (item: (typeof listings)[0]) => {
+      if (item.agent?.visibilityDeprioritized) return 3;
+      if (item.agentId === directAgentProfileId) return 0;
+      if (item.agentId && downlineAgentIds.has(item.agentId)) return 1;
+      return 2;
+    };
+
+    const rankA = getRank(a);
+    const rankB = getRank(b);
+
+    if (rankA !== rankB) {
+      return rankA - rankB;
+    }
+
+    // Secondary sort: agreementExpiryDate ASC
+    const dateA = a.agreementExpiryDate ? a.agreementExpiryDate.getTime() : Infinity;
+    const dateB = b.agreementExpiryDate ? b.agreementExpiryDate.getTime() : Infinity;
+    return dateA - dateB;
   });
 }
 

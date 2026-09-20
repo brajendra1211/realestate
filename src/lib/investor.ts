@@ -25,6 +25,23 @@ export type InvestorRegistrationInput = {
   name: string;
   email: string;
   phone: string;
+  secondaryPhone?: string | null;
+  whatsappNumber?: string | null;
+  age?: number | null;
+  dateOfBirth?: Date | null;
+  panNumber?: string | null;
+  panCardUrl?: string | null;
+  aadhaarNumber?: string | null;
+  aadhaarFrontUrl?: string | null;
+  aadhaarBackUrl?: string | null;
+  address?: string | null;
+  website?: string | null;
+  bankAccountName?: string | null;
+  bankAccountNumber?: string | null;
+  bankIfsc?: string | null;
+  bankName?: string | null;
+  bankBranch?: string | null;
+  cancelledChequeUrl?: string | null;
 };
 
 export async function registerInvestor(agentProfileId: string, input: InvestorRegistrationInput) {
@@ -44,9 +61,6 @@ export async function registerInvestor(agentProfileId: string, input: InvestorRe
     throw new InvestorServiceError("duplicate");
   }
 
-  // registrationFee is stamped at registration time from the currently
-  // configured rate — later admin changes to investorRegistrationFee don't
-  // retroactively change what an already-registered investor owes.
   const settings = await getSiteSettings();
 
   const user = await prisma.user.create({
@@ -54,6 +68,23 @@ export async function registerInvestor(agentProfileId: string, input: InvestorRe
       name,
       email,
       phone,
+      secondaryPhone: input.secondaryPhone?.trim() || null,
+      whatsappNumber: input.whatsappNumber?.trim() || phone,
+      age: input.age ?? null,
+      dateOfBirth: input.dateOfBirth ?? null,
+      panNumber: input.panNumber?.trim() || null,
+      panCardUrl: input.panCardUrl?.trim() || null,
+      aadhaarNumber: input.aadhaarNumber?.trim() || null,
+      aadhaarFrontUrl: input.aadhaarFrontUrl?.trim() || null,
+      aadhaarBackUrl: input.aadhaarBackUrl?.trim() || null,
+      address: input.address?.trim() || null,
+      website: input.website?.trim() || null,
+      bankAccountName: input.bankAccountName?.trim() || null,
+      bankAccountNumber: input.bankAccountNumber?.trim() || null,
+      bankIfsc: input.bankIfsc?.trim() || null,
+      bankName: input.bankName?.trim() || null,
+      bankBranch: input.bankBranch?.trim() || null,
+      cancelledChequeUrl: input.cancelledChequeUrl?.trim() || null,
       slug: await uniqueInvestorUserSlug(name),
       role: "INVESTOR",
       investorProfile: {

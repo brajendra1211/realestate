@@ -91,6 +91,26 @@ model User {
   enquiries       Enquiry[]       @relation("EnquiryBuyer")
   createdAt       DateTime        @default(now())
 
+  // KYC & Customer Proof
+  referredByAgentId String?
+  secondaryPhone    String?
+  whatsappNumber    String?
+  age               Int?
+  dateOfBirth       DateTime?
+  panNumber         String?
+  panCardUrl        String?
+  aadhaarNumber     String?
+  aadhaarFrontUrl   String?
+  aadhaarBackUrl    String?
+
+  // Banking Details with Cancelled Cheque
+  bankAccountName    String?
+  bankAccountNumber  String?
+  bankIfsc           String?
+  bankName           String?
+  bankBranch         String?
+  cancelledChequeUrl String?
+
   agentProfile         AgentProfile?
   investorProfile      InvestorProfile?
   propertyUnlocks      PropertyUnlock[]
@@ -444,6 +464,10 @@ enum AgentDocumentType {
   RERA_CERTIFICATE
   TRADE_LICENSE
   GST_CERTIFICATE
+  AADHAAR_CARD_FRONT
+  AADHAAR_CARD_BACK
+  PAN_CARD
+  CANCELLED_CHEQUE
   OTHER
 }
 
@@ -459,53 +483,60 @@ enum CommissionType {
   UNLOCK_SPLIT
   GOLD_SPLIT
   AGENT_REFERRAL
+  CUSTOMER_PROPERTY_UPDATE
+  REFERRAL_CUSTOMER_RENEWAL
+  COMPANY_FIVE_STAR_REWARD
 }
 
 model AgentProfile {
-  id                      String         @id @default(cuid())
-  userId                  String         @unique
-  user                    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  agentCode               String?        @unique
-  city                    String?
-  shopName                String?
-  shopAddress             String?        @db.Text
-  shopLatitude            Float?
-  shopLongitude           Float?
-  alternatePhone          String?
-  yearsExperience         Int?
-  staffCount              Int?
-  reraNumber              String?
-  gstNumber               String?
-  status                  ApprovalStatus @default(PENDING)
-  rejectionReason         String?        @db.Text
-  planTier                AgentPlanTier  @default(PRIME)
-  primeStatus             Boolean        @default(false)
-  visibilityDeprioritized Boolean        @default(false)
-  autoPayMandate          String?
-  autoPayActive           Boolean        @default(false)
-  renewalAlertSentAt      DateTime?
-  walletBalance           Int            @default(0)
-  warningCount            Int            @default(0)
-  ratingAvg               Float?         @default(0)
-  verifiedAt              DateTime?
+  id                            String         @id @default(cuid())
+  userId                        String         @unique
+  user                          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agentCode                     String?        @unique
+  city                          String?
+  shopName                      String?
+  shopAddress                   String?        @db.Text
+  shopLatitude                  Float?
+  shopLongitude                 Float?
+  alternatePhone                String?
+  yearsExperience               Int?
+  staffCount                    Int?
+  reraNumber                    String?
+  gstNumber                     String?
+  status                        ApprovalStatus @default(PENDING)
+  rejectionReason               String?        @db.Text
+  planTier                      AgentPlanTier  @default(PRIME)
+  primeStatus                   Boolean        @default(false)
+  visibilityDeprioritized       Boolean        @default(false)
+  autoPayMandate                String?
+  autoPayActive                 Boolean        @default(false)
+  renewalAlertSentAt            DateTime?
+  walletBalance                 Int            @default(0)
+  warningCount                  Int            @default(0)
+  ratingAvg                     Float?         @default(0)
+  verifiedAt                    DateTime?
   // PDF 1 Page 7 & 12: 60-Day Review Cycle, Target Counts & Tier Promotion/Demotion
-  cycleStartDate          DateTime?      @default(now())
-  cycleEndDate            DateTime?
-  cycleListingsTarget     Int            @default(5)
-  cycleDealsTarget        Int            @default(1)
-  cycleVisitsTarget       Int            @default(3)
-  carryForwardScore       Int            @default(0)
-  cycleCompletedCount     Int            @default(0)
-  activeDiscountCoupon    String?
-  couponExpiresAt         DateTime?
+  cycleStartDate                DateTime?      @default(now())
+  cycleEndDate                  DateTime?
+  cycleListingsTarget           Int            @default(5)
+  cycleDealsTarget              Int            @default(1)
+  cycleVisitsTarget             Int            @default(3)
+  cycleDirectAgentsTarget       Int            @default(10)
+  cycleCustomerPropertiesTarget Int            @default(20)
+  cycleInvestorsTarget          Int            @default(5)
+  targetStatus                  String         @default("YELLOW")
+  carryForwardScore             Int            @default(0)
+  cycleCompletedCount           Int            @default(0)
+  activeDiscountCoupon          String?
+  couponExpiresAt               DateTime?
   // §3.20 — the agent who referred this agent (self-referential, same shape
   // as InvestorProfile.referringAgentId below). Nullable: most agents have
   // no referrer.
-  referringAgentId        String?
-  referringAgent          AgentProfile?  @relation("AgentReferral", fields: [referringAgentId], references: [id])
-  referredAgents          AgentProfile[] @relation("AgentReferral")
-  createdAt               DateTime       @default(now())
-  updatedAt               DateTime       @updatedAt
+  referringAgentId              String?
+  referringAgent                AgentProfile?  @relation("AgentReferral", fields: [referringAgentId], references: [id])
+  referredAgents                AgentProfile[] @relation("AgentReferral")
+  createdAt                     DateTime       @default(now())
+  updatedAt                     DateTime       @updatedAt
 
   documents             AgentDocument[]
   investors             InvestorProfile[]
@@ -1068,6 +1099,11 @@ enum DocumentVaultType {
   LAYOUT_PLAN
   PAYMENT_RECEIPT
   SIGNED_AGREEMENT
+  CUSTOMER_BANK_LOAN_PAPERS
+  COMPANY_INVESTOR_AGREEMENT
+  CANCELLED_CHEQUE
+  AADHAAR_CARD
+  PAN_CARD
   OTHER
 }
 

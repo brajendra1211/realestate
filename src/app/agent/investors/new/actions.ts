@@ -21,11 +21,31 @@ export async function createInvestor(
     return { error: "notPrime" };
   }
 
+  const dobStr = String(formData.get("dateOfBirth") ?? "").trim();
+  const dateOfBirth = dobStr ? new Date(dobStr) : null;
+
   try {
     await registerInvestor(agent.id, {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
       phone: String(formData.get("phone") ?? ""),
+      secondaryPhone: String(formData.get("secondaryPhone") ?? ""),
+      whatsappNumber: String(formData.get("whatsappNumber") ?? ""),
+      age: formData.get("age") ? Number(formData.get("age")) : null,
+      dateOfBirth,
+      panNumber: String(formData.get("panNumber") ?? ""),
+      panCardUrl: String(formData.get("panCardUrl") ?? "") || null,
+      aadhaarNumber: String(formData.get("aadhaarNumber") ?? ""),
+      aadhaarFrontUrl: String(formData.get("aadhaarFrontUrl") ?? "") || null,
+      aadhaarBackUrl: String(formData.get("aadhaarBackUrl") ?? "") || null,
+      address: String(formData.get("address") ?? ""),
+      website: String(formData.get("website") ?? ""),
+      bankAccountName: String(formData.get("bankAccountName") ?? ""),
+      bankAccountNumber: String(formData.get("bankAccountNumber") ?? ""),
+      bankIfsc: String(formData.get("bankIfsc") ?? ""),
+      bankName: String(formData.get("bankName") ?? ""),
+      bankBranch: String(formData.get("bankBranch") ?? ""),
+      cancelledChequeUrl: String(formData.get("cancelledChequeUrl") ?? "") || null,
     });
   } catch (error) {
     if (error instanceof InvestorServiceError) {

@@ -6,7 +6,7 @@ import { generateAgentCode } from "@/lib/codes";
 import { geocodeLocation } from "@/lib/geocode";
 import { indexAgentLocation } from "@/lib/agentGeo";
 import { getSiteSettings } from "@/lib/site-settings";
-import type { AgentProfile, Prisma } from "@/generated/prisma";
+import type { AgentDocumentType, AgentProfile, Prisma } from "@/generated/prisma";
 
 export class AgentServiceError extends Error {}
 
@@ -24,7 +24,7 @@ async function uniqueAgentUserSlug(name: string) {
 }
 
 export type AgentDocumentInput = {
-  type: "RERA_CERTIFICATE" | "TRADE_LICENSE" | "GST_CERTIFICATE" | "OTHER";
+  type: AgentDocumentType;
   url: string;
 };
 
@@ -33,6 +33,21 @@ export type AgentApplicationInput = {
   email: string;
   phone?: string | null;
   alternatePhone?: string | null;
+  whatsappNumber?: string | null;
+  age?: number | null;
+  dateOfBirth?: Date | null;
+  panNumber?: string | null;
+  panCardUrl?: string | null;
+  aadhaarNumber?: string | null;
+  aadhaarFrontUrl?: string | null;
+  aadhaarBackUrl?: string | null;
+  website?: string | null;
+  bankAccountName?: string | null;
+  bankAccountNumber?: string | null;
+  bankIfsc?: string | null;
+  bankName?: string | null;
+  bankBranch?: string | null;
+  cancelledChequeUrl?: string | null;
   password: string;
   shopName: string;
   shopAddress: string;
@@ -61,18 +76,8 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
     throw new AgentServiceError("duplicate");
   }
 
-  // §3.1 — "Agent's map pin is fixed to their registered shop location."
-  // Geocoded once at registration, same Nominatim helper City/Locality/
-  // Project already use — this is also what makes an agent findable by
-  // Phase 4's radius dispatch/broadcast (an agent with no coordinates can
-  // never be matched to a nearby customer).
   const shopCoords = await geocodeLocation(`${input.shopAddress.trim()}, ${input.city.trim()}`);
 
-  // §3.20 — Agent-to-agent referral. Resolve the referring agent's code
-  // now, at registration time, but the 10% commission itself is only
-  // credited once, when this new agent's Prime activates (see
-  // `activateAgentPrime`) — referring someone who never pays for Prime
-  // earns nothing, same as the investor-referral precedent (§3.11).
   let referringAgentId: string | null = null;
   const referredByAgentCode = input.referredByAgentCode?.trim();
   if (referredByAgentCode) {
@@ -88,6 +93,22 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
       name,
       email,
       phone: input.phone?.trim() || null,
+      secondaryPhone: input.alternatePhone?.trim() || null,
+      whatsappNumber: input.whatsappNumber?.trim() || input.phone?.trim() || null,
+      age: input.age ?? null,
+      dateOfBirth: input.dateOfBirth ?? null,
+      panNumber: input.panNumber?.trim() || null,
+      panCardUrl: input.panCardUrl?.trim() || null,
+      aadhaarNumber: input.aadhaarNumber?.trim() || null,
+      aadhaarFrontUrl: input.aadhaarFrontUrl?.trim() || null,
+      aadhaarBackUrl: input.aadhaarBackUrl?.trim() || null,
+      website: input.website?.trim() || null,
+      bankAccountName: input.bankAccountName?.trim() || null,
+      bankAccountNumber: input.bankAccountNumber?.trim() || null,
+      bankIfsc: input.bankIfsc?.trim() || null,
+      bankName: input.bankName?.trim() || null,
+      bankBranch: input.bankBranch?.trim() || null,
+      cancelledChequeUrl: input.cancelledChequeUrl?.trim() || null,
       slug: await uniqueAgentUserSlug(input.shopName || name),
       passwordHash: await hashPassword(input.password),
       role: "AGENT",
@@ -246,7 +267,7 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
 export async function getAgentByUserId(userId: string) {
   return prisma.agentProfile.findUnique({
     where: { userId },
-    include: { documents: true, investors: true },
+    include: { user: true, documents: true, investors: true },
   });
 }
 
@@ -263,6 +284,9 @@ export async function getAgentCommissionSummary(agentProfileId: string) {
     UNLOCK_SPLIT: 0,
     GOLD_SPLIT: 0,
     AGENT_REFERRAL: 0,
+    CUSTOMER_PROPERTY_UPDATE: 0,
+    REFERRAL_CUSTOMER_RENEWAL: 0,
+    COMPANY_FIVE_STAR_REWARD: 0,
   };
   for (const entry of entries) {
     totals[entry.type] = (totals[entry.type] ?? 0) + entry.amount;

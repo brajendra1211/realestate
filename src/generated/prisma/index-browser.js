@@ -137,7 +137,23 @@ exports.Prisma.UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   role: 'role',
   verified: 'verified',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  referredByAgentId: 'referredByAgentId',
+  secondaryPhone: 'secondaryPhone',
+  whatsappNumber: 'whatsappNumber',
+  age: 'age',
+  dateOfBirth: 'dateOfBirth',
+  panNumber: 'panNumber',
+  panCardUrl: 'panCardUrl',
+  aadhaarNumber: 'aadhaarNumber',
+  aadhaarFrontUrl: 'aadhaarFrontUrl',
+  aadhaarBackUrl: 'aadhaarBackUrl',
+  bankAccountName: 'bankAccountName',
+  bankAccountNumber: 'bankAccountNumber',
+  bankIfsc: 'bankIfsc',
+  bankName: 'bankName',
+  bankBranch: 'bankBranch',
+  cancelledChequeUrl: 'cancelledChequeUrl'
 };
 
 exports.Prisma.PlanScalarFieldEnum = {
@@ -419,6 +435,10 @@ exports.Prisma.AgentProfileScalarFieldEnum = {
   cycleListingsTarget: 'cycleListingsTarget',
   cycleDealsTarget: 'cycleDealsTarget',
   cycleVisitsTarget: 'cycleVisitsTarget',
+  cycleDirectAgentsTarget: 'cycleDirectAgentsTarget',
+  cycleCustomerPropertiesTarget: 'cycleCustomerPropertiesTarget',
+  cycleInvestorsTarget: 'cycleInvestorsTarget',
+  targetStatus: 'targetStatus',
   carryForwardScore: 'carryForwardScore',
   cycleCompletedCount: 'cycleCompletedCount',
   activeDiscountCoupon: 'activeDiscountCoupon',
@@ -816,7 +836,21 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   website: 'website',
   instagramUrl: 'instagramUrl',
   facebookUrl: 'facebookUrl',
-  passwordHash: 'passwordHash'
+  passwordHash: 'passwordHash',
+  referredByAgentId: 'referredByAgentId',
+  secondaryPhone: 'secondaryPhone',
+  whatsappNumber: 'whatsappNumber',
+  panNumber: 'panNumber',
+  panCardUrl: 'panCardUrl',
+  aadhaarNumber: 'aadhaarNumber',
+  aadhaarFrontUrl: 'aadhaarFrontUrl',
+  aadhaarBackUrl: 'aadhaarBackUrl',
+  bankAccountName: 'bankAccountName',
+  bankAccountNumber: 'bankAccountNumber',
+  bankIfsc: 'bankIfsc',
+  bankName: 'bankName',
+  bankBranch: 'bankBranch',
+  cancelledChequeUrl: 'cancelledChequeUrl'
 };
 
 exports.Prisma.PlanOrderByRelevanceFieldEnum = {
@@ -1000,6 +1034,7 @@ exports.Prisma.AgentProfileOrderByRelevanceFieldEnum = {
   gstNumber: 'gstNumber',
   rejectionReason: 'rejectionReason',
   autoPayMandate: 'autoPayMandate',
+  targetStatus: 'targetStatus',
   activeDiscountCoupon: 'activeDiscountCoupon',
   referringAgentId: 'referringAgentId'
 };
@@ -1310,6 +1345,10 @@ exports.AgentDocumentType = exports.$Enums.AgentDocumentType = {
   RERA_CERTIFICATE: 'RERA_CERTIFICATE',
   TRADE_LICENSE: 'TRADE_LICENSE',
   GST_CERTIFICATE: 'GST_CERTIFICATE',
+  AADHAAR_CARD_FRONT: 'AADHAAR_CARD_FRONT',
+  AADHAAR_CARD_BACK: 'AADHAAR_CARD_BACK',
+  PAN_CARD: 'PAN_CARD',
+  CANCELLED_CHEQUE: 'CANCELLED_CHEQUE',
   OTHER: 'OTHER'
 };
 
@@ -1332,7 +1371,10 @@ exports.CommissionType = exports.$Enums.CommissionType = {
   BROKERAGE: 'BROKERAGE',
   UNLOCK_SPLIT: 'UNLOCK_SPLIT',
   GOLD_SPLIT: 'GOLD_SPLIT',
-  AGENT_REFERRAL: 'AGENT_REFERRAL'
+  AGENT_REFERRAL: 'AGENT_REFERRAL',
+  CUSTOMER_PROPERTY_UPDATE: 'CUSTOMER_PROPERTY_UPDATE',
+  REFERRAL_CUSTOMER_RENEWAL: 'REFERRAL_CUSTOMER_RENEWAL',
+  COMPANY_FIVE_STAR_REWARD: 'COMPANY_FIVE_STAR_REWARD'
 };
 
 exports.ListingSource = exports.$Enums.ListingSource = {
@@ -1387,6 +1429,11 @@ exports.DocumentVaultType = exports.$Enums.DocumentVaultType = {
   LAYOUT_PLAN: 'LAYOUT_PLAN',
   PAYMENT_RECEIPT: 'PAYMENT_RECEIPT',
   SIGNED_AGREEMENT: 'SIGNED_AGREEMENT',
+  CUSTOMER_BANK_LOAN_PAPERS: 'CUSTOMER_BANK_LOAN_PAPERS',
+  COMPANY_INVESTOR_AGREEMENT: 'COMPANY_INVESTOR_AGREEMENT',
+  CANCELLED_CHEQUE: 'CANCELLED_CHEQUE',
+  AADHAAR_CARD: 'AADHAAR_CARD',
+  PAN_CARD: 'PAN_CARD',
   OTHER: 'OTHER'
 };
 

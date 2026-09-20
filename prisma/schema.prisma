@@ -91,6 +91,26 @@ model User {
   enquiries       Enquiry[]       @relation("EnquiryBuyer")
   createdAt       DateTime        @default(now())
 
+  // KYC & Customer Proof
+  referredByAgentId String?
+  secondaryPhone    String?
+  whatsappNumber    String?
+  age               Int?
+  dateOfBirth       DateTime?
+  panNumber         String?
+  panCardUrl        String?
+  aadhaarNumber     String?
+  aadhaarFrontUrl   String?
+  aadhaarBackUrl    String?
+
+  // Banking Details with Cancelled Cheque
+  bankAccountName    String?
+  bankAccountNumber  String?
+  bankIfsc           String?
+  bankName           String?
+  bankBranch         String?
+  cancelledChequeUrl String?
+
   agentProfile         AgentProfile?
   investorProfile      InvestorProfile?
   propertyUnlocks      PropertyUnlock[]
@@ -444,6 +464,10 @@ enum AgentDocumentType {
   RERA_CERTIFICATE
   TRADE_LICENSE
   GST_CERTIFICATE
+  AADHAAR_CARD_FRONT
+  AADHAAR_CARD_BACK
+  PAN_CARD
+  CANCELLED_CHEQUE
   OTHER
 }
 
@@ -459,6 +483,9 @@ enum CommissionType {
   UNLOCK_SPLIT
   GOLD_SPLIT
   AGENT_REFERRAL
+  CUSTOMER_PROPERTY_UPDATE
+  REFERRAL_CUSTOMER_RENEWAL
+  COMPANY_FIVE_STAR_REWARD
 }
 
 model AgentProfile {
@@ -494,6 +521,10 @@ model AgentProfile {
   cycleListingsTarget     Int            @default(5)
   cycleDealsTarget        Int            @default(1)
   cycleVisitsTarget       Int            @default(3)
+  cycleDirectAgentsTarget Int            @default(10)
+  cycleCustomerPropertiesTarget Int      @default(20)
+  cycleInvestorsTarget    Int            @default(5)
+  targetStatus            String         @default("YELLOW")
   carryForwardScore       Int            @default(0)
   cycleCompletedCount     Int            @default(0)
   activeDiscountCoupon    String?
@@ -1068,6 +1099,11 @@ enum DocumentVaultType {
   LAYOUT_PLAN
   PAYMENT_RECEIPT
   SIGNED_AGREEMENT
+  CUSTOMER_BANK_LOAN_PAPERS
+  COMPANY_INVESTOR_AGREEMENT
+  CANCELLED_CHEQUE
+  AADHAAR_CARD
+  PAN_CARD
   OTHER
 }
 

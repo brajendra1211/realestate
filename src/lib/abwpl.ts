@@ -1,5 +1,17 @@
-const ABWPL_BASE_URL = "https://abwpl.com/api/public/otp";
+// Point ABWPL_BASE_URL at a relay (see cloudflare-worker/abwpl-proxy.js) when
+// this host can't reach abwpl.com directly.
+const ABWPL_BASE_URL = process.env.ABWPL_BASE_URL?.trim().replace(/\/+$/, "") || "https://abwpl.com/api/public/otp";
 const ABWPL_API_KEY = process.env.ABWPL_API_KEY;
+const ABWPL_PROXY_SECRET = process.env.ABWPL_PROXY_SECRET;
+
+function abwplHeaders(): Record<string, string> {
+  const headers: Record<string, string> = {
+    "X-API-Key": ABWPL_API_KEY as string,
+    "Content-Type": "application/json",
+  };
+  if (ABWPL_PROXY_SECRET) headers["X-Proxy-Secret"] = ABWPL_PROXY_SECRET;
+  return headers;
+}
 
 export function isAbwplConfigured(): boolean {
   return typeof ABWPL_API_KEY === "string" && ABWPL_API_KEY.trim().length > 0;
@@ -19,10 +31,7 @@ export async function sendAbwplOtp(phone: string): Promise<boolean> {
   try {
     const response = await fetch(`${ABWPL_BASE_URL}/send`, {
       method: "POST",
-      headers: {
-        "X-API-Key": ABWPL_API_KEY as string,
-        "Content-Type": "application/json",
-      },
+      headers: abwplHeaders(),
       body: JSON.stringify({ phone }),
     });
     return response.ok;
@@ -40,10 +49,7 @@ export async function verifyAbwplOtp(phone: string, code: string): Promise<boole
   try {
     const response = await fetch(`${ABWPL_BASE_URL}/verify`, {
       method: "POST",
-      headers: {
-        "X-API-Key": ABWPL_API_KEY as string,
-        "Content-Type": "application/json",
-      },
+      headers: abwplHeaders(),
       body: JSON.stringify({ phone, code }),
     });
     return response.ok;

@@ -12,7 +12,7 @@ class Endpoints {
 
   // --- Buyer ---
   static const buyerOtpRequest = '/api/buyer/otp';
-  static const buyerMe = '/api/buyer/me';
+  static const buyerMe = '/api/buyer/dashboard';
   static const buyerSavedProperties = '/api/buyer/saved-properties';
   static const buyerAppointments = '/api/buyer/appointments';
   static String buyerAppointmentNoShow(String id) =>

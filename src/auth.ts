@@ -2,7 +2,15 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword } from "@/lib/password";
-import { verifyOtp, looksLikeEmail } from "@/lib/otp";
+import { verifyOtp, looksLikeEmail, phoneDigitsMatch } from "@/lib/otp";
+import type { Role } from "@/generated/prisma";
+
+async function findUserByPhone(identifier: string, role?: Role) {
+  const candidates = await prisma.user.findMany({
+    where: { phone: { not: null }, ...(role ? { role } : {}) },
+  });
+  return candidates.find((u) => phoneDigitsMatch(u.phone, identifier)) ?? null;
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
@@ -22,6 +30,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user || !user.passwordHash) return null;
+
+        // Password login is strictly restricted to ADMIN and SUBADMIN roles.
+        // All other roles (BUYER, INVESTOR, AGENT, DEALER, OWNER, etc.) must log in via OTP.
+        if (user.role !== "ADMIN" && user.role !== "SUBADMIN") {
+          return null;
+        }
 
         const valid = await verifyPassword(password, user.passwordHash);
         if (!valid) return null;
@@ -54,7 +68,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const isEmail = looksLikeEmail(identifier);
         const existing = isEmail
           ? await prisma.user.findUnique({ where: { email: identifier } })
-          : await prisma.user.findFirst({ where: { phone: identifier } });
+          : await findUserByPhone(identifier);
 
         const user =
           existing ??
@@ -75,12 +89,54 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         };
       },
     }),
+    Credentials({
+      id: "investor-otp",
+      name: "Investor OTP",
+      credentials: {
+        identifier: { label: "Phone or email", type: "text" },
+        otp: { label: "OTP", type: "text" },
+      },
+      authorize: async (credentials) => {
+        const identifier = credentials?.identifier;
+        const otp = credentials?.otp;
+        if (typeof identifier !== "string" || typeof otp !== "string") {
+          return null;
+        }
+
+        const valid = await verifyOtp(identifier, otp);
+        if (!valid) return null;
+
+        const isEmail = looksLikeEmail(identifier);
+        // Unlike buyer-otp, this never auto-creates a user — an investor
+        // account only exists once their referring agent has registered
+        // them (docs/platform-requirements.md §3.11).
+        const user = isEmail
+          ? await prisma.user.findUnique({ where: { email: identifier } })
+          : await findUserByPhone(identifier, "INVESTOR");
+
+        if (!user || user.role !== "INVESTOR") return null;
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        };
+      },
+    }),
   ],
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id as string;
-        token.role = user.role as "ADMIN" | "SUBADMIN" | "OWNER" | "DEALER" | "BUYER";
+        token.role = user.role as
+          | "ADMIN"
+          | "SUBADMIN"
+          | "OWNER"
+          | "DEALER"
+          | "BUYER"
+          | "AGENT"
+          | "INVESTOR";
       }
       return token;
     },

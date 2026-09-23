@@ -42,7 +42,7 @@ function SocialLink({ href, kind }: { href: string; kind: keyof typeof SOCIAL_IC
       target="_blank"
       rel="noopener noreferrer"
       aria-label={kind}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-blue-200 hover:text-blue-600"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:-translate-y-0.5 hover:border-transparent hover:bg-linear-to-br hover:from-blue-600 hover:to-indigo-600 hover:text-white hover:shadow-md hover:shadow-blue-600/25"
     >
       <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
         {SOCIAL_ICONS[kind]}
@@ -79,11 +79,17 @@ export function Footer({
   if (linkedinUrl) socialLinks.push({ kind: "linkedin", href: linkedinUrl });
 
   return (
-    <footer className="border-t border-slate-200 bg-slate-50 pb-20 sm:pb-0">
+    <footer className="relative border-t border-slate-200 bg-slate-50 pb-20 sm:pb-0">
+      <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-blue-400/60 to-transparent" />
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           <div className="col-span-2 sm:col-span-1">
-            <p className="text-lg font-bold text-slate-900">{siteName}</p>
+            <p className="flex items-center gap-2 text-lg font-bold text-slate-900">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-linear-to-br from-blue-600 to-indigo-600 text-xs font-extrabold text-white">
+                {siteName.charAt(0)}
+              </span>
+              {siteName}
+            </p>
             {tagline && <p className="mt-2 text-sm text-slate-500">{tagline}</p>}
             {socialLinks.length > 0 && (
               <div className="mt-4 flex gap-2">

@@ -32,9 +32,13 @@ export default async function DealersPage() {
       </p>
 
       {dealers.length === 0 ? (
-        <p className="mt-8 rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500">
-          No dealers listed yet.
-        </p>
+        <div className="mt-8 rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500">
+          <svg viewBox="0 0 24 24" fill="none" className="mx-auto h-10 w-10 text-slate-300">
+            <circle cx="9" cy="8" r="3" strokeWidth={1.5} />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 8a3 3 0 110 6M21 20c0-2.8-2-5.1-4.7-5.8" />
+          </svg>
+          <p className="mt-3">No dealers listed yet.</p>
+        </div>
       ) : (
         <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {dealers.map((dealer) => {
@@ -43,7 +47,7 @@ export default async function DealersPage() {
               <Link
                 key={dealer.id}
                 href={`/dealers/${dealer.slug}`}
-                className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
+                className="group flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg"
               >
                 <div className="flex items-center gap-3">
                   {dealer.logoUrl ? (
@@ -54,7 +58,7 @@ export default async function DealersPage() {
                       className="h-14 w-14 shrink-0 rounded-xl object-cover"
                     />
                   ) : (
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-lg font-bold text-blue-700">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-blue-50 to-indigo-50 text-lg font-bold text-blue-700 transition group-hover:from-blue-600 group-hover:to-indigo-600 group-hover:text-white">
                       {displayName.charAt(0)}
                     </div>
                   )}

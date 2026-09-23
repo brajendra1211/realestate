@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
@@ -20,7 +19,9 @@ async function uniqueUserSlug(name: string) {
   }
 }
 
-export async function register(formData: FormData) {
+export type RegisterState = { error?: string; redirectTo?: string };
+
+export async function register(_prevState: RegisterState, formData: FormData): Promise<RegisterState> {
   const name = String(formData.get("name") ?? "").trim();
   const email = String(formData.get("email") ?? "")
     .trim()
@@ -32,15 +33,15 @@ export async function register(formData: FormData) {
   const role = accountType === "DEALER" ? "DEALER" : "OWNER";
 
   if (!name || !email || password.length < 8) {
-    redirect("/register?error=validation");
+    return { error: "validation" };
   }
   if (role === "DEALER" && !company) {
-    redirect("/register?error=company");
+    return { error: "company" };
   }
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
-    redirect("/register?error=duplicate");
+    return { error: "duplicate" };
   }
 
   await prisma.user.create({
@@ -56,10 +57,16 @@ export async function register(formData: FormData) {
   });
 
   try {
-    await signIn("credentials", { email, password, redirectTo: "/dashboard" });
+    const redirectTo = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+      redirectTo: "/dashboard",
+    });
+    return { redirectTo: typeof redirectTo === "string" ? redirectTo : "/dashboard" };
   } catch (error) {
     if (error instanceof AuthError) {
-      redirect("/login");
+      return { redirectTo: "/login" };
     }
     throw error;
   }

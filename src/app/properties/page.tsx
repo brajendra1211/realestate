@@ -127,22 +127,23 @@ export default async function PropertiesPage({
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <JsonLd data={collectionJsonLd} />
       <h1 className="text-2xl font-bold text-slate-900">Properties</h1>
+      <p className="mt-1 text-sm text-slate-500">Browse verified listings and filter by exactly what you need.</p>
 
       <form
         method="get"
-        className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-white p-4 sm:grid-cols-3 lg:grid-cols-6"
+        className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-900/5 sm:grid-cols-3 lg:grid-cols-6"
       >
         <input
           type="text"
           name="city"
           defaultValue={effectiveCity}
           placeholder="City or locality"
-          className="col-span-2 rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none sm:col-span-1"
+          className="col-span-2 rounded-xl border border-slate-200 px-3 py-2 text-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 sm:col-span-1"
         />
         <select
           name="listingType"
           defaultValue={params.listingType ?? ""}
-          className="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded-xl border border-slate-200 px-3 py-2 text-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
         >
           {LISTING_TYPES.map((option) => (
             <option key={option.value} value={option.value}>
@@ -153,7 +154,7 @@ export default async function PropertiesPage({
         <select
           name="propertyType"
           defaultValue={params.propertyType ?? ""}
-          className="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded-xl border border-slate-200 px-3 py-2 text-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
         >
           {PROPERTY_TYPES.map((option) => (
             <option key={option.value} value={option.value}>
@@ -164,7 +165,7 @@ export default async function PropertiesPage({
         <select
           name="condition"
           defaultValue={params.condition ?? ""}
-          className="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded-xl border border-slate-200 px-3 py-2 text-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
         >
           {CONDITIONS.map((option) => (
             <option key={option.value} value={option.value}>
@@ -177,25 +178,28 @@ export default async function PropertiesPage({
           name="minPrice"
           defaultValue={params.minPrice}
           placeholder="Min price"
-          className="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded-xl border border-slate-200 px-3 py-2 text-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
         />
         <input
           type="number"
           name="maxPrice"
           defaultValue={params.maxPrice}
           placeholder="Max price"
-          className="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded-xl border border-slate-200 px-3 py-2 text-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
         />
         <button
           type="submit"
-          className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+          className="col-span-2 inline-flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-blue-600/25 transition hover:brightness-105 active:scale-[0.98] sm:col-span-1"
         >
+          <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 6h16M7 12h10M10 18h4" />
+          </svg>
           Filter
         </button>
       </form>
 
-      <p className="mt-6 text-sm text-slate-500">
-        {properties.length} properties found
+      <p className="mt-6 flex items-center gap-1.5 text-sm text-slate-500">
+        <span className="font-semibold text-slate-900">{properties.length}</span> properties found
         {location && (
           <>
             {" "}
@@ -208,9 +212,12 @@ export default async function PropertiesPage({
       </p>
 
       {properties.length === 0 ? (
-        <p className="mt-4 rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500">
-          No properties match your search.
-        </p>
+        <div className="mt-4 rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500">
+          <svg viewBox="0 0 24 24" fill="none" className="mx-auto h-10 w-10 text-slate-300">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+          </svg>
+          <p className="mt-3">No properties match your search.</p>
+        </div>
       ) : (
         <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {properties.map((property) => (

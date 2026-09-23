@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, type ChangeEvent } from "react";
+import { useActionState, useEffect, useState, type ChangeEvent } from "react";
 import { IMAGE_CATEGORIES, IMAGE_CATEGORY_LABELS } from "@/lib/format";
 import { parseAmenitiesString } from "@/lib/amenities";
 import { LocationFields } from "@/components/LocationFields";
+
+type PropertyFormActionResult = { redirectTo?: string } | void;
 
 type ImageItem = { url: string; category: string };
 
@@ -53,13 +55,28 @@ export function PropertyForm({
   listAsOptions,
   allowManualCoordinates,
 }: {
-  action: (formData: FormData) => void | Promise<void>;
+  action: (formData: FormData) => PropertyFormActionResult | Promise<PropertyFormActionResult>;
   defaultValues?: Partial<PropertyFormValues>;
   submitLabel: string;
   amenityOptions: { id: string; name: string }[];
   listAsOptions?: { id: string; label: string }[];
   allowManualCoordinates?: boolean;
 }) {
+  // Server Action redirect() isn't reliably processed by this Next.js
+  // build's client router (see src/app/login/LoginForm.tsx) — action is
+  // expected to return { redirectTo } instead of calling redirect() itself,
+  // and this component does the actual hard navigation.
+  const [actionState, formAction, pending] = useActionState(
+    async (_prev: PropertyFormActionResult, formData: FormData) => action(formData),
+    undefined as PropertyFormActionResult
+  );
+
+  useEffect(() => {
+    if (actionState && actionState.redirectTo) {
+      window.location.href = actionState.redirectTo;
+    }
+  }, [actionState]);
+
   const [images, setImages] = useState<ImageItem[]>(defaultValues?.images ?? []);
   const selectedAmenities = parseAmenitiesString(defaultValues?.amenities ?? null);
   const [listingType, setListingType] = useState<"SALE" | "RENT">(defaultValues?.listingType ?? "SALE");
@@ -129,7 +146,7 @@ export function PropertyForm({
   }
 
   return (
-    <form action={action} className="space-y-6">
+    <form action={formAction} className="space-y-6">
       {defaultValues?.id && <input type="hidden" name="id" value={defaultValues.id} />}
       {brochureUrl && <input type="hidden" name="brochureUrl" value={brochureUrl} />}
 
@@ -479,10 +496,10 @@ export function PropertyForm({
 
       <button
         type="submit"
-        disabled={uploading}
+        disabled={uploading || pending}
         className="rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
       >
-        {submitLabel}
+        {pending ? "Saving…" : submitLabel}
       </button>
     </form>
   );

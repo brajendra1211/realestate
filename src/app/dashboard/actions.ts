@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
@@ -120,7 +121,7 @@ async function resolveOwnerId(session: { user: { id: string; role: string } }, f
   return { ownerId: target.id, ownerRole: target.role };
 }
 
-export async function createProperty(formData: FormData) {
+export async function createProperty(formData: FormData): Promise<{ redirectTo?: string } | void> {
   const session = await requireListerOrAdmin();
   const { ownerId, ownerRole } = await resolveOwnerId(session, formData);
 
@@ -155,7 +156,8 @@ export async function createProperty(formData: FormData) {
     },
   });
 
-  redirect(`/dashboard/properties/${property.id}/edit?saved=1`);
+  revalidatePath("/dashboard");
+  return { redirectTo: `/dashboard/properties/${property.id}/edit?saved=1` };
 }
 
 export async function updateProperty(formData: FormData) {
@@ -194,7 +196,7 @@ export async function updateProperty(formData: FormData) {
     }),
   ]);
 
-  redirect(`/dashboard/properties/${id}/edit?saved=1`);
+  revalidatePath(`/dashboard/properties/${id}/edit`);
 }
 
 export async function deleteProperty(formData: FormData) {
@@ -207,7 +209,7 @@ export async function deleteProperty(formData: FormData) {
   }
 
   await prisma.property.delete({ where: { id } });
-  redirect("/dashboard");
+  revalidatePath("/dashboard");
 }
 
 export async function renewProperty(formData: FormData) {
@@ -223,7 +225,7 @@ export async function renewProperty(formData: FormData) {
     where: { id },
     data: { expiresAt: addListingDuration() },
   });
-  redirect("/dashboard?renewed=1");
+  revalidatePath("/dashboard");
 }
 
 export async function requestSubscription(formData: FormData) {
@@ -248,7 +250,7 @@ export async function requestSubscription(formData: FormData) {
     }),
   ]);
 
-  redirect("/dashboard?requested=1");
+  revalidatePath("/dashboard");
 }
 
 export async function cancelSubscriptionRequest(formData: FormData) {
@@ -258,7 +260,7 @@ export async function cancelSubscriptionRequest(formData: FormData) {
     where: { id, userId: session.user.id, status: "PENDING" },
     data: { status: "CANCELLED" },
   });
-  redirect("/dashboard");
+  revalidatePath("/dashboard");
 }
 
 export async function revealLead(formData: FormData) {
@@ -288,5 +290,5 @@ export async function revealLead(formData: FormData) {
     await prisma.leadView.create({ data: { userId: session.user.id, enquiryId } });
   }
 
-  redirect("/dashboard/enquiries");
+  revalidatePath("/dashboard/enquiries");
 }

@@ -59,6 +59,119 @@ async function main() {
   });
   console.log(`Demo owner ready: ${owner.email}`);
 
+  const agentUser = await prisma.user.upsert({
+    where: { email: "agent@bayaestate.com" },
+    update: {},
+    create: {
+      name: "Demo Agent",
+      email: "agent@bayaestate.com",
+      phone: "+91 90000 00002",
+      slug: "demo-agent-realty",
+      passwordHash: await hashPassword("Agent123!"),
+      role: "AGENT",
+    },
+  });
+
+  const agentProfile = await prisma.agentProfile.upsert({
+    where: { userId: agentUser.id },
+    update: {},
+    create: {
+      userId: agentUser.id,
+      agentCode: "AGT-BLR-1000",
+      city: "Bengaluru",
+      shopName: "Demo Agent Realty",
+      shopAddress: "123 MG Road, Bengaluru",
+      yearsExperience: 5,
+      staffCount: 2,
+      reraNumber: "RERA-DEMO-001",
+      status: "APPROVED",
+      primeStatus: true,
+      verifiedAt: new Date(),
+    },
+  });
+  console.log(`Demo agent ready: ${agentUser.email} (${agentProfile.agentCode})`);
+
+  const investorUser = await prisma.user.upsert({
+    where: { email: "investor@bayaestate.com" },
+    update: {},
+    create: {
+      name: "Demo Investor",
+      email: "investor@bayaestate.com",
+      phone: "+91 90000 00003",
+      slug: "demo-investor",
+      passwordHash: await hashPassword("Investor123!"),
+      role: "INVESTOR",
+    },
+  });
+
+  const investorProfile = await prisma.investorProfile.upsert({
+    where: { userId: investorUser.id },
+    update: {},
+    create: {
+      userId: investorUser.id,
+      investorCode: "INV-000001",
+      referringAgentId: agentProfile.id,
+      feeStatus: "PAID",
+      expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+      totalInvested: 1000000,
+    },
+  });
+  console.log(`Demo investor ready: ${investorUser.email} (${investorProfile.investorCode})`);
+
+  const existingReferral = await prisma.commissionLedgerEntry.findFirst({
+    where: { agentId: agentProfile.id, refId: investorProfile.id, type: "REGISTRATION_REFERRAL" },
+  });
+  if (!existingReferral) {
+    await prisma.commissionLedgerEntry.create({
+      data: {
+        agentId: agentProfile.id,
+        type: "REGISTRATION_REFERRAL",
+        amount: 2000,
+        refId: investorProfile.id,
+        note: `10% referral for investor ${investorProfile.investorCode} registration fee`,
+      },
+    });
+    await prisma.agentProfile.update({
+      where: { id: agentProfile.id },
+      data: { walletBalance: { increment: 2000 } },
+    });
+  }
+  console.log(`Demo commission ledger entry ready for ${agentProfile.agentCode}`);
+
+  const masterProperty = await prisma.masterProperty.upsert({
+    where: { masterId: "PROP-BLR-2026-1000" },
+    update: {},
+    create: {
+      masterId: "PROP-BLR-2026-1000",
+      city: "Bengaluru",
+      locality: "Whitefield",
+      latitude: 12.9698,
+      longitude: 77.75,
+    },
+  });
+
+  const agentListing = await prisma.agentListing.upsert({
+    where: { slug: "3bhk-apartment-whitefield-demo" },
+    update: {},
+    create: {
+      slug: "3bhk-apartment-whitefield-demo",
+      masterPropertyId: masterProperty.id,
+      agentId: agentProfile.id,
+      title: "3BHK Apartment in Whitefield",
+      description:
+        "Spacious 3BHK with a clubhouse, swimming pool, and covered parking. Close to tech parks and schools.",
+      listingType: "SALE",
+      propertyType: "APARTMENT",
+      bedrooms: 3,
+      bathrooms: 2,
+      areaSqft: 1450,
+      price: 9200000,
+      exactAddress: "Flat 402, Prestige Shantiniketan, ITPL Main Road, Whitefield, Bengaluru",
+      amenities: "Swimming Pool, Gym, Club House, Car Parking",
+    },
+  });
+  console.log(`Demo agent listing ready: ${agentListing.slug} (${masterProperty.masterId})`);
+
   const developer = await prisma.developer.upsert({
     where: { slug: "prestige-group" },
     update: {},

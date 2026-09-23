@@ -5,6 +5,7 @@ import '../../features/account/account_screen.dart';
 import '../../features/agent/appointments/agent_appointments_screen.dart';
 import '../../features/agent/auth/agent_login_screen.dart';
 import '../../features/agent/auth/agent_register_screen.dart';
+import '../../features/agent/auth/agent_verify_screen.dart';
 import '../../features/agent/broadcast/agent_broadcast_list_screen.dart';
 import '../../features/agent/commissions/agent_commissions_screen.dart';
 import '../../features/agent/cycle/agent_cycle_screen.dart';
@@ -165,6 +166,14 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
       GoRoute(
         path: RoutePaths.agentLogin,
         builder: (context, state) => const AgentLoginScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.agentVerify,
+        builder: (context, state) => AgentVerifyScreen(
+          identifier: state.uri.queryParameters['identifier'] ?? '',
+          channel: state.uri.queryParameters['channel'] ?? 'EMAIL',
+          from: state.uri.queryParameters['from'],
+        ),
       ),
       GoRoute(
         path: RoutePaths.agentRegister,

@@ -13,22 +13,32 @@ import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/agent_auth_provider.dart';
 
-class AgentLoginScreen extends StatefulWidget {
-  const AgentLoginScreen({super.key});
+class AgentVerifyScreen extends StatefulWidget {
+  const AgentVerifyScreen({
+    super.key,
+    required this.identifier,
+    required this.channel,
+    this.from,
+  });
+
+  final String identifier;
+  final String channel;
+  final String? from;
 
   @override
-  State<AgentLoginScreen> createState() => _AgentLoginScreenState();
+  State<AgentVerifyScreen> createState() => _AgentVerifyScreenState();
 }
 
-class _AgentLoginScreenState extends State<AgentLoginScreen> {
+class _AgentVerifyScreenState extends State<AgentVerifyScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _identifierController = TextEditingController();
+  final _otpController = TextEditingController();
   bool _submitting = false;
+  bool _resending = false;
   String? _errorMessage;
 
   @override
   void dispose() {
-    _identifierController.dispose();
+    _otpController.dispose();
     super.dispose();
   }
 
@@ -39,27 +49,39 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
       _errorMessage = null;
     });
     try {
-      final result = await context
-          .read<AgentAuthProvider>()
-          .requestOtp(_identifierController.text.trim());
+      await context.read<AgentAuthProvider>().verifyOtp(
+            identifier: widget.identifier,
+            otp: _otpController.text.trim(),
+          );
       if (!mounted) return;
-      final from = GoRouterState.of(context).uri.queryParameters['from'];
-      context.push(
-        '${RoutePaths.agentVerify}?identifier=${Uri.encodeComponent(result.identifier)}'
-        '&channel=${result.channel}'
-        '${from != null ? '&from=${Uri.encodeComponent(from)}' : ''}',
-      );
-    } on ApiException catch (e) {
-      setState(() => _errorMessage = e.code == 'notFound'
-          ? 'No agent account found for this phone or email. New agent? Register first.'
-          : errorMessageFor(e));
+      context.go(widget.from ?? RoutePaths.agentDashboard);
+    } on ApiException catch (_) {
+      setState(() => _errorMessage =
+          "That code isn't right, or this phone/email isn't registered as an agent.");
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
   }
 
+  Future<void> _resend() async {
+    setState(() => _resending = true);
+    try {
+      await context.read<AgentAuthProvider>().requestOtp(widget.identifier);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('New code sent.')));
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+    } finally {
+      if (mounted) setState(() => _resending = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final via = widget.channel == 'EMAIL' ? 'email' : 'WhatsApp';
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -69,10 +91,9 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
             child: ListView(
               children: [
                 const SizedBox(height: AppSpacing.sm),
-                const AuthHeader(
-                  title: 'Welcome back',
-                  subtitle:
-                      'No password needed — we\'ll send a one-time code on WhatsApp (or email) to your agent account.',
+                AuthHeader(
+                  title: 'Enter your code',
+                  subtitle: 'We sent a 6-digit code via $via to ${widget.identifier}.',
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 if (_errorMessage != null) ...[
@@ -80,22 +101,24 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
                   const SizedBox(height: AppSpacing.md),
                 ],
                 FormSection(
-                  title: 'Sign in',
+                  title: 'One-time code',
                   children: [
                     TextFormField(
-                      controller: _identifierController,
+                      controller: _otpController,
+                      keyboardType: TextInputType.number,
+                      autofocus: true,
                       decoration: const InputDecoration(
-                        labelText: 'Phone or email',
-                        prefixIcon: Icon(Icons.person_outline),
+                        labelText: 'OTP',
+                        prefixIcon: Icon(Icons.password_outlined),
                       ),
-                      validator: (v) => Validators.required(v, label: 'Phone or email'),
+                      validator: (v) => Validators.required(v, label: 'OTP'),
                       onFieldSubmitted: (_) => _submit(),
                     ),
                   ],
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 AppButton(
-                  label: 'Send code',
+                  label: 'Verify & continue',
                   expand: true,
                   loading: _submitting,
                   onPressed: _submit,
@@ -103,8 +126,8 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
                 const SizedBox(height: AppSpacing.md),
                 Center(
                   child: TextButton(
-                    onPressed: () => context.push(RoutePaths.agentRegister),
-                    child: const Text('New agent? Register here'),
+                    onPressed: _resending ? null : _resend,
+                    child: Text(_resending ? 'Sending…' : 'Resend code'),
                   ),
                 ),
               ],

@@ -124,6 +124,38 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         };
       },
     }),
+    Credentials({
+      id: "agent-otp",
+      name: "Agent OTP",
+      credentials: {
+        identifier: { label: "Phone or email", type: "text" },
+        otp: { label: "OTP", type: "text" },
+      },
+      authorize: async (credentials) => {
+        const identifier = credentials?.identifier;
+        const otp = credentials?.otp;
+        if (typeof identifier !== "string" || typeof otp !== "string") {
+          return null;
+        }
+
+        const valid = await verifyOtp(identifier, otp);
+        if (!valid) return null;
+
+        // Never auto-creates a user — agents sign up through /api/agent/register.
+        const user = looksLikeEmail(identifier)
+          ? await prisma.user.findUnique({ where: { email: identifier } })
+          : await findUserByPhone(identifier, "AGENT");
+
+        if (!user || user.role !== "AGENT") return null;
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        };
+      },
+    }),
   ],
   callbacks: {
     jwt: ({ token, user }) => {

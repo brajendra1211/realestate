@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../core/network/endpoints.dart';
 import '../services/auth_service.dart';
 
 enum AuthStatus { unknown, loggedOut, loggedIn }
@@ -37,8 +38,12 @@ class AgentAuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> login({required String email, required String password}) async {
-    await _authService.login(email: email, password: password);
+  Future<({String identifier, String channel})> requestOtp(String identifier) {
+    return _authService.requestOtp(Endpoints.agentOtpRequest, identifier);
+  }
+
+  Future<void> verifyOtp({required String identifier, required String otp}) async {
+    await _authService.verifyOtp(provider: 'agent-otp', identifier: identifier, otp: otp);
     final session = await _authService.currentSession();
     _applySession(session);
     notifyListeners();

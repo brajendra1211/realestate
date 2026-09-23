@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getListingBySlug } from "@/lib/listing";
+import { getWebsiteListingDetail } from "@/lib/websiteListings";
 import { getUnlockForBuyer } from "@/lib/unlock";
 import { getSiteSettings } from "@/lib/site-settings";
 
@@ -8,6 +9,8 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
   const { slug } = await context.params;
   const listing = await getListingBySlug(slug);
   if (!listing) {
+    const websiteListing = await getWebsiteListingDetail(slug);
+    if (websiteListing) return NextResponse.json(websiteListing);
     return NextResponse.json({ error: "notFound" }, { status: 404 });
   }
 

@@ -38,6 +38,7 @@ class Endpoints {
   // --- Agent ---
   static const agentRegister = '/api/agent/register';
   static const agentOtpRequest = '/api/agent/otp';
+  static const agentResetPassword = '/api/agent/reset-password';
   static const agentMe = '/api/agent/me';
   static const agentCommissions = '/api/agent/commissions';
   static const agentInvestors = '/api/agent/investors';

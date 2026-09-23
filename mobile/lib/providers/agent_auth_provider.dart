@@ -38,6 +38,22 @@ class AgentAuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// [loginId] is the agent's email or phone number.
+  Future<void> login({required String loginId, required String password}) async {
+    await _authService.login(email: loginId, password: password);
+    final session = await _authService.currentSession();
+    _applySession(session);
+    notifyListeners();
+  }
+
+  Future<void> resetPassword({
+    required String identifier,
+    required String otp,
+    required String password,
+  }) {
+    return _authService.resetPassword(identifier: identifier, otp: otp, password: password);
+  }
+
   Future<({String identifier, String channel})> requestOtp(String identifier) {
     return _authService.requestOtp(Endpoints.agentOtpRequest, identifier);
   }

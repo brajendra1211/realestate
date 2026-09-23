@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/account/account_screen.dart';
 import '../../features/agent/appointments/agent_appointments_screen.dart';
+import '../../features/agent/auth/agent_forgot_password_screen.dart';
 import '../../features/agent/auth/agent_login_screen.dart';
 import '../../features/agent/auth/agent_register_screen.dart';
 import '../../features/agent/auth/agent_verify_screen.dart';
@@ -166,6 +167,10 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
       GoRoute(
         path: RoutePaths.agentLogin,
         builder: (context, state) => const AgentLoginScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.agentForgotPassword,
+        builder: (context, state) => const AgentForgotPasswordScreen(),
       ),
       GoRoute(
         path: RoutePaths.agentVerify,

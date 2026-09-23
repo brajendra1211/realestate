@@ -98,6 +98,23 @@ class AuthService {
     }
   }
 
+  /// Forgot-password step 2: the OTP (requested via the agent OTP endpoint)
+  /// proves ownership, then the server replaces the password.
+  Future<void> resetPassword({
+    required String identifier,
+    required String otp,
+    required String password,
+  }) async {
+    try {
+      await _dio.post(
+        Endpoints.agentResetPassword,
+        data: {'identifier': identifier, 'otp': otp, 'password': password},
+      );
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    }
+  }
+
   Future<Map<String, dynamic>?> currentSession() async {
     try {
       final res = await _dio.get(Endpoints.authSession);

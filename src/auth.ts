@@ -28,12 +28,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        const user = await prisma.user.findUnique({ where: { email } });
+        // The login id is an email, or (agents only) a phone number.
+        const user = looksLikeEmail(email)
+          ? await prisma.user.findUnique({ where: { email } })
+          : await findUserByPhone(email, "AGENT");
         if (!user || !user.passwordHash) return null;
 
-        // Password login is strictly restricted to ADMIN and SUBADMIN roles.
-        // All other roles (BUYER, INVESTOR, AGENT, DEALER, OWNER, etc.) must log in via OTP.
-        if (user.role !== "ADMIN" && user.role !== "SUBADMIN") {
+        // Password login is restricted to ADMIN, SUBADMIN and AGENT roles.
+        // All other roles (BUYER, INVESTOR, DEALER, OWNER, etc.) must log in via OTP.
+        if (user.role !== "ADMIN" && user.role !== "SUBADMIN" && user.role !== "AGENT") {
           return null;
         }
 

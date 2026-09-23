@@ -25,6 +25,7 @@ class RoutePaths {
 
   static const agentLogin = '/agent/login';
   static const agentVerify = '/agent/verify';
+  static const agentForgotPassword = '/agent/forgot-password';
   static const agentRegister = '/agent/register';
   static const agentDashboard = '/agent/dashboard';
   static const agentProfile = '/agent/profile';

@@ -13,6 +13,8 @@ import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/agent_auth_provider.dart';
 
+enum _LoginMode { password, otp }
+
 class AgentLoginScreen extends StatefulWidget {
   const AgentLoginScreen({super.key});
 
@@ -23,12 +25,18 @@ class AgentLoginScreen extends StatefulWidget {
 class _AgentLoginScreenState extends State<AgentLoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _identifierController = TextEditingController();
+  final _passwordController = TextEditingController();
+  _LoginMode _mode = _LoginMode.password;
   bool _submitting = false;
+  bool _obscurePassword = true;
   String? _errorMessage;
+
+  bool get _isPassword => _mode == _LoginMode.password;
 
   @override
   void dispose() {
     _identifierController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -39,16 +47,23 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
       _errorMessage = null;
     });
     try {
-      final result = await context
-          .read<AgentAuthProvider>()
-          .requestOtp(_identifierController.text.trim());
-      if (!mounted) return;
+      final agentAuth = context.read<AgentAuthProvider>();
+      final identifier = _identifierController.text.trim();
       final from = GoRouterState.of(context).uri.queryParameters['from'];
-      context.push(
-        '${RoutePaths.agentVerify}?identifier=${Uri.encodeComponent(result.identifier)}'
-        '&channel=${result.channel}'
-        '${from != null ? '&from=${Uri.encodeComponent(from)}' : ''}',
-      );
+
+      if (_isPassword) {
+        await agentAuth.login(loginId: identifier, password: _passwordController.text);
+        if (!mounted) return;
+        context.go(from ?? RoutePaths.agentDashboard);
+      } else {
+        final result = await agentAuth.requestOtp(identifier);
+        if (!mounted) return;
+        context.push(
+          '${RoutePaths.agentVerify}?identifier=${Uri.encodeComponent(result.identifier)}'
+          '&channel=${result.channel}'
+          '${from != null ? '&from=${Uri.encodeComponent(from)}' : ''}',
+        );
+      }
     } on ApiException catch (e) {
       setState(() => _errorMessage = e.code == 'notFound'
           ? 'No agent account found for this phone or email. New agent? Register first.'
@@ -69,12 +84,33 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
             child: ListView(
               children: [
                 const SizedBox(height: AppSpacing.sm),
-                const AuthHeader(
+                AuthHeader(
                   title: 'Welcome back',
-                  subtitle:
-                      'No password needed — we\'ll send a one-time code on WhatsApp (or email) to your agent account.',
+                  subtitle: _isPassword
+                      ? 'Log in with your agent email or phone and password.'
+                      : "No password needed — we'll send a one-time code on WhatsApp (or email).",
                 ),
-                const SizedBox(height: AppSpacing.xl),
+                const SizedBox(height: AppSpacing.lg),
+                SegmentedButton<_LoginMode>(
+                  segments: const [
+                    ButtonSegment(
+                      value: _LoginMode.password,
+                      label: Text('Password'),
+                      icon: Icon(Icons.lock_outline),
+                    ),
+                    ButtonSegment(
+                      value: _LoginMode.otp,
+                      label: Text('OTP'),
+                      icon: Icon(Icons.sms_outlined),
+                    ),
+                  ],
+                  selected: {_mode},
+                  onSelectionChanged: (selection) => setState(() {
+                    _mode = selection.first;
+                    _errorMessage = null;
+                  }),
+                ),
+                const SizedBox(height: AppSpacing.lg),
                 if (_errorMessage != null) ...[
                   FormErrorBanner(message: _errorMessage!),
                   const SizedBox(height: AppSpacing.md),
@@ -84,18 +120,45 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
                   children: [
                     TextFormField(
                       controller: _identifierController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
-                        labelText: 'Phone or email',
+                        labelText: 'Login ID (email or phone)',
                         prefixIcon: Icon(Icons.person_outline),
                       ),
-                      validator: (v) => Validators.required(v, label: 'Phone or email'),
-                      onFieldSubmitted: (_) => _submit(),
+                      validator: (v) => Validators.required(v, label: 'Login ID'),
+                      onFieldSubmitted: (_) => _isPassword ? null : _submit(),
                     ),
+                    if (_isPassword)
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          suffixIcon: IconButton(
+                            icon: Icon(_obscurePassword
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined),
+                            onPressed: () =>
+                                setState(() => _obscurePassword = !_obscurePassword),
+                          ),
+                        ),
+                        validator: (v) => Validators.required(v, label: 'Password'),
+                        onFieldSubmitted: (_) => _submit(),
+                      ),
                   ],
                 ),
-                const SizedBox(height: AppSpacing.xl),
+                if (_isPassword)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () => context.push(RoutePaths.agentForgotPassword),
+                      child: const Text('Forgot password?'),
+                    ),
+                  ),
+                const SizedBox(height: AppSpacing.lg),
                 AppButton(
-                  label: 'Send code',
+                  label: _isPassword ? 'Log in' : 'Send code',
                   expand: true,
                   loading: _submitting,
                   onPressed: _submit,

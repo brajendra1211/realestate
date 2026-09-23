@@ -21,7 +21,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "validation" }, { status: 400 });
   }
 
-  const coords = await geocodeLocation([address, locality, city].filter(Boolean).join(", "));
+  // Nominatim rarely knows house/flat-level addresses, so fall back to the
+  // area centre (locality, then city) — enough for the duplicate check and
+  // area routing. Spaced out to respect Nominatim's 1 request/second policy.
+  const queries = [
+    [address, locality, city],
+    [locality, city],
+    [city],
+  ]
+    .map((parts) => parts.filter(Boolean).join(", "))
+    .filter((query, index, all) => all.indexOf(query) === index);
+
+  let coords = null;
+  for (const [index, query] of queries.entries()) {
+    if (index > 0) await new Promise((resolve) => setTimeout(resolve, 1100));
+    coords = await geocodeLocation(query);
+    if (coords) break;
+  }
   if (!coords) {
     return NextResponse.json({ error: "geocode" }, { status: 400 });
   }

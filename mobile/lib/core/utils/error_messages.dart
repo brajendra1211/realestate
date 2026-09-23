@@ -20,6 +20,8 @@ String errorMessageFor(ApiException e) {
       return 'Referral agent code not found.';
     case 'notFound':
       return 'Not found.';
+    case 'geocode':
+      return "We couldn't locate that address on the map. Add the sector/area and city name and try again.";
     case 'noLocation':
       return "We couldn't locate that address — please check the city and address.";
     case 'payment_unavailable':

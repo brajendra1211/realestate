@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"C:/Users/singh/Downloads/realestate-main/realestate-main\" && ls -la .env 2>&1; echo \"---\"; grep -n \"WHATSAPP\\\\|ABWPL\" .env 2>&1)",
+      "Read(//c/Users/singh/Downloads/realestate-main/realestate-main/**)",
+      "Read(//c/Users/singh/Downloads/realestate-main \\\\\\(1\\\\\\) \\\\\\(2\\\\\\)/realestate-main/src/lib/**)",
+      "Bash(cd \"C:\\\\Users\\\\singh\\\\Downloads\\\\realestate-main \\(1\\) \\(2\\)\\\\realestate-main\" && sed -n '697,740p' prisma/schema.prisma)",
+      "Read(//c/Users/singh/Downloads/realestate-main \\\\\\(1\\\\\\) \\\\\\(2\\\\\\)/realestate-main/**)"
+    ]
+  }
+}

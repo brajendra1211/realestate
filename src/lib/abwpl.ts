@@ -1,4 +1,4 @@
-const ABWPL_BASE_URL = "https://abwpl.com/api/v1/otp";
+const ABWPL_BASE_URL = "https://abwpl.com/api/public/otp";
 const ABWPL_API_KEY = process.env.ABWPL_API_KEY;
 
 export function isAbwplConfigured(): boolean {

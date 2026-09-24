@@ -1,13 +1,17 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getPublicListings } from "@/lib/listing";
 import { getAgreementUrgency } from "@/lib/listingDelist";
 import { formatINR } from "@/lib/format";
 import { PROPERTY_TYPE_LABELS } from "@/lib/format";
 
-type SearchParams = Promise<{ city?: string; listingType?: string }>;
+type SearchParams = Promise<{ city?: string; listingType?: string; agentCode?: string }>;
 
 export default async function ListingsPage({ searchParams }: { searchParams: SearchParams }) {
-  const { city, listingType } = await searchParams;
+  const { city, listingType, agentCode } = await searchParams;
+  if (agentCode) {
+    redirect(`/shop/${encodeURIComponent(agentCode.trim())}`);
+  }
   const listings = await getPublicListings({
     city: city || undefined,
     listingType: listingType === "RENT" ? "RENT" : listingType === "SALE" ? "SALE" : undefined,

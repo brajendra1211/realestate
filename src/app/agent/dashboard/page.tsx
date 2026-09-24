@@ -76,8 +76,9 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
     ]);
 
   const originUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const shopUrl = `${originUrl}/listings?agentCode=${encodeURIComponent(agent.agentCode || "")}`;
-  const qrDataUrl = generateQrDataUrl(shopUrl);
+  const { getAgentShopUrl } = await import("@/lib/qr");
+  const shopUrl = agent.agentCode ? getAgentShopUrl(agent.agentCode, originUrl) : `${originUrl}/listings`;
+  const qrDataUrl = await generateQrDataUrl(shopUrl);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 space-y-6">

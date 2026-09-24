@@ -45,12 +45,12 @@ export function AgentAssetCards({
   }
 
   function shareVCardWhatsApp() {
-    const text = `*REAL ESTATE CONSULTANT*\n*${name.toUpperCase()}*\nAgency: ${shopName || "BayaEstate Partner"}\nAgent Code: *${agentCode}*\n📞 Call: ${phone}${alternatePhone ? ` / ${alternatePhone}` : ""}\n💬 WhatsApp: ${effectiveWhatsapp}\n📍 Office: ${shopAddress || city || "Ghaziabad/NCR"}\n🔗 Verified Profile & Properties: ${originUrl}/listings?agentCode=${encodeURIComponent(agentCode)}`;
+    const text = `*REAL ESTATE CONSULTANT*\n*${name.toUpperCase()}*\nAgency: ${shopName || "BayaEstate Partner"}\nAgent Code: *${agentCode}*\n📞 Call: ${phone}${alternatePhone ? ` / ${alternatePhone}` : ""}\n💬 WhatsApp: ${effectiveWhatsapp}\n📍 Office: ${shopAddress || city || "Ghaziabad/NCR"}\n🔗 Verified Profile & Properties: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
   }
 
   function shareIdCardWhatsApp() {
-    const text = `*OFFICIAL AUTHORIZED AGENT ID*\n*${name}* (Agent Code: *${agentCode}*)\nMembership: ${primeStatus ? "Verified Prime Partner" : "Registered Agent"}\nCity: ${city || "NCR"}\nPlatform: BayaEstate Certified Channel Partner\nVerify ID at: ${originUrl}/listings?agentCode=${encodeURIComponent(agentCode)}`;
+    const text = `*OFFICIAL AUTHORIZED AGENT ID*\n*${name}* (Agent Code: *${agentCode}*)\nMembership: ${primeStatus ? "Verified Prime Partner" : "Registered Agent"}\nCity: ${city || "NCR"}\nPlatform: BayaEstate Certified Channel Partner\nVerify ID & Shop at: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
   }
 
@@ -223,24 +223,43 @@ export function AgentAssetCards({
             </div>
 
             <p className="mt-3 text-[11px] text-slate-500">
-              Put this QR Code in your shop/office. Customers can scan to view all your properties instantly.
+              Put this QR Code in your shop or office. Customers can scan it with any phone camera to view all your properties instantly.
             </p>
 
-            <div className="mt-5 flex gap-2">
+            <div className="mt-4 flex flex-col gap-2">
               <a
-                href={qrDataUrl}
-                download={`Shop-QR-${agentCode}.svg`}
-                className="flex-1 rounded-xl bg-slate-900 py-2.5 text-xs font-bold text-white hover:bg-slate-800 transition"
+                href={`${originUrl}/shop/${encodeURIComponent(agentCode)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full rounded-xl bg-blue-600 py-2.5 text-xs font-bold text-white hover:bg-blue-700 transition flex items-center justify-center gap-1.5"
               >
-                Download QR SVG
+                <span>🌐</span> Open My Digital Shop
               </a>
-              <button
-                type="button"
-                onClick={() => window.print()}
-                className="flex-1 rounded-xl border border-slate-200 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
-              >
-                Print Poster
-              </button>
+
+              <div className="flex gap-2">
+                <a
+                  href={`/api/agent/qr?code=${encodeURIComponent(agentCode)}&format=png&download=true`}
+                  download={`Shop-QR-${agentCode}.png`}
+                  className="flex-1 rounded-xl bg-slate-900 py-2 text-xs font-bold text-white hover:bg-slate-800 transition text-center"
+                >
+                  Download PNG
+                </a>
+                <a
+                  href={`/api/agent/qr?code=${encodeURIComponent(agentCode)}&format=svg&download=true`}
+                  download={`Shop-QR-${agentCode}.svg`}
+                  className="flex-1 rounded-xl border border-slate-200 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 transition text-center"
+                >
+                  Download SVG
+                </a>
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
+                  title="Print Poster"
+                >
+                  🖨️
+                </button>
+              </div>
             </div>
           </div>
         </div>

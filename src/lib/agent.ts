@@ -294,3 +294,42 @@ export async function getAgentCommissionSummary(agentProfileId: string) {
 
   return { entries, totals };
 }
+
+export async function getAgentByCode(agentCode: string) {
+  const code = agentCode.trim().toUpperCase();
+  return prisma.agentProfile.findFirst({
+    where: {
+      agentCode: code,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          phone: true,
+          email: true,
+          logoUrl: true,
+          whatsappNumber: true,
+          address: true,
+        },
+      },
+      listings: {
+        where: {
+          approvalStatus: "APPROVED",
+          isDelisted: false,
+        },
+        include: {
+          images: {
+            orderBy: { order: "asc" },
+          },
+          masterProperty: true,
+        },
+        orderBy: { createdAt: "desc" },
+      },
+      ratings: {
+        orderBy: { createdAt: "desc" },
+        take: 10,
+      },
+    },
+  });
+}

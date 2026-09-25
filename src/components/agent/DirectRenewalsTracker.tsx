@@ -59,7 +59,7 @@ export function DirectRenewalsTracker({ agents, listings }: DirectRenewalsProps)
               tab === "agents" ? "bg-white text-slate-900 shadow-xs" : "text-slate-600 hover:text-slate-900"
             }`}
           >
-            Direct Agents ({agents.length})
+            Direct Channel Partners ({agents.length})
           </button>
           <button
             type="button"
@@ -73,12 +73,12 @@ export function DirectRenewalsTracker({ agents, listings }: DirectRenewalsProps)
         </div>
       </div>
 
-      {/* Tab 1: Direct Agents */}
+      {/* Tab 1: Direct Channel Partners */}
       {tab === "agents" && (
         <div className="mt-4">
           {agents.length === 0 ? (
             <div className="rounded-xl border border-dashed border-slate-200 p-8 text-center text-xs text-slate-400">
-              Aapke direct referral link se abhi koi agent join nahi hua hai. Share your agent referral link to earn 10% referral income!
+              Aapke direct referral link se abhi koi channel partner join nahi hua hai. Share your channel partner referral link to earn 10% referral income!
             </div>
           ) : (
             <div className="divide-y divide-slate-100 overflow-x-auto">

@@ -56,10 +56,10 @@ export function AgentCodeLookup() {
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            🔍 Agent Code Directory & Quick Connect
+            🔍 Channel Partner Directory & Quick Connect
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Kisi bhi Agent ka code daal kar baat karne ke liye unka verified number nikaalein ya WhatsApp karein.
+            Kisi bhi Channel Partner ka code daal kar baat karne ke liye unka verified number nikaalein ya WhatsApp karein.
           </p>
         </div>
       </div>
@@ -84,7 +84,7 @@ export function AgentCodeLookup() {
               <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
               </svg>
-              Find Agent
+              Find Channel Partner
             </>
           )}
         </button>

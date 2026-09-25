@@ -152,7 +152,7 @@ export default async function InvestorDashboardPage() {
               <span className="text-[10px] font-bold text-indigo-600 group-hover:underline">View</span>
             </div>
             <p className="mt-2 font-bold text-slate-900">Company Agreement</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">Investor profit contract</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Referral Partner profit contract</p>
           </a>
         </div>
       </div>

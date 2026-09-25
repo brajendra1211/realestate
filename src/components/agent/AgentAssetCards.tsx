@@ -45,7 +45,7 @@ export function AgentAssetCards({
   }
 
   function shareVCardWhatsApp() {
-    const text = `*REAL ESTATE CONSULTANT*\n*${name.toUpperCase()}*\nAgency: ${shopName || "BayaEstate Partner"}\nAgent Code: *${agentCode}*\n📞 Call: ${phone}${alternatePhone ? ` / ${alternatePhone}` : ""}\n💬 WhatsApp: ${effectiveWhatsapp}\n📍 Office: ${shopAddress || city || "Ghaziabad/NCR"}\n🔗 Verified Profile & Properties: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
+    const text = `*REAL ESTATE CONSULTANT*\n*${name.toUpperCase()}*\nAgency: ${shopName || "BayaEstate Partner"}\nChannel Partner Code: *${agentCode}*\n📞 Call: ${phone}${alternatePhone ? ` / ${alternatePhone}` : ""}\n💬 WhatsApp: ${effectiveWhatsapp}\n📍 Office: ${shopAddress || city || "Ghaziabad/NCR"}\n🔗 Verified Profile & Properties: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
   }
 
@@ -59,7 +59,7 @@ export function AgentAssetCards({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            💼 Agent Tools & Marketing Assets
+            💼 Channel Partner Tools & Marketing Assets
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
             Q-Code For Shop, Digital Visiting Card, Identity Card, and Referral Links.
@@ -211,7 +211,7 @@ export function AgentAssetCards({
               ✕
             </button>
             <span className="rounded-full bg-blue-100 px-3 py-1 text-[11px] font-bold text-blue-800">
-              Verified Agent Shop
+              Verified Channel Partner Shop
             </span>
             <h3 className="mt-2 text-lg font-bold text-slate-900">{shopName || name}</h3>
             <p className="font-mono text-xs text-blue-600 font-bold">{agentCode}</p>

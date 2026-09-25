@@ -45,7 +45,7 @@ export function UnifiedLoginCard({ callbackUrl }: { callbackUrl: string }) {
           <div className="mb-5 flex items-center justify-between text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200/70 rounded-xl px-3.5 py-2.5">
             <span className="flex items-center gap-1.5">
               <span>✨</span>
-              <span>Fast OTP Login for all panels (Agent, Investor, Owner, Dealer, Buyer & Admin)</span>
+              <span>Fast OTP Login for all panels (Channel Partner, Referral Partner, Owner, Dealer, Buyer & Admin)</span>
             </span>
           </div>
           <BuyerLoginForm next={callbackUrl} />

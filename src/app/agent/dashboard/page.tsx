@@ -28,11 +28,11 @@ const STATUS_COPY: Record<string, { title: string; body: string; tone: string }>
 };
 
 const COMMISSION_LABELS: Record<string, string> = {
-  AGENT_REFERRAL: "1. Agent-to-Agent Referral Code Income (10%, one-time)",
+  AGENT_REFERRAL: "1. Channel Partner-to-Partner Referral Code Income (10%, one-time)",
   CUSTOMER_PROPERTY_UPDATE: "2. Customer Property Update Income (₹100 / 50% split)",
   UNLOCK_SPLIT: "3. Customer Property Watch / Unlock Pass Income (50% split)",
-  REGISTRATION_REFERRAL: "4. Investor Joining Income (10% of ₹20,000 fee)",
-  DEAL_PROFIT_SHARE: "5. Investor Investment Profit Sharing Income (10% deal profit)",
+  REGISTRATION_REFERRAL: "4. Referral Partner Joining Income (10% of ₹20,000 fee)",
+  DEAL_PROFIT_SHARE: "5. Referral Partner Investment Profit Sharing Income (10% deal profit)",
   REFERRAL_CUSTOMER_RENEWAL: "6. Referral Customer Renewal Property Income (50% split)",
   BROKERAGE: "7 & 8. Property Sale & Buying Income (1% Brokerage)",
   GOLD_SPLIT: "Direct Customer Gold Listing Income (50% split)",
@@ -184,7 +184,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
                 )}
               </div>
               <p className="mt-1 text-sm text-slate-600">
-                Agent Code:{" "}
+                Channel Partner Code:{" "}
                 <span className="font-mono font-bold text-blue-700 select-all cursor-pointer bg-blue-50/80 px-2 py-0.5 rounded-lg border border-blue-100" title="Click to select">
                   {agent.agentCode}
                 </span>
@@ -314,11 +314,11 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
               </div>
             </div>
 
-            {/* Target 3: 3 Investors */}
+            {/* Target 3: Referral Partners */}
             <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs flex flex-col justify-between">
               <div>
                 <div className="flex justify-between items-start text-xs">
-                  <span className="font-extrabold text-slate-800">3. Investors Added</span>
+                  <span className="font-extrabold text-slate-800">3. Referral Partners Added</span>
                   <span className="font-mono font-black text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">
                     {cycleProgress.achieved.investors} / {cycleProgress.targets.investors}
                   </span>
@@ -331,7 +331,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
                     }`}
                   >
                     {cycleProgress.remaining.investors > 0
-                      ? `Bacha hua: ${cycleProgress.remaining.investors} investors`
+                      ? `Bacha hua: ${cycleProgress.remaining.investors} referral partners`
                       : "✓ Target Achieved"}
                   </span>
                   <span className="text-[11px] font-bold text-slate-400">
@@ -439,7 +439,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
           </p>
           {isTopRatedAgent(agent.ratingAvg, ratingCount) && (
             <span className="mt-1 inline-block rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">
-              Top Rated Prime Agent
+              Top Rated Prime Channel Partner
             </span>
           )}
         </div>

@@ -26,7 +26,7 @@ export function SwitchAgentButton({
   if (switchedAlready) {
     return (
       <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-2.5 text-xs text-slate-500">
-        ✓ 1-Time Free Switch Agent option was used for this unlock.
+        ✓ 1-Time Free Switch Channel Partner option was used for this unlock.
       </div>
     );
   }
@@ -79,21 +79,21 @@ export function SwitchAgentButton({
       {!isOpen ? (
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-xs text-slate-500">
-            Agent not responding? Customer Protection Policy gives you 1 free agent switch within 24 hours.
+            Channel Partner not responding? Customer Protection Policy gives you 1 free partner switch within 24 hours.
           </p>
           <button
             type="button"
             onClick={() => setIsOpen(true)}
             className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
           >
-            Switch Agent (Free)
+            Switch Channel Partner (Free)
           </button>
         </div>
       ) : (
         <form onSubmit={handleSwitch} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
           <p className="text-sm font-semibold text-slate-900">Request New Channel Partner</p>
           <p className="mt-0.5 text-xs text-slate-500">
-            We will immediately re-assign another top-rated Prime agent in this area for your unlock.
+            We will immediately re-assign another top-rated Prime Channel Partner in this area for your unlock.
           </p>
 
           {error && <p className="mt-2 text-xs font-medium text-red-600">{error}</p>}

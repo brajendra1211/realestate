@@ -33,7 +33,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
             <span>/</span>
             <span>Profile & KYC</span>
           </div>
-          <h1 className="text-2xl font-black text-slate-900">Investor Profile & Legal Verification</h1>
+          <h1 className="text-2xl font-black text-slate-900">Referral Partner Profile & Legal Verification</h1>
           <p className="mt-0.5 text-xs text-slate-500">
             KYC documents, 2 mobile numbers, bank details with cancelled cheque, and referring channel partner.
           </p>
@@ -41,7 +41,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
 
         {investor.investorCode && (
           <div className="rounded-2xl border border-indigo-200 bg-indigo-50/80 px-3.5 py-1.5 shadow-2xs">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">Investor Code</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">Referral Partner Code</span>
             <p className="font-mono text-base font-black text-indigo-900">{investor.investorCode}</p>
           </div>
         )}
@@ -50,7 +50,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
       {saved === "1" && (
         <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-800 shadow-2xs flex items-center gap-2">
           <span>✓</span>
-          <span>Your investor profile, KYC, and banking details have been updated successfully!</span>
+          <span>Your referral partner profile, KYC, and banking details have been updated successfully!</span>
         </div>
       )}
 
@@ -417,7 +417,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
             type="submit"
             className="rounded-2xl bg-indigo-600 px-6 py-2.5 text-sm font-black text-white shadow-xs hover:bg-indigo-700 transition"
           >
-            Save Investor Profile & KYC
+            Save Referral Partner Profile & KYC
           </button>
         </div>
       </form>

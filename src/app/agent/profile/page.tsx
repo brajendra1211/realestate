@@ -95,7 +95,7 @@ export default async function AgentProfilePage({ searchParams }: { searchParams:
             </p>
             {agent.referringAgent && (
               <p className="text-xs text-indigo-300">
-                Direct Upline Agent: {agent.referringAgent.user.name} ({agent.referringAgent.agentCode})
+                Direct Upline Channel Partner: {agent.referringAgent.user.name} ({agent.referringAgent.agentCode})
               </p>
             )}
           </div>

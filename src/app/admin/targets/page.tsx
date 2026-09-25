@@ -106,7 +106,7 @@ export default async function AdminTargetsPage({
             </p>
           </div>
           <span className="self-start sm:self-auto rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
-            Standard: 30 Days / 20 Props / 10 Partners / 3 Investors
+            Standard: 30 Days / 20 Props / 10 Partners / 3 Referral Partners
           </span>
         </div>
 
@@ -153,7 +153,7 @@ export default async function AdminTargetsPage({
 
           <div>
             <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-              3. Investors Onboarded
+              3. Referral Partners Onboarded
             </label>
             <input
               type="number"
@@ -434,7 +434,7 @@ export default async function AdminTargetsPage({
                     {/* Target 3: Investors */}
                     <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-bold text-slate-700">3. Investors Added</span>
+                        <span className="font-bold text-slate-700">3. Referral Partners Added</span>
                         <span className="font-black text-slate-900">
                           {partner.achieved.investors} / {partner.targets.investors}
                         </span>

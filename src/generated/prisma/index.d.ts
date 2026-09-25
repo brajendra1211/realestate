@@ -24162,6 +24162,10 @@ export namespace Prisma {
     basicListingFee: number | null
     goldListingFee: number | null
     listingSplitPercent: number | null
+    partnerTargetDays: number | null
+    partnerTargetProperties: number | null
+    partnerTargetSubPartners: number | null
+    partnerTargetInvestors: number | null
   }
 
   export type SiteSettingsSumAggregateOutputType = {
@@ -24183,6 +24187,10 @@ export namespace Prisma {
     basicListingFee: number | null
     goldListingFee: number | null
     listingSplitPercent: number | null
+    partnerTargetDays: number | null
+    partnerTargetProperties: number | null
+    partnerTargetSubPartners: number | null
+    partnerTargetInvestors: number | null
   }
 
   export type SiteSettingsMinAggregateOutputType = {
@@ -24228,6 +24236,10 @@ export namespace Prisma {
     basicListingFee: number | null
     goldListingFee: number | null
     listingSplitPercent: number | null
+    partnerTargetDays: number | null
+    partnerTargetProperties: number | null
+    partnerTargetSubPartners: number | null
+    partnerTargetInvestors: number | null
     updatedAt: Date | null
   }
 
@@ -24274,6 +24286,10 @@ export namespace Prisma {
     basicListingFee: number | null
     goldListingFee: number | null
     listingSplitPercent: number | null
+    partnerTargetDays: number | null
+    partnerTargetProperties: number | null
+    partnerTargetSubPartners: number | null
+    partnerTargetInvestors: number | null
     updatedAt: Date | null
   }
 
@@ -24320,6 +24336,10 @@ export namespace Prisma {
     basicListingFee: number
     goldListingFee: number
     listingSplitPercent: number
+    partnerTargetDays: number
+    partnerTargetProperties: number
+    partnerTargetSubPartners: number
+    partnerTargetInvestors: number
     updatedAt: number
     _all: number
   }
@@ -24344,6 +24364,10 @@ export namespace Prisma {
     basicListingFee?: true
     goldListingFee?: true
     listingSplitPercent?: true
+    partnerTargetDays?: true
+    partnerTargetProperties?: true
+    partnerTargetSubPartners?: true
+    partnerTargetInvestors?: true
   }
 
   export type SiteSettingsSumAggregateInputType = {
@@ -24365,6 +24389,10 @@ export namespace Prisma {
     basicListingFee?: true
     goldListingFee?: true
     listingSplitPercent?: true
+    partnerTargetDays?: true
+    partnerTargetProperties?: true
+    partnerTargetSubPartners?: true
+    partnerTargetInvestors?: true
   }
 
   export type SiteSettingsMinAggregateInputType = {
@@ -24410,6 +24438,10 @@ export namespace Prisma {
     basicListingFee?: true
     goldListingFee?: true
     listingSplitPercent?: true
+    partnerTargetDays?: true
+    partnerTargetProperties?: true
+    partnerTargetSubPartners?: true
+    partnerTargetInvestors?: true
     updatedAt?: true
   }
 
@@ -24456,6 +24488,10 @@ export namespace Prisma {
     basicListingFee?: true
     goldListingFee?: true
     listingSplitPercent?: true
+    partnerTargetDays?: true
+    partnerTargetProperties?: true
+    partnerTargetSubPartners?: true
+    partnerTargetInvestors?: true
     updatedAt?: true
   }
 
@@ -24502,6 +24538,10 @@ export namespace Prisma {
     basicListingFee?: true
     goldListingFee?: true
     listingSplitPercent?: true
+    partnerTargetDays?: true
+    partnerTargetProperties?: true
+    partnerTargetSubPartners?: true
+    partnerTargetInvestors?: true
     updatedAt?: true
     _all?: true
   }
@@ -24635,6 +24675,10 @@ export namespace Prisma {
     basicListingFee: number
     goldListingFee: number
     listingSplitPercent: number
+    partnerTargetDays: number
+    partnerTargetProperties: number
+    partnerTargetSubPartners: number
+    partnerTargetInvestors: number
     updatedAt: Date
     _count: SiteSettingsCountAggregateOutputType | null
     _avg: SiteSettingsAvgAggregateOutputType | null
@@ -24700,6 +24744,10 @@ export namespace Prisma {
     basicListingFee?: boolean
     goldListingFee?: boolean
     listingSplitPercent?: boolean
+    partnerTargetDays?: boolean
+    partnerTargetProperties?: boolean
+    partnerTargetSubPartners?: boolean
+    partnerTargetInvestors?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["siteSettings"]>
 
@@ -24748,10 +24796,14 @@ export namespace Prisma {
     basicListingFee?: boolean
     goldListingFee?: boolean
     listingSplitPercent?: boolean
+    partnerTargetDays?: boolean
+    partnerTargetProperties?: boolean
+    partnerTargetSubPartners?: boolean
+    partnerTargetInvestors?: boolean
     updatedAt?: boolean
   }
 
-  export type SiteSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "tagline" | "logoUrl" | "favicon" | "heroImage" | "heroTitle" | "heroSubtitle" | "ctaText" | "ctaLink" | "whatsappNumber" | "contactEmail" | "contactPhone" | "contactAddress" | "instagramUrl" | "facebookUrl" | "youtubeUrl" | "linkedinUrl" | "footerText" | "metaTitle" | "metaDescription" | "ogImage" | "googleAnalyticsId" | "googleSiteVerification" | "tdsPercent" | "brokeragePercent" | "profitAgentSharePercent" | "profitExpenseSharePercent" | "profitInvestorSharePercent" | "investorRegistrationFee" | "investorReferralPercent" | "agentReferralPercent" | "unlockPassAmount" | "unlockAgentSplitPercent" | "goldListingAmount" | "goldAgentSplitPercent" | "agentBasicPlanPrice" | "agentPrimePlanPrice" | "agentPlanSplitPercent" | "basicListingFee" | "goldListingFee" | "listingSplitPercent" | "updatedAt", ExtArgs["result"]["siteSettings"]>
+  export type SiteSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "tagline" | "logoUrl" | "favicon" | "heroImage" | "heroTitle" | "heroSubtitle" | "ctaText" | "ctaLink" | "whatsappNumber" | "contactEmail" | "contactPhone" | "contactAddress" | "instagramUrl" | "facebookUrl" | "youtubeUrl" | "linkedinUrl" | "footerText" | "metaTitle" | "metaDescription" | "ogImage" | "googleAnalyticsId" | "googleSiteVerification" | "tdsPercent" | "brokeragePercent" | "profitAgentSharePercent" | "profitExpenseSharePercent" | "profitInvestorSharePercent" | "investorRegistrationFee" | "investorReferralPercent" | "agentReferralPercent" | "unlockPassAmount" | "unlockAgentSplitPercent" | "goldListingAmount" | "goldAgentSplitPercent" | "agentBasicPlanPrice" | "agentPrimePlanPrice" | "agentPlanSplitPercent" | "basicListingFee" | "goldListingFee" | "listingSplitPercent" | "partnerTargetDays" | "partnerTargetProperties" | "partnerTargetSubPartners" | "partnerTargetInvestors" | "updatedAt", ExtArgs["result"]["siteSettings"]>
 
   export type $SiteSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SiteSettings"
@@ -24799,6 +24851,10 @@ export namespace Prisma {
       basicListingFee: number
       goldListingFee: number
       listingSplitPercent: number
+      partnerTargetDays: number
+      partnerTargetProperties: number
+      partnerTargetSubPartners: number
+      partnerTargetInvestors: number
       updatedAt: Date
     }, ExtArgs["result"]["siteSettings"]>
     composites: {}
@@ -25211,6 +25267,10 @@ export namespace Prisma {
     readonly basicListingFee: FieldRef<"SiteSettings", 'Int'>
     readonly goldListingFee: FieldRef<"SiteSettings", 'Int'>
     readonly listingSplitPercent: FieldRef<"SiteSettings", 'Int'>
+    readonly partnerTargetDays: FieldRef<"SiteSettings", 'Int'>
+    readonly partnerTargetProperties: FieldRef<"SiteSettings", 'Int'>
+    readonly partnerTargetSubPartners: FieldRef<"SiteSettings", 'Int'>
+    readonly partnerTargetInvestors: FieldRef<"SiteSettings", 'Int'>
     readonly updatedAt: FieldRef<"SiteSettings", 'DateTime'>
   }
     
@@ -25558,6 +25618,7 @@ export namespace Prisma {
     walletBalance: number | null
     warningCount: number | null
     ratingAvg: number | null
+    cycleDaysTarget: number | null
     cycleListingsTarget: number | null
     cycleDealsTarget: number | null
     cycleVisitsTarget: number | null
@@ -25576,6 +25637,7 @@ export namespace Prisma {
     walletBalance: number | null
     warningCount: number | null
     ratingAvg: number | null
+    cycleDaysTarget: number | null
     cycleListingsTarget: number | null
     cycleDealsTarget: number | null
     cycleVisitsTarget: number | null
@@ -25614,6 +25676,8 @@ export namespace Prisma {
     verifiedAt: Date | null
     cycleStartDate: Date | null
     cycleEndDate: Date | null
+    cycleDaysTarget: number | null
+    customTargetEnabled: boolean | null
     cycleListingsTarget: number | null
     cycleDealsTarget: number | null
     cycleVisitsTarget: number | null
@@ -25658,6 +25722,8 @@ export namespace Prisma {
     verifiedAt: Date | null
     cycleStartDate: Date | null
     cycleEndDate: Date | null
+    cycleDaysTarget: number | null
+    customTargetEnabled: boolean | null
     cycleListingsTarget: number | null
     cycleDealsTarget: number | null
     cycleVisitsTarget: number | null
@@ -25702,6 +25768,8 @@ export namespace Prisma {
     verifiedAt: number
     cycleStartDate: number
     cycleEndDate: number
+    cycleDaysTarget: number
+    customTargetEnabled: number
     cycleListingsTarget: number
     cycleDealsTarget: number
     cycleVisitsTarget: number
@@ -25728,6 +25796,7 @@ export namespace Prisma {
     walletBalance?: true
     warningCount?: true
     ratingAvg?: true
+    cycleDaysTarget?: true
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
@@ -25746,6 +25815,7 @@ export namespace Prisma {
     walletBalance?: true
     warningCount?: true
     ratingAvg?: true
+    cycleDaysTarget?: true
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
@@ -25784,6 +25854,8 @@ export namespace Prisma {
     verifiedAt?: true
     cycleStartDate?: true
     cycleEndDate?: true
+    cycleDaysTarget?: true
+    customTargetEnabled?: true
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
@@ -25828,6 +25900,8 @@ export namespace Prisma {
     verifiedAt?: true
     cycleStartDate?: true
     cycleEndDate?: true
+    cycleDaysTarget?: true
+    customTargetEnabled?: true
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
@@ -25872,6 +25946,8 @@ export namespace Prisma {
     verifiedAt?: true
     cycleStartDate?: true
     cycleEndDate?: true
+    cycleDaysTarget?: true
+    customTargetEnabled?: true
     cycleListingsTarget?: true
     cycleDealsTarget?: true
     cycleVisitsTarget?: true
@@ -26003,6 +26079,8 @@ export namespace Prisma {
     verifiedAt: Date | null
     cycleStartDate: Date | null
     cycleEndDate: Date | null
+    cycleDaysTarget: number
+    customTargetEnabled: boolean
     cycleListingsTarget: number
     cycleDealsTarget: number
     cycleVisitsTarget: number
@@ -26066,6 +26144,8 @@ export namespace Prisma {
     verifiedAt?: boolean
     cycleStartDate?: boolean
     cycleEndDate?: boolean
+    cycleDaysTarget?: boolean
+    customTargetEnabled?: boolean
     cycleListingsTarget?: boolean
     cycleDealsTarget?: boolean
     cycleVisitsTarget?: boolean
@@ -26139,6 +26219,8 @@ export namespace Prisma {
     verifiedAt?: boolean
     cycleStartDate?: boolean
     cycleEndDate?: boolean
+    cycleDaysTarget?: boolean
+    customTargetEnabled?: boolean
     cycleListingsTarget?: boolean
     cycleDealsTarget?: boolean
     cycleVisitsTarget?: boolean
@@ -26155,7 +26237,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "cycleDirectAgentsTarget" | "cycleCustomerPropertiesTarget" | "cycleInvestorsTarget" | "targetStatus" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
+  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleDaysTarget" | "customTargetEnabled" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "cycleDirectAgentsTarget" | "cycleCustomerPropertiesTarget" | "cycleInvestorsTarget" | "targetStatus" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
   export type AgentProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     referringAgent?: boolean | AgentProfile$referringAgentArgs<ExtArgs>
@@ -26244,6 +26326,8 @@ export namespace Prisma {
       verifiedAt: Date | null
       cycleStartDate: Date | null
       cycleEndDate: Date | null
+      cycleDaysTarget: number
+      customTargetEnabled: boolean
       cycleListingsTarget: number
       cycleDealsTarget: number
       cycleVisitsTarget: number
@@ -26680,6 +26764,8 @@ export namespace Prisma {
     readonly verifiedAt: FieldRef<"AgentProfile", 'DateTime'>
     readonly cycleStartDate: FieldRef<"AgentProfile", 'DateTime'>
     readonly cycleEndDate: FieldRef<"AgentProfile", 'DateTime'>
+    readonly cycleDaysTarget: FieldRef<"AgentProfile", 'Int'>
+    readonly customTargetEnabled: FieldRef<"AgentProfile", 'Boolean'>
     readonly cycleListingsTarget: FieldRef<"AgentProfile", 'Int'>
     readonly cycleDealsTarget: FieldRef<"AgentProfile", 'Int'>
     readonly cycleVisitsTarget: FieldRef<"AgentProfile", 'Int'>
@@ -58238,6 +58324,10 @@ export namespace Prisma {
     basicListingFee: 'basicListingFee',
     goldListingFee: 'goldListingFee',
     listingSplitPercent: 'listingSplitPercent',
+    partnerTargetDays: 'partnerTargetDays',
+    partnerTargetProperties: 'partnerTargetProperties',
+    partnerTargetSubPartners: 'partnerTargetSubPartners',
+    partnerTargetInvestors: 'partnerTargetInvestors',
     updatedAt: 'updatedAt'
   };
 
@@ -58272,6 +58362,8 @@ export namespace Prisma {
     verifiedAt: 'verifiedAt',
     cycleStartDate: 'cycleStartDate',
     cycleEndDate: 'cycleEndDate',
+    cycleDaysTarget: 'cycleDaysTarget',
+    customTargetEnabled: 'customTargetEnabled',
     cycleListingsTarget: 'cycleListingsTarget',
     cycleDealsTarget: 'cycleDealsTarget',
     cycleVisitsTarget: 'cycleVisitsTarget',
@@ -61181,6 +61273,10 @@ export namespace Prisma {
     basicListingFee?: IntFilter<"SiteSettings"> | number
     goldListingFee?: IntFilter<"SiteSettings"> | number
     listingSplitPercent?: IntFilter<"SiteSettings"> | number
+    partnerTargetDays?: IntFilter<"SiteSettings"> | number
+    partnerTargetProperties?: IntFilter<"SiteSettings"> | number
+    partnerTargetSubPartners?: IntFilter<"SiteSettings"> | number
+    partnerTargetInvestors?: IntFilter<"SiteSettings"> | number
     updatedAt?: DateTimeFilter<"SiteSettings"> | Date | string
   }
 
@@ -61227,6 +61323,10 @@ export namespace Prisma {
     basicListingFee?: SortOrder
     goldListingFee?: SortOrder
     listingSplitPercent?: SortOrder
+    partnerTargetDays?: SortOrder
+    partnerTargetProperties?: SortOrder
+    partnerTargetSubPartners?: SortOrder
+    partnerTargetInvestors?: SortOrder
     updatedAt?: SortOrder
     _relevance?: SiteSettingsOrderByRelevanceInput
   }
@@ -61277,6 +61377,10 @@ export namespace Prisma {
     basicListingFee?: IntFilter<"SiteSettings"> | number
     goldListingFee?: IntFilter<"SiteSettings"> | number
     listingSplitPercent?: IntFilter<"SiteSettings"> | number
+    partnerTargetDays?: IntFilter<"SiteSettings"> | number
+    partnerTargetProperties?: IntFilter<"SiteSettings"> | number
+    partnerTargetSubPartners?: IntFilter<"SiteSettings"> | number
+    partnerTargetInvestors?: IntFilter<"SiteSettings"> | number
     updatedAt?: DateTimeFilter<"SiteSettings"> | Date | string
   }, "id">
 
@@ -61323,6 +61427,10 @@ export namespace Prisma {
     basicListingFee?: SortOrder
     goldListingFee?: SortOrder
     listingSplitPercent?: SortOrder
+    partnerTargetDays?: SortOrder
+    partnerTargetProperties?: SortOrder
+    partnerTargetSubPartners?: SortOrder
+    partnerTargetInvestors?: SortOrder
     updatedAt?: SortOrder
     _count?: SiteSettingsCountOrderByAggregateInput
     _avg?: SiteSettingsAvgOrderByAggregateInput
@@ -61377,6 +61485,10 @@ export namespace Prisma {
     basicListingFee?: IntWithAggregatesFilter<"SiteSettings"> | number
     goldListingFee?: IntWithAggregatesFilter<"SiteSettings"> | number
     listingSplitPercent?: IntWithAggregatesFilter<"SiteSettings"> | number
+    partnerTargetDays?: IntWithAggregatesFilter<"SiteSettings"> | number
+    partnerTargetProperties?: IntWithAggregatesFilter<"SiteSettings"> | number
+    partnerTargetSubPartners?: IntWithAggregatesFilter<"SiteSettings"> | number
+    partnerTargetInvestors?: IntWithAggregatesFilter<"SiteSettings"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"SiteSettings"> | Date | string
   }
 
@@ -61411,6 +61523,8 @@ export namespace Prisma {
     verifiedAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     cycleStartDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     cycleEndDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleDaysTarget?: IntFilter<"AgentProfile"> | number
+    customTargetEnabled?: BoolFilter<"AgentProfile"> | boolean
     cycleListingsTarget?: IntFilter<"AgentProfile"> | number
     cycleDealsTarget?: IntFilter<"AgentProfile"> | number
     cycleVisitsTarget?: IntFilter<"AgentProfile"> | number
@@ -61481,6 +61595,8 @@ export namespace Prisma {
     verifiedAt?: SortOrderInput | SortOrder
     cycleStartDate?: SortOrderInput | SortOrder
     cycleEndDate?: SortOrderInput | SortOrder
+    cycleDaysTarget?: SortOrder
+    customTargetEnabled?: SortOrder
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
@@ -61555,6 +61671,8 @@ export namespace Prisma {
     verifiedAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     cycleStartDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     cycleEndDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleDaysTarget?: IntFilter<"AgentProfile"> | number
+    customTargetEnabled?: BoolFilter<"AgentProfile"> | boolean
     cycleListingsTarget?: IntFilter<"AgentProfile"> | number
     cycleDealsTarget?: IntFilter<"AgentProfile"> | number
     cycleVisitsTarget?: IntFilter<"AgentProfile"> | number
@@ -61625,6 +61743,8 @@ export namespace Prisma {
     verifiedAt?: SortOrderInput | SortOrder
     cycleStartDate?: SortOrderInput | SortOrder
     cycleEndDate?: SortOrderInput | SortOrder
+    cycleDaysTarget?: SortOrder
+    customTargetEnabled?: SortOrder
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
@@ -61677,6 +61797,8 @@ export namespace Prisma {
     verifiedAt?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
     cycleStartDate?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
     cycleEndDate?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
+    cycleDaysTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
+    customTargetEnabled?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
     cycleListingsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
     cycleDealsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
     cycleVisitsTarget?: IntWithAggregatesFilter<"AgentProfile"> | number
@@ -65982,6 +66104,10 @@ export namespace Prisma {
     basicListingFee?: number
     goldListingFee?: number
     listingSplitPercent?: number
+    partnerTargetDays?: number
+    partnerTargetProperties?: number
+    partnerTargetSubPartners?: number
+    partnerTargetInvestors?: number
     updatedAt?: Date | string
   }
 
@@ -66028,6 +66154,10 @@ export namespace Prisma {
     basicListingFee?: number
     goldListingFee?: number
     listingSplitPercent?: number
+    partnerTargetDays?: number
+    partnerTargetProperties?: number
+    partnerTargetSubPartners?: number
+    partnerTargetInvestors?: number
     updatedAt?: Date | string
   }
 
@@ -66074,6 +66204,10 @@ export namespace Prisma {
     basicListingFee?: IntFieldUpdateOperationsInput | number
     goldListingFee?: IntFieldUpdateOperationsInput | number
     listingSplitPercent?: IntFieldUpdateOperationsInput | number
+    partnerTargetDays?: IntFieldUpdateOperationsInput | number
+    partnerTargetProperties?: IntFieldUpdateOperationsInput | number
+    partnerTargetSubPartners?: IntFieldUpdateOperationsInput | number
+    partnerTargetInvestors?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -66120,6 +66254,10 @@ export namespace Prisma {
     basicListingFee?: IntFieldUpdateOperationsInput | number
     goldListingFee?: IntFieldUpdateOperationsInput | number
     listingSplitPercent?: IntFieldUpdateOperationsInput | number
+    partnerTargetDays?: IntFieldUpdateOperationsInput | number
+    partnerTargetProperties?: IntFieldUpdateOperationsInput | number
+    partnerTargetSubPartners?: IntFieldUpdateOperationsInput | number
+    partnerTargetInvestors?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -66166,6 +66304,10 @@ export namespace Prisma {
     basicListingFee?: number
     goldListingFee?: number
     listingSplitPercent?: number
+    partnerTargetDays?: number
+    partnerTargetProperties?: number
+    partnerTargetSubPartners?: number
+    partnerTargetInvestors?: number
     updatedAt?: Date | string
   }
 
@@ -66212,6 +66354,10 @@ export namespace Prisma {
     basicListingFee?: IntFieldUpdateOperationsInput | number
     goldListingFee?: IntFieldUpdateOperationsInput | number
     listingSplitPercent?: IntFieldUpdateOperationsInput | number
+    partnerTargetDays?: IntFieldUpdateOperationsInput | number
+    partnerTargetProperties?: IntFieldUpdateOperationsInput | number
+    partnerTargetSubPartners?: IntFieldUpdateOperationsInput | number
+    partnerTargetInvestors?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -66258,6 +66404,10 @@ export namespace Prisma {
     basicListingFee?: IntFieldUpdateOperationsInput | number
     goldListingFee?: IntFieldUpdateOperationsInput | number
     listingSplitPercent?: IntFieldUpdateOperationsInput | number
+    partnerTargetDays?: IntFieldUpdateOperationsInput | number
+    partnerTargetProperties?: IntFieldUpdateOperationsInput | number
+    partnerTargetSubPartners?: IntFieldUpdateOperationsInput | number
+    partnerTargetInvestors?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -66288,6 +66438,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -66357,6 +66509,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -66424,6 +66578,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -66493,6 +66649,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -66561,6 +66719,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -66604,6 +66764,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -66647,6 +66809,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -70946,6 +71110,10 @@ export namespace Prisma {
     basicListingFee?: SortOrder
     goldListingFee?: SortOrder
     listingSplitPercent?: SortOrder
+    partnerTargetDays?: SortOrder
+    partnerTargetProperties?: SortOrder
+    partnerTargetSubPartners?: SortOrder
+    partnerTargetInvestors?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -70968,6 +71136,10 @@ export namespace Prisma {
     basicListingFee?: SortOrder
     goldListingFee?: SortOrder
     listingSplitPercent?: SortOrder
+    partnerTargetDays?: SortOrder
+    partnerTargetProperties?: SortOrder
+    partnerTargetSubPartners?: SortOrder
+    partnerTargetInvestors?: SortOrder
   }
 
   export type SiteSettingsMaxOrderByAggregateInput = {
@@ -71013,6 +71185,10 @@ export namespace Prisma {
     basicListingFee?: SortOrder
     goldListingFee?: SortOrder
     listingSplitPercent?: SortOrder
+    partnerTargetDays?: SortOrder
+    partnerTargetProperties?: SortOrder
+    partnerTargetSubPartners?: SortOrder
+    partnerTargetInvestors?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -71059,6 +71235,10 @@ export namespace Prisma {
     basicListingFee?: SortOrder
     goldListingFee?: SortOrder
     listingSplitPercent?: SortOrder
+    partnerTargetDays?: SortOrder
+    partnerTargetProperties?: SortOrder
+    partnerTargetSubPartners?: SortOrder
+    partnerTargetInvestors?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -71081,6 +71261,10 @@ export namespace Prisma {
     basicListingFee?: SortOrder
     goldListingFee?: SortOrder
     listingSplitPercent?: SortOrder
+    partnerTargetDays?: SortOrder
+    partnerTargetProperties?: SortOrder
+    partnerTargetSubPartners?: SortOrder
+    partnerTargetInvestors?: SortOrder
   }
 
   export type EnumAgentPlanTierFilter<$PrismaModel = never> = {
@@ -71304,6 +71488,8 @@ export namespace Prisma {
     verifiedAt?: SortOrder
     cycleStartDate?: SortOrder
     cycleEndDate?: SortOrder
+    cycleDaysTarget?: SortOrder
+    customTargetEnabled?: SortOrder
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
@@ -71328,6 +71514,7 @@ export namespace Prisma {
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrder
+    cycleDaysTarget?: SortOrder
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
@@ -71366,6 +71553,8 @@ export namespace Prisma {
     verifiedAt?: SortOrder
     cycleStartDate?: SortOrder
     cycleEndDate?: SortOrder
+    cycleDaysTarget?: SortOrder
+    customTargetEnabled?: SortOrder
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
@@ -71410,6 +71599,8 @@ export namespace Prisma {
     verifiedAt?: SortOrder
     cycleStartDate?: SortOrder
     cycleEndDate?: SortOrder
+    cycleDaysTarget?: SortOrder
+    customTargetEnabled?: SortOrder
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
@@ -71434,6 +71625,7 @@ export namespace Prisma {
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrder
+    cycleDaysTarget?: SortOrder
     cycleListingsTarget?: SortOrder
     cycleDealsTarget?: SortOrder
     cycleVisitsTarget?: SortOrder
@@ -78157,6 +78349,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -78224,6 +78418,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -78781,6 +78977,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -78848,6 +79046,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -82103,6 +82303,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -82171,6 +82373,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -82242,6 +82446,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -82310,6 +82516,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -83336,6 +83544,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -83404,6 +83614,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -83490,6 +83702,8 @@ export namespace Prisma {
     verifiedAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     cycleStartDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     cycleEndDate?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
+    cycleDaysTarget?: IntFilter<"AgentProfile"> | number
+    customTargetEnabled?: BoolFilter<"AgentProfile"> | boolean
     cycleListingsTarget?: IntFilter<"AgentProfile"> | number
     cycleDealsTarget?: IntFilter<"AgentProfile"> | number
     cycleVisitsTarget?: IntFilter<"AgentProfile"> | number
@@ -84169,6 +84383,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -84237,6 +84453,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -84319,6 +84537,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -84387,6 +84607,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -84453,6 +84675,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -84521,6 +84745,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -84603,6 +84829,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -84671,6 +84899,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -84840,6 +85070,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -84908,6 +85140,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -85237,6 +85471,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -85305,6 +85541,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -85467,6 +85705,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -85535,6 +85775,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -85617,6 +85859,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -85685,6 +85929,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -86036,6 +86282,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -86104,6 +86352,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -86398,6 +86648,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -86466,6 +86718,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -87001,6 +87255,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -87069,6 +87325,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -87351,6 +87609,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -87419,6 +87679,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -87912,6 +88174,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -87980,6 +88244,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -88051,6 +88317,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -88119,6 +88387,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -88246,6 +88516,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -88314,6 +88586,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -88391,6 +88665,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -88459,6 +88735,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -88564,6 +88842,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -88632,6 +88912,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -88759,6 +89041,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -88827,6 +89111,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -88977,6 +89263,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -89045,6 +89333,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -89127,6 +89417,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -89195,6 +89487,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -89364,6 +89658,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -89432,6 +89728,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -89647,6 +89945,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -89715,6 +90015,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -89840,6 +90142,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -89908,6 +90212,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -90039,6 +90345,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -90107,6 +90415,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -90173,6 +90483,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -90241,6 +90553,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -90431,6 +90745,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -90499,6 +90815,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -90652,6 +90970,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -90720,6 +91040,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -90847,6 +91169,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -90915,6 +91239,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -91020,6 +91346,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -91088,6 +91416,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -91159,6 +91489,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -91227,6 +91559,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -91354,6 +91688,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -91422,6 +91758,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -91499,6 +91837,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -91567,6 +91907,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -91664,6 +92006,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -91732,6 +92076,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -91851,6 +92197,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -91919,6 +92267,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -91985,6 +92335,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -92053,6 +92405,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -92135,6 +92489,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -92203,6 +92559,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -92269,6 +92627,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -92337,6 +92697,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -92419,6 +92781,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -92487,6 +92851,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -92553,6 +92919,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -92621,6 +92989,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -92703,6 +93073,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -92771,6 +93143,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -92868,6 +93242,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -92936,6 +93312,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -93094,6 +93472,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -93162,6 +93542,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -93460,6 +93842,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -93528,6 +93912,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -93750,6 +94136,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -93818,6 +94206,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -94839,6 +95229,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -94907,6 +95299,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -95092,6 +95486,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -95160,6 +95556,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -96556,6 +96954,8 @@ export namespace Prisma {
     verifiedAt?: Date | string | null
     cycleStartDate?: Date | string | null
     cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
     cycleListingsTarget?: number
     cycleDealsTarget?: number
     cycleVisitsTarget?: number
@@ -96885,6 +97285,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -96953,6 +97355,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
@@ -97020,6 +97424,8 @@ export namespace Prisma {
     verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
     cycleListingsTarget?: IntFieldUpdateOperationsInput | number
     cycleDealsTarget?: IntFieldUpdateOperationsInput | number
     cycleVisitsTarget?: IntFieldUpdateOperationsInput | number

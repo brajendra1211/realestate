@@ -13,7 +13,45 @@ export async function verifyBuyerOtp(
   const identifier = String(formData.get("identifier") ?? "").trim();
   const otp = String(formData.get("otp") ?? "").trim();
   const next = String(formData.get("next") ?? "").trim();
-  const redirectTarget = next.startsWith("/") ? next : "/buyer/dashboard";
+  let redirectTarget = next.startsWith("/") && next !== "/" && next !== "/login" && next !== "/buyer/dashboard" ? next : "";
+
+  if (!redirectTarget) {
+    const { prisma } = await import("@/lib/prisma");
+    const { looksLikeEmail, phoneDigitsMatch } = await import("@/lib/otp");
+    const isEmail = looksLikeEmail(identifier);
+    let user = isEmail
+      ? await prisma.user.findUnique({ where: { email: identifier } })
+      : null;
+    if (!user && !isEmail) {
+      const candidates = await prisma.user.findMany({ where: { phone: { not: null } } });
+      user = candidates.find((u) => phoneDigitsMatch(u.phone, identifier)) ?? null;
+    }
+
+    if (user) {
+      switch (user.role) {
+        case "ADMIN":
+        case "SUBADMIN":
+          redirectTarget = "/admin";
+          break;
+        case "AGENT":
+          redirectTarget = "/agent/dashboard";
+          break;
+        case "INVESTOR":
+          redirectTarget = "/investor/dashboard";
+          break;
+        case "DEALER":
+        case "OWNER":
+          redirectTarget = "/dashboard";
+          break;
+        case "BUYER":
+        default:
+          redirectTarget = "/buyer/dashboard";
+          break;
+      }
+    } else {
+      redirectTarget = "/buyer/dashboard";
+    }
+  }
 
   if (!identifier || !otp) return { error: "required" };
 

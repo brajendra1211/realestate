@@ -5,14 +5,19 @@ import { getDocumentsForInvestor, getAgreementsForInvestor } from "@/lib/documen
 import { PAYMENT_MODE_LABELS } from "@/lib/format";
 
 const DOC_TYPE_LABELS: Record<string, string> = {
-  REGISTRY: "Registry",
+  REGISTRY: "Property Registry",
   SALE_DEED: "Sale Deed",
   AGREEMENT_TO_SELL: "Agreement to Sell",
+  CUSTOMER_BANK_LOAN_PAPERS: "Customer Bank Loan All Papers",
+  COMPANY_INVESTOR_AGREEMENT: "Company & Investor Agreement",
   ENCUMBRANCE_CERTIFICATE: "Encumbrance Certificate",
   LAYOUT_PLAN: "Layout Plan",
   PAYMENT_RECEIPT: "Payment Receipt",
   SIGNED_AGREEMENT: "Signed Agreement",
-  OTHER: "Other",
+  CANCELLED_CHEQUE: "Cancelled Cheque",
+  AADHAAR_CARD: "Aadhaar Card",
+  PAN_CARD: "PAN Card",
+  OTHER: "Other Property Papers",
 };
 
 export default async function InvestorDocumentsPage() {

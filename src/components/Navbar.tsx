@@ -48,7 +48,6 @@ export async function Navbar({
   const authLinks: NavLink[] = session
     ? []
     : [
-        { href: "/buyer/login", label: "Buyer login" },
         { href: "/login", label: "Log in" },
       ];
 

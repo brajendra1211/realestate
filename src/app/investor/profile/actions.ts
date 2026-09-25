@@ -4,46 +4,31 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { slugify } from "@/lib/slug";
 
-async function uniqueUserSlug(name: string, ignoreId: string) {
-  const base = slugify(name) || "user";
-  let slug = base;
-  let suffix = 1;
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    const existing = await prisma.user.findUnique({ where: { slug } });
-    if (!existing || existing.id === ignoreId) return slug;
-    suffix += 1;
-    slug = `${base}-${suffix}`;
-  }
-}
-
-export async function updateProfile(formData: FormData) {
+export async function updateInvestorProfileAction(formData: FormData) {
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session || session.user.role !== "INVESTOR") {
+    redirect("/login");
+  }
 
   const name = String(formData.get("name") ?? "").trim();
   const phone = String(formData.get("phone") ?? "").trim();
-  const company = String(formData.get("company") ?? "").trim();
-  const about = String(formData.get("about") ?? "").trim();
-  const logoUrl = String(formData.get("logoUrl") ?? "").trim();
-  const licenseNumber = String(formData.get("licenseNumber") ?? "").trim();
-  const address = String(formData.get("address") ?? "").trim();
-  const website = String(formData.get("website") ?? "").trim();
-  const instagramUrl = String(formData.get("instagramUrl") ?? "").trim();
-  const facebookUrl = String(formData.get("facebookUrl") ?? "").trim();
-
   const secondaryPhone = String(formData.get("secondaryPhone") ?? "").trim();
   const whatsappNumber = String(formData.get("whatsappNumber") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim();
   const ageStr = String(formData.get("age") ?? "").trim();
   const dobStr = String(formData.get("dateOfBirth") ?? "").trim();
+  const address = String(formData.get("address") ?? "").trim();
+  const website = String(formData.get("website") ?? "").trim();
+
+  // KYC
   const panNumber = String(formData.get("panNumber") ?? "").trim().toUpperCase();
   const panCardUrl = String(formData.get("panCardUrl") ?? "").trim();
   const aadhaarNumber = String(formData.get("aadhaarNumber") ?? "").trim();
   const aadhaarFrontUrl = String(formData.get("aadhaarFrontUrl") ?? "").trim();
   const aadhaarBackUrl = String(formData.get("aadhaarBackUrl") ?? "").trim();
 
+  // Banking & Cancelled Cheque
   const bankAccountName = String(formData.get("bankAccountName") ?? "").trim();
   const bankAccountNumber = String(formData.get("bankAccountNumber") ?? "").trim();
   const bankIfsc = String(formData.get("bankIfsc") ?? "").trim().toUpperCase();
@@ -54,30 +39,18 @@ export async function updateProfile(formData: FormData) {
   const age = ageStr ? parseInt(ageStr, 10) : null;
   const dateOfBirth = dobStr ? new Date(dobStr) : null;
 
-  const user = await prisma.user.findUnique({ where: { id: session.user.id } });
-  if (!user) redirect("/login");
-
-  const isDealer = session.user.role === "DEALER";
-  const displayName = company || name;
-  const slug = user!.slug ?? (await uniqueUserSlug(displayName, session.user.id));
-
   await prisma.user.update({
     where: { id: session.user.id },
     data: {
-      name,
+      name: name || undefined,
       phone: phone || null,
       secondaryPhone: secondaryPhone || null,
       whatsappNumber: whatsappNumber || null,
+      email: email || null,
       age: isNaN(age ?? NaN) ? null : age,
       dateOfBirth: dateOfBirth && !isNaN(dateOfBirth.getTime()) ? dateOfBirth : null,
-      company: company || null,
-      about: about || null,
-      logoUrl: logoUrl || null,
-      licenseNumber: isDealer ? licenseNumber || null : null,
       address: address || null,
       website: website || null,
-      instagramUrl: instagramUrl || null,
-      facebookUrl: facebookUrl || null,
       panNumber: panNumber || null,
       panCardUrl: panCardUrl || null,
       aadhaarNumber: aadhaarNumber || null,
@@ -89,9 +62,10 @@ export async function updateProfile(formData: FormData) {
       bankName: bankName || null,
       bankBranch: bankBranch || null,
       cancelledChequeUrl: cancelledChequeUrl || null,
-      slug,
     },
   });
 
-  revalidatePath("/dashboard/profile");
+  revalidatePath("/investor/profile");
+  revalidatePath("/investor/dashboard");
+  redirect("/investor/profile?saved=1");
 }

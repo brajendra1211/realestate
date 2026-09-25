@@ -43,6 +43,10 @@ const DEFAULT_SETTINGS = {
   basicListingFee: 200,
   goldListingFee: 500,
   listingSplitPercent: 50,
+  partnerTargetDays: 30,
+  partnerTargetProperties: 20,
+  partnerTargetSubPartners: 10,
+  partnerTargetInvestors: 3,
 };
 
 export async function getSiteSettings() {

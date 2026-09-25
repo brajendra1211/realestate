@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -32,10 +33,21 @@ export default async function AdminAgentsPage({ searchParams }: { searchParams: 
 
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
-      <h1 className="text-2xl font-bold text-slate-900">Channel Partners</h1>
-      <p className="mt-1 max-w-2xl text-sm text-slate-500">
-        Verify submitted profiles, then activate a Prime plan to issue the Agent Code.
-      </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Channel Partners</h1>
+          <p className="mt-1 max-w-2xl text-sm text-slate-500">
+            Verify submitted profiles, activate Prime plans, and manage partners.
+          </p>
+        </div>
+        <Link
+          href="/admin/targets"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2 text-xs font-black text-white shadow-sm hover:bg-blue-700 transition self-start sm:self-auto cursor-pointer"
+        >
+          <span>🎯</span>
+          <span>Partner Targets & Progress →</span>
+        </Link>
+      </div>
 
       {saved === "1" && (
         <p className="mt-4 max-w-2xl rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">Saved.</p>

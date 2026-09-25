@@ -15,6 +15,21 @@ const NAV_ITEMS: PanelNavItem[] = [
     ),
   },
   {
+    href: "/agent/profile",
+    label: "My Profile & KYC",
+    icon: (
+      <>
+        <circle cx="12" cy="7" r="4" strokeWidth={1.75} />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.75}
+          d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"
+        />
+      </>
+    ),
+  },
+  {
     href: "/agent/listings",
     label: "My Listings",
     icon: (

@@ -401,6 +401,10 @@ exports.Prisma.SiteSettingsScalarFieldEnum = {
   basicListingFee: 'basicListingFee',
   goldListingFee: 'goldListingFee',
   listingSplitPercent: 'listingSplitPercent',
+  partnerTargetDays: 'partnerTargetDays',
+  partnerTargetProperties: 'partnerTargetProperties',
+  partnerTargetSubPartners: 'partnerTargetSubPartners',
+  partnerTargetInvestors: 'partnerTargetInvestors',
   updatedAt: 'updatedAt'
 };
 
@@ -432,6 +436,8 @@ exports.Prisma.AgentProfileScalarFieldEnum = {
   verifiedAt: 'verifiedAt',
   cycleStartDate: 'cycleStartDate',
   cycleEndDate: 'cycleEndDate',
+  cycleDaysTarget: 'cycleDaysTarget',
+  customTargetEnabled: 'customTargetEnabled',
   cycleListingsTarget: 'cycleListingsTarget',
   cycleDealsTarget: 'cycleDealsTarget',
   cycleVisitsTarget: 'cycleVisitsTarget',

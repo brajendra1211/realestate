@@ -10,32 +10,24 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
   const password = String(formData.get("password") ?? "");
   const callbackUrl = String(formData.get("callbackUrl") ?? "/");
 
+  const { prisma } = await import("@/lib/prisma");
+  const { looksLikeEmail, phoneDigitsMatch } = await import("@/lib/otp");
+
+  const user = looksLikeEmail(email)
+    ? await prisma.user.findUnique({ where: { email } })
+    : (await prisma.user.findMany({ where: { phone: { not: null } } })).find((u) =>
+        phoneDigitsMatch(u.phone, email)
+      );
+
+  if (user && !["ADMIN", "SUBADMIN"].includes(user.role)) {
+    return {
+      error: "Password login is restricted to Admins only. Please use OTP to sign in.",
+    };
+  }
+
   let targetUrl = callbackUrl;
   if (!targetUrl || targetUrl === "/") {
-    const { prisma } = await import("@/lib/prisma");
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (user) {
-      switch (user.role) {
-        case "ADMIN":
-        case "SUBADMIN":
-          targetUrl = "/admin";
-          break;
-        case "AGENT":
-          targetUrl = "/agent/dashboard";
-          break;
-        case "INVESTOR":
-          targetUrl = "/investor/dashboard";
-          break;
-        case "BUYER":
-          targetUrl = "/buyer/dashboard";
-          break;
-        case "DEALER":
-        case "OWNER":
-        default:
-          targetUrl = "/dashboard";
-          break;
-      }
-    }
+    targetUrl = "/admin";
   }
 
   try {

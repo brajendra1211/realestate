@@ -28,12 +28,15 @@ const STATUS_COPY: Record<string, { title: string; body: string; tone: string }>
 };
 
 const COMMISSION_LABELS: Record<string, string> = {
-  REGISTRATION_REFERRAL: "Referral Partner Registration Referral (10%)",
-  DEAL_PROFIT_SHARE: "Referral Partner Deal Profit Share (10%)",
-  BROKERAGE: "Buyer/Seller Brokerage (1%)",
-  UNLOCK_SPLIT: "Customer Unlock Pass Split",
-  GOLD_SPLIT: "Customer Gold Listing Split",
-  AGENT_REFERRAL: "Channel Partner Referral (10%, one-time)",
+  AGENT_REFERRAL: "1. Agent-to-Agent Referral Code Income (10%, one-time)",
+  CUSTOMER_PROPERTY_UPDATE: "2. Customer Property Update Income (₹100 / 50% split)",
+  UNLOCK_SPLIT: "3. Customer Property Watch / Unlock Pass Income (50% split)",
+  REGISTRATION_REFERRAL: "4. Investor Joining Income (10% of ₹20,000 fee)",
+  DEAL_PROFIT_SHARE: "5. Investor Investment Profit Sharing Income (10% deal profit)",
+  REFERRAL_CUSTOMER_RENEWAL: "6. Referral Customer Renewal Property Income (50% split)",
+  BROKERAGE: "7 & 8. Property Sale & Buying Income (1% Brokerage)",
+  GOLD_SPLIT: "Direct Customer Gold Listing Income (50% split)",
+  COMPANY_FIVE_STAR_REWARD: "9. Company 5-Star Performance Reward Income",
 };
 
 const PAYOUT_ERROR_MESSAGES: Record<string, string> = {
@@ -85,13 +88,20 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-bold text-slate-900">Channel Partner Dashboard</h1>
-        {agent.agentCode && (
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
+          {agent.agentCode && (
             <span className="font-mono text-sm font-extrabold text-blue-700 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200">
               Code: {agent.agentCode}
             </span>
-          </div>
-        )}
+          )}
+          <a
+            href="/agent/profile"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-700 shadow-2xs hover:bg-slate-50 transition"
+          >
+            <span>👤</span>
+            <span>Profile & KYC</span>
+          </a>
+        </div>
       </div>
 
       {saved === "mandate" && (
@@ -202,95 +212,138 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
         />
       )}
 
-      {/* 2-Month Target Performance Matrix */}
+      {/* 30-Day Partner Target Performance Matrix */}
       {cycleProgress && (
-        <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/70 via-white to-purple-50/40 p-5 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="rounded-3xl border border-indigo-200/80 bg-linear-to-br from-indigo-50/70 via-white to-purple-50/40 p-5 sm:p-6 shadow-xs">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo-100/70 pb-4">
             <div>
-              <span className="rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-bold text-indigo-800 uppercase tracking-wider">
-                2-Month Target Cycle Performance
-              </span>
-              <h2 className="mt-1 text-base font-bold text-slate-900">
-                {cycleProgress.daysRemaining} Days Remaining in Current 60-Day Cycle
+              <div className="flex items-center gap-2">
+                <span className="rounded-full bg-indigo-100 px-3 py-0.5 text-[11px] font-black text-indigo-800 uppercase tracking-wider">
+                  🎯 {cycleProgress.cycleDays}-Day Partner Target Cycle
+                </span>
+                {cycleProgress.customTargetEnabled && (
+                  <span className="rounded-full bg-purple-100 px-2.5 py-0.5 text-[10px] font-extrabold text-purple-800">
+                    Custom Target
+                  </span>
+                )}
+              </div>
+              <h2 className="mt-1.5 text-lg font-black text-slate-900">
+                {cycleProgress.daysRemaining} Days Left in Current Target Cycle
               </h2>
             </div>
             <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-white border border-indigo-100 px-3 py-1 text-right shadow-xs">
-                <span className="text-[10px] uppercase font-bold text-slate-400">Carry-Forward Score</span>
-                <p className="text-sm font-extrabold text-indigo-700">+{cycleProgress.carryForwardScore} Pts</p>
+              <div className="rounded-2xl bg-white border border-indigo-100 px-3.5 py-1.5 text-right shadow-2xs">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Overall Progress</span>
+                <p className="text-base font-black text-indigo-700">{cycleProgress.percentages.overall}%</p>
               </div>
               {cycleProgress.isTargetMet && (
-                <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
-                  ✓ 2-Month Task Completed
+                <span className="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-black text-emerald-800 border border-emerald-300">
+                  ✓ Target Completed!
                 </span>
               )}
             </div>
           </div>
 
-          {/* 3 Client Specific 2-Month Target Progress Bars */}
-          <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {/* Target 1: 20 Customer Properties */}
-            <div className="rounded-xl border border-slate-100 bg-white p-3.5 shadow-xs">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-600">Customer Properties</span>
-                <span className="text-indigo-600 font-bold">
-                  {cycleProgress.achieved.customerProperties} / {cycleProgress.targets.customerProperties}
-                </span>
+          {/* 3 Partner Target Progress Cards with Remaining Counts */}
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            {/* Target 1: 20 Properties */}
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start text-xs">
+                  <span className="font-extrabold text-slate-800">1. Properties Listed</span>
+                  <span className="font-mono font-black text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">
+                    {cycleProgress.achieved.properties} / {cycleProgress.targets.properties}
+                  </span>
+                </div>
+
+                <div className="mt-3 flex items-center justify-between text-xs">
+                  <span
+                    className={`font-black ${
+                      cycleProgress.remaining.properties > 0 ? "text-amber-600" : "text-emerald-600"
+                    }`}
+                  >
+                    {cycleProgress.remaining.properties > 0
+                      ? `Bacha hua: ${cycleProgress.remaining.properties} properties`
+                      : "✓ Target Achieved"}
+                  </span>
+                  <span className="text-[11px] font-bold text-slate-400">
+                    {cycleProgress.percentages.properties}%
+                  </span>
+                </div>
               </div>
-              <p className="text-[10px] text-slate-400 mt-0.5">Target: 20 updates/listings</p>
-              <div className="mt-2 h-2 w-full rounded-full bg-slate-100">
+
+              <div className="mt-2.5 h-2 w-full rounded-full bg-slate-100 overflow-hidden">
                 <div
-                  className="h-2 rounded-full bg-indigo-600 transition-all"
-                  style={{
-                    width: `${Math.min(
-                      100,
-                      (cycleProgress.achieved.customerProperties / cycleProgress.targets.customerProperties) * 100
-                    )}%`,
-                  }}
+                  className="h-full rounded-full bg-blue-600 transition-all"
+                  style={{ width: `${cycleProgress.percentages.properties}%` }}
                 />
               </div>
             </div>
 
-            {/* Target 2: 5 Investors */}
-            <div className="rounded-xl border border-slate-100 bg-white p-3.5 shadow-xs">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-600">Direct Referral Partners</span>
-                <span className="text-indigo-600 font-bold">
-                  {cycleProgress.achieved.investors} / {cycleProgress.targets.investors}
-                </span>
+            {/* Target 2: 10 Downline Channel Partners */}
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start text-xs">
+                  <span className="font-extrabold text-slate-800">2. Downline Partners</span>
+                  <span className="font-mono font-black text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">
+                    {cycleProgress.achieved.directAgents} / {cycleProgress.targets.directAgents}
+                  </span>
+                </div>
+
+                <div className="mt-3 flex items-center justify-between text-xs">
+                  <span
+                    className={`font-black ${
+                      cycleProgress.remaining.directAgents > 0 ? "text-amber-600" : "text-emerald-600"
+                    }`}
+                  >
+                    {cycleProgress.remaining.directAgents > 0
+                      ? `Bacha hua: ${cycleProgress.remaining.directAgents} partners`
+                      : "✓ Target Achieved"}
+                  </span>
+                  <span className="text-[11px] font-bold text-slate-400">
+                    {cycleProgress.percentages.directAgents}%
+                  </span>
+                </div>
               </div>
-              <p className="text-[10px] text-slate-400 mt-0.5">Target: 5 referral partners onboarded</p>
-              <div className="mt-2 h-2 w-full rounded-full bg-slate-100">
+
+              <div className="mt-2.5 h-2 w-full rounded-full bg-slate-100 overflow-hidden">
                 <div
-                  className="h-2 rounded-full bg-indigo-600 transition-all"
-                  style={{
-                    width: `${Math.min(
-                      100,
-                      (cycleProgress.achieved.investors / cycleProgress.targets.investors) * 100
-                    )}%`,
-                  }}
+                  className="h-full rounded-full bg-indigo-600 transition-all"
+                  style={{ width: `${cycleProgress.percentages.directAgents}%` }}
                 />
               </div>
             </div>
 
-            {/* Target 3: 10 Agent Codes */}
-            <div className="rounded-xl border border-slate-100 bg-white p-3.5 shadow-xs">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-600">Direct Channel Partner Codes</span>
-                <span className="text-indigo-600 font-bold">
-                  {cycleProgress.achieved.directAgents} / {cycleProgress.targets.directAgents}
-                </span>
+            {/* Target 3: 3 Investors */}
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start text-xs">
+                  <span className="font-extrabold text-slate-800">3. Investors Added</span>
+                  <span className="font-mono font-black text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">
+                    {cycleProgress.achieved.investors} / {cycleProgress.targets.investors}
+                  </span>
+                </div>
+
+                <div className="mt-3 flex items-center justify-between text-xs">
+                  <span
+                    className={`font-black ${
+                      cycleProgress.remaining.investors > 0 ? "text-amber-600" : "text-emerald-600"
+                    }`}
+                  >
+                    {cycleProgress.remaining.investors > 0
+                      ? `Bacha hua: ${cycleProgress.remaining.investors} investors`
+                      : "✓ Target Achieved"}
+                  </span>
+                  <span className="text-[11px] font-bold text-slate-400">
+                    {cycleProgress.percentages.investors}%
+                  </span>
+                </div>
               </div>
-              <p className="text-[10px] text-slate-400 mt-0.5">Target: 10 new channel partner codes</p>
-              <div className="mt-2 h-2 w-full rounded-full bg-slate-100">
+
+              <div className="mt-2.5 h-2 w-full rounded-full bg-slate-100 overflow-hidden">
                 <div
-                  className="h-2 rounded-full bg-indigo-600 transition-all"
-                  style={{
-                    width: `${Math.min(
-                      100,
-                      (cycleProgress.achieved.directAgents / cycleProgress.targets.directAgents) * 100
-                    )}%`,
-                  }}
+                  className="h-full rounded-full bg-emerald-600 transition-all"
+                  style={{ width: `${cycleProgress.percentages.investors}%` }}
                 />
               </div>
             </div>

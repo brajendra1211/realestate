@@ -11,22 +11,32 @@ const DOC_TYPES = [
   "REGISTRY",
   "SALE_DEED",
   "AGREEMENT_TO_SELL",
+  "CUSTOMER_BANK_LOAN_PAPERS",
+  "COMPANY_INVESTOR_AGREEMENT",
   "ENCUMBRANCE_CERTIFICATE",
   "LAYOUT_PLAN",
   "PAYMENT_RECEIPT",
   "SIGNED_AGREEMENT",
+  "CANCELLED_CHEQUE",
+  "AADHAAR_CARD",
+  "PAN_CARD",
   "OTHER",
 ] as const;
 
 const DOC_TYPE_LABELS: Record<string, string> = {
-  REGISTRY: "Registry",
+  REGISTRY: "Property Registry",
   SALE_DEED: "Sale Deed",
-  AGREEMENT_TO_SELL: "Agreement to Sell",
-  ENCUMBRANCE_CERTIFICATE: "Encumbrance Certificate",
-  LAYOUT_PLAN: "Layout Plan",
+  AGREEMENT_TO_SELL: "Agreement to Sell / Sale Agreement",
+  CUSTOMER_BANK_LOAN_PAPERS: "Customer Bank Loan All Papers",
+  COMPANY_INVESTOR_AGREEMENT: "Company & Investor Agreement",
+  ENCUMBRANCE_CERTIFICATE: "Encumbrance Certificate (EC)",
+  LAYOUT_PLAN: "Layout / Sanctioned Plan",
   PAYMENT_RECEIPT: "Payment Receipt",
-  SIGNED_AGREEMENT: "Signed Agreement",
-  OTHER: "Other",
+  SIGNED_AGREEMENT: "Signed Legal Agreement",
+  CANCELLED_CHEQUE: "Cancelled Cheque",
+  AADHAAR_CARD: "Aadhaar Card Copy",
+  PAN_CARD: "PAN Card Copy",
+  OTHER: "Other Legal Property Papers",
 };
 
 const inputClass =

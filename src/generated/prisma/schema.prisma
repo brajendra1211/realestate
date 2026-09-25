@@ -446,6 +446,12 @@ model SiteSettings {
   goldListingFee             Int @default(500) // PDF 1 P.1 — Gold Property Listing ₹500 (3 Months)
   listingSplitPercent        Int @default(50) // PDF 1 P.1 — 50% split to agent wallet
 
+  // Global Channel Partner Targets (Admin Default: 30 days, 20 properties, 10 sub-partners, 3 investors)
+  partnerTargetDays        Int @default(30)
+  partnerTargetProperties  Int @default(20)
+  partnerTargetSubPartners Int @default(10)
+  partnerTargetInvestors   Int @default(3)
+
   updatedAt DateTime @updatedAt
 }
 
@@ -516,15 +522,17 @@ model AgentProfile {
   warningCount                  Int            @default(0)
   ratingAvg                     Float?         @default(0)
   verifiedAt                    DateTime?
-  // PDF 1 Page 7 & 12: 60-Day Review Cycle, Target Counts & Tier Promotion/Demotion
+  // 30-Day Partner Review Cycle, Target Counts & Custom Admin Overrides
   cycleStartDate                DateTime?      @default(now())
   cycleEndDate                  DateTime?
+  cycleDaysTarget               Int            @default(30)
+  customTargetEnabled           Boolean        @default(false)
   cycleListingsTarget           Int            @default(5)
   cycleDealsTarget              Int            @default(1)
   cycleVisitsTarget             Int            @default(3)
   cycleDirectAgentsTarget       Int            @default(10)
   cycleCustomerPropertiesTarget Int            @default(20)
-  cycleInvestorsTarget          Int            @default(5)
+  cycleInvestorsTarget          Int            @default(3)
   targetStatus                  String         @default("YELLOW")
   carryForwardScore             Int            @default(0)
   cycleCompletedCount           Int            @default(0)

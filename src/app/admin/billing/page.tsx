@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -22,12 +23,21 @@ export default async function AdminBillingPage() {
 
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
-      <h1 className="text-2xl font-bold text-slate-900">Prime Billing</h1>
-      <p className="mt-1 max-w-2xl text-sm text-slate-500">
-        Monthly Prime subscription auto-debits from the agent&apos;s wallet daily at 3am
-        (§3.1). Failed renewals demote the agent — not delete them — and stop them receiving
-        new leads until they top up and reactivate.
-      </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Prime Billing</h1>
+          <p className="mt-1 max-w-2xl text-sm text-slate-500">
+            Monthly Prime subscription auto-debits from the agent&apos;s wallet daily at 3am (§3.1).
+          </p>
+        </div>
+        <Link
+          href="/admin/prime-expiry"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 px-4 py-2 text-xs font-black text-white shadow-sm transition cursor-pointer self-start sm:self-auto"
+        >
+          <span>⚡</span>
+          <span>Prime Expiry Tracker (Expiring Soon) →</span>
+        </Link>
+      </div>
 
       <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
         <p className="text-sm text-slate-600">

@@ -169,3 +169,140 @@ export async function getAgentSubscriptionStatus(agentProfileId: string) {
     renewalAlertActive,
   };
 }
+
+export type AgentPrimeExpiryItem = {
+  agentId: string;
+  userId: string;
+  agentCode: string | null;
+  name: string;
+  shopName: string | null;
+  phone: string | null;
+  email: string | null;
+  city: string | null;
+  primeStatus: boolean;
+  planTier: AgentPlanTier;
+  walletBalance: number;
+  autoPayActive: boolean;
+  autoPayMandate: string | null;
+  visibilityDeprioritized: boolean;
+  status: "EXPIRED" | "CRITICAL" | "EXPIRING_SOON" | "ACTIVE" | "INACTIVE";
+  daysRemaining: number;
+  expiryDate: Date | null;
+  planName: string | null;
+  planPrice: number | null;
+};
+
+/**
+ * Returns all Channel Partners sorted by nearest Prime expiry first.
+ * Whoever's Prime is expiring soonest or already expired surfaces to the top.
+ */
+export async function getAllAgentsPrimeExpiryStatus(options?: {
+  filter?: "all" | "expired" | "critical" | "active";
+  search?: string;
+  sortBy?: "expiring_first" | "latest_first" | "wallet_asc";
+}): Promise<AgentPrimeExpiryItem[]> {
+  const agents = await prisma.agentProfile.findMany({
+    where: { status: "APPROVED" },
+    include: {
+      user: {
+        include: {
+          subscriptions: {
+            where: { status: "ACTIVE" },
+            include: { plan: true },
+            orderBy: { createdAt: "desc" },
+            take: 1,
+          },
+        },
+      },
+    },
+    orderBy: { updatedAt: "desc" },
+  });
+
+  const now = new Date();
+
+  const items: AgentPrimeExpiryItem[] = agents.map((agent) => {
+    const currentSub = agent.user.subscriptions[0] ?? null;
+    let daysRemaining = -999;
+    let expiryDate: Date | null = null;
+    let status: AgentPrimeExpiryItem["status"] = "INACTIVE";
+
+    if (currentSub?.endDate) {
+      expiryDate = currentSub.endDate;
+      const diffMs = currentSub.endDate.getTime() - now.getTime();
+      daysRemaining = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+      if (daysRemaining <= 0 || !agent.primeStatus) {
+        status = "EXPIRED";
+      } else if (daysRemaining <= 5) {
+        status = "CRITICAL";
+      } else if (daysRemaining <= 15) {
+        status = "EXPIRING_SOON";
+      } else {
+        status = "ACTIVE";
+      }
+    } else if (agent.primeStatus) {
+      status = "ACTIVE";
+      daysRemaining = 30;
+    } else {
+      status = agent.agentCode ? "EXPIRED" : "INACTIVE";
+      daysRemaining = -1;
+    }
+
+    return {
+      agentId: agent.id,
+      userId: agent.userId,
+      agentCode: agent.agentCode,
+      name: agent.user.name,
+      shopName: agent.shopName,
+      phone: agent.user.phone,
+      email: agent.user.email,
+      city: agent.city,
+      primeStatus: agent.primeStatus,
+      planTier: agent.planTier,
+      walletBalance: agent.walletBalance,
+      autoPayActive: agent.autoPayActive,
+      autoPayMandate: agent.autoPayMandate,
+      visibilityDeprioritized: agent.visibilityDeprioritized,
+      status,
+      daysRemaining,
+      expiryDate,
+      planName: currentSub?.plan.name ?? (agent.planTier === "PRIME" ? "Channel Partner Prime Plan" : "Basic Plan"),
+      planPrice: currentSub?.plan.price ?? (agent.planTier === "PRIME" ? 2000 : 1000),
+    };
+  });
+
+  // Filtering
+  let filtered = items;
+  if (options?.filter === "expired") {
+    filtered = filtered.filter((i) => i.status === "EXPIRED" || i.status === "INACTIVE");
+  } else if (options?.filter === "critical") {
+    filtered = filtered.filter((i) => i.status === "CRITICAL" || i.status === "EXPIRED");
+  } else if (options?.filter === "active") {
+    filtered = filtered.filter((i) => i.status === "ACTIVE" || i.status === "EXPIRING_SOON");
+  }
+
+  // Search
+  if (options?.search) {
+    const q = options.search.toLowerCase().trim();
+    filtered = filtered.filter(
+      (i) =>
+        i.name.toLowerCase().includes(q) ||
+        (i.shopName && i.shopName.toLowerCase().includes(q)) ||
+        (i.agentCode && i.agentCode.toLowerCase().includes(q)) ||
+        (i.phone && i.phone.includes(q)) ||
+        (i.city && i.city.toLowerCase().includes(q))
+    );
+  }
+
+  // Sorting: Default is expiring_first (lowest days remaining first!)
+  const sortBy = options?.sortBy ?? "expiring_first";
+  if (sortBy === "expiring_first") {
+    filtered.sort((a, b) => a.daysRemaining - b.daysRemaining);
+  } else if (sortBy === "latest_first") {
+    filtered.sort((a, b) => b.daysRemaining - a.daysRemaining);
+  } else if (sortBy === "wallet_asc") {
+    filtered.sort((a, b) => a.walletBalance - b.walletBalance);
+  }
+
+  return filtered;
+}

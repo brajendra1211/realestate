@@ -26,7 +26,17 @@ export default async function InvestorDashboardPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <a href="/investor/documents" className="text-sm font-medium text-blue-600 hover:underline">
+          <a
+            href="/investor/profile"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-xs font-bold text-indigo-700 hover:bg-indigo-100 transition"
+          >
+            <span>👤</span>
+            <span>Profile & KYC</span>
+          </a>
+          <a
+            href="/investor/documents"
+            className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
+          >
             Document Vault
           </a>
           <LogoutButton className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100" />
@@ -46,9 +56,30 @@ export default async function InvestorDashboardPage() {
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Referring channel partner</p>
-          <p className="mt-1 text-lg font-semibold text-slate-900">
-            {investor.referringAgent.agentCode ?? investor.referringAgent.shopName ?? "—"}
+          <p className="mt-1 text-base font-semibold text-slate-900">
+            {investor.referringAgent.user?.name ?? investor.referringAgent.shopName ?? "Direct"}
           </p>
+          <p className="text-xs text-blue-600 font-mono font-bold">
+            Code: {investor.referringAgent.agentCode ?? "—"}
+          </p>
+          {investor.referringAgent.user?.phone && (
+            <div className="mt-2 flex items-center gap-2">
+              <a
+                href={`tel:${investor.referringAgent.user.phone}`}
+                className="rounded-lg bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-700 hover:bg-slate-200"
+              >
+                📞 Call
+              </a>
+              <a
+                href={`https://wa.me/91${investor.referringAgent.user.phone.replace(/\D/g, "").slice(-10)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 hover:bg-emerald-100"
+              >
+                💬 WhatsApp
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
@@ -57,6 +88,74 @@ export default async function InvestorDashboardPage() {
           Registration valid until {investor.expiresAt.toLocaleDateString("en-IN")}.
         </p>
       )}
+
+      {/* Legal Papers Vault & Verification Overview */}
+      <div className="mt-8 rounded-3xl border border-indigo-100 bg-linear-to-br from-indigo-50/60 via-white to-purple-50/30 p-5 shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo-100/80 pb-3">
+          <div>
+            <h2 className="text-base font-black text-slate-900">Legal Paper Vault & Banking Status</h2>
+            <p className="text-xs text-slate-500">
+              Access your signed property agreements, customer bank loan papers, and company contract.
+            </p>
+          </div>
+          <a
+            href="/investor/documents"
+            className="rounded-xl bg-indigo-600 px-3.5 py-1.5 text-xs font-bold text-white hover:bg-indigo-700 transition"
+          >
+            Open Legal Vault →
+          </a>
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <a
+            href="/investor/documents"
+            className="rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-2xs hover:border-indigo-300 transition group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-base">📄</span>
+              <span className="text-[10px] font-bold text-indigo-600 group-hover:underline">View</span>
+            </div>
+            <p className="mt-2 font-bold text-slate-900">Agreement to Sale</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Signed property deal</p>
+          </a>
+
+          <a
+            href="/investor/documents"
+            className="rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-2xs hover:border-indigo-300 transition group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-base">🏦</span>
+              <span className="text-[10px] font-bold text-indigo-600 group-hover:underline">View</span>
+            </div>
+            <p className="mt-2 font-bold text-slate-900">Bank Loan Papers</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Sanctions & NOCs</p>
+          </a>
+
+          <a
+            href="/investor/documents"
+            className="rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-2xs hover:border-indigo-300 transition group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-base">📑</span>
+              <span className="text-[10px] font-bold text-indigo-600 group-hover:underline">View</span>
+            </div>
+            <p className="mt-2 font-bold text-slate-900">Property Papers</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Registry & Title search</p>
+          </a>
+
+          <a
+            href="/investor/documents"
+            className="rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-2xs hover:border-indigo-300 transition group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-base">🤝</span>
+              <span className="text-[10px] font-bold text-indigo-600 group-hover:underline">View</span>
+            </div>
+            <p className="mt-2 font-bold text-slate-900">Company Agreement</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Investor profit contract</p>
+          </a>
+        </div>
+      </div>
 
       <h2 className="mt-8 text-lg font-semibold text-slate-900">Date-wise profit ledger</h2>
       <div className="mt-3 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">

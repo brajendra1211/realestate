@@ -34,9 +34,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           : await findUserByPhone(email, "AGENT");
         if (!user || !user.passwordHash) return null;
 
-        // Password login is restricted to ADMIN, SUBADMIN, AGENT and OWNER roles.
-        // All other roles (BUYER, INVESTOR, DEALER, etc.) must log in via OTP.
-        const passwordRoles = ["ADMIN", "SUBADMIN", "AGENT", "OWNER"];
+        // Password login is restricted to ADMIN and SUBADMIN roles only.
+        // All other roles (BUYER, INVESTOR, AGENT, OWNER, DEALER) must log in via OTP.
+        const passwordRoles = ["ADMIN", "SUBADMIN"];
         if (!passwordRoles.includes(user.role)) {
           return null;
         }

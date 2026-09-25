@@ -151,7 +151,16 @@ export async function confirmInvestorPayment(investorProfileId: string, paymentM
 export async function getInvestorByUserId(userId: string) {
   return prisma.investorProfile.findUnique({
     where: { userId },
-    include: { referringAgent: { select: { agentCode: true, shopName: true } } },
+    include: {
+      user: true,
+      referringAgent: {
+        select: {
+          agentCode: true,
+          shopName: true,
+          user: { select: { name: true, phone: true } },
+        },
+      },
+    },
   });
 }
 

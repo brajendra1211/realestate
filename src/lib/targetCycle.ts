@@ -6,20 +6,30 @@ export class TargetCycleError extends Error {}
 const CYCLE_DURATION_DAYS = 60;
 const CYCLE_MS = CYCLE_DURATION_DAYS * 24 * 60 * 60 * 1000;
 
+import { getSiteSettings } from "@/lib/site-settings";
+
 export async function getAgentCycleProgress(agentProfileId: string) {
-  const agent = await prisma.agentProfile.findUnique({
-    where: { id: agentProfileId },
-    include: { user: true },
-  });
+  const [agent, settings] = await Promise.all([
+    prisma.agentProfile.findUnique({
+      where: { id: agentProfileId },
+      include: { user: true },
+    }),
+    getSiteSettings(),
+  ]);
   if (!agent) throw new TargetCycleError("Channel Partner not found");
+
+  const cycleDays = agent.customTargetEnabled && agent.cycleDaysTarget
+    ? agent.cycleDaysTarget
+    : (settings.partnerTargetDays ?? 30);
+  const cycleMs = cycleDays * 24 * 60 * 60 * 1000;
 
   const now = new Date();
   const startDate = agent.cycleStartDate ?? agent.createdAt;
-  const endDate = agent.cycleEndDate ?? new Date(startDate.getTime() + CYCLE_MS);
+  const endDate = agent.cycleEndDate ?? new Date(startDate.getTime() + cycleMs);
 
   const daysRemaining = Math.max(0, Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
 
-  // Count activity during current 60-day cycle
+  // Count activity during current cycle
   const [listingsCount, dealsCount, visitsCount, directAgentsCount, investorsCount] = await Promise.all([
     prisma.agentListing.count({
       where: {
@@ -54,37 +64,43 @@ export async function getAgentCycleProgress(agentProfileId: string) {
     }),
   ]);
 
-  // Client specific 2-month targets:
-  // 1. Direct 20 Customer property updates/listings
-  // 2. Direct 5 Investors
-  // 3. Direct 10 Agent codes
-  const targetCustomerProperties = agent.cycleCustomerPropertiesTarget || 20;
-  const targetInvestors = agent.cycleInvestorsTarget || 5;
-  const targetDirectAgents = agent.cycleDirectAgentsTarget || 10;
+  // Target values: Custom override if enabled, otherwise global default
+  const targetProperties = agent.customTargetEnabled
+    ? agent.cycleCustomerPropertiesTarget
+    : (settings.partnerTargetProperties ?? 20);
+  const targetDirectAgents = agent.customTargetEnabled
+    ? agent.cycleDirectAgentsTarget
+    : (settings.partnerTargetSubPartners ?? 10);
+  const targetInvestors = agent.customTargetEnabled
+    ? agent.cycleInvestorsTarget
+    : (settings.partnerTargetInvestors ?? 3);
 
-  const is2MonthTaskMet =
-    listingsCount >= targetCustomerProperties &&
-    investorsCount >= targetInvestors &&
-    directAgentsCount >= targetDirectAgents;
+  // Remaining counts
+  const remainingProperties = Math.max(0, targetProperties - listingsCount);
+  const remainingDirectAgents = Math.max(0, targetDirectAgents - directAgentsCount);
+  const remainingInvestors = Math.max(0, targetInvestors - investorsCount);
 
-  // Traffic Light calculation (Red / Yellow / Green):
-  // Green = All 3 2-month targets achieved
-  // Yellow = In-progress (>50% overall average progress or within first 30 days)
-  // Red = Behind target (<50% progress after 30 days or expired)
-  const propProgress = Math.min(1, listingsCount / targetCustomerProperties);
-  const invProgress = Math.min(1, investorsCount / targetInvestors);
-  const agtProgress = Math.min(1, directAgentsCount / targetDirectAgents);
-  const overallAvgProgress = (propProgress + invProgress + agtProgress) / 3;
+  // Percentage calculations (0-100%)
+  const propProgressPercent = Math.min(100, Math.round((listingsCount / (targetProperties || 1)) * 100));
+  const agtProgressPercent = Math.min(100, Math.round((directAgentsCount / (targetDirectAgents || 1)) * 100));
+  const invProgressPercent = Math.min(100, Math.round((investorsCount / (targetInvestors || 1)) * 100));
+
+  const overallPercent = Math.round((propProgressPercent + agtProgressPercent + invProgressPercent) / 3);
+
+  const isTaskMet =
+    listingsCount >= targetProperties &&
+    directAgentsCount >= targetDirectAgents &&
+    investorsCount >= targetInvestors;
 
   let trafficLight: "GREEN" | "YELLOW" | "RED" = "YELLOW";
-  if (is2MonthTaskMet) {
+  if (isTaskMet) {
     trafficLight = "GREEN";
-  } else if (daysRemaining <= 15 && overallAvgProgress < 0.5) {
+  } else if (daysRemaining <= 7 && overallPercent < 50) {
     trafficLight = "RED";
-  } else if (overallAvgProgress >= 0.5) {
+  } else if (overallPercent >= 50) {
     trafficLight = "YELLOW";
   } else {
-    trafficLight = daysRemaining <= 30 ? "RED" : "YELLOW";
+    trafficLight = daysRemaining <= 15 ? "RED" : "YELLOW";
   }
 
   const isCouponActive =
@@ -92,28 +108,52 @@ export async function getAgentCycleProgress(agentProfileId: string) {
     Boolean(agent.couponExpiresAt && agent.couponExpiresAt.getTime() > now.getTime());
 
   return {
+    agentId: agent.id,
+    agentCode: agent.agentCode,
+    shopName: agent.shopName,
+    userName: agent.user.name,
+    userPhone: agent.user.phone,
+    userEmail: agent.user.email,
+    city: agent.city,
+    customTargetEnabled: agent.customTargetEnabled,
+    cycleDays,
     cycleStartDate: startDate,
     cycleEndDate: endDate,
     daysRemaining,
     planTier: agent.planTier,
     trafficLight,
     targets: {
-      listings: agent.cycleListingsTarget,
+      properties: targetProperties,
+      customerProperties: targetProperties,
+      directAgents: targetDirectAgents,
+      investors: targetInvestors,
       deals: agent.cycleDealsTarget,
       visits: agent.cycleVisitsTarget,
-      customerProperties: targetCustomerProperties,
-      investors: targetInvestors,
-      directAgents: targetDirectAgents,
+      listings: agent.cycleListingsTarget,
     },
     achieved: {
-      listings: listingsCount,
+      properties: listingsCount,
+      customerProperties: listingsCount,
+      directAgents: directAgentsCount,
+      investors: investorsCount,
       deals: dealsCount,
       visits: visitsCount,
-      customerProperties: listingsCount,
-      investors: investorsCount,
-      directAgents: directAgentsCount,
+      listings: listingsCount,
     },
-    isTargetMet: is2MonthTaskMet,
+    remaining: {
+      properties: remainingProperties,
+      customerProperties: remainingProperties,
+      directAgents: remainingDirectAgents,
+      investors: remainingInvestors,
+    },
+    percentages: {
+      properties: propProgressPercent,
+      customerProperties: propProgressPercent,
+      directAgents: agtProgressPercent,
+      investors: invProgressPercent,
+      overall: overallPercent,
+    },
+    isTargetMet: isTaskMet,
     carryForwardScore: agent.carryForwardScore,
     cycleCompletedCount: agent.cycleCompletedCount,
     coupon: isCouponActive
@@ -124,6 +164,51 @@ export async function getAgentCycleProgress(agentProfileId: string) {
         }
       : null,
   };
+}
+
+/**
+ * Fetches all Channel Partners along with their target achievement progress.
+ * Default sort: LOWEST achievement percentage first (so under-performers surface to the top).
+ */
+export async function getAllPartnersTargetProgress(options?: {
+  sortBy?: "lowest_first" | "highest_first" | "days_remaining";
+  search?: string;
+}) {
+  const agents = await prisma.agentProfile.findMany({
+    where: { status: "APPROVED" },
+    include: { user: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const progressList = await Promise.all(
+    agents.map((agent) => getAgentCycleProgress(agent.id).catch(() => null))
+  );
+
+  let filtered = progressList.filter((p): p is NonNullable<typeof p> => p !== null);
+
+  if (options?.search) {
+    const q = options.search.toLowerCase().trim();
+    filtered = filtered.filter(
+      (p) =>
+        p.userName.toLowerCase().includes(q) ||
+        (p.shopName && p.shopName.toLowerCase().includes(q)) ||
+        (p.agentCode && p.agentCode.toLowerCase().includes(q)) ||
+        (p.city && p.city.toLowerCase().includes(q))
+    );
+  }
+
+  // Sorting
+  const sortBy = options?.sortBy ?? "lowest_first";
+  if (sortBy === "lowest_first") {
+    // Lowest target achieved comes first!
+    filtered.sort((a, b) => a.percentages.overall - b.percentages.overall);
+  } else if (sortBy === "highest_first") {
+    filtered.sort((a, b) => b.percentages.overall - a.percentages.overall);
+  } else if (sortBy === "days_remaining") {
+    filtered.sort((a, b) => a.daysRemaining - b.daysRemaining);
+  }
+
+  return filtered;
 }
 
 /**

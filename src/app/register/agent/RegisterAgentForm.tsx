@@ -15,8 +15,9 @@ const ERROR_MESSAGES: Record<string, string> = {
 
 // Forced hard navigation via window.location instead of relying on the
 // Server Action's built-in redirect() — see src/app/login/LoginForm.tsx.
-export function RegisterAgentForm() {
+export function RegisterAgentForm({ referredByCode = "" }: { referredByCode?: string }) {
   const [state, formAction, pending] = useActionState(registerAgent, initialState);
+  const hasRef = Boolean(referredByCode);
 
   useEffect(() => {
     if (state.redirectTo) window.location.href = state.redirectTo;
@@ -181,17 +182,29 @@ export function RegisterAgentForm() {
         </div>
         <div className="sm:col-span-2">
           <label className="text-sm font-medium text-slate-700">
-            Referred by (Agent Code, optional)
+            Referred by (Channel Partner Code)
+            {hasRef && (
+              <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                ✓ Auto-filled from invite link
+              </span>
+            )}
           </label>
           <input
             type="text"
             name="referredByAgentCode"
-            placeholder="AGT-DEL-1024"
-            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+            defaultValue={referredByCode}
+            readOnly={hasRef}
+            placeholder="e.g. CP-DEL-1024 (optional)"
+            className={`mt-1 w-full rounded-xl border px-3 py-2 text-sm font-mono focus:outline-none ${
+              hasRef
+                ? "border-emerald-300 bg-emerald-50 text-emerald-800 cursor-not-allowed"
+                : "border-slate-200 focus:border-blue-500"
+            }`}
           />
           <p className="mt-1 text-xs text-slate-400">
-            If another agent referred you, enter their Agent Code — they&apos;ll earn a 10%
-            referral commission once your Prime plan activates.
+            {hasRef
+              ? "This code was set from the invite link and cannot be changed."
+              : "If a Channel Partner referred you, enter their code — they'll earn a referral income once your Prime plan activates."}
           </p>
         </div>
       </div>

@@ -11,31 +11,31 @@ import { SITE_URL } from "@/lib/seo";
 
 const FEATURES = [
   {
-    title: "Verified channel partners only",
-    body: "Every channel partner is document-verified and Prime-activated before they can accept a lead.",
+    title: "Verified Channel Partners",
+    body: "Every partner is verified via official documentation and Prime-activated before publishing inventory.",
     icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z" />
     ),
   },
   {
-    title: "Live channel partner dispatch",
-    body: "Request a visit and get matched with the nearest available channel partner in real time — no waiting.",
+    title: "Instant Live Dispatch",
+    body: "Request site visits and get connected directly with the nearest authorized channel partner in real time.",
     icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 10V3L4 14h7v7l9-11h-7z" />
     ),
   },
   {
-    title: "No duplicate listings",
-    body: "Every property is deduplicated against a shared master registry, so you never see the same flat twice.",
+    title: "Zero Duplicate Inventory",
+    body: "Every flat, villa, and plot is cross-checked with master registry records so you never see repetitive listings.",
     icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-5 9l2 2 4-4" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-5 9l2 2 4-4" />
     ),
   },
   {
-    title: "Ranked on real activity",
-    body: "The channel partner leaderboard is computed live from deals and ratings — not editorial picks.",
+    title: "Verified Market Ranking",
+    body: "Leaderboards and ratings are powered purely by authentic transaction records and real client feedback.",
     icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 2l2.6 6.5L21 9l-5 4.5L17.5 21 12 17.5 6.5 21 8 13.5 3 9l6.4-.5z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 2l2.6 6.5L21 9l-5 4.5L17.5 21 12 17.5 6.5 21 8 13.5 3 9l6.4-.5z" />
     ),
   },
 ];
@@ -73,8 +73,7 @@ export default async function Home() {
     });
   }
 
-  // Fall back to the latest listings if nothing has been marked featured yet,
-  // so the homepage never looks empty while there are live listings.
+  // Fall back to the latest listings if nothing has been marked featured yet.
   let usingLatestFallback = false;
   if (featuredProperties.length === 0) {
     usingLatestFallback = true;
@@ -101,9 +100,9 @@ export default async function Home() {
   ]);
 
   const stats = [
-    { label: "Live properties", value: propertyCount },
-    { label: "Verified Prime channel partners", value: agentCount },
-    { label: "Cities covered", value: cityCount },
+    { label: "Active Properties", value: propertyCount },
+    { label: "Verified Prime Partners", value: agentCount },
+    { label: "Cities Covered", value: cityCount },
   ];
 
   const organizationJsonLd = {
@@ -138,83 +137,109 @@ export default async function Home() {
   };
 
   return (
-    <div>
+    <div className="bg-slate-50/40">
       <JsonLd data={organizationJsonLd} />
       <JsonLd data={websiteJsonLd} />
 
+      {/* --- HERO SECTION --- */}
       <section
-        className="relative overflow-hidden bg-cover bg-center bg-linear-to-br from-blue-50 via-white to-indigo-50 px-4 py-24 text-center sm:px-6"
+        className="relative overflow-hidden border-b border-slate-200/80 bg-linear-to-b from-white via-slate-50/50 to-white px-4 py-20 text-center sm:px-6 sm:py-24"
         style={settings.heroImage ? { backgroundImage: `url(${settings.heroImage})` } : undefined}
       >
-        {settings.heroImage && <div className="absolute inset-0 bg-white/85" />}
+        {settings.heroImage && <div className="absolute inset-0 bg-white/85 backdrop-blur-xs" />}
 
+        {/* Subtle Luxury Ambient Glow */}
         {!settings.heroImage && (
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="animate-blob absolute -left-24 -top-24 h-96 w-96 rounded-full bg-blue-300/30 blur-3xl" />
-            <div className="animate-blob animation-delay-2000 absolute -right-16 top-10 h-96 w-96 rounded-full bg-indigo-300/25 blur-3xl" />
-            <div className="animate-blob animation-delay-4000 absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-sky-300/25 blur-3xl" />
+            <div className="absolute -left-20 -top-20 h-[480px] w-[480px] rounded-full bg-blue-500/5 blur-3xl" />
+            <div className="absolute -right-20 top-10 h-[500px] w-[500px] rounded-full bg-indigo-500/5 blur-3xl" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[350px] w-[600px] rounded-full bg-amber-500/5 blur-3xl" />
           </div>
         )}
 
-        <div className="relative animate-fade-in-up">
-          <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-white px-3 py-1 text-xs font-semibold text-blue-700 shadow-sm">
-            <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2l2.6 6.5L21 9l-5 4.5L17.5 21 12 17.5 6.5 21 8 13.5 3 9l6.4-.5z" />
-            </svg>
-            Verified agents · Real-time dispatch
-          </span>
-          <h1 className="mx-auto max-w-2xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            {settings.heroTitle ?? "Find the right property, faster"}
+        <div className="relative mx-auto max-w-4xl">
+          {/* Trust Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-50/70 px-4 py-1.5 text-xs font-bold text-blue-700 shadow-xs backdrop-blur-sm">
+            <span className="h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
+            Verified Channel Partners · Zero Broker Spam · Real-Time Direct Access
+          </div>
+
+          {/* Headline */}
+          <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-black tracking-tight text-slate-900 sm:text-6xl sm:leading-[1.1]">
+            {settings.heroTitle ?? "Find Extraordinary Homes With Verified Partners"}
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-slate-600">
+
+          {/* Subtitle */}
+          <p className="mx-auto mt-5 max-w-2xl text-base text-slate-600 sm:text-lg leading-relaxed">
             {settings.heroSubtitle ??
-              "Buy, sell, and rent homes with verified channel partners across the city."}
+              "Direct access to verified properties and top-tier channel partners across premier residential hubs."}
           </p>
-          <div className="mt-8">
+
+          {/* Elevated Search Bar Container */}
+          <div className="mt-9">
             <SearchBar />
           </div>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-            <NearMeButton className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 shadow-sm transition hover:bg-blue-50 disabled:opacity-60" />
+
+          {/* Near Me & Location Actions */}
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+            <NearMeButton className="inline-flex items-center gap-2 rounded-full border border-slate-300/80 bg-white px-5 py-2.5 text-xs font-bold text-slate-800 shadow-xs transition hover:border-slate-400 hover:bg-slate-50 disabled:opacity-60" />
             <Link
-              href="/properties-in"
-              className="text-sm font-medium text-blue-700 underline-offset-2 hover:text-blue-900 hover:underline"
+              href="/properties"
+              className="inline-flex items-center gap-1 text-xs font-bold text-blue-700 hover:text-blue-900 transition underline-offset-4 hover:underline"
             >
-              Or browse by location
+              Browse all properties →
             </Link>
           </div>
 
-          <div className="mx-auto mt-12 grid max-w-lg grid-cols-3 gap-4 border-t border-slate-200 pt-8">
+          {/* Clean 3-Box Stats Bar */}
+          <div className="mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
             {stats.map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl font-bold text-slate-900 sm:text-3xl">{stat.value.toLocaleString("en-IN")}+</p>
-                <p className="mt-1 text-xs text-slate-500">{stat.label}</p>
+              <div
+                key={stat.label}
+                className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-xs backdrop-blur-xs transition hover:border-slate-300"
+              >
+                <p className="text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
+                  {stat.value.toLocaleString("en-IN")}+
+                </p>
+                <p className="mt-0.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  {stat.label}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl bg-white px-4 py-14 sm:px-6">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-900">
-            {usingLatestFallback ? "Latest properties" : "Featured properties"}
-            {location ? ` in ${location.cityName}` : ""}
-          </h2>
+      {/* --- FEATURED PROPERTIES SECTION --- */}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200/80 pb-5">
+          <div>
+            <span className="text-[11px] font-black uppercase tracking-widest text-blue-600">
+              Curated Portfolio
+            </span>
+            <h2 className="mt-1 text-2xl font-extrabold text-slate-900 sm:text-3xl tracking-tight">
+              {usingLatestFallback ? "Latest Properties" : "Featured Properties"}
+              {location ? ` in ${location.cityName}` : ""}
+            </h2>
+          </div>
+
           <Link
             href={location ? `/properties?city=${encodeURIComponent(location.cityName)}` : "/properties"}
-            className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:underline"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-800 shadow-xs transition hover:bg-slate-50 hover:border-slate-300"
           >
-            View all
-            <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+            <span>View all inventory</span>
+            <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5 text-slate-500">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </Link>
         </div>
 
         {featuredProperties.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500">
-            No properties listed yet. Check back soon.
-          </p>
+          <div className="rounded-3xl border-2 border-dashed border-slate-200 p-12 text-center bg-white shadow-xs">
+            <span className="text-3xl">🏠</span>
+            <p className="mt-2 text-sm font-semibold text-slate-700">No properties available currently.</p>
+            <p className="text-xs text-slate-400 mt-1">Check back shortly or browse other locations.</p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featuredProperties.map((property) => (
@@ -224,50 +249,75 @@ export default async function Home() {
         )}
       </section>
 
-      <section className="border-t border-slate-200 bg-slate-50 px-4 py-16 sm:px-6">
+      {/* --- WHY BAYAESTATE FEATURES GRID --- */}
+      <section className="border-t border-slate-200/80 bg-white px-4 py-16 sm:px-6">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold text-slate-900">Why {settings.siteName}</h2>
-            <p className="mt-2 text-slate-600">Built for trust, speed, and zero duplicate listings.</p>
+            <span className="text-[11px] font-black uppercase tracking-widest text-blue-600">
+              The Standard of Excellence
+            </span>
+            <h2 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
+              Why Choose {settings.siteName}
+            </h2>
+            <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+              Designed from the ground up for absolute transparency, swift verified discovery, and verified direct contact.
+            </p>
           </div>
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((feature) => (
               <div
                 key={feature.title}
-                className="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg"
+                className="group relative rounded-2xl border border-slate-200/90 bg-white p-6 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
               >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-blue-50 to-indigo-50 text-blue-600 transition group-hover:from-blue-600 group-hover:to-indigo-600 group-hover:text-white">
-                  <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-amber-400 shadow-sm transition group-hover:scale-105">
+                  <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
                     {feature.icon}
                   </svg>
                 </div>
-                <p className="mt-4 font-semibold text-slate-900">{feature.title}</p>
-                <p className="mt-1.5 text-sm text-slate-500">{feature.body}</p>
+                <h3 className="mt-5 font-bold text-slate-900 text-base">{feature.title}</h3>
+                <p className="mt-2 text-xs text-slate-500 leading-relaxed">{feature.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-blue-50 px-4 py-16 text-center sm:px-6">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-60">
-          <div className="animate-blob absolute -left-10 top-0 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl" />
-          <div className="animate-blob animation-delay-2000 absolute -right-10 bottom-0 h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl" />
-        </div>
-        <div className="relative">
-          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Are you a channel partner or owner?</h2>
-          <p className="mx-auto mt-2 max-w-xl text-slate-600">
-            List your properties on {settings.siteName} and reach buyers and tenants directly.
-          </p>
-          <Link
-            href={settings.ctaLink ?? "/register"}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-xl"
-          >
-            {settings.ctaText ?? "List a property"}
-            <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
+      {/* --- LUXURY CTA SECTION --- */}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-linear-to-br from-slate-950 via-slate-900 to-indigo-950 p-8 text-center text-white shadow-2xl sm:p-14">
+          {/* Subtle glowing ambient spheres */}
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-amber-500/10 blur-3xl" />
+
+          <div className="relative mx-auto max-w-2xl">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 px-3.5 py-1 text-xs font-bold text-amber-300">
+              For Channel Partners & Owners
+            </span>
+            <h2 className="mt-4 text-2xl font-black tracking-tight sm:text-4xl text-white">
+              List Your Properties With BayaEstate
+            </h2>
+            <p className="mx-auto mt-3 max-w-lg text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Showcase your listings to verified buyers, get an official Shop QR code standee, and receive verified leads with direct dispatch.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href={settings.ctaLink ?? "/register"}
+                className="inline-flex items-center gap-2 rounded-2xl bg-amber-500 px-7 py-3.5 text-xs font-black text-slate-950 shadow-lg transition hover:bg-amber-400 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span>{settings.ctaText ?? "List a property"}</span>
+                <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+              <Link
+                href="/register/agent"
+                className="inline-flex items-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-6 py-3.5 text-xs font-bold text-white transition hover:bg-white/15"
+              >
+                Become a Partner
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </div>

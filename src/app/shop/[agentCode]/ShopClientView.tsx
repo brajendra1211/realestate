@@ -551,64 +551,72 @@ export function ShopClientView({
               return (
                 <div
                   key={item.id}
-                  className="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xs transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-900/10"
                 >
                   {/* Photo Container */}
-                  <div className="relative aspect-16/10 w-full overflow-hidden bg-slate-100">
+                  <div className="relative aspect-[16/11] w-full overflow-hidden bg-slate-100">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={primaryImage}
                       alt={item.title}
-                      className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = "none";
                       }}
                     />
+                    <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-80" />
+
                     <div className="absolute left-3 top-3 flex gap-1.5">
                       <span
-                        className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wide text-white shadow-sm ${
-                          item.listingType === "RENT" ? "bg-indigo-600" : "bg-emerald-600"
+                        className={`rounded-lg px-2.5 py-1 text-[11px] font-black uppercase tracking-wide text-white shadow-sm backdrop-blur-md ${
+                          item.listingType === "RENT" ? "bg-blue-600/90 border border-white/20" : "bg-slate-900/90 border border-white/20"
                         }`}
                       >
                         {item.listingType === "RENT" ? "For Rent" : "For Sale"}
                       </span>
-                      <span className="rounded-full bg-slate-900/80 px-2.5 py-0.5 text-[11px] font-semibold text-white backdrop-blur-xs">
+                      <span className="rounded-lg bg-black/60 px-2 py-1 text-[11px] font-semibold text-white border border-white/10 backdrop-blur-xs">
                         {typeLabel}
                       </span>
                     </div>
 
-                    <div className="absolute bottom-2.5 right-2.5 rounded-xl bg-slate-900/90 px-3 py-1 font-mono text-xs font-extrabold text-white backdrop-blur-xs">
-                      {formatPrice(item.price, item.listingType)}
+                    <div className="absolute bottom-3 left-3.5 right-3.5 flex items-end justify-between text-white">
+                      <span className="text-lg font-black tracking-tight drop-shadow-md text-white">
+                        {formatPrice(item.price, item.listingType)}
+                      </span>
                     </div>
                   </div>
 
                   {/* Details Body */}
-                  <div className="flex flex-1 flex-col p-4 justify-between">
+                  <div className="flex flex-1 flex-col p-4 justify-between space-y-3">
                     <div>
                       <h3 className="line-clamp-1 text-sm font-bold text-slate-900 group-hover:text-blue-600 transition">
                         {item.title}
                       </h3>
-                      <p className="mt-1 line-clamp-1 text-xs text-slate-500">
+                      <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-500 font-medium line-clamp-1">
+                        <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5 shrink-0 text-slate-400">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 21s-7-6.1-7-11a7 7 0 1114 0c0 4.9-7 11-7 11z" />
+                          <circle cx="12" cy="10" r="2.5" strokeWidth={1.8} />
+                        </svg>
                         {isUnlocked
                           ? item.exactAddress
                           : `${item.masterProperty.locality ? `${item.masterProperty.locality}, ` : ""}${item.masterProperty.city}`}
                       </p>
 
                       {/* Specs pills */}
-                      <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-medium text-slate-600">
+                      <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold text-slate-600">
                         {item.bedrooms ? (
-                          <span className="rounded-lg bg-slate-50 px-2 py-1 border border-slate-100">
+                          <span className="inline-flex items-center gap-1 rounded-lg bg-slate-50 px-2.5 py-1 border border-slate-200/80">
                             🛏 {item.bedrooms} BHK
                           </span>
                         ) : null}
                         {item.bathrooms ? (
-                          <span className="rounded-lg bg-slate-50 px-2 py-1 border border-slate-100">
+                          <span className="inline-flex items-center gap-1 rounded-lg bg-slate-50 px-2.5 py-1 border border-slate-200/80">
                             🚿 {item.bathrooms} Bath
                           </span>
                         ) : null}
                         {item.areaSqft ? (
-                          <span className="rounded-lg bg-slate-50 px-2 py-1 border border-slate-100">
-                            📐 {item.areaSqft} sq.ft
+                          <span className="inline-flex items-center gap-1 rounded-lg bg-slate-50 px-2.5 py-1 border border-slate-200/80">
+                            📐 {item.areaSqft} sqft
                           </span>
                         ) : null}
                       </div>
@@ -618,7 +626,7 @@ export function ShopClientView({
                     <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                       <Link
                         href={`/listings/${item.slug}`}
-                        className="flex-1 rounded-xl bg-slate-900 py-2 text-center text-xs font-bold text-white transition hover:bg-slate-800"
+                        className="flex-1 rounded-xl bg-slate-900 py-2.5 text-center text-xs font-bold text-white transition hover:bg-slate-800"
                       >
                         View Details
                       </Link>
@@ -630,21 +638,22 @@ export function ShopClientView({
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="rounded-xl border border-slate-200 bg-emerald-50 p-2 text-emerald-700 transition hover:bg-emerald-100"
+                          className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 flex items-center gap-1.5"
                           title="Chat on WhatsApp"
                         >
                           <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
                             <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm0 18.17c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.174 8.174 0 01-1.26-4.41c0-4.52 3.68-8.2 8.2-8.2 2.19 0 4.25.85 5.8 2.4a8.156 8.156 0 012.4 5.8c0 4.52-3.68 8.2-8.2 8.2zm4.5-6.15c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.36-.77-1.86c-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.78 2.71 4.3 3.8 2.53 1.09 2.53.73 2.99.69.45-.04 1.47-.6 1.68-1.18.2-.58.2-1.08.14-1.18-.06-.1-.22-.16-.47-.28z" />
                           </svg>
+                          WhatsApp
                         </a>
                       ) : (
                         <button
                           type="button"
                           onClick={handlePayUnlock}
-                          className="rounded-xl border border-amber-300 bg-amber-50 p-2 text-amber-800 transition hover:bg-amber-100"
+                          className="rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-900 transition hover:bg-amber-100 flex items-center gap-1"
                           title="Pay ₹50 to unlock"
                         >
-                          🔒 ₹50
+                          <span>🔒</span> Unlock ₹50
                         </button>
                       )}
                     </div>

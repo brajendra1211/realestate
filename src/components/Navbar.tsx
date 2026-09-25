@@ -20,13 +20,9 @@ export async function Navbar({
   const session = await auth();
 
   const links: NavLink[] = [
-    { href: "/", label: "Home" },
     { href: "/properties", label: "Properties" },
     { href: "/projects", label: "Projects" },
     { href: "/developers", label: "Developers" },
-    { href: "/dealers", label: "Dealers" },
-    { href: "/owners", label: "Owners" },
-    { href: "/shop", label: "Scan Channel Partner QR" },
   ];
   if (
     session?.user.role === "OWNER" ||

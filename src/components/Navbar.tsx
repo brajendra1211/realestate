@@ -26,6 +26,7 @@ export async function Navbar({
     { href: "/developers", label: "Developers" },
     { href: "/dealers", label: "Dealers" },
     { href: "/owners", label: "Owners" },
+    { href: "/shop", label: "Scan Agent QR" },
   ];
   if (
     session?.user.role === "OWNER" ||
@@ -39,6 +40,7 @@ export async function Navbar({
   }
   if (session?.user.role === "AGENT") {
     links.push({ href: "/agent/dashboard", label: "Agent Hub" });
+    links.push({ href: "/agent/dashboard#my-qr", label: "My Shop QR" });
   }
   if (session?.user.role === "INVESTOR") {
     links.push({ href: "/investor/dashboard", label: "Investor Portal" });

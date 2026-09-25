@@ -132,6 +132,69 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
                     ],
                   ),
                 ),
+                const SizedBox(height: AppSpacing.md),
+
+                // --- AGENT SHOP QR CODE HERO CARD ---
+                InkWell(
+                  onTap: () => context.push(RoutePaths.agentShopQr),
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [AppColors.primaryNavy, AppColors.navyLight],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.qr_code_2_rounded,
+                            color: AppColors.goldLight,
+                            size: 32,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'My Shop QR Code',
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                'Tap to view, copy link & download standee',
+                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Colors.white70,
+                                      fontSize: 11.5,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.white70,
+                          size: 15,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
                 if (!profile.canCreateListings) ...[
                   const SizedBox(height: AppSpacing.md),
                   Container(
@@ -159,6 +222,11 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
                   crossAxisSpacing: AppSpacing.sm,
                   childAspectRatio: 1.6,
                   children: [
+                    _QuickLink(
+                      icon: Icons.qr_code_2_rounded,
+                      label: 'Shop QR Code',
+                      onTap: () => context.push(RoutePaths.agentShopQr),
+                    ),
                     _QuickLink(
                       icon: Icons.home_work_outlined,
                       label: 'My Listings',

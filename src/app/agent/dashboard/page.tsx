@@ -62,6 +62,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
   const { generateQrDataUrl } = await import("@/lib/qr");
   const { AgentCodeLookup } = await import("@/components/agent/AgentCodeLookup");
   const { AgentAssetCards } = await import("@/components/agent/AgentAssetCards");
+  const { AgentQrHeroCard } = await import("@/components/agent/AgentQrHeroCard");
   const { DirectRenewalsTracker } = await import("@/components/agent/DirectRenewalsTracker");
 
   const [{ totals }, payouts, activeDispatches, { count: ratingCount }, subStatus, cycleProgress, networkData] =
@@ -186,6 +187,19 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
             )}
           </div>
         </div>
+      )}
+
+      {/* Prominent Shop QR Standee & Marketing Tools Hero Card */}
+      {agent.agentCode && (
+        <AgentQrHeroCard
+          agentCode={agent.agentCode}
+          name={agent.user.name}
+          shopName={agent.shopName}
+          shopAddress={agent.shopAddress}
+          city={agent.city}
+          qrDataUrl={qrDataUrl}
+          originUrl={originUrl}
+        />
       )}
 
       {/* 2-Month Target Performance Matrix */}

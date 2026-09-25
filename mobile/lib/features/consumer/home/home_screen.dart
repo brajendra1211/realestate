@@ -145,6 +145,7 @@ class _HomeScreenState extends State<HomeScreen>
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: _heroWithSearch(context)),
+            SliverToBoxAdapter(child: _scanQrPromoCard(context)),
             SliverToBoxAdapter(child: _chips()),
             SliverToBoxAdapter(child: _sectionHead()),
             SliverPadding(
@@ -152,6 +153,115 @@ class _HomeScreenState extends State<HomeScreen>
               sliver: SliverToBoxAdapter(child: _listings()),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _scanQrPromoCard(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 14),
+      child: InkWell(
+        onTap: () => context.push(RoutePaths.qrScanner),
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppColors.gold.withValues(alpha: 0.35)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: AppColors.gold.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: AppColors.gold.withValues(alpha: 0.5)),
+                ),
+                child: const Icon(
+                  Icons.qr_code_scanner_rounded,
+                  color: AppColors.goldLight,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            'Scan Agent QR Code',
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.gold,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            '₹50 Unlock',
+                            style: GoogleFonts.inter(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w800,
+                              color: const Color(0xFF0F172A),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Pay ₹50 to unlock agent profile & all verified listings',
+                      style: GoogleFonts.inter(
+                        fontSize: 11.5,
+                        color: const Color(0xFF94A3B8),
+                        height: 1.3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_forward_rounded,
+                  color: AppColors.goldLight,
+                  size: 18,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

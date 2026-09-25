@@ -26,6 +26,11 @@ class AgentMoreScreen extends StatelessWidget {
             onTap: () => context.push(RoutePaths.agentProfile),
           ),
           _MoreTile(
+            icon: Icons.qr_code_2_rounded,
+            label: 'Shop QR Code',
+            onTap: () => context.push(RoutePaths.agentShopQr),
+          ),
+          _MoreTile(
             icon: Icons.workspace_premium_outlined,
             label: 'Subscription',
             onTap: () => context.push(RoutePaths.agentSubscription),

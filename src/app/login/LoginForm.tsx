@@ -27,7 +27,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
 
       <div>
         <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
-          Admin Email
+          Email, Phone Number or Partner Code (ID)
         </label>
         <div className="relative mt-1.5">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
@@ -40,7 +40,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
             name="email"
             required
             suppressHydrationWarning
-            placeholder="admin@bayaestate.com"
+            placeholder="e.g. admin@bayaestate.com, 9876543210, or Partner Code"
             className="w-full rounded-2xl border border-slate-200/90 bg-slate-50/50 py-3 pl-10 pr-4 text-xs font-semibold text-slate-900 placeholder:text-slate-400 placeholder:font-normal transition focus:border-slate-400 focus:bg-white focus:outline-none"
           />
         </div>
@@ -82,7 +82,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
             <span>Authenticating...</span>
           </>
         ) : (
-          <span>Sign In as Admin →</span>
+          <span>Sign In with Password →</span>
         )}
       </button>
     </form>

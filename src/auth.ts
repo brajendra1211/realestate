@@ -22,24 +22,45 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        const email = credentials?.email;
+        const identifier = credentials?.email;
         const password = credentials?.password;
-        if (typeof email !== "string" || typeof password !== "string") {
+        if (typeof identifier !== "string" || typeof password !== "string") {
           return null;
         }
 
-        // The login id is an email, or (agents only) a phone number.
-        const user = looksLikeEmail(email)
-          ? await prisma.user.findUnique({ where: { email } })
-          : await findUserByPhone(email, "AGENT");
+        const trimmed = identifier.trim();
+        let user = null;
+
+        if (looksLikeEmail(trimmed)) {
+          user = await prisma.user.findUnique({ where: { email: trimmed.toLowerCase() } });
+        } else {
+          // Check by phone number
+          user = await findUserByPhone(trimmed);
+
+          // If not found by phone, check if it's an Agent Code (e.g. BP-1001)
+          if (!user) {
+            const agent = await prisma.agentProfile.findUnique({
+              where: { agentCode: trimmed.toUpperCase() },
+              include: { user: true },
+            });
+            if (agent?.user) {
+              user = agent.user;
+            }
+          }
+
+          // If still not found, check if it's an Investor Code (e.g. INV-1001)
+          if (!user) {
+            const investor = await prisma.investorProfile.findUnique({
+              where: { investorCode: trimmed.toUpperCase() },
+              include: { user: true },
+            });
+            if (investor?.user) {
+              user = investor.user;
+            }
+          }
+        }
+
         if (!user || !user.passwordHash) return null;
-
-        // Password login is restricted to ADMIN and SUBADMIN roles only.
-        // All other roles (BUYER, INVESTOR, AGENT, OWNER, DEALER) must log in via OTP.
-        const passwordRoles = ["ADMIN", "SUBADMIN"];
-        if (!passwordRoles.includes(user.role)) {
-          return null;
-        }
 
         const valid = await verifyPassword(password, user.passwordHash);
         if (!valid) return null;

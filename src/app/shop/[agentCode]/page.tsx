@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!agent) {
     return {
-      title: "Agent Shop Not Found | BayaEstate",
-      description: "The requested agent shop could not be found.",
+      title: "Channel Partner Shop Not Found | BayaEstate",
+      description: "The requested channel partner shop could not be found.",
     };
   }
 
@@ -54,7 +54,7 @@ export default async function AgentShopPage({ params }: Props) {
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-3xl">
           🔍
         </div>
-        <h1 className="mt-4 text-2xl font-extrabold text-slate-900">Agent Shop Not Found</h1>
+        <h1 className="mt-4 text-2xl font-extrabold text-slate-900">Channel Partner Shop Not Found</h1>
         <p className="mt-2 text-sm text-slate-500">
           We couldn&apos;t find an active agent shop with code <span className="font-mono font-bold text-slate-700">{agentCode}</span>.
         </p>
@@ -97,7 +97,7 @@ export default async function AgentShopPage({ params }: Props) {
             <span>/</span>
             <span className="font-semibold text-slate-800">{agent.shopName || agent.user.name}</span>
           </div>
-          <span className="font-mono text-[11px] text-slate-400">Agent Shop</span>
+          <span className="font-mono text-[11px] text-slate-400">Channel Partner Shop</span>
         </div>
 
         <ShopClientView

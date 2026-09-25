@@ -11,15 +11,15 @@ import { SITE_URL } from "@/lib/seo";
 
 const FEATURES = [
   {
-    title: "Verified agents only",
-    body: "Every agent is document-verified and Prime-activated before they can accept a lead.",
+    title: "Verified channel partners only",
+    body: "Every channel partner is document-verified and Prime-activated before they can accept a lead.",
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z" />
     ),
   },
   {
-    title: "Live agent dispatch",
-    body: "Request a visit and get matched with the nearest available agent in real time — no waiting.",
+    title: "Live channel partner dispatch",
+    body: "Request a visit and get matched with the nearest available channel partner in real time — no waiting.",
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 10V3L4 14h7v7l9-11h-7z" />
     ),
@@ -33,7 +33,7 @@ const FEATURES = [
   },
   {
     title: "Ranked on real activity",
-    body: "The agent leaderboard is computed live from deals and ratings — not editorial picks.",
+    body: "The channel partner leaderboard is computed live from deals and ratings — not editorial picks.",
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 2l2.6 6.5L21 9l-5 4.5L17.5 21 12 17.5 6.5 21 8 13.5 3 9l6.4-.5z" />
     ),
@@ -102,7 +102,7 @@ export default async function Home() {
 
   const stats = [
     { label: "Live properties", value: propertyCount },
-    { label: "Verified Prime agents", value: agentCount },
+    { label: "Verified Prime channel partners", value: agentCount },
     { label: "Cities covered", value: cityCount },
   ];
 
@@ -168,7 +168,7 @@ export default async function Home() {
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-slate-600">
             {settings.heroSubtitle ??
-              "Buy, sell, and rent homes with verified agents across the city."}
+              "Buy, sell, and rent homes with verified channel partners across the city."}
           </p>
           <div className="mt-8">
             <SearchBar />
@@ -255,7 +255,7 @@ export default async function Home() {
           <div className="animate-blob animation-delay-2000 absolute -right-10 bottom-0 h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl" />
         </div>
         <div className="relative">
-          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Are you an agent or owner?</h2>
+          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">Are you a channel partner or owner?</h2>
           <p className="mx-auto mt-2 max-w-xl text-slate-600">
             List your properties on {settings.siteName} and reach buyers and tenants directly.
           </p>

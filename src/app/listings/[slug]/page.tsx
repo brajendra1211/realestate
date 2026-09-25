@@ -163,7 +163,7 @@ export default async function ListingDetailPage({
             {agent ? (
               <>
                 <p className="mt-1 text-sm text-slate-700">
-                  <span className="font-medium">Agent:</span> {agent.user.name} (
+                  <span className="font-medium">Channel Partner:</span> {agent.user.name} (
                   <span className="font-mono">{agent.agentCode}</span>)
                 </p>
                 {agent.shopName && (

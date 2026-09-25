@@ -32,9 +32,9 @@ export default async function AdminAnalyticsPage() {
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Net profit" value={formatINR(analytics.netProfit)} />
-        <StatCard label="Total investor returns" value={formatINR(analytics.totalInvestorReturns)} />
+        <StatCard label="Total referral partner returns" value={formatINR(analytics.totalInvestorReturns)} />
         <StatCard
-          label="Total agent payouts (paid)"
+          label="Total channel partner payouts (paid)"
           value={formatINR(analytics.totalAgentPayouts)}
           hint={`₹${analytics.totalTdsCollected.toLocaleString("en-IN")} TDS collected on these`}
         />
@@ -44,7 +44,7 @@ export default async function AdminAnalyticsPage() {
       <h2 className="mt-8 text-lg font-semibold text-slate-900">Company revenue breakdown</h2>
       <div className="mt-3 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
         <div className="flex items-center justify-between px-4 py-3 text-sm">
-          <span className="text-slate-600">Investor deal profit share (40%)</span>
+          <span className="text-slate-600">Referral Partner deal profit share (40%)</span>
           <span className="font-semibold text-slate-900">
             {formatINR(analytics.breakdown.profitDistributionCompanyRevenue)}
           </span>
@@ -56,7 +56,7 @@ export default async function AdminAnalyticsPage() {
           </span>
         </div>
         <div className="flex items-center justify-between px-4 py-3 text-sm">
-          <span className="text-slate-600">Investor registration fee (90%, non-referral)</span>
+          <span className="text-slate-600">Referral Partner registration fee (90%, non-referral)</span>
           <span className="font-semibold text-slate-900">
             {formatINR(analytics.breakdown.investorRegistrationCompanyRevenue)}
           </span>

@@ -17,7 +17,7 @@ String errorMessageFor(ApiException e) {
     case 'duplicate':
       return 'An account with this email already exists.';
     case 'referrerNotFound':
-      return 'Referral agent code not found.';
+      return 'Referral channel partner code not found.';
     case 'notFound':
       return 'Not found.';
     case 'geocode':

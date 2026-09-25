@@ -85,7 +85,7 @@ export function DirectRenewalsTracker({ agents, listings }: DirectRenewalsProps)
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="border-b border-slate-200 text-slate-400 uppercase tracking-wider text-[10px]">
-                    <th className="py-2.5 px-3">Agent Code & Name</th>
+                    <th className="py-2.5 px-3">Channel Partner Code & Name</th>
                     <th className="py-2.5 px-3">Joining Date</th>
                     <th className="py-2.5 px-3">Renewal Due Date</th>
                     <th className="py-2.5 px-3">Status</th>
@@ -156,7 +156,7 @@ export function DirectRenewalsTracker({ agents, listings }: DirectRenewalsProps)
                           {agent.whatsapp && (
                             <a
                               href={`https://wa.me/91${agent.whatsapp.replace(/\D/g, "").slice(-10)}?text=${encodeURIComponent(
-                                `Namaste ${agent.name} ji! Aapka BayaEstate Agent Code (${agent.agentCode}) ka renewal due hai. Kripya apna renewal time par kar lein taaki aapki property feed aur leads active rahein.`
+                                `Namaste ${agent.name} ji! Aapka BayaEstate Channel Partner Code (${agent.agentCode}) ka renewal due hai. Kripya apna renewal time par kar lein taaki aapki property feed aur leads active rahein.`
                               )}`}
                               target="_blank"
                               rel="noopener noreferrer"

@@ -10,7 +10,7 @@ export async function GET() {
   }
 
   const agent = await getAgentByUserId(session.user.id);
-  if (!agent) return NextResponse.json({ error: "Agent not found" }, { status: 404 });
+  if (!agent) return NextResponse.json({ error: "Channel Partner not found" }, { status: 404 });
 
   try {
     const cycle = await getAgentCycleProgress(agent.id);
@@ -31,7 +31,7 @@ export async function POST() {
   }
 
   const agent = await getAgentByUserId(session.user.id);
-  if (!agent) return NextResponse.json({ error: "Agent not found" }, { status: 404 });
+  if (!agent) return NextResponse.json({ error: "Channel Partner not found" }, { status: 404 });
 
   try {
     const coupon = await issuePreExpiryDiscountCoupon(agent.id);

@@ -17,10 +17,10 @@ type SearchParams = Promise<{
 }>;
 
 const SWITCH_ERROR_MESSAGES: Record<string, string> = {
-  reasonRequired: "A reason is required before you can switch agents.",
-  dailyLimitReached: "You've reached the daily limit of 3 agent switches.",
+  reasonRequired: "A reason is required before you can switch channel partners.",
+  dailyLimitReached: "You've reached the daily limit of 3 channel partner switches.",
   cooldown: "Please wait before switching again — there's a cooldown between switches.",
-  noPhone: "Add a phone number to your profile before switching agents.",
+  noPhone: "Add a phone number to your profile before switching channel partners.",
 };
 
 const APPOINTMENT_ERROR_MESSAGES: Record<string, string> = {
@@ -147,7 +147,7 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
 
       {currentDispatch?.acceptedAgent && (
         <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
-          <h2 className="font-semibold text-slate-900">Your current agent</h2>
+          <h2 className="font-semibold text-slate-900">Your current channel partner</h2>
           <p className="mt-1 text-sm text-slate-600">
             {currentDispatch.acceptedAgent.agentCode}
             {currentDispatch.acceptedAgent.shopName && ` — ${currentDispatch.acceptedAgent.shopName}`}
@@ -186,8 +186,8 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
                   <option value="" disabled>
                     Select a reason
                   </option>
-                  <option value="Unresponsive">Agent unresponsive</option>
-                  <option value="No-show">Agent didn&apos;t show up</option>
+                  <option value="Unresponsive">Channel Partner unresponsive</option>
+                  <option value="No-show">Channel Partner didn&apos;t show up</option>
                   <option value="Unprofessional">Unprofessional behavior</option>
                   <option value="Other">Other</option>
                 </select>

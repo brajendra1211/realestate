@@ -57,7 +57,7 @@ class _AgentVerifyScreenState extends State<AgentVerifyScreen> {
       context.go(widget.from ?? RoutePaths.agentDashboard);
     } on ApiException catch (_) {
       setState(() => _errorMessage =
-          "That code isn't right, or this phone/email isn't registered as an agent.");
+          "That code isn't right, or this phone/email isn't registered as a channel partner.");
     } finally {
       if (mounted) setState(() => _submitting = false);
     }

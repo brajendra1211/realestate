@@ -74,7 +74,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
   Future<void> _handleCodeScanned(String rawInput) async {
     final code = _extractAgentCode(rawInput);
     if (code == null || code.isEmpty) {
-      setState(() => _errorMessage = 'Invalid QR code. Please scan a valid Agent QR.');
+      setState(() => _errorMessage = 'Invalid QR code. Please scan a valid Channel Partner QR.');
       return;
     }
 
@@ -152,7 +152,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Unlock Agent & Properties',
+                      'Unlock Channel Partner & Properties',
                       style: GoogleFonts.fraunces(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -193,7 +193,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
                                 ),
                               ),
                               Text(
-                                'Agent Shop & Inventory',
+                                'Channel Partner Shop & Inventory',
                                 style: GoogleFonts.inter(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -294,7 +294,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
     return Scaffold(
       backgroundColor: AppColors.primaryNavy,
       appBar: AppBar(
-        title: const Text('Scan Agent QR Code'),
+        title: const Text('Scan Channel Partner QR Code'),
         backgroundColor: AppColors.primaryNavy,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -306,7 +306,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Point camera at the Agent\'s QR Code',
+                'Point camera at the Channel Partner\'s QR Code',
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   color: Colors.white70,
@@ -400,7 +400,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Or enter Agent Code / URL manually:',
+                  'Or enter Channel Partner Code / URL manually:',
                   style: GoogleFonts.inter(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,

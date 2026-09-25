@@ -15,20 +15,20 @@ export interface AgentPlanDefinition {
 
 export const DEFAULT_AGENT_PLANS = [
   {
-    name: "Agent Basic Plan",
+    name: "Channel Partner Basic Plan",
     tier: "BASIC" as AgentPlanTier,
     price: 1000,
     durationDays: 30,
     listingLimit: 10,
-    description: "Basic monthly agent code membership with standard listing limits",
+    description: "Basic monthly channel partner code membership with standard listing limits",
   },
   {
-    name: "Agent Prime Plan",
+    name: "Channel Partner Prime Plan",
     tier: "PRIME" as AgentPlanTier,
     price: 2000,
     durationDays: 30,
     listingLimit: 50,
-    description: "Prime monthly agent membership with high priority and B2B broadcast access",
+    description: "Prime monthly channel partner membership with high priority and B2B broadcast access",
   },
 ];
 

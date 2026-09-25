@@ -16,7 +16,7 @@ export default async function AdminPayoutsPage({ searchParams }: { searchParams:
 
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
-      <h1 className="text-2xl font-bold text-slate-900">Agent Payouts</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Channel Partner Payouts</h1>
       <p className="mt-1 max-w-2xl text-sm text-slate-500">
         Agent wallet → bank withdrawal requests. TDS ({settings.tdsPercent}%, editable in{" "}
         <a href="/admin/settings" className="text-blue-600 hover:underline">

@@ -26,7 +26,7 @@ export async function Navbar({
     { href: "/developers", label: "Developers" },
     { href: "/dealers", label: "Dealers" },
     { href: "/owners", label: "Owners" },
-    { href: "/shop", label: "Scan Agent QR" },
+    { href: "/shop", label: "Scan Channel Partner QR" },
   ];
   if (
     session?.user.role === "OWNER" ||
@@ -39,11 +39,11 @@ export async function Navbar({
     links.push({ href: "/buyer/dashboard", label: "My Account" });
   }
   if (session?.user.role === "AGENT") {
-    links.push({ href: "/agent/dashboard", label: "Agent Hub" });
+    links.push({ href: "/agent/dashboard", label: "Channel Partner Hub" });
     links.push({ href: "/agent/dashboard#my-qr", label: "My Shop QR" });
   }
   if (session?.user.role === "INVESTOR") {
-    links.push({ href: "/investor/dashboard", label: "Investor Portal" });
+    links.push({ href: "/investor/dashboard", label: "Referral Partner Portal" });
   }
   if (session?.user.role === "ADMIN") {
     links.push({ href: "/admin", label: "Admin" });

@@ -65,7 +65,7 @@ export function startBillingWorker() {
       // PDF 1 Page 7 & 12: 60-Day Review Cycle rollover & tier promotion/demotion
       const { evaluateAndRolloverCycles } = await import("@/lib/targetCycle");
       const cycleRollovers = await evaluateAndRolloverCycles();
-      console.log(`60-Day Target Cycle Check: ${cycleRollovers.length} agent cycles evaluated/rolled over.`);
+      console.log(`60-Day Target Cycle Check: ${cycleRollovers.length} channel partner cycles evaluated/rolled over.`);
     },
     { connection: makeConnection() }
   );

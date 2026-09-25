@@ -7,7 +7,7 @@ const initialState: InvestorVerifyState = {};
 
 const ERROR_MESSAGES: Record<string, string> = {
   required: "Enter the code we sent you.",
-  invalid: "That code is incorrect/expired, or no investor account exists for this phone/email yet.",
+  invalid: "That code is incorrect/expired, or no referral partner account exists for this phone/email yet.",
 };
 
 // Forced hard navigation via window.location instead of relying on the

@@ -79,7 +79,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
               children: [
                 FormSection(
                   title: 'Requirement',
-                  subtitle: 'Broadcast this to verified agents nearby.',
+                  subtitle: 'Broadcast this to verified channel partners nearby.',
                   children: [
                     DropdownButtonFormField<int>(
                       initialValue: _radiusKm,
@@ -142,7 +142,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 AppButton(
-                  label: 'Broadcast to nearby agents',
+                  label: 'Broadcast to nearby channel partners',
                   expand: true,
                   loading: _submitting,
                   onPressed: _submit,

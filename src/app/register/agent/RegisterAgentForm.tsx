@@ -10,7 +10,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   validation: "Please fill in your name, email, and an 8+ character password.",
   shopDetails: "Shop name, shop address, and city are required.",
   duplicate: "An account with this email already exists.",
-  referrerNotFound: "That referring Agent Code wasn't found — check it or leave it blank.",
+  referrerNotFound: "That referring Channel Partner Code wasn't found — check it or leave it blank.",
 };
 
 // Forced hard navigation via window.location instead of relying on the

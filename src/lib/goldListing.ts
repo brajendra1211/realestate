@@ -184,7 +184,7 @@ async function createGoldListingRecord(input: CreateGoldListingInput, razorpayOr
 
     await notifyUser(
       agent.user,
-      `A customer used your Agent Code to self-list a property (Gold Membership). ₹${agentSplit} has been credited to your wallet.`,
+      `A customer used your Channel Partner Code to self-list a property (Gold Membership). ₹${agentSplit} has been credited to your wallet.`,
       "Gold listing referral credited"
     );
   }

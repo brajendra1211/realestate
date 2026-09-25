@@ -130,7 +130,7 @@ export async function confirmInvestorPayment(investorProfileId: string, paymentM
         type: "REGISTRATION_REFERRAL",
         amount: referralShare,
         refId: investorProfileId,
-        note: `${settings.investorReferralPercent}% referral for investor ${investorCode} registration fee`,
+        note: `${settings.investorReferralPercent}% referral for referral partner ${investorCode} registration fee`,
       },
     }),
     prisma.agentProfile.update({
@@ -141,7 +141,7 @@ export async function confirmInvestorPayment(investorProfileId: string, paymentM
 
   await notifyUser(
     investor.referringAgent.user,
-    `You earned ₹${referralShare} for referring investor ${investorCode}. It's now in your wallet.`,
+    `You earned ₹${referralShare} for referring referral partner ${investorCode}. It's now in your wallet.`,
     "Referral commission credited"
   );
 
@@ -240,7 +240,7 @@ export async function distributeInvestorDealProfit(input: DistributeProfitInput)
         type: "DEAL_PROFIT_SHARE",
         amount: split.agentShare,
         refId: investor.id,
-        note: `${settings.profitAgentSharePercent}% investor deal profit share for ${investor.investorCode ?? investor.id}`,
+        note: `${settings.profitAgentSharePercent}% referral partner deal profit share for ${investor.investorCode ?? investor.id}`,
       },
     }),
     prisma.agentProfile.update({
@@ -261,12 +261,12 @@ export async function distributeInvestorDealProfit(input: DistributeProfitInput)
 
   await notifyUser(
     investor.referringAgent.user,
-    `You earned ₹${split.agentShare} (${settings.profitAgentSharePercent}% deal profit share) for investor ${investor.investorCode ?? ""}. It's now in your wallet.`,
+    `You earned ₹${split.agentShare} (${settings.profitAgentSharePercent}% deal profit share) for referral partner ${investor.investorCode ?? ""}. It's now in your wallet.`,
     "Deal profit share credited"
   );
   await notifyUser(
     investor.user,
-    `A profit of ₹${split.investorShare.toLocaleString("en-IN")} has been credited to your investor ledger.`,
+    `A profit of ₹${split.investorShare.toLocaleString("en-IN")} has been credited to your referral partner ledger.`,
     "Profit credited"
   );
 

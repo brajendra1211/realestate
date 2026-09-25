@@ -76,7 +76,7 @@ export function AgentQrHeroCard({
 
           <p className="mt-1 text-xs text-slate-300">
             {shopAddress ? `${shopAddress}, ` : ""}
-            {city || "Ghaziabad / NCR"} · Agent Code:{" "}
+            {city || "Ghaziabad / NCR"} · Channel Partner Code:{" "}
             <span className="font-mono font-bold text-amber-400">{agentCode}</span>
           </p>
 

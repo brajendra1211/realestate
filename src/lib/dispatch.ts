@@ -229,8 +229,8 @@ async function expireDispatch(dispatchRequestId: string) {
   emitToDispatch(dispatchRequestId, "dispatch:expired", {});
   await notifyUser(
     dispatch.buyer,
-    "No nearby agents were available right now. Please try again shortly.",
-    "No agents found"
+    "No nearby channel partners were available right now. Please try again shortly.",
+    "No channel partners found"
   );
 }
 
@@ -311,8 +311,8 @@ export async function acceptDispatch(dispatchRequestId: string, agentProfileId: 
 
   await notifyUser(
     dispatch.buyer,
-    `Agent ${dispatch.acceptedAgent!.agentCode} accepted your request. Check your dispatch status for their contact details.`,
-    "Agent matched"
+    `Channel Partner ${dispatch.acceptedAgent!.agentCode} accepted your request. Check your dispatch status for their contact details.`,
+    "Channel Partner matched"
   );
   await notifyUser(
     dispatch.acceptedAgent!.user,

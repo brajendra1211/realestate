@@ -10,7 +10,7 @@ const _items = [
   NavDockItem(icon: Icons.home_rounded, label: 'Home'),
   NavDockItem(icon: Icons.search_rounded, label: 'Explore'),
   NavDockItem(icon: Icons.bar_chart_rounded, label: 'Ranking'),
-  NavDockItem(icon: Icons.badge_outlined, label: 'Agent'),
+  NavDockItem(icon: Icons.badge_outlined, label: 'Channel Partner'),
 ];
 
 /// Bottom-nav shell for the public/consumer section: Home, Explore

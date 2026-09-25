@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const size = parseInt(searchParams.get("size") || "512", 10);
 
   let targetUrl: string;
-  let filename = "Agent-QR";
+  let filename = "Channel-Partner-QR";
 
   if (code) {
     const origin = process.env.NEXT_PUBLIC_SITE_URL || new URL(request.url).origin;

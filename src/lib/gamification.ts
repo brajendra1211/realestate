@@ -162,7 +162,7 @@ export async function getTodaysDealTicker(): Promise<TickerItem[]> {
   }
   for (const dist of profitDistributions) {
     if (dist.agent.agentCode) {
-      items.push({ agentCode: dist.agent.agentCode, label: "closed an investor deal cycle", at: dist.distributedAt });
+      items.push({ agentCode: dist.agent.agentCode, label: "closed a referral partner deal cycle", at: dist.distributedAt });
     }
   }
   for (const dispatch of dispatches) {

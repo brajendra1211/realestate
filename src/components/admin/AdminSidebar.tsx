@@ -118,7 +118,7 @@ const NAV_ITEMS: PanelNavEntry[] = [
       },
       {
         href: "/admin/agents",
-        label: "Agents",
+        label: "Channel Partners",
         icon: (
           <>
             <circle cx="12" cy="8" r="3.5" strokeWidth={1.75} />
@@ -134,7 +134,7 @@ const NAV_ITEMS: PanelNavEntry[] = [
       },
       {
         href: "/admin/investors",
-        label: "Investors",
+        label: "Referral Partners",
         icon: (
           <path
             strokeLinecap="round"
@@ -161,7 +161,7 @@ const NAV_ITEMS: PanelNavEntry[] = [
       },
       {
         href: "/admin/payouts",
-        label: "Agent Payouts",
+        label: "Channel Partner Payouts",
         icon: (
           <>
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 7h18v12H3V7zm0 0l2-4h14l2 4" />

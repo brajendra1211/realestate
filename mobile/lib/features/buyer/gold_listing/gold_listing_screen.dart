@@ -88,7 +88,7 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
       setState(() => _referralStatus = 'Found: ${agent.name}${agent.shopName != null ? ' · ${agent.shopName}' : ''}');
     } on ApiException {
       if (!mounted) return;
-      setState(() => _referralStatus = 'No agent found with that code.');
+      setState(() => _referralStatus = 'No channel partner found with that code.');
     }
   }
 
@@ -323,8 +323,8 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
               TextFormField(
                 controller: _referralController,
                 decoration: InputDecoration(
-                  labelText: 'Referring agent code (optional)',
-                  helperText: _referralStatus ?? "Half the ₹500 fee goes to this agent's wallet.",
+                  labelText: 'Referring channel partner code (optional)',
+                  helperText: _referralStatus ?? "Half the ₹500 fee goes to this channel partner's wallet.",
                   suffixIcon: TextButton(
                     onPressed: _verifyReferral,
                     child: const Text('Verify'),

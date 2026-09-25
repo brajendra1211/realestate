@@ -49,7 +49,7 @@ class _AgentBroadcastListScreenState extends State<AgentBroadcastListScreen>
       await _service.respond(broadcast.id);
       if (!mounted) return;
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Response sent to the requesting agent')));
+          .showSnackBar(const SnackBar(content: Text('Response sent to the requesting channel partner')));
       setState(() => _nearbyFuture = _service.getNearby());
     } on ApiException catch (e) {
       if (!mounted) return;
@@ -184,7 +184,7 @@ class _AgentBroadcastListScreenState extends State<AgentBroadcastListScreen>
           // missing session) — the nearby-broadcast feed is Prime-gated.
           final message = snapshot.error is ApiException &&
                   (snapshot.error as ApiException).code == 'Unauthorized'
-              ? 'Nearby broadcasts require an approved Prime agent account.'
+              ? 'Nearby broadcasts require an approved Prime channel partner account.'
               : snapshot.error is ApiException
                   ? errorMessageFor(snapshot.error as ApiException)
                   : 'Something went wrong.';

@@ -96,8 +96,8 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
         builder: (context) => AlertDialog(
           title: const Text('Application submitted'),
           content: Text(
-            'Your agent account is ${result.status.toLowerCase()}. '
-            'You can log in now — full agent features unlock once an admin approves your application.',
+            'Your channel partner account is ${result.status.toLowerCase()}. '
+            'You can log in now — full channel partner features unlock once an admin approves your application.',
           ),
           actions: [
             TextButton(
@@ -121,7 +121,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Become an Agent')),
+      appBar: AppBar(title: const Text('Become a Channel Partner')),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -129,7 +129,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
               const AuthHeader(
-                title: 'Join as an agent',
+                title: 'Join as a channel partner',
                 subtitle:
                     'Tell us about you and your shop — we review every application.',
               ),
@@ -243,7 +243,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                   TextFormField(
                     controller: _referredByAgentCode,
                     decoration:
-                        const InputDecoration(labelText: 'Referral agent code (optional)'),
+                        const InputDecoration(labelText: 'Referral channel partner code (optional)'),
                   ),
                 ],
               ),
@@ -258,7 +258,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
               Center(
                 child: TextButton(
                   onPressed: () => context.go(RoutePaths.agentLogin),
-                  child: const Text('Already an agent? Log in'),
+                  child: const Text('Already a channel partner? Log in'),
                 ),
               ),
             ],

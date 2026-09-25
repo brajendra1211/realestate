@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     if (error instanceof InvestorServiceError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    console.error("Investor registration failed", error);
+    console.error("Referral Partner registration failed", error);
     return NextResponse.json({ error: "Registration failed" }, { status: 500 });
   }
 }

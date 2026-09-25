@@ -7,7 +7,7 @@ export default async function InvestorLoginPage({ searchParams }: { searchParams
 
   return (
     <div className="mx-auto max-w-sm px-4 py-16 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900">Investor login</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Referral Partner login</h1>
       <p className="mt-1 text-sm text-slate-500">
         Use the phone number or email your referring agent registered you with — we&apos;ll
         send a one-time code on WhatsApp (or email).

@@ -12,7 +12,7 @@ export async function GET(
   const agent = await getAgentByCode(agentCode);
 
   if (!agent || !agent.agentCode) {
-    return NextResponse.json({ error: "Agent not found" }, { status: 404 });
+    return NextResponse.json({ error: "Channel Partner not found" }, { status: 404 });
   }
 
   const session = await auth();

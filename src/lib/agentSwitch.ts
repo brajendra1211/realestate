@@ -265,8 +265,8 @@ export async function switchUnlockedListingAgent(input: {
   // Notify customer
   await notifyUser(
     unlock.buyer,
-    `Your request to switch agent was approved. New Agent: ${replacementAgent.shopName || "Prime Agent"} (Code: ${replacementAgent.agentCode}). Contact: ${replacementAgent.user.phone || "Available in app"}.`,
-    "Agent Switched Successfully"
+    `Your request to switch channel partner was approved. New Channel Partner: ${replacementAgent.shopName || "Prime Channel Partner"} (Code: ${replacementAgent.agentCode}). Contact: ${replacementAgent.user.phone || "Available in app"}.`,
+    "Channel Partner Switched Successfully"
   );
 
   return {

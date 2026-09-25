@@ -52,7 +52,7 @@ export default async function AdminGoldListingsPage({ searchParams }: { searchPa
                   </p>
                   <p className="mt-1 text-xs text-slate-400">
                     Purchase: {listing.goldPurchase ? formatINR(listing.goldPurchase.amount) : "—"}
-                    {listing.goldPurchase?.agentSplit ? ` (₹${listing.goldPurchase.agentSplit} referral credited)` : " (no referring agent)"}
+                    {listing.goldPurchase?.agentSplit ? ` (₹${listing.goldPurchase.agentSplit} referral credited)` : " (no referring channel partner)"}
                   </p>
                   <p className="mt-1 text-xs font-medium text-slate-700">
                     <span className="text-slate-400">Exact Address:</span> {listing.exactAddress}

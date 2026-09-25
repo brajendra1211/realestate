@@ -28,7 +28,7 @@ export async function POST(
     if (error instanceof AgentShopUnlockError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    console.error("Agent shop order creation error:", error);
+    console.error("Channel Partner shop order creation error:", error);
     return NextResponse.json({ error: "Failed to create order" }, { status: 500 });
   }
 }

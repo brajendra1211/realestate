@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     if (error instanceof AgentServiceError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    console.error("Agent registration failed", error);
+    console.error("Channel Partner registration failed", error);
     return NextResponse.json({ error: "Registration failed" }, { status: 500 });
   }
 }

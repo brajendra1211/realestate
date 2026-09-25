@@ -66,7 +66,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            profile.agentCode ?? 'Pending Agent Code',
+                            profile.agentCode ?? 'Pending Channel Partner Code',
                             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                                   color: Colors.white,
                                 ),
@@ -122,7 +122,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                   _InfoRow(
                       label: 'Prime status', value: profile.primeStatus ? 'Active' : 'Not active'),
                   _InfoRow(label: 'Documents on file', value: '${profile.documents.length}'),
-                  _InfoRow(label: 'Investors referred', value: '${profile.investors.length}'),
+                  _InfoRow(label: 'Referral Partners referred', value: '${profile.investors.length}'),
                 ],
               ),
             ],

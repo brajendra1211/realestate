@@ -145,8 +145,8 @@ export async function approveAgent(agentProfileId: string) {
   });
   await notifyUser(
     agent.user,
-    "Your BayaEstate agent profile is verified. Admin will activate your Prime plan next to issue your Agent Code.",
-    "Agent profile verified"
+    "Your BayaEstate channel partner profile is verified. Admin will activate your Prime plan next to issue your Channel Partner Code.",
+    "Channel Partner profile verified"
   );
   return agent;
 }
@@ -229,7 +229,7 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
           type: "AGENT_REFERRAL",
           amount: referralAmount,
           refId: agentProfileId,
-          note: `${splitPercent}% referral for agent ${agentCode}'s first ${planTier} registration payment`,
+          note: `${splitPercent}% referral for channel partner ${agentCode}'s first ${planTier} registration payment`,
         },
       }),
       prisma.agentProfile.update({
@@ -249,15 +249,15 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
 
   await notifyUser(
     agent.user,
-    `Your Prime plan is active. Your Agent Code is ${agentCode}.`,
-    "Prime activated — Agent Code assigned"
+    `Your Prime plan is active. Your Channel Partner Code is ${agentCode}.`,
+    "Prime activated — Channel Partner Code assigned"
   );
 
   if (referralAmount > 0 && agent.referringAgent) {
     await notifyUser(
       agent.referringAgent.user,
-      `You earned ₹${referralAmount} for referring agent ${agentCode}, who just activated Prime. It's now in your wallet.`,
-      "Agent referral commission credited"
+      `You earned ₹${referralAmount} for referring channel partner ${agentCode}, who just activated Prime. It's now in your wallet.`,
+      "Channel Partner referral commission credited"
     );
   }
 

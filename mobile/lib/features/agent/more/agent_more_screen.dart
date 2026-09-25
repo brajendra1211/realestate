@@ -52,7 +52,7 @@ class AgentMoreScreen extends StatelessWidget {
           ),
           _MoreTile(
             icon: Icons.groups_outlined,
-            label: 'Investors',
+            label: 'Referral Partners',
             onTap: () => context.push(RoutePaths.agentInvestors),
           ),
           _MoreTile(

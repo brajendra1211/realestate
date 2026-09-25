@@ -102,7 +102,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [
               if (data.agentsOfWeek.isNotEmpty) ...[
-                Text('Agents of the Week', style: Theme.of(context).textTheme.headlineMedium),
+                Text('Channel Partners of the Week', style: Theme.of(context).textTheme.headlineMedium),
                 const SizedBox(height: AppSpacing.sm),
                 for (var i = 0; i < data.agentsOfWeek.length; i++)
                   Padding(

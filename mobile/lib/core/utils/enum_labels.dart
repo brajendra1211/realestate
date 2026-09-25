@@ -21,7 +21,7 @@ class EnumLabels {
   static String badge(String value) => switch (value) {
         'TOP_SELLER' => 'Top Seller',
         'FASTEST_RESPONDER' => 'Fastest Responder',
-        '5-STAR' => '5-Star Agent',
+        '5-STAR' => '5-Star Channel Partner',
         _ => value,
       };
 }

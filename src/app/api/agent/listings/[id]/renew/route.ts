@@ -21,7 +21,7 @@ export async function POST(
 
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) {
-    return NextResponse.json({ error: "Agent not found" }, { status: 404 });
+    return NextResponse.json({ error: "Channel Partner not found" }, { status: 404 });
   }
 
   const { id } = await context.params;

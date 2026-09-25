@@ -10,7 +10,7 @@ export async function GET() {
 
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) {
-    return NextResponse.json({ error: "Agent profile not found" }, { status: 404 });
+    return NextResponse.json({ error: "Channel Partner profile not found" }, { status: 404 });
   }
 
   const summary = await getAgentCommissionSummary(agent.id);

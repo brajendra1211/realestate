@@ -85,7 +85,7 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
       if (!mounted) return;
       setState(_reload);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Reported — new agents are being notified.')),
+        const SnackBar(content: Text('Reported — new channel partners are being notified.')),
       );
     } on ApiException catch (e) {
       if (!mounted) return;
@@ -156,7 +156,7 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
                 _ProfileCard(user: me.user, onSave: _saveProfile),
                 if (me.currentAgent != null) ...[
                   const SizedBox(height: AppSpacing.xl),
-                  _SectionLabel('Your current agent'),
+                  _SectionLabel('Your current channel partner'),
                   const SizedBox(height: AppSpacing.sm),
                   _CurrentAgentCard(
                     agent: me.currentAgent!,
@@ -311,7 +311,7 @@ class _DispatchCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Find an agent now',
+                    'Find a channel partner now',
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -319,7 +319,7 @@ class _DispatchCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Get matched with the nearest available agent instantly.',
+                    'Get matched with the nearest available channel partner instantly.',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -530,7 +530,7 @@ class _CurrentAgentCard extends StatelessWidget {
             )
           else
             AppButton(
-              label: 'Switch agent',
+              label: 'Switch channel partner',
               variant: AppButtonVariant.secondary,
               onPressed: onSwitch,
             ),
@@ -570,7 +570,7 @@ class _SwitchAgentSheetState extends State<_SwitchAgentSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Switch agent', style: Theme.of(context).textTheme.headlineMedium),
+            Text('Switch channel partner', style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: AppSpacing.md),
             DropdownButtonFormField<String>(
               initialValue: _reason,
@@ -645,7 +645,7 @@ class _AppointmentCard extends StatelessWidget {
           if (appointment.status == 'SCHEDULED' && appointment.isDue)
             TextButton(
               onPressed: onNoShow,
-              child: const Text('Agent didn\'t show'),
+              child: const Text('Channel Partner didn\'t show'),
             ),
         ],
       ),

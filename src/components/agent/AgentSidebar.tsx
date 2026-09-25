@@ -28,7 +28,7 @@ const NAV_ITEMS: PanelNavItem[] = [
   },
   {
     href: "/agent/investors",
-    label: "Investors",
+    label: "Referral Partners",
     icon: (
       <>
         <circle cx="9" cy="8" r="3" strokeWidth={1.75} />
@@ -43,7 +43,7 @@ const NAV_ITEMS: PanelNavItem[] = [
   },
   {
     href: "/agent/investors/new",
-    label: "Register Investor",
+    label: "Register Referral Partner",
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 5v14M5 12h14" />
     ),
@@ -116,10 +116,10 @@ export function AgentSidebar({ agentName, logoutButton }: { agentName: string; l
     <PanelSidebar
       homeHref="/agent/dashboard"
       brandLabel="BayaEstate"
-      subLabel="Agent Portal"
+      subLabel="Channel Partner Portal"
       navItems={NAV_ITEMS}
       personName={agentName}
-      personRole="Agent"
+      personRole="Channel Partner"
       logoutButton={logoutButton}
     />
   );

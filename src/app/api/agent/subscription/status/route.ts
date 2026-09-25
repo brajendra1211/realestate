@@ -14,7 +14,7 @@ export async function GET() {
     select: { id: true },
   });
   if (!agent) {
-    return NextResponse.json({ error: "Agent profile not found" }, { status: 404 });
+    return NextResponse.json({ error: "Channel Partner profile not found" }, { status: 404 });
   }
 
   try {

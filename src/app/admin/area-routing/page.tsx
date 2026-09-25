@@ -7,9 +7,9 @@ import { createAreaAssignmentAction, deleteAreaAssignmentAction } from "./action
 type SearchParams = Promise<{ error?: string }>;
 
 const ERROR_MESSAGES: Record<string, string> = {
-  validation: "Enter a pincode and pick an agent.",
-  agentNotFound: "That agent could not be found.",
-  duplicate: "This agent is already assigned to that pincode.",
+  validation: "Enter a pincode and pick a channel partner.",
+  agentNotFound: "That channel partner could not be found.",
+  duplicate: "This channel partner is already assigned to that pincode.",
 };
 
 export default async function AreaRoutingPage({ searchParams }: { searchParams: SearchParams }) {
@@ -51,7 +51,7 @@ export default async function AreaRoutingPage({ searchParams }: { searchParams: 
       )}
 
       <div className="mt-6 max-w-lg rounded-2xl border border-slate-200 bg-white p-5">
-        <h2 className="font-semibold text-slate-900">Assign an agent to a pincode</h2>
+        <h2 className="font-semibold text-slate-900">Assign a channel partner to a pincode</h2>
         <form action={createAreaAssignmentAction} className="mt-3 space-y-3">
           <div>
             <label className="text-sm font-medium text-slate-700">Pincode</label>
@@ -64,7 +64,7 @@ export default async function AreaRoutingPage({ searchParams }: { searchParams: 
             />
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700">Agent</label>
+            <label className="text-sm font-medium text-slate-700">Channel Partner</label>
             <select
               name="agentId"
               required

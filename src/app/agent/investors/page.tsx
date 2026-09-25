@@ -15,7 +15,7 @@ export default async function AgentInvestorsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-900">Investors</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Referral Partners</h1>
         <a
           href="/agent/investors/new"
           className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
@@ -25,14 +25,14 @@ export default async function AgentInvestorsPage() {
       </div>
 
       {investors.length === 0 ? (
-        <p className="mt-6 text-sm text-slate-500">You haven&apos;t registered any investors yet.</p>
+        <p className="mt-6 text-sm text-slate-500">You haven&apos;t registered any referral partners yet.</p>
       ) : (
         <div className="mt-6 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
           {investors.map((investor) => (
             <div key={investor.id} className="flex items-center justify-between px-4 py-3 text-sm">
               <div>
                 <p className="font-semibold text-slate-900">
-                  {investor.user?.name ?? "Investor"}{" "}
+                  {investor.user?.name ?? "Referral Partner"}{" "}
                   <span className="font-mono text-xs font-normal text-slate-500">
                     ({investor.investorCode ?? "Pending code"})
                   </span>

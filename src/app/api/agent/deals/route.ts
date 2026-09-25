@@ -11,7 +11,7 @@ export async function GET() {
   }
 
   const agent = await getAgentByUserId(session.user.id);
-  if (!agent) return NextResponse.json({ error: "Agent not found" }, { status: 404 });
+  if (!agent) return NextResponse.json({ error: "Channel Partner not found" }, { status: 404 });
 
   try {
     const deals = await getDealsForAgent(agent.id);
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   }
 
   const agent = await getAgentByUserId(session.user.id);
-  if (!agent) return NextResponse.json({ error: "Agent not found" }, { status: 404 });
+  if (!agent) return NextResponse.json({ error: "Channel Partner not found" }, { status: 404 });
 
   const body = await request.json().catch(() => ({}));
   const dealValue = Number(body.dealValue);

@@ -9,10 +9,10 @@ type SearchParams = Promise<{ saved?: string; error?: string }>;
 
 const ERROR_MESSAGES: Record<string, string> = {
   validation: "Enter a valid amount.",
-  noAgents: "Pick at least one agent for the deal.",
-  buyerAgentNotFound: "Buyer agent not found.",
-  sellerAgentNotFound: "Seller agent not found.",
-  notFound: "Investor not found.",
+  noAgents: "Pick at least one channel partner for the deal.",
+  buyerAgentNotFound: "Buyer channel partner not found.",
+  sellerAgentNotFound: "Seller channel partner not found.",
+  notFound: "Referral Partner not found.",
 };
 
 const inputClass =
@@ -86,7 +86,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
               <input type="number" name="dealValue" min={1} required className={inputClass} />
             </div>
             <div>
-              <label className="text-sm font-medium text-slate-700">Buyer&apos;s agent</label>
+              <label className="text-sm font-medium text-slate-700">Buyer&apos;s channel partner</label>
               <select name="buyerAgentId" defaultValue="" className={selectClass}>
                 <option value="">— none —</option>
                 {agents.map((agent) => (
@@ -97,7 +97,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium text-slate-700">Seller&apos;s agent</label>
+              <label className="text-sm font-medium text-slate-700">Seller&apos;s channel partner</label>
               <select name="sellerAgentId" defaultValue="" className={selectClass}>
                 <option value="">— none —</option>
                 {agents.map((agent) => (
@@ -131,14 +131,14 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
-          <h2 className="font-semibold text-slate-900">Distribute investor deal profit</h2>
+          <h2 className="font-semibold text-slate-900">Distribute referral partner deal profit</h2>
           <p className="mt-1 text-xs text-slate-500">
             10% to referring agent, 10% company expense, 40% investor, 40% company — computed
             from total profit and split into 4 ledger lines in one action (§3.13).
           </p>
           <form action={distributeProfitAction} className="mt-4 space-y-4">
             <div>
-              <label className="text-sm font-medium text-slate-700">Investor</label>
+              <label className="text-sm font-medium text-slate-700">Referral Partner</label>
               <select name="investorProfileId" required defaultValue="" className={selectClass}>
                 <option value="" disabled>
                   Select investor
@@ -159,7 +159,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
               <input
                 type="text"
                 name="customerTransactionRef"
-                placeholder="e.g. deal/receipt ID for the investor's ledger"
+                placeholder="e.g. deal/receipt ID for the referral partner's ledger"
                 className={inputClass}
               />
             </div>
@@ -194,8 +194,8 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
             <tr>
               <th className="px-4 py-2">Date</th>
               <th className="px-4 py-2">Deal value</th>
-              <th className="px-4 py-2">Buyer agent</th>
-              <th className="px-4 py-2">Seller agent</th>
+              <th className="px-4 py-2">Buyer channel partner</th>
+              <th className="px-4 py-2">Seller channel partner</th>
               <th className="px-4 py-2">Mode</th>
             </tr>
           </thead>
@@ -229,17 +229,17 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
         </table>
       </div>
 
-      <h2 className="mt-10 text-lg font-semibold text-slate-900">Investor profit distribution history</h2>
+      <h2 className="mt-10 text-lg font-semibold text-slate-900">Referral Partner profit distribution history</h2>
       <div className="mt-3 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-4 py-2">Date</th>
-              <th className="px-4 py-2">Investor</th>
+              <th className="px-4 py-2">Referral Partner</th>
               <th className="px-4 py-2">Total profit</th>
-              <th className="px-4 py-2">Agent (10%)</th>
+              <th className="px-4 py-2">Channel Partner (10%)</th>
               <th className="px-4 py-2">Expense (10%)</th>
-              <th className="px-4 py-2">Investor (40%)</th>
+              <th className="px-4 py-2">Referral Partner (40%)</th>
               <th className="px-4 py-2">Company (40%)</th>
             </tr>
           </thead>
@@ -257,7 +257,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                     {dist.distributedAt.toLocaleDateString("en-IN")}
                   </td>
                   <td className="px-4 py-2 font-medium text-slate-900">
-                    {dist.investorProfile.investorCode ?? dist.investorProfile.user?.name ?? "Investor"}
+                    {dist.investorProfile.investorCode ?? dist.investorProfile.user?.name ?? "Referral Partner"}
                   </td>
                   <td className="px-4 py-2">{formatINR(dist.totalProfit)}</td>
                   <td className="px-4 py-2">{formatINR(dist.agentShare)}</td>

@@ -47,7 +47,7 @@ class _AgentShopScreenState extends State<AgentShopScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: Text(
-          'Agent Shop (${widget.agentCode})',
+          'Channel Partner Shop (${widget.agentCode})',
           style: GoogleFonts.inter(fontWeight: FontWeight.w700),
         ),
         actions: [
@@ -135,7 +135,7 @@ class _AgentShopScreenState extends State<AgentShopScreen> {
                                   ),
                                 ),
                                 Text(
-                                  'Complete ₹50 payment to view agent phone & direct addresses.',
+                                  'Complete ₹50 payment to view channel partner phone & direct addresses.',
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
                                     color: Colors.amber.shade800,

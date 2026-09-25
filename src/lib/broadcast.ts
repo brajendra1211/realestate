@@ -113,7 +113,7 @@ export async function respondToBroadcast(broadcastId: string, agentProfileId: st
 
   await notifyUser(
     broadcast.agent.user,
-    `An agent responded "I Have This Property" to your ${broadcast.flatSize} ${broadcast.txnType.toLowerCase()} requirement. Open the chat to negotiate.`,
+    `A channel partner responded "I Have This Property" to your ${broadcast.flatSize} ${broadcast.txnType.toLowerCase()} requirement. Open the chat to negotiate.`,
     "Broadcast response — chat opened"
   );
 

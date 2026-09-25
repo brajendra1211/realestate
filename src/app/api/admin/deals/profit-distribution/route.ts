@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     if (error instanceof InvestorServiceError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    console.error("Distributing investor profit failed", error);
+    console.error("Distributing referral partner profit failed", error);
     return NextResponse.json({ error: "Failed to distribute profit" }, { status: 500 });
   }
 }

@@ -77,7 +77,7 @@ Scan QR or click below to view all my available verified properties:
           if (snapshot.hasError) {
             final message = snapshot.error is ApiException
                 ? errorMessageFor(snapshot.error as ApiException)
-                : 'Failed to load agent profile.';
+                : 'Failed to load channel partner profile.';
             return Center(
               child: ErrorView(
                 message: message,
@@ -99,7 +99,7 @@ Scan QR or click below to view all my available verified properties:
                     const Icon(Icons.qr_code_2_rounded, size: 64, color: AppColors.goldLight),
                     const SizedBox(height: 16),
                     Text(
-                      'Agent Code Pending',
+                      'Channel Partner Code Pending',
                       style: GoogleFonts.fraunces(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ Scan QR or click below to view all my available verified properties:
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Your profile is currently awaiting admin verification or Prime activation. Your unique Shop QR Code will appear here as soon as your Agent Code is assigned.',
+                      'Your profile is currently awaiting admin verification or Prime activation. Your unique Shop QR Code will appear here as soon as your Channel Partner Code is assigned.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white70, height: 1.5),
                     ),
@@ -171,7 +171,7 @@ Scan QR or click below to view all my available verified properties:
 
                       // Shop Name & Details
                       Text(
-                        profile.shopName ?? 'Agent Property Shop',
+                        profile.shopName ?? 'Channel Partner Property Shop',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.fraunces(
                           fontSize: 22,
@@ -258,7 +258,7 @@ Scan QR or click below to view all my available verified properties:
                             ),
                             const SizedBox(width: 8),
                             InkWell(
-                              onTap: () => _copyToClipboard(agentCode, 'Agent code'),
+                              onTap: () => _copyToClipboard(agentCode, 'Channel Partner code'),
                               child: const Icon(Icons.copy, size: 14, color: Color(0xFF2563EB)),
                             ),
                           ],

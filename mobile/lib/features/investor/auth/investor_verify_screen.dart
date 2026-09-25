@@ -57,7 +57,7 @@ class _InvestorVerifyScreenState extends State<InvestorVerifyScreen> {
       context.go(RoutePaths.investorDashboard);
     } on ApiException catch (_) {
       setState(() => _errorMessage =
-          'That code isn\'t right, or this phone/email isn\'t registered as an investor yet — check with your referring agent.');
+          'That code isn\'t right, or this phone/email isn\'t registered as a referral partner yet — check with your referring channel partner.');
     } finally {
       if (mounted) setState(() => _submitting = false);
     }

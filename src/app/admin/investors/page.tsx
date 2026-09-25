@@ -27,7 +27,7 @@ export default async function AdminInvestorsPage({ searchParams }: { searchParam
 
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
-      <h1 className="text-2xl font-bold text-slate-900">Investors</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Referral Partners</h1>
       <p className="mt-1 max-w-2xl text-sm text-slate-500">
         Confirm the ₹20,000/year registration fee to issue an Investor Code and credit the
         referring agent&apos;s wallet with the 10% referral commission.

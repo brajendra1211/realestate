@@ -68,9 +68,9 @@ class _InvestorLoginScreenState extends State<InvestorLoginScreen> {
               children: [
                 const SizedBox(height: AppSpacing.sm),
                 const AuthHeader(
-                  title: 'Investor login',
+                  title: 'Referral Partner login',
                   subtitle:
-                      'No password needed — sign in with the phone or email your agent registered.',
+                      'No password needed — sign in with the phone or email your channel partner registered.',
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 if (_errorMessage != null) ...[

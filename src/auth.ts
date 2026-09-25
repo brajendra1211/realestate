@@ -94,7 +94,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
     Credentials({
       id: "investor-otp",
-      name: "Investor OTP",
+      name: "Referral Partner OTP",
       credentials: {
         identifier: { label: "Phone or email", type: "text" },
         otp: { label: "OTP", type: "text" },
@@ -129,7 +129,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
     Credentials({
       id: "agent-otp",
-      name: "Agent OTP",
+      name: "Channel Partner OTP",
       credentials: {
         identifier: { label: "Phone or email", type: "text" },
         otp: { label: "OTP", type: "text" },

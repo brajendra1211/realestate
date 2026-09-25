@@ -195,7 +195,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
               child: Center(
                 child: Text(
                   profile.status != 'APPROVED'
-                      ? 'Your agent application is still pending admin approval. '
+                      ? 'Your channel partner application is still pending admin approval. '
                           'You\'ll be able to create listings once approved.'
                       : 'Activate Prime membership to start creating listings.',
                   textAlign: TextAlign.center,

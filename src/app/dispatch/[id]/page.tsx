@@ -14,7 +14,7 @@ export default async function DispatchStatusPage({ params }: { params: Promise<{
 
   return (
     <div className="mx-auto max-w-lg px-4 py-16 sm:px-6">
-      <h1 className="text-center text-2xl font-bold text-slate-900">Finding you an agent</h1>
+      <h1 className="text-center text-2xl font-bold text-slate-900">Finding you a channel partner</h1>
       <div className="mt-8">
         <DispatchRadar
           dispatchRequestId={dispatch.id}

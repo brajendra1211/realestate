@@ -53,7 +53,7 @@ export function startDigestWorker() {
     async () => {
       const { sendDailyDigests } = await import("@/lib/digest");
       const sent = await sendDailyDigests();
-      console.log(`Daily digest sent to ${sent} agent(s).`);
+      console.log(`Daily digest sent to ${sent} channel partner(s).`);
     },
     { connection: makeConnection() }
   );

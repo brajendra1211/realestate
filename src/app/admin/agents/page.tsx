@@ -32,7 +32,7 @@ export default async function AdminAgentsPage({ searchParams }: { searchParams: 
 
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
-      <h1 className="text-2xl font-bold text-slate-900">Agents</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Channel Partners</h1>
       <p className="mt-1 max-w-2xl text-sm text-slate-500">
         Verify submitted profiles, then activate a Prime plan to issue the Agent Code.
       </p>

@@ -61,7 +61,7 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Investor')),
+      appBar: AppBar(title: const Text('Add Referral Partner')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -70,13 +70,13 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
             child: ListView(
               children: [
                 FormSection(
-                  title: 'Investor details',
+                  title: 'Referral Partner details',
                   subtitle: 'They\'ll be notified when a matching listing comes up.',
                   children: [
                     TextFormField(
                       controller: _name,
                       decoration: const InputDecoration(
-                        labelText: 'Investor name',
+                        labelText: 'Referral Partner name',
                         prefixIcon: Icon(Icons.person_outline),
                       ),
                       validator: (v) => Validators.required(v, label: 'Name'),
@@ -103,7 +103,7 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 AppButton(
-                  label: 'Add investor',
+                  label: 'Add referral partner',
                   expand: true,
                   loading: _submitting,
                   onPressed: _submit,

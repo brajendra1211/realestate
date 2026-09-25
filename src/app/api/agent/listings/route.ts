@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     if (error instanceof ListingServiceError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    console.error("Agent listing creation failed", error);
+    console.error("Channel Partner listing creation failed", error);
     return NextResponse.json({ error: "Creation failed" }, { status: 500 });
   }
 }

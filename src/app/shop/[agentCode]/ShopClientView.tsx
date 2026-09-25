@@ -100,7 +100,7 @@ export function ShopClientView({
     `Hello ${name}, I scanned your QR code on BayaEstate and paid ₹50 to unlock your properties.`
   )}`;
 
-  const maskedPhone = phone ? `${phone.slice(0, 3)}****${phone.slice(-3)}` : "Contact Agent";
+  const maskedPhone = phone ? `${phone.slice(0, 3)}****${phone.slice(-3)}` : "Contact Channel Partner";
 
   const filteredListings = listings.filter((item) => {
     if (filterType !== "ALL" && item.listingType !== filterType) {
@@ -177,7 +177,7 @@ export function ShopClientView({
         });
         if (!verifyRes.ok) throw new Error("Verification failed");
         setIsUnlocked(true);
-        setPaymentMessage("✅ Payment of ₹50 verified! Agent details & properties are now unlocked.");
+        setPaymentMessage("✅ Payment of ₹50 verified! Channel Partner details & properties are now unlocked.");
         setIsPaying(false);
         return;
       }
@@ -191,7 +191,7 @@ export function ShopClientView({
         amount: orderData.order.amount,
         currency: orderData.order.currency,
         name: shopName || name,
-        description: `₹50 — Unlock Verified Properties & Direct Agent Access`,
+        description: `₹50 — Unlock Verified Properties & Direct Channel Partner Access`,
         order_id: orderData.order.id,
         prefill: {
           name: "Customer",
@@ -218,7 +218,7 @@ export function ShopClientView({
             if (!verifyRes.ok) throw new Error("Payment signature verification failed");
 
             setIsUnlocked(true);
-            setPaymentMessage("✅ Payment of ₹50 successful! Properties and agent contact unlocked.");
+            setPaymentMessage("✅ Payment of ₹50 successful! Properties and channel partner contact unlocked.");
           } catch (err: unknown) {
             setPaymentMessage(err instanceof Error ? err.message : "Payment verification failed");
           } finally {
@@ -538,7 +538,7 @@ export function ShopClientView({
             <h3 className="mt-3 text-sm font-bold text-slate-800">No properties found</h3>
             <p className="mt-1 text-xs text-slate-500">
               {listings.length === 0
-                ? "This agent hasn't published active listings yet. Contact them directly to enquire about off-market deals."
+                ? "This channel partner hasn't published active listings yet. Contact them directly to enquire about off-market deals."
                 : "No listings match your selected filter."}
             </p>
           </div>

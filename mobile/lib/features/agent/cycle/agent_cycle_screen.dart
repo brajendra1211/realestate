@@ -112,12 +112,12 @@ class _AgentCycleScreenState extends State<AgentCycleScreen> {
                   target: progress.targets.customerProperties,
                 ),
                 _TargetRow(
-                  label: 'Investors',
+                  label: 'Referral Partners',
                   achieved: progress.achieved.investors,
                   target: progress.targets.investors,
                 ),
                 _TargetRow(
-                  label: 'Direct agents',
+                  label: 'Direct channel partners',
                   achieved: progress.achieved.directAgents,
                   target: progress.targets.directAgents,
                 ),

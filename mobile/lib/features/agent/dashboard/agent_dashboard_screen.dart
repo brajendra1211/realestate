@@ -85,7 +85,7 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
                         children: [
                           Expanded(
                             child: Text(
-                              profile.shopName ?? agentAuth.name ?? 'Agent',
+                              profile.shopName ?? agentAuth.name ?? 'Channel Partner',
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                           ),
@@ -97,7 +97,7 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        profile.agentCode ?? 'Agent code pending approval',
+                        profile.agentCode ?? 'Channel Partner code pending approval',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(height: AppSpacing.md),
@@ -206,7 +206,7 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
                     child: Text(
                       profile.status != 'APPROVED'
                           ? 'Your application is pending admin approval. Some features unlock after approval.'
-                          : 'Activate Prime to create listings and add investors.',
+                          : 'Activate Prime to create listings and add referral partners.',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
@@ -234,7 +234,7 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
                     ),
                     _QuickLink(
                       icon: Icons.groups_outlined,
-                      label: 'Investors',
+                      label: 'Referral Partners',
                       onTap: () => context.push(RoutePaths.agentInvestors),
                     ),
                     _QuickLink(

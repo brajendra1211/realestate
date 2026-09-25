@@ -57,7 +57,7 @@ export function DispatchTrigger() {
             currency: result.order.currency,
             order_id: result.order.id,
             name: "BayaEstate",
-            description: "Find a nearby agent",
+            description: "Find a nearby channel partner",
             handler: async (response: {
               razorpay_order_id: string;
               razorpay_payment_id: string;
@@ -81,7 +81,7 @@ export function DispatchTrigger() {
         }
       },
       () => {
-        setError("Location access denied — we need it to find agents near you.");
+        setError("Location access denied — we need it to find channel partners near you.");
         setStatus("idle");
       }
     );
@@ -99,7 +99,7 @@ export function DispatchTrigger() {
           ? "Finding your location…"
           : status === "paying"
             ? "Opening payment…"
-            : "Pay ₹100 & find a nearby agent"}
+            : "Pay ₹100 & find a nearby channel partner"}
       </button>
       {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
     </div>

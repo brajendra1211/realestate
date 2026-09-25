@@ -50,7 +50,7 @@ export function AgentAssetCards({
   }
 
   function shareIdCardWhatsApp() {
-    const text = `*OFFICIAL AUTHORIZED AGENT ID*\n*${name}* (Agent Code: *${agentCode}*)\nMembership: ${primeStatus ? "Verified Prime Partner" : "Registered Agent"}\nCity: ${city || "NCR"}\nPlatform: BayaEstate Certified Channel Partner\nVerify ID & Shop at: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
+    const text = `*OFFICIAL AUTHORIZED CHANNEL PARTNER ID*\n*${name}* (Channel Partner Code: *${agentCode}*)\nMembership: ${primeStatus ? "Verified Prime Partner" : "Registered Channel Partner"}\nCity: ${city || "NCR"}\nPlatform: BayaEstate Certified Channel Partner\nVerify ID & Shop at: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
   }
 
@@ -111,7 +111,7 @@ export function AgentAssetCards({
             </svg>
           </div>
           <span className="mt-2.5 text-xs font-bold text-slate-800">Identity Card</span>
-          <span className="text-[10px] text-slate-400">Official Agent ID</span>
+          <span className="text-[10px] text-slate-400">Official Channel Partner ID</span>
         </button>
 
         {/* Tool 4: Referral Links Summary */}
@@ -119,7 +119,7 @@ export function AgentAssetCards({
           <div>
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-800">Direct Network</span>
             <p className="mt-1 text-xs font-bold text-slate-900">Referral Links</p>
-            <p className="text-[10px] text-slate-600">Send to Agents & Rent Customers</p>
+            <p className="text-[10px] text-slate-600">Send to Channel Partners & Rent Customers</p>
           </div>
           <div className="mt-2 flex gap-1.5">
             <button
@@ -127,7 +127,7 @@ export function AgentAssetCards({
               onClick={() => copyToClipboard(agentJoinUrl, "agent")}
               className="flex-1 rounded-lg bg-amber-600 py-1 text-[11px] font-bold text-white shadow-xs hover:bg-amber-700 transition text-center"
             >
-              {copiedLink === "agent" ? "Copied!" : "Agent Link"}
+              {copiedLink === "agent" ? "Copied!" : "Channel Partner Link"}
             </button>
             <button
               type="button"
@@ -147,7 +147,7 @@ export function AgentAssetCards({
           {/* Agent Join Link */}
           <div className="flex items-center justify-between rounded-xl bg-white border border-slate-200 p-2.5 shadow-xs">
             <div className="min-w-0 flex-1 pr-2">
-              <p className="text-[11px] font-bold text-slate-900">New Agent Joining Link</p>
+              <p className="text-[11px] font-bold text-slate-900">New Channel Partner Joining Link</p>
               <p className="truncate font-mono text-[10px] text-slate-500">{agentJoinUrl}</p>
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
@@ -160,7 +160,7 @@ export function AgentAssetCards({
               </button>
               <a
                 href={`https://wa.me/?text=${encodeURIComponent(
-                  `Namaste! Join BayaEstate Verified Agent Network using my referral code *${agentCode}*: ${agentJoinUrl}`
+                  `Namaste! Join BayaEstate Verified Channel Partner Network using my referral code *${agentCode}*: ${agentJoinUrl}`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -219,7 +219,7 @@ export function AgentAssetCards({
 
             <div className="mt-5 mx-auto w-56 h-56 rounded-2xl border-4 border-slate-900 bg-white p-3 shadow-inner flex items-center justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={qrDataUrl} alt="Agent Shop QR Code" className="w-full h-full object-contain" />
+              <img src={qrDataUrl} alt="Channel Partner Shop QR Code" className="w-full h-full object-contain" />
             </div>
 
             <p className="mt-3 text-[11px] text-slate-500">

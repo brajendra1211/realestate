@@ -35,11 +35,11 @@ export function AgentCodeLookup() {
       const res = await fetch(`/api/agent/lookup?code=${encodeURIComponent(code.trim())}`);
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Agent not found");
+        throw new Error(data.error || "Channel Partner not found");
       }
       setResult(data);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to find agent");
+      setError(err instanceof Error ? err.message : "Failed to find channel partner");
     } finally {
       setLoading(false);
     }
@@ -69,7 +69,7 @@ export function AgentCodeLookup() {
           type="text"
           value={code}
           onChange={(e) => setCode(e.target.value.toUpperCase())}
-          placeholder="Enter Agent Code (e.g. AGT-1024)"
+          placeholder="Enter Channel Partner Code (e.g. AGT-1024)"
           className="flex-1 rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm font-mono font-medium uppercase tracking-wide focus:border-blue-500 focus:outline-none"
         />
         <button

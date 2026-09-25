@@ -3,7 +3,7 @@ import { getAgentsOfTheWeek, getTodaysDealTicker, getAreaDominance } from "@/lib
 const BADGE_LABELS: Record<string, string> = {
   TOP_SELLER: "Top Seller",
   FASTEST_RESPONDER: "Fastest Responder",
-  "5-STAR": "5-Star Agent",
+  "5-STAR": "5-Star Channel Partner",
 };
 
 const BADGE_STYLE: Record<string, { ring: string; chip: string; icon: string }> = {
@@ -40,7 +40,7 @@ export default async function LeaderboardPage() {
           </svg>
           Live rankings
         </span>
-        <h1 className="mt-3 text-2xl font-bold text-slate-900">Agent Leaderboard</h1>
+        <h1 className="mt-3 text-2xl font-bold text-slate-900">Channel Partner Leaderboard</h1>
         <p className="mt-1 text-sm text-slate-500">
           Trust and momentum, computed live from real activity (§3.18) — not editorial picks.
         </p>
@@ -63,7 +63,7 @@ export default async function LeaderboardPage() {
         </div>
       )}
 
-      <h2 className="mt-8 text-lg font-semibold text-slate-900">Agents of the Week</h2>
+      <h2 className="mt-8 text-lg font-semibold text-slate-900">Channel Partners of the Week</h2>
       {agentsOfWeek.length === 0 ? (
         <div className="mt-3 rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">
           <svg viewBox="0 0 24 24" fill="none" className="mx-auto h-9 w-9 text-slate-300">
@@ -125,7 +125,7 @@ export default async function LeaderboardPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 21s-7-6.1-7-11a7 7 0 1114 0c0 4.9-7 11-7 11z" />
             <circle cx="12" cy="10" r="2.5" strokeWidth={1.5} />
           </svg>
-          <p className="mt-2">No area has enough listings from one agent yet.</p>
+          <p className="mt-2">No area has enough listings from one channel partner yet.</p>
         </div>
       ) : (
         <div className="mt-3 divide-y divide-slate-200 overflow-hidden rounded-xl border border-slate-200 bg-white">

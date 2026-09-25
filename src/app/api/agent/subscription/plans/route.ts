@@ -6,7 +6,7 @@ export async function GET() {
     const plans = await getAgentPlans();
     return NextResponse.json(plans);
   } catch (error) {
-    console.error("Failed to fetch agent plans", error);
-    return NextResponse.json({ error: "Failed to fetch agent plans" }, { status: 500 });
+    console.error("Failed to fetch channel partner plans", error);
+    return NextResponse.json({ error: "Failed to fetch channel partner plans" }, { status: 500 });
   }
 }

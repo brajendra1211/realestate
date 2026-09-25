@@ -36,10 +36,10 @@ export default async function AdminBillingPage() {
         <RunBillingCheckButton />
       </div>
 
-      <h2 className="mt-8 text-lg font-semibold text-slate-900">Currently demoted agents</h2>
+      <h2 className="mt-8 text-lg font-semibold text-slate-900">Currently demoted channel partners</h2>
       <div className="mt-3 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
         {actuallyDemoted.length === 0 ? (
-          <p className="p-6 text-center text-sm text-slate-400">No demoted agents.</p>
+          <p className="p-6 text-center text-sm text-slate-400">No demoted channel partners.</p>
         ) : (
           actuallyDemoted.map((agent) => (
             <div key={agent.agentCode} className="flex items-center justify-between px-4 py-3 text-sm">

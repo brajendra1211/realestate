@@ -152,7 +152,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             label="Default meta description"
             name="metaDescription"
             defaultValue={settings?.metaDescription}
-            placeholder="Buy, sell, and rent homes with verified agents across the city."
+            placeholder="Buy, sell, and rent homes with verified channel partners across the city."
           />
           <SingleImageField
             name="ogImage"
@@ -182,7 +182,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
 
         <Section
           title="Payments"
-          description="TDS deducted automatically from an agent's wallet balance when a payout is processed (docs/platform-requirements.md §3.14)."
+          description="TDS deducted automatically from a channel partner's wallet balance when a payout is processed (docs/platform-requirements.md §3.14)."
         >
           <Field
             label="TDS percentage"
@@ -201,53 +201,53 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             name="brokeragePercent"
             type="number"
             defaultValue={String(settings?.brokeragePercent ?? 1)}
-            placeholder="1% of deal value, to each of buyer's/seller's agent — §3.12"
+            placeholder="1% of deal value, to each of buyer's/seller's channel partner — §3.12"
             span
           />
           <Field
-            label="Investor+company deal profit — agent share (%)"
+            label="Referral Partner+company deal profit — channel partner share (%)"
             name="profitAgentSharePercent"
             type="number"
             defaultValue={String(settings?.profitAgentSharePercent ?? 10)}
           />
           <Field
-            label="Investor+company deal profit — expense share (%)"
+            label="Referral Partner+company deal profit — expense share (%)"
             name="profitExpenseSharePercent"
             type="number"
             defaultValue={String(settings?.profitExpenseSharePercent ?? 10)}
           />
           <Field
-            label="Investor+company deal profit — investor share (%)"
+            label="Referral Partner+company deal profit — referral partner share (%)"
             name="profitInvestorSharePercent"
             type="number"
             defaultValue={String(settings?.profitInvestorSharePercent ?? 40)}
           />
           <div>
-            <label className="text-sm font-medium text-slate-700">Investor+company deal profit — company share</label>
+            <label className="text-sm font-medium text-slate-700">Referral Partner+company deal profit — company share</label>
             <p className={inputClass + " bg-slate-50 text-slate-500"}>
               Remainder — 100% minus the three shares above
             </p>
           </div>
           <Field
-            label="Investor registration fee (₹)"
+            label="Referral Partner registration fee (₹)"
             name="investorRegistrationFee"
             type="number"
             defaultValue={String(settings?.investorRegistrationFee ?? 20000)}
-            placeholder="§3.11 — new investor registrations only, doesn't change existing investors' fee"
+            placeholder="§3.11 — new referral partner registrations only, doesn't change existing referral partners' fee"
           />
           <Field
-            label="Investor registration referral (%)"
+            label="Referral Partner registration referral (%)"
             name="investorReferralPercent"
             type="number"
             defaultValue={String(settings?.investorReferralPercent ?? 10)}
-            placeholder="% of the registration fee credited to the referring agent"
+            placeholder="% of the registration fee credited to the referring channel partner"
           />
           <Field
-            label="Agent-to-agent referral (%)"
+            label="Channel Partner-to-channel partner referral (%)"
             name="agentReferralPercent"
             type="number"
             defaultValue={String(settings?.agentReferralPercent ?? 10)}
-            placeholder="§3.20 — % of a referred agent's first Prime payment, one-time"
+            placeholder="§3.20 — % of a referred channel partner's first Prime payment, one-time"
           />
           <Field
             label="Customer unlock pass (₹)"
@@ -257,7 +257,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             placeholder="§3.3 — also reused for the dispatch trigger fee (§3.5)"
           />
           <Field
-            label="Unlock pass — agent split (%)"
+            label="Unlock pass — channel partner split (%)"
             name="unlockAgentSplitPercent"
             type="number"
             defaultValue={String(settings?.unlockAgentSplitPercent ?? 50)}
@@ -271,7 +271,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             placeholder="§3.4"
           />
           <Field
-            label="Gold listing — agent split (%)"
+            label="Gold listing — channel partner split (%)"
             name="goldAgentSplitPercent"
             type="number"
             defaultValue={String(settings?.goldAgentSplitPercent ?? 50)}

@@ -80,11 +80,11 @@ export default async function AdminDocumentsPage({ searchParams }: { searchParam
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium text-slate-700">Agent Code (optional)</label>
+              <label className="text-sm font-medium text-slate-700">Channel Partner Code (optional)</label>
               <input type="text" name="agentCode" placeholder="AGT-DEL-1024" className={inputClass} />
             </div>
             <div>
-              <label className="text-sm font-medium text-slate-700">Investor Code (optional)</label>
+              <label className="text-sm font-medium text-slate-700">Referral Partner Code (optional)</label>
               <input type="text" name="investorCode" placeholder="INV-000001" className={inputClass} />
             </div>
             <div>
@@ -102,10 +102,10 @@ export default async function AdminDocumentsPage({ searchParams }: { searchParam
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
-          <h2 className="font-semibold text-slate-900">Record a Customer↔Investor agreement</h2>
+          <h2 className="font-semibold text-slate-900">Record a Customer↔Referral Partner agreement</h2>
           <form action={createAgreementAction} className="mt-4 space-y-3">
             <div>
-              <label className="text-sm font-medium text-slate-700">Investor Code</label>
+              <label className="text-sm font-medium text-slate-700">Referral Partner Code</label>
               <input type="text" name="investorCode" required placeholder="INV-000001" className={inputClass} />
             </div>
             <div>

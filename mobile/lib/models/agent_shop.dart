@@ -38,7 +38,7 @@ class AgentShopDetail {
   factory AgentShopDetail.fromJson(Map<String, dynamic> json) {
     return AgentShopDetail(
       agentCode: json['agentCode'] as String? ?? '',
-      name: json['name'] as String? ?? 'Agent',
+      name: json['name'] as String? ?? 'Channel Partner',
       shopName: json['shopName'] as String?,
       shopAddress: json['shopAddress'] as String?,
       city: json['city'] as String?,

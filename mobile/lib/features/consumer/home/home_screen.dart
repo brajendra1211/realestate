@@ -17,7 +17,7 @@ import '../../../core/widgets/error_view.dart';
 import '../../../models/public_listing.dart';
 import '../../../services/public_listings_service.dart';
 
-const _chipLabels = ['For Sale', 'For Rent', 'Verified agents', 'New this week', 'Hot Deals'];
+const _chipLabels = ['For Sale', 'For Rent', 'Verified channel partners', 'New this week', 'Hot Deals'];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -207,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen>
                       children: [
                         Flexible(
                           child: Text(
-                            'Scan Agent QR Code',
+                            'Scan Channel Partner QR Code',
                             style: GoogleFonts.inter(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -236,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      'Pay ₹50 to unlock agent profile & all verified listings',
+                      'Pay ₹50 to unlock channel partner profile & all verified listings',
                       style: GoogleFonts.inter(
                         fontSize: 11.5,
                         color: const Color(0xFF94A3B8),
@@ -346,7 +346,7 @@ class _HomeScreenState extends State<HomeScreen>
                 child: SizedBox(
                   width: 230,
                   child: Text(
-                    'Curated, verified listings from agents who show up.',
+                    'Curated, verified listings from channel partners who show up.',
                     style: GoogleFonts.inter(
                       fontSize: 14.5,
                       color: const Color(0xFFC6CEDB),
@@ -940,7 +940,7 @@ class _HomeListingCard extends StatelessWidget {
                               size: 13, color: AppColors.gold),
                           const SizedBox(width: 5),
                           Text(
-                            'Listed by verified agent',
+                            'Listed by verified channel partner',
                             style: GoogleFonts.inter(
                               fontSize: 11.5,
                               fontWeight: FontWeight.w600,

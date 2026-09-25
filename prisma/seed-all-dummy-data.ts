@@ -25,7 +25,7 @@ async function main() {
     update: {},
     create: {
       id: "plan-agent-basic",
-      name: "Agent Basic Plan",
+      name: "Channel Partner Basic Plan",
       role: "AGENT",
       listingLimit: 10,
       leadLimit: null,
@@ -40,7 +40,7 @@ async function main() {
     update: {},
     create: {
       id: "plan-agent-prime",
-      name: "Agent Prime Plan",
+      name: "Channel Partner Prime Plan",
       role: "AGENT",
       listingLimit: 50,
       leadLimit: null,

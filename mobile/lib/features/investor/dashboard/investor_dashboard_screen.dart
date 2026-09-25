@@ -51,7 +51,7 @@ class _InvestorDashboardScreenState extends State<InvestorDashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Investor Portal'),
+        title: const Text('Referral Partner Portal'),
         actions: [
           IconButton(
             icon: const Icon(Icons.folder_outlined),
@@ -83,8 +83,8 @@ class _InvestorDashboardScreenState extends State<InvestorDashboardScreen> {
               children: [
                 Text(
                   profile.investorCode != null
-                      ? 'Investor Code ${profile.investorCode}'
-                      : 'Registration fee pending — contact your agent.',
+                      ? 'Referral Partner Code ${profile.investorCode}'
+                      : 'Registration fee pending — contact your channel partner.',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: AppSpacing.md),
@@ -212,7 +212,7 @@ class _SummaryCard extends StatelessWidget {
           Expanded(child: _Stat(label: 'Total profit', value: Formatters.price(totalProfit))),
           Expanded(
             child: _Stat(
-              label: 'Referring agent',
+              label: 'Referring channel partner',
               value: profile.referringAgent.agentCode ??
                   profile.referringAgent.shopName ??
                   '—',

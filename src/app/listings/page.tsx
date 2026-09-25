@@ -21,7 +21,7 @@ export default async function ListingsPage({ searchParams }: { searchParams: Sea
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Agent Listings</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Channel Partner Listings</h1>
           <p className="mt-1 text-sm text-slate-500">
             Free to browse. Pay ₹100 to unlock exact address and agent contact for any listing.
           </p>

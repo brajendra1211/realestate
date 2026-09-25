@@ -34,7 +34,7 @@ class _AgentInvestorsScreenState extends State<AgentInvestorsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Investors')),
+      appBar: AppBar(title: const Text('Referral Partners')),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.gold,
         foregroundColor: AppColors.textOnGold,
@@ -68,7 +68,7 @@ class _AgentInvestorsScreenState extends State<AgentInvestorsScreen> {
             final investors = snapshot.data ?? [];
             if (investors.isEmpty) {
               return const EmptyState(
-                message: 'No investors yet. Tap + to add one.',
+                message: 'No referral partners yet. Tap + to add one.',
                 icon: Icons.groups_outlined,
               );
             }
@@ -91,7 +91,7 @@ class _AgentInvestorsScreenState extends State<AgentInvestorsScreen> {
                       child: const Icon(Icons.groups_outlined, color: AppColors.goldLight, size: 20),
                     ),
                     title: Text(
-                      investor.investorCode ?? 'Pending investor code',
+                      investor.investorCode ?? 'Pending referral partner code',
                       style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                     subtitle: Text(

@@ -62,13 +62,13 @@ export function SwitchAgentButton({
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Failed to switch agent");
+        throw new Error(data.error || "Failed to switch channel partner");
       }
 
       setIsOpen(false);
       router.refresh();
     } catch (err: any) {
-      setError(err.message || "Failed to switch agent");
+      setError(err.message || "Failed to switch channel partner");
     } finally {
       setLoading(false);
     }
@@ -91,7 +91,7 @@ export function SwitchAgentButton({
         </div>
       ) : (
         <form onSubmit={handleSwitch} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-          <p className="text-sm font-semibold text-slate-900">Request New Agent</p>
+          <p className="text-sm font-semibold text-slate-900">Request New Channel Partner</p>
           <p className="mt-0.5 text-xs text-slate-500">
             We will immediately re-assign another top-rated Prime agent in this area for your unlock.
           </p>
@@ -102,7 +102,7 @@ export function SwitchAgentButton({
             <textarea
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              placeholder="Why would you like to switch? (e.g. Agent not answering calls, unavailable for visit)"
+              placeholder="Why would you like to switch? (e.g. Channel Partner not answering calls, unavailable for visit)"
               rows={2}
               required
               className="w-full rounded-lg border border-slate-200 bg-white p-2 text-xs focus:border-blue-500 focus:outline-none"

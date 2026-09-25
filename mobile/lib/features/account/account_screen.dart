@@ -51,7 +51,7 @@ class AccountScreen extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
             _AccountOption(
               icon: Icons.trending_up,
-              title: 'Investor',
+              title: 'Referral Partner',
               subtitle: customerAuth.isInvestor
                   ? 'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'investor'}'
                   : 'Track your capital, profit ledger, and documents.',
@@ -65,7 +65,7 @@ class AccountScreen extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
             _AccountOption(
               icon: Icons.badge_outlined,
-              title: 'Agent',
+              title: 'Channel Partner',
               subtitle: agentAuth.isLoggedIn
                   ? 'Signed in as ${agentAuth.name ?? 'agent'}'
                   : 'Manage listings, leads, and commissions.',

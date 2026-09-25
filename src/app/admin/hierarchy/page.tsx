@@ -55,7 +55,7 @@ export default async function AdminHierarchyPage() {
               </p>
 
               {agent.investors.length === 0 ? (
-                <p className="mt-2 pl-4 text-sm text-slate-400">No linked investors.</p>
+                <p className="mt-2 pl-4 text-sm text-slate-400">No linked referral partners.</p>
               ) : (
                 <div className="mt-2 space-y-2 border-l-2 border-slate-100 pl-4">
                   {agent.investors.map((investor) => (

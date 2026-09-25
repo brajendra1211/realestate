@@ -62,7 +62,7 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
       });
     } on ApiException catch (e) {
       setState(() => _errorMessage = e.code == 'notFound'
-          ? 'No agent account found for this phone or email.'
+          ? 'No channel partner account found for this phone or email.'
           : errorMessageFor(e));
     } finally {
       if (mounted) setState(() => _submitting = false);
@@ -111,7 +111,7 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
                   title: 'Reset password',
                   subtitle: _codeSent
                       ? 'We sent a 6-digit code via $via to $_identifier. Enter it with your new password.'
-                      : "Enter your agent phone or email and we'll send you a code.",
+                      : "Enter your channel partner phone or email and we'll send you a code.",
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 if (_errorMessage != null) ...[

@@ -173,7 +173,7 @@ export function GoldListingForm() {
         <input type="url" name="videoUrl" placeholder="https://youtube.com/..." className={inputClass} />
       </div>
       <div>
-        <label className="text-sm font-medium text-slate-700">Referred by Agent Code (optional)</label>
+        <label className="text-sm font-medium text-slate-700">Referred by Channel Partner Code (optional)</label>
         <input type="text" name="referredByAgentCode" placeholder="AGT-DEL-1024" className={inputClass} />
         <p className="mt-1 text-xs text-slate-400">
           If an agent referred you, they&apos;ll earn 50% of the ₹500 fee instantly.

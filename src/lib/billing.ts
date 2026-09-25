@@ -52,7 +52,7 @@ export async function renewOrDemoteAgent(agentProfileId: string, subscriptionId:
 
     await notifyUser(
       agent.user,
-      `Your agent code subscription renewed automatically. ₹${planPrice} was deducted from your wallet.`,
+      `Your channel partner code subscription renewed automatically. ₹${planPrice} was deducted from your wallet.`,
       "Subscription renewed"
     );
     return { renewed: true as const, method: "WALLET" as const };
@@ -110,7 +110,7 @@ export async function renewOrDemoteAgent(agentProfileId: string, subscriptionId:
 
   await notifyUser(
     agent.user,
-    `Your agent renewal failed — wallet balance (₹${agent.walletBalance}) was short of ₹${planPrice} due and no active Auto-Pay mandate was found. Your listings have been pushed to lowest feed visibility. Please top up and renew to restore priority ranking.`,
+    `Your channel partner renewal failed — wallet balance (₹${agent.walletBalance}) was short of ₹${planPrice} due and no active Auto-Pay mandate was found. Your listings have been pushed to lowest feed visibility. Please top up and renew to restore priority ranking.`,
     "Renewal failed — listings deprioritized"
   );
   return { renewed: false as const };
@@ -153,7 +153,7 @@ export async function checkUpcomingRenewalAlerts() {
         const daysLeft = Math.max(1, Math.ceil((sub.endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
         await notifyUser(
           agent.user,
-          `Renewal Alert: Your agent code subscription expires in ${daysLeft} day${daysLeft > 1 ? "s" : ""}. Current wallet balance is ₹${agent.walletBalance} (₹${sub.plan.price} required). Please top up your wallet or configure Auto-Pay to prevent property visibility pushback.`,
+          `Renewal Alert: Your channel partner code subscription expires in ${daysLeft} day${daysLeft > 1 ? "s" : ""}. Current wallet balance is ₹${agent.walletBalance} (₹${sub.plan.price} required). Please top up your wallet or configure Auto-Pay to prevent property visibility pushback.`,
           "Upcoming renewal alert"
         );
 

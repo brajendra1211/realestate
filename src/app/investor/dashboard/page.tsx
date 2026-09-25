@@ -18,11 +18,11 @@ export default async function InvestorDashboardPage() {
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Investor Portal</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Referral Partner Portal</h1>
           <p className="mt-1 text-sm text-slate-500">
             {investor.investorCode
-              ? `Investor Code ${investor.investorCode}`
-              : "Registration fee pending — contact your agent."}
+              ? `Referral Partner Code ${investor.investorCode}`
+              : "Registration fee pending — contact your channel partner."}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -45,7 +45,7 @@ export default async function InvestorDashboardPage() {
           <p className="mt-1 text-2xl font-bold text-slate-900">{formatINR(totalProfit)}</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Referring agent</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Referring channel partner</p>
           <p className="mt-1 text-lg font-semibold text-slate-900">
             {investor.referringAgent.agentCode ?? investor.referringAgent.shopName ?? "—"}
           </p>

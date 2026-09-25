@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code")?.trim().toUpperCase();
 
   if (!code) {
-    return NextResponse.json({ error: "Agent code is required" }, { status: 400 });
+    return NextResponse.json({ error: "Channel Partner code is required" }, { status: 400 });
   }
 
   const agent = await prisma.agentProfile.findFirst({
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (!agent) {
-    return NextResponse.json({ error: "Agent not found with this code" }, { status: 404 });
+    return NextResponse.json({ error: "Channel Partner not found with this code" }, { status: 404 });
   }
 
   const phone = agent.user.phone ?? agent.alternatePhone ?? "";

@@ -8,7 +8,7 @@ const DEFAULT_SETTINGS = {
   heroImage: null as string | null,
   heroTitle: "Find the right property, faster",
   heroSubtitle:
-    "Buy, sell, and rent homes with verified agents across the city.",
+    "Buy, sell, and rent homes with verified channel partners across the city.",
   ctaText: "List a property",
   ctaLink: "/register",
   whatsappNumber: null as string | null,

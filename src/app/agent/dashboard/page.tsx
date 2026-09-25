@@ -22,24 +22,24 @@ const STATUS_COPY: Record<string, { title: string; body: string; tone: string }>
   },
   APPROVED: {
     title: "Verified — awaiting Prime activation",
-    body: "Your profile is verified. Admin will activate your Prime plan next to issue your Agent Code.",
+    body: "Your profile is verified. Admin will activate your Prime plan next to issue your Channel Partner Code.",
     tone: "bg-blue-50 text-blue-700",
   },
 };
 
 const COMMISSION_LABELS: Record<string, string> = {
-  REGISTRATION_REFERRAL: "Investor Registration Referral (10%)",
-  DEAL_PROFIT_SHARE: "Investor Deal Profit Share (10%)",
+  REGISTRATION_REFERRAL: "Referral Partner Registration Referral (10%)",
+  DEAL_PROFIT_SHARE: "Referral Partner Deal Profit Share (10%)",
   BROKERAGE: "Buyer/Seller Brokerage (1%)",
   UNLOCK_SPLIT: "Customer Unlock Pass Split",
   GOLD_SPLIT: "Customer Gold Listing Split",
-  AGENT_REFERRAL: "Agent Referral (10%, one-time)",
+  AGENT_REFERRAL: "Channel Partner Referral (10%, one-time)",
 };
 
 const PAYOUT_ERROR_MESSAGES: Record<string, string> = {
   validation: "Enter a valid payout amount.",
   insufficientBalance: "That's more than your current wallet balance.",
-  notFound: "Agent profile not found.",
+  notFound: "Channel Partner profile not found.",
   renewalRequired: "Active subscription renewal is required before wallet payout can be withdrawn.",
 };
 
@@ -84,7 +84,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-slate-900">Agent Dashboard</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Channel Partner Dashboard</h1>
         {agent.agentCode && (
           <div className="flex items-center gap-2">
             <span className="font-mono text-sm font-extrabold text-blue-700 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200">
@@ -254,12 +254,12 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
             {/* Target 2: 5 Investors */}
             <div className="rounded-xl border border-slate-100 bg-white p-3.5 shadow-xs">
               <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-600">Direct Investors</span>
+                <span className="text-slate-600">Direct Referral Partners</span>
                 <span className="text-indigo-600 font-bold">
                   {cycleProgress.achieved.investors} / {cycleProgress.targets.investors}
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 mt-0.5">Target: 5 investors onboarded</p>
+              <p className="text-[10px] text-slate-400 mt-0.5">Target: 5 referral partners onboarded</p>
               <div className="mt-2 h-2 w-full rounded-full bg-slate-100">
                 <div
                   className="h-2 rounded-full bg-indigo-600 transition-all"
@@ -276,12 +276,12 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
             {/* Target 3: 10 Agent Codes */}
             <div className="rounded-xl border border-slate-100 bg-white p-3.5 shadow-xs">
               <div className="flex justify-between text-xs font-semibold">
-                <span className="text-slate-600">Direct Agent Codes</span>
+                <span className="text-slate-600">Direct Channel Partner Codes</span>
                 <span className="text-indigo-600 font-bold">
                   {cycleProgress.achieved.directAgents} / {cycleProgress.targets.directAgents}
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 mt-0.5">Target: 10 new agent codes</p>
+              <p className="text-[10px] text-slate-400 mt-0.5">Target: 10 new channel partner codes</p>
               <div className="mt-2 h-2 w-full rounded-full bg-slate-100">
                 <div
                   className="h-2 rounded-full bg-indigo-600 transition-all"

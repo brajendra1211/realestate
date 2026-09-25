@@ -66,7 +66,7 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
       }
     } on ApiException catch (e) {
       setState(() => _errorMessage = e.code == 'notFound'
-          ? 'No agent account found for this phone or email. New agent? Register first.'
+          ? 'No channel partner account found for this phone or email. New channel partner? Register first.'
           : errorMessageFor(e));
     } finally {
       if (mounted) setState(() => _submitting = false);
@@ -87,7 +87,7 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
                 AuthHeader(
                   title: 'Welcome back',
                   subtitle: _isPassword
-                      ? 'Log in with your agent email or phone and password.'
+                      ? 'Log in with your channel partner email or phone and password.'
                       : "No password needed — we'll send a one-time code on WhatsApp (or email).",
                 ),
                 const SizedBox(height: AppSpacing.lg),
@@ -167,7 +167,7 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
                 Center(
                   child: TextButton(
                     onPressed: () => context.push(RoutePaths.agentRegister),
-                    child: const Text('New agent? Register here'),
+                    child: const Text('New channel partner? Register here'),
                   ),
                 ),
               ],

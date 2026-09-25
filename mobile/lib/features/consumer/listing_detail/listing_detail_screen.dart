@@ -278,7 +278,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                                 const SizedBox(width: AppSpacing.sm),
                                 Expanded(
                                   child: Text(
-                                    'Full address and agent contact unlock after a ₹100 payment.',
+                                    'Full address and channel partner contact unlock after a ₹100 payment.',
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                           color: const Color(0xFFC6CEDB),
                                         ),
@@ -317,7 +317,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                             if (listing.agentName != null)
                               _ContactRow(
                                 icon: Icons.badge_outlined,
-                                label: 'Agent',
+                                label: 'Channel Partner',
                                 value: listing.agentCode != null
                                     ? '${listing.agentName} (${listing.agentCode})'
                                     : listing.agentName!,
@@ -347,7 +347,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                     if (listing.agentCode != null) ...[
                       const SizedBox(height: AppSpacing.lg),
                       AppButton(
-                        label: 'Rate this agent',
+                        label: 'Rate this channel partner',
                         variant: AppButtonVariant.secondary,
                         expand: true,
                         onPressed: () => context.push(

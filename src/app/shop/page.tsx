@@ -61,7 +61,7 @@ export default async function ShopPortalPage() {
 
           {/* Quick Demo Agent Code link */}
           <div className="mt-5 border-t border-slate-700/80 pt-4 text-center">
-            <span className="text-xs text-slate-400">Quick Test Agent: </span>
+            <span className="text-xs text-slate-400">Quick Test Channel Partner: </span>
             <Link
               href="/shop/AGT-BLR-1000"
               className="font-mono text-xs font-bold text-amber-400 underline hover:text-amber-300"
@@ -87,7 +87,7 @@ export default async function ShopPortalPage() {
             <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400">
               👤
             </div>
-            <h3 className="mt-2 text-xs font-bold text-white">Verified Agent On Top</h3>
+            <h3 className="mt-2 text-xs font-bold text-white">Verified Channel Partner On Top</h3>
             <p className="mt-1 text-[11px] text-slate-400 leading-normal">
               Direct phone & WhatsApp buttons with office verification.
             </p>

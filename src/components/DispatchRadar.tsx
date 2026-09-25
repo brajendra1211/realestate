@@ -78,7 +78,7 @@ export function DispatchRadar({
   if (status === "EXPIRED") {
     return (
       <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center">
-        <p className="font-semibold text-slate-700">No agents were available.</p>
+        <p className="font-semibold text-slate-700">No channel partners were available.</p>
         <Link href="/dispatch/new" className="mt-2 inline-block text-sm text-blue-600 hover:underline">
           Try again
         </Link>

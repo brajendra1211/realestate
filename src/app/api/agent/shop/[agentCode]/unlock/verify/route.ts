@@ -35,14 +35,14 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
-      message: "Agent shop unlocked successfully",
+      message: "Channel Partner shop unlocked successfully",
       unlockId: unlock.id,
     });
   } catch (error) {
     if (error instanceof AgentShopUnlockError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    console.error("Agent shop unlock verification error:", error);
+    console.error("Channel Partner shop unlock verification error:", error);
     return NextResponse.json({ error: "Failed to verify unlock" }, { status: 500 });
   }
 }

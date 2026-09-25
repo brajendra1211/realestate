@@ -11,7 +11,7 @@ export async function getAgentCycleProgress(agentProfileId: string) {
     where: { id: agentProfileId },
     include: { user: true },
   });
-  if (!agent) throw new TargetCycleError("Agent not found");
+  if (!agent) throw new TargetCycleError("Channel Partner not found");
 
   const now = new Date();
   const startDate = agent.cycleStartDate ?? agent.createdAt;
@@ -295,7 +295,7 @@ export async function issuePreExpiryDiscountCoupon(agentProfileId: string) {
     where: { id: agentProfileId },
     include: { user: true },
   });
-  if (!agent) throw new TargetCycleError("Agent not found");
+  if (!agent) throw new TargetCycleError("Channel Partner not found");
 
   const now = new Date();
   const couponCode = `RENEW20-${agent.agentCode || agent.id.slice(-4)}-${Date.now().toString(36).slice(-4).toUpperCase()}`;
@@ -329,7 +329,7 @@ export async function applyDiscountCoupon(agentProfileId: string, couponCode: st
   const agent = await prisma.agentProfile.findUnique({
     where: { id: agentProfileId },
   });
-  if (!agent) throw new TargetCycleError("Agent not found");
+  if (!agent) throw new TargetCycleError("Channel Partner not found");
 
   const now = new Date();
   if (

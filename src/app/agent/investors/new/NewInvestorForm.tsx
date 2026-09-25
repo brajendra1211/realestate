@@ -8,10 +8,10 @@ import { DocumentUploadField } from "@/components/DocumentUploadField";
 const initialState: CreateInvestorState = {};
 
 const ERROR_MESSAGES: Record<string, string> = {
-  validation: "Please fill in the investor's name, email, and phone.",
+  validation: "Please fill in the referral partner's name, email, and phone.",
   duplicate: "An account with this email already exists.",
-  agentNotFound: "Your agent profile could not be found.",
-  notPrime: "Activate your Prime plan before registering investors.",
+  agentNotFound: "Your channel partner profile could not be found.",
+  notPrime: "Activate your Prime plan before registering referral partners.",
 };
 
 export function NewInvestorForm() {
@@ -33,7 +33,7 @@ export function NewInvestorForm() {
       <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Personal & Contact Info</h3>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-medium text-slate-700">Investor Full Name</label>
+          <label className="text-sm font-medium text-slate-700">Referral Partner Full Name</label>
           <input
             type="text"
             name="name"
@@ -193,7 +193,7 @@ export function NewInvestorForm() {
         disabled={pending}
         className="w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
       >
-        {pending ? "Registering…" : "Register Investor (₹20,000 Fee)"}
+        {pending ? "Registering…" : "Register Referral Partner (₹20,000 Fee)"}
       </button>
     </form>
   );

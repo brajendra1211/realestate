@@ -112,12 +112,12 @@ class _AgentDealDetailScreenState extends State<AgentDealDetailScreen> {
                 Row(
                   children: [
                     _InfoChip(
-                      label: 'Buyer agent',
+                      label: 'Buyer channel partner',
                       value: deal.buyerAgent?.agentCode ?? '—',
                     ),
                     const SizedBox(width: AppSpacing.sm),
                     _InfoChip(
-                      label: 'Seller agent',
+                      label: 'Seller channel partner',
                       value: deal.sellerAgent?.agentCode ?? '—',
                     ),
                   ],

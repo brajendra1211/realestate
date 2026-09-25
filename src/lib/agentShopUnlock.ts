@@ -68,7 +68,7 @@ export async function createAgentShopUnlockOrder(
   });
 
   if (!agent) {
-    throw new AgentShopUnlockError("Agent not found");
+    throw new AgentShopUnlockError("Channel Partner not found");
   }
 
   const alreadyUnlocked = await isAgentShopUnlocked(agent.id, buyerId, customerPhone);
@@ -128,7 +128,7 @@ export async function verifyAndUnlockAgentShop(input: {
   });
 
   if (!agent) {
-    throw new AgentShopUnlockError("Agent not found");
+    throw new AgentShopUnlockError("Channel Partner not found");
   }
 
   // If Razorpay is live, verify the payment signature

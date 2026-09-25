@@ -51,7 +51,7 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
       final position = await getCurrentLocation();
       if (position == null) {
         setState(() => _errorMessage =
-            'Location is required to find nearby agents. Please enable location access and try again.');
+            'Location is required to find nearby channel partners. Please enable location access and try again.');
         return;
       }
       final id = await _service.requestDispatch(position.latitude, position.longitude);
@@ -98,7 +98,7 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Find an agent now')),
+      appBar: AppBar(title: const Text('Find a channel partner now')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -117,7 +117,7 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
           const Icon(Icons.travel_explore, size: 64, color: AppColors.gold),
           const SizedBox(height: AppSpacing.lg),
           Text(
-            'We\'ll match you with the nearest available agent — first to '
+            'We\'ll match you with the nearest available channel partner — first to '
             'respond gets you.',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
@@ -132,7 +132,7 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
           ],
           const SizedBox(height: AppSpacing.xl),
           AppButton(
-            label: 'Find me an agent',
+            label: 'Find me a channel partner',
             loading: _requesting,
             onPressed: _request,
           ),
@@ -174,7 +174,7 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
             Text(
               status.status == 'CANCELLED'
                   ? 'Request cancelled.'
-                  : 'No agent responded in time.',
+                  : 'No channel partner responded in time.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: AppSpacing.xl),

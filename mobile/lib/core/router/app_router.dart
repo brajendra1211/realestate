@@ -35,6 +35,8 @@ import '../../features/buyer/gold_listing/gold_listing_screen.dart';
 import '../../features/consumer/home/home_screen.dart';
 import '../../features/consumer/leaderboard/leaderboard_screen.dart';
 import '../../features/consumer/listing_detail/listing_detail_screen.dart';
+import '../../features/consumer/qr_scanner/agent_qr_scanner_screen.dart';
+import '../../features/consumer/agent_shop/agent_shop_screen.dart';
 import '../../features/consumer/rating/rate_agent_screen.dart';
 import '../../features/consumer/search/search_screen.dart';
 import '../../features/consumer/shell/consumer_shell.dart';
@@ -253,6 +255,16 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
       GoRoute(
         path: RoutePaths.rateAgent,
         builder: (context, state) => RateAgentScreen(
+          agentCode: state.pathParameters['agentCode']!,
+        ),
+      ),
+      GoRoute(
+        path: RoutePaths.qrScanner,
+        builder: (context, state) => const AgentQrScannerScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.agentShop,
+        builder: (context, state) => AgentShopScreen(
           agentCode: state.pathParameters['agentCode']!,
         ),
       ),

@@ -119,6 +119,7 @@ model User {
   visitAppointments    VisitAppointment[]
   directVisits         DirectPropertyVisit[]         @relation("DirectVisitBuyer")
   antiBypassAgreements PlatformAntiBypassAgreement[] @relation("AntiBypassBuyer")
+  agentShopUnlocks     AgentShopUnlock[]             @relation("BuyerAgentShopUnlocks")
 }
 
 enum PlanRole {
@@ -560,6 +561,7 @@ model AgentProfile {
   visitAppointments     VisitAppointment[]
   areaAssignments       AreaAgentAssignment[]
   assignedUnlocks       PropertyUnlock[]
+  shopUnlocks           AgentShopUnlock[]
 
   @@index([status])
   @@index([referringAgentId])
@@ -1242,4 +1244,22 @@ model PlatformAntiBypassAgreement {
 
   @@index([agentListingId])
   @@index([buyerId])
+}
+
+// Customer QR scan unlock fee (₹50) to access an Agent's verified shop and full properties
+model AgentShopUnlock {
+  id                String       @id @default(cuid())
+  agentId           String
+  agent             AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  buyerId           String?
+  buyer             User?        @relation("BuyerAgentShopUnlocks", fields: [buyerId], references: [id], onDelete: Cascade)
+  customerPhone     String?
+  amount            Int          @default(50)
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  createdAt         DateTime     @default(now())
+
+  @@index([buyerId])
+  @@index([agentId])
+  @@index([customerPhone])
 }

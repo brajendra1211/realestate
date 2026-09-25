@@ -812,6 +812,17 @@ exports.Prisma.PlatformAntiBypassAgreementScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AgentShopUnlockScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  buyerId: 'buyerId',
+  customerPhone: 'customerPhone',
+  amount: 'amount',
+  razorpayOrderId: 'razorpayOrderId',
+  razorpayPaymentId: 'razorpayPaymentId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1258,6 +1269,15 @@ exports.Prisma.PlatformAntiBypassAgreementOrderByRelevanceFieldEnum = {
   legalTermsSummary: 'legalTermsSummary',
   status: 'status'
 };
+
+exports.Prisma.AgentShopUnlockOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  buyerId: 'buyerId',
+  customerPhone: 'customerPhone',
+  razorpayOrderId: 'razorpayOrderId',
+  razorpayPaymentId: 'razorpayPaymentId'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SUBADMIN: 'SUBADMIN',
@@ -1491,7 +1511,8 @@ exports.Prisma.ModelName = {
   CustomerInvestorAgreement: 'CustomerInvestorAgreement',
   VisitAppointment: 'VisitAppointment',
   DirectPropertyVisit: 'DirectPropertyVisit',
-  PlatformAntiBypassAgreement: 'PlatformAntiBypassAgreement'
+  PlatformAntiBypassAgreement: 'PlatformAntiBypassAgreement',
+  AgentShopUnlock: 'AgentShopUnlock'
 };
 
 /**

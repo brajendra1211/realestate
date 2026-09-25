@@ -251,18 +251,50 @@ class _HomeScreenState extends State<HomeScreen>
         Positioned(
           right: 20,
           top: topInset + 18,
-          child: GestureDetector(
-            onTap: () => context.push(RoutePaths.account),
-            child: Container(
-              width: 36,
-              height: 36,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.12),
-                shape: BoxShape.circle,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () => context.push(RoutePaths.qrScanner),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColors.gold.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.goldLight.withValues(alpha: 0.4)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.qr_code_scanner_rounded, color: AppColors.goldLight, size: 16),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Scan QR',
+                        style: GoogleFonts.inter(
+                          color: AppColors.goldLight,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: const Icon(Icons.person_outline, color: AppColors.background, size: 19),
-            ),
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: () => context.push(RoutePaths.account),
+                child: Container(
+                  width: 36,
+                  height: 36,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.person_outline, color: AppColors.background, size: 19),
+                ),
+              ),
+            ],
           ),
         ),
         Positioned(

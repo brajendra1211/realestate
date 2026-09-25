@@ -107,6 +107,12 @@ class Endpoints {
   static const agentLookup = '/api/agent/lookup';
   static const dispatchCreate = '/api/dispatch';
   static const dispatchVerify = '/api/dispatch/verify';
-  static String dispatchCancel(String id) => '/api/dispatch/$id/cancel';
   static const uploadGeneric = '/api/upload';
+
+  // --- Agent Shop QR Unlock (₹50) ---
+  static String agentShop(String agentCode) => '/api/agent/shop/$agentCode';
+  static String agentShopUnlockOrder(String agentCode) =>
+      '/api/agent/shop/$agentCode/unlock/order';
+  static String agentShopUnlockVerify(String agentCode) =>
+      '/api/agent/shop/$agentCode/unlock/verify';
 }

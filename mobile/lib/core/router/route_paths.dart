@@ -8,6 +8,8 @@ class RoutePaths {
   static const listingDetail = '/listing/:slug';
   static const leaderboard = '/leaderboard';
   static const rateAgent = '/rate/:agentCode';
+  static const qrScanner = '/qr-scanner';
+  static const agentShop = '/shop/:agentCode';
 
   static const account = '/account';
 
@@ -49,4 +51,5 @@ class RoutePaths {
 
   static String listingDetailPath(String slug) => '/listing/$slug';
   static String rateAgentPath(String agentCode) => '/rate/$agentCode';
+  static String agentShopPath(String agentCode) => '/shop/$agentCode';
 }

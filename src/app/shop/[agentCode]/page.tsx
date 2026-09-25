@@ -80,6 +80,11 @@ export default async function AgentShopPage({ params }: Props) {
   const shopUrl = getAgentShopUrl(agent.agentCode, originUrl);
   const qrDataUrl = await generateQrDataUrl(shopUrl, { width: 360, margin: 2 });
 
+  const { auth } = await import("@/auth");
+  const { isAgentShopUnlocked } = await import("@/lib/agentShopUnlock");
+  const session = await auth();
+  const initialUnlocked = await isAgentShopUnlocked(agent.id, session?.user?.id);
+
   return (
     <div className="min-h-screen bg-slate-50/60 pb-16 pt-6">
       <main className="mx-auto max-w-5xl px-4 sm:px-6">
@@ -114,6 +119,7 @@ export default async function AgentShopPage({ params }: Props) {
           qrDataUrl={qrDataUrl}
           shopUrl={shopUrl}
           listings={agent.listings}
+          initialUnlocked={initialUnlocked}
         />
       </main>
     </div>

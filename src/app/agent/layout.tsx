@@ -12,7 +12,7 @@ export default async function AgentLayout({ children }: { children: React.ReactN
       <AgentSidebar
         agentName={session.user.name ?? "Channel Partner"}
         logoutButton={
-          <LogoutButton className="text-xs font-medium text-slate-500 hover:text-slate-800" />
+          <LogoutButton key="agent-logout" className="text-xs font-medium text-slate-500 hover:text-slate-800" />
         }
       />
       <div className="min-w-0 flex-1">{children}</div>

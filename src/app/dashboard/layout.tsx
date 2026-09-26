@@ -39,7 +39,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <DashboardSidebar
         userName={session.user.name ?? "Account"}
         roleLabel={ROLE_LABELS[session.user.role] ?? session.user.role}
-        logoutButton={<LogoutButton className="text-xs font-medium text-slate-500 hover:text-slate-800" />}
+        logoutButton={<LogoutButton key="dashboard-logout" className="text-xs font-medium text-slate-500 hover:text-slate-800" />}
         navItems={navItems}
       />
       <div className="min-w-0 flex-1">{children}</div>

@@ -1,13 +1,6 @@
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { lookupAgentShop } from "./actions";
 
-async function lookupAgentShop(formData: FormData) {
-  "use server";
-  const code = formData.get("agentCode")?.toString().trim();
-  if (code) {
-    redirect(`/shop/${encodeURIComponent(code.toUpperCase())}`);
-  }
-}
 
 export default async function ShopPortalPage() {
   return (

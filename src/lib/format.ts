@@ -9,6 +9,27 @@ export function formatPrice(price: number, listingType: "SALE" | "RENT") {
   return listingType === "RENT" ? `${formatted}/mo` : formatted;
 }
 
+export function formatIndianShortPrice(price: number, listingType?: "SALE" | "RENT"): string {
+  if (listingType === "RENT") {
+    if (price >= 100000) {
+      return `₹ ${(price / 100000).toFixed(2).replace(/\.00$/, "")} Lac/mo`;
+    }
+    if (price >= 1000) {
+      return `₹ ${(price / 1000).toFixed(0)} K/mo`;
+    }
+    return `₹ ${price}/mo`;
+  }
+  if (price >= 10000000) {
+    const cr = (price / 10000000).toFixed(2);
+    return `₹ ${cr.replace(/\.00$/, "")} Cr`;
+  }
+  if (price >= 100000) {
+    const lac = (price / 100000).toFixed(2);
+    return `₹ ${lac.replace(/\.00$/, "")} Lac`;
+  }
+  return `₹ ${price.toLocaleString("en-IN")}`;
+}
+
 export function formatINR(amount: number) {
   return inrFormatter.format(amount);
 }

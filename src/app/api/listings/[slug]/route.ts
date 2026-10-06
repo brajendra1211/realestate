@@ -30,6 +30,7 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
     areaSqft: listing.areaSqft,
     price: listing.price,
     amenities: listing.amenities,
+    videoUrl: listing.videoUrl,
     images: listing.images,
     masterPropertyId: listing.masterProperty.masterId,
     city: listing.masterProperty.city,

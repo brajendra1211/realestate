@@ -17,6 +17,7 @@ class ListingDetail {
     this.areaSqft,
     required this.price,
     this.amenities,
+    this.videoUrl,
     required this.images,
     required this.city,
     this.locality,
@@ -41,6 +42,7 @@ class ListingDetail {
   final int? areaSqft;
   final int price;
   final String? amenities;
+  final String? videoUrl;
   final List<PublicListingImage> images;
   final String city;
   final String? locality;
@@ -59,6 +61,16 @@ class ListingDetail {
       .where((a) => a.isNotEmpty)
       .toList();
 
+  List<String> get videoUrls {
+    if (videoUrl == null || videoUrl!.trim().isEmpty) return [];
+    final text = videoUrl!.trim();
+    return text
+        .split(RegExp(r'[\n,\r\t]+'))
+        .map((u) => u.trim())
+        .where((u) => u.isNotEmpty && (u.startsWith('http://') || u.startsWith('https://')))
+        .toList();
+  }
+
   factory ListingDetail.fromJson(Map<String, dynamic> json) {
     return ListingDetail(
       id: json['id'] as String,
@@ -72,6 +84,7 @@ class ListingDetail {
       areaSqft: (json['areaSqft'] as num?)?.toInt(),
       price: (json['price'] as num).toInt(),
       amenities: json['amenities'] as String?,
+      videoUrl: json['videoUrl'] as String?,
       images: (json['images'] as List<dynamic>? ?? [])
           .map((e) => PublicListingImage.fromJson(e as Map<String, dynamic>))
           .toList(),

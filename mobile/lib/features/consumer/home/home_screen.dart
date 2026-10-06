@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +36,11 @@ class _HomeScreenState extends State<HomeScreen>
   int _activeChip = 0;
   final Set<String> _favorites = {};
   final _heroSearchController = TextEditingController();
-  String? _heroListingType; // null = any, else SALE/RENT — mirrors the website's SearchBar select
+  int _heroTab = 0; // 0: Buy, 1: Rent, 2: Commercial, 3: Plots
+  int? _selectedBhk;
+  String? _selectedBudgetLabel;
+  double? _selectedMinPrice;
+  double? _selectedMaxPrice;
 
   @override
   void initState() {
@@ -79,10 +85,21 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  void _goSearch({String? city, String? listingType}) {
+  void _goSearch({
+    String? city,
+    String? listingType,
+    String? propertyType,
+    int? bedrooms,
+    double? minPrice,
+    double? maxPrice,
+  }) {
     final params = <String, String>{
-      'city': ?(city != null && city.isNotEmpty ? city : null),
-      'listingType': ?listingType,
+      if (city != null && city.isNotEmpty) 'city': city,
+      if (listingType != null && listingType.isNotEmpty) 'listingType': listingType,
+      if (propertyType != null && propertyType.isNotEmpty) 'propertyType': propertyType,
+      if (bedrooms != null) 'bedrooms': bedrooms.toString(),
+      if (minPrice != null) 'minPrice': minPrice.toString(),
+      if (maxPrice != null) 'maxPrice': maxPrice.toString(),
     };
     context.push(
       params.isEmpty
@@ -91,8 +108,39 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Future<void> _pickHeroListingType() async {
-    final selected = await showModalBottomSheet<String?>(
+  void _executeHeroSearch() {
+    String? listingType;
+    String? propertyType;
+    if (_heroTab == 0) {
+      listingType = 'SALE';
+    } else if (_heroTab == 1) {
+      listingType = 'RENT';
+    } else if (_heroTab == 2) {
+      propertyType = 'COMMERCIAL';
+    } else if (_heroTab == 3) {
+      propertyType = 'PLOT';
+    }
+    _goSearch(
+      city: _heroSearchController.text.trim(),
+      listingType: listingType,
+      propertyType: propertyType,
+      bedrooms: _selectedBhk,
+      minPrice: _selectedMinPrice,
+      maxPrice: _selectedMaxPrice,
+    );
+  }
+
+  Future<void> _pickHeroBudget() async {
+    final budgets = [
+      {'label': 'Any Budget', 'min': null, 'max': null},
+      {'label': 'Under ₹50 Lac', 'min': 0.0, 'max': 5000000.0},
+      {'label': '₹50 Lac - ₹1 Cr', 'min': 5000000.0, 'max': 10000000.0},
+      {'label': '₹1 Cr - ₹2 Cr', 'min': 10000000.0, 'max': 20000000.0},
+      {'label': '₹2 Cr - ₹5 Cr', 'min': 20000000.0, 'max': 50000000.0},
+      {'label': '₹5 Cr+', 'min': 50000000.0, 'max': null},
+    ];
+
+    final selected = await showModalBottomSheet<Map<String, dynamic>>(
       context: context,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
@@ -103,36 +151,84 @@ class _HomeScreenState extends State<HomeScreen>
           mainAxisSize: MainAxisSize.min,
           children: [
             const Padding(
-              padding: EdgeInsets.fromLTRB(20, 18, 20, 6),
+              padding: EdgeInsets.fromLTRB(20, 18, 20, 10),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Buy or Rent', style: TextStyle(fontWeight: FontWeight.w700)),
+                child: Text('Select Budget', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
               ),
             ),
-            ListTile(
-              title: const Text('Any'),
-              trailing: _heroListingType == null ? const Icon(Icons.check, color: AppColors.gold) : null,
-              onTap: () => Navigator.of(context).pop(null),
-            ),
-            ListTile(
-              title: const Text('Buy'),
-              trailing:
-                  _heroListingType == 'SALE' ? const Icon(Icons.check, color: AppColors.gold) : null,
-              onTap: () => Navigator.of(context).pop('SALE'),
-            ),
-            ListTile(
-              title: const Text('Rent'),
-              trailing:
-                  _heroListingType == 'RENT' ? const Icon(Icons.check, color: AppColors.gold) : null,
-              onTap: () => Navigator.of(context).pop('RENT'),
-            ),
-            const SizedBox(height: 8),
+            ...budgets.map((b) {
+              final isCur = _selectedBudgetLabel == b['label'] || (_selectedBudgetLabel == null && b['label'] == 'Any Budget');
+              return ListTile(
+                title: Text(b['label'] as String, style: GoogleFonts.inter(fontSize: 14)),
+                trailing: isCur ? const Icon(Icons.check, color: AppColors.gold) : null,
+                onTap: () => Navigator.of(context).pop(b),
+              );
+            }),
+            const SizedBox(height: 12),
           ],
         ),
       ),
     );
-    if (!mounted) return;
-    setState(() => _heroListingType = selected);
+    if (selected != null && mounted) {
+      setState(() {
+        if (selected['label'] == 'Any Budget') {
+          _selectedBudgetLabel = null;
+          _selectedMinPrice = null;
+          _selectedMaxPrice = null;
+        } else {
+          _selectedBudgetLabel = selected['label'] as String?;
+          _selectedMinPrice = selected['min'] as double?;
+          _selectedMaxPrice = selected['max'] as double?;
+        }
+      });
+    }
+  }
+
+  Future<void> _pickHeroBhk() async {
+    final bhks = [
+      {'label': 'Any BHK', 'value': null},
+      {'label': '1 BHK', 'value': 1},
+      {'label': '2 BHK', 'value': 2},
+      {'label': '3 BHK', 'value': 3},
+      {'label': '4+ BHK', 'value': 4},
+    ];
+
+    final selected = await showModalBottomSheet<Map<String, dynamic>>(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 18, 20, 10),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Select BHK', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+              ),
+            ),
+            ...bhks.map((b) {
+              final isCur = _selectedBhk == b['value'];
+              return ListTile(
+                title: Text(b['label'] as String, style: GoogleFonts.inter(fontSize: 14)),
+                trailing: isCur ? const Icon(Icons.check, color: AppColors.gold) : null,
+                onTap: () => Navigator.of(context).pop(b),
+              );
+            }),
+            const SizedBox(height: 12),
+          ],
+        ),
+      ),
+    );
+    if (selected != null && mounted) {
+      setState(() {
+        _selectedBhk = selected['value'] as int?;
+      });
+    }
   }
 
   @override
@@ -146,12 +242,19 @@ class _HomeScreenState extends State<HomeScreen>
           slivers: [
             SliverToBoxAdapter(child: _heroWithSearch(context)),
             SliverToBoxAdapter(child: _scanQrPromoCard(context)),
+            SliverToBoxAdapter(child: _ownerCalloutBanner(context)),
+            SliverToBoxAdapter(child: _categoryGrid(context)),
             SliverToBoxAdapter(child: _chips()),
             SliverToBoxAdapter(child: _sectionHead()),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
               sliver: SliverToBoxAdapter(child: _listings()),
             ),
+            const SliverToBoxAdapter(child: _HomeEmiCalculatorWidget()),
+            SliverToBoxAdapter(child: _priceTrendsWidget(context)),
+            SliverToBoxAdapter(child: _topCitiesWidget(context)),
+            SliverToBoxAdapter(child: _trustBadgesWidget(context)),
+            const SliverToBoxAdapter(child: SizedBox(height: 36)),
           ],
         ),
       ),
@@ -434,71 +537,419 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _heroSearchBar() {
+    final tabs = ['Buy', 'Rent', 'Commercial', 'Plots'];
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.black.withValues(alpha: 0.05)),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryNavy.withValues(alpha: .18),
-            blurRadius: 40,
-            offset: const Offset(0, 18),
+            color: AppColors.primaryNavy.withValues(alpha: 0.16),
+            blurRadius: 32,
+            offset: const Offset(0, 14),
           ),
         ],
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          GestureDetector(
-            onTap: () => _goSearch(
-              city: _heroSearchController.text.trim(),
-              listingType: _heroListingType,
+          // Top Tabs
+          Container(
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+            decoration: const BoxDecoration(
+              border: Border(bottom: BorderSide(color: Color(0xFFF1F5F9))),
             ),
-            child: Container(
-              width: 34,
-              height: 34,
-              decoration: BoxDecoration(
-                color: AppColors.surfaceAlt,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(Icons.search, size: 17, color: AppColors.navyLight),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: TextField(
-              controller: _heroSearchController,
-              textInputAction: TextInputAction.search,
-              style: GoogleFonts.inter(fontSize: 15, color: AppColors.charcoal),
-              decoration: InputDecoration(
-                isDense: true,
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                filled: false,
-                contentPadding: const EdgeInsets.symmetric(vertical: 13),
-                hintText: 'Search by city, locality…',
-                hintStyle: GoogleFonts.inter(fontSize: 15, color: AppColors.textMuted),
-              ),
-              onSubmitted: (value) => _goSearch(
-                city: value.trim(),
-                listingType: _heroListingType,
-              ),
+            child: Row(
+              children: List.generate(tabs.length, (i) {
+                final active = _heroTab == i;
+                return Expanded(
+                  child: GestureDetector(
+                    onTap: () => setState(() => _heroTab = i),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      decoration: BoxDecoration(
+                        color: active ? AppColors.primaryNavy : Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        tabs[i],
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
+                          fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+                          color: active ? AppColors.goldLight : AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
             ),
           ),
-          const SizedBox(width: 10),
-          GestureDetector(
-            onTap: _pickHeroListingType,
-            child: Container(
-              width: 34,
-              height: 34,
-              decoration: BoxDecoration(
-                color: AppColors.primaryNavy,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(Icons.tune, size: 16, color: AppColors.goldLight),
+          // Search Input Row
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+            child: Row(
+              children: [
+                const Icon(Icons.location_on_outlined, size: 20, color: AppColors.gold),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: TextField(
+                    controller: _heroSearchController,
+                    textInputAction: TextInputAction.search,
+                    style: GoogleFonts.inter(fontSize: 14.5, color: AppColors.charcoal),
+                    decoration: InputDecoration(
+                      isDense: true,
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                      hintText: 'Search city, locality, project…',
+                      hintStyle: GoogleFonts.inter(fontSize: 14, color: AppColors.textMuted),
+                    ),
+                    onSubmitted: (_) => _executeHeroSearch(),
+                  ),
+                ),
+                if (_heroSearchController.text.isNotEmpty)
+                  GestureDetector(
+                    onTap: () {
+                      _heroSearchController.clear();
+                      setState(() {});
+                    },
+                    child: const Icon(Icons.close_rounded, size: 18, color: Colors.grey),
+                  ),
+              ],
             ),
+          ),
+          // Filter Chips & Search Action Row
+          Container(
+            padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
+            child: Row(
+              children: [
+                // Budget Chip
+                Expanded(
+                  child: GestureDetector(
+                    onTap: _pickHeroBudget,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF8FAFC),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: _selectedBudgetLabel != null ? AppColors.gold : const Color(0xFFE2E8F0),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.currency_rupee_rounded,
+                            size: 14,
+                            color: _selectedBudgetLabel != null ? AppColors.gold : AppColors.textMuted,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              _selectedBudgetLabel ?? 'Budget',
+                              style: GoogleFonts.inter(
+                                fontSize: 11.5,
+                                fontWeight: _selectedBudgetLabel != null ? FontWeight.w600 : FontWeight.normal,
+                                color: _selectedBudgetLabel != null ? AppColors.charcoal : AppColors.textSecondary,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const Icon(Icons.arrow_drop_down, size: 16, color: AppColors.textMuted),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // BHK Chip
+                Expanded(
+                  child: GestureDetector(
+                    onTap: _pickHeroBhk,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF8FAFC),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: _selectedBhk != null ? AppColors.gold : const Color(0xFFE2E8F0),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.bed_rounded,
+                            size: 14,
+                            color: _selectedBhk != null ? AppColors.gold : AppColors.textMuted,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              _selectedBhk != null ? '$_selectedBhk BHK' : 'BHK',
+                              style: GoogleFonts.inter(
+                                fontSize: 11.5,
+                                fontWeight: _selectedBhk != null ? FontWeight.w600 : FontWeight.normal,
+                                color: _selectedBhk != null ? AppColors.charcoal : AppColors.textSecondary,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const Icon(Icons.arrow_drop_down, size: 16, color: AppColors.textMuted),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // Search Submit Button
+                GestureDetector(
+                  onTap: _executeHeroSearch,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFD4AF37), Color(0xFFAA8010)],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.gold.withValues(alpha: 0.3),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.search, size: 16, color: Colors.white),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Search',
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _ownerCalloutBanner(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: AppColors.gold.withValues(alpha: 0.3)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: AppColors.gold.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: AppColors.goldLight.withValues(alpha: 0.5)),
+                  ),
+                  child: Text(
+                    'ZERO BROKERAGE',
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.goldLight,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                const Icon(Icons.verified_outlined, size: 18, color: AppColors.goldLight),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Are you a Property Owner?',
+              style: GoogleFonts.fraunces(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Sell or rent your property directly with zero brokerage. Connect with genuine verified buyers.',
+              style: GoogleFonts.inter(
+                fontSize: 12,
+                color: const Color(0xFF94A3B8),
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 14),
+            ElevatedButton.icon(
+              onPressed: () => context.push(RoutePaths.buyerGoldListing),
+              icon: const Icon(Icons.add_home_work_rounded, size: 16),
+              label: const Text('Post Property Free'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.gold,
+                foregroundColor: const Color(0xFF0F172A),
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                textStyle: GoogleFonts.inter(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _categoryGrid(BuildContext context) {
+    final categories = [
+      {'title': 'Apartments', 'subtitle': 'Flats & High-rise', 'type': 'APARTMENT', 'icon': Icons.apartment_rounded},
+      {'title': 'Villas', 'subtitle': 'Luxury & Independent', 'type': 'VILLA', 'icon': Icons.villa_rounded},
+      {'title': 'Commercial', 'subtitle': 'Shops & Showrooms', 'type': 'COMMERCIAL', 'icon': Icons.storefront_rounded},
+      {'title': 'Plots & Land', 'subtitle': 'Gated & Open', 'type': 'PLOT', 'icon': Icons.landscape_rounded},
+      {'title': 'Builder Floors', 'subtitle': 'Independent Floors', 'type': 'BUILDER_FLOOR', 'icon': Icons.layers_rounded},
+      {'title': 'Office Space', 'subtitle': 'Workspaces & Co-work', 'type': 'OFFICE', 'icon': Icons.business_center_rounded},
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Explore Property Types',
+                style: GoogleFonts.fraunces(
+                  fontSize: 19,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.charcoal,
+                ),
+              ),
+              GestureDetector(
+                onTap: () => _goSearch(),
+                child: Text(
+                  'All Types',
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.gold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: categories.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 0.95,
+            ),
+            itemBuilder: (context, index) {
+              final cat = categories[index];
+              return InkWell(
+                onTap: () => _goSearch(propertyType: cat['type'] as String),
+                borderRadius: BorderRadius.circular(14),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.03),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 38,
+                        height: 38,
+                        decoration: const BoxDecoration(
+                          color: AppColors.surfaceAlt,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          cat['icon'] as IconData,
+                          size: 20,
+                          color: AppColors.primaryNavy,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        cat['title'] as String,
+                        style: GoogleFonts.inter(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.charcoal,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        cat['subtitle'] as String,
+                        style: GoogleFonts.inter(
+                          fontSize: 9.5,
+                          color: AppColors.textMuted,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -627,7 +1078,540 @@ class _HomeScreenState extends State<HomeScreen>
       },
     );
   }
+
+  Widget _priceTrendsWidget(BuildContext context) {
+    final trends = [
+      {'city': 'Delhi NCR', 'rate': '₹8,450', 'change': '+12.4%'},
+      {'city': 'Mumbai', 'rate': '₹21,800', 'change': '+8.2%'},
+      {'city': 'Bengaluru', 'rate': '₹9,650', 'change': '+14.1%'},
+      {'city': 'Gurugram', 'rate': '₹11,200', 'change': '+18.5%'},
+      {'city': 'Pune', 'rate': '₹7,900', 'change': '+9.7%'},
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Market Price Trends',
+                    style: GoogleFonts.fraunces(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.charcoal,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Average residential rates / sq.ft',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+                ],
+              ),
+              const Icon(Icons.trending_up_rounded, color: AppColors.gold, size: 24),
+            ],
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            height: 96,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: trends.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 10),
+              itemBuilder: (context, i) {
+                final t = trends[i];
+                return InkWell(
+                  onTap: () => _goSearch(city: t['city']),
+                  borderRadius: BorderRadius.circular(14),
+                  child: Container(
+                    width: 140,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.03),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                t['city']!,
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.charcoal,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFDCFCE7),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                t['change']!,
+                                style: GoogleFonts.inter(
+                                  fontSize: 9.5,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xFF16A34A),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          t['rate']!,
+                          style: GoogleFonts.fraunces(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primaryNavy,
+                          ),
+                        ),
+                        Text(
+                          'per sq.ft • Explore >',
+                          style: GoogleFonts.inter(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.gold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _topCitiesWidget(BuildContext context) {
+    final cities = [
+      {'name': 'Delhi NCR', 'icon': Icons.location_city_rounded},
+      {'name': 'Mumbai', 'icon': Icons.apartment_rounded},
+      {'name': 'Bengaluru', 'icon': Icons.domain_rounded},
+      {'name': 'Gurugram', 'icon': Icons.business_rounded},
+      {'name': 'Pune', 'icon': Icons.holiday_village_rounded},
+      {'name': 'Hyderabad', 'icon': Icons.corporate_fare_rounded},
+      {'name': 'Noida', 'icon': Icons.location_city_outlined},
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Top Real Estate Hubs',
+            style: GoogleFonts.fraunces(
+              fontSize: 19,
+              fontWeight: FontWeight.w600,
+              color: AppColors.charcoal,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: cities.map((c) {
+              return ActionChip(
+                avatar: Icon(c['icon'] as IconData, size: 16, color: AppColors.primaryNavy),
+                label: Text(c['name'] as String),
+                labelStyle: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.charcoal,
+                ),
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: const BorderSide(color: const Color(0xFFE2E8F0)),
+                ),
+                onPressed: () => _goSearch(city: c['name'] as String),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _trustBadgesWidget(BuildContext context) {
+    final badges = [
+      {
+        'title': '100% Verified Partners',
+        'desc': 'All channel partners RERA registered & verified',
+        'icon': Icons.verified_user_rounded,
+      },
+      {
+        'title': 'Zero Hidden Charges',
+        'desc': 'Transparent listings with direct pricing',
+        'icon': Icons.price_check_rounded,
+      },
+      {
+        'title': 'Direct Partner Connect',
+        'desc': 'Direct contact with verified referral partners',
+        'icon': Icons.support_agent_rounded,
+      },
+      {
+        'title': 'Curated Video Tours',
+        'desc': 'Real YouTube & drone walkthrough videos',
+        'icon': Icons.play_circle_filled_rounded,
+      },
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF1F5F9),
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Why Baya Estate?',
+              style: GoogleFonts.fraunces(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: AppColors.charcoal,
+              ),
+            ),
+            const SizedBox(height: 12),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: badges.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1.45,
+              ),
+              itemBuilder: (context, i) {
+                final b = badges[i];
+                return Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(b['icon'] as IconData, size: 20, color: AppColors.gold),
+                      const SizedBox(height: 6),
+                      Text(
+                        b['title'] as String,
+                        style: GoogleFonts.inter(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.charcoal,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        b['desc'] as String,
+                        style: GoogleFonts.inter(
+                          fontSize: 9.5,
+                          color: AppColors.textMuted,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+
+class _HomeEmiCalculatorWidget extends StatefulWidget {
+  const _HomeEmiCalculatorWidget();
+
+  @override
+  State<_HomeEmiCalculatorWidget> createState() => _HomeEmiCalculatorWidgetState();
+}
+
+class _HomeEmiCalculatorWidgetState extends State<_HomeEmiCalculatorWidget> {
+  double _loanAmountLakhs = 50.0; // ₹50 Lakhs
+  double _interestRate = 8.5; // 8.5%
+  double _tenureYears = 20.0; // 20 years
+
+  @override
+  Widget build(BuildContext context) {
+    final principal = _loanAmountLakhs * 100000;
+    final r = (_interestRate / 12) / 100;
+    final n = _tenureYears * 12;
+
+    double emi = 0;
+    if (r > 0 && n > 0) {
+      emi = (principal * r * pow(1 + r, n)) / (pow(1 + r, n) - 1);
+    }
+    final totalAmount = emi * n;
+    final totalInterest = totalAmount > principal ? totalAmount - principal : 0.0;
+    final principalRatio = totalAmount > 0 ? (principal / totalAmount).clamp(0.05, 0.95) : 0.5;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFE2E8F0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 14,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Home Loan EMI Calculator',
+                      style: GoogleFonts.fraunces(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.charcoal,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'Plan your property purchase budget',
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        color: AppColors.textMuted,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: const BoxDecoration(
+                    color: AppColors.surfaceAlt,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.calculate_outlined, color: AppColors.primaryNavy, size: 20),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            // Monthly EMI display card
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
+                ),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Monthly EMI',
+                        style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF94A3B8)),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        Formatters.price(emi.round()),
+                        style: GoogleFonts.fraunces(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.goldLight,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Total Interest',
+                        style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF94A3B8)),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        Formatters.price(totalInterest.round()),
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            // Loan Amount Slider
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Loan Amount',
+                  style: GoogleFonts.inter(fontSize: 12.5, fontWeight: FontWeight.w600, color: AppColors.charcoal),
+                ),
+                Text(
+                  _loanAmountLakhs >= 100
+                      ? '₹${(_loanAmountLakhs / 100).toStringAsFixed(2)} Cr'
+                      : '₹${_loanAmountLakhs.toStringAsFixed(0)} Lac',
+                  style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.primaryNavy),
+                ),
+              ],
+            ),
+            Slider(
+              value: _loanAmountLakhs,
+              min: 5.0,
+              max: 300.0,
+              divisions: 59,
+              activeColor: AppColors.primaryNavy,
+              inactiveColor: const Color(0xFFE2E8F0),
+              onChanged: (val) => setState(() => _loanAmountLakhs = val),
+            ),
+            // Interest Rate Slider
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Interest Rate (p.a.)',
+                  style: GoogleFonts.inter(fontSize: 12.5, fontWeight: FontWeight.w600, color: AppColors.charcoal),
+                ),
+                Text(
+                  '${_interestRate.toStringAsFixed(1)}%',
+                  style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.primaryNavy),
+                ),
+              ],
+            ),
+            Slider(
+              value: _interestRate,
+              min: 6.0,
+              max: 15.0,
+              divisions: 90,
+              activeColor: AppColors.gold,
+              inactiveColor: const Color(0xFFE2E8F0),
+              onChanged: (val) => setState(() => _interestRate = val),
+            ),
+            // Tenure Slider
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Loan Tenure',
+                  style: GoogleFonts.inter(fontSize: 12.5, fontWeight: FontWeight.w600, color: AppColors.charcoal),
+                ),
+                Text(
+                  '${_tenureYears.toStringAsFixed(0)} Years',
+                  style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.primaryNavy),
+                ),
+              ],
+            ),
+            Slider(
+              value: _tenureYears,
+              min: 1.0,
+              max: 30.0,
+              divisions: 29,
+              activeColor: AppColors.primaryNavy,
+              inactiveColor: const Color(0xFFE2E8F0),
+              onChanged: (val) => setState(() => _tenureYears = val),
+            ),
+            const SizedBox(height: 6),
+            // Ratio Breakdown Bar
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: SizedBox(
+                height: 8,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: (principalRatio * 100).toInt(),
+                      child: Container(color: AppColors.primaryNavy),
+                    ),
+                    Expanded(
+                      flex: ((1 - principalRatio) * 100).toInt(),
+                      child: Container(color: AppColors.gold),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(width: 8, height: 8, decoration: const BoxDecoration(color: AppColors.primaryNavy, shape: BoxShape.circle)),
+                    const SizedBox(width: 4),
+                    Text('Principal (${(principalRatio * 100).toStringAsFixed(0)}%)', style: GoogleFonts.inter(fontSize: 10.5, color: AppColors.textMuted)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(width: 8, height: 8, decoration: const BoxDecoration(color: AppColors.gold, shape: BoxShape.circle)),
+                    const SizedBox(width: 4),
+                    Text('Interest (${((1 - principalRatio) * 100).toStringAsFixed(0)}%)', style: GoogleFonts.inter(fontSize: 10.5, color: AppColors.textMuted)),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 
 /// Fades and rises a child into place after [delay] — mirrors the mockup's
 /// staggered CSS entrance keyframes.

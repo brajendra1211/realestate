@@ -51,6 +51,7 @@ export async function POST(request: Request) {
       price: Number(body.price ?? 0),
       exactAddress: String(body.exactAddress ?? ""),
       amenities: body.amenities ? String(body.amenities) : null,
+      videoUrl: body.videoUrl ? String(body.videoUrl) : null,
       images: Array.isArray(body.images) ? body.images.map(String) : [],
       listingPlan: body.listingPlan === "GOLD" ? "GOLD" : "BASIC",
     });

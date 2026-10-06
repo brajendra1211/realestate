@@ -78,6 +78,7 @@ export async function getWebsiteListingDetail(slug: string) {
     areaSqft: property.areaSqft,
     price: property.price,
     amenities: property.amenities,
+    videoUrl: property.youtubeUrl,
     images: toImages(property),
     city: property.city,
     locality: property.locality,

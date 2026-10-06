@@ -63,6 +63,7 @@ class Endpoints {
   static const agentVisitsOtp = '/api/agent/visits/otp';
   static const agentVisits = '/api/agent/visits';
   static const agentPayouts = '/api/agent/payouts';
+  static const agentPayments = '/api/agent/payments';
   static const agentRatings = '/api/agent/ratings';
   static const agentDigest = '/api/agent/digest';
 

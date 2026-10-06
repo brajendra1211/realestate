@@ -45,6 +45,7 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
     appointments,
     unlockedProperties,
     verifiedVisits,
+    shopUnlocks,
   ] = await Promise.all([
     prisma.user.findUniqueOrThrow({ where: { id: session.user.id } }),
     prisma.savedProperty.findMany({
@@ -80,6 +81,13 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
       include: {
         agentListing: { select: { id: true, slug: true, title: true } },
         antiBypassAgreements: true,
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.agentShopUnlock.findMany({
+      where: { buyerId: session.user.id },
+      include: {
+        agent: { include: { user: { select: { name: true, phone: true } } } },
       },
       orderBy: { createdAt: "desc" },
     }),
@@ -278,22 +286,68 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
                       </p>
                     )}
                   </div>
-                  <div className="text-right">
-                    <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700">
-                      ✓ Unlocked
-                    </span>
-                    {u.switchedAgent ? (
-                      <p className="mt-1 text-[11px] text-slate-400">1-Time Free Switch Used</p>
-                    ) : (
-                      <p className="mt-1 text-[11px] text-blue-600">1-Time Free Switch Available</p>
-                    )}
+                    <div className="text-right">
+                      <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700">
+                        ✓ Unlocked (₹100 Paid)
+                      </span>
+                      <p className="mt-1 text-[11px] text-slate-400">
+                        {u.createdAt.toLocaleDateString("en-IN")}
+                      </p>
+                      {u.switchedAgent ? (
+                        <p className="mt-0.5 text-[11px] text-slate-400">1-Time Free Switch Used</p>
+                      ) : (
+                        <p className="mt-0.5 text-[11px] text-blue-600">1-Time Free Switch Available</p>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* QR Shop Unlocks Payment History */}
+        {shopUnlocks.length > 0 && (
+          <div className="mt-10 scroll-mt-20">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900">
+                Channel Partner Shop Unlocks ({shopUnlocks.length})
+              </h2>
+              <p className="text-xs text-slate-500">
+                ₹50 scan fee paid to access verified partner profile & direct listings.
+              </p>
+            </div>
+            <div className="mt-3 space-y-3">
+              {shopUnlocks.map((s) => (
+                <div key={s.id} className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <p className="font-bold text-slate-900">
+                        {s.agent.user.name} ({s.agent.shopName || "Channel Partner"})
+                      </p>
+                      <p className="mt-0.5 text-xs text-slate-500">
+                        Partner Phone: {s.agent.user.phone || "In App"}
+                      </p>
+                      {s.razorpayPaymentId && (
+                        <p className="mt-0.5 text-[10px] text-slate-400 font-mono">
+                          Payment ID: {s.razorpayPaymentId}
+                        </p>
+                      )}
+                    </div>
+                    <div className="text-right">
+                      <span className="rounded-full bg-purple-50 px-2.5 py-0.5 text-xs font-semibold text-purple-700">
+                        ✓ ₹50 Paid
+                      </span>
+                      <p className="mt-1 text-[11px] text-slate-400">
+                        {s.createdAt.toLocaleDateString("en-IN")}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
-      </div>
 
       {/* Verified Site Visits & Anti-Bypass Agreements */}
       {verifiedVisits.length > 0 && (

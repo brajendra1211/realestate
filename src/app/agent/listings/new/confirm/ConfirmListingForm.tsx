@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { submitAgentListing, type SubmitAgentListingState } from "./actions";
 import { AgentListingImagesField } from "@/components/agent/AgentListingImagesField";
 
@@ -40,6 +40,26 @@ export function ConfirmListingForm({
   candidates: Candidate[];
 }) {
   const [state, formAction, pending] = useActionState(submitAgentListing, initialState);
+  const [videoUrls, setVideoUrls] = useState<string[]>([""]);
+
+  function addVideoField() {
+    setVideoUrls((prev) => [...prev, ""]);
+  }
+
+  function removeVideoField(index: number) {
+    setVideoUrls((prev) => {
+      const next = prev.filter((_, i) => i !== index);
+      return next.length > 0 ? next : [""];
+    });
+  }
+
+  function updateVideoUrl(index: number, value: string) {
+    setVideoUrls((prev) => {
+      const next = [...prev];
+      next[index] = value;
+      return next;
+    });
+  }
 
   useEffect(() => {
     if (state.redirectTo) window.location.href = state.redirectTo;
@@ -183,6 +203,55 @@ export function ConfirmListingForm({
             type="text"
             name="amenities"
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div className="sm:col-span-2 space-y-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <label className="text-sm font-semibold text-slate-800">Video tour URLs (optional)</label>
+              <p className="text-xs text-slate-500">
+                Add multiple YouTube (videos, shorts), Vimeo, or video tour links.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={addVideoField}
+              className="inline-flex items-center gap-1 rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 transition hover:bg-blue-100"
+            >
+              + Add another link
+            </button>
+          </div>
+
+          <div className="space-y-2">
+            {videoUrls.map((url, idx) => (
+              <div key={idx} className="flex items-center gap-2">
+                <input
+                  type="url"
+                  placeholder={`Video URL #${idx + 1} (e.g. https://youtube.com/...)`}
+                  value={url}
+                  onChange={(e) => updateVideoUrl(idx, e.target.value)}
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+                />
+                {videoUrls.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeVideoField(idx)}
+                    className="rounded-lg p-2 text-slate-400 transition hover:bg-red-50 hover:text-red-600"
+                    title="Remove this video link"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <input
+            type="hidden"
+            name="videoUrl"
+            value={videoUrls.map((u) => u.trim()).filter(Boolean).join("\n")}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState, type ChangeEvent } from "react";
-import { IMAGE_CATEGORIES, IMAGE_CATEGORY_LABELS } from "@/lib/format";
+import { IMAGE_CATEGORIES, IMAGE_CATEGORY_LABELS, parseVideoUrls } from "@/lib/format";
 import { parseAmenitiesString } from "@/lib/amenities";
 import { LocationFields } from "@/components/LocationFields";
 
@@ -86,6 +86,30 @@ export function PropertyForm({
   const [brochureUrl, setBrochureUrl] = useState<string | null>(defaultValues?.brochureUrl ?? null);
   const [brochureUploading, setBrochureUploading] = useState(false);
   const [brochureError, setBrochureError] = useState<string | null>(null);
+
+  const [videoUrls, setVideoUrls] = useState<string[]>(() => {
+    const parsed = parseVideoUrls(defaultValues?.youtubeUrl);
+    return parsed.length > 0 ? parsed : [""];
+  });
+
+  function addVideoField() {
+    setVideoUrls((prev) => [...prev, ""]);
+  }
+
+  function removeVideoField(index: number) {
+    setVideoUrls((prev) => {
+      const next = prev.filter((_, i) => i !== index);
+      return next.length > 0 ? next : [""];
+    });
+  }
+
+  function updateVideoUrl(index: number, value: string) {
+    setVideoUrls((prev) => {
+      const next = [...prev];
+      next[index] = value;
+      return next;
+    });
+  }
 
   async function handleBrochureFile(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -386,16 +410,67 @@ export function PropertyForm({
           />
         </div>
 
-        <div className="sm:col-span-2">
-          <label className="text-sm font-medium text-slate-700">YouTube video link</label>
+        <div className="sm:col-span-2 space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <label className="text-sm font-semibold text-slate-800">
+                Property Video Links / Virtual Tours
+              </label>
+              <p className="text-xs text-slate-500">
+                Add multiple YouTube (videos, shorts), Vimeo, or video URLs. Buyers can watch video walkthroughs directly on the listing page.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={addVideoField}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 transition hover:bg-blue-100"
+            >
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+              </svg>
+              Add another video link
+            </button>
+          </div>
+
+          <div className="space-y-2.5">
+            {videoUrls.map((url, idx) => (
+              <div key={idx} className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <svg className="h-4 w-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                    </svg>
+                  </div>
+                  <input
+                    type="url"
+                    placeholder={`Video URL #${idx + 1} (e.g. https://www.youtube.com/watch?v=... or shorts)`}
+                    value={url}
+                    onChange={(e) => updateVideoUrl(idx, e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 py-2 pl-9 pr-3 text-sm focus:border-blue-500 focus:outline-none"
+                  />
+                </div>
+                {videoUrls.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeVideoField(idx)}
+                    className="rounded-lg p-2 text-slate-400 transition hover:bg-red-50 hover:text-red-600"
+                    title="Remove this video link"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Hidden input to pass clean newline-separated URLs to server action */}
           <input
-            type="url"
+            type="hidden"
             name="youtubeUrl"
-            placeholder="https://www.youtube.com/watch?v=..."
-            defaultValue={defaultValues?.youtubeUrl ?? undefined}
-            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+            value={videoUrls.map((u) => u.trim()).filter(Boolean).join("\n")}
           />
-          <p className="mt-1 text-xs text-slate-500">Optional — shown as an embedded video on the listing page.</p>
         </div>
       </div>
 

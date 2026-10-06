@@ -261,6 +261,10 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                         ],
                       ),
                     ),
+                    if (listing.videoUrls.isNotEmpty) ...[
+                      const SizedBox(height: AppSpacing.md),
+                      _VideoToursCard(listing: listing),
+                    ],
                     const SizedBox(height: AppSpacing.md),
                     if (!listing.unlocked)
                       Container(
@@ -444,6 +448,252 @@ class _Meta extends StatelessWidget {
           Icon(icon, size: 18, color: AppColors.textSecondary),
           const SizedBox(width: 4),
           Text(label, style: Theme.of(context).textTheme.bodyMedium),
+        ],
+      ),
+    );
+  }
+}
+
+class _VideoToursCard extends StatelessWidget {
+  const _VideoToursCard({required this.listing});
+
+  final ListingDetail listing;
+
+  String? _extractYoutubeId(String url) {
+    final regExp = RegExp(
+      r'(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))([\w-]{11})',
+      caseSensitive: false,
+    );
+    final match = regExp.firstMatch(url);
+    return match?.group(1);
+  }
+
+  void _showVideoDialog(BuildContext context, String url, int index) {
+    final ytId = _extractYoutubeId(url);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Row(
+          children: [
+            const Icon(Icons.play_circle_fill, color: Colors.red),
+            const SizedBox(width: 8),
+            Text('Video Tour #${index + 1}', style: const TextStyle(fontSize: 16)),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (ytId != null) ...[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: CachedNetworkImage(
+                    imageUrl: 'https://img.youtube.com/vi/$ytId/hqdefault.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+            ],
+            SelectableText(
+              url,
+              style: const TextStyle(fontSize: 12, color: Colors.blue),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Copy link or open video in your browser/app.',
+              style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final videos = listing.videoUrls;
+    if (videos.isEmpty) return const SizedBox.shrink();
+
+    return _DetailCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.video_library_rounded, color: Colors.red, size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Videos & Virtual Tours',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '${videos.length} ${videos.length == 1 ? "Video" : "Videos"}',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red.shade700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'Virtual walkthroughs and property tours for this listing.',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          ...videos.asMap().entries.map((entry) {
+            final idx = entry.key;
+            final url = entry.value;
+            final ytId = _extractYoutubeId(url);
+
+            return Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: InkWell(
+                onTap: () => _showVideoDialog(context, url, idx),
+                borderRadius: BorderRadius.circular(AppRadius.md),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceAlt,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    border: Border.all(color: AppColors.divider),
+                  ),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.horizontal(
+                          left: Radius.circular(AppRadius.md),
+                        ),
+                        child: SizedBox(
+                          width: 110,
+                          height: 72,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              if (ytId != null)
+                                CachedNetworkImage(
+                                  imageUrl: 'https://img.youtube.com/vi/$ytId/hqdefault.jpg',
+                                  fit: BoxFit.cover,
+                                  errorWidget: (_, __, ___) => Container(
+                                    color: Colors.black87,
+                                    child: const Icon(Icons.play_circle_fill, color: Colors.red),
+                                  ),
+                                )
+                              else
+                                Container(
+                                  color: Colors.black87,
+                                  child: const Icon(Icons.videocam_rounded, color: Colors.white70),
+                                ),
+                              Center(
+                                child: Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black54,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.play_arrow_rounded,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  if (ytId != null) ...[
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: const Text(
+                                        'YouTube',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                  ],
+                                  Expanded(
+                                    child: Text(
+                                      'Video Tour #${idx + 1}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                url,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                              ),
+                              const SizedBox(height: 2),
+                              const Text(
+                                'Tap to view video',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: AppColors.gold,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Icon(Icons.arrow_forward_ios, size: 14, color: AppColors.textSecondary),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
         ],
       ),
     );

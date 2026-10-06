@@ -47,6 +47,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
   final _areaController = TextEditingController();
   final _priceController = TextEditingController();
   final _amenitiesController = TextEditingController();
+  final List<TextEditingController> _videoControllers = [TextEditingController()];
 
   String _listingType = 'SALE';
   String _propertyType = 'APARTMENT';
@@ -89,6 +90,9 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
     _areaController.dispose();
     _priceController.dispose();
     _amenitiesController.dispose();
+    for (final c in _videoControllers) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -155,6 +159,18 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
         amenities: _amenitiesController.text.trim().isEmpty
             ? null
             : _amenitiesController.text.trim(),
+        videoUrl: _videoControllers
+            .map((c) => c.text.trim())
+            .where((u) => u.isNotEmpty)
+            .join('\n')
+            .trim()
+            .isEmpty
+            ? null
+            : _videoControllers
+                .map((c) => c.text.trim())
+                .where((u) => u.isNotEmpty)
+                .join('\n')
+                .trim(),
         images: imageUrls,
       );
 
@@ -402,6 +418,55 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
                 decoration:
                     const InputDecoration(labelText: 'Amenities (comma separated, optional)'),
               ),
+              const SizedBox(height: AppSpacing.sm),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Video Tour URLs (YouTube, Reels, Vimeo)',
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        _videoControllers.add(TextEditingController());
+                      });
+                    },
+                    icon: const Icon(Icons.add, size: 16),
+                    label: const Text('Add Link', style: TextStyle(fontSize: 12)),
+                  ),
+                ],
+              ),
+              ...List.generate(_videoControllers.length, (index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _videoControllers[index],
+                          keyboardType: TextInputType.url,
+                          decoration: InputDecoration(
+                            labelText: 'Video URL #${index + 1} (optional)',
+                            hintText: 'https://youtube.com/... or shorts',
+                            prefixIcon: const Icon(Icons.video_library_outlined, size: 20),
+                          ),
+                        ),
+                      ),
+                      if (_videoControllers.length > 1)
+                        IconButton(
+                          icon: const Icon(Icons.remove_circle_outline, color: Colors.red, size: 20),
+                          onPressed: () {
+                            setState(() {
+                              final c = _videoControllers.removeAt(index);
+                              c.dispose();
+                            });
+                          },
+                        ),
+                    ],
+                  ),
+                );
+              }),
             ],
           ),
           const SizedBox(height: AppSpacing.lg),

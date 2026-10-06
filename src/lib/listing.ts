@@ -34,6 +34,7 @@ export type CreateAgentListingInput = {
   price: number;
   exactAddress: string;
   amenities?: string | null;
+  videoUrl?: string | null;
   images: string[];
   listingPlan?: "BASIC" | "GOLD";
 };
@@ -90,6 +91,7 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
         exactAddress: input.exactAddress.trim(),
         amenities: input.amenities?.trim() || null,
         nearbyAmenities: formatAmenitiesNote(nearby),
+        videoUrl: input.videoUrl?.trim() || null,
         listingPlan,
         listingFee: fee,
         listingAgentSplit: agentSplit,

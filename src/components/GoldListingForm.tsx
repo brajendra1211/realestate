@@ -30,6 +30,26 @@ export function GoldListingForm() {
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "submitting">("idle");
   const [error, setError] = useState<string | null>(null);
+  const [videoUrls, setVideoUrls] = useState<string[]>([""]);
+
+  function addVideoField() {
+    setVideoUrls((prev) => [...prev, ""]);
+  }
+
+  function removeVideoField(index: number) {
+    setVideoUrls((prev) => {
+      const next = prev.filter((_, i) => i !== index);
+      return next.length > 0 ? next : [""];
+    });
+  }
+
+  function updateVideoUrl(index: number, value: string) {
+    setVideoUrls((prev) => {
+      const next = [...prev];
+      next[index] = value;
+      return next;
+    });
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -39,6 +59,7 @@ export function GoldListingForm() {
     const form = event.currentTarget;
     const data = new FormData(form);
     const imageUrls = data.getAll("imageUrls").map(String).filter(Boolean);
+    const joinedVideos = videoUrls.map((u) => u.trim()).filter(Boolean).join("\n");
 
     const formInput: GoldListingFormInput = {
       title: String(data.get("title") ?? ""),
@@ -53,7 +74,7 @@ export function GoldListingForm() {
       locality: String(data.get("locality") ?? ""),
       address: String(data.get("address") ?? ""),
       amenities: String(data.get("amenities") ?? ""),
-      videoUrl: String(data.get("videoUrl") ?? ""),
+      videoUrl: joinedVideos || null,
       referredByAgentCode: String(data.get("referredByAgentCode") ?? ""),
       images: imageUrls,
     };
@@ -168,9 +189,48 @@ export function GoldListingForm() {
         <label className="text-sm font-medium text-slate-700">Amenities (comma-separated, optional)</label>
         <input type="text" name="amenities" className={inputClass} />
       </div>
-      <div>
-        <label className="text-sm font-medium text-slate-700">Video tour URL (optional)</label>
-        <input type="url" name="videoUrl" placeholder="https://youtube.com/..." className={inputClass} />
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <div>
+            <label className="text-sm font-semibold text-slate-800">Video tour URLs (optional)</label>
+            <p className="text-xs text-slate-500">
+              Add multiple YouTube, Reels, Vimeo, or video tour links.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={addVideoField}
+            className="inline-flex items-center gap-1 rounded-lg bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-800 transition hover:bg-amber-100"
+          >
+            + Add another link
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          {videoUrls.map((url, idx) => (
+            <div key={idx} className="flex items-center gap-2">
+              <input
+                type="url"
+                placeholder={`Video URL #${idx + 1} (e.g. https://youtube.com/...)`}
+                value={url}
+                onChange={(e) => updateVideoUrl(idx, e.target.value)}
+                className={inputClass}
+              />
+              {videoUrls.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeVideoField(idx)}
+                  className="rounded-lg p-2 text-slate-400 transition hover:bg-red-50 hover:text-red-600"
+                  title="Remove this video link"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
       <div>
         <label className="text-sm font-medium text-slate-700">Referred by Channel Partner Code (optional)</label>

@@ -34,6 +34,35 @@ export function formatINR(amount: number) {
   return inrFormatter.format(amount);
 }
 
+export function parseVideoUrls(raw?: string | null): string[] {
+  if (!raw) return [];
+  const trimmed = raw.trim();
+  if (!trimmed) return [];
+  
+  if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        return parsed.map((item) => String(item).trim()).filter((u) => u.startsWith("http"));
+      }
+    } catch {
+      // fallback to split
+    }
+  }
+
+  return trimmed
+    .split(/[\n,\r\t]+/)
+    .map((u) => u.trim())
+    .filter((u) => u.length > 0 && (u.startsWith("http://") || u.startsWith("https://")));
+}
+
+export type VideoEmbedInfo = {
+  originalUrl: string;
+  embedUrl: string | null;
+  type: "youtube" | "vimeo" | "direct" | "external";
+  title?: string;
+};
+
 export function getYoutubeEmbedUrl(url: string): string | null {
   try {
     const parsed = new URL(url);
@@ -49,6 +78,8 @@ export function getYoutubeEmbedUrl(url: string): string | null {
         videoId = parsed.pathname.split("/embed/")[1];
       } else if (parsed.pathname.startsWith("/shorts/")) {
         videoId = parsed.pathname.split("/shorts/")[1];
+      } else if (parsed.pathname.startsWith("/live/")) {
+        videoId = parsed.pathname.split("/live/")[1];
       }
     }
 
@@ -57,6 +88,52 @@ export function getYoutubeEmbedUrl(url: string): string | null {
   } catch {
     return null;
   }
+}
+
+export function getVideoEmbed(url: string): VideoEmbedInfo {
+  const yt = getYoutubeEmbedUrl(url);
+  if (yt) {
+    return {
+      originalUrl: url,
+      embedUrl: yt,
+      type: "youtube",
+      title: "YouTube Video Tour",
+    };
+  }
+
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    if (host.includes("vimeo.com")) {
+      const segments = parsed.pathname.split("/").filter(Boolean);
+      const vimeoId = segments[segments.length - 1];
+      if (vimeoId && /^\d+$/.test(vimeoId)) {
+        return {
+          originalUrl: url,
+          embedUrl: `https://player.vimeo.com/video/${vimeoId}`,
+          type: "vimeo",
+          title: "Vimeo Video Tour",
+        };
+      }
+    }
+    if (url.match(/\.(mp4|webm|ogg)($|\?)/i)) {
+      return {
+        originalUrl: url,
+        embedUrl: url,
+        type: "direct",
+        title: "Video File",
+      };
+    }
+  } catch {
+    // ignore
+  }
+
+  return {
+    originalUrl: url,
+    embedUrl: null,
+    type: "external",
+    title: "External Video Link",
+  };
 }
 
 export const PROPERTY_TYPE_LABELS: Record<string, string> = {

@@ -51,6 +51,7 @@ export async function submitAgentListing(
       price: Number(formData.get("price") ?? 0),
       exactAddress: String(formData.get("exactAddress") ?? ""),
       amenities: String(formData.get("amenities") ?? ""),
+      videoUrl: String(formData.get("videoUrl") ?? "").trim() || null,
       images,
     });
   } catch (error) {

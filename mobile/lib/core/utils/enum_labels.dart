@@ -13,6 +13,7 @@ class EnumLabels {
         'VILLA' => 'Villa',
         'INDEPENDENT_HOUSE' => 'Independent House',
         'PLOT' => 'Plot',
+        'BUILDER_FLOOR' => 'Builder Floor',
         'COMMERCIAL' => 'Commercial',
         'OFFICE' => 'Office',
         _ => value,

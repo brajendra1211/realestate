@@ -73,6 +73,22 @@ class _SearchScreenState extends State<SearchScreen> {
     if (initialListingType == 'SALE' || initialListingType == 'RENT') {
       _listingType = initialListingType;
     }
+    final initialPropertyType = params['propertyType'];
+    if (initialPropertyType != null && initialPropertyType.isNotEmpty) {
+      _propertyType = initialPropertyType;
+    }
+    final initialBedrooms = params['bedrooms'];
+    if (initialBedrooms != null) {
+      _minBedrooms = int.tryParse(initialBedrooms);
+    }
+    final initialMinPrice = params['minPrice'];
+    if (initialMinPrice != null) {
+      _minPrice = int.tryParse(initialMinPrice);
+    }
+    final initialMaxPrice = params['maxPrice'];
+    if (initialMaxPrice != null) {
+      _maxPrice = int.tryParse(initialMaxPrice);
+    }
     _search();
   }
 

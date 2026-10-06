@@ -118,6 +118,7 @@ class AgentListingsService {
     required int price,
     required String exactAddress,
     String? amenities,
+    String? videoUrl,
     required List<String> images,
   }) async {
     try {
@@ -139,6 +140,7 @@ class AgentListingsService {
           'price': price,
           'exactAddress': exactAddress,
           'amenities': ?amenities,
+          'videoUrl': ?videoUrl,
           'images': images,
         },
       );

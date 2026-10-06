@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getAgentByUserId, getAgentCommissionSummary } from "@/lib/agent";
@@ -68,7 +69,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
   const { AgentQrHeroCard } = await import("@/components/agent/AgentQrHeroCard");
   const { DirectRenewalsTracker } = await import("@/components/agent/DirectRenewalsTracker");
 
-  const [{ totals }, payouts, activeDispatches, { count: ratingCount }, subStatus, cycleProgress, networkData] =
+  const [{ totals, entries }, payouts, activeDispatches, { count: ratingCount }, subStatus, cycleProgress, networkData] =
     await Promise.all([
       getAgentCommissionSummary(agent.id),
       getPayoutsForAgent(agent.id),
@@ -484,10 +485,20 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
         </form>
       </div>
 
-      <h2 className="mt-8 text-lg font-semibold text-slate-900">Commission breakdown</h2>
-      <p className="mt-1 text-sm text-slate-500">
-        Each category is tracked separately and never merged into a single number.
-      </p>
+      <div className="mt-8 flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold text-slate-900">Commission breakdown</h2>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Each category is tracked separately and never merged into a single number.
+          </p>
+        </div>
+        <Link
+          href="/agent/payments"
+          className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-blue-600 hover:bg-slate-50 transition"
+        >
+          View Full Payment History ({entries.length}) →
+        </Link>
+      </div>
       <div className="mt-3 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
         {Object.entries(COMMISSION_LABELS).map(([type, label]) => (
           <div key={type} className="flex items-center justify-between px-4 py-3 text-sm">
@@ -497,10 +508,49 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
         ))}
       </div>
 
-      <h2 className="mt-8 text-lg font-semibold text-slate-900">Withdraw to bank</h2>
-      <p className="mt-1 text-sm text-slate-500">
-        TDS is deducted automatically before the payout is marked paid by admin.
-      </p>
+      {entries.length > 0 && (
+        <div className="mt-6">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-bold text-slate-800">Recent Commission Credits</h3>
+            <Link href="/agent/payments" className="text-xs text-blue-600 hover:underline">
+              See all
+            </Link>
+          </div>
+          <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white">
+            {entries.slice(0, 5).map((entry) => (
+              <div key={entry.id} className="flex items-center justify-between px-4 py-3 text-xs">
+                <div>
+                  <p className="font-semibold text-slate-900">
+                    {COMMISSION_LABELS[entry.type] ?? entry.type}
+                  </p>
+                  <p className="text-slate-500 mt-0.5">{entry.note || "Commission credit"}</p>
+                </div>
+                <div className="text-right">
+                  <span className="font-black text-emerald-700">+{formatINR(entry.amount)}</span>
+                  <p className="text-[10px] text-slate-400">
+                    {entry.createdAt.toLocaleDateString("en-IN")}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="mt-8 flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold text-slate-900">Withdraw to bank</h2>
+          <p className="mt-0.5 text-sm text-slate-500">
+            TDS is deducted automatically before the payout is marked paid by admin.
+          </p>
+        </div>
+        <Link
+          href="/agent/payments?tab=payouts"
+          className="text-xs font-semibold text-blue-600 hover:underline"
+        >
+          All Payouts ({payouts.length}) →
+        </Link>
+      </div>
 
       {saved === "payout" && (
         <p className="mt-3 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">

@@ -313,7 +313,7 @@ model Property {
   address         String?            @db.Text
   amenities       String?            @db.Text
   brochureUrl     String?
-  youtubeUrl      String?
+  youtubeUrl      String?            @db.Text
   ownerId         String
   owner           User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   projectId       String?
@@ -694,7 +694,7 @@ model AgentListing {
   // creation time, never typed manually. Distinct from `amenities` above
   // (on-property features like gym/pool), this is *nearby places*.
   nearbyAmenities       String?         @db.Text
-  videoUrl              String?
+  videoUrl              String?         @db.Text
   // PDF 1 P.1 & P.2: Basic (₹200 / 30d) vs Gold (₹500 / 90d) auto-delist
   listingPlan           ListingPlanTier @default(BASIC)
   listingFee            Int             @default(200)

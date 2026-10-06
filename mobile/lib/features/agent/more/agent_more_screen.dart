@@ -72,7 +72,7 @@ class AgentMoreScreen extends StatelessWidget {
           ),
           _MoreTile(
             icon: Icons.payments_outlined,
-            label: 'Payouts',
+            label: 'Earnings & Payments',
             onTap: () => context.push(RoutePaths.agentPayouts),
           ),
           _MoreTile(

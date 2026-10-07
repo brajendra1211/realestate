@@ -67,7 +67,8 @@ export default async function PropertiesPage({
 }) {
   const params = await searchParams;
   const location = params.city === undefined ? await getLocationCookie() : null;
-  const effectiveCity = params.city ?? location?.cityName;
+  // If user explicitly searched with ?city=, filter by that city; otherwise show all available properties
+  const effectiveCity = params.city;
 
   const where: Prisma.PropertyWhereInput = {
     approvalStatus: "APPROVED",

@@ -6,11 +6,55 @@ const adapter = new PrismaMariaDb(process.env.DATABASE_URL as string);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  console.log("🌱 Seeding 5 new premium Noida properties...");
+  console.log("🌱 Seeding cities & 5 new Noida properties...");
 
-  // Find or create an owner user to attach the properties to
+  // 1. Ensure Country & State exist
+  const india = await prisma.country.upsert({
+    where: { slug: "india" },
+    update: {},
+    create: { name: "India", slug: "india" },
+  });
+
+  const up = await prisma.state.upsert({
+    where: { countryId_slug: { countryId: india.id, slug: "uttar-pradesh" } },
+    update: {},
+    create: { name: "Uttar Pradesh", slug: "uttar-pradesh", countryId: india.id },
+  });
+
+  // 2. Ensure Noida & Greater Noida cities exist in DB
+  await prisma.city.upsert({
+    where: { slug: "noida" },
+    update: { published: true },
+    create: {
+      name: "Noida",
+      slug: "noida",
+      stateId: up.id,
+      latitude: 28.5355,
+      longitude: 77.3910,
+      published: true,
+      metaTitle: "Properties in Noida | Buy, Rent & Commercial",
+      metaDescription: "Explore verified residential and commercial properties in Noida with top amenities.",
+    },
+  });
+
+  await prisma.city.upsert({
+    where: { slug: "greater-noida" },
+    update: { published: true },
+    create: {
+      name: "Greater Noida",
+      slug: "greater-noida",
+      stateId: up.id,
+      latitude: 28.4744,
+      longitude: 77.5040,
+      published: true,
+      metaTitle: "Properties in Greater Noida | Buy & Rent",
+      metaDescription: "Find prime properties in Greater Noida and Noida Extension.",
+    },
+  });
+
+  // 3. Find or create an owner user to attach the properties to
   let owner = await prisma.user.findFirst({
-    where: { role: { in: ["OWNER", "DEALER", "ADMIN"] } },
+    where: { role: { in: ["OWNER", "DEALER", "ADMIN"] }, verified: true },
   });
 
   if (!owner) {
@@ -25,13 +69,14 @@ async function main() {
     });
   }
 
+  // 4. 5 Properties: 3 for BUY (SALE) and 2 for RENT (RENT)
   const newProperties = [
     {
       slug: "godrej-woods-luxury-3bhk-sector-43-noida",
       title: "Godrej Woods - Luxury 3 BHK in Sector 43, Noida",
       description:
         "Urban forest themed premium 3 BHK apartment by Godrej Properties with 600+ trees on campus, 3 swimming pools, modular kitchen, and grand private balconies overlooking greenery.",
-      listingType: "SALE" as const,
+      listingType: "SALE" as const, // BUY
       propertyType: "APARTMENT" as const,
       price: 24500000,
       bedrooms: 3,
@@ -51,7 +96,7 @@ async function main() {
       title: "ATS Knightsbridge - Ultra Luxury 4 BHK in Sector 124",
       description:
         "Palatial 4 BHK residence in the prestigious ATS Knightsbridge on Noida Expressway. Single apartment per floor layout with panoramic 360-degree views, concierge service, and Olympic size pool.",
-      listingType: "SALE" as const,
+      listingType: "SALE" as const, // BUY
       propertyType: "APARTMENT" as const,
       price: 55000000,
       bedrooms: 4,
@@ -71,7 +116,7 @@ async function main() {
       title: "Mahagun Manorialle - 3 BHK Golf Facing in Sector 128",
       description:
         "Condo with stunning golf-course views inside Jaypee Wish Town. Features 40-storey architectural marvel with rooftop club, temperature controlled pool, and world class fittings.",
-      listingType: "SALE" as const,
+      listingType: "SALE" as const, // BUY
       propertyType: "APARTMENT" as const,
       price: 31500000,
       bedrooms: 3,
@@ -88,12 +133,12 @@ async function main() {
     },
     {
       slug: "gaur-city-2-2bhk-high-rise-flat-noida-extension",
-      title: "Gaur City 2 - 2 BHK High Rise Flat in Noida Extension",
+      title: "Gaur City 2 - 2 BHK High Rise Flat for Rent in Noida Extension",
       description:
-        "Well maintained and ready-to-move 2 BHK apartment in Gaur City 2, Greater Noida West. Close to Gaur City Mall, multi-specialty hospitals, and upcoming metro station.",
-      listingType: "SALE" as const,
+        "Semi-furnished 2 BHK apartment in Gaur City 2, Greater Noida West available for rent. Modular kitchen, wardrobes, wooden flooring, close to Gaur City Mall and multi-specialty hospitals.",
+      listingType: "RENT" as const, // RENT
       propertyType: "APARTMENT" as const,
-      price: 6500000,
+      price: 22000, // Monthly Rent
       bedrooms: 2,
       bathrooms: 2,
       areaSqft: 980,
@@ -110,8 +155,8 @@ async function main() {
       slug: "paras-tierea-2bhk-ready-to-move-sector-137-noida",
       title: "Paras Tierea - 2 BHK Ready to Move in Sector 137",
       description:
-        "Prime location 2 BHK high-rise apartment directly opposite Sector 137 Metro Station and Advant Navis IT Park. Ideal for professionals and families seeking convenience and greenery.",
-      listingType: "RENT" as const,
+        "Prime location 2 BHK high-rise apartment directly opposite Sector 137 Metro Station and Advant Navis IT Park available for rent. Ideal for professionals and families seeking convenience and greenery.",
+      listingType: "RENT" as const, // RENT
       propertyType: "APARTMENT" as const,
       price: 28000, // Monthly rent
       bedrooms: 2,
@@ -134,7 +179,18 @@ async function main() {
     });
 
     if (existing) {
-      console.log(`Property already exists: ${p.title}`);
+      // Update listing type and details to ensure 3 Buy + 2 Rent
+      await prisma.property.update({
+        where: { slug: p.slug },
+        data: {
+          listingType: p.listingType,
+          price: p.price,
+          approvalStatus: "APPROVED",
+          status: "AVAILABLE",
+          featured: true,
+        },
+      });
+      console.log(`Updated property: ${p.title} -> ${p.listingType}`);
       continue;
     }
 
@@ -168,10 +224,10 @@ async function main() {
       },
     });
 
-    console.log(`✅ Created property: ${created.title} (₹${created.price.toLocaleString("en-IN")})`);
+    console.log(`✅ Created property: ${created.title} (${created.listingType} - ₹${created.price.toLocaleString("en-IN")})`);
   }
 
-  console.log("🎉 All 5 properties seeded successfully!");
+  console.log("🎉 All 5 properties seeded successfully (3 Buy / 2 Rent)!");
 }
 
 main()

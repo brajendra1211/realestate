@@ -43,8 +43,8 @@ export default async function Home() {
     take: 9,
   });
 
-  // Fall back to city-wide featured properties if there's nothing featured yet in the selected city.
-  if (location && featuredProperties.length === 0) {
+  // If there are fewer than 4 featured properties in the selected location, show all featured properties so showcase is always full
+  if (featuredProperties.length < 4) {
     featuredProperties = await prisma.property.findMany({
       where: {
         approvalStatus: "APPROVED",
@@ -55,7 +55,7 @@ export default async function Home() {
       },
       include: { images: { orderBy: { order: "asc" }, take: 1 } },
       orderBy: { createdAt: "desc" },
-      take: 9,
+      take: 12,
     });
   }
 

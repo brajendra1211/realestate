@@ -67,8 +67,8 @@ export function UnifiedLoginCard({ callbackUrl }: { callbackUrl: string }) {
       <div className="mt-7 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
         <p>
           New Channel Partner?{" "}
-          <Link href="/register" className="font-bold text-blue-600 hover:underline">
-            Register Here
+          <Link href="/register/agent" className="font-bold text-emerald-600 hover:underline">
+            Register as Partner ➔
           </Link>
         </p>
 

@@ -128,10 +128,13 @@ export function Footer({
                 Owners
               </Link>
               <Link href="/register" className="hover:text-slate-800">
-                List a property
+                List a property (Owner/Dealer)
+              </Link>
+              <Link href="/register/agent" className="text-emerald-700 font-semibold hover:text-emerald-900">
+                Channel Partner Registration 🤝
               </Link>
               <Link href="/buyer/login" className="hover:text-slate-800">
-                Buyer login
+                Buyer / Customer Login
               </Link>
             </nav>
           </div>
@@ -146,8 +149,15 @@ export function Footer({
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-200 pt-6 text-xs text-slate-400">
-          © {new Date().getFullYear()} {siteName}. All rights reserved.
+        <div className="mt-10 border-t border-slate-200 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+          <div>© {new Date().getFullYear()} {siteName}. All rights reserved.</div>
+          <Link
+            href="/health"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-medium hover:bg-emerald-100 transition"
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            Live Server & DB Status ⚡
+          </Link>
         </div>
       </div>
     </footer>

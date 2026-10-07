@@ -12,8 +12,10 @@ class AppColors {
   static const Color gold = Color(0xFFA5813F);
   static const Color goldLight = Color(0xFFE3CAA0);
   static const Color goldSoft = Color(0xFFBD965A);
+  static const Color goldDark = Color(0xFF8A6B32);
 
   static const Color background = Color(0xFFFAF7F1);
+  static const Color surface = Colors.white;
   static const Color surfaceAlt = Color(0xFFF2ECE1);
   static const Color divider = Color(0xFFE7E0D0);
 

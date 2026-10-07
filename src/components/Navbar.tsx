@@ -114,6 +114,13 @@ export async function Navbar({
                 </Link>
               ))}
               <Link
+                href="/register/agent"
+                className="hidden rounded-full border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-2 text-xs font-bold text-emerald-800 shadow-xs transition sm:inline-flex items-center gap-1.5"
+              >
+                <span>Become Partner</span>
+                <span className="text-xs">🤝</span>
+              </Link>
+              <Link
                 href="/register"
                 className="hidden rounded-full bg-[#0054a6] hover:bg-[#004080] px-4 py-2 text-xs font-extrabold text-white shadow-sm transition hover:shadow-md sm:inline-flex items-center gap-1.5"
               >
@@ -156,6 +163,13 @@ export async function Navbar({
                     {link.label}
                   </Link>
                 ))}
+                <Link
+                  href="/register/agent"
+                  className="rounded-lg px-3 py-2.5 text-sm font-bold text-emerald-700 hover:bg-emerald-50 flex items-center justify-between"
+                >
+                  <span>Become Channel Partner</span>
+                  <span>🤝</span>
+                </Link>
                 <div className="px-3 py-2">
                   <Link
                     href="/register"

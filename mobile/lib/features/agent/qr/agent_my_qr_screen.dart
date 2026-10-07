@@ -45,7 +45,7 @@ class _AgentMyQrScreenState extends State<AgentMyQrScreen> {
 
   void _shareOnWhatsApp(AgentProfile profile) {
     final code = profile.agentCode ?? '';
-    final shopUrl = '${ApiClient.instance.baseUrl}/shop/$code';
+    final shopUrl = '${ApiClient.baseUrl}/shop/$code';
     final message = '''*REAL ESTATE CONSULTANT*
 *${profile.shopName ?? 'Authorized Agency'}*
 Agent Code: *$code*
@@ -118,8 +118,8 @@ Scan QR or click below to view all my available verified properties:
             );
           }
 
-          final qrImageUrl = '${ApiClient.instance.baseUrl}/api/agent/qr?code=$agentCode&format=png';
-          final publicShopUrl = '${ApiClient.instance.baseUrl}/shop/$agentCode';
+          final qrImageUrl = '${ApiClient.baseUrl}/api/agent/qr?code=$agentCode&format=png';
+          final publicShopUrl = '${ApiClient.baseUrl}/shop/$agentCode';
 
           return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),

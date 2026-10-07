@@ -70,6 +70,7 @@ class Endpoints {
   // --- Dispatch (shared buyer/agent routes used from the agent side) ---
   static String dispatchDetail(String id) => '/api/dispatch/$id';
   static String dispatchAccept(String id) => '/api/dispatch/$id/accept';
+  static String dispatchCancel(String id) => '/api/dispatch/$id/cancel';
 
   // --- Geo (all but `nearest` require a logged-in session of any role) ---
   static const geoCountries = '/api/geo/countries';

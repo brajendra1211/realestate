@@ -67,6 +67,8 @@ class PublicListingSummary {
       ? (images..sort((a, b) => a.order.compareTo(b.order))).first.url
       : '';
 
+  String? get primaryImageUrl => coverImageUrl.isNotEmpty ? coverImageUrl : null;
+
   String get locationLabel => locality != null ? '$locality, $city' : city;
 
   factory PublicListingSummary.fromJson(Map<String, dynamic> json) {

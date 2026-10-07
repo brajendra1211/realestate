@@ -455,7 +455,9 @@ class _AgentPropertyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isRent = listing.listingType.toUpperCase() == 'RENT';
-    final photo = listing.primaryImageUrl ?? fallbackPropertyImage;
+    final photo = listing.coverImageUrl.isNotEmpty
+        ? resolveMediaUrl(listing.coverImageUrl)
+        : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800';
 
     return GestureDetector(
       onTap: onTap,
@@ -495,7 +497,7 @@ class _AgentPropertyCard extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: isRent ? Colors.indigo.shade600 : Colors.emerald.shade600,
+                        color: isRent ? Colors.indigo.shade600 : Colors.teal.shade600,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -518,7 +520,7 @@ class _AgentPropertyCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        formatPrice(listing.price, listing.listingType),
+                        Formatters.price(listing.price, perMonth: isRent),
                         style: GoogleFonts.fraunces(
                           color: Colors.white,
                           fontSize: 14,

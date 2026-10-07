@@ -64,9 +64,10 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
 
       <div className="mt-6 flex flex-wrap gap-2 text-sm">
         {[
-          { label: "All", href: filterLink({ status }) },
+          { label: "All (Owners & Dealers)", href: filterLink({ status }) },
           { label: "Dealers", href: filterLink({ role: "DEALER", status }) },
           { label: "Owners", href: filterLink({ role: "OWNER", status }) },
+          { label: "Buyers & Customers ➔", href: "/admin/buyers" },
         ].map((item) => (
           <a
             key={item.label}

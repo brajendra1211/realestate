@@ -19,18 +19,15 @@ echo "🔨 [4/5] Building Next.js production bundle..."
 npm run build
 
 echo "🔄 [5/5] Restarting application..."
+# Always notify Phusion Passenger (cPanel):
+mkdir -p tmp
+touch tmp/restart.txt
+echo "✅ Phusion Passenger reloaded via tmp/restart.txt!"
+
 # If using PM2:
 if command -v pm2 &> /dev/null; then
-    pm2 restart bayaestate || pm2 start server.js --name "bayaestate"
+    pm2 restart noidaprimeproperty || pm2 restart bayaestate || pm2 start server.js --name "noidaprimeproperty"
     echo "✅ PM2 process restarted successfully!"
-# If using cPanel Phusion Passenger:
-elif [ -f "tmp/restart.txt" ]; then
-    touch tmp/restart.txt
-    echo "✅ Phusion Passenger restarted successfully via tmp/restart.txt!"
-else
-    mkdir -p tmp
-    touch tmp/restart.txt
-    echo "✅ App marked for restart via tmp/restart.txt!"
 fi
 
 echo "🎉 Deployment completed successfully! Website is LIVE."

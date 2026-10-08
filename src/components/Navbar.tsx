@@ -25,8 +25,8 @@ export async function Navbar({
     { href: "/projects", label: "Projects" },
     { href: "/properties?propertyType=COMMERCIAL", label: "Commercial" },
     { href: "/properties?propertyType=PLOT", label: "Plots" },
-    { href: "/developers", label: "Developers" },
   ];
+
   if (
     session?.user.role === "OWNER" ||
     session?.user.role === "DEALER" ||
@@ -36,13 +36,6 @@ export async function Navbar({
   }
   if (session?.user.role === "BUYER") {
     links.push({ href: "/buyer/dashboard", label: "My Account" });
-  }
-  if (session?.user.role === "AGENT") {
-    links.push({ href: "/agent/dashboard", label: "Channel Partner Hub" });
-    links.push({ href: "/agent/dashboard#my-qr", label: "My Shop QR" });
-  }
-  if (session?.user.role === "INVESTOR") {
-    links.push({ href: "/investor/dashboard", label: "Referral Partner Portal" });
   }
   if (session?.user.role === "ADMIN") {
     links.push({ href: "/admin", label: "Admin" });
@@ -54,53 +47,57 @@ export async function Navbar({
         { href: "/login", label: "Log in" },
       ];
 
-  return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/90 bg-white shadow-xs">
-      {/* 99acres top blue accent bar */}
-      <div className="h-1 w-full bg-gradient-to-r from-[#003b6d] via-[#0054a6] to-[#0074d9]" />
+  const brandTitle = siteName && siteName !== "BayaEstate" ? siteName : "Noida Prime Properties";
 
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-        <div className="flex min-w-0 items-center gap-3">
-          <Link href="/" className="group flex min-w-0 items-center gap-2">
+  return (
+    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        {/* Brand & City */}
+        <div className="flex min-w-0 items-center gap-4">
+          <Link href="/" className="group flex min-w-0 items-center gap-2.5">
             {logoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt={siteName} className="h-8 w-auto shrink-0 object-contain" />
+              <img src={logoUrl} alt={brandTitle} className="h-8 w-auto shrink-0 object-contain" />
             ) : (
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0054a6] text-base font-black text-white shadow-sm shadow-blue-600/30 transition group-hover:scale-105">
-                {siteName.charAt(0)}
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-sm font-black text-white shadow-xs">
+                NP
               </span>
             )}
             <div className="flex flex-col">
-              <span className="truncate text-lg font-black tracking-tight text-[#0054a6] group-hover:text-[#003b6d] transition leading-tight">
-                {siteName}
+              <span className="truncate text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-600 transition leading-tight">
+                {brandTitle}
               </span>
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">
-                Property Portal
+              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider leading-none">
+                Verified Real Estate
               </span>
             </div>
           </Link>
-          <LocationMenu currentCity={currentCity} cities={cities} />
+          <div className="hidden sm:block">
+            <LocationMenu currentCity={currentCity} cities={cities} />
+          </div>
         </div>
 
-        <nav className="hidden items-center gap-0.5 text-xs lg:text-sm font-bold text-slate-700 md:flex">
+        {/* Center Nav Links */}
+        <nav className="hidden items-center gap-1 text-sm font-semibold text-slate-600 md:flex">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-lg px-2.5 py-1.5 transition hover:bg-slate-100 hover:text-[#0054a6]"
+              className="rounded-lg px-3 py-1.5 transition hover:bg-slate-100 hover:text-slate-900"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Right Action Buttons */}
+        <div className="flex items-center gap-2.5">
           {session ? (
             <>
-              <span className="hidden text-xs sm:text-sm font-semibold text-slate-600 sm:inline">
+              <span className="hidden text-xs sm:text-sm font-semibold text-slate-700 sm:inline">
                 {session.user.name}
               </span>
-              <LogoutButton className="hidden rounded-full border border-slate-300 px-3.5 py-1 text-xs font-bold text-slate-700 transition hover:bg-slate-100 sm:inline-block" />
+              <LogoutButton className="hidden rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 sm:inline-block" />
             </>
           ) : (
             <>
@@ -108,24 +105,17 @@ export async function Navbar({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="hidden text-xs sm:text-sm font-bold text-slate-700 hover:text-[#0054a6] sm:inline"
+                  className="hidden text-xs sm:text-sm font-semibold text-slate-700 hover:text-blue-600 sm:inline px-2 py-1.5"
                 >
                   {link.label}
                 </Link>
               ))}
               <Link
-                href="/register/agent"
-                className="hidden rounded-full border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-2 text-xs font-bold text-emerald-800 shadow-xs transition sm:inline-flex items-center gap-1.5"
-              >
-                <span>Become Partner</span>
-                <span className="text-xs">🤝</span>
-              </Link>
-              <Link
                 href="/register"
-                className="hidden rounded-full bg-[#0054a6] hover:bg-[#004080] px-4 py-2 text-xs font-extrabold text-white shadow-sm transition hover:shadow-md sm:inline-flex items-center gap-1.5"
+                className="hidden rounded-lg bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-bold text-white shadow-xs transition sm:inline-flex items-center gap-1.5"
               >
                 <span>Post Property</span>
-                <span className="rounded-full bg-emerald-500 px-1.5 py-0.2 text-[9px] font-black uppercase text-white tracking-wider">
+                <span className="rounded bg-emerald-500 px-1.5 py-0.2 text-[9px] font-black uppercase text-white tracking-wider">
                   FREE
                 </span>
               </Link>
@@ -138,7 +128,7 @@ export async function Navbar({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
                 >
                   {link.label}
                 </Link>
@@ -149,35 +139,26 @@ export async function Navbar({
 
             {session ? (
               <div className="space-y-2 px-3 py-2">
-                <p className="text-sm text-slate-500">{session.user.name}</p>
-                <LogoutButton className="w-full rounded-full border border-slate-300 px-4 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100" />
+                <p className="text-sm font-semibold text-slate-700">{session.user.name}</p>
+                <LogoutButton className="w-full rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100" />
               </div>
             ) : (
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1.5">
                 {authLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                    className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
                   >
                     {link.label}
                   </Link>
                 ))}
                 <Link
-                  href="/register/agent"
-                  className="rounded-lg px-3 py-2.5 text-sm font-bold text-emerald-700 hover:bg-emerald-50 flex items-center justify-between"
+                  href="/register"
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-center text-xs font-bold text-white transition hover:bg-blue-700 shadow-xs"
                 >
-                  <span>Become Channel Partner</span>
-                  <span>🤝</span>
+                  Post Property (FREE)
                 </Link>
-                <div className="px-3 py-2">
-                  <Link
-                    href="/register"
-                    className="block w-full rounded-full bg-linear-to-r from-blue-600 to-indigo-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm shadow-blue-600/25 transition hover:brightness-105"
-                  >
-                    List a property
-                  </Link>
-                </div>
               </div>
             )}
           </NavbarMobileMenu>

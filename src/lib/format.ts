@@ -5,8 +5,7 @@ const inrFormatter = new Intl.NumberFormat("en-IN", {
 });
 
 export function formatPrice(price: number, listingType: "SALE" | "RENT") {
-  const formatted = inrFormatter.format(price);
-  return listingType === "RENT" ? `${formatted}/mo` : formatted;
+  return formatIndianShortPrice(price, listingType);
 }
 
 export function formatIndianShortPrice(price: number, listingType?: "SALE" | "RENT"): string {

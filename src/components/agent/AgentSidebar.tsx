@@ -142,7 +142,7 @@ export function AgentSidebar({ agentName, logoutButton }: { agentName: string; l
   return (
     <PanelSidebar
       homeHref="/agent/dashboard"
-      brandLabel="BayaEstate"
+      brandLabel="Noida Prime"
       subLabel="Channel Partner Portal"
       navItems={NAV_ITEMS}
       personName={agentName}

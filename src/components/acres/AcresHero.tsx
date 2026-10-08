@@ -104,15 +104,16 @@ export function AcresHero({
   };
 
   return (
-    <section className="relative overflow-hidden bg-slate-900 text-white py-16 sm:py-24">
-      {/* Background Architectural Imagery */}
+    <section className="relative overflow-hidden bg-slate-800 text-white py-16 sm:py-24">
+      {/* Bright Luxury Architectural Daylight Backdrop */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&auto=format&fit=crop&q=80')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&auto=format&fit=crop&q=85')`,
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-slate-900/60" />
+      {/* Soft Ambient Overlay for text readability without darkening the photo */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-900/40 to-slate-900/20" />
 
       {/* Main Content */}
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6">

@@ -67,31 +67,31 @@ export default function NotFound() {
               href="/register"
               className="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 transition"
             >
-              Post Free Property 🏡
+              Post Free Property
             </Link>
             <Link
               href="/register/agent"
               className="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-xs font-semibold text-emerald-700 transition"
             >
-              Channel Partner 🤝
+              Channel Partner
             </Link>
             <Link
               href="/buyer/login"
               className="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 transition"
             >
-              Buyer Login 🔑
+              Buyer Login
             </Link>
             <Link
               href="/projects"
               className="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 transition"
             >
-              New Projects 🏗️
+              New Projects
             </Link>
             <Link
               href="/health"
               className="px-3.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-xs font-semibold text-blue-700 transition"
             >
-              System Status ⚡
+              System Status
             </Link>
           </div>
         </div>

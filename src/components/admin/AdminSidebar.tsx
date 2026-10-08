@@ -320,7 +320,7 @@ const NAV_ITEMS: PanelNavEntry[] = [
       },
       {
         href: "/health",
-        label: "Server & DB Health ⚡",
+        label: "Server & DB Health",
         icon: (
           <path
             strokeLinecap="round"
@@ -359,8 +359,8 @@ export function AdminSidebar({
   return (
     <PanelSidebar
       homeHref="/admin"
-      brandLabel="BayaEstate"
-      subLabel="Admin Panel"
+      brandLabel="Noida Prime"
+      subLabel="Admin Console"
       navItems={NAV_ITEMS}
       personName={adminName}
       personRole="Administrator"

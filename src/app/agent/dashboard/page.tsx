@@ -99,7 +99,9 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
             href="/agent/profile"
             className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-700 shadow-2xs hover:bg-slate-50 transition"
           >
-            <span>👤</span>
+            <svg className="h-3.5 w-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
             <span>Profile & KYC</span>
           </a>
         </div>
@@ -124,7 +126,12 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
 
       {subStatus?.visibilityDeprioritized && (
         <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-          <p className="font-bold">⚠️ Visibility Pushback Active</p>
+          <p className="font-bold flex items-center gap-1.5">
+            <svg className="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+            Visibility Pushback Active
+          </p>
           <p className="mt-1">
             Your agent code subscription has expired. Per system rules, your property listings have been pushed to lowest feed visibility (demoted) and new leads are rerouted. Payout withdrawals are locked until renewed.
           </p>
@@ -133,7 +140,12 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
 
       {subStatus?.renewalAlertActive && !subStatus?.visibilityDeprioritized && (
         <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-          <p className="font-bold">🔔 Upcoming Renewal Alert ({subStatus.daysRemaining} Days Remaining)</p>
+          <p className="font-bold flex items-center gap-1.5">
+            <svg className="h-4 w-4 text-amber-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+            </svg>
+            Upcoming Renewal Alert ({subStatus.daysRemaining} Days Remaining)
+          </p>
           <p className="mt-1">
             Your {subStatus.planTier} Plan renewal is due soon. Current wallet balance is insufficient for auto-debit. Please top up your wallet or configure Auto-Pay to prevent property visibility pushback.
           </p>
@@ -177,10 +189,10 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
                       }`}
                     />
                     {cycleProgress.trafficLight === "GREEN"
-                      ? "🟢 Task Achieved"
+                      ? "Task Achieved"
                       : cycleProgress.trafficLight === "YELLOW"
-                      ? "🟡 In Progress"
-                      : "🔴 At Risk / Pending"}
+                      ? "In Progress"
+                      : "At Risk / Pending"}
                   </span>
                 )}
               </div>
@@ -220,7 +232,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
             <div>
               <div className="flex items-center gap-2">
                 <span className="rounded-full bg-indigo-100 px-3 py-0.5 text-[11px] font-black text-indigo-800 uppercase tracking-wider">
-                  🎯 {cycleProgress.cycleDays}-Day Partner Target Cycle
+                  {cycleProgress.cycleDays}-Day Partner Target Cycle
                 </span>
                 {cycleProgress.customTargetEnabled && (
                   <span className="rounded-full bg-purple-100 px-2.5 py-0.5 text-[10px] font-extrabold text-purple-800">
@@ -353,7 +365,10 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
           {cycleProgress.coupon && (
             <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50/70 p-3 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-lg">🏷️</span>
+                <svg className="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
+                </svg>
                 <div>
                   <p className="text-xs font-bold text-amber-900">20% Pre-Expiry Discount Coupon Active!</p>
                   <p className="text-[11px] text-amber-700">

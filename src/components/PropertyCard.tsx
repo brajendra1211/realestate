@@ -17,38 +17,13 @@ type PropertyCardData = {
   images: { url: string }[];
 };
 
-function FactIcon({ kind }: { kind: "bed" | "bath" | "area" }) {
-  if (kind === "bed") {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5 text-slate-500">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 18v-6a2 2 0 012-2h14a2 2 0 012 2v6M3 18v2M21 18v2M3 12V8a1 1 0 011-1h5a1 1 0 011 1v2" />
-      </svg>
-    );
-  }
-  if (kind === "bath") {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5 text-slate-500">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 12h16v3a4 4 0 01-4 4H8a4 4 0 01-4-4v-3zM7 12V6a2 2 0 012-2h1M3 12h1" />
-      </svg>
-    );
-  }
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5 text-slate-500">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
-    </svg>
-  );
-}
-
 export function PropertyCard({ property }: { property: PropertyCardData }) {
   const image = property.images[0]?.url;
 
   return (
-    <Link
-      href={`/properties/${property.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-900/10"
-    >
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-900/10">
       {/* Property Image Container */}
-      <div className="relative aspect-[16/11] w-full overflow-hidden bg-slate-100">
+      <Link href={`/properties/${property.slug}`} className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 block">
         {image ? (
           <Image
             src={image}
@@ -64,76 +39,117 @@ export function PropertyCard({ property }: { property: PropertyCardData }) {
         )}
 
         {/* Soft Vignette Gradient */}
-        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-80" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
 
         {/* Top Badges */}
-        <div className="absolute left-3.5 top-3.5 flex flex-wrap gap-1.5">
+        <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
           <span
-            className={`rounded-lg px-2.5 py-1 text-[11px] font-bold tracking-wide shadow-sm backdrop-blur-md ${
+            className={`rounded-lg px-2.5 py-1 text-[11px] font-extrabold tracking-wide uppercase shadow-sm backdrop-blur-md ${
               property.listingType === "SALE"
                 ? "bg-slate-900/90 text-white border border-white/20"
                 : "bg-blue-600/90 text-white border border-white/20"
             }`}
           >
-            {property.listingType === "SALE" ? "FOR SALE" : "FOR RENT"}
+            {property.listingType === "SALE" ? "For Sale" : "For Rent"}
+          </span>
+
+          <span className="rounded-lg bg-emerald-600/90 text-white px-2 py-1 text-[11px] font-bold tracking-wide shadow-sm backdrop-blur-md flex items-center gap-1 border border-emerald-400/30">
+            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+            </svg>
+            Verified
           </span>
 
           {property.condition && (
-            <span className="rounded-lg bg-white/95 px-2 py-1 text-[11px] font-bold text-amber-700 shadow-sm border border-amber-200/60 backdrop-blur-md">
-              {property.condition === "NEW_BOOKING" ? "NEW" : "RESALE"}
+            <span className="rounded-lg bg-white/90 px-2 py-1 text-[10px] font-bold text-slate-800 shadow-sm border border-slate-200 backdrop-blur-md">
+              {property.condition === "NEW_BOOKING" ? "New Project" : "Resale"}
             </span>
           )}
         </div>
 
-        {/* Price on Image corner or header */}
-        <div className="absolute bottom-3 left-3.5 right-3.5 flex items-end justify-between text-white">
-          <span className="text-xl font-black tracking-tight drop-shadow-md text-white">
-            {formatPrice(property.price, property.listingType)}
-          </span>
-          <span className="rounded-md bg-black/60 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-slate-200 uppercase backdrop-blur-xs border border-white/10">
+        {/* Price on Image corner */}
+        <div className="absolute bottom-2.5 left-3.5 right-3.5 flex items-end justify-between text-white">
+          <div>
+            <div className="text-xl sm:text-2xl font-black tracking-tight drop-shadow-md text-white">
+              {formatPrice(property.price, property.listingType)}
+            </div>
+            {property.listingType === "SALE" && property.areaSqft && (
+              <div className="text-[11px] text-slate-200 font-semibold drop-shadow-sm">
+                ≈ ₹{Math.round(property.price / property.areaSqft).toLocaleString("en-IN")}/sq.ft
+              </div>
+            )}
+          </div>
+          <span className="rounded-md bg-black/60 px-2 py-0.5 text-[10px] font-bold tracking-wider text-slate-200 uppercase backdrop-blur-xs border border-white/10">
             {PROPERTY_TYPE_LABELS[property.propertyType] ?? property.propertyType}
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Property Details Body */}
       <div className="flex flex-1 flex-col justify-between p-4 space-y-3">
         <div>
-          <h3 className="text-base font-bold text-slate-900 transition group-hover:text-blue-600 line-clamp-1">
-            {property.title}
-          </h3>
-
-          <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-500 font-medium line-clamp-1">
-            <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5 shrink-0 text-slate-400">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 21s-7-6.1-7-11a7 7 0 1114 0c0 4.9-7 11-7 11z" />
-              <circle cx="12" cy="10" r="2.5" strokeWidth={1.8} />
+          {/* Location / Sector */}
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 mb-1">
+            <svg className="h-3.5 w-3.5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            {[property.locality, property.city].filter(Boolean).join(", ") || "Prime Location"}
-          </p>
+            <span className="truncate">{property.locality ? `${property.locality}, ${property.city}` : property.city}</span>
+          </div>
+
+          {/* Property Title */}
+          <Link href={`/properties/${property.slug}`} className="block">
+            <h3 className="line-clamp-2 text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition leading-snug">
+              {property.title}
+            </h3>
+          </Link>
         </div>
 
-        {/* Features Chips with crisp borders */}
-        <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3 text-xs font-semibold text-slate-600">
-          {property.bedrooms != null && (
-            <div className="inline-flex items-center gap-1.5 rounded-lg bg-slate-50 px-2.5 py-1 border border-slate-200/80">
-              <FactIcon kind="bed" />
-              <span>{property.bedrooms} BHK</span>
+        {/* Specs Badges (Beds, Baths, Area) */}
+        <div className="flex items-center justify-between rounded-xl bg-slate-50 border border-slate-100 px-3 py-2 text-xs font-semibold text-slate-700">
+          {property.bedrooms ? (
+            <div className="flex items-center gap-1.5">
+              <span className="text-slate-400">🛏️</span>
+              <span>{property.bedrooms} Beds</span>
             </div>
-          )}
-          {property.bathrooms != null && (
-            <div className="inline-flex items-center gap-1.5 rounded-lg bg-slate-50 px-2.5 py-1 border border-slate-200/80">
-              <FactIcon kind="bath" />
-              <span>{property.bathrooms} Bath</span>
+          ) : null}
+
+          {property.bathrooms ? (
+            <div className="flex items-center gap-1.5 border-l border-slate-200 pl-2">
+              <span className="text-slate-400">🚿</span>
+              <span>{property.bathrooms} Baths</span>
             </div>
-          )}
-          {property.areaSqft != null && (
-            <div className="inline-flex items-center gap-1.5 rounded-lg bg-slate-50 px-2.5 py-1 border border-slate-200/80">
-              <FactIcon kind="area" />
-              <span>{property.areaSqft} sqft</span>
+          ) : null}
+
+          {property.areaSqft ? (
+            <div className="flex items-center gap-1.5 border-l border-slate-200 pl-2">
+              <span className="text-slate-400">📐</span>
+              <span>{property.areaSqft.toLocaleString("en-IN")} sq.ft</span>
             </div>
-          )}
+          ) : null}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2 pt-1 border-t border-slate-100">
+          <Link
+            href={`/properties/${property.slug}`}
+            className="flex-1 rounded-xl bg-slate-900 hover:bg-blue-600 text-white py-2 text-center text-xs font-bold transition shadow-xs"
+          >
+            View Details
+          </Link>
+          <a
+            href={`https://wa.me/919876543210?text=Hello,%20I%20am%20interested%20in%20${encodeURIComponent(property.title)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 p-2 text-xs font-bold transition flex items-center justify-center shrink-0"
+            title="Chat on WhatsApp"
+          >
+            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.044.101-.116.433-.506.549-.679.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824z" />
+            </svg>
+          </a>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

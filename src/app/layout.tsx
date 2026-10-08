@@ -22,6 +22,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import { SiteShell } from "@/components/SiteShell";
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   const title = settings.metaTitle ?? settings.siteName;
@@ -81,7 +83,7 @@ export default async function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-white text-slate-900">
+      <body className="flex min-h-full flex-col bg-white text-slate-900 font-sans">
         {gaId && (
           <>
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
@@ -96,27 +98,35 @@ export default async function RootLayout({
           </>
         )}
         <LocationDetector hasLocation={location !== null} />
-        <Navbar
-          siteName={settings.siteName}
-          logoUrl={settings.logoUrl}
-          currentCity={location ? { slug: location.citySlug, name: location.cityName } : null}
-          cities={cities}
-        />
-        <main className="flex-1">{children}</main>
-        <Footer
-          siteName={settings.siteName}
-          tagline={settings.tagline}
-          contactEmail={settings.contactEmail}
-          contactPhone={settings.contactPhone}
-          contactAddress={settings.contactAddress}
-          instagramUrl={settings.instagramUrl}
-          facebookUrl={settings.facebookUrl}
-          youtubeUrl={settings.youtubeUrl}
-          linkedinUrl={settings.linkedinUrl}
-        />
-        <WhatsAppButton phoneNumber={settings.whatsappNumber} />
-        <MobileBottomNav />
+        <SiteShell
+          navbar={
+            <Navbar
+              siteName={settings.siteName}
+              logoUrl={settings.logoUrl}
+              currentCity={location ? { slug: location.citySlug, name: location.cityName } : null}
+              cities={cities}
+            />
+          }
+          footer={
+            <Footer
+              siteName={settings.siteName}
+              tagline={settings.tagline}
+              contactEmail={settings.contactEmail}
+              contactPhone={settings.contactPhone}
+              contactAddress={settings.contactAddress}
+              instagramUrl={settings.instagramUrl}
+              facebookUrl={settings.facebookUrl}
+              youtubeUrl={settings.youtubeUrl}
+              linkedinUrl={settings.linkedinUrl}
+            />
+          }
+          whatsapp={<WhatsAppButton phoneNumber={settings.whatsappNumber} />}
+          mobileNav={<MobileBottomNav />}
+        >
+          {children}
+        </SiteShell>
       </body>
     </html>
   );
 }
+

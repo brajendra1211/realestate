@@ -24,18 +24,12 @@ const LISTING_TYPES = [
   { value: "RENT", label: "Rent" },
 ];
 
-const CONDITIONS = [
-  { value: "", label: "New or Resale" },
-  { value: "NEW_BOOKING", label: "New Booking" },
-  { value: "RESALE", label: "Resale" },
-];
-
 const PROPERTY_TYPES = [
-  { value: "", label: "Any type" },
-  { value: "APARTMENT", label: "Apartment" },
-  { value: "VILLA", label: "Villa" },
+  { value: "", label: "All Property Types" },
+  { value: "APARTMENT", label: "Apartment / Flat" },
+  { value: "VILLA", label: "Luxury Villa" },
   { value: "INDEPENDENT_HOUSE", label: "Independent House" },
-  { value: "PLOT", label: "Plot" },
+  { value: "PLOT", label: "Plot / Land" },
   { value: "COMMERCIAL", label: "Commercial" },
   { value: "OFFICE", label: "Office" },
 ];
@@ -49,9 +43,9 @@ export async function generateMetadata({
   const location = params.city === undefined ? await getLocationCookie() : null;
   const effectiveCity = params.city ?? location?.cityName;
   const action = params.listingType === "RENT" ? "for Rent" : params.listingType === "SALE" ? "for Sale" : "for Sale & Rent";
-  const place = effectiveCity ? ` in ${effectiveCity}` : "";
-  const title = `Properties ${action}${place}`;
-  const description = `Browse verified properties ${action.toLowerCase()}${place} — apartments, villas, plots, and commercial spaces from trusted dealers and owners.`;
+  const place = effectiveCity ? ` in ${effectiveCity}` : " in Noida & NCR";
+  const title = `Properties ${action}${place} | Noida Prime Properties`;
+  const description = `Browse 100% verified properties ${action.toLowerCase()}${place} — luxury apartments, villas, plots, and commercial spaces.`;
 
   return {
     title,
@@ -66,8 +60,6 @@ export default async function PropertiesPage({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
-  const location = params.city === undefined ? await getLocationCookie() : null;
-  // If user explicitly searched with ?city=, filter by that city; otherwise show all available properties
   const effectiveCity = params.city;
 
   const where: Prisma.PropertyWhereInput = {
@@ -112,7 +104,7 @@ export default async function PropertiesPage({
   const collectionJsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Properties for Sale & Rent",
+    name: "Properties for Sale & Rent in Noida",
     url: absoluteUrl("/properties"),
     mainEntity: {
       "@type": "ItemList",
@@ -124,117 +116,205 @@ export default async function PropertiesPage({
     },
   };
 
+  const currentTab = params.listingType === "SALE" ? "SALE" : params.listingType === "RENT" ? "RENT" : "ALL";
+
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div className="min-h-screen bg-slate-50/60 pb-16">
       <JsonLd data={collectionJsonLd} />
-      <div className="border-b border-slate-200/80 pb-5">
-        <span className="text-[11px] font-black uppercase tracking-widest text-blue-600">
-          Curated Catalog
-        </span>
-        <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
-          Properties {effectiveCity ? `in ${effectiveCity}` : "Directory"}
-        </h1>
-        <p className="mt-1 text-xs text-slate-500 font-medium">
-          Explore verified residential and commercial spaces from certified channel partners.
-        </p>
-      </div>
 
-      <form
-        method="get"
-        className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-slate-200/90 bg-white p-4 shadow-xs sm:grid-cols-3 lg:grid-cols-6"
-      >
-        <input
-          type="text"
-          name="city"
-          defaultValue={effectiveCity}
-          placeholder="City or locality"
-          className="col-span-2 rounded-xl border border-slate-200/90 bg-slate-50/50 px-3.5 py-2.5 text-xs font-semibold text-slate-800 transition focus:border-slate-400 focus:bg-white focus:outline-none sm:col-span-1"
-        />
-        <select
-          name="listingType"
-          defaultValue={params.listingType ?? ""}
-          className="rounded-xl border border-slate-200/90 bg-slate-50/50 px-3 py-2.5 text-xs font-semibold text-slate-700 transition focus:border-slate-400 focus:bg-white focus:outline-none cursor-pointer"
-        >
-          {LISTING_TYPES.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <select
-          name="propertyType"
-          defaultValue={params.propertyType ?? ""}
-          className="rounded-xl border border-slate-200/90 bg-slate-50/50 px-3 py-2.5 text-xs font-semibold text-slate-700 transition focus:border-slate-400 focus:bg-white focus:outline-none cursor-pointer"
-        >
-          {PROPERTY_TYPES.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <select
-          name="condition"
-          defaultValue={params.condition ?? ""}
-          className="rounded-xl border border-slate-200/90 bg-slate-50/50 px-3 py-2.5 text-xs font-semibold text-slate-700 transition focus:border-slate-400 focus:bg-white focus:outline-none cursor-pointer"
-        >
-          {CONDITIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <input
-          type="number"
-          name="minPrice"
-          defaultValue={params.minPrice}
-          placeholder="Min price (₹)"
-          className="rounded-xl border border-slate-200/90 bg-slate-50/50 px-3 py-2.5 text-xs font-semibold text-slate-800 transition focus:border-slate-400 focus:bg-white focus:outline-none"
-        />
-        <div className="flex gap-2">
-          <input
-            type="number"
-            name="maxPrice"
-            defaultValue={params.maxPrice}
-            placeholder="Max price (₹)"
-            className="w-full rounded-xl border border-slate-200/90 bg-slate-50/50 px-3 py-2.5 text-xs font-semibold text-slate-800 transition focus:border-slate-400 focus:bg-white focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-xs transition hover:bg-slate-800 active:scale-[0.98] shrink-0"
-          >
-            Apply
-          </button>
-        </div>
-      </form>
+      {/* Modern Page Header Banner */}
+      <div className="border-b border-slate-200 bg-white py-8 px-4 sm:px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-1">
+                <Link href="/" className="hover:text-blue-600 transition">Home</Link>
+                <span>/</span>
+                <span className="text-slate-800">Properties</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                {currentTab === "SALE"
+                  ? "Properties for Sale in Noida & NCR"
+                  : currentTab === "RENT"
+                  ? "Properties for Rent in Noida & NCR"
+                  : "All Verified Properties in Noida & NCR"}
+              </h1>
+              <p className="mt-1 text-xs sm:text-sm text-slate-500">
+                Direct from verified owners and certified channel partners · 100% RERA compliant
+              </p>
+            </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-2">
-        <p className="text-xs font-bold text-slate-600">
-          Showing <span className="text-slate-900">{properties.length}</span> verified properties
-          {location && (
-            <>
-              {" "}
-              in {location.cityName} ·{" "}
-              <Link href="/properties?city=" className="text-blue-600 hover:underline">
-                View all cities
+            {/* Quick Listing Type Switcher Pills */}
+            <div className="flex items-center gap-1.5 rounded-2xl bg-slate-100 p-1 border border-slate-200/80">
+              <Link
+                href="/properties"
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
+                  currentTab === "ALL"
+                    ? "bg-white text-slate-900 shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                All ({properties.length})
               </Link>
-            </>
-          )}
-        </p>
+              <Link
+                href="/properties?listingType=SALE"
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
+                  currentTab === "SALE"
+                    ? "bg-blue-600 text-white shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Buy (Sale)
+              </Link>
+              <Link
+                href="/properties?listingType=RENT"
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
+                  currentTab === "RENT"
+                    ? "bg-blue-600 text-white shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Rent (Lease)
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {properties.length === 0 ? (
-        <div className="mt-6 rounded-3xl border-2 border-dashed border-slate-200 p-12 text-center bg-white shadow-xs">
-          <span className="text-3xl">🔍</span>
-          <p className="mt-2 text-sm font-bold text-slate-800">No properties match your filter.</p>
-          <p className="mt-1 text-xs text-slate-400">Try adjusting your price range or selecting another locality.</p>
+      <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
+        {/* Filter Console */}
+        <form
+          method="get"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm"
+        >
+          {/* City / Locality input */}
+          <div className="lg:col-span-3">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+              Sector / Locality
+            </label>
+            <input
+              type="text"
+              name="city"
+              defaultValue={effectiveCity}
+              placeholder="e.g. Sector 43, Sector 128..."
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-xs font-semibold text-slate-800 placeholder-slate-400 focus:border-blue-600 focus:bg-white focus:outline-none transition"
+            />
+          </div>
+
+          {/* Listing Type */}
+          <div className="lg:col-span-2">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+              Listing Type
+            </label>
+            <select
+              name="listingType"
+              defaultValue={params.listingType ?? ""}
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-xs font-semibold text-slate-700 focus:border-blue-600 focus:bg-white focus:outline-none transition cursor-pointer"
+            >
+              {LISTING_TYPES.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Property Type */}
+          <div className="lg:col-span-2">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+              Property Type
+            </label>
+            <select
+              name="propertyType"
+              defaultValue={params.propertyType ?? ""}
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-xs font-semibold text-slate-700 focus:border-blue-600 focus:bg-white focus:outline-none transition cursor-pointer"
+            >
+              {PROPERTY_TYPES.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Min Price */}
+          <div className="lg:col-span-2">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+              Min Budget (₹)
+            </label>
+            <input
+              type="number"
+              name="minPrice"
+              defaultValue={params.minPrice}
+              placeholder="Min ₹"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-xs font-semibold text-slate-800 focus:border-blue-600 focus:bg-white focus:outline-none transition"
+            />
+          </div>
+
+          {/* Max Price */}
+          <div className="lg:col-span-2">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+              Max Budget (₹)
+            </label>
+            <input
+              type="number"
+              name="maxPrice"
+              defaultValue={params.maxPrice}
+              placeholder="Max ₹"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-xs font-semibold text-slate-800 focus:border-blue-600 focus:bg-white focus:outline-none transition"
+            />
+          </div>
+
+          {/* Submit & Reset Buttons */}
+          <div className="lg:col-span-1 flex items-end">
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 py-2.5 px-3 text-xs font-bold text-white shadow-xs transition hover:shadow-md cursor-pointer text-center"
+            >
+              Filter
+            </button>
+          </div>
+        </form>
+
+        {/* Results Header */}
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs font-bold text-slate-600">
+            Showing <span className="text-slate-900 font-extrabold">{properties.length}</span> verified properties in Noida & NCR
+          </p>
+
+          <Link
+            href="/properties"
+            className="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+          >
+            Clear all filters
+          </Link>
         </div>
-      ) : (
-        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {properties.map((property) => (
-            <PropertyCard key={property.slug} property={property} />
-          ))}
-        </div>
-      )}
+
+        {/* Properties Grid */}
+        {properties.length === 0 ? (
+          <div className="mt-8 rounded-3xl border-2 border-dashed border-slate-200 p-12 text-center bg-white shadow-xs">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-2xl text-blue-600 mb-3">
+              🔍
+            </div>
+            <h3 className="text-base font-bold text-slate-900">No properties found matching your criteria</h3>
+            <p className="mt-1 text-xs text-slate-500 max-w-sm mx-auto">
+              Try adjusting your price range or clearing locality filters to see more results.
+            </p>
+            <Link
+              href="/properties"
+              className="mt-4 inline-flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white transition hover:bg-blue-700 shadow-xs"
+            >
+              Reset Filters
+            </Link>
+          </div>
+        ) : (
+          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {properties.map((property) => (
+              <PropertyCard key={property.slug} property={property} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

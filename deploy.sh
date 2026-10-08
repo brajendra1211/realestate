@@ -14,7 +14,7 @@ npm install --production=false
 echo "🗄️ [3/5] Syncing database schema with Prisma..."
 npx prisma generate
 npx prisma db push --accept-data-loss
-npx tsx prisma/reset-clean-db.ts || true
+npx tsx prisma/seed-all-panels-users.ts || true
 
 echo "🔨 [4/5] Building Next.js production bundle..."
 npm run build

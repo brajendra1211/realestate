@@ -19,10 +19,10 @@ export default async function LoginPage({
             href="/"
             className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900 text-white shadow-md hover:bg-slate-800 transition-all text-xs font-bold tracking-wide"
           >
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-white text-[11px] font-black">
-              B
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white text-[11px] font-black">
+              NP
             </span>
-            <span>BayaEstate</span>
+            <span>Noida Prime Properties</span>
           </Link>
 
           <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-900">

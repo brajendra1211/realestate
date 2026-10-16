@@ -60,3 +60,26 @@ export async function geocodeLocation(query: string): Promise<{ latitude: number
     clearTimeout(timeout);
   }
 }
+
+// Nominatim rarely knows house/flat/shop-level addresses, so this tries the
+// full address first, then falls back to progressively coarser parts (e.g.
+// locality, then city) until one resolves — good enough for duplicate
+// checks, area routing, and partner-location matching, even when the exact
+// address never geocodes. Calls are spaced out to respect Nominatim's 1
+// request/second usage policy. `parts` is ordered finest-to-coarsest, e.g.
+// [exactAddress, locality, city].
+export async function geocodeWithFallback(
+  parts: (string | null | undefined)[]
+): Promise<{ latitude: number; longitude: number } | null> {
+  const clean = parts.map((p) => p?.trim()).filter((p): p is string => Boolean(p));
+  const queries = [clean.join(", "), ...clean.slice(1).map((_, i) => clean.slice(i + 1).join(", "))].filter(
+    (q, i, all) => q && all.indexOf(q) === i
+  );
+
+  for (const [index, query] of queries.entries()) {
+    if (index > 0) await new Promise((resolve) => setTimeout(resolve, 1100));
+    const coords = await geocodeLocation(query);
+    if (coords) return coords;
+  }
+  return null;
+}

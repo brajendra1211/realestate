@@ -3,7 +3,7 @@ import { hashPassword } from "@/lib/password";
 import { slugify } from "@/lib/slug";
 import { notifyUser } from "@/lib/notify";
 import { generateAgentCode } from "@/lib/codes";
-import { geocodeLocation } from "@/lib/geocode";
+import { geocodeWithFallback } from "@/lib/geocode";
 import { indexAgentLocation } from "@/lib/agentGeo";
 import { getSiteSettings } from "@/lib/site-settings";
 import type { AgentDocumentType, AgentProfile, Prisma } from "@/generated/prisma";
@@ -76,7 +76,7 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
     throw new AgentServiceError("duplicate");
   }
 
-  const shopCoords = await geocodeLocation(`${input.shopAddress.trim()}, ${input.city.trim()}`);
+  const shopCoords = await geocodeWithFallback([input.shopAddress, input.city]);
 
   let referringAgentId: string | null = null;
   const referredByAgentCode = input.referredByAgentCode?.trim();

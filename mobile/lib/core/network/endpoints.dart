@@ -117,4 +117,9 @@ class Endpoints {
       '/api/agent/shop/$agentCode/unlock/order';
   static String agentShopUnlockVerify(String agentCode) =>
       '/api/agent/shop/$agentCode/unlock/verify';
+  static String agentShopNearbyAlert(String agentCode) =>
+      '/api/agent/shop/$agentCode/nearby-alert';
+
+  // --- Push notifications ---
+  static const pushRegister = '/api/push/register';
 }

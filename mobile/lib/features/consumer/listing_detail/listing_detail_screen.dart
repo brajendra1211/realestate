@@ -597,7 +597,7 @@ class _VideoToursCard extends StatelessWidget {
                                 CachedNetworkImage(
                                   imageUrl: 'https://img.youtube.com/vi/$ytId/hqdefault.jpg',
                                   fit: BoxFit.cover,
-                                  errorWidget: (_, __, ___) => Container(
+                                  errorWidget: (_, _, _) => Container(
                                     color: Colors.black87,
                                     child: const Icon(Icons.play_circle_fill, color: Colors.red),
                                   ),

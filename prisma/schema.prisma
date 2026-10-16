@@ -120,6 +120,7 @@ model User {
   directVisits         DirectPropertyVisit[]         @relation("DirectVisitBuyer")
   antiBypassAgreements PlatformAntiBypassAgreement[] @relation("AntiBypassBuyer")
   agentShopUnlocks     AgentShopUnlock[]             @relation("BuyerAgentShopUnlocks")
+  pushTokens           PushToken[]
 }
 
 enum PlanRole {
@@ -1270,4 +1271,18 @@ model AgentShopUnlock {
   @@index([buyerId])
   @@index([agentId])
   @@index([customerPhone])
+}
+
+// A mobile FCM device token for one logged-in user (a channel partner's
+// phone, so far) — used to ring them when a buyer scans a nearby QR
+// (lib/push.ts). A user can hold more than one (reinstall, second device).
+model PushToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  platform  String // "ANDROID" for now
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }

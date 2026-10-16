@@ -54,15 +54,29 @@ class AgentShopService {
       final res = await _dio.post(
         Endpoints.agentShopUnlockVerify(agentCode.trim().toUpperCase()),
         data: {
-          if (orderId != null) 'razorpayOrderId': orderId,
-          if (paymentId != null) 'razorpayPaymentId': paymentId,
-          if (signature != null) 'razorpaySignature': signature,
+          'razorpayOrderId': ?orderId,
+          'razorpayPaymentId': ?paymentId,
+          'razorpaySignature': ?signature,
           if (phone != null && phone.isNotEmpty) 'customerPhone': phone,
         },
       );
       return res.data as Map<String, dynamic>;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
+    }
+  }
+
+  /// Fire-and-forget: lets nearby channel partners know a buyer just scanned
+  /// this QR. Never throws — a failed/slow alert must never block the scan
+  /// flow from continuing to the shop screen.
+  Future<void> sendNearbyAlert(String agentCode, {required double latitude, required double longitude}) async {
+    try {
+      await _dio.post(
+        Endpoints.agentShopNearbyAlert(agentCode.trim().toUpperCase()),
+        data: {'latitude': latitude, 'longitude': longitude},
+      );
+    } catch (_) {
+      // Best-effort only.
     }
   }
 }

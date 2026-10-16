@@ -1250,7 +1250,7 @@ class _HomeScreenState extends State<HomeScreen>
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
-                  side: const BorderSide(color: const Color(0xFFE2E8F0)),
+                  side: const BorderSide(color: Color(0xFFE2E8F0)),
                 ),
                 onPressed: () => _goSearch(city: c['name'] as String),
               );

@@ -488,7 +488,7 @@ class _AgentPropertyCard extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: photo,
                       fit: BoxFit.cover,
-                      errorWidget: (_, __, ___) => Container(color: Colors.grey.shade200),
+                      errorWidget: (_, _, _) => Container(color: Colors.grey.shade200),
                     ),
                   ),
                   Positioned(

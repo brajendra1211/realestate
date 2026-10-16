@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +9,7 @@ import '../../../core/network/api_exception.dart';
 import '../../../core/router/route_paths.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/error_messages.dart';
+import '../../../core/utils/location_helper.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../services/agent_shop_service.dart';
 
@@ -70,6 +73,15 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
     return trimmed.toUpperCase();
   }
 
+  /// Lets nearby channel partners know a buyer just scanned this QR. Silent
+  /// on any failure (no location permission, offline, etc.) — never shown
+  /// to the buyer, never blocks the scan flow.
+  Future<void> _triggerNearbyAlert(String code) async {
+    final position = await getCurrentLocation();
+    if (position == null) return;
+    await _service.sendNearbyAlert(code, latitude: position.latitude, longitude: position.longitude);
+  }
+
   Future<void> _handleCodeScanned(String rawInput) async {
     final code = _extractAgentCode(rawInput);
     if (code == null || code.isEmpty) {
@@ -81,6 +93,9 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
       _isProcessing = true;
       _errorMessage = null;
     });
+
+    // Best-effort, doesn't block the scan flow below.
+    unawaited(_triggerNearbyAlert(code));
 
     try {
       // 1. Fetch agent shop to verify code and check unlock status

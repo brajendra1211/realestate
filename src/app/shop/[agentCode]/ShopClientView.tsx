@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { formatPrice, PROPERTY_TYPE_LABELS } from "@/lib/format";
 
@@ -94,6 +94,29 @@ export function ShopClientView({
   const [showQrModal, setShowQrModal] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState<string | null>(null);
+
+  // Silent, best-effort: lets nearby channel partners know a buyer just
+  // scanned this QR in their area. Never blocks rendering and never shows
+  // the buyer a location-permission error — a QR opened straight in a
+  // browser (rather than the app) should still ring nearby partners.
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        fetch(`/api/agent/shop/${agentCode}/nearby-alert`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          }),
+        }).catch(() => {});
+      },
+      () => {},
+      { timeout: 8000, maximumAge: 60_000 }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const effectiveWhatsapp = (whatsappNumber || phone).replace(/[^0-9]/g, "");
   const whatsappLink = `https://wa.me/91${effectiveWhatsapp.slice(-10)}?text=${encodeURIComponent(

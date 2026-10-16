@@ -25,6 +25,7 @@
     "bcryptjs": "^3.0.3",
     "bullmq": "^6.1.1",
     "dotenv": "^17.4.2",
+    "firebase-admin": "^13.0.2",
     "ioredis": "^6.0.0",
     "next": "16.2.11",
     "next-auth": "^5.0.0-beta.32",

@@ -151,6 +151,12 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
             return ListView(
               padding: const EdgeInsets.all(AppSpacing.lg),
               children: [
+                _WelcomeHero(
+                  user: me.user,
+                  savedCount: me.savedProperties.length,
+                  enquiryCount: me.enquiries.length,
+                ),
+                const SizedBox(height: AppSpacing.xl),
                 _SectionLabel('My profile'),
                 const SizedBox(height: AppSpacing.sm),
                 _ProfileCard(user: me.user, onSave: _saveProfile),
@@ -377,6 +383,117 @@ class _GoldListingCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _WelcomeHero extends StatelessWidget {
+  const _WelcomeHero({required this.user, required this.savedCount, required this.enquiryCount});
+
+  final BuyerUser user;
+  final int savedCount;
+  final int enquiryCount;
+
+  String get _initial => user.name.trim().isNotEmpty ? user.name.trim()[0].toUpperCase() : 'B';
+
+  String get _firstName => user.name.trim().split(RegExp(r'\s+')).first;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [AppColors.primaryNavy, AppColors.navyLight],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(color: AppColors.gold, shape: BoxShape.circle),
+                child: Text(
+                  _initial,
+                  style: GoogleFonts.fraunces(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textOnGold,
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Welcome back,',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: AppColors.goldLight),
+                    ),
+                    Text(
+                      _firstName,
+                      style: GoogleFonts.fraunces(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Row(
+            children: [
+              Expanded(child: _HeroStat(label: 'Saved', value: '$savedCount')),
+              Container(width: 1, height: 28, color: Colors.white.withValues(alpha: 0.15)),
+              Expanded(child: _HeroStat(label: 'Enquiries', value: '$enquiryCount')),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HeroStat extends StatelessWidget {
+  const _HeroStat({required this.label, required this.value});
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          value,
+          style: GoogleFonts.fraunces(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.goldLight),
+        ),
+      ],
     );
   }
 }

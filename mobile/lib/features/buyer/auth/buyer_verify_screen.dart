@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/network/api_exception.dart';
 import '../../../core/router/route_paths.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/error_messages.dart';
 import '../../../core/utils/validators.dart';
@@ -12,6 +16,12 @@ import '../../../core/widgets/auth_header.dart';
 import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/customer_auth_provider.dart';
+
+// Matches the OTP provider's own per-number resend window — resending
+// sooner than this fails server-side (502), which read as "login is
+// broken" rather than a cooldown. Counting down locally avoids that call
+// entirely until it would succeed.
+const _resendCooldown = Duration(seconds: 60);
 
 class BuyerVerifyScreen extends StatefulWidget {
   const BuyerVerifyScreen({
@@ -35,10 +45,33 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
   bool _submitting = false;
   bool _resending = false;
   String? _errorMessage;
+  Timer? _cooldownTimer;
+  int _secondsLeft = _resendCooldown.inSeconds;
+
+  @override
+  void initState() {
+    super.initState();
+    _startCooldown();
+  }
+
+  void _startCooldown() {
+    setState(() => _secondsLeft = _resendCooldown.inSeconds);
+    _cooldownTimer?.cancel();
+    _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      if (_secondsLeft <= 1) {
+        timer.cancel();
+        setState(() => _secondsLeft = 0);
+      } else {
+        setState(() => _secondsLeft -= 1);
+      }
+    });
+  }
 
   @override
   void dispose() {
     _otpController.dispose();
+    _cooldownTimer?.cancel();
     super.dispose();
   }
 
@@ -65,11 +98,13 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
   }
 
   Future<void> _resend() async {
+    if (_secondsLeft > 0) return;
     setState(() => _resending = true);
     try {
       final customerAuth = context.read<CustomerAuthProvider>();
       await customerAuth.requestOtp(forInvestor: false, identifier: widget.identifier);
       if (!mounted) return;
+      _startCooldown();
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('New code sent.')));
     } on ApiException catch (e) {
@@ -84,6 +119,7 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
   @override
   Widget build(BuildContext context) {
     final via = widget.channel == 'EMAIL' ? 'email' : 'WhatsApp';
+    final canResend = _secondsLeft == 0 && !_resending;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -109,10 +145,17 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
                       controller: _otpController,
                       keyboardType: TextInputType.number,
                       autofocus: true,
+                      style: GoogleFonts.inter(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 6,
+                      ),
                       decoration: const InputDecoration(
                         labelText: 'OTP',
                         prefixIcon: Icon(Icons.password_outlined),
+                        counterText: '',
                       ),
+                      maxLength: 6,
                       validator: (v) => Validators.required(v, label: 'OTP'),
                       onFieldSubmitted: (_) => _submit(),
                     ),
@@ -127,10 +170,24 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
                 ),
                 const SizedBox(height: AppSpacing.md),
                 Center(
-                  child: TextButton(
-                    onPressed: _resending ? null : _resend,
-                    child: Text(_resending ? 'Sending…' : 'Resend code'),
-                  ),
+                  child: _resending
+                      ? const Padding(
+                          padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                          child: SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.gold),
+                          ),
+                        )
+                      : TextButton(
+                          onPressed: canResend ? _resend : null,
+                          child: Text(
+                            canResend ? 'Resend code' : 'Resend code in ${_secondsLeft}s',
+                            style: TextStyle(
+                              color: canResend ? AppColors.gold : AppColors.textMuted,
+                            ),
+                          ),
+                        ),
                 ),
               ],
             ),

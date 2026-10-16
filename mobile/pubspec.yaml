@@ -44,6 +44,9 @@ dependencies:
   firebase_messaging: ^15.1.5
   flutter_local_notifications: ^18.0.1
 
+  # Camera-based QR scanning (channel partner shop QR)
+  mobile_scanner: ^6.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

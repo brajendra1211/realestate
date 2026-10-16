@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../core/network/api_client.dart';
 import '../../../core/network/api_exception.dart';
@@ -24,8 +25,12 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
     with SingleTickerProviderStateMixin {
   late final AgentShopService _service;
   late final AnimationController _pulseController;
+  late final MobileScannerController _scannerController;
   final _manualCodeController = TextEditingController();
   bool _isProcessing = false;
+  // Guards against mobile_scanner firing onDetect again for the same frame
+  // before controller.stop() actually takes effect (camera stop is async).
+  bool _scanLocked = false;
   String? _errorMessage;
 
   @override
@@ -36,13 +41,30 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
       vsync: this,
       duration: const Duration(milliseconds: 1400),
     )..repeat(reverse: true);
+    _scannerController = MobileScannerController(detectionSpeed: DetectionSpeed.noDuplicates);
   }
 
   @override
   void dispose() {
     _pulseController.dispose();
+    _scannerController.dispose();
     _manualCodeController.dispose();
     super.dispose();
+  }
+
+  void _resumeScanning() {
+    _scanLocked = false;
+    if (mounted) _scannerController.start();
+  }
+
+  void _onDetect(BarcodeCapture capture) {
+    if (_scanLocked) return;
+    final raw = capture.barcodes.isNotEmpty ? capture.barcodes.first.rawValue : null;
+    if (raw == null || raw.isEmpty) return;
+
+    _scanLocked = true;
+    _scannerController.stop();
+    _handleCodeScanned(raw);
   }
 
   /// Parses the agent code from either a full URL or direct code string.
@@ -114,15 +136,20 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
     } on ApiException catch (e) {
       if (!mounted) return;
       setState(() => _errorMessage = errorMessageFor(e));
+      _resumeScanning();
     } catch (e) {
       if (!mounted) return;
       setState(() => _errorMessage = 'Failed to process QR code: $e');
+      _resumeScanning();
     } finally {
       if (mounted) setState(() => _isProcessing = false);
     }
   }
 
   void _showPaymentSheet(String agentCode, String agentName, String? shopName) {
+    // .then() fires on any dismissal (cancel, swipe-down, or after a
+    // successful unlock navigates away) — harmless to resume scanning on a
+    // screen that's already being replaced, guarded by `mounted` anyway.
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -300,7 +327,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
           },
         );
       },
-    );
+    ).then((_) => _resumeScanning());
   }
 
   @override
@@ -357,10 +384,34 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            Icon(
-                              Icons.qr_code_scanner_rounded,
-                              size: 110,
-                              color: Colors.white.withValues(alpha: 0.7),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(25),
+                              child: SizedBox(
+                                width: 254,
+                                height: 254,
+                                child: MobileScanner(
+                                  controller: _scannerController,
+                                  onDetect: _onDetect,
+                                  errorBuilder: (context, error, child) => Container(
+                                    color: Colors.black87,
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.all(20),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(Icons.no_photography_outlined,
+                                            color: Colors.white70, size: 40),
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          'Camera access is needed to scan a QR code. Enable it in your phone\'s app settings, or enter the code below.',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.inter(color: Colors.white70, fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                             Positioned(
                               top: 20 + (200 * _pulseController.value),

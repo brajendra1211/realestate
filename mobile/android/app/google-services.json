@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "454639879656",
+    "project_id": "realestate-48095",
+    "storage_bucket": "realestate-48095.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454639879656:android:e30b0d761e72f919e0505d",
+        "android_client_info": {
+          "package_name": "com.bayaestate.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1HW9PnUfKULVasbgyvdJV188EeVSxWeA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

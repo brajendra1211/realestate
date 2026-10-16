@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 
+import '../core/network/api_client.dart';
 import '../core/network/endpoints.dart';
+import '../core/notifications/push_notifications.dart';
 import '../services/auth_service.dart';
+import '../services/push_service.dart';
 
 enum AuthStatus { unknown, loggedOut, loggedIn }
 
@@ -89,6 +92,9 @@ class AgentAuthProvider extends ChangeNotifier {
       role = user['role']?.toString();
       name = user['name']?.toString();
       email = user['email']?.toString();
+      if (role == 'AGENT') {
+        PushNotifications.registerForCurrentUser(PushService(ApiClient.instance.dio));
+      }
     } else {
       status = AuthStatus.loggedOut;
       userId = null;

@@ -32,19 +32,45 @@ class BuyerDashboardScreen extends StatefulWidget {
 
 class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
   late final BuyerService _service;
-  late Future<BuyerMe> _meFuture;
-  late Future<List<BuyerAppointment>> _appointmentsFuture;
+  BuyerMe? _me;
+  List<BuyerAppointment> _appointments = [];
+  bool _loading = true;
+  String? _loadError;
 
   @override
   void initState() {
     super.initState();
     _service = BuyerService(ApiClient.instance.dio);
-    _reload();
+    _load();
   }
 
-  void _reload() {
-    _meFuture = _service.getMe();
-    _appointmentsFuture = _service.getAppointments();
+  // Keeps whatever's already on screen while a reload is in flight — the
+  // old FutureBuilder-per-call approach blanked the whole dashboard to a
+  // spinner after every save/unsave/no-show tap, which read as broken.
+  Future<void> _load() async {
+    if (_me == null) setState(() => _loading = true);
+    try {
+      final meFuture = _service.getMe();
+      final appointmentsFuture = _service.getAppointments();
+      final me = await meFuture;
+      final appointments = await appointmentsFuture;
+      if (!mounted) return;
+      setState(() {
+        _me = me;
+        _appointments = appointments;
+        _loading = false;
+        _loadError = null;
+      });
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() => _loading = false);
+      if (_me == null) {
+        setState(() => _loadError = errorMessageFor(e));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+      }
+    }
   }
 
   Future<void> _logout() async {
@@ -57,7 +83,8 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
     try {
       await _service.updateProfile(name: name, email: email, phone: phone);
       if (!mounted) return;
-      setState(_reload);
+      await _load();
+      if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Profile saved.')));
     } on ApiException catch (e) {
@@ -71,7 +98,7 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
     try {
       await _service.toggleSavedProperty(propertyId);
       if (!mounted) return;
-      setState(_reload);
+      await _load();
     } on ApiException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
@@ -83,7 +110,8 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
     try {
       await _service.markNoShow(appointmentId);
       if (!mounted) return;
-      setState(_reload);
+      await _load();
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Reported — new channel partners are being notified.')),
       );
@@ -112,7 +140,8 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
         longitude: agent.longitude,
       );
       if (!mounted) return;
-      setState(_reload);
+      await _load();
+      if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Switch request submitted.')));
     } on ApiException catch (e) {
@@ -133,151 +162,155 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
       ),
       body: RefreshIndicator(
         color: AppColors.gold,
-        onRefresh: () async => setState(_reload),
-        child: FutureBuilder<BuyerMe>(
-          future: _meFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return const Center(child: CircularProgressIndicator(color: AppColors.gold));
-            }
-            if (snapshot.hasError) {
-              final message = snapshot.error is ApiException
-                  ? errorMessageFor(snapshot.error as ApiException)
-                  : 'Something went wrong.';
-              return ErrorView(message: message, onRetry: () => setState(_reload));
-            }
-
-            final me = snapshot.data!;
-            return ListView(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              children: [
-                _WelcomeHero(
-                  user: me.user,
-                  savedCount: me.savedProperties.length,
-                  enquiryCount: me.enquiries.length,
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                _SectionLabel('My profile'),
-                const SizedBox(height: AppSpacing.sm),
-                _ProfileCard(user: me.user, onSave: _saveProfile),
-                if (me.currentAgent != null) ...[
-                  const SizedBox(height: AppSpacing.xl),
-                  _SectionLabel('Your current channel partner'),
-                  const SizedBox(height: AppSpacing.sm),
-                  _CurrentAgentCard(
-                    agent: me.currentAgent!,
-                    switchGate: me.switchGate,
-                    onSwitch: () => _openSwitchAgent(me.currentAgent!),
-                  ),
-                ],
-                const SizedBox(height: AppSpacing.xl),
-                _DispatchCard(
-                  onTap: () => context.push(RoutePaths.buyerDispatch),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                _GoldListingCard(
-                  onTap: () => context.push(RoutePaths.buyerGoldListing),
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                _SectionLabel('Scheduled visits'),
-                const SizedBox(height: AppSpacing.sm),
-                FutureBuilder<List<BuyerAppointment>>(
-                  future: _appointmentsFuture,
-                  builder: (context, apptSnapshot) {
-                    if (apptSnapshot.connectionState != ConnectionState.done) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                        child: Center(child: CircularProgressIndicator(color: AppColors.gold)),
-                      );
-                    }
-                    final appointments = apptSnapshot.data ?? [];
-                    if (appointments.isEmpty) {
-                      return const EmptyState(
-                        message: 'No scheduled visits yet.',
-                        icon: Icons.event_available_outlined,
-                      );
-                    }
-                    return Column(
-                      children: appointments
-                          .map((a) => Padding(
-                                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                                child: _AppointmentCard(
-                                  appointment: a,
-                                  onNoShow: () => _markNoShow(a.id),
-                                ),
-                              ))
-                          .toList(),
-                    );
-                  },
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                _SectionLabel('Saved properties (${me.savedProperties.length})'),
-                const SizedBox(height: AppSpacing.sm),
-                if (me.savedProperties.isEmpty)
-                  const EmptyState(
-                    message: 'Nothing saved yet.',
-                    icon: Icons.favorite_border,
-                  )
-                else
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: me.savedProperties.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: AppSpacing.sm,
-                      crossAxisSpacing: AppSpacing.sm,
-                      childAspectRatio: 0.66,
-                    ),
-                    itemBuilder: (context, i) {
-                      final property = me.savedProperties[i];
-                      return _SavedPropertyCard(
-                        property: property,
-                        onUnsave: () => _toggleSaved(property.id),
-                      );
-                    },
-                  ),
-                const SizedBox(height: AppSpacing.xl),
-                _SectionLabel('My enquiries (${me.enquiries.length})'),
-                const SizedBox(height: AppSpacing.sm),
-                if (me.enquiries.isEmpty)
-                  const EmptyState(
-                    message: 'No enquiries sent yet.',
-                    icon: Icons.forum_outlined,
-                  )
-                else
-                  ...me.enquiries.map((e) => Container(
-                        margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-                        padding: const EdgeInsets.all(AppSpacing.md),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(AppRadius.md),
-                          border: Border.all(color: AppColors.divider),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              e.propertyTitle ?? 'General enquiry',
-                              style: const TextStyle(fontWeight: FontWeight.w600),
-                            ),
-                            if ((e.message ?? '').isNotEmpty) ...[
-                              const SizedBox(height: 4),
-                              Text(e.message!, style: Theme.of(context).textTheme.bodySmall),
-                            ],
-                            const SizedBox(height: 4),
-                            Text(
-                              '${e.createdAt.toLocal()}'.split(' ').first,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                      )),
-              ],
-            );
-          },
-        ),
+        onRefresh: _load,
+        child: _buildBody(),
       ),
+    );
+  }
+
+  Widget _buildBody() {
+    final me = _me;
+    if (me == null) {
+      if (_loading) {
+        return ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: const [
+            SizedBox(
+              height: 400,
+              child: Center(child: CircularProgressIndicator(color: AppColors.gold)),
+            ),
+          ],
+        );
+      }
+      return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          SizedBox(
+            height: 400,
+            child: ErrorView(
+              message: _loadError ?? 'Something went wrong.',
+              onRetry: _load,
+            ),
+          ),
+        ],
+      );
+    }
+
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      children: [
+        _WelcomeHero(
+          user: me.user,
+          savedCount: me.savedProperties.length,
+          enquiryCount: me.enquiries.length,
+        ),
+        const SizedBox(height: AppSpacing.xl),
+        _SectionLabel('My profile'),
+        const SizedBox(height: AppSpacing.sm),
+        _ProfileCard(user: me.user, onSave: _saveProfile),
+        if (me.currentAgent != null) ...[
+          const SizedBox(height: AppSpacing.xl),
+          _SectionLabel('Your current channel partner'),
+          const SizedBox(height: AppSpacing.sm),
+          _CurrentAgentCard(
+            agent: me.currentAgent!,
+            switchGate: me.switchGate,
+            onSwitch: () => _openSwitchAgent(me.currentAgent!),
+          ),
+        ],
+        const SizedBox(height: AppSpacing.xl),
+        _DispatchCard(
+          onTap: () => context.push(RoutePaths.buyerDispatch),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        _GoldListingCard(
+          onTap: () => context.push(RoutePaths.buyerGoldListing),
+        ),
+        const SizedBox(height: AppSpacing.xl),
+        _SectionLabel('Scheduled visits'),
+        const SizedBox(height: AppSpacing.sm),
+        if (_appointments.isEmpty)
+          const EmptyState(
+            message: 'No scheduled visits yet.',
+            icon: Icons.event_available_outlined,
+          )
+        else
+          Column(
+            children: _appointments
+                .map((a) => Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                      child: _AppointmentCard(
+                        appointment: a,
+                        onNoShow: () => _markNoShow(a.id),
+                      ),
+                    ))
+                .toList(),
+          ),
+        const SizedBox(height: AppSpacing.xl),
+        _SectionLabel('Saved properties (${me.savedProperties.length})'),
+        const SizedBox(height: AppSpacing.sm),
+        if (me.savedProperties.isEmpty)
+          const EmptyState(
+            message: 'Nothing saved yet.',
+            icon: Icons.favorite_border,
+          )
+        else
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: me.savedProperties.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: AppSpacing.sm,
+              crossAxisSpacing: AppSpacing.sm,
+              childAspectRatio: 0.66,
+            ),
+            itemBuilder: (context, i) {
+              final property = me.savedProperties[i];
+              return _SavedPropertyCard(
+                property: property,
+                onUnsave: () => _toggleSaved(property.id),
+              );
+            },
+          ),
+        const SizedBox(height: AppSpacing.xl),
+        _SectionLabel('My enquiries (${me.enquiries.length})'),
+        const SizedBox(height: AppSpacing.sm),
+        if (me.enquiries.isEmpty)
+          const EmptyState(
+            message: 'No enquiries sent yet.',
+            icon: Icons.forum_outlined,
+          )
+        else
+          ...me.enquiries.map((e) => Container(
+                margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+                padding: const EdgeInsets.all(AppSpacing.md),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                  border: Border.all(color: AppColors.divider),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      e.propertyTitle ?? 'General enquiry',
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    if ((e.message ?? '').isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Text(e.message!, style: Theme.of(context).textTheme.bodySmall),
+                    ],
+                    const SizedBox(height: 4),
+                    Text(
+                      '${e.createdAt.toLocal()}'.split(' ').first,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              )),
+      ],
     );
   }
 }

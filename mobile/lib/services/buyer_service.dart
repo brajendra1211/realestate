@@ -64,6 +64,18 @@ class BuyerService {
     }
   }
 
+  /// Manually rings the channel partner who listed a saved property.
+  /// Capped at 2 per property per day server-side; returns how many of
+  /// today's 2 rings are left after this one.
+  Future<int> ringProperty(String propertyId) async {
+    try {
+      final res = await _dio.post(Endpoints.buyerPropertyRing(propertyId));
+      return (res.data as Map)['ringsRemaining'] as int;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    }
+  }
+
   Future<void> switchAgent({
     required String fromAgentId,
     required String reason,

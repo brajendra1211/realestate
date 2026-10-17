@@ -17,6 +17,9 @@ class Property {
     required this.city,
     this.locality,
     required this.images,
+    this.listingAgentId,
+    this.listingAgentName,
+    this.ringsRemainingToday = 0,
   });
 
   final String id;
@@ -31,6 +34,16 @@ class Property {
   final String city;
   final String? locality;
   final List<String> images;
+
+  // The channel partner who listed this property, if any — only present for
+  // listings owned by an agent account. Powers the manual "ring" button on
+  // the buyer dashboard's saved-properties grid; a buyer can't ring a
+  // property with no partner attached to it.
+  final String? listingAgentId;
+  final String? listingAgentName;
+  final int ringsRemainingToday;
+
+  bool get canRing => listingAgentId != null;
 
   String get coverImageUrl => images.isNotEmpty ? images.first : '';
   String get locationLabel => locality != null ? '$locality, $city' : city;
@@ -52,6 +65,9 @@ class Property {
       city: json['city'] as String,
       locality: json['locality'] as String?,
       images: images,
+      listingAgentId: json['listingAgentId'] as String?,
+      listingAgentName: json['listingAgentName'] as String?,
+      ringsRemainingToday: (json['ringsRemainingToday'] as num?)?.toInt() ?? 0,
     );
   }
 }

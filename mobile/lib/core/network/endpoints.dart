@@ -18,6 +18,8 @@ class Endpoints {
   static String buyerAppointmentNoShow(String id) =>
       '/api/buyer/appointments/$id/no-show';
   static const buyerSwitchAgent = '/api/buyer/switch-agent';
+  static String buyerPropertyRing(String propertyId) =>
+      '/api/buyer/properties/$propertyId/ring';
 
   // --- Investor ---
   static const investorOtpRequest = '/api/investor/otp';

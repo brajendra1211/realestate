@@ -106,6 +106,27 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
     }
   }
 
+  Future<void> _ringProperty(String propertyId) async {
+    try {
+      final remaining = await _service.ringProperty(propertyId);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            remaining > 0
+                ? 'Ring sent to the channel partner — $remaining left today.'
+                : "Ring sent to the channel partner — that's both rings used for today.",
+          ),
+        ),
+      );
+      await _load();
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+    }
+  }
+
   Future<void> _markNoShow(String appointmentId) async {
     try {
       await _service.markNoShow(appointmentId);
@@ -271,6 +292,7 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
               return _SavedPropertyCard(
                 property: property,
                 onUnsave: () => _toggleSaved(property.id),
+                onRing: () => _ringProperty(property.id),
               );
             },
           ),
@@ -804,10 +826,11 @@ class _AppointmentCard extends StatelessWidget {
 }
 
 class _SavedPropertyCard extends StatelessWidget {
-  const _SavedPropertyCard({required this.property, required this.onUnsave});
+  const _SavedPropertyCard({required this.property, required this.onUnsave, required this.onRing});
 
   final Property property;
   final VoidCallback onUnsave;
+  final VoidCallback onRing;
 
   @override
   Widget build(BuildContext context) {
@@ -879,10 +902,62 @@ class _SavedPropertyCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
+                if (property.canRing) ...[
+                  const SizedBox(height: 6),
+                  _RingButton(
+                    remaining: property.ringsRemainingToday,
+                    onRing: onRing,
+                  ),
+                ],
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// Manual ring to the channel partner who listed this saved property — capped
+// at 2/day server-side (src/lib/propertyRing.ts); the button disables itself
+// once this property's quota for today is used.
+class _RingButton extends StatelessWidget {
+  const _RingButton({required this.remaining, required this.onRing});
+
+  final int remaining;
+  final VoidCallback onRing;
+
+  @override
+  Widget build(BuildContext context) {
+    final canRing = remaining > 0;
+    return InkWell(
+      onTap: canRing ? onRing : null,
+      borderRadius: BorderRadius.circular(AppRadius.sm),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+        decoration: BoxDecoration(
+          color: canRing ? AppColors.gold.withValues(alpha: 0.12) : AppColors.surfaceAlt,
+          borderRadius: BorderRadius.circular(AppRadius.sm),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.notifications_active_outlined,
+              size: 14,
+              color: canRing ? AppColors.gold : AppColors.textSecondary,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              canRing ? 'Ring partner ($remaining left)' : 'Ring used for today',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: canRing ? AppColors.gold : AppColors.textSecondary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

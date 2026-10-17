@@ -121,6 +121,7 @@ model User {
   antiBypassAgreements PlatformAntiBypassAgreement[] @relation("AntiBypassBuyer")
   agentShopUnlocks     AgentShopUnlock[]             @relation("BuyerAgentShopUnlocks")
   pushTokens           PushToken[]
+  propertyRings        PropertyRingLog[]
 }
 
 enum PlanRole {
@@ -328,6 +329,7 @@ model Property {
   images          PropertyImage[]
   enquiries       Enquiry[]
   savedBy         SavedProperty[]
+  ringLogs        PropertyRingLog[]
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
 
@@ -389,6 +391,22 @@ model SavedProperty {
   @@unique([userId, propertyId])
   @@index([userId])
   @@index([propertyId])
+}
+
+// A buyer manually "ringing" the channel partner who listed a property
+// they've saved — distinct from the automatic QR-scan nearby-alert. Each
+// row is one ring; the 2-per-day limit (per buyer, per property) is
+// enforced by counting rows in the last 24h rather than a separate counter
+// column, so it self-expires without a cron job.
+model PropertyRingLog {
+  id         String   @id @default(cuid())
+  buyerId    String
+  buyer      User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@index([buyerId, propertyId, createdAt])
 }
 
 model Amenity {

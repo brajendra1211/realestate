@@ -350,6 +350,13 @@ exports.Prisma.SavedPropertyScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PropertyRingLogScalarFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  propertyId: 'propertyId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AmenityScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -829,6 +836,14 @@ exports.Prisma.AgentShopUnlockScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PushTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  platform: 'platform',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1003,6 +1018,12 @@ exports.Prisma.OtpCodeOrderByRelevanceFieldEnum = {
 exports.Prisma.SavedPropertyOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
+  propertyId: 'propertyId'
+};
+
+exports.Prisma.PropertyRingLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
   propertyId: 'propertyId'
 };
 
@@ -1284,6 +1305,13 @@ exports.Prisma.AgentShopUnlockOrderByRelevanceFieldEnum = {
   razorpayOrderId: 'razorpayOrderId',
   razorpayPaymentId: 'razorpayPaymentId'
 };
+
+exports.Prisma.PushTokenOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  platform: 'platform'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SUBADMIN: 'SUBADMIN',
@@ -1487,6 +1515,7 @@ exports.Prisma.ModelName = {
   Enquiry: 'Enquiry',
   OtpCode: 'OtpCode',
   SavedProperty: 'SavedProperty',
+  PropertyRingLog: 'PropertyRingLog',
   Amenity: 'Amenity',
   SiteSettings: 'SiteSettings',
   AgentProfile: 'AgentProfile',
@@ -1518,7 +1547,8 @@ exports.Prisma.ModelName = {
   VisitAppointment: 'VisitAppointment',
   DirectPropertyVisit: 'DirectPropertyVisit',
   PlatformAntiBypassAgreement: 'PlatformAntiBypassAgreement',
-  AgentShopUnlock: 'AgentShopUnlock'
+  AgentShopUnlock: 'AgentShopUnlock',
+  PushToken: 'PushToken'
 };
 
 /**

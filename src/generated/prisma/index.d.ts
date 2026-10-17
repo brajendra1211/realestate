@@ -94,6 +94,11 @@ export type OtpCode = $Result.DefaultSelection<Prisma.$OtpCodePayload>
  */
 export type SavedProperty = $Result.DefaultSelection<Prisma.$SavedPropertyPayload>
 /**
+ * Model PropertyRingLog
+ * 
+ */
+export type PropertyRingLog = $Result.DefaultSelection<Prisma.$PropertyRingLogPayload>
+/**
  * Model Amenity
  * 
  */
@@ -253,6 +258,11 @@ export type PlatformAntiBypassAgreement = $Result.DefaultSelection<Prisma.$Platf
  * 
  */
 export type AgentShopUnlock = $Result.DefaultSelection<Prisma.$AgentShopUnlockPayload>
+/**
+ * Model PushToken
+ * 
+ */
+export type PushToken = $Result.DefaultSelection<Prisma.$PushTokenPayload>
 
 /**
  * Enums
@@ -902,6 +912,16 @@ export class PrismaClient<
   get savedProperty(): Prisma.SavedPropertyDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.propertyRingLog`: Exposes CRUD operations for the **PropertyRingLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PropertyRingLogs
+    * const propertyRingLogs = await prisma.propertyRingLog.findMany()
+    * ```
+    */
+  get propertyRingLog(): Prisma.PropertyRingLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.amenity`: Exposes CRUD operations for the **Amenity** model.
     * Example usage:
     * ```ts
@@ -1220,6 +1240,16 @@ export class PrismaClient<
     * ```
     */
   get agentShopUnlock(): Prisma.AgentShopUnlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.pushToken`: Exposes CRUD operations for the **PushToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PushTokens
+    * const pushTokens = await prisma.pushToken.findMany()
+    * ```
+    */
+  get pushToken(): Prisma.PushTokenDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1683,6 +1713,7 @@ export namespace Prisma {
     Enquiry: 'Enquiry',
     OtpCode: 'OtpCode',
     SavedProperty: 'SavedProperty',
+    PropertyRingLog: 'PropertyRingLog',
     Amenity: 'Amenity',
     SiteSettings: 'SiteSettings',
     AgentProfile: 'AgentProfile',
@@ -1714,7 +1745,8 @@ export namespace Prisma {
     VisitAppointment: 'VisitAppointment',
     DirectPropertyVisit: 'DirectPropertyVisit',
     PlatformAntiBypassAgreement: 'PlatformAntiBypassAgreement',
-    AgentShopUnlock: 'AgentShopUnlock'
+    AgentShopUnlock: 'AgentShopUnlock',
+    PushToken: 'PushToken'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1730,7 +1762,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment" | "directPropertyVisit" | "platformAntiBypassAgreement" | "agentShopUnlock"
+      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "propertyRingLog" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment" | "directPropertyVisit" | "platformAntiBypassAgreement" | "agentShopUnlock" | "pushToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2787,6 +2819,72 @@ export namespace Prisma {
           count: {
             args: Prisma.SavedPropertyCountArgs<ExtArgs>
             result: $Utils.Optional<SavedPropertyCountAggregateOutputType> | number
+          }
+        }
+      }
+      PropertyRingLog: {
+        payload: Prisma.$PropertyRingLogPayload<ExtArgs>
+        fields: Prisma.PropertyRingLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PropertyRingLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyRingLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PropertyRingLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyRingLogPayload>
+          }
+          findFirst: {
+            args: Prisma.PropertyRingLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyRingLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PropertyRingLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyRingLogPayload>
+          }
+          findMany: {
+            args: Prisma.PropertyRingLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyRingLogPayload>[]
+          }
+          create: {
+            args: Prisma.PropertyRingLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyRingLogPayload>
+          }
+          createMany: {
+            args: Prisma.PropertyRingLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PropertyRingLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyRingLogPayload>
+          }
+          update: {
+            args: Prisma.PropertyRingLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyRingLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.PropertyRingLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PropertyRingLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PropertyRingLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropertyRingLogPayload>
+          }
+          aggregate: {
+            args: Prisma.PropertyRingLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePropertyRingLog>
+          }
+          groupBy: {
+            args: Prisma.PropertyRingLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PropertyRingLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PropertyRingLogCountArgs<ExtArgs>
+            result: $Utils.Optional<PropertyRingLogCountAggregateOutputType> | number
           }
         }
       }
@@ -4902,6 +5000,72 @@ export namespace Prisma {
           }
         }
       }
+      PushToken: {
+        payload: Prisma.$PushTokenPayload<ExtArgs>
+        fields: Prisma.PushTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PushTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PushTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.PushTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PushTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          findMany: {
+            args: Prisma.PushTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>[]
+          }
+          create: {
+            args: Prisma.PushTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          createMany: {
+            args: Prisma.PushTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PushTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          update: {
+            args: Prisma.PushTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.PushTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PushTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PushTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.PushTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePushToken>
+          }
+          groupBy: {
+            args: Prisma.PushTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PushTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PushTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<PushTokenCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5041,6 +5205,7 @@ export namespace Prisma {
     enquiry?: EnquiryOmit
     otpCode?: OtpCodeOmit
     savedProperty?: SavedPropertyOmit
+    propertyRingLog?: PropertyRingLogOmit
     amenity?: AmenityOmit
     siteSettings?: SiteSettingsOmit
     agentProfile?: AgentProfileOmit
@@ -5073,6 +5238,7 @@ export namespace Prisma {
     directPropertyVisit?: DirectPropertyVisitOmit
     platformAntiBypassAgreement?: PlatformAntiBypassAgreementOmit
     agentShopUnlock?: AgentShopUnlockOmit
+    pushToken?: PushTokenOmit
   }
 
   /* Types for Logging */
@@ -5165,6 +5331,8 @@ export namespace Prisma {
     directVisits: number
     antiBypassAgreements: number
     agentShopUnlocks: number
+    pushTokens: number
+    propertyRings: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5180,6 +5348,8 @@ export namespace Prisma {
     directVisits?: boolean | UserCountOutputTypeCountDirectVisitsArgs
     antiBypassAgreements?: boolean | UserCountOutputTypeCountAntiBypassAgreementsArgs
     agentShopUnlocks?: boolean | UserCountOutputTypeCountAgentShopUnlocksArgs
+    pushTokens?: boolean | UserCountOutputTypeCountPushTokensArgs
+    propertyRings?: boolean | UserCountOutputTypeCountPropertyRingsArgs
   }
 
   // Custom InputTypes
@@ -5275,6 +5445,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAgentShopUnlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AgentShopUnlockWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPushTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PushTokenWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPropertyRingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropertyRingLogWhereInput
   }
 
 
@@ -5481,12 +5665,14 @@ export namespace Prisma {
     images: number
     enquiries: number
     savedBy: number
+    ringLogs: number
   }
 
   export type PropertyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | PropertyCountOutputTypeCountImagesArgs
     enquiries?: boolean | PropertyCountOutputTypeCountEnquiriesArgs
     savedBy?: boolean | PropertyCountOutputTypeCountSavedByArgs
+    ringLogs?: boolean | PropertyCountOutputTypeCountRingLogsArgs
   }
 
   // Custom InputTypes
@@ -5519,6 +5705,13 @@ export namespace Prisma {
    */
   export type PropertyCountOutputTypeCountSavedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SavedPropertyWhereInput
+  }
+
+  /**
+   * PropertyCountOutputType without action
+   */
+  export type PropertyCountOutputTypeCountRingLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropertyRingLogWhereInput
   }
 
 
@@ -6516,6 +6709,8 @@ export namespace Prisma {
     directVisits?: boolean | User$directVisitsArgs<ExtArgs>
     antiBypassAgreements?: boolean | User$antiBypassAgreementsArgs<ExtArgs>
     agentShopUnlocks?: boolean | User$agentShopUnlocksArgs<ExtArgs>
+    pushTokens?: boolean | User$pushTokensArgs<ExtArgs>
+    propertyRings?: boolean | User$propertyRingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6573,6 +6768,8 @@ export namespace Prisma {
     directVisits?: boolean | User$directVisitsArgs<ExtArgs>
     antiBypassAgreements?: boolean | User$antiBypassAgreementsArgs<ExtArgs>
     agentShopUnlocks?: boolean | User$agentShopUnlocksArgs<ExtArgs>
+    pushTokens?: boolean | User$pushTokensArgs<ExtArgs>
+    propertyRings?: boolean | User$propertyRingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6593,6 +6790,8 @@ export namespace Prisma {
       directVisits: Prisma.$DirectPropertyVisitPayload<ExtArgs>[]
       antiBypassAgreements: Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>[]
       agentShopUnlocks: Prisma.$AgentShopUnlockPayload<ExtArgs>[]
+      pushTokens: Prisma.$PushTokenPayload<ExtArgs>[]
+      propertyRings: Prisma.$PropertyRingLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6982,6 +7181,8 @@ export namespace Prisma {
     directVisits<T extends User$directVisitsArgs<ExtArgs> = {}>(args?: Subset<T, User$directVisitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     antiBypassAgreements<T extends User$antiBypassAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, User$antiBypassAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     agentShopUnlocks<T extends User$agentShopUnlocksArgs<ExtArgs> = {}>(args?: Subset<T, User$agentShopUnlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentShopUnlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pushTokens<T extends User$pushTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$pushTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    propertyRings<T extends User$propertyRingsArgs<ExtArgs> = {}>(args?: Subset<T, User$propertyRingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7715,6 +7916,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AgentShopUnlockScalarFieldEnum | AgentShopUnlockScalarFieldEnum[]
+  }
+
+  /**
+   * User.pushTokens
+   */
+  export type User$pushTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    where?: PushTokenWhereInput
+    orderBy?: PushTokenOrderByWithRelationInput | PushTokenOrderByWithRelationInput[]
+    cursor?: PushTokenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PushTokenScalarFieldEnum | PushTokenScalarFieldEnum[]
+  }
+
+  /**
+   * User.propertyRings
+   */
+  export type User$propertyRingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    where?: PropertyRingLogWhereInput
+    orderBy?: PropertyRingLogOrderByWithRelationInput | PropertyRingLogOrderByWithRelationInput[]
+    cursor?: PropertyRingLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropertyRingLogScalarFieldEnum | PropertyRingLogScalarFieldEnum[]
   }
 
   /**
@@ -18415,6 +18664,7 @@ export namespace Prisma {
     images?: boolean | Property$imagesArgs<ExtArgs>
     enquiries?: boolean | Property$enquiriesArgs<ExtArgs>
     savedBy?: boolean | Property$savedByArgs<ExtArgs>
+    ringLogs?: boolean | Property$ringLogsArgs<ExtArgs>
     _count?: boolean | PropertyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["property"]>
 
@@ -18461,6 +18711,7 @@ export namespace Prisma {
     images?: boolean | Property$imagesArgs<ExtArgs>
     enquiries?: boolean | Property$enquiriesArgs<ExtArgs>
     savedBy?: boolean | Property$savedByArgs<ExtArgs>
+    ringLogs?: boolean | Property$ringLogsArgs<ExtArgs>
     _count?: boolean | PropertyCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -18472,6 +18723,7 @@ export namespace Prisma {
       images: Prisma.$PropertyImagePayload<ExtArgs>[]
       enquiries: Prisma.$EnquiryPayload<ExtArgs>[]
       savedBy: Prisma.$SavedPropertyPayload<ExtArgs>[]
+      ringLogs: Prisma.$PropertyRingLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18850,6 +19102,7 @@ export namespace Prisma {
     images<T extends Property$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Property$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     enquiries<T extends Property$enquiriesArgs<ExtArgs> = {}>(args?: Subset<T, Property$enquiriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnquiryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     savedBy<T extends Property$savedByArgs<ExtArgs> = {}>(args?: Subset<T, Property$savedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedPropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ringLogs<T extends Property$ringLogsArgs<ExtArgs> = {}>(args?: Subset<T, Property$ringLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19346,6 +19599,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SavedPropertyScalarFieldEnum | SavedPropertyScalarFieldEnum[]
+  }
+
+  /**
+   * Property.ringLogs
+   */
+  export type Property$ringLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    where?: PropertyRingLogWhereInput
+    orderBy?: PropertyRingLogOrderByWithRelationInput | PropertyRingLogOrderByWithRelationInput[]
+    cursor?: PropertyRingLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropertyRingLogScalarFieldEnum | PropertyRingLogScalarFieldEnum[]
   }
 
   /**
@@ -23207,6 +23484,933 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SavedPropertyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PropertyRingLog
+   */
+
+  export type AggregatePropertyRingLog = {
+    _count: PropertyRingLogCountAggregateOutputType | null
+    _min: PropertyRingLogMinAggregateOutputType | null
+    _max: PropertyRingLogMaxAggregateOutputType | null
+  }
+
+  export type PropertyRingLogMinAggregateOutputType = {
+    id: string | null
+    buyerId: string | null
+    propertyId: string | null
+    createdAt: Date | null
+  }
+
+  export type PropertyRingLogMaxAggregateOutputType = {
+    id: string | null
+    buyerId: string | null
+    propertyId: string | null
+    createdAt: Date | null
+  }
+
+  export type PropertyRingLogCountAggregateOutputType = {
+    id: number
+    buyerId: number
+    propertyId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PropertyRingLogMinAggregateInputType = {
+    id?: true
+    buyerId?: true
+    propertyId?: true
+    createdAt?: true
+  }
+
+  export type PropertyRingLogMaxAggregateInputType = {
+    id?: true
+    buyerId?: true
+    propertyId?: true
+    createdAt?: true
+  }
+
+  export type PropertyRingLogCountAggregateInputType = {
+    id?: true
+    buyerId?: true
+    propertyId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PropertyRingLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PropertyRingLog to aggregate.
+     */
+    where?: PropertyRingLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertyRingLogs to fetch.
+     */
+    orderBy?: PropertyRingLogOrderByWithRelationInput | PropertyRingLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PropertyRingLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertyRingLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertyRingLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PropertyRingLogs
+    **/
+    _count?: true | PropertyRingLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PropertyRingLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PropertyRingLogMaxAggregateInputType
+  }
+
+  export type GetPropertyRingLogAggregateType<T extends PropertyRingLogAggregateArgs> = {
+        [P in keyof T & keyof AggregatePropertyRingLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePropertyRingLog[P]>
+      : GetScalarType<T[P], AggregatePropertyRingLog[P]>
+  }
+
+
+
+
+  export type PropertyRingLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropertyRingLogWhereInput
+    orderBy?: PropertyRingLogOrderByWithAggregationInput | PropertyRingLogOrderByWithAggregationInput[]
+    by: PropertyRingLogScalarFieldEnum[] | PropertyRingLogScalarFieldEnum
+    having?: PropertyRingLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PropertyRingLogCountAggregateInputType | true
+    _min?: PropertyRingLogMinAggregateInputType
+    _max?: PropertyRingLogMaxAggregateInputType
+  }
+
+  export type PropertyRingLogGroupByOutputType = {
+    id: string
+    buyerId: string
+    propertyId: string
+    createdAt: Date
+    _count: PropertyRingLogCountAggregateOutputType | null
+    _min: PropertyRingLogMinAggregateOutputType | null
+    _max: PropertyRingLogMaxAggregateOutputType | null
+  }
+
+  type GetPropertyRingLogGroupByPayload<T extends PropertyRingLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PropertyRingLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PropertyRingLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PropertyRingLogGroupByOutputType[P]>
+            : GetScalarType<T[P], PropertyRingLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PropertyRingLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    buyerId?: boolean
+    propertyId?: boolean
+    createdAt?: boolean
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    property?: boolean | PropertyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["propertyRingLog"]>
+
+
+
+  export type PropertyRingLogSelectScalar = {
+    id?: boolean
+    buyerId?: boolean
+    propertyId?: boolean
+    createdAt?: boolean
+  }
+
+  export type PropertyRingLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "buyerId" | "propertyId" | "createdAt", ExtArgs["result"]["propertyRingLog"]>
+  export type PropertyRingLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    property?: boolean | PropertyDefaultArgs<ExtArgs>
+  }
+
+  export type $PropertyRingLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PropertyRingLog"
+    objects: {
+      buyer: Prisma.$UserPayload<ExtArgs>
+      property: Prisma.$PropertyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      buyerId: string
+      propertyId: string
+      createdAt: Date
+    }, ExtArgs["result"]["propertyRingLog"]>
+    composites: {}
+  }
+
+  type PropertyRingLogGetPayload<S extends boolean | null | undefined | PropertyRingLogDefaultArgs> = $Result.GetResult<Prisma.$PropertyRingLogPayload, S>
+
+  type PropertyRingLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PropertyRingLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PropertyRingLogCountAggregateInputType | true
+    }
+
+  export interface PropertyRingLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PropertyRingLog'], meta: { name: 'PropertyRingLog' } }
+    /**
+     * Find zero or one PropertyRingLog that matches the filter.
+     * @param {PropertyRingLogFindUniqueArgs} args - Arguments to find a PropertyRingLog
+     * @example
+     * // Get one PropertyRingLog
+     * const propertyRingLog = await prisma.propertyRingLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PropertyRingLogFindUniqueArgs>(args: SelectSubset<T, PropertyRingLogFindUniqueArgs<ExtArgs>>): Prisma__PropertyRingLogClient<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PropertyRingLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PropertyRingLogFindUniqueOrThrowArgs} args - Arguments to find a PropertyRingLog
+     * @example
+     * // Get one PropertyRingLog
+     * const propertyRingLog = await prisma.propertyRingLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PropertyRingLogFindUniqueOrThrowArgs>(args: SelectSubset<T, PropertyRingLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PropertyRingLogClient<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PropertyRingLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyRingLogFindFirstArgs} args - Arguments to find a PropertyRingLog
+     * @example
+     * // Get one PropertyRingLog
+     * const propertyRingLog = await prisma.propertyRingLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PropertyRingLogFindFirstArgs>(args?: SelectSubset<T, PropertyRingLogFindFirstArgs<ExtArgs>>): Prisma__PropertyRingLogClient<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PropertyRingLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyRingLogFindFirstOrThrowArgs} args - Arguments to find a PropertyRingLog
+     * @example
+     * // Get one PropertyRingLog
+     * const propertyRingLog = await prisma.propertyRingLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PropertyRingLogFindFirstOrThrowArgs>(args?: SelectSubset<T, PropertyRingLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__PropertyRingLogClient<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PropertyRingLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyRingLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PropertyRingLogs
+     * const propertyRingLogs = await prisma.propertyRingLog.findMany()
+     * 
+     * // Get first 10 PropertyRingLogs
+     * const propertyRingLogs = await prisma.propertyRingLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const propertyRingLogWithIdOnly = await prisma.propertyRingLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PropertyRingLogFindManyArgs>(args?: SelectSubset<T, PropertyRingLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PropertyRingLog.
+     * @param {PropertyRingLogCreateArgs} args - Arguments to create a PropertyRingLog.
+     * @example
+     * // Create one PropertyRingLog
+     * const PropertyRingLog = await prisma.propertyRingLog.create({
+     *   data: {
+     *     // ... data to create a PropertyRingLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends PropertyRingLogCreateArgs>(args: SelectSubset<T, PropertyRingLogCreateArgs<ExtArgs>>): Prisma__PropertyRingLogClient<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PropertyRingLogs.
+     * @param {PropertyRingLogCreateManyArgs} args - Arguments to create many PropertyRingLogs.
+     * @example
+     * // Create many PropertyRingLogs
+     * const propertyRingLog = await prisma.propertyRingLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PropertyRingLogCreateManyArgs>(args?: SelectSubset<T, PropertyRingLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PropertyRingLog.
+     * @param {PropertyRingLogDeleteArgs} args - Arguments to delete one PropertyRingLog.
+     * @example
+     * // Delete one PropertyRingLog
+     * const PropertyRingLog = await prisma.propertyRingLog.delete({
+     *   where: {
+     *     // ... filter to delete one PropertyRingLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PropertyRingLogDeleteArgs>(args: SelectSubset<T, PropertyRingLogDeleteArgs<ExtArgs>>): Prisma__PropertyRingLogClient<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PropertyRingLog.
+     * @param {PropertyRingLogUpdateArgs} args - Arguments to update one PropertyRingLog.
+     * @example
+     * // Update one PropertyRingLog
+     * const propertyRingLog = await prisma.propertyRingLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PropertyRingLogUpdateArgs>(args: SelectSubset<T, PropertyRingLogUpdateArgs<ExtArgs>>): Prisma__PropertyRingLogClient<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PropertyRingLogs.
+     * @param {PropertyRingLogDeleteManyArgs} args - Arguments to filter PropertyRingLogs to delete.
+     * @example
+     * // Delete a few PropertyRingLogs
+     * const { count } = await prisma.propertyRingLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PropertyRingLogDeleteManyArgs>(args?: SelectSubset<T, PropertyRingLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PropertyRingLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyRingLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PropertyRingLogs
+     * const propertyRingLog = await prisma.propertyRingLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PropertyRingLogUpdateManyArgs>(args: SelectSubset<T, PropertyRingLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PropertyRingLog.
+     * @param {PropertyRingLogUpsertArgs} args - Arguments to update or create a PropertyRingLog.
+     * @example
+     * // Update or create a PropertyRingLog
+     * const propertyRingLog = await prisma.propertyRingLog.upsert({
+     *   create: {
+     *     // ... data to create a PropertyRingLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PropertyRingLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PropertyRingLogUpsertArgs>(args: SelectSubset<T, PropertyRingLogUpsertArgs<ExtArgs>>): Prisma__PropertyRingLogClient<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PropertyRingLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyRingLogCountArgs} args - Arguments to filter PropertyRingLogs to count.
+     * @example
+     * // Count the number of PropertyRingLogs
+     * const count = await prisma.propertyRingLog.count({
+     *   where: {
+     *     // ... the filter for the PropertyRingLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends PropertyRingLogCountArgs>(
+      args?: Subset<T, PropertyRingLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PropertyRingLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PropertyRingLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyRingLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PropertyRingLogAggregateArgs>(args: Subset<T, PropertyRingLogAggregateArgs>): Prisma.PrismaPromise<GetPropertyRingLogAggregateType<T>>
+
+    /**
+     * Group by PropertyRingLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropertyRingLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PropertyRingLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PropertyRingLogGroupByArgs['orderBy'] }
+        : { orderBy?: PropertyRingLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PropertyRingLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPropertyRingLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PropertyRingLog model
+   */
+  readonly fields: PropertyRingLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PropertyRingLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PropertyRingLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    property<T extends PropertyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PropertyDefaultArgs<ExtArgs>>): Prisma__PropertyClient<$Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PropertyRingLog model
+   */
+  interface PropertyRingLogFieldRefs {
+    readonly id: FieldRef<"PropertyRingLog", 'String'>
+    readonly buyerId: FieldRef<"PropertyRingLog", 'String'>
+    readonly propertyId: FieldRef<"PropertyRingLog", 'String'>
+    readonly createdAt: FieldRef<"PropertyRingLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PropertyRingLog findUnique
+   */
+  export type PropertyRingLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyRingLog to fetch.
+     */
+    where: PropertyRingLogWhereUniqueInput
+  }
+
+  /**
+   * PropertyRingLog findUniqueOrThrow
+   */
+  export type PropertyRingLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyRingLog to fetch.
+     */
+    where: PropertyRingLogWhereUniqueInput
+  }
+
+  /**
+   * PropertyRingLog findFirst
+   */
+  export type PropertyRingLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyRingLog to fetch.
+     */
+    where?: PropertyRingLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertyRingLogs to fetch.
+     */
+    orderBy?: PropertyRingLogOrderByWithRelationInput | PropertyRingLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PropertyRingLogs.
+     */
+    cursor?: PropertyRingLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertyRingLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertyRingLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropertyRingLogs.
+     */
+    distinct?: PropertyRingLogScalarFieldEnum | PropertyRingLogScalarFieldEnum[]
+  }
+
+  /**
+   * PropertyRingLog findFirstOrThrow
+   */
+  export type PropertyRingLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyRingLog to fetch.
+     */
+    where?: PropertyRingLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertyRingLogs to fetch.
+     */
+    orderBy?: PropertyRingLogOrderByWithRelationInput | PropertyRingLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PropertyRingLogs.
+     */
+    cursor?: PropertyRingLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertyRingLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertyRingLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropertyRingLogs.
+     */
+    distinct?: PropertyRingLogScalarFieldEnum | PropertyRingLogScalarFieldEnum[]
+  }
+
+  /**
+   * PropertyRingLog findMany
+   */
+  export type PropertyRingLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which PropertyRingLogs to fetch.
+     */
+    where?: PropertyRingLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropertyRingLogs to fetch.
+     */
+    orderBy?: PropertyRingLogOrderByWithRelationInput | PropertyRingLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PropertyRingLogs.
+     */
+    cursor?: PropertyRingLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropertyRingLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropertyRingLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropertyRingLogs.
+     */
+    distinct?: PropertyRingLogScalarFieldEnum | PropertyRingLogScalarFieldEnum[]
+  }
+
+  /**
+   * PropertyRingLog create
+   */
+  export type PropertyRingLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PropertyRingLog.
+     */
+    data: XOR<PropertyRingLogCreateInput, PropertyRingLogUncheckedCreateInput>
+  }
+
+  /**
+   * PropertyRingLog createMany
+   */
+  export type PropertyRingLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PropertyRingLogs.
+     */
+    data: PropertyRingLogCreateManyInput | PropertyRingLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PropertyRingLog update
+   */
+  export type PropertyRingLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PropertyRingLog.
+     */
+    data: XOR<PropertyRingLogUpdateInput, PropertyRingLogUncheckedUpdateInput>
+    /**
+     * Choose, which PropertyRingLog to update.
+     */
+    where: PropertyRingLogWhereUniqueInput
+  }
+
+  /**
+   * PropertyRingLog updateMany
+   */
+  export type PropertyRingLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PropertyRingLogs.
+     */
+    data: XOR<PropertyRingLogUpdateManyMutationInput, PropertyRingLogUncheckedUpdateManyInput>
+    /**
+     * Filter which PropertyRingLogs to update
+     */
+    where?: PropertyRingLogWhereInput
+    /**
+     * Limit how many PropertyRingLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PropertyRingLog upsert
+   */
+  export type PropertyRingLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PropertyRingLog to update in case it exists.
+     */
+    where: PropertyRingLogWhereUniqueInput
+    /**
+     * In case the PropertyRingLog found by the `where` argument doesn't exist, create a new PropertyRingLog with this data.
+     */
+    create: XOR<PropertyRingLogCreateInput, PropertyRingLogUncheckedCreateInput>
+    /**
+     * In case the PropertyRingLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PropertyRingLogUpdateInput, PropertyRingLogUncheckedUpdateInput>
+  }
+
+  /**
+   * PropertyRingLog delete
+   */
+  export type PropertyRingLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
+    /**
+     * Filter which PropertyRingLog to delete.
+     */
+    where: PropertyRingLogWhereUniqueInput
+  }
+
+  /**
+   * PropertyRingLog deleteMany
+   */
+  export type PropertyRingLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PropertyRingLogs to delete
+     */
+    where?: PropertyRingLogWhereInput
+    /**
+     * Limit how many PropertyRingLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PropertyRingLog without action
+   */
+  export type PropertyRingLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropertyRingLog
+     */
+    select?: PropertyRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropertyRingLog
+     */
+    omit?: PropertyRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyRingLogInclude<ExtArgs> | null
   }
 
 
@@ -57979,6 +59183,940 @@ export namespace Prisma {
 
 
   /**
+   * Model PushToken
+   */
+
+  export type AggregatePushToken = {
+    _count: PushTokenCountAggregateOutputType | null
+    _min: PushTokenMinAggregateOutputType | null
+    _max: PushTokenMaxAggregateOutputType | null
+  }
+
+  export type PushTokenMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    token: string | null
+    platform: string | null
+    createdAt: Date | null
+  }
+
+  export type PushTokenMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    token: string | null
+    platform: string | null
+    createdAt: Date | null
+  }
+
+  export type PushTokenCountAggregateOutputType = {
+    id: number
+    userId: number
+    token: number
+    platform: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PushTokenMinAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    platform?: true
+    createdAt?: true
+  }
+
+  export type PushTokenMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    platform?: true
+    createdAt?: true
+  }
+
+  export type PushTokenCountAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    platform?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PushTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PushToken to aggregate.
+     */
+    where?: PushTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushTokens to fetch.
+     */
+    orderBy?: PushTokenOrderByWithRelationInput | PushTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PushTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PushTokens
+    **/
+    _count?: true | PushTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PushTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PushTokenMaxAggregateInputType
+  }
+
+  export type GetPushTokenAggregateType<T extends PushTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregatePushToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePushToken[P]>
+      : GetScalarType<T[P], AggregatePushToken[P]>
+  }
+
+
+
+
+  export type PushTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PushTokenWhereInput
+    orderBy?: PushTokenOrderByWithAggregationInput | PushTokenOrderByWithAggregationInput[]
+    by: PushTokenScalarFieldEnum[] | PushTokenScalarFieldEnum
+    having?: PushTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PushTokenCountAggregateInputType | true
+    _min?: PushTokenMinAggregateInputType
+    _max?: PushTokenMaxAggregateInputType
+  }
+
+  export type PushTokenGroupByOutputType = {
+    id: string
+    userId: string
+    token: string
+    platform: string
+    createdAt: Date
+    _count: PushTokenCountAggregateOutputType | null
+    _min: PushTokenMinAggregateOutputType | null
+    _max: PushTokenMaxAggregateOutputType | null
+  }
+
+  type GetPushTokenGroupByPayload<T extends PushTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PushTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PushTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PushTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], PushTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PushTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    platform?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pushToken"]>
+
+
+
+  export type PushTokenSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    platform?: boolean
+    createdAt?: boolean
+  }
+
+  export type PushTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "token" | "platform" | "createdAt", ExtArgs["result"]["pushToken"]>
+  export type PushTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PushTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PushToken"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      token: string
+      platform: string
+      createdAt: Date
+    }, ExtArgs["result"]["pushToken"]>
+    composites: {}
+  }
+
+  type PushTokenGetPayload<S extends boolean | null | undefined | PushTokenDefaultArgs> = $Result.GetResult<Prisma.$PushTokenPayload, S>
+
+  type PushTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PushTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PushTokenCountAggregateInputType | true
+    }
+
+  export interface PushTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PushToken'], meta: { name: 'PushToken' } }
+    /**
+     * Find zero or one PushToken that matches the filter.
+     * @param {PushTokenFindUniqueArgs} args - Arguments to find a PushToken
+     * @example
+     * // Get one PushToken
+     * const pushToken = await prisma.pushToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PushTokenFindUniqueArgs>(args: SelectSubset<T, PushTokenFindUniqueArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PushToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PushTokenFindUniqueOrThrowArgs} args - Arguments to find a PushToken
+     * @example
+     * // Get one PushToken
+     * const pushToken = await prisma.pushToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PushTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, PushTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PushToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenFindFirstArgs} args - Arguments to find a PushToken
+     * @example
+     * // Get one PushToken
+     * const pushToken = await prisma.pushToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PushTokenFindFirstArgs>(args?: SelectSubset<T, PushTokenFindFirstArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PushToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenFindFirstOrThrowArgs} args - Arguments to find a PushToken
+     * @example
+     * // Get one PushToken
+     * const pushToken = await prisma.pushToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PushTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, PushTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PushTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PushTokens
+     * const pushTokens = await prisma.pushToken.findMany()
+     * 
+     * // Get first 10 PushTokens
+     * const pushTokens = await prisma.pushToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pushTokenWithIdOnly = await prisma.pushToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PushTokenFindManyArgs>(args?: SelectSubset<T, PushTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PushToken.
+     * @param {PushTokenCreateArgs} args - Arguments to create a PushToken.
+     * @example
+     * // Create one PushToken
+     * const PushToken = await prisma.pushToken.create({
+     *   data: {
+     *     // ... data to create a PushToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends PushTokenCreateArgs>(args: SelectSubset<T, PushTokenCreateArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PushTokens.
+     * @param {PushTokenCreateManyArgs} args - Arguments to create many PushTokens.
+     * @example
+     * // Create many PushTokens
+     * const pushToken = await prisma.pushToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PushTokenCreateManyArgs>(args?: SelectSubset<T, PushTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PushToken.
+     * @param {PushTokenDeleteArgs} args - Arguments to delete one PushToken.
+     * @example
+     * // Delete one PushToken
+     * const PushToken = await prisma.pushToken.delete({
+     *   where: {
+     *     // ... filter to delete one PushToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PushTokenDeleteArgs>(args: SelectSubset<T, PushTokenDeleteArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PushToken.
+     * @param {PushTokenUpdateArgs} args - Arguments to update one PushToken.
+     * @example
+     * // Update one PushToken
+     * const pushToken = await prisma.pushToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PushTokenUpdateArgs>(args: SelectSubset<T, PushTokenUpdateArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PushTokens.
+     * @param {PushTokenDeleteManyArgs} args - Arguments to filter PushTokens to delete.
+     * @example
+     * // Delete a few PushTokens
+     * const { count } = await prisma.pushToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PushTokenDeleteManyArgs>(args?: SelectSubset<T, PushTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PushTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PushTokens
+     * const pushToken = await prisma.pushToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PushTokenUpdateManyArgs>(args: SelectSubset<T, PushTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PushToken.
+     * @param {PushTokenUpsertArgs} args - Arguments to update or create a PushToken.
+     * @example
+     * // Update or create a PushToken
+     * const pushToken = await prisma.pushToken.upsert({
+     *   create: {
+     *     // ... data to create a PushToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PushToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PushTokenUpsertArgs>(args: SelectSubset<T, PushTokenUpsertArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PushTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenCountArgs} args - Arguments to filter PushTokens to count.
+     * @example
+     * // Count the number of PushTokens
+     * const count = await prisma.pushToken.count({
+     *   where: {
+     *     // ... the filter for the PushTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends PushTokenCountArgs>(
+      args?: Subset<T, PushTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PushTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PushToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PushTokenAggregateArgs>(args: Subset<T, PushTokenAggregateArgs>): Prisma.PrismaPromise<GetPushTokenAggregateType<T>>
+
+    /**
+     * Group by PushToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PushTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PushTokenGroupByArgs['orderBy'] }
+        : { orderBy?: PushTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PushTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPushTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PushToken model
+   */
+  readonly fields: PushTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PushToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PushTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PushToken model
+   */
+  interface PushTokenFieldRefs {
+    readonly id: FieldRef<"PushToken", 'String'>
+    readonly userId: FieldRef<"PushToken", 'String'>
+    readonly token: FieldRef<"PushToken", 'String'>
+    readonly platform: FieldRef<"PushToken", 'String'>
+    readonly createdAt: FieldRef<"PushToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PushToken findUnique
+   */
+  export type PushTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushToken to fetch.
+     */
+    where: PushTokenWhereUniqueInput
+  }
+
+  /**
+   * PushToken findUniqueOrThrow
+   */
+  export type PushTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushToken to fetch.
+     */
+    where: PushTokenWhereUniqueInput
+  }
+
+  /**
+   * PushToken findFirst
+   */
+  export type PushTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushToken to fetch.
+     */
+    where?: PushTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushTokens to fetch.
+     */
+    orderBy?: PushTokenOrderByWithRelationInput | PushTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PushTokens.
+     */
+    cursor?: PushTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PushTokens.
+     */
+    distinct?: PushTokenScalarFieldEnum | PushTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PushToken findFirstOrThrow
+   */
+  export type PushTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushToken to fetch.
+     */
+    where?: PushTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushTokens to fetch.
+     */
+    orderBy?: PushTokenOrderByWithRelationInput | PushTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PushTokens.
+     */
+    cursor?: PushTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PushTokens.
+     */
+    distinct?: PushTokenScalarFieldEnum | PushTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PushToken findMany
+   */
+  export type PushTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushTokens to fetch.
+     */
+    where?: PushTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushTokens to fetch.
+     */
+    orderBy?: PushTokenOrderByWithRelationInput | PushTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PushTokens.
+     */
+    cursor?: PushTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PushTokens.
+     */
+    distinct?: PushTokenScalarFieldEnum | PushTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PushToken create
+   */
+  export type PushTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PushToken.
+     */
+    data: XOR<PushTokenCreateInput, PushTokenUncheckedCreateInput>
+  }
+
+  /**
+   * PushToken createMany
+   */
+  export type PushTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PushTokens.
+     */
+    data: PushTokenCreateManyInput | PushTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PushToken update
+   */
+  export type PushTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PushToken.
+     */
+    data: XOR<PushTokenUpdateInput, PushTokenUncheckedUpdateInput>
+    /**
+     * Choose, which PushToken to update.
+     */
+    where: PushTokenWhereUniqueInput
+  }
+
+  /**
+   * PushToken updateMany
+   */
+  export type PushTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PushTokens.
+     */
+    data: XOR<PushTokenUpdateManyMutationInput, PushTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which PushTokens to update
+     */
+    where?: PushTokenWhereInput
+    /**
+     * Limit how many PushTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PushToken upsert
+   */
+  export type PushTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PushToken to update in case it exists.
+     */
+    where: PushTokenWhereUniqueInput
+    /**
+     * In case the PushToken found by the `where` argument doesn't exist, create a new PushToken with this data.
+     */
+    create: XOR<PushTokenCreateInput, PushTokenUncheckedCreateInput>
+    /**
+     * In case the PushToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PushTokenUpdateInput, PushTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * PushToken delete
+   */
+  export type PushTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter which PushToken to delete.
+     */
+    where: PushTokenWhereUniqueInput
+  }
+
+  /**
+   * PushToken deleteMany
+   */
+  export type PushTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PushTokens to delete
+     */
+    where?: PushTokenWhereInput
+    /**
+     * Limit how many PushTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PushToken without action
+   */
+  export type PushTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -58268,6 +60406,16 @@ export namespace Prisma {
   };
 
   export type SavedPropertyScalarFieldEnum = (typeof SavedPropertyScalarFieldEnum)[keyof typeof SavedPropertyScalarFieldEnum]
+
+
+  export const PropertyRingLogScalarFieldEnum: {
+    id: 'id',
+    buyerId: 'buyerId',
+    propertyId: 'propertyId',
+    createdAt: 'createdAt'
+  };
+
+  export type PropertyRingLogScalarFieldEnum = (typeof PropertyRingLogScalarFieldEnum)[keyof typeof PropertyRingLogScalarFieldEnum]
 
 
   export const AmenityScalarFieldEnum: {
@@ -58845,6 +60993,17 @@ export namespace Prisma {
   export type AgentShopUnlockScalarFieldEnum = (typeof AgentShopUnlockScalarFieldEnum)[keyof typeof AgentShopUnlockScalarFieldEnum]
 
 
+  export const PushTokenScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    token: 'token',
+    platform: 'platform',
+    createdAt: 'createdAt'
+  };
+
+  export type PushTokenScalarFieldEnum = (typeof PushTokenScalarFieldEnum)[keyof typeof PushTokenScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -59074,6 +61233,15 @@ export namespace Prisma {
   };
 
   export type SavedPropertyOrderByRelevanceFieldEnum = (typeof SavedPropertyOrderByRelevanceFieldEnum)[keyof typeof SavedPropertyOrderByRelevanceFieldEnum]
+
+
+  export const PropertyRingLogOrderByRelevanceFieldEnum: {
+    id: 'id',
+    buyerId: 'buyerId',
+    propertyId: 'propertyId'
+  };
+
+  export type PropertyRingLogOrderByRelevanceFieldEnum = (typeof PropertyRingLogOrderByRelevanceFieldEnum)[keyof typeof PropertyRingLogOrderByRelevanceFieldEnum]
 
 
   export const AmenityOrderByRelevanceFieldEnum: {
@@ -59451,6 +61619,16 @@ export namespace Prisma {
   export type AgentShopUnlockOrderByRelevanceFieldEnum = (typeof AgentShopUnlockOrderByRelevanceFieldEnum)[keyof typeof AgentShopUnlockOrderByRelevanceFieldEnum]
 
 
+  export const PushTokenOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    token: 'token',
+    platform: 'platform'
+  };
+
+  export type PushTokenOrderByRelevanceFieldEnum = (typeof PushTokenOrderByRelevanceFieldEnum)[keyof typeof PushTokenOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -59720,6 +61898,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitListRelationFilter
     antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
     agentShopUnlocks?: AgentShopUnlockListRelationFilter
+    pushTokens?: PushTokenListRelationFilter
+    propertyRings?: PropertyRingLogListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -59770,6 +61950,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitOrderByRelationAggregateInput
     antiBypassAgreements?: PlatformAntiBypassAgreementOrderByRelationAggregateInput
     agentShopUnlocks?: AgentShopUnlockOrderByRelationAggregateInput
+    pushTokens?: PushTokenOrderByRelationAggregateInput
+    propertyRings?: PropertyRingLogOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -59824,6 +62006,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitListRelationFilter
     antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
     agentShopUnlocks?: AgentShopUnlockListRelationFilter
+    pushTokens?: PushTokenListRelationFilter
+    propertyRings?: PropertyRingLogListRelationFilter
   }, "id" | "email" | "slug">
 
   export type UserOrderByWithAggregationInput = {
@@ -60759,6 +62943,7 @@ export namespace Prisma {
     images?: PropertyImageListRelationFilter
     enquiries?: EnquiryListRelationFilter
     savedBy?: SavedPropertyListRelationFilter
+    ringLogs?: PropertyRingLogListRelationFilter
   }
 
   export type PropertyOrderByWithRelationInput = {
@@ -60798,6 +62983,7 @@ export namespace Prisma {
     images?: PropertyImageOrderByRelationAggregateInput
     enquiries?: EnquiryOrderByRelationAggregateInput
     savedBy?: SavedPropertyOrderByRelationAggregateInput
+    ringLogs?: PropertyRingLogOrderByRelationAggregateInput
     _relevance?: PropertyOrderByRelevanceInput
   }
 
@@ -60841,6 +63027,7 @@ export namespace Prisma {
     images?: PropertyImageListRelationFilter
     enquiries?: EnquiryListRelationFilter
     savedBy?: SavedPropertyListRelationFilter
+    ringLogs?: PropertyRingLogListRelationFilter
   }, "id" | "slug">
 
   export type PropertyOrderByWithAggregationInput = {
@@ -61170,6 +63357,60 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"SavedProperty"> | string
     propertyId?: StringWithAggregatesFilter<"SavedProperty"> | string
     createdAt?: DateTimeWithAggregatesFilter<"SavedProperty"> | Date | string
+  }
+
+  export type PropertyRingLogWhereInput = {
+    AND?: PropertyRingLogWhereInput | PropertyRingLogWhereInput[]
+    OR?: PropertyRingLogWhereInput[]
+    NOT?: PropertyRingLogWhereInput | PropertyRingLogWhereInput[]
+    id?: StringFilter<"PropertyRingLog"> | string
+    buyerId?: StringFilter<"PropertyRingLog"> | string
+    propertyId?: StringFilter<"PropertyRingLog"> | string
+    createdAt?: DateTimeFilter<"PropertyRingLog"> | Date | string
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    property?: XOR<PropertyScalarRelationFilter, PropertyWhereInput>
+  }
+
+  export type PropertyRingLogOrderByWithRelationInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
+    propertyId?: SortOrder
+    createdAt?: SortOrder
+    buyer?: UserOrderByWithRelationInput
+    property?: PropertyOrderByWithRelationInput
+    _relevance?: PropertyRingLogOrderByRelevanceInput
+  }
+
+  export type PropertyRingLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PropertyRingLogWhereInput | PropertyRingLogWhereInput[]
+    OR?: PropertyRingLogWhereInput[]
+    NOT?: PropertyRingLogWhereInput | PropertyRingLogWhereInput[]
+    buyerId?: StringFilter<"PropertyRingLog"> | string
+    propertyId?: StringFilter<"PropertyRingLog"> | string
+    createdAt?: DateTimeFilter<"PropertyRingLog"> | Date | string
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    property?: XOR<PropertyScalarRelationFilter, PropertyWhereInput>
+  }, "id">
+
+  export type PropertyRingLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
+    propertyId?: SortOrder
+    createdAt?: SortOrder
+    _count?: PropertyRingLogCountOrderByAggregateInput
+    _max?: PropertyRingLogMaxOrderByAggregateInput
+    _min?: PropertyRingLogMinOrderByAggregateInput
+  }
+
+  export type PropertyRingLogScalarWhereWithAggregatesInput = {
+    AND?: PropertyRingLogScalarWhereWithAggregatesInput | PropertyRingLogScalarWhereWithAggregatesInput[]
+    OR?: PropertyRingLogScalarWhereWithAggregatesInput[]
+    NOT?: PropertyRingLogScalarWhereWithAggregatesInput | PropertyRingLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PropertyRingLog"> | string
+    buyerId?: StringWithAggregatesFilter<"PropertyRingLog"> | string
+    propertyId?: StringWithAggregatesFilter<"PropertyRingLog"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PropertyRingLog"> | Date | string
   }
 
   export type AmenityWhereInput = {
@@ -64311,6 +66552,62 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AgentShopUnlock"> | Date | string
   }
 
+  export type PushTokenWhereInput = {
+    AND?: PushTokenWhereInput | PushTokenWhereInput[]
+    OR?: PushTokenWhereInput[]
+    NOT?: PushTokenWhereInput | PushTokenWhereInput[]
+    id?: StringFilter<"PushToken"> | string
+    userId?: StringFilter<"PushToken"> | string
+    token?: StringFilter<"PushToken"> | string
+    platform?: StringFilter<"PushToken"> | string
+    createdAt?: DateTimeFilter<"PushToken"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PushTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    _relevance?: PushTokenOrderByRelevanceInput
+  }
+
+  export type PushTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: PushTokenWhereInput | PushTokenWhereInput[]
+    OR?: PushTokenWhereInput[]
+    NOT?: PushTokenWhereInput | PushTokenWhereInput[]
+    userId?: StringFilter<"PushToken"> | string
+    platform?: StringFilter<"PushToken"> | string
+    createdAt?: DateTimeFilter<"PushToken"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "token">
+
+  export type PushTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+    _count?: PushTokenCountOrderByAggregateInput
+    _max?: PushTokenMaxOrderByAggregateInput
+    _min?: PushTokenMinOrderByAggregateInput
+  }
+
+  export type PushTokenScalarWhereWithAggregatesInput = {
+    AND?: PushTokenScalarWhereWithAggregatesInput | PushTokenScalarWhereWithAggregatesInput[]
+    OR?: PushTokenScalarWhereWithAggregatesInput[]
+    NOT?: PushTokenScalarWhereWithAggregatesInput | PushTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PushToken"> | string
+    userId?: StringWithAggregatesFilter<"PushToken"> | string
+    token?: StringWithAggregatesFilter<"PushToken"> | string
+    platform?: StringWithAggregatesFilter<"PushToken"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PushToken"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -64359,6 +66656,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -64409,6 +66708,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUpdateInput = {
@@ -64459,6 +66760,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -64509,6 +66812,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -65541,6 +67846,7 @@ export namespace Prisma {
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyUncheckedCreateInput = {
@@ -65578,6 +67884,7 @@ export namespace Prisma {
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyUncheckedCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogUncheckedCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyUpdateInput = {
@@ -65615,6 +67922,7 @@ export namespace Prisma {
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyUncheckedUpdateInput = {
@@ -65652,6 +67960,7 @@ export namespace Prisma {
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUncheckedUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUncheckedUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyCreateManyInput = {
@@ -66001,6 +68310,53 @@ export namespace Prisma {
   export type SavedPropertyUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    propertyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyRingLogCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    buyer: UserCreateNestedOneWithoutPropertyRingsInput
+    property: PropertyCreateNestedOneWithoutRingLogsInput
+  }
+
+  export type PropertyRingLogUncheckedCreateInput = {
+    id?: string
+    buyerId: string
+    propertyId: string
+    createdAt?: Date | string
+  }
+
+  export type PropertyRingLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyer?: UserUpdateOneRequiredWithoutPropertyRingsNestedInput
+    property?: PropertyUpdateOneRequiredWithoutRingLogsNestedInput
+  }
+
+  export type PropertyRingLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    propertyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyRingLogCreateManyInput = {
+    id?: string
+    buyerId: string
+    propertyId: string
+    createdAt?: Date | string
+  }
+
+  export type PropertyRingLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyRingLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
     propertyId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -69475,6 +71831,61 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PushTokenCreateInput = {
+    id?: string
+    token: string
+    platform: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutPushTokensInput
+  }
+
+  export type PushTokenUncheckedCreateInput = {
+    id?: string
+    userId: string
+    token: string
+    platform: string
+    createdAt?: Date | string
+  }
+
+  export type PushTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPushTokensNestedInput
+  }
+
+  export type PushTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushTokenCreateManyInput = {
+    id?: string
+    userId: string
+    token: string
+    platform: string
+    createdAt?: Date | string
+  }
+
+  export type PushTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -69632,6 +72043,18 @@ export namespace Prisma {
     none?: AgentShopUnlockWhereInput
   }
 
+  export type PushTokenListRelationFilter = {
+    every?: PushTokenWhereInput
+    some?: PushTokenWhereInput
+    none?: PushTokenWhereInput
+  }
+
+  export type PropertyRingLogListRelationFilter = {
+    every?: PropertyRingLogWhereInput
+    some?: PropertyRingLogWhereInput
+    none?: PropertyRingLogWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -69682,6 +72105,14 @@ export namespace Prisma {
   }
 
   export type AgentShopUnlockOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PushTokenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PropertyRingLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -71019,6 +73450,33 @@ export namespace Prisma {
   export type SavedPropertyMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    propertyId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PropertyRingLogOrderByRelevanceInput = {
+    fields: PropertyRingLogOrderByRelevanceFieldEnum | PropertyRingLogOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type PropertyRingLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
+    propertyId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PropertyRingLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
+    propertyId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PropertyRingLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
     propertyId?: SortOrder
     createdAt?: SortOrder
   }
@@ -73545,6 +76003,36 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type PushTokenOrderByRelevanceInput = {
+    fields: PushTokenOrderByRelevanceFieldEnum | PushTokenOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type PushTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PushTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PushTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    platform?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type PropertyCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -73641,6 +76129,20 @@ export namespace Prisma {
     connect?: AgentShopUnlockWhereUniqueInput | AgentShopUnlockWhereUniqueInput[]
   }
 
+  export type PushTokenCreateNestedManyWithoutUserInput = {
+    create?: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput> | PushTokenCreateWithoutUserInput[] | PushTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PushTokenCreateOrConnectWithoutUserInput | PushTokenCreateOrConnectWithoutUserInput[]
+    createMany?: PushTokenCreateManyUserInputEnvelope
+    connect?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+  }
+
+  export type PropertyRingLogCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<PropertyRingLogCreateWithoutBuyerInput, PropertyRingLogUncheckedCreateWithoutBuyerInput> | PropertyRingLogCreateWithoutBuyerInput[] | PropertyRingLogUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PropertyRingLogCreateOrConnectWithoutBuyerInput | PropertyRingLogCreateOrConnectWithoutBuyerInput[]
+    createMany?: PropertyRingLogCreateManyBuyerInputEnvelope
+    connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+  }
+
   export type PropertyUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -73735,6 +76237,20 @@ export namespace Prisma {
     connectOrCreate?: AgentShopUnlockCreateOrConnectWithoutBuyerInput | AgentShopUnlockCreateOrConnectWithoutBuyerInput[]
     createMany?: AgentShopUnlockCreateManyBuyerInputEnvelope
     connect?: AgentShopUnlockWhereUniqueInput | AgentShopUnlockWhereUniqueInput[]
+  }
+
+  export type PushTokenUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput> | PushTokenCreateWithoutUserInput[] | PushTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PushTokenCreateOrConnectWithoutUserInput | PushTokenCreateOrConnectWithoutUserInput[]
+    createMany?: PushTokenCreateManyUserInputEnvelope
+    connect?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+  }
+
+  export type PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<PropertyRingLogCreateWithoutBuyerInput, PropertyRingLogUncheckedCreateWithoutBuyerInput> | PropertyRingLogCreateWithoutBuyerInput[] | PropertyRingLogUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PropertyRingLogCreateOrConnectWithoutBuyerInput | PropertyRingLogCreateOrConnectWithoutBuyerInput[]
+    createMany?: PropertyRingLogCreateManyBuyerInputEnvelope
+    connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -73957,6 +76473,34 @@ export namespace Prisma {
     deleteMany?: AgentShopUnlockScalarWhereInput | AgentShopUnlockScalarWhereInput[]
   }
 
+  export type PushTokenUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput> | PushTokenCreateWithoutUserInput[] | PushTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PushTokenCreateOrConnectWithoutUserInput | PushTokenCreateOrConnectWithoutUserInput[]
+    upsert?: PushTokenUpsertWithWhereUniqueWithoutUserInput | PushTokenUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PushTokenCreateManyUserInputEnvelope
+    set?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+    disconnect?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+    delete?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+    connect?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+    update?: PushTokenUpdateWithWhereUniqueWithoutUserInput | PushTokenUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PushTokenUpdateManyWithWhereWithoutUserInput | PushTokenUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PushTokenScalarWhereInput | PushTokenScalarWhereInput[]
+  }
+
+  export type PropertyRingLogUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<PropertyRingLogCreateWithoutBuyerInput, PropertyRingLogUncheckedCreateWithoutBuyerInput> | PropertyRingLogCreateWithoutBuyerInput[] | PropertyRingLogUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PropertyRingLogCreateOrConnectWithoutBuyerInput | PropertyRingLogCreateOrConnectWithoutBuyerInput[]
+    upsert?: PropertyRingLogUpsertWithWhereUniqueWithoutBuyerInput | PropertyRingLogUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: PropertyRingLogCreateManyBuyerInputEnvelope
+    set?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    disconnect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    delete?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    update?: PropertyRingLogUpdateWithWhereUniqueWithoutBuyerInput | PropertyRingLogUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: PropertyRingLogUpdateManyWithWhereWithoutBuyerInput | PropertyRingLogUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: PropertyRingLogScalarWhereInput | PropertyRingLogScalarWhereInput[]
+  }
+
   export type PropertyUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -74143,6 +76687,34 @@ export namespace Prisma {
     update?: AgentShopUnlockUpdateWithWhereUniqueWithoutBuyerInput | AgentShopUnlockUpdateWithWhereUniqueWithoutBuyerInput[]
     updateMany?: AgentShopUnlockUpdateManyWithWhereWithoutBuyerInput | AgentShopUnlockUpdateManyWithWhereWithoutBuyerInput[]
     deleteMany?: AgentShopUnlockScalarWhereInput | AgentShopUnlockScalarWhereInput[]
+  }
+
+  export type PushTokenUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput> | PushTokenCreateWithoutUserInput[] | PushTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PushTokenCreateOrConnectWithoutUserInput | PushTokenCreateOrConnectWithoutUserInput[]
+    upsert?: PushTokenUpsertWithWhereUniqueWithoutUserInput | PushTokenUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PushTokenCreateManyUserInputEnvelope
+    set?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+    disconnect?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+    delete?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+    connect?: PushTokenWhereUniqueInput | PushTokenWhereUniqueInput[]
+    update?: PushTokenUpdateWithWhereUniqueWithoutUserInput | PushTokenUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PushTokenUpdateManyWithWhereWithoutUserInput | PushTokenUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PushTokenScalarWhereInput | PushTokenScalarWhereInput[]
+  }
+
+  export type PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<PropertyRingLogCreateWithoutBuyerInput, PropertyRingLogUncheckedCreateWithoutBuyerInput> | PropertyRingLogCreateWithoutBuyerInput[] | PropertyRingLogUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: PropertyRingLogCreateOrConnectWithoutBuyerInput | PropertyRingLogCreateOrConnectWithoutBuyerInput[]
+    upsert?: PropertyRingLogUpsertWithWhereUniqueWithoutBuyerInput | PropertyRingLogUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: PropertyRingLogCreateManyBuyerInputEnvelope
+    set?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    disconnect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    delete?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    update?: PropertyRingLogUpdateWithWhereUniqueWithoutBuyerInput | PropertyRingLogUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: PropertyRingLogUpdateManyWithWhereWithoutBuyerInput | PropertyRingLogUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: PropertyRingLogScalarWhereInput | PropertyRingLogScalarWhereInput[]
   }
 
   export type SubscriptionCreateNestedManyWithoutPlanInput = {
@@ -74626,6 +77198,13 @@ export namespace Prisma {
     connect?: SavedPropertyWhereUniqueInput | SavedPropertyWhereUniqueInput[]
   }
 
+  export type PropertyRingLogCreateNestedManyWithoutPropertyInput = {
+    create?: XOR<PropertyRingLogCreateWithoutPropertyInput, PropertyRingLogUncheckedCreateWithoutPropertyInput> | PropertyRingLogCreateWithoutPropertyInput[] | PropertyRingLogUncheckedCreateWithoutPropertyInput[]
+    connectOrCreate?: PropertyRingLogCreateOrConnectWithoutPropertyInput | PropertyRingLogCreateOrConnectWithoutPropertyInput[]
+    createMany?: PropertyRingLogCreateManyPropertyInputEnvelope
+    connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+  }
+
   export type PropertyImageUncheckedCreateNestedManyWithoutPropertyInput = {
     create?: XOR<PropertyImageCreateWithoutPropertyInput, PropertyImageUncheckedCreateWithoutPropertyInput> | PropertyImageCreateWithoutPropertyInput[] | PropertyImageUncheckedCreateWithoutPropertyInput[]
     connectOrCreate?: PropertyImageCreateOrConnectWithoutPropertyInput | PropertyImageCreateOrConnectWithoutPropertyInput[]
@@ -74645,6 +77224,13 @@ export namespace Prisma {
     connectOrCreate?: SavedPropertyCreateOrConnectWithoutPropertyInput | SavedPropertyCreateOrConnectWithoutPropertyInput[]
     createMany?: SavedPropertyCreateManyPropertyInputEnvelope
     connect?: SavedPropertyWhereUniqueInput | SavedPropertyWhereUniqueInput[]
+  }
+
+  export type PropertyRingLogUncheckedCreateNestedManyWithoutPropertyInput = {
+    create?: XOR<PropertyRingLogCreateWithoutPropertyInput, PropertyRingLogUncheckedCreateWithoutPropertyInput> | PropertyRingLogCreateWithoutPropertyInput[] | PropertyRingLogUncheckedCreateWithoutPropertyInput[]
+    connectOrCreate?: PropertyRingLogCreateOrConnectWithoutPropertyInput | PropertyRingLogCreateOrConnectWithoutPropertyInput[]
+    createMany?: PropertyRingLogCreateManyPropertyInputEnvelope
+    connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
   }
 
   export type EnumListingTypeFieldUpdateOperationsInput = {
@@ -74727,6 +77313,20 @@ export namespace Prisma {
     deleteMany?: SavedPropertyScalarWhereInput | SavedPropertyScalarWhereInput[]
   }
 
+  export type PropertyRingLogUpdateManyWithoutPropertyNestedInput = {
+    create?: XOR<PropertyRingLogCreateWithoutPropertyInput, PropertyRingLogUncheckedCreateWithoutPropertyInput> | PropertyRingLogCreateWithoutPropertyInput[] | PropertyRingLogUncheckedCreateWithoutPropertyInput[]
+    connectOrCreate?: PropertyRingLogCreateOrConnectWithoutPropertyInput | PropertyRingLogCreateOrConnectWithoutPropertyInput[]
+    upsert?: PropertyRingLogUpsertWithWhereUniqueWithoutPropertyInput | PropertyRingLogUpsertWithWhereUniqueWithoutPropertyInput[]
+    createMany?: PropertyRingLogCreateManyPropertyInputEnvelope
+    set?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    disconnect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    delete?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    update?: PropertyRingLogUpdateWithWhereUniqueWithoutPropertyInput | PropertyRingLogUpdateWithWhereUniqueWithoutPropertyInput[]
+    updateMany?: PropertyRingLogUpdateManyWithWhereWithoutPropertyInput | PropertyRingLogUpdateManyWithWhereWithoutPropertyInput[]
+    deleteMany?: PropertyRingLogScalarWhereInput | PropertyRingLogScalarWhereInput[]
+  }
+
   export type PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput = {
     create?: XOR<PropertyImageCreateWithoutPropertyInput, PropertyImageUncheckedCreateWithoutPropertyInput> | PropertyImageCreateWithoutPropertyInput[] | PropertyImageUncheckedCreateWithoutPropertyInput[]
     connectOrCreate?: PropertyImageCreateOrConnectWithoutPropertyInput | PropertyImageCreateOrConnectWithoutPropertyInput[]
@@ -74767,6 +77367,20 @@ export namespace Prisma {
     update?: SavedPropertyUpdateWithWhereUniqueWithoutPropertyInput | SavedPropertyUpdateWithWhereUniqueWithoutPropertyInput[]
     updateMany?: SavedPropertyUpdateManyWithWhereWithoutPropertyInput | SavedPropertyUpdateManyWithWhereWithoutPropertyInput[]
     deleteMany?: SavedPropertyScalarWhereInput | SavedPropertyScalarWhereInput[]
+  }
+
+  export type PropertyRingLogUncheckedUpdateManyWithoutPropertyNestedInput = {
+    create?: XOR<PropertyRingLogCreateWithoutPropertyInput, PropertyRingLogUncheckedCreateWithoutPropertyInput> | PropertyRingLogCreateWithoutPropertyInput[] | PropertyRingLogUncheckedCreateWithoutPropertyInput[]
+    connectOrCreate?: PropertyRingLogCreateOrConnectWithoutPropertyInput | PropertyRingLogCreateOrConnectWithoutPropertyInput[]
+    upsert?: PropertyRingLogUpsertWithWhereUniqueWithoutPropertyInput | PropertyRingLogUpsertWithWhereUniqueWithoutPropertyInput[]
+    createMany?: PropertyRingLogCreateManyPropertyInputEnvelope
+    set?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    disconnect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    delete?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+    update?: PropertyRingLogUpdateWithWhereUniqueWithoutPropertyInput | PropertyRingLogUpdateWithWhereUniqueWithoutPropertyInput[]
+    updateMany?: PropertyRingLogUpdateManyWithWhereWithoutPropertyInput | PropertyRingLogUpdateManyWithWhereWithoutPropertyInput[]
+    deleteMany?: PropertyRingLogScalarWhereInput | PropertyRingLogScalarWhereInput[]
   }
 
   export type PropertyCreateNestedOneWithoutImagesInput = {
@@ -74891,6 +77505,34 @@ export namespace Prisma {
     upsert?: PropertyUpsertWithoutSavedByInput
     connect?: PropertyWhereUniqueInput
     update?: XOR<XOR<PropertyUpdateToOneWithWhereWithoutSavedByInput, PropertyUpdateWithoutSavedByInput>, PropertyUncheckedUpdateWithoutSavedByInput>
+  }
+
+  export type UserCreateNestedOneWithoutPropertyRingsInput = {
+    create?: XOR<UserCreateWithoutPropertyRingsInput, UserUncheckedCreateWithoutPropertyRingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPropertyRingsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PropertyCreateNestedOneWithoutRingLogsInput = {
+    create?: XOR<PropertyCreateWithoutRingLogsInput, PropertyUncheckedCreateWithoutRingLogsInput>
+    connectOrCreate?: PropertyCreateOrConnectWithoutRingLogsInput
+    connect?: PropertyWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPropertyRingsNestedInput = {
+    create?: XOR<UserCreateWithoutPropertyRingsInput, UserUncheckedCreateWithoutPropertyRingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPropertyRingsInput
+    upsert?: UserUpsertWithoutPropertyRingsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPropertyRingsInput, UserUpdateWithoutPropertyRingsInput>, UserUncheckedUpdateWithoutPropertyRingsInput>
+  }
+
+  export type PropertyUpdateOneRequiredWithoutRingLogsNestedInput = {
+    create?: XOR<PropertyCreateWithoutRingLogsInput, PropertyUncheckedCreateWithoutRingLogsInput>
+    connectOrCreate?: PropertyCreateOrConnectWithoutRingLogsInput
+    upsert?: PropertyUpsertWithoutRingLogsInput
+    connect?: PropertyWhereUniqueInput
+    update?: XOR<XOR<PropertyUpdateToOneWithWhereWithoutRingLogsInput, PropertyUpdateWithoutRingLogsInput>, PropertyUncheckedUpdateWithoutRingLogsInput>
   }
 
   export type UserCreateNestedOneWithoutAgentProfileInput = {
@@ -77455,6 +80097,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAgentShopUnlocksInput, UserUpdateWithoutAgentShopUnlocksInput>, UserUncheckedUpdateWithoutAgentShopUnlocksInput>
   }
 
+  export type UserCreateNestedOneWithoutPushTokensInput = {
+    create?: XOR<UserCreateWithoutPushTokensInput, UserUncheckedCreateWithoutPushTokensInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPushTokensInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPushTokensNestedInput = {
+    create?: XOR<UserCreateWithoutPushTokensInput, UserUncheckedCreateWithoutPushTokensInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPushTokensInput
+    upsert?: UserUpsertWithoutPushTokensInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPushTokensInput, UserUpdateWithoutPushTokensInput>, UserUncheckedUpdateWithoutPushTokensInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -78168,6 +80824,7 @@ export namespace Prisma {
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyUncheckedCreateWithoutOwnerInput = {
@@ -78204,6 +80861,7 @@ export namespace Prisma {
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyUncheckedCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogUncheckedCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyCreateOrConnectWithoutOwnerInput = {
@@ -78771,6 +81429,52 @@ export namespace Prisma {
 
   export type AgentShopUnlockCreateManyBuyerInputEnvelope = {
     data: AgentShopUnlockCreateManyBuyerInput | AgentShopUnlockCreateManyBuyerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PushTokenCreateWithoutUserInput = {
+    id?: string
+    token: string
+    platform: string
+    createdAt?: Date | string
+  }
+
+  export type PushTokenUncheckedCreateWithoutUserInput = {
+    id?: string
+    token: string
+    platform: string
+    createdAt?: Date | string
+  }
+
+  export type PushTokenCreateOrConnectWithoutUserInput = {
+    where: PushTokenWhereUniqueInput
+    create: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
+  }
+
+  export type PushTokenCreateManyUserInputEnvelope = {
+    data: PushTokenCreateManyUserInput | PushTokenCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PropertyRingLogCreateWithoutBuyerInput = {
+    id?: string
+    createdAt?: Date | string
+    property: PropertyCreateNestedOneWithoutRingLogsInput
+  }
+
+  export type PropertyRingLogUncheckedCreateWithoutBuyerInput = {
+    id?: string
+    propertyId: string
+    createdAt?: Date | string
+  }
+
+  export type PropertyRingLogCreateOrConnectWithoutBuyerInput = {
+    where: PropertyRingLogWhereUniqueInput
+    create: XOR<PropertyRingLogCreateWithoutBuyerInput, PropertyRingLogUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type PropertyRingLogCreateManyBuyerInputEnvelope = {
+    data: PropertyRingLogCreateManyBuyerInput | PropertyRingLogCreateManyBuyerInput[]
     skipDuplicates?: boolean
   }
 
@@ -79371,6 +82075,59 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AgentShopUnlock"> | Date | string
   }
 
+  export type PushTokenUpsertWithWhereUniqueWithoutUserInput = {
+    where: PushTokenWhereUniqueInput
+    update: XOR<PushTokenUpdateWithoutUserInput, PushTokenUncheckedUpdateWithoutUserInput>
+    create: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
+  }
+
+  export type PushTokenUpdateWithWhereUniqueWithoutUserInput = {
+    where: PushTokenWhereUniqueInput
+    data: XOR<PushTokenUpdateWithoutUserInput, PushTokenUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PushTokenUpdateManyWithWhereWithoutUserInput = {
+    where: PushTokenScalarWhereInput
+    data: XOR<PushTokenUpdateManyMutationInput, PushTokenUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PushTokenScalarWhereInput = {
+    AND?: PushTokenScalarWhereInput | PushTokenScalarWhereInput[]
+    OR?: PushTokenScalarWhereInput[]
+    NOT?: PushTokenScalarWhereInput | PushTokenScalarWhereInput[]
+    id?: StringFilter<"PushToken"> | string
+    userId?: StringFilter<"PushToken"> | string
+    token?: StringFilter<"PushToken"> | string
+    platform?: StringFilter<"PushToken"> | string
+    createdAt?: DateTimeFilter<"PushToken"> | Date | string
+  }
+
+  export type PropertyRingLogUpsertWithWhereUniqueWithoutBuyerInput = {
+    where: PropertyRingLogWhereUniqueInput
+    update: XOR<PropertyRingLogUpdateWithoutBuyerInput, PropertyRingLogUncheckedUpdateWithoutBuyerInput>
+    create: XOR<PropertyRingLogCreateWithoutBuyerInput, PropertyRingLogUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type PropertyRingLogUpdateWithWhereUniqueWithoutBuyerInput = {
+    where: PropertyRingLogWhereUniqueInput
+    data: XOR<PropertyRingLogUpdateWithoutBuyerInput, PropertyRingLogUncheckedUpdateWithoutBuyerInput>
+  }
+
+  export type PropertyRingLogUpdateManyWithWhereWithoutBuyerInput = {
+    where: PropertyRingLogScalarWhereInput
+    data: XOR<PropertyRingLogUpdateManyMutationInput, PropertyRingLogUncheckedUpdateManyWithoutBuyerInput>
+  }
+
+  export type PropertyRingLogScalarWhereInput = {
+    AND?: PropertyRingLogScalarWhereInput | PropertyRingLogScalarWhereInput[]
+    OR?: PropertyRingLogScalarWhereInput[]
+    NOT?: PropertyRingLogScalarWhereInput | PropertyRingLogScalarWhereInput[]
+    id?: StringFilter<"PropertyRingLog"> | string
+    buyerId?: StringFilter<"PropertyRingLog"> | string
+    propertyId?: StringFilter<"PropertyRingLog"> | string
+    createdAt?: DateTimeFilter<"PropertyRingLog"> | Date | string
+  }
+
   export type SubscriptionCreateWithoutPlanInput = {
     id?: string
     status?: $Enums.SubscriptionStatus
@@ -79464,6 +82221,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -79513,6 +82272,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -79609,6 +82370,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -79658,6 +82421,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PlanUpsertWithoutSubscriptionsInput = {
@@ -79744,6 +82509,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutLeadViewsInput = {
@@ -79793,6 +82560,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutLeadViewsInput = {
@@ -79885,6 +82654,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeadViewsInput = {
@@ -79934,6 +82705,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type EnquiryUpsertWithoutLeadViewsInput = {
@@ -80138,6 +82911,7 @@ export namespace Prisma {
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyUncheckedCreateWithoutProjectInput = {
@@ -80174,6 +82948,7 @@ export namespace Prisma {
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyUncheckedCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogUncheckedCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyCreateOrConnectWithoutProjectInput = {
@@ -80825,6 +83600,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutPropertiesInput = {
@@ -80874,6 +83651,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutPropertiesInput = {
@@ -81008,6 +83787,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PropertyRingLogCreateWithoutPropertyInput = {
+    id?: string
+    createdAt?: Date | string
+    buyer: UserCreateNestedOneWithoutPropertyRingsInput
+  }
+
+  export type PropertyRingLogUncheckedCreateWithoutPropertyInput = {
+    id?: string
+    buyerId: string
+    createdAt?: Date | string
+  }
+
+  export type PropertyRingLogCreateOrConnectWithoutPropertyInput = {
+    where: PropertyRingLogWhereUniqueInput
+    create: XOR<PropertyRingLogCreateWithoutPropertyInput, PropertyRingLogUncheckedCreateWithoutPropertyInput>
+  }
+
+  export type PropertyRingLogCreateManyPropertyInputEnvelope = {
+    data: PropertyRingLogCreateManyPropertyInput | PropertyRingLogCreateManyPropertyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutPropertiesInput = {
     update: XOR<UserUpdateWithoutPropertiesInput, UserUncheckedUpdateWithoutPropertiesInput>
     create: XOR<UserCreateWithoutPropertiesInput, UserUncheckedCreateWithoutPropertiesInput>
@@ -81066,6 +83867,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertiesInput = {
@@ -81115,6 +83918,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type ProjectUpsertWithoutUnitsInput = {
@@ -81231,6 +84036,22 @@ export namespace Prisma {
     data: XOR<SavedPropertyUpdateManyMutationInput, SavedPropertyUncheckedUpdateManyWithoutPropertyInput>
   }
 
+  export type PropertyRingLogUpsertWithWhereUniqueWithoutPropertyInput = {
+    where: PropertyRingLogWhereUniqueInput
+    update: XOR<PropertyRingLogUpdateWithoutPropertyInput, PropertyRingLogUncheckedUpdateWithoutPropertyInput>
+    create: XOR<PropertyRingLogCreateWithoutPropertyInput, PropertyRingLogUncheckedCreateWithoutPropertyInput>
+  }
+
+  export type PropertyRingLogUpdateWithWhereUniqueWithoutPropertyInput = {
+    where: PropertyRingLogWhereUniqueInput
+    data: XOR<PropertyRingLogUpdateWithoutPropertyInput, PropertyRingLogUncheckedUpdateWithoutPropertyInput>
+  }
+
+  export type PropertyRingLogUpdateManyWithWhereWithoutPropertyInput = {
+    where: PropertyRingLogScalarWhereInput
+    data: XOR<PropertyRingLogUpdateManyMutationInput, PropertyRingLogUncheckedUpdateManyWithoutPropertyInput>
+  }
+
   export type PropertyCreateWithoutImagesInput = {
     id?: string
     title: string
@@ -81265,6 +84086,7 @@ export namespace Prisma {
     project?: ProjectCreateNestedOneWithoutUnitsInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyUncheckedCreateWithoutImagesInput = {
@@ -81301,6 +84123,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyUncheckedCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogUncheckedCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyCreateOrConnectWithoutImagesInput = {
@@ -81353,6 +84176,7 @@ export namespace Prisma {
     project?: ProjectUpdateOneWithoutUnitsNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyUncheckedUpdateWithoutImagesInput = {
@@ -81389,6 +84213,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     enquiries?: EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUncheckedUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUncheckedUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyCreateWithoutEnquiriesInput = {
@@ -81425,6 +84250,7 @@ export namespace Prisma {
     project?: ProjectCreateNestedOneWithoutUnitsInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyUncheckedCreateWithoutEnquiriesInput = {
@@ -81461,6 +84287,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyUncheckedCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogUncheckedCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyCreateOrConnectWithoutEnquiriesInput = {
@@ -81515,6 +84342,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutEnquiriesInput = {
@@ -81564,6 +84393,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutEnquiriesInput = {
@@ -81638,6 +84469,7 @@ export namespace Prisma {
     project?: ProjectUpdateOneWithoutUnitsNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyUncheckedUpdateWithoutEnquiriesInput = {
@@ -81674,6 +84506,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUncheckedUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUncheckedUpdateManyWithoutPropertyNestedInput
   }
 
   export type UserUpsertWithoutEnquiriesInput = {
@@ -81734,6 +84567,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnquiriesInput = {
@@ -81783,6 +84618,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type LeadViewUpsertWithWhereUniqueWithoutEnquiryInput = {
@@ -81848,6 +84685,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutSavedPropertiesInput = {
@@ -81897,6 +84736,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutSavedPropertiesInput = {
@@ -81938,6 +84779,7 @@ export namespace Prisma {
     project?: ProjectCreateNestedOneWithoutUnitsInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyUncheckedCreateWithoutSavedByInput = {
@@ -81974,6 +84816,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogUncheckedCreateNestedManyWithoutPropertyInput
   }
 
   export type PropertyCreateOrConnectWithoutSavedByInput = {
@@ -82039,6 +84882,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedPropertiesInput = {
@@ -82088,6 +84933,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PropertyUpsertWithoutSavedByInput = {
@@ -82135,6 +84982,7 @@ export namespace Prisma {
     project?: ProjectUpdateOneWithoutUnitsNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyUncheckedUpdateWithoutSavedByInput = {
@@ -82171,6 +85019,391 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUncheckedUpdateManyWithoutPropertyNestedInput
+  }
+
+  export type UserCreateWithoutPropertyRingsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
+    properties?: PropertyCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
+    agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPropertyRingsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
+    properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
+    agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPropertyRingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPropertyRingsInput, UserUncheckedCreateWithoutPropertyRingsInput>
+  }
+
+  export type PropertyCreateWithoutRingLogsInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    condition?: $Enums.PropertyCondition | null
+    status?: $Enums.PropertyStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    expiresAt?: Date | string | null
+    price: number
+    priceNegotiable?: boolean
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    city: string
+    locality?: string | null
+    address?: string | null
+    amenities?: string | null
+    brochureUrl?: string | null
+    youtubeUrl?: string | null
+    contactName?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    featured?: boolean
+    metaTitle?: string | null
+    metaDescription?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutPropertiesInput
+    project?: ProjectCreateNestedOneWithoutUnitsInput
+    images?: PropertyImageCreateNestedManyWithoutPropertyInput
+    enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
+    savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
+  }
+
+  export type PropertyUncheckedCreateWithoutRingLogsInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    condition?: $Enums.PropertyCondition | null
+    status?: $Enums.PropertyStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    expiresAt?: Date | string | null
+    price: number
+    priceNegotiable?: boolean
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    city: string
+    locality?: string | null
+    address?: string | null
+    amenities?: string | null
+    brochureUrl?: string | null
+    youtubeUrl?: string | null
+    ownerId: string
+    projectId?: string | null
+    contactName?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    featured?: boolean
+    metaTitle?: string | null
+    metaDescription?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutPropertyInput
+    savedBy?: SavedPropertyUncheckedCreateNestedManyWithoutPropertyInput
+  }
+
+  export type PropertyCreateOrConnectWithoutRingLogsInput = {
+    where: PropertyWhereUniqueInput
+    create: XOR<PropertyCreateWithoutRingLogsInput, PropertyUncheckedCreateWithoutRingLogsInput>
+  }
+
+  export type UserUpsertWithoutPropertyRingsInput = {
+    update: XOR<UserUpdateWithoutPropertyRingsInput, UserUncheckedUpdateWithoutPropertyRingsInput>
+    create: XOR<UserCreateWithoutPropertyRingsInput, UserUncheckedCreateWithoutPropertyRingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPropertyRingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPropertyRingsInput, UserUncheckedUpdateWithoutPropertyRingsInput>
+  }
+
+  export type UserUpdateWithoutPropertyRingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    properties?: PropertyUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
+    agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPropertyRingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
+    agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PropertyUpsertWithoutRingLogsInput = {
+    update: XOR<PropertyUpdateWithoutRingLogsInput, PropertyUncheckedUpdateWithoutRingLogsInput>
+    create: XOR<PropertyCreateWithoutRingLogsInput, PropertyUncheckedCreateWithoutRingLogsInput>
+    where?: PropertyWhereInput
+  }
+
+  export type PropertyUpdateToOneWithWhereWithoutRingLogsInput = {
+    where?: PropertyWhereInput
+    data: XOR<PropertyUpdateWithoutRingLogsInput, PropertyUncheckedUpdateWithoutRingLogsInput>
+  }
+
+  export type PropertyUpdateWithoutRingLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    condition?: NullableEnumPropertyConditionFieldUpdateOperationsInput | $Enums.PropertyCondition | null
+    status?: EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    priceNegotiable?: BoolFieldUpdateOperationsInput | boolean
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutPropertiesNestedInput
+    project?: ProjectUpdateOneWithoutUnitsNestedInput
+    images?: PropertyImageUpdateManyWithoutPropertyNestedInput
+    enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
+    savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
+  }
+
+  export type PropertyUncheckedUpdateWithoutRingLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    condition?: NullableEnumPropertyConditionFieldUpdateOperationsInput | $Enums.PropertyCondition | null
+    status?: EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    priceNegotiable?: BoolFieldUpdateOperationsInput | boolean
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
+    savedBy?: SavedPropertyUncheckedUpdateManyWithoutPropertyNestedInput
   }
 
   export type UserCreateWithoutAgentProfileInput = {
@@ -82220,6 +85453,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutAgentProfileInput = {
@@ -82269,6 +85504,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutAgentProfileInput = {
@@ -83455,6 +86692,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentProfileInput = {
@@ -83504,6 +86743,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutReferredAgentsInput = {
@@ -84987,6 +88228,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutInvestorProfileInput = {
@@ -85036,6 +88279,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutInvestorProfileInput = {
@@ -85382,6 +88627,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvestorProfileInput = {
@@ -85431,6 +88678,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutInvestorsInput = {
@@ -87172,6 +90421,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutPropertyUnlocksInput = {
@@ -87221,6 +90472,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutPropertyUnlocksInput = {
@@ -87520,6 +90773,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertyUnlocksInput = {
@@ -87569,6 +90824,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutAssignedUnlocksInput = {
@@ -87852,6 +91109,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutGoldListingPurchasesInput = {
@@ -87901,6 +91160,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutGoldListingPurchasesInput = {
@@ -88057,6 +91318,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoldListingPurchasesInput = {
@@ -88106,6 +91369,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type BroadcastCreateWithoutDealsInput = {
@@ -89575,6 +92840,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutDispatchRequestsInput = {
@@ -89624,6 +92891,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutDispatchRequestsInput = {
@@ -89856,6 +93125,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDispatchRequestsInput = {
@@ -89905,6 +93176,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutDispatchesAcceptedInput = {
@@ -93759,6 +97032,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutVisitAppointmentsInput = {
@@ -93808,6 +97083,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutVisitAppointmentsInput = {
@@ -94047,6 +97324,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVisitAppointmentsInput = {
@@ -94096,6 +97375,8 @@ export namespace Prisma {
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutVisitAppointmentsInput = {
@@ -94416,6 +97697,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutDirectVisitsInput = {
@@ -94465,6 +97748,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutDirectVisitsInput = {
@@ -94671,6 +97956,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDirectVisitsInput = {
@@ -94720,6 +98007,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutDirectVisitInput = {
@@ -94905,6 +98194,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutAntiBypassAgreementsInput = {
@@ -94954,6 +98245,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutAntiBypassAgreementsInput = {
@@ -95151,6 +98444,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAntiBypassAgreementsInput = {
@@ -95200,6 +98495,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileCreateWithoutShopUnlocksInput = {
@@ -95392,6 +98689,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutAgentShopUnlocksInput = {
@@ -95441,6 +98740,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutAgentShopUnlocksInput = {
@@ -95655,6 +98956,8 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
     directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentShopUnlocksInput = {
@@ -95704,6 +99007,228 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type UserCreateWithoutPushTokensInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
+    properties?: PropertyCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
+    agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserUncheckedCreateWithoutPushTokensInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
+    properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
+    agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserCreateOrConnectWithoutPushTokensInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPushTokensInput, UserUncheckedCreateWithoutPushTokensInput>
+  }
+
+  export type UserUpsertWithoutPushTokensInput = {
+    update: XOR<UserUpdateWithoutPushTokensInput, UserUncheckedUpdateWithoutPushTokensInput>
+    create: XOR<UserCreateWithoutPushTokensInput, UserUncheckedCreateWithoutPushTokensInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPushTokensInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPushTokensInput, UserUncheckedUpdateWithoutPushTokensInput>
+  }
+
+  export type UserUpdateWithoutPushTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    properties?: PropertyUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
+    agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPushTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
+    agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PropertyCreateManyOwnerInput = {
@@ -95869,6 +99394,19 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type PushTokenCreateManyUserInput = {
+    id?: string
+    token: string
+    platform: string
+    createdAt?: Date | string
+  }
+
+  export type PropertyRingLogCreateManyBuyerInput = {
+    id?: string
+    propertyId: string
+    createdAt?: Date | string
+  }
+
   export type PropertyUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -95903,6 +99441,7 @@ export namespace Prisma {
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyUncheckedUpdateWithoutOwnerInput = {
@@ -95939,6 +99478,7 @@ export namespace Prisma {
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUncheckedUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUncheckedUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyUncheckedUpdateManyWithoutOwnerInput = {
@@ -96370,6 +99910,45 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PushTokenUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushTokenUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushTokenUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyRingLogUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    property?: PropertyUpdateOneRequiredWithoutRingLogsNestedInput
+  }
+
+  export type PropertyRingLogUncheckedUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    propertyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyRingLogUncheckedUpdateManyWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    propertyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SubscriptionCreateManyPlanInput = {
     id?: string
     userId: string
@@ -96567,6 +100146,7 @@ export namespace Prisma {
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyUncheckedUpdateWithoutProjectInput = {
@@ -96603,6 +100183,7 @@ export namespace Prisma {
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUncheckedUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUncheckedUpdateManyWithoutPropertyNestedInput
   }
 
   export type PropertyUncheckedUpdateManyWithoutProjectInput = {
@@ -96831,6 +100412,12 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type PropertyRingLogCreateManyPropertyInput = {
+    id?: string
+    buyerId: string
+    createdAt?: Date | string
+  }
+
   export type PropertyImageUpdateWithoutPropertyInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
@@ -96899,6 +100486,24 @@ export namespace Prisma {
   export type SavedPropertyUncheckedUpdateManyWithoutPropertyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyRingLogUpdateWithoutPropertyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyer?: UserUpdateOneRequiredWithoutPropertyRingsNestedInput
+  }
+
+  export type PropertyRingLogUncheckedUpdateWithoutPropertyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyRingLogUncheckedUpdateManyWithoutPropertyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

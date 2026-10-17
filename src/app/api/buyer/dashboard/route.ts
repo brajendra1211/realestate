@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { canSwitchAgent } from "@/lib/agentSwitch";
+import { getRingsRemainingToday } from "@/lib/propertyRing";
 
 // Mirrors src/app/buyer/dashboard/page.tsx's data-fetching in a single
 // mobile-friendly response, since the Flutter app can't call Next.js
@@ -16,7 +17,14 @@ export async function GET() {
     prisma.user.findUniqueOrThrow({ where: { id: session.user.id } }),
     prisma.savedProperty.findMany({
       where: { userId: session.user.id },
-      include: { property: { include: { images: { orderBy: { order: "asc" }, take: 1 } } } },
+      include: {
+        property: {
+          include: {
+            images: { orderBy: { order: "asc" }, take: 1 },
+            owner: { select: { agentProfile: { select: { id: true, agentCode: true, shopName: true } } } },
+          },
+        },
+      },
       orderBy: { createdAt: "desc" },
     }),
     prisma.enquiry.findMany({
@@ -33,9 +41,23 @@ export async function GET() {
 
   const switchGate = user.phone ? await canSwitchAgent(user.phone) : null;
 
+  const savedPropertiesWithRing = await Promise.all(
+    savedProperties.map(async (s) => {
+      const { owner, ...property } = s.property;
+      const agent = owner.agentProfile;
+      const ringsRemainingToday = agent ? await getRingsRemainingToday(session.user.id, s.propertyId) : 0;
+      return {
+        ...property,
+        listingAgentId: agent?.id ?? null,
+        listingAgentName: agent ? agent.shopName || agent.agentCode : null,
+        ringsRemainingToday,
+      };
+    })
+  );
+
   return NextResponse.json({
     user: { id: user.id, name: user.name, email: user.email, phone: user.phone },
-    savedProperties: savedProperties.map((s) => s.property),
+    savedProperties: savedPropertiesWithRing,
     enquiries,
     currentAgent: currentDispatch?.acceptedAgent
       ? {

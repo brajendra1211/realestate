@@ -66,41 +66,52 @@ class _BuyerLoginScreenState extends State<BuyerLoginScreen> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
-            child: ListView(
-              children: [
-                const SizedBox(height: AppSpacing.sm),
-                const AuthHeader(
-                  title: 'Buyer login',
-                  subtitle:
-                      'No password needed — we\'ll send a one-time code on WhatsApp (or email).',
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                if (_errorMessage != null) ...[
-                  FormErrorBanner(message: _errorMessage!),
-                  const SizedBox(height: AppSpacing.md),
-                ],
-                FormSection(
-                  title: 'Sign in',
-                  children: [
-                    TextFormField(
-                      controller: _identifierController,
-                      decoration: const InputDecoration(
-                        labelText: 'Phone or email',
-                        prefixIcon: Icon(Icons.person_outline),
-                      ),
-                      validator: (v) => Validators.required(v, label: 'Phone or email'),
-                      onFieldSubmitted: (_) => _submit(),
+            child: LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const AuthHeader(
+                          title: 'Buyer login',
+                          subtitle:
+                              'No password needed — we\'ll send a one-time code on WhatsApp (or email).',
+                        ),
+                        const SizedBox(height: AppSpacing.xl),
+                        if (_errorMessage != null) ...[
+                          FormErrorBanner(message: _errorMessage!),
+                          const SizedBox(height: AppSpacing.md),
+                        ],
+                        FormSection(
+                          title: 'Sign in',
+                          children: [
+                            TextFormField(
+                              controller: _identifierController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: const InputDecoration(
+                                labelText: 'Phone or email',
+                                prefixIcon: Icon(Icons.person_outline),
+                              ),
+                              validator: Validators.phoneOrEmail,
+                              onFieldSubmitted: (_) => _submit(),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.xl),
+                        AppButton(
+                          label: 'Send code',
+                          expand: true,
+                          loading: _submitting,
+                          onPressed: _submit,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: AppSpacing.xl),
-                AppButton(
-                  label: 'Send code',
-                  expand: true,
-                  loading: _submitting,
-                  onPressed: _submit,
-                ),
-              ],
+              ),
             ),
           ),
         ),

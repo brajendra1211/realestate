@@ -126,70 +126,81 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
-            child: ListView(
-              children: [
-                const SizedBox(height: AppSpacing.sm),
-                AuthHeader(
-                  title: 'Enter your code',
-                  subtitle: 'We sent a 6-digit code via $via to ${widget.identifier}.',
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                if (_errorMessage != null) ...[
-                  FormErrorBanner(message: _errorMessage!),
-                  const SizedBox(height: AppSpacing.md),
-                ],
-                FormSection(
-                  title: 'One-time code',
-                  children: [
-                    TextFormField(
-                      controller: _otpController,
-                      keyboardType: TextInputType.number,
-                      autofocus: true,
-                      style: GoogleFonts.inter(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 6,
-                      ),
-                      decoration: const InputDecoration(
-                        labelText: 'OTP',
-                        prefixIcon: Icon(Icons.password_outlined),
-                        counterText: '',
-                      ),
-                      maxLength: 6,
-                      validator: (v) => Validators.required(v, label: 'OTP'),
-                      onFieldSubmitted: (_) => _submit(),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                AppButton(
-                  label: 'Verify & continue',
-                  expand: true,
-                  loading: _submitting,
-                  onPressed: _submit,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                Center(
-                  child: _resending
-                      ? const Padding(
-                          padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
-                          child: SizedBox(
-                            height: 16,
-                            width: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.gold),
-                          ),
-                        )
-                      : TextButton(
-                          onPressed: canResend ? _resend : null,
-                          child: Text(
-                            canResend ? 'Resend code' : 'Resend code in ${_secondsLeft}s',
-                            style: TextStyle(
-                              color: canResend ? AppColors.gold : AppColors.textMuted,
-                            ),
-                          ),
+            child: LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        AuthHeader(
+                          title: 'Enter your code',
+                          subtitle: 'We sent a 6-digit code via $via to ${widget.identifier}.',
                         ),
+                        const SizedBox(height: AppSpacing.xl),
+                        if (_errorMessage != null) ...[
+                          FormErrorBanner(message: _errorMessage!),
+                          const SizedBox(height: AppSpacing.md),
+                        ],
+                        FormSection(
+                          title: 'One-time code',
+                          children: [
+                            TextFormField(
+                              controller: _otpController,
+                              keyboardType: TextInputType.number,
+                              autofocus: true,
+                              style: GoogleFonts.inter(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 6,
+                              ),
+                              decoration: const InputDecoration(
+                                labelText: 'OTP',
+                                prefixIcon: Icon(Icons.password_outlined),
+                                counterText: '',
+                              ),
+                              maxLength: 6,
+                              validator: (v) => Validators.required(v, label: 'OTP'),
+                              onFieldSubmitted: (_) => _submit(),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.xl),
+                        AppButton(
+                          label: 'Verify & continue',
+                          expand: true,
+                          loading: _submitting,
+                          onPressed: _submit,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        Center(
+                          child: _resending
+                              ? const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                                  child: SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2, color: AppColors.gold),
+                                  ),
+                                )
+                              : TextButton(
+                                  onPressed: canResend ? _resend : null,
+                                  child: Text(
+                                    canResend ? 'Resend code' : 'Resend code in ${_secondsLeft}s',
+                                    style: TextStyle(
+                                      color: canResend ? AppColors.gold : AppColors.textMuted,
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ],
+              ),
             ),
           ),
         ),

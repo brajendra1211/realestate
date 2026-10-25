@@ -32,6 +32,24 @@ android {
         versionName = flutter.versionName
     }
 
+    // Two installable apps from one codebase — same UI/logic, different
+    // applicationId, display name, and Firebase project (google-services.json
+    // under src/<flavor>/). API endpoint is still chosen via the existing
+    // --dart-define=API_BASE_URL, independent of the flavor.
+    flavorDimensions += "brand"
+    productFlavors {
+        create("bayaestate") {
+            dimension = "brand"
+            applicationId = "com.bayaestate.app"
+            resValue(type = "string", name = "app_name", value = "BayaEstate")
+        }
+        create("pronesto") {
+            dimension = "brand"
+            applicationId = "com.pronesto.app"
+            resValue(type = "string", name = "app_name", value = "Pronesto")
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.

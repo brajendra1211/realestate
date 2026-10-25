@@ -13,6 +13,10 @@ const PROPERTY_TYPES = ["APARTMENT", "VILLA", "INDEPENDENT_HOUSE", "PLOT", "COMM
 // PropertyForm.tsx for the same gate applied to the main listing form.
 const IS_PRONESTO = process.env.NEXT_PUBLIC_SITE_URL?.includes("pronesto.in") ?? false;
 
+// Shown as their own "Other rooms" checkboxes, same convention as
+// PropertyForm.tsx — still submitted under the shared "amenities" field.
+const OTHER_ROOMS = ["Study Room", "Servant Room"];
+
 const ERROR_MESSAGES: Record<string, string> = {
   validation: "Please fill in the title, description, exact address, and a valid price.",
   noLocation: "Location could not be determined — go back and search again.",
@@ -48,6 +52,9 @@ export function ConfirmListingForm({
 }) {
   const [state, formAction, pending] = useActionState(submitAgentListing, initialState);
   const [videoUrls, setVideoUrls] = useState<string[]>([""]);
+  const generalAmenityOptions = amenityOptions.filter(
+    (a) => !OTHER_ROOMS.some((room) => room.toLowerCase() === a.name.toLowerCase())
+  );
 
   function addVideoField() {
     setVideoUrls((prev) => [...prev, ""]);
@@ -209,14 +216,26 @@ export function ConfirmListingForm({
           />
         </div>
         <div className="sm:col-span-2">
+          <label className="text-sm font-medium text-slate-700">Other rooms</label>
+          <div className="mt-2 flex flex-wrap gap-4">
+            {OTHER_ROOMS.map((room) => (
+              <label key={room} className="flex items-center gap-2 text-sm text-slate-700">
+                <input type="checkbox" name="amenities" value={room} className="h-4 w-4 rounded border-slate-300" />
+                <span aria-hidden="true">{amenityIcon(room)}</span>
+                {room}
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="sm:col-span-2">
           <label className="text-sm font-medium text-slate-700">Amenities</label>
-          {amenityOptions.length === 0 ? (
+          {generalAmenityOptions.length === 0 ? (
             <p className="mt-1 text-xs text-slate-400">
               No amenities set up yet — add some from the admin Amenities page.
             </p>
           ) : (
             <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {amenityOptions.map((amenity) => (
+              {generalAmenityOptions.map((amenity) => (
                 <label key={amenity.id} className="flex items-center gap-2 text-sm text-slate-700">
                   <input
                     type="checkbox"

@@ -54,6 +54,12 @@ const PROPERTY_TYPES = [
 // baked into each site's own build, so this never needs a DB lookup.
 const IS_PRONESTO = process.env.NEXT_PUBLIC_SITE_URL?.includes("pronesto.in") ?? false;
 
+// Shown as their own "Other rooms" checkboxes below (same as Bedrooms/
+// Bathrooms being distinct fields, not part of the generic Amenities
+// grid) — still submitted under the same "amenities" field name/value, so
+// storage/display is unaffected either way.
+const OTHER_ROOMS = ["Study Room", "Servant Room"];
+
 export function PropertyForm({
   action,
   defaultValues,
@@ -86,6 +92,9 @@ export function PropertyForm({
 
   const [images, setImages] = useState<ImageItem[]>(defaultValues?.images ?? []);
   const selectedAmenities = parseAmenitiesString(defaultValues?.amenities ?? null);
+  const generalAmenityOptions = amenityOptions.filter(
+    (a) => !OTHER_ROOMS.some((room) => room.toLowerCase() === a.name.toLowerCase())
+  );
   const [listingType, setListingType] = useState<"SALE" | "RENT">(
     IS_PRONESTO ? "RENT" : defaultValues?.listingType ?? "SALE"
   );
@@ -335,6 +344,25 @@ export function PropertyForm({
           />
         </div>
 
+        <div className="sm:col-span-2">
+          <label className="text-sm font-medium text-slate-700">Other rooms</label>
+          <div className="mt-2 flex flex-wrap gap-4">
+            {OTHER_ROOMS.map((room) => (
+              <label key={room} className="flex items-center gap-2 text-sm text-slate-700">
+                <input
+                  type="checkbox"
+                  name="amenities"
+                  value={room}
+                  defaultChecked={selectedAmenities.some((name) => name.toLowerCase() === room.toLowerCase())}
+                  className="h-4 w-4 rounded border-slate-300"
+                />
+                <span aria-hidden="true">{amenityIcon(room)}</span>
+                {room}
+              </label>
+            ))}
+          </div>
+        </div>
+
         <LocationFields
           defaultCountryId={defaultValues?.countryId ?? undefined}
           defaultStateId={defaultValues?.stateId ?? undefined}
@@ -370,13 +398,13 @@ export function PropertyForm({
 
         <div className="sm:col-span-2">
           <label className="text-sm font-medium text-slate-700">Amenities</label>
-          {amenityOptions.length === 0 ? (
+          {generalAmenityOptions.length === 0 ? (
             <p className="mt-1 text-xs text-slate-400">
               No amenities set up yet — add some from the admin Amenities page.
             </p>
           ) : (
             <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {amenityOptions.map((amenity) => (
+              {generalAmenityOptions.map((amenity) => (
                 <label key={amenity.id} className="flex items-center gap-2 text-sm text-slate-700">
                   <input
                     type="checkbox"

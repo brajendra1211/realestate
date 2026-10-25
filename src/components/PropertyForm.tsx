@@ -47,6 +47,12 @@ const PROPERTY_TYPES = [
   "OFFICE",
 ];
 
+// Pronesto.in launched as a rent-only, flats-only listing site — simplified
+// here rather than in the shared schema/enum, since noidaprimeproperty.com
+// (same form, same code) still needs the full set. NEXT_PUBLIC_SITE_URL is
+// baked into each site's own build, so this never needs a DB lookup.
+const IS_PRONESTO = process.env.NEXT_PUBLIC_SITE_URL?.includes("pronesto.in") ?? false;
+
 export function PropertyForm({
   action,
   defaultValues,
@@ -79,7 +85,9 @@ export function PropertyForm({
 
   const [images, setImages] = useState<ImageItem[]>(defaultValues?.images ?? []);
   const selectedAmenities = parseAmenitiesString(defaultValues?.amenities ?? null);
-  const [listingType, setListingType] = useState<"SALE" | "RENT">(defaultValues?.listingType ?? "SALE");
+  const [listingType, setListingType] = useState<"SALE" | "RENT">(
+    IS_PRONESTO ? "RENT" : defaultValues?.listingType ?? "SALE"
+  );
   const [pendingCategory, setPendingCategory] = useState<string>("OTHER");
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -228,7 +236,7 @@ export function PropertyForm({
             onChange={(event) => setListingType(event.target.value as "SALE" | "RENT")}
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           >
-            <option value="SALE">For Sale</option>
+            {!IS_PRONESTO && <option value="SALE">For Sale</option>}
             <option value="RENT">For Rent</option>
           </select>
         </div>
@@ -254,16 +262,22 @@ export function PropertyForm({
             defaultValue={defaultValues?.propertyType ?? "APARTMENT"}
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           >
-            {PROPERTY_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type.replace("_", " ")}
-              </option>
-            ))}
+            {IS_PRONESTO ? (
+              <option value="APARTMENT">Flat</option>
+            ) : (
+              PROPERTY_TYPES.map((type) => (
+                <option key={type} value={type}>
+                  {type.replace("_", " ")}
+                </option>
+              ))
+            )}
           </select>
         </div>
 
         <div>
-          <label className="text-sm font-medium text-slate-700">Price (INR)</label>
+          <label className="text-sm font-medium text-slate-700">
+            {IS_PRONESTO ? "Rent Price (INR)" : "Price (INR)"}
+          </label>
           <input
             type="number"
             name="price"

@@ -10,6 +10,7 @@ import { readAmenitiesFromForm } from "@/lib/amenities";
 import { uniqueLocalitySlug } from "@/lib/locality";
 import { notifyUser } from "@/lib/notify";
 import { hashPassword } from "@/lib/password";
+import { getSiteSettings } from "@/lib/site-settings";
 
 async function requireAdmin() {
   const session = await auth();
@@ -458,9 +459,10 @@ export async function approveProperty(formData: FormData) {
     data: { approvalStatus: "APPROVED" },
     include: { owner: { select: { phone: true, email: true } } },
   });
+  const { siteName } = await getSiteSettings();
   await notifyUser(
     property.owner,
-    `Your listing "${property.title}" has been approved and is now live on BayaEstate.`,
+    `Your listing "${property.title}" has been approved and is now live on ${siteName}.`,
     "Listing approved"
   );
   revalidatePath("/admin");
@@ -524,10 +526,13 @@ export async function deleteAmenity(formData: FormData) {
 export async function verifyUser(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
-  const user = await prisma.user.update({ where: { id }, data: { verified: true } });
+  const [user, { siteName }] = await Promise.all([
+    prisma.user.update({ where: { id }, data: { verified: true } }),
+    getSiteSettings(),
+  ]);
   await notifyUser(
     user,
-    "Your BayaEstate profile is verified — it and your listings are now live on the public site.",
+    `Your ${siteName} profile is verified — it and your listings are now live on the public site.`,
     "Profile verified"
   );
   revalidatePath("/admin/users");
@@ -762,9 +767,10 @@ export async function approveSubscriptionRequest(formData: FormData) {
     }),
   ]);
 
+  const { siteName } = await getSiteSettings();
   await notifyUser(
     subscription.user,
-    `Your ${subscription.plan.name} plan is now active on BayaEstate.`,
+    `Your ${subscription.plan.name} plan is now active on ${siteName}.`,
     "Plan activated"
   );
 

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAgentByCode } from "@/lib/agent";
 import { generateQrDataUrl, getAgentShopUrl } from "@/lib/qr";
+import { getSiteSettings } from "@/lib/site-settings";
 import { ShopClientView } from "./ShopClientView";
 
 type Props = {
@@ -11,11 +12,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { agentCode } = await params;
-  const agent = await getAgentByCode(agentCode);
+  const [agent, { siteName }] = await Promise.all([getAgentByCode(agentCode), getSiteSettings()]);
 
   if (!agent) {
     return {
-      title: "Channel Partner Shop Not Found | BayaEstate",
+      title: `Channel Partner Shop Not Found | ${siteName}`,
       description: "The requested channel partner shop could not be found.",
     };
   }
@@ -79,6 +80,7 @@ export default async function AgentShopPage({ params }: Props) {
   const originUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const shopUrl = getAgentShopUrl(agent.agentCode, originUrl);
   const qrDataUrl = await generateQrDataUrl(shopUrl, { width: 360, margin: 2 });
+  const { siteName } = await getSiteSettings();
 
   const { auth } = await import("@/auth");
   const { isAgentShopUnlocked } = await import("@/lib/agentShopUnlock");
@@ -120,6 +122,7 @@ export default async function AgentShopPage({ params }: Props) {
           shopUrl={shopUrl}
           listings={agent.listings}
           initialUnlocked={initialUnlocked}
+          siteName={siteName}
         />
       </main>
     </div>

@@ -138,14 +138,17 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
 }
 
 export async function approveAgent(agentProfileId: string) {
-  const agent = await prisma.agentProfile.update({
-    where: { id: agentProfileId },
-    data: { status: "APPROVED", rejectionReason: null, verifiedAt: new Date() },
-    include: { user: { select: { phone: true, email: true } } },
-  });
+  const [agent, { siteName }] = await Promise.all([
+    prisma.agentProfile.update({
+      where: { id: agentProfileId },
+      data: { status: "APPROVED", rejectionReason: null, verifiedAt: new Date() },
+      include: { user: { select: { phone: true, email: true } } },
+    }),
+    getSiteSettings(),
+  ]);
   await notifyUser(
     agent.user,
-    "Your BayaEstate channel partner profile is verified. Admin will activate your Prime plan next to issue your Channel Partner Code.",
+    `Your ${siteName} channel partner profile is verified. Admin will activate your Prime plan next to issue your Channel Partner Code.`,
     "Channel Partner profile verified"
   );
   return agent;

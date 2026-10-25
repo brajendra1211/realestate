@@ -123,8 +123,8 @@ Address: ${listing.exactAddress}
 GPS Coordinates: ${visit.latitude ?? "N/A"}, ${visit.longitude ?? "N/A"}
 
 TERMS & CONDITIONS:
-1. Proof of Introduction: The Buyer (${buyer.name}, Phone: ${buyer.phone || "N/A"}) and Seller/Owner (${listing.agent?.user?.name || "Owner"}, Phone: ${visit.ownerPhone || "N/A"}) acknowledge that this property was introduced exclusively through the BayaEstate Platform.
-2. Mandatory Service Fee: If the Buyer and Seller/Owner execute any sale, purchase, agreement to sell, or conveyance deed for this property within 12 months from this date, a standard platform service fee of ${settings.brokeragePercent}% is legally due and payable to BayaEstate.
+1. Proof of Introduction: The Buyer (${buyer.name}, Phone: ${buyer.phone || "N/A"}) and Seller/Owner (${listing.agent?.user?.name || "Owner"}, Phone: ${visit.ownerPhone || "N/A"}) acknowledge that this property was introduced exclusively through the ${settings.siteName} Platform.
+2. Mandatory Service Fee: If the Buyer and Seller/Owner execute any sale, purchase, agreement to sell, or conveyance deed for this property within 12 months from this date, a standard platform service fee of ${settings.brokeragePercent}% is legally due and payable to ${settings.siteName}.
 3. Anti-Bypass Protection: Any private or offline circumvention to evade platform fees constitutes a willful breach of contract, enforceable in court using this GPS-tagged, OTP-verified digital audit deed as conclusive proof of introduction.`;
 
   const agreement = await prisma.platformAntiBypassAgreement.create({

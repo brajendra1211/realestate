@@ -16,7 +16,7 @@ type AgentLookupResult = {
   ratingAvg: number;
 };
 
-export function AgentCodeLookup() {
+export function AgentCodeLookup({ siteName }: { siteName: string }) {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -146,7 +146,7 @@ export function AgentCodeLookup() {
               {result.whatsapp && (
                 <a
                   href={`https://wa.me/91${result.whatsapp.replace(/\D/g, "").slice(-10)}?text=${encodeURIComponent(
-                    `Namaste ${result.name} ji, I am connecting with you regarding real estate property collaboration via BayaEstate.`
+                    `Namaste ${result.name} ji, I am connecting with you regarding real estate property collaboration via ${siteName}.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

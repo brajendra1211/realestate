@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { sendWhatsAppOtp, isWhatsAppConfigured } from "@/lib/whatsapp";
 import { sendAbwplOtp, verifyAbwplOtp, isAbwplConfigured, toAbwplPhone } from "@/lib/abwpl";
 import { sendEmail, isMailerConfigured } from "@/lib/mailer";
+import { getSiteSettings } from "@/lib/site-settings";
 
 const OTP_EXPIRY_MINUTES = 10;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -88,9 +89,10 @@ export async function requestOtp(rawIdentifier: string) {
     }
     return { sent: false, channel, identifier };
   }
+  const { siteName } = await getSiteSettings();
   const sent = await sendEmail(
     identifier,
-    "Your BayaEstate login code",
+    `Your ${siteName} login code`,
     `<p>Your login code is <strong>${code}</strong>. It expires in ${OTP_EXPIRY_MINUTES} minutes.</p>`
   );
   if (sent) return { sent: true, channel, identifier };

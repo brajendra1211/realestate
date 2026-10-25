@@ -1,3 +1,5 @@
+import { getSiteSettings } from "@/lib/site-settings";
+
 const API_VERSION = process.env.WHATSAPP_API_VERSION || "v21.0";
 const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
 const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
@@ -50,7 +52,8 @@ export async function sendWhatsAppText(to: string, message: string) {
 // outside that window. Falls back to plain text if no template is configured.
 export async function sendWhatsAppOtp(to: string, code: string) {
   if (!OTP_TEMPLATE_NAME) {
-    return sendWhatsAppText(to, `Your BayaEstate login code is ${code}. It expires in 10 minutes.`);
+    const { siteName } = await getSiteSettings();
+    return sendWhatsAppText(to, `Your ${siteName} login code is ${code}. It expires in 10 minutes.`);
   }
 
   return callWhatsAppApi({

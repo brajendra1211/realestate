@@ -33,9 +33,10 @@ type DirectListingItem = {
 type DirectRenewalsProps = {
   agents: DirectAgentItem[];
   listings: DirectListingItem[];
+  siteName: string;
 };
 
-export function DirectRenewalsTracker({ agents, listings }: DirectRenewalsProps) {
+export function DirectRenewalsTracker({ agents, listings, siteName }: DirectRenewalsProps) {
   const [tab, setTab] = useState<"agents" | "properties">("agents");
 
   return (
@@ -156,7 +157,7 @@ export function DirectRenewalsTracker({ agents, listings }: DirectRenewalsProps)
                           {agent.whatsapp && (
                             <a
                               href={`https://wa.me/91${agent.whatsapp.replace(/\D/g, "").slice(-10)}?text=${encodeURIComponent(
-                                `Namaste ${agent.name} ji! Aapka BayaEstate Channel Partner Code (${agent.agentCode}) ka renewal due hai. Kripya apna renewal time par kar lein taaki aapki property feed aur leads active rahein.`
+                                `Namaste ${agent.name} ji! Aapka ${siteName} Channel Partner Code (${agent.agentCode}) ka renewal due hai. Kripya apna renewal time par kar lein taaki aapki property feed aur leads active rahein.`
                               )}`}
                               target="_blank"
                               rel="noopener noreferrer"

@@ -1,11 +1,12 @@
 import { sendWhatsAppText, isWhatsAppConfigured } from "@/lib/whatsapp";
 import { sendEmail, isMailerConfigured } from "@/lib/mailer";
+import { getSiteSettings } from "@/lib/site-settings";
 
 // WhatsApp first, email as fallback — matches how OTP delivery is prioritized.
 export async function notifyUser(
   user: { phone: string | null; email: string | null },
   message: string,
-  subject = "BayaEstate"
+  subject?: string
 ) {
   if (user.phone && isWhatsAppConfigured()) {
     const sent = await sendWhatsAppText(user.phone, message);
@@ -13,7 +14,8 @@ export async function notifyUser(
   }
 
   if (user.email && isMailerConfigured()) {
-    return sendEmail(user.email, subject, `<p>${message}</p>`);
+    const resolvedSubject = subject ?? (await getSiteSettings()).siteName;
+    return sendEmail(user.email, resolvedSubject, `<p>${message}</p>`);
   }
 
   return false;

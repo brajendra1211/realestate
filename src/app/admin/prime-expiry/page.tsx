@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { getAllAgentsPrimeExpiryStatus } from "@/lib/agentPlans";
+import { getSiteSettings } from "@/lib/site-settings";
 import { RenewPrimeButton } from "./RenewPrimeButton";
 
 type SearchParams = Promise<{
@@ -30,6 +31,7 @@ export default async function AdminPrimeExpiryPage({
     search,
     sortBy: sortBy as "expiring_first" | "latest_first" | "wallet_asc",
   });
+  const { siteName } = await getSiteSettings();
 
   // Calculate metrics
   const expiredCount = allItems.filter((i) => i.status === "EXPIRED" || i.status === "INACTIVE").length;
@@ -238,7 +240,7 @@ export default async function AdminPrimeExpiryPage({
             const isCritical = partner.status === "CRITICAL" && partner.daysRemaining > 0;
             const cleanPhone = partner.phone?.replace(/[^0-9]/g, "") ?? "";
             const whatsappMsg = encodeURIComponent(
-              `Hello ${partner.name}, your BayaEstate Channel Partner Prime membership (${partner.agentCode ?? ""}) ${
+              `Hello ${partner.name}, your ${siteName} Channel Partner Prime membership (${partner.agentCode ?? ""}) ${
                 isExpired ? "has expired" : `expires in ${partner.daysRemaining} days`
               }. Please renew to maintain exclusive buyer lead dispatch and active listing visibility.`
             );

@@ -44,6 +44,7 @@ type ShopClientViewProps = {
   shopUrl: string;
   listings: ListingItem[];
   initialUnlocked?: boolean;
+  siteName: string;
 };
 
 declare global {
@@ -86,6 +87,7 @@ export function ShopClientView({
   shopUrl,
   listings,
   initialUnlocked = false,
+  siteName,
 }: ShopClientViewProps) {
   const [isUnlocked, setIsUnlocked] = useState(initialUnlocked);
   const [isPaying, setIsPaying] = useState(false);
@@ -120,7 +122,7 @@ export function ShopClientView({
 
   const effectiveWhatsapp = (whatsappNumber || phone).replace(/[^0-9]/g, "");
   const whatsappLink = `https://wa.me/91${effectiveWhatsapp.slice(-10)}?text=${encodeURIComponent(
-    `Hello ${name}, I scanned your QR code on BayaEstate and paid ₹50 to unlock your properties.`
+    `Hello ${name}, I scanned your QR code on ${siteName} and paid ₹50 to unlock your properties.`
   )}`;
 
   const maskedPhone = phone ? `${phone.slice(0, 3)}****${phone.slice(-3)}` : "Contact Channel Partner";
@@ -151,8 +153,8 @@ export function ShopClientView({
   function handleShare() {
     if (navigator.share) {
       navigator.share({
-        title: `${shopName || name} | BayaEstate Partner`,
-        text: `Check out properties by ${name} (${agentCode}) on BayaEstate:`,
+        title: `${shopName || name} | ${siteName} Partner`,
+        text: `Check out properties by ${name} (${agentCode}) on ${siteName}:`,
         url: shopUrl,
       }).catch(() => {});
     } else {
@@ -700,7 +702,7 @@ export function ShopClientView({
             </button>
 
             <span className="rounded-full bg-blue-100 px-3 py-1 text-[11px] font-bold text-blue-800">
-              Verified BayaEstate Partner
+              Verified {siteName} Partner
             </span>
             <h3 className="mt-2 text-lg font-bold text-slate-900">{shopName || name}</h3>
             <p className="font-mono text-xs text-blue-600 font-bold">{agentCode}</p>

@@ -7,6 +7,7 @@ import { getActiveDispatchesForAgent } from "@/lib/dispatch";
 import { getRatingsForAgent, isTopRatedAgent } from "@/lib/rating";
 import { haversineDistanceKm } from "@/lib/geo";
 import { formatINR } from "@/lib/format";
+import { getSiteSettings } from "@/lib/site-settings";
 import { DispatchNotifications } from "@/components/agent/DispatchNotifications";
 import { requestPayoutAction, setAutoPayMandateAction } from "./actions";
 
@@ -69,7 +70,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
   const { AgentQrHeroCard } = await import("@/components/agent/AgentQrHeroCard");
   const { DirectRenewalsTracker } = await import("@/components/agent/DirectRenewalsTracker");
 
-  const [{ totals, entries }, payouts, activeDispatches, { count: ratingCount }, subStatus, cycleProgress, networkData] =
+  const [{ totals, entries }, payouts, activeDispatches, { count: ratingCount }, subStatus, cycleProgress, networkData, { siteName }] =
     await Promise.all([
       getAgentCommissionSummary(agent.id),
       getPayoutsForAgent(agent.id),
@@ -78,6 +79,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
       getAgentSubscriptionStatus(agent.id),
       getAgentCycleProgress(agent.id).catch(() => null),
       getDirectNetworkAndRenewals(agent.id).catch(() => ({ agents: [], listings: [] })),
+      getSiteSettings(),
     ]);
 
   const originUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -397,14 +399,15 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
           primeStatus={agent.primeStatus}
           qrDataUrl={qrDataUrl}
           originUrl={originUrl}
+          siteName={siteName}
         />
       )}
 
       {/* Agent Code Directory & Quick Connect (Lookup other agents by code) */}
-      <AgentCodeLookup />
+      <AgentCodeLookup siteName={siteName} />
 
       {/* Direct Network & Renewals Follow-up Desk (Direct Agents & Customer Property Renewals) */}
-      <DirectRenewalsTracker agents={networkData.agents} listings={networkData.listings} />
+      <DirectRenewalsTracker agents={networkData.agents} listings={networkData.listings} siteName={siteName} />
 
       {agent.primeStatus && (
         <div className="mt-6">

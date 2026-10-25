@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export type SubmitEnquiryState = { sent?: boolean; error?: boolean };
 
@@ -39,9 +40,10 @@ export async function submitEnquiry(
   });
 
   if (enquiry.property) {
+    const { siteName } = await getSiteSettings();
     await notifyUser(
       enquiry.property.owner,
-      `New enquiry on "${enquiry.property.title}" from ${name} (${phone}).${message ? ` Message: ${message}` : ""} View it in your BayaEstate dashboard.`,
+      `New enquiry on "${enquiry.property.title}" from ${name} (${phone}).${message ? ` Message: ${message}` : ""} View it in your ${siteName} dashboard.`,
       "New enquiry on your listing"
     );
   }

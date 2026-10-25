@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateQrPngBuffer, generateQrSvg, getAgentShopUrl } from "@/lib/qr";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -15,7 +16,8 @@ export async function GET(request: NextRequest) {
   if (code) {
     const origin = process.env.NEXT_PUBLIC_SITE_URL || new URL(request.url).origin;
     targetUrl = getAgentShopUrl(code, origin);
-    filename = `BayaEstate-Shop-QR-${code.trim()}`;
+    const { siteName } = await getSiteSettings();
+    filename = `${siteName}-Shop-QR-${code.trim()}`;
   } else if (rawUrl) {
     targetUrl = rawUrl;
     filename = "QR-Code";

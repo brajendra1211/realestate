@@ -15,6 +15,7 @@ type AgentAssetProps = {
   primeStatus: boolean;
   qrDataUrl: string;
   originUrl: string;
+  siteName: string;
 };
 
 export function AgentAssetCards({
@@ -30,6 +31,7 @@ export function AgentAssetCards({
   primeStatus,
   qrDataUrl,
   originUrl,
+  siteName,
 }: AgentAssetProps) {
   const [activeModal, setActiveModal] = useState<"qr" | "vcard" | "idcard" | null>(null);
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
@@ -45,12 +47,12 @@ export function AgentAssetCards({
   }
 
   function shareVCardWhatsApp() {
-    const text = `*REAL ESTATE CONSULTANT*\n*${name.toUpperCase()}*\nAgency: ${shopName || "BayaEstate Partner"}\nChannel Partner Code: *${agentCode}*\n📞 Call: ${phone}${alternatePhone ? ` / ${alternatePhone}` : ""}\n💬 WhatsApp: ${effectiveWhatsapp}\n📍 Office: ${shopAddress || city || "Ghaziabad/NCR"}\n🔗 Verified Profile & Properties: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
+    const text = `*REAL ESTATE CONSULTANT*\n*${name.toUpperCase()}*\nAgency: ${shopName || `${siteName} Partner`}\nChannel Partner Code: *${agentCode}*\n📞 Call: ${phone}${alternatePhone ? ` / ${alternatePhone}` : ""}\n💬 WhatsApp: ${effectiveWhatsapp}\n📍 Office: ${shopAddress || city || "Ghaziabad/NCR"}\n🔗 Verified Profile & Properties: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
   }
 
   function shareIdCardWhatsApp() {
-    const text = `*OFFICIAL AUTHORIZED CHANNEL PARTNER ID*\n*${name}* (Channel Partner Code: *${agentCode}*)\nMembership: ${primeStatus ? "Verified Prime Partner" : "Registered Channel Partner"}\nCity: ${city || "NCR"}\nPlatform: BayaEstate Certified Channel Partner\nVerify ID & Shop at: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
+    const text = `*OFFICIAL AUTHORIZED CHANNEL PARTNER ID*\n*${name}* (Channel Partner Code: *${agentCode}*)\nMembership: ${primeStatus ? "Verified Prime Partner" : "Registered Channel Partner"}\nCity: ${city || "NCR"}\nPlatform: ${siteName} Certified Channel Partner\nVerify ID & Shop at: ${originUrl}/shop/${encodeURIComponent(agentCode)}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
   }
 
@@ -160,7 +162,7 @@ export function AgentAssetCards({
               </button>
               <a
                 href={`https://wa.me/?text=${encodeURIComponent(
-                  `Namaste! Join BayaEstate Verified Channel Partner Network using my referral code *${agentCode}*: ${agentJoinUrl}`
+                  `Namaste! Join ${siteName} Verified Channel Partner Network using my referral code *${agentCode}*: ${agentJoinUrl}`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -282,7 +284,7 @@ export function AgentAssetCards({
               <div className="flex items-start justify-between">
                 <div>
                   <span className="text-[10px] font-bold tracking-widest uppercase text-amber-400">
-                    BayaEstate Certified Partner
+                    {siteName} Certified Partner
                   </span>
                   <h4 className="mt-1 text-xl font-black text-white">{name}</h4>
                   <p className="text-xs text-blue-200 font-medium">{shopName || "Real Estate Consultant"}</p>

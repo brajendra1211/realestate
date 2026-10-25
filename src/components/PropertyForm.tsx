@@ -79,6 +79,8 @@ const AMENITY_ICONS: [string[], string][] = [
   [["fire"], "\u{1F9EF}"],
   [["wifi", "internet"], "\u{1F4F6}"],
   [["lake", "river", "waterfront"], "\u{1F30A}"],
+  [["study"], "\u{1F4DA}"],
+  [["servant"], "\u{1F9F9}"],
 ];
 
 function amenityIcon(name: string) {

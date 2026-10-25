@@ -18258,6 +18258,8 @@ export namespace Prisma {
     bedrooms: number | null
     bathrooms: number | null
     areaSqft: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type PropertySumAggregateOutputType = {
@@ -18265,6 +18267,8 @@ export namespace Prisma {
     bedrooms: number | null
     bathrooms: number | null
     areaSqft: number | null
+    latitude: number | null
+    longitude: number | null
   }
 
   export type PropertyMinAggregateOutputType = {
@@ -18286,7 +18290,10 @@ export namespace Prisma {
     city: string | null
     locality: string | null
     address: string | null
+    latitude: number | null
+    longitude: number | null
     amenities: string | null
+    nearbyAmenities: string | null
     brochureUrl: string | null
     youtubeUrl: string | null
     ownerId: string | null
@@ -18320,7 +18327,10 @@ export namespace Prisma {
     city: string | null
     locality: string | null
     address: string | null
+    latitude: number | null
+    longitude: number | null
     amenities: string | null
+    nearbyAmenities: string | null
     brochureUrl: string | null
     youtubeUrl: string | null
     ownerId: string | null
@@ -18354,7 +18364,10 @@ export namespace Prisma {
     city: number
     locality: number
     address: number
+    latitude: number
+    longitude: number
     amenities: number
+    nearbyAmenities: number
     brochureUrl: number
     youtubeUrl: number
     ownerId: number
@@ -18376,6 +18389,8 @@ export namespace Prisma {
     bedrooms?: true
     bathrooms?: true
     areaSqft?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type PropertySumAggregateInputType = {
@@ -18383,6 +18398,8 @@ export namespace Prisma {
     bedrooms?: true
     bathrooms?: true
     areaSqft?: true
+    latitude?: true
+    longitude?: true
   }
 
   export type PropertyMinAggregateInputType = {
@@ -18404,7 +18421,10 @@ export namespace Prisma {
     city?: true
     locality?: true
     address?: true
+    latitude?: true
+    longitude?: true
     amenities?: true
+    nearbyAmenities?: true
     brochureUrl?: true
     youtubeUrl?: true
     ownerId?: true
@@ -18438,7 +18458,10 @@ export namespace Prisma {
     city?: true
     locality?: true
     address?: true
+    latitude?: true
+    longitude?: true
     amenities?: true
+    nearbyAmenities?: true
     brochureUrl?: true
     youtubeUrl?: true
     ownerId?: true
@@ -18472,7 +18495,10 @@ export namespace Prisma {
     city?: true
     locality?: true
     address?: true
+    latitude?: true
+    longitude?: true
     amenities?: true
+    nearbyAmenities?: true
     brochureUrl?: true
     youtubeUrl?: true
     ownerId?: true
@@ -18593,7 +18619,10 @@ export namespace Prisma {
     city: string
     locality: string | null
     address: string | null
+    latitude: number | null
+    longitude: number | null
     amenities: string | null
+    nearbyAmenities: string | null
     brochureUrl: string | null
     youtubeUrl: string | null
     ownerId: string
@@ -18646,7 +18675,10 @@ export namespace Prisma {
     city?: boolean
     locality?: boolean
     address?: boolean
+    latitude?: boolean
+    longitude?: boolean
     amenities?: boolean
+    nearbyAmenities?: boolean
     brochureUrl?: boolean
     youtubeUrl?: boolean
     ownerId?: boolean
@@ -18689,7 +18721,10 @@ export namespace Prisma {
     city?: boolean
     locality?: boolean
     address?: boolean
+    latitude?: boolean
+    longitude?: boolean
     amenities?: boolean
+    nearbyAmenities?: boolean
     brochureUrl?: boolean
     youtubeUrl?: boolean
     ownerId?: boolean
@@ -18704,7 +18739,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "listingType" | "propertyType" | "condition" | "status" | "approvalStatus" | "expiresAt" | "price" | "priceNegotiable" | "bedrooms" | "bathrooms" | "areaSqft" | "city" | "locality" | "address" | "amenities" | "brochureUrl" | "youtubeUrl" | "ownerId" | "projectId" | "contactName" | "contactPhone" | "contactEmail" | "featured" | "metaTitle" | "metaDescription" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
+  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "listingType" | "propertyType" | "condition" | "status" | "approvalStatus" | "expiresAt" | "price" | "priceNegotiable" | "bedrooms" | "bathrooms" | "areaSqft" | "city" | "locality" | "address" | "latitude" | "longitude" | "amenities" | "nearbyAmenities" | "brochureUrl" | "youtubeUrl" | "ownerId" | "projectId" | "contactName" | "contactPhone" | "contactEmail" | "featured" | "metaTitle" | "metaDescription" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
   export type PropertyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     project?: boolean | Property$projectArgs<ExtArgs>
@@ -18744,7 +18779,10 @@ export namespace Prisma {
       city: string
       locality: string | null
       address: string | null
+      latitude: number | null
+      longitude: number | null
       amenities: string | null
+      nearbyAmenities: string | null
       brochureUrl: string | null
       youtubeUrl: string | null
       ownerId: string
@@ -19150,7 +19188,10 @@ export namespace Prisma {
     readonly city: FieldRef<"Property", 'String'>
     readonly locality: FieldRef<"Property", 'String'>
     readonly address: FieldRef<"Property", 'String'>
+    readonly latitude: FieldRef<"Property", 'Float'>
+    readonly longitude: FieldRef<"Property", 'Float'>
     readonly amenities: FieldRef<"Property", 'String'>
+    readonly nearbyAmenities: FieldRef<"Property", 'String'>
     readonly brochureUrl: FieldRef<"Property", 'String'>
     readonly youtubeUrl: FieldRef<"Property", 'String'>
     readonly ownerId: FieldRef<"Property", 'String'>
@@ -60342,7 +60383,10 @@ export namespace Prisma {
     city: 'city',
     locality: 'locality',
     address: 'address',
+    latitude: 'latitude',
+    longitude: 'longitude',
     amenities: 'amenities',
+    nearbyAmenities: 'nearbyAmenities',
     brochureUrl: 'brochureUrl',
     youtubeUrl: 'youtubeUrl',
     ownerId: 'ownerId',
@@ -61181,6 +61225,7 @@ export namespace Prisma {
     locality: 'locality',
     address: 'address',
     amenities: 'amenities',
+    nearbyAmenities: 'nearbyAmenities',
     brochureUrl: 'brochureUrl',
     youtubeUrl: 'youtubeUrl',
     ownerId: 'ownerId',
@@ -62925,7 +62970,10 @@ export namespace Prisma {
     city?: StringFilter<"Property"> | string
     locality?: StringNullableFilter<"Property"> | string | null
     address?: StringNullableFilter<"Property"> | string | null
+    latitude?: FloatNullableFilter<"Property"> | number | null
+    longitude?: FloatNullableFilter<"Property"> | number | null
     amenities?: StringNullableFilter<"Property"> | string | null
+    nearbyAmenities?: StringNullableFilter<"Property"> | string | null
     brochureUrl?: StringNullableFilter<"Property"> | string | null
     youtubeUrl?: StringNullableFilter<"Property"> | string | null
     ownerId?: StringFilter<"Property"> | string
@@ -62965,7 +63013,10 @@ export namespace Prisma {
     city?: SortOrder
     locality?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
     amenities?: SortOrderInput | SortOrder
+    nearbyAmenities?: SortOrderInput | SortOrder
     brochureUrl?: SortOrderInput | SortOrder
     youtubeUrl?: SortOrderInput | SortOrder
     ownerId?: SortOrder
@@ -63009,7 +63060,10 @@ export namespace Prisma {
     city?: StringFilter<"Property"> | string
     locality?: StringNullableFilter<"Property"> | string | null
     address?: StringNullableFilter<"Property"> | string | null
+    latitude?: FloatNullableFilter<"Property"> | number | null
+    longitude?: FloatNullableFilter<"Property"> | number | null
     amenities?: StringNullableFilter<"Property"> | string | null
+    nearbyAmenities?: StringNullableFilter<"Property"> | string | null
     brochureUrl?: StringNullableFilter<"Property"> | string | null
     youtubeUrl?: StringNullableFilter<"Property"> | string | null
     ownerId?: StringFilter<"Property"> | string
@@ -63049,7 +63103,10 @@ export namespace Prisma {
     city?: SortOrder
     locality?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
     amenities?: SortOrderInput | SortOrder
+    nearbyAmenities?: SortOrderInput | SortOrder
     brochureUrl?: SortOrderInput | SortOrder
     youtubeUrl?: SortOrderInput | SortOrder
     ownerId?: SortOrder
@@ -63091,7 +63148,10 @@ export namespace Prisma {
     city?: StringWithAggregatesFilter<"Property"> | string
     locality?: StringNullableWithAggregatesFilter<"Property"> | string | null
     address?: StringNullableWithAggregatesFilter<"Property"> | string | null
+    latitude?: FloatNullableWithAggregatesFilter<"Property"> | number | null
+    longitude?: FloatNullableWithAggregatesFilter<"Property"> | number | null
     amenities?: StringNullableWithAggregatesFilter<"Property"> | string | null
+    nearbyAmenities?: StringNullableWithAggregatesFilter<"Property"> | string | null
     brochureUrl?: StringNullableWithAggregatesFilter<"Property"> | string | null
     youtubeUrl?: StringNullableWithAggregatesFilter<"Property"> | string | null
     ownerId?: StringWithAggregatesFilter<"Property"> | string
@@ -67830,7 +67890,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     contactName?: string | null
@@ -67868,7 +67931,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     ownerId: string
@@ -67906,7 +67972,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -67944,7 +68013,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -67982,7 +68054,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     ownerId: string
@@ -68016,7 +68091,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68048,7 +68126,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -73113,7 +73194,10 @@ export namespace Prisma {
     city?: SortOrder
     locality?: SortOrder
     address?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
     amenities?: SortOrder
+    nearbyAmenities?: SortOrder
     brochureUrl?: SortOrder
     youtubeUrl?: SortOrder
     ownerId?: SortOrder
@@ -73133,6 +73217,8 @@ export namespace Prisma {
     bedrooms?: SortOrder
     bathrooms?: SortOrder
     areaSqft?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type PropertyMaxOrderByAggregateInput = {
@@ -73154,7 +73240,10 @@ export namespace Prisma {
     city?: SortOrder
     locality?: SortOrder
     address?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
     amenities?: SortOrder
+    nearbyAmenities?: SortOrder
     brochureUrl?: SortOrder
     youtubeUrl?: SortOrder
     ownerId?: SortOrder
@@ -73188,7 +73277,10 @@ export namespace Prisma {
     city?: SortOrder
     locality?: SortOrder
     address?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
     amenities?: SortOrder
+    nearbyAmenities?: SortOrder
     brochureUrl?: SortOrder
     youtubeUrl?: SortOrder
     ownerId?: SortOrder
@@ -73208,6 +73300,8 @@ export namespace Prisma {
     bedrooms?: SortOrder
     bathrooms?: SortOrder
     areaSqft?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type EnumListingTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -80809,7 +80903,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     contactName?: string | null
@@ -80846,7 +80943,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     projectId?: string | null
@@ -81516,7 +81616,10 @@ export namespace Prisma {
     city?: StringFilter<"Property"> | string
     locality?: StringNullableFilter<"Property"> | string | null
     address?: StringNullableFilter<"Property"> | string | null
+    latitude?: FloatNullableFilter<"Property"> | number | null
+    longitude?: FloatNullableFilter<"Property"> | number | null
     amenities?: StringNullableFilter<"Property"> | string | null
+    nearbyAmenities?: StringNullableFilter<"Property"> | string | null
     brochureUrl?: StringNullableFilter<"Property"> | string | null
     youtubeUrl?: StringNullableFilter<"Property"> | string | null
     ownerId?: StringFilter<"Property"> | string
@@ -82896,7 +82999,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     contactName?: string | null
@@ -82933,7 +83039,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     ownerId: string
@@ -84071,7 +84180,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     contactName?: string | null
@@ -84108,7 +84220,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     ownerId: string
@@ -84161,7 +84276,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84198,7 +84316,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -84235,7 +84356,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     contactName?: string | null
@@ -84272,7 +84396,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     ownerId: string
@@ -84454,7 +84581,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84491,7 +84621,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -84764,7 +84897,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     contactName?: string | null
@@ -84801,7 +84937,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     ownerId: string
@@ -84967,7 +85106,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85004,7 +85146,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -85148,7 +85293,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     contactName?: string | null
@@ -85185,7 +85333,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     ownerId: string
@@ -85351,7 +85502,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -85388,7 +85542,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -99250,7 +99407,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     projectId?: string | null
@@ -99426,7 +99586,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99463,7 +99626,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99500,7 +99666,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100092,7 +100261,10 @@ export namespace Prisma {
     city: string
     locality?: string | null
     address?: string | null
+    latitude?: number | null
+    longitude?: number | null
     amenities?: string | null
+    nearbyAmenities?: string | null
     brochureUrl?: string | null
     youtubeUrl?: string | null
     ownerId: string
@@ -100131,7 +100303,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -100168,7 +100343,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -100205,7 +100383,10 @@ export namespace Prisma {
     city?: StringFieldUpdateOperationsInput | string
     locality?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
     brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: StringFieldUpdateOperationsInput | string

@@ -10,6 +10,8 @@ import { getListingUsage } from "@/lib/listing-quota";
 import { getLeadUsage } from "@/lib/lead-quota";
 import { findOrCreateLocality } from "@/lib/locality";
 import { addListingDuration } from "@/lib/propertyVisibility";
+import { geocodeWithFallback } from "@/lib/geocode";
+import { getNearbyAmenities, formatAmenitiesNote } from "@/lib/amenityLookup";
 import type { PropertyImageCategory } from "@/generated/prisma/client";
 
 async function requireListerOrAdmin() {
@@ -71,6 +73,24 @@ async function resolveLocalityName(formData: FormData) {
 async function readPropertyFields(formData: FormData) {
   const listingType = String(formData.get("listingType") ?? "SALE") as "SALE" | "RENT";
   const locality = await resolveLocalityName(formData);
+  const city = String(formData.get("city") ?? "").trim();
+  const address = String(formData.get("address") ?? "").trim() || null;
+
+  // Best-effort, same geocode-then-Overpass pipeline agent/Gold listings
+  // already use (src/lib/listing.ts, src/lib/goldListing.ts) — a plain
+  // website Property never had lat/long at all before this, so nearby
+  // hospital/school/highway/petrol-pump tagging was never possible for it.
+  // Never blocks listing creation: on any failure these just stay null.
+  let latitude: number | null = null;
+  let longitude: number | null = null;
+  let nearbyAmenities: string | null = null;
+  const coords = await geocodeWithFallback([address, locality, city]).catch(() => null);
+  if (coords) {
+    latitude = coords.latitude;
+    longitude = coords.longitude;
+    const nearby = await getNearbyAmenities(coords.latitude, coords.longitude);
+    nearbyAmenities = formatAmenitiesNote(nearby);
+  }
 
   return {
     title: String(formData.get("title") ?? "").trim(),
@@ -89,10 +109,13 @@ async function readPropertyFields(formData: FormData) {
     bedrooms: formData.get("bedrooms") ? Number(formData.get("bedrooms")) : null,
     bathrooms: formData.get("bathrooms") ? Number(formData.get("bathrooms")) : null,
     areaSqft: formData.get("areaSqft") ? Number(formData.get("areaSqft")) : null,
-    city: String(formData.get("city") ?? "").trim(),
+    city,
     locality,
-    address: String(formData.get("address") ?? "").trim() || null,
+    address,
+    latitude,
+    longitude,
     amenities: readAmenitiesFromForm(formData),
+    nearbyAmenities,
     contactName: String(formData.get("contactName") ?? "").trim() || null,
     contactPhone: String(formData.get("contactPhone") ?? "").trim() || null,
     contactEmail: String(formData.get("contactEmail") ?? "").trim() || null,
@@ -172,6 +195,15 @@ export async function updateProperty(formData: FormData) {
   const fields = await readPropertyFields(formData);
   if (!fields.city) {
     redirect(`/dashboard/properties/${id}/edit?error=location`);
+  }
+
+  // A failed re-geocode on update (Nominatim/Overpass hiccup, or the
+  // address didn't change) shouldn't wipe out coordinates/nearby-amenity
+  // data a previous save already got successfully.
+  if (fields.latitude == null && property!.latitude != null) {
+    fields.latitude = property!.latitude;
+    fields.longitude = property!.longitude;
+    fields.nearbyAmenities = property!.nearbyAmenities;
   }
 
   const images = readImages(formData);

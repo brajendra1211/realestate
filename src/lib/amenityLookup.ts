@@ -8,13 +8,27 @@ import { haversineDistanceKm } from "@/lib/geo";
 const OVERPASS_URL = "https://overpass-api.de/api/interpreter";
 const SEARCH_RADIUS_M = 5000; // covers the full "1/3/5 km" range in one query
 
-type AmenityCategory = "Metro/Railway" | "Bus Stand" | "Hospital" | "Grocery Market";
+type AmenityCategory =
+  | "Metro/Railway"
+  | "Bus Stand"
+  | "Hospital"
+  | "Grocery Market"
+  | "School"
+  | "Petrol Pump"
+  | "Highway";
 
 const CATEGORY_FILTERS: Record<AmenityCategory, string> = {
   "Metro/Railway": `node["railway"~"station|halt"]`,
   "Bus Stand": `node["amenity"="bus_station"]`,
   Hospital: `node["amenity"="hospital"]`,
   "Grocery Market": `node["shop"~"supermarket|convenience|grocery"]`,
+  School: `node["amenity"="school"]`,
+  "Petrol Pump": `node["amenity"="fuel"]`,
+  // National/state highways in OSM are drawn as ways, not points — "trunk"
+  // is OSM's tag for a National Highway in India, "primary" covers major
+  // state highways. Needs `out center` below (ways have no lat/lon of
+  // their own), unlike every other category here which is a plain node.
+  Highway: `way["highway"~"trunk|primary"]`,
 };
 
 export type NearbyAmenity = {
@@ -23,15 +37,24 @@ export type NearbyAmenity = {
   distanceKm: number;
 };
 
-type OverpassElement = { id: number; lat: number; lon: number; tags?: { name?: string } };
+type OverpassElement = {
+  id: number;
+  lat?: number;
+  lon?: number;
+  center?: { lat: number; lon: number };
+  tags?: { name?: string; ref?: string; highway?: string; amenity?: string; shop?: string; railway?: string };
+};
 
 // Best-effort: returns [] on any failure (timeout, API down, no results)
 // rather than blocking listing creation — this is an enrichment, not a
 // required field.
 export async function getNearbyAmenities(latitude: number, longitude: number): Promise<NearbyAmenity[]> {
+  // `out center` (not `out body`) so way elements (Highway) come back with
+  // a `center` point — plain node categories are unaffected, Overpass still
+  // returns their own lat/lon directly.
   const query = `[out:json][timeout:10];(${Object.values(CATEGORY_FILTERS)
     .map((filter) => `${filter}(around:${SEARCH_RADIUS_M},${latitude},${longitude});`)
-    .join("")});out body;`;
+    .join("")});out center;`;
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 12000);
@@ -58,12 +81,15 @@ export async function getNearbyAmenities(latitude: number, longitude: number): P
     for (const [category, filter] of Object.entries(CATEGORY_FILTERS) as [AmenityCategory, string][]) {
       for (const el of elements) {
         if (!tagMatches(el, filter)) continue;
-        const distanceKm = haversineDistanceKm({ latitude, longitude }, { latitude: el.lat, longitude: el.lon });
+        const elLat = el.lat ?? el.center?.lat;
+        const elLon = el.lon ?? el.center?.lon;
+        if (elLat == null || elLon == null) continue;
+        const distanceKm = haversineDistanceKm({ latitude, longitude }, { latitude: elLat, longitude: elLon });
         const existing = nearestByCategory.get(category);
         if (!existing || distanceKm < existing.distanceKm) {
           nearestByCategory.set(category, {
             category,
-            name: el.tags?.name || category,
+            name: (category === "Highway" ? el.tags?.ref : undefined) || el.tags?.name || category,
             distanceKm: Math.round(distanceKm * 10) / 10,
           });
         }
@@ -87,6 +113,9 @@ function tagMatches(el: OverpassElement, filter: string): boolean {
   if (filter.includes("bus_station")) return tags.amenity === "bus_station";
   if (filter.includes("hospital")) return tags.amenity === "hospital";
   if (filter.includes("shop")) return /supermarket|convenience|grocery/.test(tags.shop ?? "");
+  if (filter.includes('amenity"="school"')) return tags.amenity === "school";
+  if (filter.includes('amenity"="fuel"')) return tags.amenity === "fuel";
+  if (filter.includes("highway")) return /trunk|primary/.test(tags.highway ?? "");
   return false;
 }
 

@@ -293,6 +293,19 @@ export default async function PropertyDetailPage({ params }: { params: Params })
               </div>
             )}
 
+            {property.nearbyAmenities && (
+              <div className="mt-8">
+                <h2 className="text-lg font-semibold text-slate-900">Nearby</h2>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {property.nearbyAmenities.split(" | ").map((item) => (
+                    <span key={item} className="rounded-full bg-blue-50 px-3 py-1 text-xs text-blue-700">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {property.address && (
               <div className="mt-8">
                 <h2 className="text-lg font-semibold text-slate-900">Address</h2>

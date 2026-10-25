@@ -313,7 +313,10 @@ model Property {
   city            String
   locality        String?
   address         String?            @db.Text
+  latitude        Float?
+  longitude       Float?
   amenities       String?            @db.Text
+  nearbyAmenities String?            @db.Text
   brochureUrl     String?
   youtubeUrl      String?            @db.Text
   ownerId         String

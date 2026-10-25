@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getAgentByUserId } from "@/lib/agent";
-import { geocodeLocation } from "@/lib/geocode";
+import { geocodeWithFallback } from "@/lib/geocode";
 
 export type SearchMasterPropertyState = { error?: string; redirectTo?: string };
 
@@ -28,7 +28,11 @@ export async function searchMasterProperty(
     return { error: "validation" };
   }
 
-  const coords = await geocodeLocation([address, locality, city].filter(Boolean).join(", "));
+  // Exact house/shop-level addresses rarely resolve on Nominatim's first
+  // try — geocodeWithFallback progressively drops down to locality/city
+  // instead of failing outright, same fix already applied to agent shop
+  // registration and the listing dedup-search (src/lib/geocode.ts).
+  const coords = await geocodeWithFallback([address, locality, city]);
   if (!coords) {
     return { error: "geocode" };
   }

@@ -1,10 +1,13 @@
 // One-off: adds "Study Room" and "Servant Room" to the admin-managed
 // Amenity list (shared across both deployed sites) — not part of
 // seed-production.ts's original 20 since they were requested afterward.
-import { PrismaClient } from "../src/generated/prisma/client";
+import "dotenv/config";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaClient } from "../src/generated/prisma";
 import { slugify } from "../src/lib/slug";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaMariaDb(process.env.DATABASE_URL as string);
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   const names = ["Study Room", "Servant Room"];

@@ -50,7 +50,16 @@ export async function submitAgentListing(
       areaSqft: formData.get("areaSqft") ? Number(formData.get("areaSqft")) : null,
       price: Number(formData.get("price") ?? 0),
       exactAddress: String(formData.get("exactAddress") ?? ""),
-      amenities: String(formData.get("amenities") ?? ""),
+      // Checkbox grid, not free text — multiple "amenities" entries, so
+      // .get() (first value only) would silently drop everything past the
+      // first checked box. Matches the comma-separated format the listing
+      // detail page already splits on (src/app/listings/[slug]/page.tsx).
+      amenities: formData
+        .getAll("amenities")
+        .map(String)
+        .map((v) => v.trim())
+        .filter(Boolean)
+        .join(", "),
       videoUrl: String(formData.get("videoUrl") ?? "").trim() || null,
       images,
     });

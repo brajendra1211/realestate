@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
 import { getAgentByUserId } from "@/lib/agent";
 import { findNearbyMasterProperties } from "@/lib/masterProperty";
 import { ConfirmListingForm } from "./ConfirmListingForm";
@@ -27,7 +28,10 @@ export default async function ConfirmListingPage({ searchParams }: { searchParam
     redirect("/agent/listings/new");
   }
 
-  const candidates = await findNearbyMasterProperties(city, latitude, longitude);
+  const [candidates, amenityOptions] = await Promise.all([
+    findNearbyMasterProperties(city, latitude, longitude),
+    prisma.amenity.findMany({ orderBy: { order: "asc" } }),
+  ]);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
@@ -43,6 +47,7 @@ export default async function ConfirmListingPage({ searchParams }: { searchParam
         latitude={latitude}
         longitude={longitude}
         candidates={candidates}
+        amenityOptions={amenityOptions}
       />
     </div>
   );

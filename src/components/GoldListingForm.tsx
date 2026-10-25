@@ -26,6 +26,10 @@ function loadCheckoutScript(): Promise<void> {
 const inputClass =
   "mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none";
 
+// Pronesto.in launched as a rent-only, flats-only listing site — see
+// PropertyForm.tsx for the same gate applied to the main listing form.
+const IS_PRONESTO = process.env.NEXT_PUBLIC_SITE_URL?.includes("pronesto.in") ?? false;
+
 export function GoldListingForm() {
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "submitting">("idle");
@@ -137,19 +141,23 @@ export function GoldListingForm() {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="text-sm font-medium text-slate-700">Transaction type</label>
-          <select name="listingType" defaultValue="SALE" className={inputClass}>
-            <option value="SALE">Sale</option>
+          <select name="listingType" defaultValue={IS_PRONESTO ? "RENT" : "SALE"} className={inputClass}>
+            {!IS_PRONESTO && <option value="SALE">Sale</option>}
             <option value="RENT">Rent</option>
           </select>
         </div>
         <div>
           <label className="text-sm font-medium text-slate-700">Property type</label>
           <select name="propertyType" defaultValue="APARTMENT" className={inputClass}>
-            {["APARTMENT", "VILLA", "INDEPENDENT_HOUSE", "PLOT", "COMMERCIAL", "OFFICE"].map((t) => (
-              <option key={t} value={t}>
-                {t.replace(/_/g, " ")}
-              </option>
-            ))}
+            {IS_PRONESTO ? (
+              <option value="APARTMENT">Flat</option>
+            ) : (
+              ["APARTMENT", "VILLA", "INDEPENDENT_HOUSE", "PLOT", "COMMERCIAL", "OFFICE"].map((t) => (
+                <option key={t} value={t}>
+                  {t.replace(/_/g, " ")}
+                </option>
+              ))
+            )}
           </select>
         </div>
       </div>

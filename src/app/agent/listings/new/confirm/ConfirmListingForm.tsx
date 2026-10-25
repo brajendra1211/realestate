@@ -8,6 +8,10 @@ const initialState: SubmitAgentListingState = {};
 
 const PROPERTY_TYPES = ["APARTMENT", "VILLA", "INDEPENDENT_HOUSE", "PLOT", "COMMERCIAL", "OFFICE"];
 
+// Pronesto.in launched as a rent-only, flats-only listing site — see
+// PropertyForm.tsx for the same gate applied to the main listing form.
+const IS_PRONESTO = process.env.NEXT_PUBLIC_SITE_URL?.includes("pronesto.in") ?? false;
+
 const ERROR_MESSAGES: Record<string, string> = {
   validation: "Please fill in the title, description, exact address, and a valid price.",
   noLocation: "Location could not be determined — go back and search again.",
@@ -139,10 +143,10 @@ export function ConfirmListingForm({
           <label className="text-sm font-medium text-slate-700">Listing type</label>
           <select
             name="listingType"
-            defaultValue="SALE"
+            defaultValue={IS_PRONESTO ? "RENT" : "SALE"}
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           >
-            <option value="SALE">Sale</option>
+            {!IS_PRONESTO && <option value="SALE">Sale</option>}
             <option value="RENT">Rent</option>
           </select>
         </div>
@@ -153,11 +157,15 @@ export function ConfirmListingForm({
             defaultValue="APARTMENT"
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           >
-            {PROPERTY_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type.replace("_", " ")}
-              </option>
-            ))}
+            {IS_PRONESTO ? (
+              <option value="APARTMENT">Flat</option>
+            ) : (
+              PROPERTY_TYPES.map((type) => (
+                <option key={type} value={type}>
+                  {type.replace("_", " ")}
+                </option>
+              ))
+            )}
           </select>
         </div>
         <div>

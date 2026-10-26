@@ -8,6 +8,7 @@ import { getRatingsForAgent, isTopRatedAgent } from "@/lib/rating";
 import { haversineDistanceKm } from "@/lib/geo";
 import { formatINR } from "@/lib/format";
 import { getSiteSettings } from "@/lib/site-settings";
+import { getRingAlertsForAgent } from "@/lib/ringAlerts";
 import { DispatchNotifications } from "@/components/agent/DispatchNotifications";
 import { requestPayoutAction, setAutoPayMandateAction } from "./actions";
 
@@ -70,17 +71,27 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
   const { AgentQrHeroCard } = await import("@/components/agent/AgentQrHeroCard");
   const { DirectRenewalsTracker } = await import("@/components/agent/DirectRenewalsTracker");
 
-  const [{ totals, entries }, payouts, activeDispatches, { count: ratingCount }, subStatus, cycleProgress, networkData, { siteName }] =
-    await Promise.all([
-      getAgentCommissionSummary(agent.id),
-      getPayoutsForAgent(agent.id),
-      agent.primeStatus ? getActiveDispatchesForAgent(agent.id) : Promise.resolve([]),
-      getRatingsForAgent(agent.id),
-      getAgentSubscriptionStatus(agent.id),
-      getAgentCycleProgress(agent.id).catch(() => null),
-      getDirectNetworkAndRenewals(agent.id).catch(() => ({ agents: [], listings: [] })),
-      getSiteSettings(),
-    ]);
+  const [
+    { totals, entries },
+    payouts,
+    activeDispatches,
+    { count: ratingCount },
+    subStatus,
+    cycleProgress,
+    networkData,
+    { siteName },
+    ringAlerts,
+  ] = await Promise.all([
+    getAgentCommissionSummary(agent.id),
+    getPayoutsForAgent(agent.id),
+    agent.primeStatus ? getActiveDispatchesForAgent(agent.id) : Promise.resolve([]),
+    getRatingsForAgent(agent.id),
+    getAgentSubscriptionStatus(agent.id),
+    getAgentCycleProgress(agent.id).catch(() => null),
+    getDirectNetworkAndRenewals(agent.id).catch(() => ({ agents: [], listings: [] })),
+    getSiteSettings(),
+    getRingAlertsForAgent(agent.id),
+  ]);
 
   const originUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const { getAgentShopUrl } = await import("@/lib/qr");
@@ -408,6 +419,48 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
 
       {/* Direct Network & Renewals Follow-up Desk (Direct Agents & Customer Property Renewals) */}
       <DirectRenewalsTracker agents={networkData.agents} listings={networkData.listings} siteName={siteName} />
+
+      {/* Ring Alerts — a persistent history of buyers who rang a listing of
+          yours, since the live Socket.io/push alert only reaches you if
+          your dashboard tab was open or the mobile app was logged in at
+          that exact moment. Check this any time you weren't online then. */}
+      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
+        <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+          🔔 Ring Alerts ({ringAlerts.length})
+        </h2>
+        <p className="text-xs text-slate-500 mt-0.5">
+          Buyers who rang one of your listings. Live alerts only reach you while your
+          dashboard tab is open or the mobile app is logged in — check back here any time
+          you may have missed one.
+        </p>
+        {ringAlerts.length === 0 ? (
+          <p className="mt-3 rounded-xl border border-dashed border-slate-200 p-4 text-center text-xs text-slate-400">
+            No rings yet.
+          </p>
+        ) : (
+          <div className="mt-3 divide-y divide-slate-100">
+            {ringAlerts.map((ring) => (
+              <div key={ring.id} className="flex items-center justify-between py-2.5 text-sm">
+                <div>
+                  <p className="font-semibold text-slate-900">{ring.buyerName}</p>
+                  <p className="text-xs text-slate-500">
+                    Interested in &quot;{ring.listingTitle}&quot; ·{" "}
+                    {ring.createdAt.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                {ring.buyerPhone && (
+                  <a
+                    href={`tel:${ring.buyerPhone}`}
+                    className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700 hover:bg-emerald-100"
+                  >
+                    Call {ring.buyerPhone}
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {agent.primeStatus && (
         <div className="mt-6">

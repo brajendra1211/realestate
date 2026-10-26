@@ -6,7 +6,14 @@ import { PropertyCard } from "@/components/PropertyCard";
 import { LogoutButton } from "@/components/LogoutButton";
 import { canSwitchAgent } from "@/lib/agentSwitch";
 import { getAppointmentsForBuyer } from "@/lib/appointment";
-import { updateBuyerProfile, toggleSavedProperty, switchAgentAction, markNoShowAction } from "../actions";
+import { getRingsRemainingToday } from "@/lib/propertyRing";
+import {
+  updateBuyerProfile,
+  toggleSavedProperty,
+  switchAgentAction,
+  markNoShowAction,
+  ringPropertyAction,
+} from "../actions";
 
 type SearchParams = Promise<{
   saved?: string;
@@ -14,6 +21,8 @@ type SearchParams = Promise<{
   switchSaved?: string;
   switchError?: string;
   appointmentError?: string;
+  rang?: string;
+  ringError?: string;
 }>;
 
 const SWITCH_ERROR_MESSAGES: Record<string, string> = {
@@ -21,6 +30,12 @@ const SWITCH_ERROR_MESSAGES: Record<string, string> = {
   dailyLimitReached: "You've reached the daily limit of 3 channel partner switches.",
   cooldown: "Please wait before switching again — there's a cooldown between switches.",
   noPhone: "Add a phone number to your profile before switching channel partners.",
+};
+
+const RING_ERROR_MESSAGES: Record<string, string> = {
+  notSaved: "Save this property first, then you can ring its channel partner.",
+  noChannelPartner: "No channel partner is attached to this property yet.",
+  dailyLimitReached: "You've used both rings for this property today. Try again tomorrow.",
 };
 
 const APPOINTMENT_ERROR_MESSAGES: Record<string, string> = {
@@ -34,7 +49,8 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
   if (!session) redirect("/buyer/login");
   if (session.user.role !== "BUYER") redirect("/dashboard");
 
-  const { saved, error, switchSaved, switchError, appointmentError } = await searchParams;
+  const { saved, error, switchSaved, switchError, appointmentError, rang, ringError } =
+    await searchParams;
 
   const [
     user,
@@ -50,7 +66,14 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
     prisma.user.findUniqueOrThrow({ where: { id: session.user.id } }),
     prisma.savedProperty.findMany({
       where: { userId: session.user.id },
-      include: { property: { include: { images: { orderBy: { order: "asc" }, take: 1 } } } },
+      include: {
+        property: {
+          include: {
+            images: { orderBy: { order: "asc" }, take: 1 },
+            owner: { select: { agentProfile: { select: { id: true } } } },
+          },
+        },
+      },
       orderBy: { createdAt: "desc" },
     }),
     prisma.enquiry.findMany({
@@ -92,6 +115,16 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
       orderBy: { createdAt: "desc" },
     }),
   ]);
+
+  const savedPropertiesWithRing = await Promise.all(
+    savedProperties.map(async ({ property }) => {
+      const agentId = property.owner.agentProfile?.id ?? null;
+      const ringsRemainingToday = agentId
+        ? await getRingsRemainingToday(session.user.id, property.id)
+        : 0;
+      return { property, canRing: agentId !== null, ringsRemainingToday };
+    })
+  );
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
@@ -388,9 +421,19 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
 
       <div id="saved" className="mt-10 scroll-mt-20">
         <h2 className="text-lg font-semibold text-slate-900">
-          Saved properties ({savedProperties.length})
+          Saved properties ({savedPropertiesWithRing.length})
         </h2>
-        {savedProperties.length === 0 ? (
+        {rang && (
+          <p className="mt-2 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
+            Ring sent to the channel partner.
+          </p>
+        )}
+        {ringError && (
+          <p className="mt-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+            {RING_ERROR_MESSAGES[ringError] ?? "Something went wrong. Try again."}
+          </p>
+        )}
+        {savedPropertiesWithRing.length === 0 ? (
           <p className="mt-4 rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-500">
             Nothing saved yet —{" "}
             <Link href="/properties" className="text-blue-600 hover:underline">
@@ -400,7 +443,7 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
           </p>
         ) : (
           <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {savedProperties.map(({ property }) => (
+            {savedPropertiesWithRing.map(({ property, canRing, ringsRemainingToday }) => (
               <div key={property.id} className="relative">
                 <PropertyCard property={property} />
                 <form action={toggleSavedProperty} className="absolute right-3 top-3">
@@ -414,6 +457,20 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
                     ♥
                   </button>
                 </form>
+                {canRing && (
+                  <form action={ringPropertyAction} className="mt-2">
+                    <input type="hidden" name="propertyId" value={property.id} />
+                    <button
+                      type="submit"
+                      disabled={ringsRemainingToday <= 0}
+                      className="w-full rounded-xl border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {ringsRemainingToday > 0
+                        ? `🔔 Ring partner (${ringsRemainingToday} left today)`
+                        : "Ring used for today"}
+                    </button>
+                  </form>
+                )}
               </div>
             ))}
           </div>

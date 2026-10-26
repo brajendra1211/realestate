@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { switchAgent, AgentSwitchServiceError } from "@/lib/agentSwitch";
 import { markNoShow, AppointmentServiceError } from "@/lib/appointment";
+import { ringProperty, PropertyRingError } from "@/lib/propertyRing";
 
 async function requireBuyer() {
   const session = await auth();
@@ -72,6 +73,24 @@ export async function toggleSavedProperty(formData: FormData) {
   }
 
   revalidatePath(redirectTo.split("?")[0]);
+}
+
+// Website equivalent of the mobile app's "Ring partner" button on a saved
+// property — same src/lib/propertyRing.ts the mobile endpoint already uses,
+// so the 2-per-property/day cap is shared across app and web, not doubled.
+export async function ringPropertyAction(formData: FormData) {
+  const session = await requireBuyer();
+  const propertyId = String(formData.get("propertyId") ?? "");
+
+  try {
+    await ringProperty(session.user.id, propertyId);
+    redirect(`/buyer/dashboard?rang=1#saved`);
+  } catch (error) {
+    if (error instanceof PropertyRingError) {
+      redirect(`/buyer/dashboard?ringError=${error.message}#saved`);
+    }
+    throw error;
+  }
 }
 
 export async function updateBuyerProfile(formData: FormData) {

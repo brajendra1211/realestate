@@ -94,12 +94,96 @@ export default async function PropertiesPage({
     };
   }
 
-  const properties = await prisma.property.findMany({
-    where,
-    include: { images: { orderBy: { order: "asc" }, take: 1 } },
-    orderBy: { createdAt: "desc" },
-    take: 60,
-  });
+  // §3.3's Buy/Rent browse page used to only show website self-listings
+  // (Property) — a buyer had no way to know channel-partner marketplace
+  // listings (AgentListing) lived on a separate /listings page at all, and
+  // kept reporting listings as "missing". Merged here instead of unifying
+  // the two underlying data models (which the pay-to-unlock/commission/
+  // co-listing engine in src/lib/listing.ts depends on keeping distinct).
+  const agentListingWhere: Prisma.AgentListingWhereInput = {
+    approvalStatus: "APPROVED",
+    isDelisted: false,
+    OR: [{ listingExpiresAt: null }, { listingExpiresAt: { gt: new Date() } }],
+  };
+  if (params.listingType === "SALE" || params.listingType === "RENT") {
+    agentListingWhere.listingType = params.listingType;
+  }
+  if (params.propertyType) {
+    agentListingWhere.propertyType = params.propertyType as Prisma.AgentListingWhereInput["propertyType"];
+  }
+  if (params.bedrooms) {
+    agentListingWhere.bedrooms = { gte: Number(params.bedrooms) };
+  }
+  if (params.minPrice || params.maxPrice) {
+    agentListingWhere.price = {
+      ...(params.minPrice ? { gte: Number(params.minPrice) } : {}),
+      ...(params.maxPrice ? { lte: Number(params.maxPrice) } : {}),
+    };
+  }
+  if (effectiveCity) {
+    agentListingWhere.masterProperty = {
+      OR: [{ city: { contains: effectiveCity } }, { locality: { contains: effectiveCity } }],
+    };
+  }
+  // AgentListing has no NEW_BOOKING/RESALE condition field — a condition
+  // filter should exclude these from the merged results, not ignore the
+  // filter, so it isn't silently dropped.
+  const skipAgentListings = params.condition === "NEW_BOOKING" || params.condition === "RESALE";
+
+  const [websiteProperties, agentListings] = await Promise.all([
+    prisma.property.findMany({
+      where,
+      include: { images: { orderBy: { order: "asc" }, take: 1 } },
+      orderBy: { createdAt: "desc" },
+      take: 60,
+    }),
+    skipAgentListings
+      ? Promise.resolve([])
+      : prisma.agentListing.findMany({
+          where: agentListingWhere,
+          include: {
+            images: { orderBy: { order: "asc" }, take: 1 },
+            masterProperty: { select: { city: true, locality: true } },
+          },
+          orderBy: { createdAt: "desc" },
+          take: 60,
+        }),
+  ]);
+
+  const properties = [
+    ...websiteProperties.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      city: p.city,
+      locality: p.locality,
+      price: p.price,
+      listingType: p.listingType,
+      propertyType: p.propertyType,
+      condition: p.condition,
+      bedrooms: p.bedrooms,
+      bathrooms: p.bathrooms,
+      areaSqft: p.areaSqft,
+      images: p.images,
+      createdAt: p.createdAt,
+      detailHref: `/properties/${p.slug}`,
+    })),
+    ...agentListings.map((l) => ({
+      slug: l.slug,
+      title: l.title,
+      city: l.masterProperty.city,
+      locality: l.masterProperty.locality,
+      price: l.price,
+      listingType: l.listingType,
+      propertyType: l.propertyType,
+      condition: null,
+      bedrooms: l.bedrooms,
+      bathrooms: l.bathrooms,
+      areaSqft: l.areaSqft,
+      images: l.images,
+      createdAt: l.createdAt,
+      detailHref: `/listings/${l.slug}`,
+    })),
+  ].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
   const collectionJsonLd = {
     "@context": "https://schema.org",
@@ -111,7 +195,7 @@ export default async function PropertiesPage({
       itemListElement: properties.slice(0, 20).map((property, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: absoluteUrl(`/properties/${property.slug}`),
+        url: absoluteUrl(property.detailHref),
       })),
     },
   };
@@ -310,7 +394,7 @@ export default async function PropertiesPage({
         ) : (
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {properties.map((property) => (
-              <PropertyCard key={property.slug} property={property} />
+              <PropertyCard key={property.detailHref} property={property} />
             ))}
           </div>
         )}

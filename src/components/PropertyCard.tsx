@@ -15,9 +15,16 @@ type PropertyCardData = {
   bathrooms: number | null;
   areaSqft: number | null;
   images: { url: string }[];
+  // Website self-listings (Property) live at /properties/[slug]; channel
+  // partner marketplace listings (AgentListing) live at /listings/[slug] —
+  // both render through this same card on the merged /properties browse
+  // page, so the link target has to be overridable per-item rather than
+  // always assuming /properties.
+  detailHref?: string;
 };
 
 export function PropertyCard({ property }: { property: PropertyCardData }) {
+  const href = property.detailHref ?? `/properties/${property.slug}`;
   const image = property.images[0]?.url || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&auto=format&fit=crop&q=80";
   const pricePerSqft = property.areaSqft && property.listingType === "SALE"
     ? Math.round(property.price / property.areaSqft)
@@ -26,7 +33,7 @@ export function PropertyCard({ property }: { property: PropertyCardData }) {
   return (
     <div className="group flex flex-col overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-xl">
       {/* Property Image Container */}
-      <Link href={`/properties/${property.slug}`} className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 block">
+      <Link href={href} className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 block">
         <Image
           src={image}
           alt={property.title}
@@ -89,7 +96,7 @@ export function PropertyCard({ property }: { property: PropertyCardData }) {
           </div>
 
           {/* Property Title */}
-          <Link href={`/properties/${property.slug}`} className="block">
+          <Link href={href} className="block">
             <h3 className="line-clamp-2 text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition leading-snug">
               {property.title}
             </h3>
@@ -129,7 +136,7 @@ export function PropertyCard({ property }: { property: PropertyCardData }) {
         {/* Action Buttons */}
         <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
           <Link
-            href={`/properties/${property.slug}`}
+            href={href}
             className="flex-1 rounded-lg bg-slate-900 hover:bg-blue-600 text-white py-2.5 text-center text-xs font-bold transition"
           >
             View Details

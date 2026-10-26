@@ -7,12 +7,15 @@ import { LogoutButton } from "@/components/LogoutButton";
 import { canSwitchAgent } from "@/lib/agentSwitch";
 import { getAppointmentsForBuyer } from "@/lib/appointment";
 import { getRingsRemainingToday } from "@/lib/propertyRing";
+import { getAgentListingRingsRemainingToday } from "@/lib/agentListingRing";
 import {
   updateBuyerProfile,
   toggleSavedProperty,
+  toggleSavedAgentListing,
   switchAgentAction,
   markNoShowAction,
   ringPropertyAction,
+  ringAgentListingAction,
 } from "../actions";
 
 type SearchParams = Promise<{
@@ -55,6 +58,7 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
   const [
     user,
     savedProperties,
+    savedAgentListings,
     enquiries,
     currentDispatch,
     switchGate,
@@ -71,6 +75,18 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
           include: {
             images: { orderBy: { order: "asc" }, take: 1 },
             owner: { select: { agentProfile: { select: { id: true } } } },
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.savedAgentListing.findMany({
+      where: { userId: session.user.id },
+      include: {
+        agentListing: {
+          include: {
+            images: { orderBy: { order: "asc" }, take: 1 },
+            masterProperty: { select: { city: true, locality: true } },
           },
         },
       },
@@ -116,15 +132,53 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
     }),
   ]);
 
-  const savedPropertiesWithRing = await Promise.all(
-    savedProperties.map(async ({ property }) => {
+  // Property (website self-listing) saves and AgentListing (channel-partner
+  // marketplace) saves live in two separate tables (see /properties's merge
+  // comment) — flattened into one shape here so the "Saved properties"
+  // section below can render both kinds of save in a single grid, same as
+  // the merged browse page, instead of a buyer needing to know which list
+  // a given save belongs to.
+  const savedCards = await Promise.all([
+    ...savedProperties.map(async ({ property }) => {
       const agentId = property.owner.agentProfile?.id ?? null;
       const ringsRemainingToday = agentId
         ? await getRingsRemainingToday(session.user.id, property.id)
         : 0;
-      return { property, canRing: agentId !== null, ringsRemainingToday };
-    })
-  );
+      return {
+        card: { ...property, detailHref: `/properties/${property.slug}` },
+        kind: "property" as const,
+        id: property.id,
+        canRing: agentId !== null,
+        ringsRemainingToday,
+      };
+    }),
+    ...savedAgentListings.map(async ({ agentListing }) => {
+      const ringsRemainingToday = agentListing.agentId
+        ? await getAgentListingRingsRemainingToday(session.user.id, agentListing.id)
+        : 0;
+      return {
+        card: {
+          slug: agentListing.slug,
+          title: agentListing.title,
+          city: agentListing.masterProperty.city,
+          locality: agentListing.masterProperty.locality,
+          price: agentListing.price,
+          listingType: agentListing.listingType,
+          propertyType: agentListing.propertyType,
+          condition: null,
+          bedrooms: agentListing.bedrooms,
+          bathrooms: agentListing.bathrooms,
+          areaSqft: agentListing.areaSqft,
+          images: agentListing.images,
+          detailHref: `/listings/${agentListing.slug}`,
+        },
+        kind: "agentListing" as const,
+        id: agentListing.id,
+        canRing: agentListing.agentId !== null,
+        ringsRemainingToday,
+      };
+    }),
+  ]);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
@@ -421,7 +475,7 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
 
       <div id="saved" className="mt-10 scroll-mt-20">
         <h2 className="text-lg font-semibold text-slate-900">
-          Saved properties ({savedPropertiesWithRing.length})
+          Saved properties ({savedCards.length})
         </h2>
         {rang && (
           <p className="mt-2 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
@@ -433,7 +487,7 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
             {RING_ERROR_MESSAGES[ringError] ?? "Something went wrong. Try again."}
           </p>
         )}
-        {savedPropertiesWithRing.length === 0 ? (
+        {savedCards.length === 0 ? (
           <p className="mt-4 rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-500">
             Nothing saved yet —{" "}
             <Link href="/properties" className="text-blue-600 hover:underline">
@@ -443,36 +497,41 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
           </p>
         ) : (
           <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {savedPropertiesWithRing.map(({ property, canRing, ringsRemainingToday }) => (
-              <div key={property.id} className="relative">
-                <PropertyCard property={property} />
-                <form action={toggleSavedProperty} className="absolute right-3 top-3">
-                  <input type="hidden" name="propertyId" value={property.id} />
-                  <input type="hidden" name="redirectTo" value="/buyer/dashboard" />
-                  <button
-                    type="submit"
-                    aria-label="Remove from saved"
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-red-500 shadow-sm hover:bg-white"
-                  >
-                    ♥
-                  </button>
-                </form>
-                {canRing && (
-                  <form action={ringPropertyAction} className="mt-2">
-                    <input type="hidden" name="propertyId" value={property.id} />
+            {savedCards.map(({ card, kind, id, canRing, ringsRemainingToday }) => {
+              const idFieldName = kind === "property" ? "propertyId" : "agentListingId";
+              const unsaveAction = kind === "property" ? toggleSavedProperty : toggleSavedAgentListing;
+              const ringAction = kind === "property" ? ringPropertyAction : ringAgentListingAction;
+              return (
+                <div key={card.detailHref} className="relative">
+                  <PropertyCard property={card} />
+                  <form action={unsaveAction} className="absolute right-3 top-3">
+                    <input type="hidden" name={idFieldName} value={id} />
+                    <input type="hidden" name="redirectTo" value="/buyer/dashboard" />
                     <button
                       type="submit"
-                      disabled={ringsRemainingToday <= 0}
-                      className="w-full rounded-xl border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-50"
+                      aria-label="Remove from saved"
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-red-500 shadow-sm hover:bg-white"
                     >
-                      {ringsRemainingToday > 0
-                        ? `🔔 Ring partner (${ringsRemainingToday} left today)`
-                        : "Ring used for today"}
+                      ♥
                     </button>
                   </form>
-                )}
-              </div>
-            ))}
+                  {canRing && (
+                    <form action={ringAction} className="mt-2">
+                      <input type="hidden" name={idFieldName} value={id} />
+                      <button
+                        type="submit"
+                        disabled={ringsRemainingToday <= 0}
+                        className="w-full rounded-xl border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {ringsRemainingToday > 0
+                          ? `🔔 Ring partner (${ringsRemainingToday} left today)`
+                          : "Ring used for today"}
+                      </button>
+                    </form>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

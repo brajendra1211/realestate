@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { switchAgent, AgentSwitchServiceError } from "@/lib/agentSwitch";
 import { markNoShow, AppointmentServiceError } from "@/lib/appointment";
 import { ringProperty, PropertyRingError } from "@/lib/propertyRing";
+import { ringAgentListing, AgentListingRingError } from "@/lib/agentListingRing";
 
 async function requireBuyer() {
   const session = await auth();
@@ -87,6 +88,44 @@ export async function ringPropertyAction(formData: FormData) {
     redirect(`/buyer/dashboard?rang=1#saved`);
   } catch (error) {
     if (error instanceof PropertyRingError) {
+      redirect(`/buyer/dashboard?ringError=${error.message}#saved`);
+    }
+    throw error;
+  }
+}
+
+// Channel-partner marketplace equivalent of toggleSavedProperty — AgentListing
+// has its own save join table (SavedAgentListing) since it was never unified
+// with the website's Property table.
+export async function toggleSavedAgentListing(formData: FormData) {
+  const session = await requireBuyer();
+  const agentListingId = String(formData.get("agentListingId") ?? "");
+  const redirectTo = String(formData.get("redirectTo") ?? "/buyer/dashboard");
+  if (!agentListingId) redirect(redirectTo);
+
+  const existing = await prisma.savedAgentListing.findUnique({
+    where: { userId_agentListingId: { userId: session.user.id, agentListingId } },
+  });
+
+  if (existing) {
+    await prisma.savedAgentListing.delete({ where: { id: existing.id } });
+  } else {
+    await prisma.savedAgentListing.create({ data: { userId: session.user.id, agentListingId } });
+  }
+
+  revalidatePath(redirectTo.split("?")[0]);
+}
+
+// Channel-partner marketplace equivalent of ringPropertyAction.
+export async function ringAgentListingAction(formData: FormData) {
+  const session = await requireBuyer();
+  const agentListingId = String(formData.get("agentListingId") ?? "");
+
+  try {
+    await ringAgentListing(session.user.id, agentListingId);
+    redirect(`/buyer/dashboard?rang=1#saved`);
+  } catch (error) {
+    if (error instanceof AgentListingRingError) {
       redirect(`/buyer/dashboard?ringError=${error.message}#saved`);
     }
     throw error;

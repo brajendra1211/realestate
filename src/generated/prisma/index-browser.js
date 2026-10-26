@@ -549,6 +549,20 @@ exports.Prisma.AgentListingScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SavedAgentListingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  agentListingId: 'agentListingId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AgentListingRingLogScalarFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  agentListingId: 'agentListingId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AgentListingImageScalarFieldEnum = {
   id: 'id',
   url: 'url',
@@ -1127,6 +1141,18 @@ exports.Prisma.AgentListingOrderByRelevanceFieldEnum = {
   videoUrl: 'videoUrl'
 };
 
+exports.Prisma.SavedAgentListingOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  agentListingId: 'agentListingId'
+};
+
+exports.Prisma.AgentListingRingLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  agentListingId: 'agentListingId'
+};
+
 exports.Prisma.AgentListingImageOrderByRelevanceFieldEnum = {
   id: 'id',
   url: 'url',
@@ -1529,6 +1555,8 @@ exports.Prisma.ModelName = {
   CommissionLedgerEntry: 'CommissionLedgerEntry',
   MasterProperty: 'MasterProperty',
   AgentListing: 'AgentListing',
+  SavedAgentListing: 'SavedAgentListing',
+  AgentListingRingLog: 'AgentListingRingLog',
   AgentListingImage: 'AgentListingImage',
   PropertyUnlock: 'PropertyUnlock',
   GoldListingPurchase: 'GoldListingPurchase',

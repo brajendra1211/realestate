@@ -1,14 +1,18 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
 import { getListingBySlug } from "@/lib/listing";
 import { getAgreementUrgency } from "@/lib/listingDelist";
 import { getUnlockForBuyer } from "@/lib/unlock";
 import { isRazorpayConfigured } from "@/lib/razorpay";
 import { getSiteSettings } from "@/lib/site-settings";
+import { getAgentListingRingsRemainingToday } from "@/lib/agentListingRing";
 import { formatINR, parseVideoUrls, getVideoEmbed, PROPERTY_TYPE_LABELS } from "@/lib/format";
 import { UnlockButton } from "@/components/UnlockButton";
 import { SwitchAgentButton } from "@/components/SwitchAgentButton";
 import { DirectVisitVerification } from "@/components/DirectVisitVerification";
+import { toggleSavedAgentListing, ringAgentListingAction } from "@/app/buyer/actions";
 import { unlockListing } from "./actions";
 
 type Params = Promise<{ slug: string }>;
@@ -31,12 +35,22 @@ export default async function ListingDetailPage({
 
   const session = await auth();
   const isBuyer = session?.user.role === "BUYER";
-  const unlock = isBuyer ? await getUnlockForBuyer(session!.user.id, listing.id) : null;
+  const [unlock, savedEntry, ringsRemainingToday] = await Promise.all([
+    isBuyer ? getUnlockForBuyer(session!.user.id, listing.id) : null,
+    isBuyer
+      ? prisma.savedAgentListing.findUnique({
+          where: { userId_agentListingId: { userId: session!.user.id, agentListingId: listing.id } },
+        })
+      : null,
+    isBuyer && listing.agentId
+      ? getAgentListingRingsRemainingToday(session!.user.id, listing.id)
+      : 0,
+  ]);
   const isUnlocked = Boolean(unlock);
+  const isSaved = Boolean(savedEntry);
 
   let activeAgent = listing.agent;
   if (unlock?.assignedAgentId && unlock.assignedAgentId !== listing.agentId) {
-    const { prisma } = await import("@/lib/prisma");
     activeAgent = await prisma.agentProfile.findUnique({
       where: { id: unlock.assignedAgentId },
       include: { user: true },
@@ -68,11 +82,55 @@ export default async function ListingDetailPage({
         </p>
       )}
 
-      <p className="font-mono text-xs text-slate-400">{listing.masterProperty.masterId}</p>
-      <h1 className="mt-1 text-2xl font-bold text-slate-900">{listing.title}</h1>
-      <p className="mt-1 text-sm text-slate-500">
-        {listing.masterProperty.locality ?? listing.masterProperty.city}, {listing.masterProperty.city}
-      </p>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="font-mono text-xs text-slate-400">{listing.masterProperty.masterId}</p>
+          <h1 className="mt-1 text-2xl font-bold text-slate-900">{listing.title}</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            {listing.masterProperty.locality ?? listing.masterProperty.city}, {listing.masterProperty.city}
+          </p>
+        </div>
+        {isBuyer ? (
+          <form action={toggleSavedAgentListing}>
+            <input type="hidden" name="agentListingId" value={listing.id} />
+            <input type="hidden" name="redirectTo" value={`/listings/${listing.slug}`} />
+            <button
+              type="submit"
+              aria-label={isSaved ? "Remove from saved" : "Save listing"}
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-lg ${
+                isSaved
+                  ? "border-red-200 bg-red-50 text-red-500"
+                  : "border-slate-200 text-slate-400 hover:border-red-200 hover:text-red-500"
+              }`}
+            >
+              ♥
+            </button>
+          </form>
+        ) : (
+          <Link
+            href="/buyer/login"
+            aria-label="Log in to save"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 text-lg text-slate-400 hover:border-red-200 hover:text-red-500"
+          >
+            ♡
+          </Link>
+        )}
+      </div>
+
+      {isBuyer && isSaved && listing.agentId && (
+        <form action={ringAgentListingAction} className="mt-3">
+          <input type="hidden" name="agentListingId" value={listing.id} />
+          <button
+            type="submit"
+            disabled={ringsRemainingToday <= 0}
+            className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {ringsRemainingToday > 0
+              ? `🔔 Ring this channel partner (${ringsRemainingToday} left today)`
+              : "Ring used for today"}
+          </button>
+        </form>
+      )}
 
       {urgency.tier === "HOT_DEAL" && (
         <div className="mt-3 flex items-center justify-between rounded-xl bg-gradient-to-r from-red-600 to-amber-600 px-4 py-2.5 text-white shadow-md">

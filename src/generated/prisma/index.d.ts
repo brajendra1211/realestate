@@ -144,6 +144,16 @@ export type MasterProperty = $Result.DefaultSelection<Prisma.$MasterPropertyPayl
  */
 export type AgentListing = $Result.DefaultSelection<Prisma.$AgentListingPayload>
 /**
+ * Model SavedAgentListing
+ * 
+ */
+export type SavedAgentListing = $Result.DefaultSelection<Prisma.$SavedAgentListingPayload>
+/**
+ * Model AgentListingRingLog
+ * 
+ */
+export type AgentListingRingLog = $Result.DefaultSelection<Prisma.$AgentListingRingLogPayload>
+/**
  * Model AgentListingImage
  * 
  */
@@ -1012,6 +1022,26 @@ export class PrismaClient<
   get agentListing(): Prisma.AgentListingDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.savedAgentListing`: Exposes CRUD operations for the **SavedAgentListing** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SavedAgentListings
+    * const savedAgentListings = await prisma.savedAgentListing.findMany()
+    * ```
+    */
+  get savedAgentListing(): Prisma.SavedAgentListingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.agentListingRingLog`: Exposes CRUD operations for the **AgentListingRingLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AgentListingRingLogs
+    * const agentListingRingLogs = await prisma.agentListingRingLog.findMany()
+    * ```
+    */
+  get agentListingRingLog(): Prisma.AgentListingRingLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.agentListingImage`: Exposes CRUD operations for the **AgentListingImage** model.
     * Example usage:
     * ```ts
@@ -1723,6 +1753,8 @@ export namespace Prisma {
     CommissionLedgerEntry: 'CommissionLedgerEntry',
     MasterProperty: 'MasterProperty',
     AgentListing: 'AgentListing',
+    SavedAgentListing: 'SavedAgentListing',
+    AgentListingRingLog: 'AgentListingRingLog',
     AgentListingImage: 'AgentListingImage',
     PropertyUnlock: 'PropertyUnlock',
     GoldListingPurchase: 'GoldListingPurchase',
@@ -1762,7 +1794,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "propertyRingLog" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment" | "directPropertyVisit" | "platformAntiBypassAgreement" | "agentShopUnlock" | "pushToken"
+      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "propertyRingLog" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "savedAgentListing" | "agentListingRingLog" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment" | "directPropertyVisit" | "platformAntiBypassAgreement" | "agentShopUnlock" | "pushToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3479,6 +3511,138 @@ export namespace Prisma {
           count: {
             args: Prisma.AgentListingCountArgs<ExtArgs>
             result: $Utils.Optional<AgentListingCountAggregateOutputType> | number
+          }
+        }
+      }
+      SavedAgentListing: {
+        payload: Prisma.$SavedAgentListingPayload<ExtArgs>
+        fields: Prisma.SavedAgentListingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SavedAgentListingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedAgentListingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SavedAgentListingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedAgentListingPayload>
+          }
+          findFirst: {
+            args: Prisma.SavedAgentListingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedAgentListingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SavedAgentListingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedAgentListingPayload>
+          }
+          findMany: {
+            args: Prisma.SavedAgentListingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedAgentListingPayload>[]
+          }
+          create: {
+            args: Prisma.SavedAgentListingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedAgentListingPayload>
+          }
+          createMany: {
+            args: Prisma.SavedAgentListingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.SavedAgentListingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedAgentListingPayload>
+          }
+          update: {
+            args: Prisma.SavedAgentListingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedAgentListingPayload>
+          }
+          deleteMany: {
+            args: Prisma.SavedAgentListingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SavedAgentListingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SavedAgentListingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedAgentListingPayload>
+          }
+          aggregate: {
+            args: Prisma.SavedAgentListingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSavedAgentListing>
+          }
+          groupBy: {
+            args: Prisma.SavedAgentListingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SavedAgentListingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SavedAgentListingCountArgs<ExtArgs>
+            result: $Utils.Optional<SavedAgentListingCountAggregateOutputType> | number
+          }
+        }
+      }
+      AgentListingRingLog: {
+        payload: Prisma.$AgentListingRingLogPayload<ExtArgs>
+        fields: Prisma.AgentListingRingLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AgentListingRingLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingRingLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AgentListingRingLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingRingLogPayload>
+          }
+          findFirst: {
+            args: Prisma.AgentListingRingLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingRingLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AgentListingRingLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingRingLogPayload>
+          }
+          findMany: {
+            args: Prisma.AgentListingRingLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingRingLogPayload>[]
+          }
+          create: {
+            args: Prisma.AgentListingRingLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingRingLogPayload>
+          }
+          createMany: {
+            args: Prisma.AgentListingRingLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.AgentListingRingLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingRingLogPayload>
+          }
+          update: {
+            args: Prisma.AgentListingRingLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingRingLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.AgentListingRingLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AgentListingRingLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AgentListingRingLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AgentListingRingLogPayload>
+          }
+          aggregate: {
+            args: Prisma.AgentListingRingLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAgentListingRingLog>
+          }
+          groupBy: {
+            args: Prisma.AgentListingRingLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AgentListingRingLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AgentListingRingLogCountArgs<ExtArgs>
+            result: $Utils.Optional<AgentListingRingLogCountAggregateOutputType> | number
           }
         }
       }
@@ -5215,6 +5379,8 @@ export namespace Prisma {
     commissionLedgerEntry?: CommissionLedgerEntryOmit
     masterProperty?: MasterPropertyOmit
     agentListing?: AgentListingOmit
+    savedAgentListing?: SavedAgentListingOmit
+    agentListingRingLog?: AgentListingRingLogOmit
     agentListingImage?: AgentListingImageOmit
     propertyUnlock?: PropertyUnlockOmit
     goldListingPurchase?: GoldListingPurchaseOmit
@@ -5333,6 +5499,8 @@ export namespace Prisma {
     agentShopUnlocks: number
     pushTokens: number
     propertyRings: number
+    savedAgentListings: number
+    agentListingRings: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5350,6 +5518,8 @@ export namespace Prisma {
     agentShopUnlocks?: boolean | UserCountOutputTypeCountAgentShopUnlocksArgs
     pushTokens?: boolean | UserCountOutputTypeCountPushTokensArgs
     propertyRings?: boolean | UserCountOutputTypeCountPropertyRingsArgs
+    savedAgentListings?: boolean | UserCountOutputTypeCountSavedAgentListingsArgs
+    agentListingRings?: boolean | UserCountOutputTypeCountAgentListingRingsArgs
   }
 
   // Custom InputTypes
@@ -5459,6 +5629,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPropertyRingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PropertyRingLogWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSavedAgentListingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedAgentListingWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAgentListingRingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentListingRingLogWhereInput
   }
 
 
@@ -6109,6 +6293,8 @@ export namespace Prisma {
     unlocks: number
     directVisits: number
     antiBypassAgreements: number
+    savedBy: number
+    ringLogs: number
   }
 
   export type AgentListingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6116,6 +6302,8 @@ export namespace Prisma {
     unlocks?: boolean | AgentListingCountOutputTypeCountUnlocksArgs
     directVisits?: boolean | AgentListingCountOutputTypeCountDirectVisitsArgs
     antiBypassAgreements?: boolean | AgentListingCountOutputTypeCountAntiBypassAgreementsArgs
+    savedBy?: boolean | AgentListingCountOutputTypeCountSavedByArgs
+    ringLogs?: boolean | AgentListingCountOutputTypeCountRingLogsArgs
   }
 
   // Custom InputTypes
@@ -6155,6 +6343,20 @@ export namespace Prisma {
    */
   export type AgentListingCountOutputTypeCountAntiBypassAgreementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PlatformAntiBypassAgreementWhereInput
+  }
+
+  /**
+   * AgentListingCountOutputType without action
+   */
+  export type AgentListingCountOutputTypeCountSavedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedAgentListingWhereInput
+  }
+
+  /**
+   * AgentListingCountOutputType without action
+   */
+  export type AgentListingCountOutputTypeCountRingLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentListingRingLogWhereInput
   }
 
 
@@ -6711,6 +6913,8 @@ export namespace Prisma {
     agentShopUnlocks?: boolean | User$agentShopUnlocksArgs<ExtArgs>
     pushTokens?: boolean | User$pushTokensArgs<ExtArgs>
     propertyRings?: boolean | User$propertyRingsArgs<ExtArgs>
+    savedAgentListings?: boolean | User$savedAgentListingsArgs<ExtArgs>
+    agentListingRings?: boolean | User$agentListingRingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6770,6 +6974,8 @@ export namespace Prisma {
     agentShopUnlocks?: boolean | User$agentShopUnlocksArgs<ExtArgs>
     pushTokens?: boolean | User$pushTokensArgs<ExtArgs>
     propertyRings?: boolean | User$propertyRingsArgs<ExtArgs>
+    savedAgentListings?: boolean | User$savedAgentListingsArgs<ExtArgs>
+    agentListingRings?: boolean | User$agentListingRingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6792,6 +6998,8 @@ export namespace Prisma {
       agentShopUnlocks: Prisma.$AgentShopUnlockPayload<ExtArgs>[]
       pushTokens: Prisma.$PushTokenPayload<ExtArgs>[]
       propertyRings: Prisma.$PropertyRingLogPayload<ExtArgs>[]
+      savedAgentListings: Prisma.$SavedAgentListingPayload<ExtArgs>[]
+      agentListingRings: Prisma.$AgentListingRingLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7183,6 +7391,8 @@ export namespace Prisma {
     agentShopUnlocks<T extends User$agentShopUnlocksArgs<ExtArgs> = {}>(args?: Subset<T, User$agentShopUnlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentShopUnlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pushTokens<T extends User$pushTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$pushTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     propertyRings<T extends User$propertyRingsArgs<ExtArgs> = {}>(args?: Subset<T, User$propertyRingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyRingLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    savedAgentListings<T extends User$savedAgentListingsArgs<ExtArgs> = {}>(args?: Subset<T, User$savedAgentListingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    agentListingRings<T extends User$agentListingRingsArgs<ExtArgs> = {}>(args?: Subset<T, User$agentListingRingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7964,6 +8174,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PropertyRingLogScalarFieldEnum | PropertyRingLogScalarFieldEnum[]
+  }
+
+  /**
+   * User.savedAgentListings
+   */
+  export type User$savedAgentListingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    where?: SavedAgentListingWhereInput
+    orderBy?: SavedAgentListingOrderByWithRelationInput | SavedAgentListingOrderByWithRelationInput[]
+    cursor?: SavedAgentListingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SavedAgentListingScalarFieldEnum | SavedAgentListingScalarFieldEnum[]
+  }
+
+  /**
+   * User.agentListingRings
+   */
+  export type User$agentListingRingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    where?: AgentListingRingLogWhereInput
+    orderBy?: AgentListingRingLogOrderByWithRelationInput | AgentListingRingLogOrderByWithRelationInput[]
+    cursor?: AgentListingRingLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgentListingRingLogScalarFieldEnum | AgentListingRingLogScalarFieldEnum[]
   }
 
   /**
@@ -34546,6 +34804,8 @@ export namespace Prisma {
     goldPurchase?: boolean | AgentListing$goldPurchaseArgs<ExtArgs>
     directVisits?: boolean | AgentListing$directVisitsArgs<ExtArgs>
     antiBypassAgreements?: boolean | AgentListing$antiBypassAgreementsArgs<ExtArgs>
+    savedBy?: boolean | AgentListing$savedByArgs<ExtArgs>
+    ringLogs?: boolean | AgentListing$ringLogsArgs<ExtArgs>
     _count?: boolean | AgentListingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentListing"]>
 
@@ -34596,6 +34856,8 @@ export namespace Prisma {
     goldPurchase?: boolean | AgentListing$goldPurchaseArgs<ExtArgs>
     directVisits?: boolean | AgentListing$directVisitsArgs<ExtArgs>
     antiBypassAgreements?: boolean | AgentListing$antiBypassAgreementsArgs<ExtArgs>
+    savedBy?: boolean | AgentListing$savedByArgs<ExtArgs>
+    ringLogs?: boolean | AgentListing$ringLogsArgs<ExtArgs>
     _count?: boolean | AgentListingCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -34609,6 +34871,8 @@ export namespace Prisma {
       goldPurchase: Prisma.$GoldListingPurchasePayload<ExtArgs> | null
       directVisits: Prisma.$DirectPropertyVisitPayload<ExtArgs>[]
       antiBypassAgreements: Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>[]
+      savedBy: Prisma.$SavedAgentListingPayload<ExtArgs>[]
+      ringLogs: Prisma.$AgentListingRingLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -34991,6 +35255,8 @@ export namespace Prisma {
     goldPurchase<T extends AgentListing$goldPurchaseArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$goldPurchaseArgs<ExtArgs>>): Prisma__GoldListingPurchaseClient<$Result.GetResult<Prisma.$GoldListingPurchasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     directVisits<T extends AgentListing$directVisitsArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$directVisitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DirectPropertyVisitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     antiBypassAgreements<T extends AgentListing$antiBypassAgreementsArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$antiBypassAgreementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformAntiBypassAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    savedBy<T extends AgentListing$savedByArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$savedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ringLogs<T extends AgentListing$ringLogsArgs<ExtArgs> = {}>(args?: Subset<T, AgentListing$ringLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -35535,6 +35801,54 @@ export namespace Prisma {
   }
 
   /**
+   * AgentListing.savedBy
+   */
+  export type AgentListing$savedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    where?: SavedAgentListingWhereInput
+    orderBy?: SavedAgentListingOrderByWithRelationInput | SavedAgentListingOrderByWithRelationInput[]
+    cursor?: SavedAgentListingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SavedAgentListingScalarFieldEnum | SavedAgentListingScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListing.ringLogs
+   */
+  export type AgentListing$ringLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    where?: AgentListingRingLogWhereInput
+    orderBy?: AgentListingRingLogOrderByWithRelationInput | AgentListingRingLogOrderByWithRelationInput[]
+    cursor?: AgentListingRingLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AgentListingRingLogScalarFieldEnum | AgentListingRingLogScalarFieldEnum[]
+  }
+
+  /**
    * AgentListing without action
    */
   export type AgentListingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -35550,6 +35864,1860 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AgentListingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SavedAgentListing
+   */
+
+  export type AggregateSavedAgentListing = {
+    _count: SavedAgentListingCountAggregateOutputType | null
+    _min: SavedAgentListingMinAggregateOutputType | null
+    _max: SavedAgentListingMaxAggregateOutputType | null
+  }
+
+  export type SavedAgentListingMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    agentListingId: string | null
+    createdAt: Date | null
+  }
+
+  export type SavedAgentListingMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    agentListingId: string | null
+    createdAt: Date | null
+  }
+
+  export type SavedAgentListingCountAggregateOutputType = {
+    id: number
+    userId: number
+    agentListingId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SavedAgentListingMinAggregateInputType = {
+    id?: true
+    userId?: true
+    agentListingId?: true
+    createdAt?: true
+  }
+
+  export type SavedAgentListingMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    agentListingId?: true
+    createdAt?: true
+  }
+
+  export type SavedAgentListingCountAggregateInputType = {
+    id?: true
+    userId?: true
+    agentListingId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SavedAgentListingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SavedAgentListing to aggregate.
+     */
+    where?: SavedAgentListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedAgentListings to fetch.
+     */
+    orderBy?: SavedAgentListingOrderByWithRelationInput | SavedAgentListingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SavedAgentListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedAgentListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedAgentListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SavedAgentListings
+    **/
+    _count?: true | SavedAgentListingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SavedAgentListingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SavedAgentListingMaxAggregateInputType
+  }
+
+  export type GetSavedAgentListingAggregateType<T extends SavedAgentListingAggregateArgs> = {
+        [P in keyof T & keyof AggregateSavedAgentListing]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSavedAgentListing[P]>
+      : GetScalarType<T[P], AggregateSavedAgentListing[P]>
+  }
+
+
+
+
+  export type SavedAgentListingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedAgentListingWhereInput
+    orderBy?: SavedAgentListingOrderByWithAggregationInput | SavedAgentListingOrderByWithAggregationInput[]
+    by: SavedAgentListingScalarFieldEnum[] | SavedAgentListingScalarFieldEnum
+    having?: SavedAgentListingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SavedAgentListingCountAggregateInputType | true
+    _min?: SavedAgentListingMinAggregateInputType
+    _max?: SavedAgentListingMaxAggregateInputType
+  }
+
+  export type SavedAgentListingGroupByOutputType = {
+    id: string
+    userId: string
+    agentListingId: string
+    createdAt: Date
+    _count: SavedAgentListingCountAggregateOutputType | null
+    _min: SavedAgentListingMinAggregateOutputType | null
+    _max: SavedAgentListingMaxAggregateOutputType | null
+  }
+
+  type GetSavedAgentListingGroupByPayload<T extends SavedAgentListingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SavedAgentListingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SavedAgentListingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SavedAgentListingGroupByOutputType[P]>
+            : GetScalarType<T[P], SavedAgentListingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SavedAgentListingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    agentListingId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["savedAgentListing"]>
+
+
+
+  export type SavedAgentListingSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    agentListingId?: boolean
+    createdAt?: boolean
+  }
+
+  export type SavedAgentListingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentListingId" | "createdAt", ExtArgs["result"]["savedAgentListing"]>
+  export type SavedAgentListingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+  }
+
+  export type $SavedAgentListingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SavedAgentListing"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      agentListing: Prisma.$AgentListingPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      agentListingId: string
+      createdAt: Date
+    }, ExtArgs["result"]["savedAgentListing"]>
+    composites: {}
+  }
+
+  type SavedAgentListingGetPayload<S extends boolean | null | undefined | SavedAgentListingDefaultArgs> = $Result.GetResult<Prisma.$SavedAgentListingPayload, S>
+
+  type SavedAgentListingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SavedAgentListingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SavedAgentListingCountAggregateInputType | true
+    }
+
+  export interface SavedAgentListingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SavedAgentListing'], meta: { name: 'SavedAgentListing' } }
+    /**
+     * Find zero or one SavedAgentListing that matches the filter.
+     * @param {SavedAgentListingFindUniqueArgs} args - Arguments to find a SavedAgentListing
+     * @example
+     * // Get one SavedAgentListing
+     * const savedAgentListing = await prisma.savedAgentListing.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SavedAgentListingFindUniqueArgs>(args: SelectSubset<T, SavedAgentListingFindUniqueArgs<ExtArgs>>): Prisma__SavedAgentListingClient<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SavedAgentListing that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SavedAgentListingFindUniqueOrThrowArgs} args - Arguments to find a SavedAgentListing
+     * @example
+     * // Get one SavedAgentListing
+     * const savedAgentListing = await prisma.savedAgentListing.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SavedAgentListingFindUniqueOrThrowArgs>(args: SelectSubset<T, SavedAgentListingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SavedAgentListingClient<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SavedAgentListing that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedAgentListingFindFirstArgs} args - Arguments to find a SavedAgentListing
+     * @example
+     * // Get one SavedAgentListing
+     * const savedAgentListing = await prisma.savedAgentListing.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SavedAgentListingFindFirstArgs>(args?: SelectSubset<T, SavedAgentListingFindFirstArgs<ExtArgs>>): Prisma__SavedAgentListingClient<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SavedAgentListing that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedAgentListingFindFirstOrThrowArgs} args - Arguments to find a SavedAgentListing
+     * @example
+     * // Get one SavedAgentListing
+     * const savedAgentListing = await prisma.savedAgentListing.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SavedAgentListingFindFirstOrThrowArgs>(args?: SelectSubset<T, SavedAgentListingFindFirstOrThrowArgs<ExtArgs>>): Prisma__SavedAgentListingClient<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SavedAgentListings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedAgentListingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SavedAgentListings
+     * const savedAgentListings = await prisma.savedAgentListing.findMany()
+     * 
+     * // Get first 10 SavedAgentListings
+     * const savedAgentListings = await prisma.savedAgentListing.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const savedAgentListingWithIdOnly = await prisma.savedAgentListing.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SavedAgentListingFindManyArgs>(args?: SelectSubset<T, SavedAgentListingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SavedAgentListing.
+     * @param {SavedAgentListingCreateArgs} args - Arguments to create a SavedAgentListing.
+     * @example
+     * // Create one SavedAgentListing
+     * const SavedAgentListing = await prisma.savedAgentListing.create({
+     *   data: {
+     *     // ... data to create a SavedAgentListing
+     *   }
+     * })
+     * 
+     */
+    create<T extends SavedAgentListingCreateArgs>(args: SelectSubset<T, SavedAgentListingCreateArgs<ExtArgs>>): Prisma__SavedAgentListingClient<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SavedAgentListings.
+     * @param {SavedAgentListingCreateManyArgs} args - Arguments to create many SavedAgentListings.
+     * @example
+     * // Create many SavedAgentListings
+     * const savedAgentListing = await prisma.savedAgentListing.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SavedAgentListingCreateManyArgs>(args?: SelectSubset<T, SavedAgentListingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a SavedAgentListing.
+     * @param {SavedAgentListingDeleteArgs} args - Arguments to delete one SavedAgentListing.
+     * @example
+     * // Delete one SavedAgentListing
+     * const SavedAgentListing = await prisma.savedAgentListing.delete({
+     *   where: {
+     *     // ... filter to delete one SavedAgentListing
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SavedAgentListingDeleteArgs>(args: SelectSubset<T, SavedAgentListingDeleteArgs<ExtArgs>>): Prisma__SavedAgentListingClient<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SavedAgentListing.
+     * @param {SavedAgentListingUpdateArgs} args - Arguments to update one SavedAgentListing.
+     * @example
+     * // Update one SavedAgentListing
+     * const savedAgentListing = await prisma.savedAgentListing.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SavedAgentListingUpdateArgs>(args: SelectSubset<T, SavedAgentListingUpdateArgs<ExtArgs>>): Prisma__SavedAgentListingClient<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SavedAgentListings.
+     * @param {SavedAgentListingDeleteManyArgs} args - Arguments to filter SavedAgentListings to delete.
+     * @example
+     * // Delete a few SavedAgentListings
+     * const { count } = await prisma.savedAgentListing.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SavedAgentListingDeleteManyArgs>(args?: SelectSubset<T, SavedAgentListingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SavedAgentListings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedAgentListingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SavedAgentListings
+     * const savedAgentListing = await prisma.savedAgentListing.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SavedAgentListingUpdateManyArgs>(args: SelectSubset<T, SavedAgentListingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SavedAgentListing.
+     * @param {SavedAgentListingUpsertArgs} args - Arguments to update or create a SavedAgentListing.
+     * @example
+     * // Update or create a SavedAgentListing
+     * const savedAgentListing = await prisma.savedAgentListing.upsert({
+     *   create: {
+     *     // ... data to create a SavedAgentListing
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SavedAgentListing we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SavedAgentListingUpsertArgs>(args: SelectSubset<T, SavedAgentListingUpsertArgs<ExtArgs>>): Prisma__SavedAgentListingClient<$Result.GetResult<Prisma.$SavedAgentListingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SavedAgentListings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedAgentListingCountArgs} args - Arguments to filter SavedAgentListings to count.
+     * @example
+     * // Count the number of SavedAgentListings
+     * const count = await prisma.savedAgentListing.count({
+     *   where: {
+     *     // ... the filter for the SavedAgentListings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SavedAgentListingCountArgs>(
+      args?: Subset<T, SavedAgentListingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SavedAgentListingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SavedAgentListing.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedAgentListingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SavedAgentListingAggregateArgs>(args: Subset<T, SavedAgentListingAggregateArgs>): Prisma.PrismaPromise<GetSavedAgentListingAggregateType<T>>
+
+    /**
+     * Group by SavedAgentListing.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedAgentListingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SavedAgentListingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SavedAgentListingGroupByArgs['orderBy'] }
+        : { orderBy?: SavedAgentListingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SavedAgentListingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSavedAgentListingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SavedAgentListing model
+   */
+  readonly fields: SavedAgentListingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SavedAgentListing.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SavedAgentListingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    agentListing<T extends AgentListingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentListingDefaultArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SavedAgentListing model
+   */
+  interface SavedAgentListingFieldRefs {
+    readonly id: FieldRef<"SavedAgentListing", 'String'>
+    readonly userId: FieldRef<"SavedAgentListing", 'String'>
+    readonly agentListingId: FieldRef<"SavedAgentListing", 'String'>
+    readonly createdAt: FieldRef<"SavedAgentListing", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SavedAgentListing findUnique
+   */
+  export type SavedAgentListingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedAgentListing to fetch.
+     */
+    where: SavedAgentListingWhereUniqueInput
+  }
+
+  /**
+   * SavedAgentListing findUniqueOrThrow
+   */
+  export type SavedAgentListingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedAgentListing to fetch.
+     */
+    where: SavedAgentListingWhereUniqueInput
+  }
+
+  /**
+   * SavedAgentListing findFirst
+   */
+  export type SavedAgentListingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedAgentListing to fetch.
+     */
+    where?: SavedAgentListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedAgentListings to fetch.
+     */
+    orderBy?: SavedAgentListingOrderByWithRelationInput | SavedAgentListingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SavedAgentListings.
+     */
+    cursor?: SavedAgentListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedAgentListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedAgentListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedAgentListings.
+     */
+    distinct?: SavedAgentListingScalarFieldEnum | SavedAgentListingScalarFieldEnum[]
+  }
+
+  /**
+   * SavedAgentListing findFirstOrThrow
+   */
+  export type SavedAgentListingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedAgentListing to fetch.
+     */
+    where?: SavedAgentListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedAgentListings to fetch.
+     */
+    orderBy?: SavedAgentListingOrderByWithRelationInput | SavedAgentListingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SavedAgentListings.
+     */
+    cursor?: SavedAgentListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedAgentListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedAgentListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedAgentListings.
+     */
+    distinct?: SavedAgentListingScalarFieldEnum | SavedAgentListingScalarFieldEnum[]
+  }
+
+  /**
+   * SavedAgentListing findMany
+   */
+  export type SavedAgentListingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedAgentListings to fetch.
+     */
+    where?: SavedAgentListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedAgentListings to fetch.
+     */
+    orderBy?: SavedAgentListingOrderByWithRelationInput | SavedAgentListingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SavedAgentListings.
+     */
+    cursor?: SavedAgentListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedAgentListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedAgentListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedAgentListings.
+     */
+    distinct?: SavedAgentListingScalarFieldEnum | SavedAgentListingScalarFieldEnum[]
+  }
+
+  /**
+   * SavedAgentListing create
+   */
+  export type SavedAgentListingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SavedAgentListing.
+     */
+    data: XOR<SavedAgentListingCreateInput, SavedAgentListingUncheckedCreateInput>
+  }
+
+  /**
+   * SavedAgentListing createMany
+   */
+  export type SavedAgentListingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SavedAgentListings.
+     */
+    data: SavedAgentListingCreateManyInput | SavedAgentListingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SavedAgentListing update
+   */
+  export type SavedAgentListingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SavedAgentListing.
+     */
+    data: XOR<SavedAgentListingUpdateInput, SavedAgentListingUncheckedUpdateInput>
+    /**
+     * Choose, which SavedAgentListing to update.
+     */
+    where: SavedAgentListingWhereUniqueInput
+  }
+
+  /**
+   * SavedAgentListing updateMany
+   */
+  export type SavedAgentListingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SavedAgentListings.
+     */
+    data: XOR<SavedAgentListingUpdateManyMutationInput, SavedAgentListingUncheckedUpdateManyInput>
+    /**
+     * Filter which SavedAgentListings to update
+     */
+    where?: SavedAgentListingWhereInput
+    /**
+     * Limit how many SavedAgentListings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SavedAgentListing upsert
+   */
+  export type SavedAgentListingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SavedAgentListing to update in case it exists.
+     */
+    where: SavedAgentListingWhereUniqueInput
+    /**
+     * In case the SavedAgentListing found by the `where` argument doesn't exist, create a new SavedAgentListing with this data.
+     */
+    create: XOR<SavedAgentListingCreateInput, SavedAgentListingUncheckedCreateInput>
+    /**
+     * In case the SavedAgentListing was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SavedAgentListingUpdateInput, SavedAgentListingUncheckedUpdateInput>
+  }
+
+  /**
+   * SavedAgentListing delete
+   */
+  export type SavedAgentListingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+    /**
+     * Filter which SavedAgentListing to delete.
+     */
+    where: SavedAgentListingWhereUniqueInput
+  }
+
+  /**
+   * SavedAgentListing deleteMany
+   */
+  export type SavedAgentListingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SavedAgentListings to delete
+     */
+    where?: SavedAgentListingWhereInput
+    /**
+     * Limit how many SavedAgentListings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SavedAgentListing without action
+   */
+  export type SavedAgentListingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedAgentListing
+     */
+    select?: SavedAgentListingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedAgentListing
+     */
+    omit?: SavedAgentListingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedAgentListingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AgentListingRingLog
+   */
+
+  export type AggregateAgentListingRingLog = {
+    _count: AgentListingRingLogCountAggregateOutputType | null
+    _min: AgentListingRingLogMinAggregateOutputType | null
+    _max: AgentListingRingLogMaxAggregateOutputType | null
+  }
+
+  export type AgentListingRingLogMinAggregateOutputType = {
+    id: string | null
+    buyerId: string | null
+    agentListingId: string | null
+    createdAt: Date | null
+  }
+
+  export type AgentListingRingLogMaxAggregateOutputType = {
+    id: string | null
+    buyerId: string | null
+    agentListingId: string | null
+    createdAt: Date | null
+  }
+
+  export type AgentListingRingLogCountAggregateOutputType = {
+    id: number
+    buyerId: number
+    agentListingId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AgentListingRingLogMinAggregateInputType = {
+    id?: true
+    buyerId?: true
+    agentListingId?: true
+    createdAt?: true
+  }
+
+  export type AgentListingRingLogMaxAggregateInputType = {
+    id?: true
+    buyerId?: true
+    agentListingId?: true
+    createdAt?: true
+  }
+
+  export type AgentListingRingLogCountAggregateInputType = {
+    id?: true
+    buyerId?: true
+    agentListingId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AgentListingRingLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentListingRingLog to aggregate.
+     */
+    where?: AgentListingRingLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListingRingLogs to fetch.
+     */
+    orderBy?: AgentListingRingLogOrderByWithRelationInput | AgentListingRingLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AgentListingRingLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListingRingLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListingRingLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AgentListingRingLogs
+    **/
+    _count?: true | AgentListingRingLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AgentListingRingLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AgentListingRingLogMaxAggregateInputType
+  }
+
+  export type GetAgentListingRingLogAggregateType<T extends AgentListingRingLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateAgentListingRingLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAgentListingRingLog[P]>
+      : GetScalarType<T[P], AggregateAgentListingRingLog[P]>
+  }
+
+
+
+
+  export type AgentListingRingLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AgentListingRingLogWhereInput
+    orderBy?: AgentListingRingLogOrderByWithAggregationInput | AgentListingRingLogOrderByWithAggregationInput[]
+    by: AgentListingRingLogScalarFieldEnum[] | AgentListingRingLogScalarFieldEnum
+    having?: AgentListingRingLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AgentListingRingLogCountAggregateInputType | true
+    _min?: AgentListingRingLogMinAggregateInputType
+    _max?: AgentListingRingLogMaxAggregateInputType
+  }
+
+  export type AgentListingRingLogGroupByOutputType = {
+    id: string
+    buyerId: string
+    agentListingId: string
+    createdAt: Date
+    _count: AgentListingRingLogCountAggregateOutputType | null
+    _min: AgentListingRingLogMinAggregateOutputType | null
+    _max: AgentListingRingLogMaxAggregateOutputType | null
+  }
+
+  type GetAgentListingRingLogGroupByPayload<T extends AgentListingRingLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AgentListingRingLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AgentListingRingLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AgentListingRingLogGroupByOutputType[P]>
+            : GetScalarType<T[P], AgentListingRingLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AgentListingRingLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    buyerId?: boolean
+    agentListingId?: boolean
+    createdAt?: boolean
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["agentListingRingLog"]>
+
+
+
+  export type AgentListingRingLogSelectScalar = {
+    id?: boolean
+    buyerId?: boolean
+    agentListingId?: boolean
+    createdAt?: boolean
+  }
+
+  export type AgentListingRingLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "buyerId" | "agentListingId" | "createdAt", ExtArgs["result"]["agentListingRingLog"]>
+  export type AgentListingRingLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    agentListing?: boolean | AgentListingDefaultArgs<ExtArgs>
+  }
+
+  export type $AgentListingRingLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AgentListingRingLog"
+    objects: {
+      buyer: Prisma.$UserPayload<ExtArgs>
+      agentListing: Prisma.$AgentListingPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      buyerId: string
+      agentListingId: string
+      createdAt: Date
+    }, ExtArgs["result"]["agentListingRingLog"]>
+    composites: {}
+  }
+
+  type AgentListingRingLogGetPayload<S extends boolean | null | undefined | AgentListingRingLogDefaultArgs> = $Result.GetResult<Prisma.$AgentListingRingLogPayload, S>
+
+  type AgentListingRingLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AgentListingRingLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AgentListingRingLogCountAggregateInputType | true
+    }
+
+  export interface AgentListingRingLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AgentListingRingLog'], meta: { name: 'AgentListingRingLog' } }
+    /**
+     * Find zero or one AgentListingRingLog that matches the filter.
+     * @param {AgentListingRingLogFindUniqueArgs} args - Arguments to find a AgentListingRingLog
+     * @example
+     * // Get one AgentListingRingLog
+     * const agentListingRingLog = await prisma.agentListingRingLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AgentListingRingLogFindUniqueArgs>(args: SelectSubset<T, AgentListingRingLogFindUniqueArgs<ExtArgs>>): Prisma__AgentListingRingLogClient<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AgentListingRingLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AgentListingRingLogFindUniqueOrThrowArgs} args - Arguments to find a AgentListingRingLog
+     * @example
+     * // Get one AgentListingRingLog
+     * const agentListingRingLog = await prisma.agentListingRingLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AgentListingRingLogFindUniqueOrThrowArgs>(args: SelectSubset<T, AgentListingRingLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AgentListingRingLogClient<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentListingRingLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingRingLogFindFirstArgs} args - Arguments to find a AgentListingRingLog
+     * @example
+     * // Get one AgentListingRingLog
+     * const agentListingRingLog = await prisma.agentListingRingLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AgentListingRingLogFindFirstArgs>(args?: SelectSubset<T, AgentListingRingLogFindFirstArgs<ExtArgs>>): Prisma__AgentListingRingLogClient<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AgentListingRingLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingRingLogFindFirstOrThrowArgs} args - Arguments to find a AgentListingRingLog
+     * @example
+     * // Get one AgentListingRingLog
+     * const agentListingRingLog = await prisma.agentListingRingLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AgentListingRingLogFindFirstOrThrowArgs>(args?: SelectSubset<T, AgentListingRingLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__AgentListingRingLogClient<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AgentListingRingLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingRingLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AgentListingRingLogs
+     * const agentListingRingLogs = await prisma.agentListingRingLog.findMany()
+     * 
+     * // Get first 10 AgentListingRingLogs
+     * const agentListingRingLogs = await prisma.agentListingRingLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const agentListingRingLogWithIdOnly = await prisma.agentListingRingLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AgentListingRingLogFindManyArgs>(args?: SelectSubset<T, AgentListingRingLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AgentListingRingLog.
+     * @param {AgentListingRingLogCreateArgs} args - Arguments to create a AgentListingRingLog.
+     * @example
+     * // Create one AgentListingRingLog
+     * const AgentListingRingLog = await prisma.agentListingRingLog.create({
+     *   data: {
+     *     // ... data to create a AgentListingRingLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends AgentListingRingLogCreateArgs>(args: SelectSubset<T, AgentListingRingLogCreateArgs<ExtArgs>>): Prisma__AgentListingRingLogClient<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AgentListingRingLogs.
+     * @param {AgentListingRingLogCreateManyArgs} args - Arguments to create many AgentListingRingLogs.
+     * @example
+     * // Create many AgentListingRingLogs
+     * const agentListingRingLog = await prisma.agentListingRingLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AgentListingRingLogCreateManyArgs>(args?: SelectSubset<T, AgentListingRingLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a AgentListingRingLog.
+     * @param {AgentListingRingLogDeleteArgs} args - Arguments to delete one AgentListingRingLog.
+     * @example
+     * // Delete one AgentListingRingLog
+     * const AgentListingRingLog = await prisma.agentListingRingLog.delete({
+     *   where: {
+     *     // ... filter to delete one AgentListingRingLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AgentListingRingLogDeleteArgs>(args: SelectSubset<T, AgentListingRingLogDeleteArgs<ExtArgs>>): Prisma__AgentListingRingLogClient<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AgentListingRingLog.
+     * @param {AgentListingRingLogUpdateArgs} args - Arguments to update one AgentListingRingLog.
+     * @example
+     * // Update one AgentListingRingLog
+     * const agentListingRingLog = await prisma.agentListingRingLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AgentListingRingLogUpdateArgs>(args: SelectSubset<T, AgentListingRingLogUpdateArgs<ExtArgs>>): Prisma__AgentListingRingLogClient<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AgentListingRingLogs.
+     * @param {AgentListingRingLogDeleteManyArgs} args - Arguments to filter AgentListingRingLogs to delete.
+     * @example
+     * // Delete a few AgentListingRingLogs
+     * const { count } = await prisma.agentListingRingLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AgentListingRingLogDeleteManyArgs>(args?: SelectSubset<T, AgentListingRingLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AgentListingRingLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingRingLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AgentListingRingLogs
+     * const agentListingRingLog = await prisma.agentListingRingLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AgentListingRingLogUpdateManyArgs>(args: SelectSubset<T, AgentListingRingLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AgentListingRingLog.
+     * @param {AgentListingRingLogUpsertArgs} args - Arguments to update or create a AgentListingRingLog.
+     * @example
+     * // Update or create a AgentListingRingLog
+     * const agentListingRingLog = await prisma.agentListingRingLog.upsert({
+     *   create: {
+     *     // ... data to create a AgentListingRingLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AgentListingRingLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AgentListingRingLogUpsertArgs>(args: SelectSubset<T, AgentListingRingLogUpsertArgs<ExtArgs>>): Prisma__AgentListingRingLogClient<$Result.GetResult<Prisma.$AgentListingRingLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AgentListingRingLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingRingLogCountArgs} args - Arguments to filter AgentListingRingLogs to count.
+     * @example
+     * // Count the number of AgentListingRingLogs
+     * const count = await prisma.agentListingRingLog.count({
+     *   where: {
+     *     // ... the filter for the AgentListingRingLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends AgentListingRingLogCountArgs>(
+      args?: Subset<T, AgentListingRingLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AgentListingRingLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AgentListingRingLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingRingLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AgentListingRingLogAggregateArgs>(args: Subset<T, AgentListingRingLogAggregateArgs>): Prisma.PrismaPromise<GetAgentListingRingLogAggregateType<T>>
+
+    /**
+     * Group by AgentListingRingLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AgentListingRingLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AgentListingRingLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AgentListingRingLogGroupByArgs['orderBy'] }
+        : { orderBy?: AgentListingRingLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AgentListingRingLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAgentListingRingLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AgentListingRingLog model
+   */
+  readonly fields: AgentListingRingLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AgentListingRingLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AgentListingRingLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    agentListing<T extends AgentListingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentListingDefaultArgs<ExtArgs>>): Prisma__AgentListingClient<$Result.GetResult<Prisma.$AgentListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AgentListingRingLog model
+   */
+  interface AgentListingRingLogFieldRefs {
+    readonly id: FieldRef<"AgentListingRingLog", 'String'>
+    readonly buyerId: FieldRef<"AgentListingRingLog", 'String'>
+    readonly agentListingId: FieldRef<"AgentListingRingLog", 'String'>
+    readonly createdAt: FieldRef<"AgentListingRingLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AgentListingRingLog findUnique
+   */
+  export type AgentListingRingLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingRingLog to fetch.
+     */
+    where: AgentListingRingLogWhereUniqueInput
+  }
+
+  /**
+   * AgentListingRingLog findUniqueOrThrow
+   */
+  export type AgentListingRingLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingRingLog to fetch.
+     */
+    where: AgentListingRingLogWhereUniqueInput
+  }
+
+  /**
+   * AgentListingRingLog findFirst
+   */
+  export type AgentListingRingLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingRingLog to fetch.
+     */
+    where?: AgentListingRingLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListingRingLogs to fetch.
+     */
+    orderBy?: AgentListingRingLogOrderByWithRelationInput | AgentListingRingLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentListingRingLogs.
+     */
+    cursor?: AgentListingRingLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListingRingLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListingRingLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentListingRingLogs.
+     */
+    distinct?: AgentListingRingLogScalarFieldEnum | AgentListingRingLogScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListingRingLog findFirstOrThrow
+   */
+  export type AgentListingRingLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingRingLog to fetch.
+     */
+    where?: AgentListingRingLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListingRingLogs to fetch.
+     */
+    orderBy?: AgentListingRingLogOrderByWithRelationInput | AgentListingRingLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AgentListingRingLogs.
+     */
+    cursor?: AgentListingRingLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListingRingLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListingRingLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentListingRingLogs.
+     */
+    distinct?: AgentListingRingLogScalarFieldEnum | AgentListingRingLogScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListingRingLog findMany
+   */
+  export type AgentListingRingLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    /**
+     * Filter, which AgentListingRingLogs to fetch.
+     */
+    where?: AgentListingRingLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AgentListingRingLogs to fetch.
+     */
+    orderBy?: AgentListingRingLogOrderByWithRelationInput | AgentListingRingLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AgentListingRingLogs.
+     */
+    cursor?: AgentListingRingLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AgentListingRingLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AgentListingRingLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AgentListingRingLogs.
+     */
+    distinct?: AgentListingRingLogScalarFieldEnum | AgentListingRingLogScalarFieldEnum[]
+  }
+
+  /**
+   * AgentListingRingLog create
+   */
+  export type AgentListingRingLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AgentListingRingLog.
+     */
+    data: XOR<AgentListingRingLogCreateInput, AgentListingRingLogUncheckedCreateInput>
+  }
+
+  /**
+   * AgentListingRingLog createMany
+   */
+  export type AgentListingRingLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AgentListingRingLogs.
+     */
+    data: AgentListingRingLogCreateManyInput | AgentListingRingLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AgentListingRingLog update
+   */
+  export type AgentListingRingLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AgentListingRingLog.
+     */
+    data: XOR<AgentListingRingLogUpdateInput, AgentListingRingLogUncheckedUpdateInput>
+    /**
+     * Choose, which AgentListingRingLog to update.
+     */
+    where: AgentListingRingLogWhereUniqueInput
+  }
+
+  /**
+   * AgentListingRingLog updateMany
+   */
+  export type AgentListingRingLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AgentListingRingLogs.
+     */
+    data: XOR<AgentListingRingLogUpdateManyMutationInput, AgentListingRingLogUncheckedUpdateManyInput>
+    /**
+     * Filter which AgentListingRingLogs to update
+     */
+    where?: AgentListingRingLogWhereInput
+    /**
+     * Limit how many AgentListingRingLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentListingRingLog upsert
+   */
+  export type AgentListingRingLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AgentListingRingLog to update in case it exists.
+     */
+    where: AgentListingRingLogWhereUniqueInput
+    /**
+     * In case the AgentListingRingLog found by the `where` argument doesn't exist, create a new AgentListingRingLog with this data.
+     */
+    create: XOR<AgentListingRingLogCreateInput, AgentListingRingLogUncheckedCreateInput>
+    /**
+     * In case the AgentListingRingLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AgentListingRingLogUpdateInput, AgentListingRingLogUncheckedUpdateInput>
+  }
+
+  /**
+   * AgentListingRingLog delete
+   */
+  export type AgentListingRingLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
+    /**
+     * Filter which AgentListingRingLog to delete.
+     */
+    where: AgentListingRingLogWhereUniqueInput
+  }
+
+  /**
+   * AgentListingRingLog deleteMany
+   */
+  export type AgentListingRingLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AgentListingRingLogs to delete
+     */
+    where?: AgentListingRingLogWhereInput
+    /**
+     * Limit how many AgentListingRingLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AgentListingRingLog without action
+   */
+  export type AgentListingRingLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentListingRingLog
+     */
+    select?: AgentListingRingLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentListingRingLog
+     */
+    omit?: AgentListingRingLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentListingRingLogInclude<ExtArgs> | null
   }
 
 
@@ -60678,6 +62846,26 @@ export namespace Prisma {
   export type AgentListingScalarFieldEnum = (typeof AgentListingScalarFieldEnum)[keyof typeof AgentListingScalarFieldEnum]
 
 
+  export const SavedAgentListingScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    agentListingId: 'agentListingId',
+    createdAt: 'createdAt'
+  };
+
+  export type SavedAgentListingScalarFieldEnum = (typeof SavedAgentListingScalarFieldEnum)[keyof typeof SavedAgentListingScalarFieldEnum]
+
+
+  export const AgentListingRingLogScalarFieldEnum: {
+    id: 'id',
+    buyerId: 'buyerId',
+    agentListingId: 'agentListingId',
+    createdAt: 'createdAt'
+  };
+
+  export type AgentListingRingLogScalarFieldEnum = (typeof AgentListingRingLogScalarFieldEnum)[keyof typeof AgentListingRingLogScalarFieldEnum]
+
+
   export const AgentListingImageScalarFieldEnum: {
     id: 'id',
     url: 'url',
@@ -61412,6 +63600,24 @@ export namespace Prisma {
   export type AgentListingOrderByRelevanceFieldEnum = (typeof AgentListingOrderByRelevanceFieldEnum)[keyof typeof AgentListingOrderByRelevanceFieldEnum]
 
 
+  export const SavedAgentListingOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    agentListingId: 'agentListingId'
+  };
+
+  export type SavedAgentListingOrderByRelevanceFieldEnum = (typeof SavedAgentListingOrderByRelevanceFieldEnum)[keyof typeof SavedAgentListingOrderByRelevanceFieldEnum]
+
+
+  export const AgentListingRingLogOrderByRelevanceFieldEnum: {
+    id: 'id',
+    buyerId: 'buyerId',
+    agentListingId: 'agentListingId'
+  };
+
+  export type AgentListingRingLogOrderByRelevanceFieldEnum = (typeof AgentListingRingLogOrderByRelevanceFieldEnum)[keyof typeof AgentListingRingLogOrderByRelevanceFieldEnum]
+
+
   export const AgentListingImageOrderByRelevanceFieldEnum: {
     id: 'id',
     url: 'url',
@@ -61945,6 +64151,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockListRelationFilter
     pushTokens?: PushTokenListRelationFilter
     propertyRings?: PropertyRingLogListRelationFilter
+    savedAgentListings?: SavedAgentListingListRelationFilter
+    agentListingRings?: AgentListingRingLogListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -61997,6 +64205,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockOrderByRelationAggregateInput
     pushTokens?: PushTokenOrderByRelationAggregateInput
     propertyRings?: PropertyRingLogOrderByRelationAggregateInput
+    savedAgentListings?: SavedAgentListingOrderByRelationAggregateInput
+    agentListingRings?: AgentListingRingLogOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -62053,6 +64263,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockListRelationFilter
     pushTokens?: PushTokenListRelationFilter
     propertyRings?: PropertyRingLogListRelationFilter
+    savedAgentListings?: SavedAgentListingListRelationFilter
+    agentListingRings?: AgentListingRingLogListRelationFilter
   }, "id" | "email" | "slug">
 
   export type UserOrderByWithAggregationInput = {
@@ -64516,6 +66728,8 @@ export namespace Prisma {
     goldPurchase?: XOR<GoldListingPurchaseNullableScalarRelationFilter, GoldListingPurchaseWhereInput> | null
     directVisits?: DirectPropertyVisitListRelationFilter
     antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
+    savedBy?: SavedAgentListingListRelationFilter
+    ringLogs?: AgentListingRingLogListRelationFilter
   }
 
   export type AgentListingOrderByWithRelationInput = {
@@ -64559,6 +66773,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseOrderByWithRelationInput
     directVisits?: DirectPropertyVisitOrderByRelationAggregateInput
     antiBypassAgreements?: PlatformAntiBypassAgreementOrderByRelationAggregateInput
+    savedBy?: SavedAgentListingOrderByRelationAggregateInput
+    ringLogs?: AgentListingRingLogOrderByRelationAggregateInput
     _relevance?: AgentListingOrderByRelevanceInput
   }
 
@@ -64606,6 +66822,8 @@ export namespace Prisma {
     goldPurchase?: XOR<GoldListingPurchaseNullableScalarRelationFilter, GoldListingPurchaseWhereInput> | null
     directVisits?: DirectPropertyVisitListRelationFilter
     antiBypassAgreements?: PlatformAntiBypassAgreementListRelationFilter
+    savedBy?: SavedAgentListingListRelationFilter
+    ringLogs?: AgentListingRingLogListRelationFilter
   }, "id" | "slug">
 
   export type AgentListingOrderByWithAggregationInput = {
@@ -64686,6 +66904,115 @@ export namespace Prisma {
     hotDealAlert15dSentAt?: DateTimeNullableWithAggregatesFilter<"AgentListing"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AgentListing"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AgentListing"> | Date | string
+  }
+
+  export type SavedAgentListingWhereInput = {
+    AND?: SavedAgentListingWhereInput | SavedAgentListingWhereInput[]
+    OR?: SavedAgentListingWhereInput[]
+    NOT?: SavedAgentListingWhereInput | SavedAgentListingWhereInput[]
+    id?: StringFilter<"SavedAgentListing"> | string
+    userId?: StringFilter<"SavedAgentListing"> | string
+    agentListingId?: StringFilter<"SavedAgentListing"> | string
+    createdAt?: DateTimeFilter<"SavedAgentListing"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+  }
+
+  export type SavedAgentListingOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    agentListing?: AgentListingOrderByWithRelationInput
+    _relevance?: SavedAgentListingOrderByRelevanceInput
+  }
+
+  export type SavedAgentListingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_agentListingId?: SavedAgentListingUserIdAgentListingIdCompoundUniqueInput
+    AND?: SavedAgentListingWhereInput | SavedAgentListingWhereInput[]
+    OR?: SavedAgentListingWhereInput[]
+    NOT?: SavedAgentListingWhereInput | SavedAgentListingWhereInput[]
+    userId?: StringFilter<"SavedAgentListing"> | string
+    agentListingId?: StringFilter<"SavedAgentListing"> | string
+    createdAt?: DateTimeFilter<"SavedAgentListing"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+  }, "id" | "userId_agentListingId">
+
+  export type SavedAgentListingOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+    _count?: SavedAgentListingCountOrderByAggregateInput
+    _max?: SavedAgentListingMaxOrderByAggregateInput
+    _min?: SavedAgentListingMinOrderByAggregateInput
+  }
+
+  export type SavedAgentListingScalarWhereWithAggregatesInput = {
+    AND?: SavedAgentListingScalarWhereWithAggregatesInput | SavedAgentListingScalarWhereWithAggregatesInput[]
+    OR?: SavedAgentListingScalarWhereWithAggregatesInput[]
+    NOT?: SavedAgentListingScalarWhereWithAggregatesInput | SavedAgentListingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SavedAgentListing"> | string
+    userId?: StringWithAggregatesFilter<"SavedAgentListing"> | string
+    agentListingId?: StringWithAggregatesFilter<"SavedAgentListing"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SavedAgentListing"> | Date | string
+  }
+
+  export type AgentListingRingLogWhereInput = {
+    AND?: AgentListingRingLogWhereInput | AgentListingRingLogWhereInput[]
+    OR?: AgentListingRingLogWhereInput[]
+    NOT?: AgentListingRingLogWhereInput | AgentListingRingLogWhereInput[]
+    id?: StringFilter<"AgentListingRingLog"> | string
+    buyerId?: StringFilter<"AgentListingRingLog"> | string
+    agentListingId?: StringFilter<"AgentListingRingLog"> | string
+    createdAt?: DateTimeFilter<"AgentListingRingLog"> | Date | string
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+  }
+
+  export type AgentListingRingLogOrderByWithRelationInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+    buyer?: UserOrderByWithRelationInput
+    agentListing?: AgentListingOrderByWithRelationInput
+    _relevance?: AgentListingRingLogOrderByRelevanceInput
+  }
+
+  export type AgentListingRingLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AgentListingRingLogWhereInput | AgentListingRingLogWhereInput[]
+    OR?: AgentListingRingLogWhereInput[]
+    NOT?: AgentListingRingLogWhereInput | AgentListingRingLogWhereInput[]
+    buyerId?: StringFilter<"AgentListingRingLog"> | string
+    agentListingId?: StringFilter<"AgentListingRingLog"> | string
+    createdAt?: DateTimeFilter<"AgentListingRingLog"> | Date | string
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    agentListing?: XOR<AgentListingScalarRelationFilter, AgentListingWhereInput>
+  }, "id">
+
+  export type AgentListingRingLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+    _count?: AgentListingRingLogCountOrderByAggregateInput
+    _max?: AgentListingRingLogMaxOrderByAggregateInput
+    _min?: AgentListingRingLogMinOrderByAggregateInput
+  }
+
+  export type AgentListingRingLogScalarWhereWithAggregatesInput = {
+    AND?: AgentListingRingLogScalarWhereWithAggregatesInput | AgentListingRingLogScalarWhereWithAggregatesInput[]
+    OR?: AgentListingRingLogScalarWhereWithAggregatesInput[]
+    NOT?: AgentListingRingLogScalarWhereWithAggregatesInput | AgentListingRingLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AgentListingRingLog"> | string
+    buyerId?: StringWithAggregatesFilter<"AgentListingRingLog"> | string
+    agentListingId?: StringWithAggregatesFilter<"AgentListingRingLog"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AgentListingRingLog"> | Date | string
   }
 
   export type AgentListingImageWhereInput = {
@@ -66718,6 +69045,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -66770,6 +69099,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUpdateInput = {
@@ -66822,6 +69153,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -66874,6 +69207,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -69673,6 +72008,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateInput = {
@@ -69714,6 +72051,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUpdateInput = {
@@ -69755,6 +72094,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateInput = {
@@ -69796,6 +72137,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingCreateManyInput = {
@@ -69902,6 +72245,100 @@ export namespace Prisma {
     hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedAgentListingCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutSavedAgentListingsInput
+    agentListing: AgentListingCreateNestedOneWithoutSavedByInput
+  }
+
+  export type SavedAgentListingUncheckedCreateInput = {
+    id?: string
+    userId: string
+    agentListingId: string
+    createdAt?: Date | string
+  }
+
+  export type SavedAgentListingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSavedAgentListingsNestedInput
+    agentListing?: AgentListingUpdateOneRequiredWithoutSavedByNestedInput
+  }
+
+  export type SavedAgentListingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedAgentListingCreateManyInput = {
+    id?: string
+    userId: string
+    agentListingId: string
+    createdAt?: Date | string
+  }
+
+  export type SavedAgentListingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedAgentListingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingRingLogCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    buyer: UserCreateNestedOneWithoutAgentListingRingsInput
+    agentListing: AgentListingCreateNestedOneWithoutRingLogsInput
+  }
+
+  export type AgentListingRingLogUncheckedCreateInput = {
+    id?: string
+    buyerId: string
+    agentListingId: string
+    createdAt?: Date | string
+  }
+
+  export type AgentListingRingLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyer?: UserUpdateOneRequiredWithoutAgentListingRingsNestedInput
+    agentListing?: AgentListingUpdateOneRequiredWithoutRingLogsNestedInput
+  }
+
+  export type AgentListingRingLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingRingLogCreateManyInput = {
+    id?: string
+    buyerId: string
+    agentListingId: string
+    createdAt?: Date | string
+  }
+
+  export type AgentListingRingLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingRingLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AgentListingImageCreateInput = {
@@ -72136,6 +74573,18 @@ export namespace Prisma {
     none?: PropertyRingLogWhereInput
   }
 
+  export type SavedAgentListingListRelationFilter = {
+    every?: SavedAgentListingWhereInput
+    some?: SavedAgentListingWhereInput
+    none?: SavedAgentListingWhereInput
+  }
+
+  export type AgentListingRingLogListRelationFilter = {
+    every?: AgentListingRingLogWhereInput
+    some?: AgentListingRingLogWhereInput
+    none?: AgentListingRingLogWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -72194,6 +74643,14 @@ export namespace Prisma {
   }
 
   export type PropertyRingLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SavedAgentListingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AgentListingRingLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -74721,6 +77178,65 @@ export namespace Prisma {
     isNot?: AgentListingWhereInput
   }
 
+  export type SavedAgentListingOrderByRelevanceInput = {
+    fields: SavedAgentListingOrderByRelevanceFieldEnum | SavedAgentListingOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type SavedAgentListingUserIdAgentListingIdCompoundUniqueInput = {
+    userId: string
+    agentListingId: string
+  }
+
+  export type SavedAgentListingCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SavedAgentListingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SavedAgentListingMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AgentListingRingLogOrderByRelevanceInput = {
+    fields: AgentListingRingLogOrderByRelevanceFieldEnum | AgentListingRingLogOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type AgentListingRingLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AgentListingRingLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AgentListingRingLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    buyerId?: SortOrder
+    agentListingId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type AgentListingImageOrderByRelevanceInput = {
     fields: AgentListingImageOrderByRelevanceFieldEnum | AgentListingImageOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -76237,6 +78753,20 @@ export namespace Prisma {
     connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
   }
 
+  export type SavedAgentListingCreateNestedManyWithoutUserInput = {
+    create?: XOR<SavedAgentListingCreateWithoutUserInput, SavedAgentListingUncheckedCreateWithoutUserInput> | SavedAgentListingCreateWithoutUserInput[] | SavedAgentListingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedAgentListingCreateOrConnectWithoutUserInput | SavedAgentListingCreateOrConnectWithoutUserInput[]
+    createMany?: SavedAgentListingCreateManyUserInputEnvelope
+    connect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+  }
+
+  export type AgentListingRingLogCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<AgentListingRingLogCreateWithoutBuyerInput, AgentListingRingLogUncheckedCreateWithoutBuyerInput> | AgentListingRingLogCreateWithoutBuyerInput[] | AgentListingRingLogUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: AgentListingRingLogCreateOrConnectWithoutBuyerInput | AgentListingRingLogCreateOrConnectWithoutBuyerInput[]
+    createMany?: AgentListingRingLogCreateManyBuyerInputEnvelope
+    connect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+  }
+
   export type PropertyUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -76345,6 +78875,20 @@ export namespace Prisma {
     connectOrCreate?: PropertyRingLogCreateOrConnectWithoutBuyerInput | PropertyRingLogCreateOrConnectWithoutBuyerInput[]
     createMany?: PropertyRingLogCreateManyBuyerInputEnvelope
     connect?: PropertyRingLogWhereUniqueInput | PropertyRingLogWhereUniqueInput[]
+  }
+
+  export type SavedAgentListingUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SavedAgentListingCreateWithoutUserInput, SavedAgentListingUncheckedCreateWithoutUserInput> | SavedAgentListingCreateWithoutUserInput[] | SavedAgentListingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedAgentListingCreateOrConnectWithoutUserInput | SavedAgentListingCreateOrConnectWithoutUserInput[]
+    createMany?: SavedAgentListingCreateManyUserInputEnvelope
+    connect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+  }
+
+  export type AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<AgentListingRingLogCreateWithoutBuyerInput, AgentListingRingLogUncheckedCreateWithoutBuyerInput> | AgentListingRingLogCreateWithoutBuyerInput[] | AgentListingRingLogUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: AgentListingRingLogCreateOrConnectWithoutBuyerInput | AgentListingRingLogCreateOrConnectWithoutBuyerInput[]
+    createMany?: AgentListingRingLogCreateManyBuyerInputEnvelope
+    connect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -76595,6 +79139,34 @@ export namespace Prisma {
     deleteMany?: PropertyRingLogScalarWhereInput | PropertyRingLogScalarWhereInput[]
   }
 
+  export type SavedAgentListingUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SavedAgentListingCreateWithoutUserInput, SavedAgentListingUncheckedCreateWithoutUserInput> | SavedAgentListingCreateWithoutUserInput[] | SavedAgentListingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedAgentListingCreateOrConnectWithoutUserInput | SavedAgentListingCreateOrConnectWithoutUserInput[]
+    upsert?: SavedAgentListingUpsertWithWhereUniqueWithoutUserInput | SavedAgentListingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SavedAgentListingCreateManyUserInputEnvelope
+    set?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    disconnect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    delete?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    connect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    update?: SavedAgentListingUpdateWithWhereUniqueWithoutUserInput | SavedAgentListingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SavedAgentListingUpdateManyWithWhereWithoutUserInput | SavedAgentListingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SavedAgentListingScalarWhereInput | SavedAgentListingScalarWhereInput[]
+  }
+
+  export type AgentListingRingLogUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<AgentListingRingLogCreateWithoutBuyerInput, AgentListingRingLogUncheckedCreateWithoutBuyerInput> | AgentListingRingLogCreateWithoutBuyerInput[] | AgentListingRingLogUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: AgentListingRingLogCreateOrConnectWithoutBuyerInput | AgentListingRingLogCreateOrConnectWithoutBuyerInput[]
+    upsert?: AgentListingRingLogUpsertWithWhereUniqueWithoutBuyerInput | AgentListingRingLogUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: AgentListingRingLogCreateManyBuyerInputEnvelope
+    set?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    disconnect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    delete?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    connect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    update?: AgentListingRingLogUpdateWithWhereUniqueWithoutBuyerInput | AgentListingRingLogUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: AgentListingRingLogUpdateManyWithWhereWithoutBuyerInput | AgentListingRingLogUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: AgentListingRingLogScalarWhereInput | AgentListingRingLogScalarWhereInput[]
+  }
+
   export type PropertyUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -76809,6 +79381,34 @@ export namespace Prisma {
     update?: PropertyRingLogUpdateWithWhereUniqueWithoutBuyerInput | PropertyRingLogUpdateWithWhereUniqueWithoutBuyerInput[]
     updateMany?: PropertyRingLogUpdateManyWithWhereWithoutBuyerInput | PropertyRingLogUpdateManyWithWhereWithoutBuyerInput[]
     deleteMany?: PropertyRingLogScalarWhereInput | PropertyRingLogScalarWhereInput[]
+  }
+
+  export type SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SavedAgentListingCreateWithoutUserInput, SavedAgentListingUncheckedCreateWithoutUserInput> | SavedAgentListingCreateWithoutUserInput[] | SavedAgentListingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedAgentListingCreateOrConnectWithoutUserInput | SavedAgentListingCreateOrConnectWithoutUserInput[]
+    upsert?: SavedAgentListingUpsertWithWhereUniqueWithoutUserInput | SavedAgentListingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SavedAgentListingCreateManyUserInputEnvelope
+    set?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    disconnect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    delete?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    connect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    update?: SavedAgentListingUpdateWithWhereUniqueWithoutUserInput | SavedAgentListingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SavedAgentListingUpdateManyWithWhereWithoutUserInput | SavedAgentListingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SavedAgentListingScalarWhereInput | SavedAgentListingScalarWhereInput[]
+  }
+
+  export type AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<AgentListingRingLogCreateWithoutBuyerInput, AgentListingRingLogUncheckedCreateWithoutBuyerInput> | AgentListingRingLogCreateWithoutBuyerInput[] | AgentListingRingLogUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: AgentListingRingLogCreateOrConnectWithoutBuyerInput | AgentListingRingLogCreateOrConnectWithoutBuyerInput[]
+    upsert?: AgentListingRingLogUpsertWithWhereUniqueWithoutBuyerInput | AgentListingRingLogUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: AgentListingRingLogCreateManyBuyerInputEnvelope
+    set?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    disconnect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    delete?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    connect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    update?: AgentListingRingLogUpdateWithWhereUniqueWithoutBuyerInput | AgentListingRingLogUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: AgentListingRingLogUpdateManyWithWhereWithoutBuyerInput | AgentListingRingLogUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: AgentListingRingLogScalarWhereInput | AgentListingRingLogScalarWhereInput[]
   }
 
   export type SubscriptionCreateNestedManyWithoutPlanInput = {
@@ -79147,6 +81747,20 @@ export namespace Prisma {
     connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
   }
 
+  export type SavedAgentListingCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<SavedAgentListingCreateWithoutAgentListingInput, SavedAgentListingUncheckedCreateWithoutAgentListingInput> | SavedAgentListingCreateWithoutAgentListingInput[] | SavedAgentListingUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: SavedAgentListingCreateOrConnectWithoutAgentListingInput | SavedAgentListingCreateOrConnectWithoutAgentListingInput[]
+    createMany?: SavedAgentListingCreateManyAgentListingInputEnvelope
+    connect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+  }
+
+  export type AgentListingRingLogCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<AgentListingRingLogCreateWithoutAgentListingInput, AgentListingRingLogUncheckedCreateWithoutAgentListingInput> | AgentListingRingLogCreateWithoutAgentListingInput[] | AgentListingRingLogUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: AgentListingRingLogCreateOrConnectWithoutAgentListingInput | AgentListingRingLogCreateOrConnectWithoutAgentListingInput[]
+    createMany?: AgentListingRingLogCreateManyAgentListingInputEnvelope
+    connect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+  }
+
   export type AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput = {
     create?: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput> | AgentListingImageCreateWithoutAgentListingInput[] | AgentListingImageUncheckedCreateWithoutAgentListingInput[]
     connectOrCreate?: AgentListingImageCreateOrConnectWithoutAgentListingInput | AgentListingImageCreateOrConnectWithoutAgentListingInput[]
@@ -79179,6 +81793,20 @@ export namespace Prisma {
     connectOrCreate?: PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput | PlatformAntiBypassAgreementCreateOrConnectWithoutAgentListingInput[]
     createMany?: PlatformAntiBypassAgreementCreateManyAgentListingInputEnvelope
     connect?: PlatformAntiBypassAgreementWhereUniqueInput | PlatformAntiBypassAgreementWhereUniqueInput[]
+  }
+
+  export type SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<SavedAgentListingCreateWithoutAgentListingInput, SavedAgentListingUncheckedCreateWithoutAgentListingInput> | SavedAgentListingCreateWithoutAgentListingInput[] | SavedAgentListingUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: SavedAgentListingCreateOrConnectWithoutAgentListingInput | SavedAgentListingCreateOrConnectWithoutAgentListingInput[]
+    createMany?: SavedAgentListingCreateManyAgentListingInputEnvelope
+    connect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+  }
+
+  export type AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput = {
+    create?: XOR<AgentListingRingLogCreateWithoutAgentListingInput, AgentListingRingLogUncheckedCreateWithoutAgentListingInput> | AgentListingRingLogCreateWithoutAgentListingInput[] | AgentListingRingLogUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: AgentListingRingLogCreateOrConnectWithoutAgentListingInput | AgentListingRingLogCreateOrConnectWithoutAgentListingInput[]
+    createMany?: AgentListingRingLogCreateManyAgentListingInputEnvelope
+    connect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
   }
 
   export type EnumListingSourceFieldUpdateOperationsInput = {
@@ -79273,6 +81901,34 @@ export namespace Prisma {
     deleteMany?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
   }
 
+  export type SavedAgentListingUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<SavedAgentListingCreateWithoutAgentListingInput, SavedAgentListingUncheckedCreateWithoutAgentListingInput> | SavedAgentListingCreateWithoutAgentListingInput[] | SavedAgentListingUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: SavedAgentListingCreateOrConnectWithoutAgentListingInput | SavedAgentListingCreateOrConnectWithoutAgentListingInput[]
+    upsert?: SavedAgentListingUpsertWithWhereUniqueWithoutAgentListingInput | SavedAgentListingUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: SavedAgentListingCreateManyAgentListingInputEnvelope
+    set?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    disconnect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    delete?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    connect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    update?: SavedAgentListingUpdateWithWhereUniqueWithoutAgentListingInput | SavedAgentListingUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: SavedAgentListingUpdateManyWithWhereWithoutAgentListingInput | SavedAgentListingUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: SavedAgentListingScalarWhereInput | SavedAgentListingScalarWhereInput[]
+  }
+
+  export type AgentListingRingLogUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<AgentListingRingLogCreateWithoutAgentListingInput, AgentListingRingLogUncheckedCreateWithoutAgentListingInput> | AgentListingRingLogCreateWithoutAgentListingInput[] | AgentListingRingLogUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: AgentListingRingLogCreateOrConnectWithoutAgentListingInput | AgentListingRingLogCreateOrConnectWithoutAgentListingInput[]
+    upsert?: AgentListingRingLogUpsertWithWhereUniqueWithoutAgentListingInput | AgentListingRingLogUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: AgentListingRingLogCreateManyAgentListingInputEnvelope
+    set?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    disconnect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    delete?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    connect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    update?: AgentListingRingLogUpdateWithWhereUniqueWithoutAgentListingInput | AgentListingRingLogUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: AgentListingRingLogUpdateManyWithWhereWithoutAgentListingInput | AgentListingRingLogUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: AgentListingRingLogScalarWhereInput | AgentListingRingLogScalarWhereInput[]
+  }
+
   export type AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput = {
     create?: XOR<AgentListingImageCreateWithoutAgentListingInput, AgentListingImageUncheckedCreateWithoutAgentListingInput> | AgentListingImageCreateWithoutAgentListingInput[] | AgentListingImageUncheckedCreateWithoutAgentListingInput[]
     connectOrCreate?: AgentListingImageCreateOrConnectWithoutAgentListingInput | AgentListingImageCreateOrConnectWithoutAgentListingInput[]
@@ -79337,6 +81993,90 @@ export namespace Prisma {
     update?: PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutAgentListingInput | PlatformAntiBypassAgreementUpdateWithWhereUniqueWithoutAgentListingInput[]
     updateMany?: PlatformAntiBypassAgreementUpdateManyWithWhereWithoutAgentListingInput | PlatformAntiBypassAgreementUpdateManyWithWhereWithoutAgentListingInput[]
     deleteMany?: PlatformAntiBypassAgreementScalarWhereInput | PlatformAntiBypassAgreementScalarWhereInput[]
+  }
+
+  export type SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<SavedAgentListingCreateWithoutAgentListingInput, SavedAgentListingUncheckedCreateWithoutAgentListingInput> | SavedAgentListingCreateWithoutAgentListingInput[] | SavedAgentListingUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: SavedAgentListingCreateOrConnectWithoutAgentListingInput | SavedAgentListingCreateOrConnectWithoutAgentListingInput[]
+    upsert?: SavedAgentListingUpsertWithWhereUniqueWithoutAgentListingInput | SavedAgentListingUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: SavedAgentListingCreateManyAgentListingInputEnvelope
+    set?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    disconnect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    delete?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    connect?: SavedAgentListingWhereUniqueInput | SavedAgentListingWhereUniqueInput[]
+    update?: SavedAgentListingUpdateWithWhereUniqueWithoutAgentListingInput | SavedAgentListingUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: SavedAgentListingUpdateManyWithWhereWithoutAgentListingInput | SavedAgentListingUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: SavedAgentListingScalarWhereInput | SavedAgentListingScalarWhereInput[]
+  }
+
+  export type AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput = {
+    create?: XOR<AgentListingRingLogCreateWithoutAgentListingInput, AgentListingRingLogUncheckedCreateWithoutAgentListingInput> | AgentListingRingLogCreateWithoutAgentListingInput[] | AgentListingRingLogUncheckedCreateWithoutAgentListingInput[]
+    connectOrCreate?: AgentListingRingLogCreateOrConnectWithoutAgentListingInput | AgentListingRingLogCreateOrConnectWithoutAgentListingInput[]
+    upsert?: AgentListingRingLogUpsertWithWhereUniqueWithoutAgentListingInput | AgentListingRingLogUpsertWithWhereUniqueWithoutAgentListingInput[]
+    createMany?: AgentListingRingLogCreateManyAgentListingInputEnvelope
+    set?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    disconnect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    delete?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    connect?: AgentListingRingLogWhereUniqueInput | AgentListingRingLogWhereUniqueInput[]
+    update?: AgentListingRingLogUpdateWithWhereUniqueWithoutAgentListingInput | AgentListingRingLogUpdateWithWhereUniqueWithoutAgentListingInput[]
+    updateMany?: AgentListingRingLogUpdateManyWithWhereWithoutAgentListingInput | AgentListingRingLogUpdateManyWithWhereWithoutAgentListingInput[]
+    deleteMany?: AgentListingRingLogScalarWhereInput | AgentListingRingLogScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutSavedAgentListingsInput = {
+    create?: XOR<UserCreateWithoutSavedAgentListingsInput, UserUncheckedCreateWithoutSavedAgentListingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSavedAgentListingsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AgentListingCreateNestedOneWithoutSavedByInput = {
+    create?: XOR<AgentListingCreateWithoutSavedByInput, AgentListingUncheckedCreateWithoutSavedByInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutSavedByInput
+    connect?: AgentListingWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSavedAgentListingsNestedInput = {
+    create?: XOR<UserCreateWithoutSavedAgentListingsInput, UserUncheckedCreateWithoutSavedAgentListingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSavedAgentListingsInput
+    upsert?: UserUpsertWithoutSavedAgentListingsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSavedAgentListingsInput, UserUpdateWithoutSavedAgentListingsInput>, UserUncheckedUpdateWithoutSavedAgentListingsInput>
+  }
+
+  export type AgentListingUpdateOneRequiredWithoutSavedByNestedInput = {
+    create?: XOR<AgentListingCreateWithoutSavedByInput, AgentListingUncheckedCreateWithoutSavedByInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutSavedByInput
+    upsert?: AgentListingUpsertWithoutSavedByInput
+    connect?: AgentListingWhereUniqueInput
+    update?: XOR<XOR<AgentListingUpdateToOneWithWhereWithoutSavedByInput, AgentListingUpdateWithoutSavedByInput>, AgentListingUncheckedUpdateWithoutSavedByInput>
+  }
+
+  export type UserCreateNestedOneWithoutAgentListingRingsInput = {
+    create?: XOR<UserCreateWithoutAgentListingRingsInput, UserUncheckedCreateWithoutAgentListingRingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAgentListingRingsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AgentListingCreateNestedOneWithoutRingLogsInput = {
+    create?: XOR<AgentListingCreateWithoutRingLogsInput, AgentListingUncheckedCreateWithoutRingLogsInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutRingLogsInput
+    connect?: AgentListingWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutAgentListingRingsNestedInput = {
+    create?: XOR<UserCreateWithoutAgentListingRingsInput, UserUncheckedCreateWithoutAgentListingRingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAgentListingRingsInput
+    upsert?: UserUpsertWithoutAgentListingRingsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAgentListingRingsInput, UserUpdateWithoutAgentListingRingsInput>, UserUncheckedUpdateWithoutAgentListingRingsInput>
+  }
+
+  export type AgentListingUpdateOneRequiredWithoutRingLogsNestedInput = {
+    create?: XOR<AgentListingCreateWithoutRingLogsInput, AgentListingUncheckedCreateWithoutRingLogsInput>
+    connectOrCreate?: AgentListingCreateOrConnectWithoutRingLogsInput
+    upsert?: AgentListingUpsertWithoutRingLogsInput
+    connect?: AgentListingWhereUniqueInput
+    update?: XOR<XOR<AgentListingUpdateToOneWithWhereWithoutRingLogsInput, AgentListingUpdateWithoutRingLogsInput>, AgentListingUncheckedUpdateWithoutRingLogsInput>
   }
 
   export type AgentListingCreateNestedOneWithoutImagesInput = {
@@ -81578,6 +84318,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SavedAgentListingCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    agentListing: AgentListingCreateNestedOneWithoutSavedByInput
+  }
+
+  export type SavedAgentListingUncheckedCreateWithoutUserInput = {
+    id?: string
+    agentListingId: string
+    createdAt?: Date | string
+  }
+
+  export type SavedAgentListingCreateOrConnectWithoutUserInput = {
+    where: SavedAgentListingWhereUniqueInput
+    create: XOR<SavedAgentListingCreateWithoutUserInput, SavedAgentListingUncheckedCreateWithoutUserInput>
+  }
+
+  export type SavedAgentListingCreateManyUserInputEnvelope = {
+    data: SavedAgentListingCreateManyUserInput | SavedAgentListingCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AgentListingRingLogCreateWithoutBuyerInput = {
+    id?: string
+    createdAt?: Date | string
+    agentListing: AgentListingCreateNestedOneWithoutRingLogsInput
+  }
+
+  export type AgentListingRingLogUncheckedCreateWithoutBuyerInput = {
+    id?: string
+    agentListingId: string
+    createdAt?: Date | string
+  }
+
+  export type AgentListingRingLogCreateOrConnectWithoutBuyerInput = {
+    where: AgentListingRingLogWhereUniqueInput
+    create: XOR<AgentListingRingLogCreateWithoutBuyerInput, AgentListingRingLogUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type AgentListingRingLogCreateManyBuyerInputEnvelope = {
+    data: AgentListingRingLogCreateManyBuyerInput | AgentListingRingLogCreateManyBuyerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PropertyUpsertWithWhereUniqueWithoutOwnerInput = {
     where: PropertyWhereUniqueInput
     update: XOR<PropertyUpdateWithoutOwnerInput, PropertyUncheckedUpdateWithoutOwnerInput>
@@ -82231,6 +85015,58 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PropertyRingLog"> | Date | string
   }
 
+  export type SavedAgentListingUpsertWithWhereUniqueWithoutUserInput = {
+    where: SavedAgentListingWhereUniqueInput
+    update: XOR<SavedAgentListingUpdateWithoutUserInput, SavedAgentListingUncheckedUpdateWithoutUserInput>
+    create: XOR<SavedAgentListingCreateWithoutUserInput, SavedAgentListingUncheckedCreateWithoutUserInput>
+  }
+
+  export type SavedAgentListingUpdateWithWhereUniqueWithoutUserInput = {
+    where: SavedAgentListingWhereUniqueInput
+    data: XOR<SavedAgentListingUpdateWithoutUserInput, SavedAgentListingUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SavedAgentListingUpdateManyWithWhereWithoutUserInput = {
+    where: SavedAgentListingScalarWhereInput
+    data: XOR<SavedAgentListingUpdateManyMutationInput, SavedAgentListingUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SavedAgentListingScalarWhereInput = {
+    AND?: SavedAgentListingScalarWhereInput | SavedAgentListingScalarWhereInput[]
+    OR?: SavedAgentListingScalarWhereInput[]
+    NOT?: SavedAgentListingScalarWhereInput | SavedAgentListingScalarWhereInput[]
+    id?: StringFilter<"SavedAgentListing"> | string
+    userId?: StringFilter<"SavedAgentListing"> | string
+    agentListingId?: StringFilter<"SavedAgentListing"> | string
+    createdAt?: DateTimeFilter<"SavedAgentListing"> | Date | string
+  }
+
+  export type AgentListingRingLogUpsertWithWhereUniqueWithoutBuyerInput = {
+    where: AgentListingRingLogWhereUniqueInput
+    update: XOR<AgentListingRingLogUpdateWithoutBuyerInput, AgentListingRingLogUncheckedUpdateWithoutBuyerInput>
+    create: XOR<AgentListingRingLogCreateWithoutBuyerInput, AgentListingRingLogUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type AgentListingRingLogUpdateWithWhereUniqueWithoutBuyerInput = {
+    where: AgentListingRingLogWhereUniqueInput
+    data: XOR<AgentListingRingLogUpdateWithoutBuyerInput, AgentListingRingLogUncheckedUpdateWithoutBuyerInput>
+  }
+
+  export type AgentListingRingLogUpdateManyWithWhereWithoutBuyerInput = {
+    where: AgentListingRingLogScalarWhereInput
+    data: XOR<AgentListingRingLogUpdateManyMutationInput, AgentListingRingLogUncheckedUpdateManyWithoutBuyerInput>
+  }
+
+  export type AgentListingRingLogScalarWhereInput = {
+    AND?: AgentListingRingLogScalarWhereInput | AgentListingRingLogScalarWhereInput[]
+    OR?: AgentListingRingLogScalarWhereInput[]
+    NOT?: AgentListingRingLogScalarWhereInput | AgentListingRingLogScalarWhereInput[]
+    id?: StringFilter<"AgentListingRingLog"> | string
+    buyerId?: StringFilter<"AgentListingRingLog"> | string
+    agentListingId?: StringFilter<"AgentListingRingLog"> | string
+    createdAt?: DateTimeFilter<"AgentListingRingLog"> | Date | string
+  }
+
   export type SubscriptionCreateWithoutPlanInput = {
     id?: string
     status?: $Enums.SubscriptionStatus
@@ -82326,6 +85162,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -82377,6 +85215,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -82475,6 +85315,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -82526,6 +85368,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PlanUpsertWithoutSubscriptionsInput = {
@@ -82614,6 +85458,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutLeadViewsInput = {
@@ -82665,6 +85511,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutLeadViewsInput = {
@@ -82759,6 +85607,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeadViewsInput = {
@@ -82810,6 +85660,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type EnquiryUpsertWithoutLeadViewsInput = {
@@ -83711,6 +86563,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutPropertiesInput = {
@@ -83762,6 +86616,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutPropertiesInput = {
@@ -83978,6 +86834,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertiesInput = {
@@ -84029,6 +86887,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type ProjectUpsertWithoutUnitsInput = {
@@ -84471,6 +87331,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutEnquiriesInput = {
@@ -84522,6 +87384,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutEnquiriesInput = {
@@ -84702,6 +87566,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnquiriesInput = {
@@ -84753,6 +87619,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type LeadViewUpsertWithWhereUniqueWithoutEnquiryInput = {
@@ -84820,6 +87688,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutSavedPropertiesInput = {
@@ -84871,6 +87741,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutSavedPropertiesInput = {
@@ -85023,6 +87895,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedPropertiesInput = {
@@ -85074,6 +87948,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PropertyUpsertWithoutSavedByInput = {
@@ -85216,6 +88092,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutPropertyRingsInput = {
@@ -85267,6 +88145,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutPropertyRingsInput = {
@@ -85419,6 +88299,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertyRingsInput = {
@@ -85470,6 +88352,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PropertyUpsertWithoutRingLogsInput = {
@@ -85612,6 +88496,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutAgentProfileInput = {
@@ -85663,6 +88549,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutAgentProfileInput = {
@@ -86095,6 +88983,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutAgentInput = {
@@ -86135,6 +89025,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutAgentInput = {
@@ -86851,6 +89743,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentProfileInput = {
@@ -86902,6 +89796,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutReferredAgentsInput = {
@@ -88387,6 +91283,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutInvestorProfileInput = {
@@ -88438,6 +91336,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutInvestorProfileInput = {
@@ -88786,6 +91686,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvestorProfileInput = {
@@ -88837,6 +91739,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutInvestorsInput = {
@@ -89414,6 +92318,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutMasterPropertyInput = {
@@ -89454,6 +92360,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutMasterPropertyInput = {
@@ -89979,6 +92887,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SavedAgentListingCreateWithoutAgentListingInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutSavedAgentListingsInput
+  }
+
+  export type SavedAgentListingUncheckedCreateWithoutAgentListingInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type SavedAgentListingCreateOrConnectWithoutAgentListingInput = {
+    where: SavedAgentListingWhereUniqueInput
+    create: XOR<SavedAgentListingCreateWithoutAgentListingInput, SavedAgentListingUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type SavedAgentListingCreateManyAgentListingInputEnvelope = {
+    data: SavedAgentListingCreateManyAgentListingInput | SavedAgentListingCreateManyAgentListingInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AgentListingRingLogCreateWithoutAgentListingInput = {
+    id?: string
+    createdAt?: Date | string
+    buyer: UserCreateNestedOneWithoutAgentListingRingsInput
+  }
+
+  export type AgentListingRingLogUncheckedCreateWithoutAgentListingInput = {
+    id?: string
+    buyerId: string
+    createdAt?: Date | string
+  }
+
+  export type AgentListingRingLogCreateOrConnectWithoutAgentListingInput = {
+    where: AgentListingRingLogWhereUniqueInput
+    create: XOR<AgentListingRingLogCreateWithoutAgentListingInput, AgentListingRingLogUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type AgentListingRingLogCreateManyAgentListingInputEnvelope = {
+    data: AgentListingRingLogCreateManyAgentListingInput | AgentListingRingLogCreateManyAgentListingInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MasterPropertyUpsertWithoutListingsInput = {
     update: XOR<MasterPropertyUpdateWithoutListingsInput, MasterPropertyUncheckedUpdateWithoutListingsInput>
     create: XOR<MasterPropertyCreateWithoutListingsInput, MasterPropertyUncheckedCreateWithoutListingsInput>
@@ -90270,6 +93222,862 @@ export namespace Prisma {
     data: XOR<PlatformAntiBypassAgreementUpdateManyMutationInput, PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingInput>
   }
 
+  export type SavedAgentListingUpsertWithWhereUniqueWithoutAgentListingInput = {
+    where: SavedAgentListingWhereUniqueInput
+    update: XOR<SavedAgentListingUpdateWithoutAgentListingInput, SavedAgentListingUncheckedUpdateWithoutAgentListingInput>
+    create: XOR<SavedAgentListingCreateWithoutAgentListingInput, SavedAgentListingUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type SavedAgentListingUpdateWithWhereUniqueWithoutAgentListingInput = {
+    where: SavedAgentListingWhereUniqueInput
+    data: XOR<SavedAgentListingUpdateWithoutAgentListingInput, SavedAgentListingUncheckedUpdateWithoutAgentListingInput>
+  }
+
+  export type SavedAgentListingUpdateManyWithWhereWithoutAgentListingInput = {
+    where: SavedAgentListingScalarWhereInput
+    data: XOR<SavedAgentListingUpdateManyMutationInput, SavedAgentListingUncheckedUpdateManyWithoutAgentListingInput>
+  }
+
+  export type AgentListingRingLogUpsertWithWhereUniqueWithoutAgentListingInput = {
+    where: AgentListingRingLogWhereUniqueInput
+    update: XOR<AgentListingRingLogUpdateWithoutAgentListingInput, AgentListingRingLogUncheckedUpdateWithoutAgentListingInput>
+    create: XOR<AgentListingRingLogCreateWithoutAgentListingInput, AgentListingRingLogUncheckedCreateWithoutAgentListingInput>
+  }
+
+  export type AgentListingRingLogUpdateWithWhereUniqueWithoutAgentListingInput = {
+    where: AgentListingRingLogWhereUniqueInput
+    data: XOR<AgentListingRingLogUpdateWithoutAgentListingInput, AgentListingRingLogUncheckedUpdateWithoutAgentListingInput>
+  }
+
+  export type AgentListingRingLogUpdateManyWithWhereWithoutAgentListingInput = {
+    where: AgentListingRingLogScalarWhereInput
+    data: XOR<AgentListingRingLogUpdateManyMutationInput, AgentListingRingLogUncheckedUpdateManyWithoutAgentListingInput>
+  }
+
+  export type UserCreateWithoutSavedAgentListingsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
+    properties?: PropertyCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
+    agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserUncheckedCreateWithoutSavedAgentListingsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
+    properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
+    agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserCreateOrConnectWithoutSavedAgentListingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSavedAgentListingsInput, UserUncheckedCreateWithoutSavedAgentListingsInput>
+  }
+
+  export type AgentListingCreateWithoutSavedByInput = {
+    id?: string
+    source?: $Enums.ListingSource
+    approvalStatus?: $Enums.ApprovalStatus
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
+    agent?: AgentProfileCreateNestedOneWithoutListingsInput
+    images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
+    goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUncheckedCreateWithoutSavedByInput = {
+    id?: string
+    masterPropertyId: string
+    agentId?: string | null
+    source?: $Enums.ListingSource
+    approvalStatus?: $Enums.ApprovalStatus
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
+    goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingCreateOrConnectWithoutSavedByInput = {
+    where: AgentListingWhereUniqueInput
+    create: XOR<AgentListingCreateWithoutSavedByInput, AgentListingUncheckedCreateWithoutSavedByInput>
+  }
+
+  export type UserUpsertWithoutSavedAgentListingsInput = {
+    update: XOR<UserUpdateWithoutSavedAgentListingsInput, UserUncheckedUpdateWithoutSavedAgentListingsInput>
+    create: XOR<UserCreateWithoutSavedAgentListingsInput, UserUncheckedCreateWithoutSavedAgentListingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSavedAgentListingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSavedAgentListingsInput, UserUncheckedUpdateWithoutSavedAgentListingsInput>
+  }
+
+  export type UserUpdateWithoutSavedAgentListingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    properties?: PropertyUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
+    agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSavedAgentListingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
+    agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type AgentListingUpsertWithoutSavedByInput = {
+    update: XOR<AgentListingUpdateWithoutSavedByInput, AgentListingUncheckedUpdateWithoutSavedByInput>
+    create: XOR<AgentListingCreateWithoutSavedByInput, AgentListingUncheckedCreateWithoutSavedByInput>
+    where?: AgentListingWhereInput
+  }
+
+  export type AgentListingUpdateToOneWithWhereWithoutSavedByInput = {
+    where?: AgentListingWhereInput
+    data: XOR<AgentListingUpdateWithoutSavedByInput, AgentListingUncheckedUpdateWithoutSavedByInput>
+  }
+
+  export type AgentListingUpdateWithoutSavedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumListingSourceFieldUpdateOperationsInput | $Enums.ListingSource
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
+    agent?: AgentProfileUpdateOneWithoutListingsNestedInput
+    images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
+    goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateWithoutSavedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    agentId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumListingSourceFieldUpdateOperationsInput | $Enums.ListingSource
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
+    goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type UserCreateWithoutAgentListingRingsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
+    properties?: PropertyCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
+    agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAgentListingRingsInput = {
+    id?: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    company?: string | null
+    slug?: string | null
+    about?: string | null
+    logoUrl?: string | null
+    licenseNumber?: string | null
+    address?: string | null
+    website?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    passwordHash?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    referredByAgentId?: string | null
+    secondaryPhone?: string | null
+    whatsappNumber?: string | null
+    age?: number | null
+    dateOfBirth?: Date | string | null
+    panNumber?: string | null
+    panCardUrl?: string | null
+    aadhaarNumber?: string | null
+    aadhaarFrontUrl?: string | null
+    aadhaarBackUrl?: string | null
+    bankAccountName?: string | null
+    bankAccountNumber?: string | null
+    bankIfsc?: string | null
+    bankName?: string | null
+    bankBranch?: string | null
+    cancelledChequeUrl?: string | null
+    properties?: PropertyUncheckedCreateNestedManyWithoutOwnerInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    leadViews?: LeadViewUncheckedCreateNestedManyWithoutUserInput
+    savedProperties?: SavedPropertyUncheckedCreateNestedManyWithoutUserInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutBuyerInput
+    agentProfile?: AgentProfileUncheckedCreateNestedOneWithoutUserInput
+    investorProfile?: InvestorProfileUncheckedCreateNestedOneWithoutUserInput
+    propertyUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    dispatchRequests?: DispatchRequestUncheckedCreateNestedManyWithoutBuyerInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedCreateNestedManyWithoutBuyerInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutBuyerInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutBuyerInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
+    agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
+    pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
+    propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAgentListingRingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAgentListingRingsInput, UserUncheckedCreateWithoutAgentListingRingsInput>
+  }
+
+  export type AgentListingCreateWithoutRingLogsInput = {
+    id?: string
+    source?: $Enums.ListingSource
+    approvalStatus?: $Enums.ApprovalStatus
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProperty: MasterPropertyCreateNestedOneWithoutListingsInput
+    agent?: AgentProfileCreateNestedOneWithoutListingsInput
+    images?: AgentListingImageCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
+    goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingUncheckedCreateWithoutRingLogsInput = {
+    id?: string
+    masterPropertyId: string
+    agentId?: string | null
+    source?: $Enums.ListingSource
+    approvalStatus?: $Enums.ApprovalStatus
+    slug: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    price: number
+    exactAddress: string
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    videoUrl?: string | null
+    listingPlan?: $Enums.ListingPlanTier
+    listingFee?: number
+    listingAgentSplit?: number
+    listingCompanySplit?: number
+    listingExpiresAt?: Date | string | null
+    isDelisted?: boolean
+    delistedAt?: Date | string | null
+    expiryWarning7dSentAt?: Date | string | null
+    expiryWarning2dSentAt?: Date | string | null
+    agreementStartDate?: Date | string | null
+    agreementExpiryDate?: Date | string | null
+    hotDealAlert30dSentAt?: Date | string | null
+    hotDealAlert15dSentAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: AgentListingImageUncheckedCreateNestedManyWithoutAgentListingInput
+    unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
+    goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
+    directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput
+  }
+
+  export type AgentListingCreateOrConnectWithoutRingLogsInput = {
+    where: AgentListingWhereUniqueInput
+    create: XOR<AgentListingCreateWithoutRingLogsInput, AgentListingUncheckedCreateWithoutRingLogsInput>
+  }
+
+  export type UserUpsertWithoutAgentListingRingsInput = {
+    update: XOR<UserUpdateWithoutAgentListingRingsInput, UserUncheckedUpdateWithoutAgentListingRingsInput>
+    create: XOR<UserCreateWithoutAgentListingRingsInput, UserUncheckedCreateWithoutAgentListingRingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAgentListingRingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAgentListingRingsInput, UserUncheckedUpdateWithoutAgentListingRingsInput>
+  }
+
+  export type UserUpdateWithoutAgentListingRingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    properties?: PropertyUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
+    agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAgentListingRingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    whatsappNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    panNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    panCardUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarFrontUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    aadhaarBackUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankIfsc?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    bankBranch?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledChequeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    properties?: PropertyUncheckedUpdateManyWithoutOwnerNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    leadViews?: LeadViewUncheckedUpdateManyWithoutUserNestedInput
+    savedProperties?: SavedPropertyUncheckedUpdateManyWithoutUserNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutBuyerNestedInput
+    agentProfile?: AgentProfileUncheckedUpdateOneWithoutUserNestedInput
+    investorProfile?: InvestorProfileUncheckedUpdateOneWithoutUserNestedInput
+    propertyUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    dispatchRequests?: DispatchRequestUncheckedUpdateManyWithoutBuyerNestedInput
+    goldListingPurchases?: GoldListingPurchaseUncheckedUpdateManyWithoutBuyerNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutBuyerNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutBuyerNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
+    agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
+    pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
+    propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AgentListingUpsertWithoutRingLogsInput = {
+    update: XOR<AgentListingUpdateWithoutRingLogsInput, AgentListingUncheckedUpdateWithoutRingLogsInput>
+    create: XOR<AgentListingCreateWithoutRingLogsInput, AgentListingUncheckedCreateWithoutRingLogsInput>
+    where?: AgentListingWhereInput
+  }
+
+  export type AgentListingUpdateToOneWithWhereWithoutRingLogsInput = {
+    where?: AgentListingWhereInput
+    data: XOR<AgentListingUpdateWithoutRingLogsInput, AgentListingUncheckedUpdateWithoutRingLogsInput>
+  }
+
+  export type AgentListingUpdateWithoutRingLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: EnumListingSourceFieldUpdateOperationsInput | $Enums.ListingSource
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProperty?: MasterPropertyUpdateOneRequiredWithoutListingsNestedInput
+    agent?: AgentProfileUpdateOneWithoutListingsNestedInput
+    images?: AgentListingImageUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
+    goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUpdateManyWithoutAgentListingNestedInput
+  }
+
+  export type AgentListingUncheckedUpdateWithoutRingLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    masterPropertyId?: StringFieldUpdateOperationsInput | string
+    agentId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumListingSourceFieldUpdateOperationsInput | $Enums.ListingSource
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    price?: IntFieldUpdateOperationsInput | number
+    exactAddress?: StringFieldUpdateOperationsInput | string
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    listingPlan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    listingFee?: IntFieldUpdateOperationsInput | number
+    listingAgentSplit?: IntFieldUpdateOperationsInput | number
+    listingCompanySplit?: IntFieldUpdateOperationsInput | number
+    listingExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelisted?: BoolFieldUpdateOperationsInput | boolean
+    delistedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning7dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiryWarning2dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    agreementExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert30dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hotDealAlert15dSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: AgentListingImageUncheckedUpdateManyWithoutAgentListingNestedInput
+    unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
+    goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
+    directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+    antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput
+  }
+
   export type AgentListingCreateWithoutImagesInput = {
     id?: string
     source?: $Enums.ListingSource
@@ -90308,6 +94116,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutImagesInput = {
@@ -90348,6 +94158,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutImagesInput = {
@@ -90404,6 +94216,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutImagesInput = {
@@ -90444,6 +94258,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingCreateWithoutUnlocksInput = {
@@ -90484,6 +94300,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutUnlocksInput = {
@@ -90524,6 +94342,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutUnlocksInput = {
@@ -90580,6 +94400,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutPropertyUnlocksInput = {
@@ -90631,6 +94453,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutPropertyUnlocksInput = {
@@ -90830,6 +94654,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutUnlocksInput = {
@@ -90870,6 +94696,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type UserUpsertWithoutPropertyUnlocksInput = {
@@ -90932,6 +94760,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPropertyUnlocksInput = {
@@ -90983,6 +94813,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutAssignedUnlocksInput = {
@@ -91172,6 +95004,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutGoldPurchaseInput = {
@@ -91212,6 +95046,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutGoldPurchaseInput = {
@@ -91268,6 +95104,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutGoldListingPurchasesInput = {
@@ -91319,6 +95157,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutGoldListingPurchasesInput = {
@@ -91375,6 +95215,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutGoldPurchaseInput = {
@@ -91415,6 +95257,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type UserUpsertWithoutGoldListingPurchasesInput = {
@@ -91477,6 +95321,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoldListingPurchasesInput = {
@@ -91528,6 +95374,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type BroadcastCreateWithoutDealsInput = {
@@ -92999,6 +96847,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutDispatchRequestsInput = {
@@ -93050,6 +96900,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutDispatchRequestsInput = {
@@ -93284,6 +97136,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDispatchRequestsInput = {
@@ -93335,6 +97189,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutDispatchesAcceptedInput = {
@@ -97191,6 +101047,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutVisitAppointmentsInput = {
@@ -97242,6 +101100,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutVisitAppointmentsInput = {
@@ -97483,6 +101343,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVisitAppointmentsInput = {
@@ -97534,6 +101396,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileUpsertWithoutVisitAppointmentsInput = {
@@ -97760,6 +101624,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutDirectVisitsInput = {
@@ -97800,6 +101666,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutDirectVisitsInput = {
@@ -97856,6 +101724,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutDirectVisitsInput = {
@@ -97907,6 +101777,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutDirectVisitsInput = {
@@ -98013,6 +101885,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutDirectVisitsInput = {
@@ -98053,6 +101927,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type UserUpsertWithoutDirectVisitsInput = {
@@ -98115,6 +101991,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDirectVisitsInput = {
@@ -98166,6 +102044,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PlatformAntiBypassAgreementUpsertWithWhereUniqueWithoutDirectVisitInput = {
@@ -98257,6 +102137,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingUncheckedCreateWithoutAntiBypassAgreementsInput = {
@@ -98297,6 +102179,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAgentListingInput
     goldPurchase?: GoldListingPurchaseUncheckedCreateNestedOneWithoutAgentListingInput
     directVisits?: DirectPropertyVisitUncheckedCreateNestedManyWithoutAgentListingInput
+    savedBy?: SavedAgentListingUncheckedCreateNestedManyWithoutAgentListingInput
+    ringLogs?: AgentListingRingLogUncheckedCreateNestedManyWithoutAgentListingInput
   }
 
   export type AgentListingCreateOrConnectWithoutAntiBypassAgreementsInput = {
@@ -98353,6 +102237,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutAntiBypassAgreementsInput = {
@@ -98404,6 +102290,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutAntiBypassAgreementsInput = {
@@ -98501,6 +102389,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutAntiBypassAgreementsInput = {
@@ -98541,6 +102431,8 @@ export namespace Prisma {
     unlocks?: PropertyUnlockUncheckedUpdateManyWithoutAgentListingNestedInput
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type UserUpsertWithoutAntiBypassAgreementsInput = {
@@ -98603,6 +102495,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAntiBypassAgreementsInput = {
@@ -98654,6 +102548,8 @@ export namespace Prisma {
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type AgentProfileCreateWithoutShopUnlocksInput = {
@@ -98848,6 +102744,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutAgentShopUnlocksInput = {
@@ -98899,6 +102797,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     pushTokens?: PushTokenUncheckedCreateNestedManyWithoutUserInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutAgentShopUnlocksInput = {
@@ -99115,6 +103015,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentShopUnlocksInput = {
@@ -99166,6 +103068,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     pushTokens?: PushTokenUncheckedUpdateManyWithoutUserNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserCreateWithoutPushTokensInput = {
@@ -99217,6 +103121,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockCreateNestedManyWithoutBuyerInput
     propertyRings?: PropertyRingLogCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogCreateNestedManyWithoutBuyerInput
   }
 
   export type UserUncheckedCreateWithoutPushTokensInput = {
@@ -99268,6 +103174,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedCreateNestedManyWithoutBuyerInput
     agentShopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutBuyerInput
     propertyRings?: PropertyRingLogUncheckedCreateNestedManyWithoutBuyerInput
+    savedAgentListings?: SavedAgentListingUncheckedCreateNestedManyWithoutUserInput
+    agentListingRings?: AgentListingRingLogUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type UserCreateOrConnectWithoutPushTokensInput = {
@@ -99335,6 +103243,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUpdateManyWithoutBuyerNestedInput
     propertyRings?: PropertyRingLogUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushTokensInput = {
@@ -99386,6 +103296,8 @@ export namespace Prisma {
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutBuyerNestedInput
     agentShopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutBuyerNestedInput
     propertyRings?: PropertyRingLogUncheckedUpdateManyWithoutBuyerNestedInput
+    savedAgentListings?: SavedAgentListingUncheckedUpdateManyWithoutUserNestedInput
+    agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type PropertyCreateManyOwnerInput = {
@@ -99564,6 +103476,18 @@ export namespace Prisma {
   export type PropertyRingLogCreateManyBuyerInput = {
     id?: string
     propertyId: string
+    createdAt?: Date | string
+  }
+
+  export type SavedAgentListingCreateManyUserInput = {
+    id?: string
+    agentListingId: string
+    createdAt?: Date | string
+  }
+
+  export type AgentListingRingLogCreateManyBuyerInput = {
+    id?: string
+    agentListingId: string
     createdAt?: Date | string
   }
 
@@ -100115,6 +104039,42 @@ export namespace Prisma {
   export type PropertyRingLogUncheckedUpdateManyWithoutBuyerInput = {
     id?: StringFieldUpdateOperationsInput | string
     propertyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedAgentListingUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentListing?: AgentListingUpdateOneRequiredWithoutSavedByNestedInput
+  }
+
+  export type SavedAgentListingUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedAgentListingUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingRingLogUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agentListing?: AgentListingUpdateOneRequiredWithoutRingLogsNestedInput
+  }
+
+  export type AgentListingRingLogUncheckedUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingRingLogUncheckedUpdateManyWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentListingId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -101360,6 +105320,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutAgentInput = {
@@ -101400,6 +105362,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateManyWithoutAgentInput = {
@@ -102418,6 +106382,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateWithoutMasterPropertyInput = {
@@ -102458,6 +106424,8 @@ export namespace Prisma {
     goldPurchase?: GoldListingPurchaseUncheckedUpdateOneWithoutAgentListingNestedInput
     directVisits?: DirectPropertyVisitUncheckedUpdateManyWithoutAgentListingNestedInput
     antiBypassAgreements?: PlatformAntiBypassAgreementUncheckedUpdateManyWithoutAgentListingNestedInput
+    savedBy?: SavedAgentListingUncheckedUpdateManyWithoutAgentListingNestedInput
+    ringLogs?: AgentListingRingLogUncheckedUpdateManyWithoutAgentListingNestedInput
   }
 
   export type AgentListingUncheckedUpdateManyWithoutMasterPropertyInput = {
@@ -102654,6 +106622,18 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type SavedAgentListingCreateManyAgentListingInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type AgentListingRingLogCreateManyAgentListingInput = {
+    id?: string
+    buyerId: string
+    createdAt?: Date | string
+  }
+
   export type AgentListingImageUpdateWithoutAgentListingInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
@@ -102816,6 +106796,42 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedAgentListingUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSavedAgentListingsNestedInput
+  }
+
+  export type SavedAgentListingUncheckedUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SavedAgentListingUncheckedUpdateManyWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingRingLogUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyer?: UserUpdateOneRequiredWithoutAgentListingRingsNestedInput
+  }
+
+  export type AgentListingRingLogUncheckedUpdateWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AgentListingRingLogUncheckedUpdateManyWithoutAgentListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    buyerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DispatchNotificationCreateManyDispatchRequestInput = {

@@ -122,6 +122,8 @@ model User {
   agentShopUnlocks     AgentShopUnlock[]             @relation("BuyerAgentShopUnlocks")
   pushTokens           PushToken[]
   propertyRings        PropertyRingLog[]
+  savedAgentListings   SavedAgentListing[]
+  agentListingRings    AgentListingRingLog[]
 }
 
 enum PlanRole {
@@ -742,11 +744,42 @@ model AgentListing {
   goldPurchase         GoldListingPurchase?
   directVisits         DirectPropertyVisit[]
   antiBypassAgreements PlatformAntiBypassAgreement[]
+  savedBy              SavedAgentListing[]
+  ringLogs             AgentListingRingLog[]
 
   @@index([masterPropertyId])
   @@index([agentId])
   @@index([source, approvalStatus])
   @@index([isDelisted, agreementExpiryDate])
+}
+
+// Mirrors SavedProperty, for the channel-partner marketplace listing table
+// instead of the website's own Property table — the two were never unified
+// (see /properties's merge comment), so "save" needs its own join table here.
+model SavedAgentListing {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agentListingId String
+  agentListing   AgentListing @relation(fields: [agentListingId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+
+  @@unique([userId, agentListingId])
+  @@index([userId])
+  @@index([agentListingId])
+}
+
+// Mirrors PropertyRingLog — AgentListing already has a direct agentId, so
+// ringing it doesn't need PropertyRingLog's owner->agentProfile indirection.
+model AgentListingRingLog {
+  id             String       @id @default(cuid())
+  buyerId        String
+  buyer          User         @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  agentListingId String
+  agentListing   AgentListing @relation(fields: [agentListingId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+
+  @@index([buyerId, agentListingId, createdAt])
 }
 
 model AgentListingImage {

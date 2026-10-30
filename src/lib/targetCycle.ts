@@ -29,8 +29,18 @@ export async function getAgentCycleProgress(agentProfileId: string) {
 
   const daysRemaining = Math.max(0, Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
 
-  // Count activity during current cycle
-  const [listingsCount, dealsCount, visitsCount, directAgentsCount, investorsCount] = await Promise.all([
+  // Count activity and fetch detailed lists during current cycle
+  const [
+    listingsCount,
+    dealsCount,
+    visitsCount,
+    directAgentsCount,
+    investorsCount,
+    agentListings,
+    portalProperties,
+    directAgents,
+    investorProfiles,
+  ] = await Promise.all([
     prisma.agentListing.count({
       where: {
         agentId: agent.id,
@@ -61,6 +71,96 @@ export async function getAgentCycleProgress(agentProfileId: string) {
         referringAgentId: agent.id,
         createdAt: { gte: startDate },
       },
+    }),
+    prisma.agentListing.findMany({
+      where: { agentId: agent.id },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        price: true,
+        listingType: true,
+        propertyType: true,
+        listingPlan: true,
+        exactAddress: true,
+        isDelisted: true,
+        listingExpiresAt: true,
+        createdAt: true,
+        masterProperty: {
+          select: {
+            masterId: true,
+            city: true,
+            locality: true,
+          },
+        },
+        images: {
+          select: { url: true },
+          take: 1,
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.property.findMany({
+      where: { ownerId: agent.userId },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        price: true,
+        listingType: true,
+        propertyType: true,
+        city: true,
+        locality: true,
+        status: true,
+        createdAt: true,
+        images: {
+          select: { url: true },
+          take: 1,
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.agentProfile.findMany({
+      where: { referringAgentId: agent.id },
+      select: {
+        id: true,
+        agentCode: true,
+        shopName: true,
+        city: true,
+        planTier: true,
+        primeStatus: true,
+        status: true,
+        createdAt: true,
+        user: {
+          select: {
+            name: true,
+            phone: true,
+            email: true,
+            whatsappNumber: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.investorProfile.findMany({
+      where: { referringAgentId: agent.id },
+      select: {
+        id: true,
+        investorCode: true,
+        feeStatus: true,
+        registrationFee: true,
+        totalInvested: true,
+        createdAt: true,
+        user: {
+          select: {
+            name: true,
+            phone: true,
+            email: true,
+            whatsappNumber: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
     }),
   ]);
 
@@ -163,6 +263,84 @@ export async function getAgentCycleProgress(agentProfileId: string) {
           expiresAt: agent.couponExpiresAt,
         }
       : null,
+    // Detailed Business Profile & Contact
+    shopAddress: agent.shopAddress,
+    alternatePhone: agent.alternatePhone,
+    yearsExperience: agent.yearsExperience,
+    staffCount: agent.staffCount,
+    reraNumber: agent.reraNumber,
+    gstNumber: agent.gstNumber,
+    walletBalance: agent.walletBalance,
+    warningCount: agent.warningCount,
+    ratingAvg: agent.ratingAvg,
+    userWhatsapp: agent.user.whatsappNumber,
+    // Detailed Lists ("kin kin ki listing ki hai", "kon kon hai", etc.)
+    listingsList: [
+      ...agentListings.map((l) => ({
+        id: l.id,
+        title: l.title,
+        slug: l.slug,
+        price: l.price,
+        listingType: l.listingType,
+        propertyType: l.propertyType,
+        locality: l.masterProperty?.locality || null,
+        city: l.masterProperty?.city || agent.city || "",
+        source: "MARKETPLACE" as const,
+        plan: l.listingPlan,
+        status: l.isDelisted ? "DELISTED" : (l.listingExpiresAt && l.listingExpiresAt < now ? "EXPIRED" : "ACTIVE"),
+        createdAt: l.createdAt.toISOString(),
+        expiresAt: l.listingExpiresAt ? l.listingExpiresAt.toISOString() : null,
+        inCycle: l.createdAt >= startDate,
+        url: `/listings/${l.slug}`,
+        thumbnail: l.images[0]?.url || null,
+      })),
+      ...portalProperties.map((p) => ({
+        id: p.id,
+        title: p.title,
+        slug: p.slug,
+        price: p.price,
+        listingType: p.listingType,
+        propertyType: p.propertyType,
+        locality: p.locality || null,
+        city: p.city,
+        source: "PORTAL" as const,
+        plan: "PORTAL" as const,
+        status: p.status,
+        createdAt: p.createdAt.toISOString(),
+        expiresAt: null,
+        inCycle: p.createdAt >= startDate,
+        url: `/properties/${p.slug}`,
+        thumbnail: p.images[0]?.url || null,
+      })),
+    ],
+    downlineAgentsList: directAgents.map((a) => ({
+      id: a.id,
+      agentCode: a.agentCode,
+      name: a.user.name,
+      shopName: a.shopName,
+      phone: a.user.phone,
+      whatsapp: a.user.whatsappNumber || a.user.phone,
+      email: a.user.email,
+      city: a.city,
+      planTier: a.planTier,
+      primeStatus: a.primeStatus,
+      status: a.status,
+      createdAt: a.createdAt.toISOString(),
+      inCycle: a.createdAt >= startDate,
+    })),
+    investorsList: investorProfiles.map((i) => ({
+      id: i.id,
+      investorCode: i.investorCode,
+      name: i.user.name,
+      phone: i.user.phone,
+      whatsapp: i.user.whatsappNumber || i.user.phone,
+      email: i.user.email,
+      feeStatus: i.feeStatus,
+      registrationFee: i.registrationFee,
+      totalCapitalInvested: i.totalInvested,
+      createdAt: i.createdAt.toISOString(),
+      inCycle: i.createdAt >= startDate,
+    })),
   };
 }
 

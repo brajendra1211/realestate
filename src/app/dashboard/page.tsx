@@ -93,7 +93,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
               <p className="mt-0.5 text-xs text-slate-500">
                 Current plan:{" "}
                 <span className="font-semibold text-slate-700">
-                  {activeSubscription ? activeSubscription.plan.name : "Free"}
+                  {activeSubscription ? activeSubscription.plan.name : "No Active Plan (Paid plan required)"}
                 </span>
                 {activeSubscription?.endDate &&
                   ` · renews or expires ${activeSubscription.endDate.toLocaleDateString("en-IN")}`}
@@ -106,6 +106,23 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
               />
             </div>
           </div>
+
+          {!activeSubscription && (
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-blue-200 bg-blue-50/70 p-4">
+              <div>
+                <p className="text-sm font-bold text-blue-900">Active Paid Plan Required</p>
+                <p className="text-xs text-blue-700">
+                  Select an Owner Plan (₹{settings.basicListingFee} for 1 Month or ₹{settings.goldListingFee} for 3 Months) to start publishing verified properties.
+                </p>
+              </div>
+              <Link
+                href="/dashboard/properties/new"
+                className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-blue-700 transition"
+              >
+                Select Plan &amp; List
+              </Link>
+            </div>
+          )}
 
           {pendingSubscription ? (
             <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">

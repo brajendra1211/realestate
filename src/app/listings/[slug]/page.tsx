@@ -69,10 +69,8 @@ export default async function ListingDetailPage({
     agent?.shopLatitude != null && agent?.shopLongitude != null
       ? `https://www.google.com/maps/search/?api=1&query=${agent.shopLatitude},${agent.shopLongitude}`
       : null;
-  // §3.4: "if the customer self-registered with no agent code, the
-  // company's number is shown and the location is the society's, not any
-  // specific agent's." Only fetched when actually needed (no agent).
-  const siteSettings = !agent && isUnlocked ? await getSiteSettings() : null;
+  // Fetch site settings for dynamic unlock pass pricing and fallback company info
+  const siteSettings = await getSiteSettings();
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
@@ -336,11 +334,15 @@ export default async function ListingDetailPage({
           <>
             <p className="text-sm text-slate-600">
               Exact address, agent name, phone, and shop location are hidden. Unlock this listing for
-              ₹100 to reveal them instantly.
+              ₹{siteSettings.unlockPassAmount} to reveal them instantly.
             </p>
             {isRazorpayConfigured() ? (
               <div className="mt-3">
-                <UnlockButton agentListingId={listing.id} slug={listing.slug} />
+                <UnlockButton
+                  agentListingId={listing.id}
+                  slug={listing.slug}
+                  amount={siteSettings.unlockPassAmount}
+                />
               </div>
             ) : (
               <form action={unlockListing} className="mt-3">
@@ -350,7 +352,7 @@ export default async function ListingDetailPage({
                   type="submit"
                   className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
                 >
-                  Pay ₹100 &amp; Unlock
+                  Pay ₹{siteSettings.unlockPassAmount} &amp; Unlock
                 </button>
               </form>
             )}

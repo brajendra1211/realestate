@@ -55,22 +55,22 @@ export function RegisterForm({ accountType }: { accountType: "OWNER" | "DEALER" 
           className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
         />
       </div>
-      <div>
-        <label className="text-sm font-medium text-slate-700">
-          Company / Agency name{accountType === "DEALER" ? "" : " (optional)"}
-        </label>
-        <input
-          type="text"
-          name="company"
-          required={accountType === "DEALER"}
-          className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-        />
-        {accountType === "DEALER" && (
+      {accountType === "DEALER" && (
+        <div>
+          <label className="text-sm font-medium text-slate-700">
+            Company / Agency name
+          </label>
+          <input
+            type="text"
+            name="company"
+            required
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
           <p className="mt-1 text-xs text-slate-400">
             Shown on your public dealer profile page for search visibility.
           </p>
-        )}
-      </div>
+        </div>
+      )}
       <div>
         <label className="text-sm font-medium text-slate-700">Password</label>
         <input
@@ -78,15 +78,16 @@ export function RegisterForm({ accountType }: { accountType: "OWNER" | "DEALER" 
           name="password"
           required
           minLength={8}
+          placeholder="Minimum 8 characters"
           className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
         />
       </div>
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
+        className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 px-4 py-2.5 text-sm font-bold text-white transition disabled:opacity-60 shadow-xs cursor-pointer"
       >
-        {pending ? "Creating…" : "Create account"}
+        {pending ? "Creating Account…" : accountType === "OWNER" ? "Register & Post Property" : "Create account"}
       </button>
     </form>
   );

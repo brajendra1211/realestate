@@ -22,8 +22,15 @@ function loadCheckoutScript(): Promise<void> {
 
 // Only rendered when Razorpay is configured (src/app/listings/[slug]/page.tsx
 // checks isRazorpayConfigured() and falls back to the plain simulated form
-// otherwise, unchanged from before this component existed).
-export function UnlockButton({ agentListingId, slug }: { agentListingId: string; slug: string }) {
+export function UnlockButton({
+  agentListingId,
+  slug,
+  amount = 100,
+}: {
+  agentListingId: string;
+  slug: string;
+  amount?: number;
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -89,7 +96,7 @@ export function UnlockButton({ agentListingId, slug }: { agentListingId: string;
         disabled={loading}
         className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {loading ? "Opening payment…" : "Pay ₹100 & Unlock"}
+        {loading ? "Opening payment…" : `Pay ₹${amount} & Unlock`}
       </button>
       {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
     </div>

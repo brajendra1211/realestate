@@ -11,6 +11,8 @@ import { uniqueLocalitySlug } from "@/lib/locality";
 import { notifyUser } from "@/lib/notify";
 import { hashPassword } from "@/lib/password";
 import { getSiteSettings } from "@/lib/site-settings";
+import { ensureDefaultAgentPlans } from "@/lib/agentPlans";
+import { ensureDefaultOwnerPlans } from "@/lib/ownerPlans";
 
 async function requireAdmin() {
   const session = await auth();
@@ -579,6 +581,16 @@ function commissionSettingsFrom(formData: FormData) {
     unlockAgentSplitPercent: intFrom(formData, "unlockAgentSplitPercent", 50, 0, 100),
     goldListingAmount: intFrom(formData, "goldListingAmount", 500, 1, 100_000_000),
     goldAgentSplitPercent: intFrom(formData, "goldAgentSplitPercent", 50, 0, 100),
+    agentBasicPlanPrice: intFrom(formData, "agentBasicPlanPrice", 1000, 0, 100_000_000),
+    agentPrimePlanPrice: intFrom(formData, "agentPrimePlanPrice", 2000, 0, 100_000_000),
+    agentPlanSplitPercent: intFrom(formData, "agentPlanSplitPercent", 50, 0, 100),
+    basicListingFee: intFrom(formData, "basicListingFee", 200, 0, 100_000_000),
+    goldListingFee: intFrom(formData, "goldListingFee", 500, 0, 100_000_000),
+    listingSplitPercent: intFrom(formData, "listingSplitPercent", 50, 0, 100),
+    partnerTargetDays: intFrom(formData, "partnerTargetDays", 30, 1, 365),
+    partnerTargetProperties: intFrom(formData, "partnerTargetProperties", 20, 1, 10000),
+    partnerTargetSubPartners: intFrom(formData, "partnerTargetSubPartners", 10, 1, 10000),
+    partnerTargetInvestors: intFrom(formData, "partnerTargetInvestors", 3, 1, 10000),
   };
 }
 
@@ -645,7 +657,70 @@ export async function updateSiteSettings(formData: FormData) {
     },
   });
 
+  // Sync active agent & owner plans in DB with the configured prices, limits, and durations
+  await Promise.all([
+    // Agent Basic: price = agentBasicPlanPrice, listingLimit = 10
+    prisma.plan.updateMany({
+      where: {
+        OR: [
+          { id: "plan-agent-basic" },
+          { name: { contains: "Basic" }, role: "AGENT" },
+        ],
+      },
+      data: { price: commissionSettings.agentBasicPlanPrice, listingLimit: 10, durationDays: 30, active: true },
+    }),
+    // Agent Prime: price = agentPrimePlanPrice, listingLimit = 999999 (Unlimited)
+    prisma.plan.updateMany({
+      where: {
+        OR: [
+          { id: "plan-agent-prime" },
+          { name: { contains: "Prime" }, role: "AGENT" },
+        ],
+      },
+      data: { price: commissionSettings.agentPrimePlanPrice, listingLimit: 999999, durationDays: 30, active: true },
+    }),
+    // Owner Basic: price = basicListingFee (₹200), durationDays = 30
+    prisma.plan.updateMany({
+      where: {
+        OR: [
+          { id: "plan-owner-basic" },
+          { name: { contains: "Basic" }, role: "OWNER" },
+        ],
+      },
+      data: { price: commissionSettings.basicListingFee, durationDays: 30, listingLimit: 1, active: true },
+    }),
+    // Owner Gold: price = goldListingFee (₹500), durationDays = 90
+    prisma.plan.updateMany({
+      where: {
+        OR: [
+          { id: "plan-owner-gold" },
+          { name: { contains: "Gold" }, role: "OWNER" },
+        ],
+      },
+      data: { price: commissionSettings.goldListingFee, durationDays: 90, listingLimit: 3, active: true },
+    }),
+    // Deactivate any legacy free plans
+    prisma.plan.updateMany({
+      where: { price: 0 },
+      data: { active: false },
+    }),
+  ]);
+
+  await Promise.all([
+    ensureDefaultAgentPlans(),
+    ensureDefaultOwnerPlans(),
+  ]);
+
   revalidatePath("/admin/settings");
+  revalidatePath("/admin/targets");
+  revalidatePath("/admin/plans");
+  revalidatePath("/admin/prime-expiry");
+  revalidatePath("/agent/dashboard");
+  revalidatePath("/dashboard/properties/new");
+  revalidatePath("/listings");
+  revalidatePath("/properties");
+
+  redirect("/admin/settings?saved=1");
 }
 
 export async function createPlan(formData: FormData) {

@@ -1,9 +1,10 @@
 import { prisma } from "@/lib/prisma";
 
-// Baseline free-tier listing caps — used whenever a lister has no active paid plan.
+// Baseline free-tier listing caps — 0 free listings allowed for anyone (paid plan mandatory)
 export const FREE_LISTING_LIMITS: Record<string, number> = {
-  OWNER: 3,
-  DEALER: 10,
+  OWNER: 0,
+  DEALER: 0,
+  AGENT: 0,
 };
 
 export async function getActiveSubscription(userId: string) {

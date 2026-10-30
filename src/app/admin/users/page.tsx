@@ -142,7 +142,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
                       ` · ${user.role === "DEALER" ? "/dealers/" : "/owners/"}${user.slug}`}
                   </p>
                   <p className="mt-1 text-xs font-medium text-slate-600">
-                    Plan: {activeSub ? activeSub.plan.name : `Free (${freeLimit} listings)`}
+                    Plan: {activeSub ? activeSub.plan.name : freeLimit > 0 ? `Free (${freeLimit} listings)` : "No Active Plan (0 listings)"}
                     {activeSub && ` · ${activeSub.plan.listingLimit} listings`}
                     {activeSub?.endDate &&
                       ` · expires ${activeSub.endDate.toLocaleDateString("en-IN")}`}

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { getOrCreateMasterProperty } from "@/lib/masterProperty";
 import { getNearbyAmenities, formatAmenitiesNote } from "@/lib/amenityLookup";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export class ListingServiceError extends Error {}
 
@@ -51,6 +52,42 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
     throw new ListingServiceError("noLocation");
   }
 
+  const agent = await prisma.agentProfile.findUnique({
+    where: { id: agentProfileId },
+    include: {
+      user: {
+        include: {
+          subscriptions: {
+            where: { status: "ACTIVE", OR: [{ endDate: null }, { endDate: { gte: new Date() } }] },
+            include: { plan: true },
+            orderBy: { createdAt: "desc" },
+            take: 1,
+          },
+        },
+      },
+    },
+  });
+
+  if (!agent || agent.status !== "APPROVED" || !agent.primeStatus) {
+    throw new ListingServiceError("Active Channel Partner membership is required to list properties.");
+  }
+
+  // Basic Plan: 10 listings limit. Prime Plan: Unlimited listings.
+  const activeSub = agent.user.subscriptions[0] ?? null;
+  const isBasic = agent.planTier === "BASIC" || (activeSub?.plan && activeSub.plan.listingLimit < 100);
+  const planLimit = activeSub?.plan?.listingLimit ?? (isBasic ? 10 : 999999);
+
+  if (planLimit < 999999) {
+    const activeListingsCount = await prisma.agentListing.count({
+      where: { agentId: agentProfileId, isDelisted: false },
+    });
+    if (activeListingsCount >= planLimit) {
+      throw new ListingServiceError(
+        `Listing limit reached (${activeListingsCount}/${planLimit}) for Basic Channel Partner Plan (₹1,000/mo). Upgrade to Prime Plan (₹2,000/mo) for Unlimited listings.`
+      );
+    }
+  }
+
   const masterProperty = await getOrCreateMasterProperty({
     masterPropertyId: input.masterPropertyId,
     city: input.city,
@@ -62,11 +99,12 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
   // §3.15 — nearest Metro/Railway/Bus/Hospital/Grocery
   const nearby = await getNearbyAmenities(input.latitude, input.longitude);
 
-  // PDF 1 P.1 & P.2: Basic (₹200 / 30d) vs Gold (₹500 / 90d) auto-delisting
+  // PDF 1 P.1 & P.2: Basic vs Gold auto-delisting using admin-configured fees
+  const settings = await getSiteSettings();
   const listingPlan = input.listingPlan ?? "BASIC";
-  const fee = listingPlan === "GOLD" ? 500 : 200;
+  const fee = listingPlan === "GOLD" ? settings.goldListingFee : settings.basicListingFee;
   const validityDays = listingPlan === "GOLD" ? 90 : 30;
-  const splitPercent = 50;
+  const splitPercent = settings.listingSplitPercent ?? 50;
   const agentSplit = Math.round(fee * (splitPercent / 100));
   const companySplit = fee - agentSplit;
 

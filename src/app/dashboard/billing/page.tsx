@@ -28,7 +28,7 @@ export default async function DashboardBillingPage() {
 
       {subscriptions.length === 0 ? (
         <p className="mt-8 rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500">
-          No plan history yet — you&apos;re on the free plan.
+          No plan history yet — no active paid plan.
         </p>
       ) : (
         <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white">

@@ -10,7 +10,7 @@ import { formatINR } from "@/lib/format";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getRingAlertsForAgent } from "@/lib/ringAlerts";
 import { DispatchNotifications } from "@/components/agent/DispatchNotifications";
-import { requestPayoutAction, setAutoPayMandateAction } from "./actions";
+import { requestPayoutAction, setAutoPayMandateAction, upgradeAgentPlanAction } from "./actions";
 
 const STATUS_COPY: Record<string, { title: string; body: string; tone: string }> = {
   PENDING: {
@@ -79,7 +79,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
     subStatus,
     cycleProgress,
     networkData,
-    { siteName },
+    siteSettings,
     ringAlerts,
   ] = await Promise.all([
     getAgentCommissionSummary(agent.id),
@@ -93,6 +93,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
     getRingAlertsForAgent(agent.id),
   ]);
 
+  const { siteName } = siteSettings;
   const originUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const { getAgentShopUrl } = await import("@/lib/qr");
   const shopUrl = agent.agentCode ? getAgentShopUrl(agent.agentCode, originUrl) : `${originUrl}/listings`;
@@ -123,6 +124,11 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
       {saved === "mandate" && (
         <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
           Auto-Pay UPI mandate saved successfully.
+        </p>
+      )}
+      {saved === "plan" && (
+        <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
+          ✓ Channel Partner plan updated successfully! You now have Unlimited property listings and top priority search placement.
         </p>
       )}
       {mandateError && (
@@ -494,14 +500,35 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
           <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Wallet balance</p>
           <p className="mt-1 text-2xl font-bold text-slate-900">{formatINR(agent.walletBalance)}</p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Plan Tier</p>
-          <p className="mt-1 text-xl font-bold text-slate-900">
-            {subStatus?.planTier === "BASIC" ? "Basic (₹1,000/mo)" : "Prime (₹2,000/mo)"}
-          </p>
-          <p className="mt-1 text-xs text-slate-500">
-            {subStatus?.visibilityDeprioritized ? "Expired (Deprioritized)" : "Active Membership"}
-          </p>
+        <div className="rounded-xl border border-slate-200 bg-white p-4 flex flex-col justify-between">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Plan Tier</p>
+            <p className="mt-1 text-xl font-bold text-slate-900">
+              {subStatus?.planTier === "BASIC"
+                ? `Basic (₹${siteSettings.agentBasicPlanPrice.toLocaleString("en-IN")}/mo)`
+                : `Prime (₹${siteSettings.agentPrimePlanPrice.toLocaleString("en-IN")}/mo)`}
+            </p>
+            <p className="mt-0.5 text-xs text-slate-500">
+              {subStatus?.planTier === "BASIC"
+                ? "10 listings limit · Standard ranking"
+                : "Unlimited listings · Priority feed ranking"}
+            </p>
+          </div>
+          {subStatus?.planTier === "BASIC" ? (
+            <form action={upgradeAgentPlanAction} className="mt-3">
+              <input type="hidden" name="tier" value="PRIME" />
+              <button
+                type="submit"
+                className="w-full rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:from-purple-700 hover:to-indigo-700 transition cursor-pointer"
+              >
+                Upgrade to Prime (Unlimited)
+              </button>
+            </form>
+          ) : (
+            <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-purple-700">
+              <span>★</span> Top Priority Prime Active
+            </span>
+          )}
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Rating & Trust</p>

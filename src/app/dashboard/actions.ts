@@ -6,10 +6,11 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { readAmenitiesFromForm } from "@/lib/amenities";
-import { getListingUsage } from "@/lib/listing-quota";
+import { getListingUsage, getActiveSubscription } from "@/lib/listing-quota";
 import { getLeadUsage } from "@/lib/lead-quota";
 import { findOrCreateLocality } from "@/lib/locality";
 import { addListingDuration } from "@/lib/propertyVisibility";
+import { activateOwnerPlan } from "@/lib/ownerPlans";
 import { geocodeWithFallback } from "@/lib/geocode";
 import { getNearbyAmenities, formatAmenitiesNote } from "@/lib/amenityLookup";
 import type { PropertyImageCategory } from "@/generated/prisma/client";
@@ -162,13 +163,17 @@ export async function createProperty(formData: FormData): Promise<{ redirectTo?:
   const slug = await uniqueSlug(fields.title);
   const isAdminAuthored = session.user.role === "ADMIN" || session.user.role === "SUBADMIN";
 
+  const activeSub = await getActiveSubscription(ownerId);
+  const durationDays = activeSub?.plan?.durationDays ?? (activeSub?.plan?.name?.toLowerCase().includes("gold") ? 90 : 30);
+  const expiresAt = new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000);
+
   const property = await prisma.property.create({
     data: {
       ...fields,
       slug,
       ownerId,
       approvalStatus: isAdminAuthored ? "APPROVED" : "PENDING",
-      expiresAt: addListingDuration(),
+      expiresAt,
       images: {
         create: images.map(({ url, category, order }) => ({
           url,
@@ -324,3 +329,13 @@ export async function revealLead(formData: FormData) {
 
   revalidatePath("/dashboard/enquiries");
 }
+
+export async function chooseOwnerPlanAction(formData: FormData) {
+  const session = await requireListerOrAdmin();
+  const planTier = String(formData.get("planTier") ?? "BASIC") as "BASIC" | "GOLD";
+  await activateOwnerPlan(session.user.id, planTier);
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/properties/new");
+  redirect("/dashboard/properties/new?planActivated=1");
+}
+

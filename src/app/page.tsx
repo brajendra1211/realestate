@@ -111,8 +111,8 @@ export default async function Home() {
       a: "Yes. All featured new projects and developer inventories are cross-checked against official Uttar Pradesh RERA (UP RERA) registration numbers and sanction plans.",
     },
     {
-      q: "Can I list my property for sale or rent for free?",
-      a: "Yes! Individual property owners and certified channel partners can register and post properties completely free of cost with zero upfront charges.",
+      q: "How does property listing work for owners?",
+      a: "Owners can list their property directly with our transparent verified listing plans. Free spam listings are disabled platform-wide to guarantee 100% genuine buyer inquiries.",
     },
     {
       q: "How can I schedule a physical site visit?",
@@ -436,14 +436,14 @@ export default async function Home() {
               Looking to Sell or Rent Your Property in Noida?
             </h3>
             <p className="text-xs sm:text-sm text-slate-400">
-              List your flat, villa, plot, or commercial space for free and connect with thousands of active buyers every month.
+              List your flat, villa, plot, or commercial space directly and connect with verified buyers every month with zero brokerage.
             </p>
           </div>
           <Link
             href="/register"
             className="rounded-lg bg-blue-600 hover:bg-blue-700 px-6 py-3 text-xs sm:text-sm font-bold text-white transition shadow-sm shrink-0"
           >
-            Post Property Free
+            List Property
           </Link>
         </div>
       </section>

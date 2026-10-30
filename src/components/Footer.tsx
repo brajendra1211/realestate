@@ -104,7 +104,7 @@ export function Footer({
                   href="/register"
                   className="inline-block rounded-md bg-blue-600 hover:bg-blue-700 px-3 py-1.5 text-[11px] font-bold text-white transition"
                 >
-                  Post Property Free
+                  List Property
                 </Link>
               </div>
             </div>

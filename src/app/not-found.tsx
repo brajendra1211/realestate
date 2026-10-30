@@ -67,7 +67,7 @@ export default function NotFound() {
               href="/register"
               className="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 transition"
             >
-              Post Free Property
+              List Property
             </Link>
             <Link
               href="/register/agent"

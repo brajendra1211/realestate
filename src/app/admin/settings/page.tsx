@@ -101,9 +101,10 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
       </div>
 
       {saved === "1" && (
-        <p className="mt-4 max-w-2xl rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
-          Saved.
-        </p>
+        <div className="mt-4 max-w-3xl rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800 shadow-xs flex items-center gap-2">
+          <span className="text-base">✓</span>
+          <span>Settings &amp; pricing updated successfully! All platform fees, partner splits, plan rates, and target defaults are now active.</span>
+        </div>
       )}
 
       <form action={updateSiteSettings} className="mt-6 max-w-3xl space-y-6">
@@ -193,89 +194,177 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
         </Section>
 
         <Section
-          title="Commission rates"
-          description="Every payout % and fee in the platform — docs/platform-requirements.md §3.11-§3.14/§3.17. Changing a rate only affects deals/payments recorded after the change; past ledger entries keep whatever rate was in effect when they were credited."
+          title="Channel Partner Plans & Membership Fees"
+          description="Monthly membership fees charged for Channel Partner codes (Basic with 10 listings limit vs Prime with Unlimited listings) and referral splits. Updating these prices will automatically sync active database plans."
+        >
+          <Field
+            label="Basic Partner Plan price (₹) — 10 Listings Limit"
+            name="agentBasicPlanPrice"
+            type="number"
+            defaultValue={String(settings?.agentBasicPlanPrice ?? 1000)}
+            placeholder="Default ₹1,000 / month — 10 listings limit"
+          />
+          <Field
+            label="Prime Partner Plan price (₹) — Unlimited Listings"
+            name="agentPrimePlanPrice"
+            type="number"
+            defaultValue={String(settings?.agentPrimePlanPrice ?? 2000)}
+            placeholder="Default ₹2,000 / month — Unlimited listings"
+          />
+          <Field
+            label="Partner Plan referral split (%)"
+            name="agentPlanSplitPercent"
+            type="number"
+            defaultValue={String(settings?.agentPlanSplitPercent ?? 50)}
+            placeholder="50% credited to referring partner wallet"
+          />
+          <Field
+            label="Partner-to-partner Prime referral bonus (%)"
+            name="agentReferralPercent"
+            type="number"
+            defaultValue={String(settings?.agentReferralPercent ?? 10)}
+            placeholder="Legacy one-time bonus on first Prime payment"
+          />
+        </Section>
+
+        <Section
+          title="Owner Property Listing Plans & Marketplace Charges"
+          description="Listing fees when owners list properties directly (1 Month Basic ₹200 vs 3 Months Gold ₹500). Free listings are disabled platform-wide. Customer contact unlock charges and referral splits."
+        >
+          <Field
+            label="Owner Basic Listing Plan fee (₹) — 1 Month (30 Days)"
+            name="basicListingFee"
+            type="number"
+            defaultValue={String(settings?.basicListingFee ?? 200)}
+            placeholder="₹200 for 1 month active listing"
+          />
+          <Field
+            label="Owner Gold Listing Plan fee (₹) — 3 Months (90 Days)"
+            name="goldListingFee"
+            type="number"
+            defaultValue={String(settings?.goldListingFee ?? 500)}
+            placeholder="₹500 for 3 months active listing"
+          />
+          <Field
+            label="Listing fee split to partner wallet (%)"
+            name="listingSplitPercent"
+            type="number"
+            defaultValue={String(settings?.listingSplitPercent ?? 50)}
+            placeholder="50% credited to partner wallet on new/renewal listing"
+          />
+          <Field
+            label="Customer Contact Unlock Pass (₹)"
+            name="unlockPassAmount"
+            type="number"
+            defaultValue={String(settings?.unlockPassAmount ?? 100)}
+            placeholder="Buyer pays to reveal exact address & contact"
+          />
+          <Field
+            label="Contact Unlock — Partner Split (%)"
+            name="unlockAgentSplitPercent"
+            type="number"
+            defaultValue={String(settings?.unlockAgentSplitPercent ?? 50)}
+            placeholder="50% to listing partner, rest to company"
+          />
+          <Field
+            label="Customer Direct Self-Listing Fee (₹)"
+            name="goldListingAmount"
+            type="number"
+            defaultValue={String(settings?.goldListingAmount ?? 500)}
+            placeholder="Direct owner self-listing fee"
+          />
+          <Field
+            label="Direct Self-Listing — Partner Split (%)"
+            name="goldAgentSplitPercent"
+            type="number"
+            defaultValue={String(settings?.goldAgentSplitPercent ?? 50)}
+            placeholder="Split if listing has a referring partner code"
+          />
+        </Section>
+
+        <Section
+          title="Deals, Brokerage & Referral Partner (Investor) Sharing"
+          description="Every payout % and fee for B2B deals, registration fees, and profit sharing across closed transactions."
         >
           <Field
             label="Brokerage per side (%)"
             name="brokeragePercent"
             type="number"
             defaultValue={String(settings?.brokeragePercent ?? 1)}
-            placeholder="1% of deal value, to each of buyer's/seller's channel partner — §3.12"
+            placeholder="1% of deal value, to each of buyer's/seller's channel partner"
             span
           />
           <Field
-            label="Referral Partner+company deal profit — channel partner share (%)"
-            name="profitAgentSharePercent"
-            type="number"
-            defaultValue={String(settings?.profitAgentSharePercent ?? 10)}
-          />
-          <Field
-            label="Referral Partner+company deal profit — expense share (%)"
-            name="profitExpenseSharePercent"
-            type="number"
-            defaultValue={String(settings?.profitExpenseSharePercent ?? 10)}
-          />
-          <Field
-            label="Referral Partner+company deal profit — referral partner share (%)"
-            name="profitInvestorSharePercent"
-            type="number"
-            defaultValue={String(settings?.profitInvestorSharePercent ?? 40)}
-          />
-          <div>
-            <label className="text-sm font-medium text-slate-700">Referral Partner+company deal profit — company share</label>
-            <p className={inputClass + " bg-slate-50 text-slate-500"}>
-              Remainder — 100% minus the three shares above
-            </p>
-          </div>
-          <Field
-            label="Referral Partner registration fee (₹)"
+            label="Referral Partner (Investor) registration fee (₹)"
             name="investorRegistrationFee"
             type="number"
             defaultValue={String(settings?.investorRegistrationFee ?? 20000)}
-            placeholder="§3.11 — new referral partner registrations only, doesn't change existing referral partners' fee"
+            placeholder="Registration fee for new Referral Partners"
           />
           <Field
             label="Referral Partner registration referral (%)"
             name="investorReferralPercent"
             type="number"
             defaultValue={String(settings?.investorReferralPercent ?? 10)}
-            placeholder="% of the registration fee credited to the referring channel partner"
+            placeholder="% credited to referring partner wallet"
           />
           <Field
-            label="Channel Partner-to-channel partner referral (%)"
-            name="agentReferralPercent"
+            label="Deal profit — Channel Partner share (%)"
+            name="profitAgentSharePercent"
             type="number"
-            defaultValue={String(settings?.agentReferralPercent ?? 10)}
-            placeholder="§3.20 — % of a referred channel partner's first Prime payment, one-time"
+            defaultValue={String(settings?.profitAgentSharePercent ?? 10)}
           />
           <Field
-            label="Customer unlock pass (₹)"
-            name="unlockPassAmount"
+            label="Deal profit — Platform expense share (%)"
+            name="profitExpenseSharePercent"
             type="number"
-            defaultValue={String(settings?.unlockPassAmount ?? 100)}
-            placeholder="§3.3 — also reused for the dispatch trigger fee (§3.5)"
+            defaultValue={String(settings?.profitExpenseSharePercent ?? 10)}
           />
           <Field
-            label="Unlock pass — channel partner split (%)"
-            name="unlockAgentSplitPercent"
+            label="Deal profit — Referral Partner (Investor) share (%)"
+            name="profitInvestorSharePercent"
             type="number"
-            defaultValue={String(settings?.unlockAgentSplitPercent ?? 50)}
-            placeholder="Rest goes to the company"
+            defaultValue={String(settings?.profitInvestorSharePercent ?? 40)}
+          />
+          <div>
+            <label className="text-sm font-medium text-slate-700">Deal profit — Company retained share</label>
+            <p className={inputClass + " bg-slate-50 text-slate-500 font-medium"}>
+              Remainder — 100% minus the three shares above
+            </p>
+          </div>
+        </Section>
+
+        <Section
+          title="Channel Partner Review Targets (Global Defaults)"
+          description="Default cycle goals assigned to all channel partners. Can also be overridden individually per partner from the Targets admin page."
+        >
+          <Field
+            label="Target Review Cycle (Days)"
+            name="partnerTargetDays"
+            type="number"
+            defaultValue={String(settings?.partnerTargetDays ?? 30)}
+            placeholder="Default 30 days"
           />
           <Field
-            label="Gold self-listing fee (₹)"
-            name="goldListingAmount"
+            label="Target: Properties Listed"
+            name="partnerTargetProperties"
             type="number"
-            defaultValue={String(settings?.goldListingAmount ?? 500)}
-            placeholder="§3.4"
+            defaultValue={String(settings?.partnerTargetProperties ?? 20)}
+            placeholder="Default 20 properties"
           />
           <Field
-            label="Gold listing — channel partner split (%)"
-            name="goldAgentSplitPercent"
+            label="Target: Downline Channel Partners"
+            name="partnerTargetSubPartners"
             type="number"
-            defaultValue={String(settings?.goldAgentSplitPercent ?? 50)}
-            placeholder="Rest goes to the company"
+            defaultValue={String(settings?.partnerTargetSubPartners ?? 10)}
+            placeholder="Default 10 sub-partners"
+          />
+          <Field
+            label="Target: Referral Partners (Investors) Added"
+            name="partnerTargetInvestors"
+            type="number"
+            defaultValue={String(settings?.partnerTargetInvestors ?? 3)}
+            placeholder="Default 3 referral partners"
           />
         </Section>
 

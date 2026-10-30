@@ -19,6 +19,27 @@ export default async function ConfirmListingPage({ searchParams }: { searchParam
 
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) redirect("/register/agent");
+  if (agent.status !== "APPROVED" || !agent.primeStatus) redirect("/agent/listings/new");
+
+  const activeSub = await prisma.subscription.findFirst({
+    where: {
+      userId: session.user.id,
+      status: "ACTIVE",
+      OR: [{ endDate: null }, { endDate: { gte: new Date() } }],
+    },
+    include: { plan: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const isBasic = agent.planTier === "BASIC" || (activeSub?.plan && activeSub.plan.listingLimit < 100);
+  const planLimit = activeSub?.plan?.listingLimit ?? (isBasic ? 10 : 999999);
+  const currentCount = await prisma.agentListing.count({
+    where: { agentId: agent.id, isDelisted: false },
+  });
+
+  if (planLimit < 999999 && currentCount >= planLimit) {
+    redirect("/agent/listings/new");
+  }
 
   const { city, locality, address, lat, lng } = await searchParams;
   const latitude = Number(lat);

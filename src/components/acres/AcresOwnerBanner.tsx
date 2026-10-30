@@ -51,16 +51,16 @@ export function AcresOwnerBanner() {
               href="/register"
               className="inline-flex items-center gap-2 rounded-xl sm:rounded-2xl bg-[#0054a6] hover:bg-[#004080] px-6 py-3.5 text-xs sm:text-sm font-extrabold text-white shadow-md hover:shadow-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
             >
-              <span>Post Your Property</span>
-              <span className="rounded-full bg-emerald-500 text-white px-2 py-0.5 text-[10px] font-black uppercase tracking-wider">
-                FREE
+              <span>List Your Property</span>
+              <span className="rounded-full bg-blue-500 text-white px-2 py-0.5 text-[10px] font-black uppercase tracking-wider">
+                OWNER
               </span>
               <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 stroke-[2.5]">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </Link>
             <span className="text-[11px] font-semibold text-slate-500">
-              ⚡ Free listing • Instant activation
+              ⚡ Verified owner listing • Zero brokerage
             </span>
           </div>
         </div>

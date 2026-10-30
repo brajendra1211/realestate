@@ -94,29 +94,47 @@ export async function Navbar({
         <div className="flex items-center gap-2.5">
           {session ? (
             <>
-              <span className="hidden text-xs sm:text-sm font-semibold text-slate-700 sm:inline">
+              {session.user.role === "OWNER" && (
+                <Link
+                  href="/dashboard/properties/new"
+                  className="hidden rounded-xl bg-blue-600 hover:bg-blue-700 px-3.5 py-2 text-xs font-extrabold text-white shadow-xs transition sm:inline-flex items-center gap-1.5"
+                >
+                  <span>+ List Property</span>
+                </Link>
+              )}
+              {session.user.role === "AGENT" && (
+                <Link
+                  href="/agent/listings/new"
+                  className="hidden rounded-xl bg-emerald-600 hover:bg-emerald-700 px-3.5 py-2 text-xs font-extrabold text-white shadow-xs transition sm:inline-flex items-center gap-1.5"
+                >
+                  <span>+ Add Listing</span>
+                </Link>
+              )}
+              <span className="hidden text-xs sm:text-sm font-bold text-slate-700 sm:inline bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
                 {session.user.name}
               </span>
-              <LogoutButton className="hidden rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 sm:inline-block" />
+              <LogoutButton className="hidden rounded-xl border border-slate-300 px-3 py-1.5 text-xs font-bold text-slate-700 transition hover:bg-slate-100 sm:inline-block cursor-pointer" />
             </>
           ) : (
             <>
-              {authLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="hidden text-xs sm:text-sm font-semibold text-slate-700 hover:text-blue-600 sm:inline px-2 py-1.5"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {/* Button 1: Log in (for Buyers, Channel Partners, and Admins) */}
+              <Link
+                href="/login"
+                className="hidden text-xs sm:text-sm font-bold text-slate-700 hover:text-blue-600 sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition shadow-2xs"
+                title="Buyer & Channel Partner Login"
+              >
+                <span>👤</span>
+                <span>Log in</span>
+              </Link>
+
+              {/* Button 2: List Property (Direct for Property Owners) */}
               <Link
                 href="/register"
-                className="hidden rounded-lg bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-bold text-white shadow-xs transition sm:inline-flex items-center gap-1.5"
+                className="hidden rounded-xl bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-black text-white shadow-sm transition sm:inline-flex items-center gap-1.5 hover:scale-[1.01] active:scale-[0.99]"
               >
-                <span>Post Property</span>
-                <span className="rounded bg-emerald-500 px-1.5 py-0.2 text-[9px] font-black uppercase text-white tracking-wider">
-                  FREE
+                <span>List Property</span>
+                <span className="rounded bg-blue-500/90 px-1.5 py-0.5 text-[9px] font-black uppercase text-white tracking-wider">
+                  OWNER
                 </span>
               </Link>
             </>
@@ -139,25 +157,41 @@ export async function Navbar({
 
             {session ? (
               <div className="space-y-2 px-3 py-2">
-                <p className="text-sm font-semibold text-slate-700">{session.user.name}</p>
+                <p className="text-sm font-bold text-slate-900">{session.user.name}</p>
+                {session.user.role === "OWNER" && (
+                  <Link
+                    href="/dashboard/properties/new"
+                    className="block w-full rounded-xl bg-blue-600 text-white text-center font-bold text-xs py-2"
+                  >
+                    + List Property
+                  </Link>
+                )}
+                {session.user.role === "AGENT" && (
+                  <Link
+                    href="/agent/listings/new"
+                    className="block w-full rounded-xl bg-emerald-600 text-white text-center font-bold text-xs py-2"
+                  >
+                    + Add Listing
+                  </Link>
+                )}
                 <LogoutButton className="w-full rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100" />
               </div>
             ) : (
-              <div className="flex flex-col gap-1.5">
-                {authLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+              <div className="flex flex-col gap-2">
+                <Link
+                  href="/login"
+                  className="rounded-xl border border-slate-200 px-4 py-2 text-center text-xs font-bold text-slate-800 hover:bg-slate-50"
+                >
+                  👤 Log in (Buyer / Agent / Admin)
+                </Link>
                 <Link
                   href="/register"
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-center text-xs font-bold text-white transition hover:bg-blue-700 shadow-xs"
+                  className="rounded-xl bg-blue-600 px-4 py-2.5 text-center text-xs font-black text-white transition hover:bg-blue-700 shadow-xs flex items-center justify-center gap-1.5"
                 >
-                  Post Property (FREE)
+                  <span>List Property</span>
+                  <span className="rounded bg-blue-500/90 px-1.5 py-0.5 text-[9px] font-black uppercase text-white">
+                    OWNER
+                  </span>
                 </Link>
               </div>
             )}

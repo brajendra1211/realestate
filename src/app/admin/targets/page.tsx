@@ -5,6 +5,7 @@ import { getSiteSettings } from "@/lib/site-settings";
 import { getAllPartnersTargetProgress } from "@/lib/targetCycle";
 import { updateGlobalTargetsAction } from "./actions";
 import { PartnerTargetModal } from "./PartnerTargetModal";
+import { PartnerBreakdownView } from "./PartnerBreakdownView";
 
 type SearchParams = Promise<{
   search?: string;
@@ -461,6 +462,9 @@ export default async function AdminTargetsPage({
                       </div>
                     </div>
                   </div>
+
+                  {/* Detailed Breakdown: Listings, Downline Partners, Investors & Profile */}
+                  <PartnerBreakdownView partner={partner} />
                 </div>
               );
             })}

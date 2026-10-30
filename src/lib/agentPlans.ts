@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { AgentPlanTier } from "@/generated/prisma";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export interface AgentPlanDefinition {
   id: string;
@@ -27,26 +28,45 @@ export const DEFAULT_AGENT_PLANS = [
     tier: "PRIME" as AgentPlanTier,
     price: 2000,
     durationDays: 30,
-    listingLimit: 50,
-    description: "Prime monthly channel partner membership with high priority and B2B broadcast access",
+    listingLimit: 999999, // Unlimited listings
+    description: "Prime monthly channel partner membership with Unlimited property listings and high priority",
   },
 ];
 
 /**
- * Ensures standard Basic (₹1,000) and Prime (₹2,000) agent plans exist in the DB.
+ * Ensures standard Basic and Prime agent plans exist in the DB.
  */
 export async function ensureDefaultAgentPlans() {
+  const settings = await getSiteSettings();
+  const basicPrice = settings.agentBasicPlanPrice ?? 1000;
+  const primePrice = settings.agentPrimePlanPrice ?? 2000;
+
   const plans = await Promise.all(
     DEFAULT_AGENT_PLANS.map(async (def) => {
+      const price = def.tier === "BASIC" ? basicPrice : primePrice;
+      const targetId = def.tier === "BASIC" ? "plan-agent-basic" : "plan-agent-prime";
       const existing = await prisma.plan.findFirst({
-        where: { name: def.name, role: "AGENT" },
+        where: { OR: [{ id: targetId }, { name: def.name, role: "AGENT" }] },
       });
-      if (existing) return existing;
+      if (existing) {
+        return prisma.plan.update({
+          where: { id: existing.id },
+          data: {
+            id: targetId,
+            name: def.name,
+            price,
+            durationDays: def.durationDays,
+            listingLimit: def.listingLimit,
+            active: true,
+          },
+        });
+      }
       return prisma.plan.create({
         data: {
+          id: targetId,
           name: def.name,
           role: "AGENT",
-          price: def.price,
+          price,
           durationDays: def.durationDays,
           listingLimit: def.listingLimit,
           active: true,
@@ -58,20 +78,26 @@ export async function ensureDefaultAgentPlans() {
 }
 
 /**
- * Get available agent plans with split breakdowns per PDF 1 Page 1:
- * - Basic Plan: ₹1,000 / month (₹500 agent wallet split, ₹500 company)
- * - Prime Plan: ₹2,000 / month (₹1,000 agent wallet split, ₹1,000 company)
+ * Get available agent plans with split breakdowns:
+ * Uses dynamic prices and split % from admin settings.
  */
 export async function getAgentPlans(): Promise<AgentPlanDefinition[]> {
-  await ensureDefaultAgentPlans();
+  const [settings] = await Promise.all([
+    getSiteSettings(),
+    ensureDefaultAgentPlans(),
+  ]);
+
   const dbPlans = await prisma.plan.findMany({
     where: { role: { in: ["AGENT", "BOTH"] }, active: true },
     orderBy: { price: "asc" },
   });
 
+  const basicThreshold = settings.agentBasicPlanPrice ?? 1000;
+  const splitPercent = settings.agentPlanSplitPercent ?? 50;
+
   return dbPlans.map((p) => {
-    const tier: AgentPlanTier = p.price <= 1000 ? "BASIC" : "PRIME";
-    const splitPercent = 50; // PDF 1 Page 1: 50-50 split
+    const isBasic = p.name.toLowerCase().includes("basic") || p.price <= basicThreshold;
+    const tier: AgentPlanTier = isBasic ? "BASIC" : "PRIME";
     const referralAmount = Math.round(p.price * (splitPercent / 100));
     const companyAmount = p.price - referralAmount;
 

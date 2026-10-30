@@ -1,69 +1,42 @@
-import { RegisterForm } from "./RegisterForm";
+import Link from "next/link";
+import { OwnerPortalCard } from "./OwnerPortalCard";
 
-type SearchParams = Promise<{ type?: string }>;
-
-export default async function RegisterPage({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const { type } = await searchParams;
-  const accountType = type === "DEALER" ? "DEALER" : "OWNER";
-
+export default async function RegisterPage() {
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold text-slate-900">List a property</h1>
-      <p className="mt-1 text-sm text-slate-500">
-        Create an owner or dealer/broker account to add and manage your listings.
-      </p>
+    <div className="min-h-[85vh] bg-linear-to-b from-slate-50 via-white to-slate-100/70 py-12 px-4 sm:px-6 flex items-center justify-center">
+      <div className="w-full max-w-lg mx-auto">
+        {/* Header Branding */}
+        <div className="text-center mb-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900 text-white shadow-md hover:bg-slate-800 transition-all text-xs font-bold tracking-wide"
+          >
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white text-[11px] font-black">
+              NP
+            </span>
+            <span>Noida Prime Properties</span>
+          </Link>
 
-      <div className="mt-6 grid grid-cols-3 gap-2 text-xs sm:text-sm font-medium">
-        <a
-          href="/register?type=OWNER"
-          className={`rounded-xl border px-2 py-2.5 text-center transition ${
-            accountType === "OWNER"
-              ? "border-blue-600 bg-blue-50 text-blue-700 font-bold"
-              : "border-slate-200 text-slate-600 hover:bg-slate-50"
-          }`}
-        >
-          Property Owner
-        </a>
-        <a
-          href="/register?type=DEALER"
-          className={`rounded-xl border px-2 py-2.5 text-center transition ${
-            accountType === "DEALER"
-              ? "border-blue-600 bg-blue-50 text-blue-700 font-bold"
-              : "border-slate-200 text-slate-600 hover:bg-slate-50"
-          }`}
-        >
-          Dealer / Broker
-        </a>
-        <a
-          href="/register/agent"
-          className="rounded-xl border border-emerald-300 bg-emerald-50 px-2 py-2.5 text-center text-emerald-800 font-bold hover:bg-emerald-100 transition shadow-xs"
-        >
-          Channel Partner 🌟
-        </a>
+          <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-900">
+            List Your Property
+          </h1>
+          <p className="mt-2 text-sm text-slate-500 font-medium">
+            Dedicated portal for Property Owners. Post property directly or log in to manage your listings.
+          </p>
+        </div>
+
+        {/* Owner Portal Card (Post Property / Owner Login) */}
+        <OwnerPortalCard />
+
+        {/* Trust Badges */}
+        <div className="mt-6 text-center text-xs text-slate-400 flex items-center justify-center gap-2 font-medium">
+          <span>🔒 Verified Listings</span>
+          <span>•</span>
+          <span>Zero Brokerage</span>
+          <span>•</span>
+          <span>Direct Buyer Connect</span>
+        </div>
       </div>
-
-      <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/70 p-3 text-xs text-emerald-800 flex items-center justify-between">
-        <span>Are you a Channel Partner / Agent?</span>
-        <a
-          href="/register/agent"
-          className="font-bold underline hover:text-emerald-950 ml-2"
-        >
-          Agent Registration ➔
-        </a>
-      </div>
-
-      <RegisterForm accountType={accountType} />
-
-      <p className="mt-6 text-center text-sm text-slate-500">
-        Already have an account?{" "}
-        <a href="/login" className="font-medium text-blue-600 hover:underline">
-          Log in
-        </a>
-      </p>
     </div>
   );
 }

@@ -8,9 +8,10 @@ import { createPlan, updatePlan, deletePlan } from "../actions";
 type SearchParams = Promise<{ saved?: string; error?: string }>;
 
 const ROLE_OPTIONS = [
-  { value: "BOTH", label: "Owners & Dealers" },
   { value: "OWNER", label: "Owners only" },
+  { value: "AGENT", label: "Channel Partners (Agents)" },
   { value: "DEALER", label: "Dealers only" },
+  { value: "BOTH", label: "Owners & Dealers" },
 ];
 
 const inputClass =
@@ -31,12 +32,7 @@ export default async function AdminPlansPage({ searchParams }: { searchParams: S
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Listing plans</h1>
         <p className="mt-1 max-w-2xl text-sm text-slate-500">
-          Owners get {FREE_LISTING_LIMITS.OWNER} free listings and {FREE_LEAD_LIMITS.OWNER} free
-          lead reveals by default; dealers get {FREE_LISTING_LIMITS.DEALER} listings and{" "}
-          {FREE_LEAD_LIMITS.DEALER} lead reveals. A buyer&apos;s contact info on an enquiry stays
-          hidden until the lister spends a lead reveal to view it — create paid plans here to
-          raise both caps, then assign a plan from{" "}
-          <span className="font-medium">Dealers &amp; Owners</span> once they&apos;ve paid.
+          Free listings are completely disabled across the platform (0 free listings allowed). All owners, dealers, and channel partners must have an active paid plan to list properties. Manage and customize plan limits, durations, and pricing below.
         </p>
       </div>
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/app_brand.dart';
 import '../../../core/network/api_client.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/router/route_paths.dart';
@@ -429,9 +430,9 @@ class _HomeScreenState extends State<HomeScreen>
                       letterSpacing: -0.2,
                     ),
                     children: [
-                      const TextSpan(text: 'Baya'),
+                      TextSpan(text: AppBrand.wordmarkPrefix),
                       TextSpan(
-                        text: 'Estate',
+                        text: AppBrand.wordmarkSuffix,
                         style: GoogleFonts.fraunces(
                           fontSize: 34,
                           fontWeight: FontWeight.w500,
@@ -1297,7 +1298,7 @@ class _HomeScreenState extends State<HomeScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Why Baya Estate?',
+              'Why ${AppBrand.name}?',
               style: GoogleFonts.fraunces(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/app_brand.dart';
 import '../../../core/network/api_client.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/router/route_paths.dart';
@@ -282,7 +283,7 @@ Scan QR or click below to view all my available verified properties:
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Customers scan this QR code with any mobile camera or the BayaEstate app, pay ₹50 via Razorpay, and immediately see your verified contact & all properties.',
+                                'Customers scan this QR code with any mobile camera or the ${AppBrand.name} app, pay ₹50 via Razorpay, and immediately see your verified contact & all properties.',
                                 style: GoogleFonts.inter(
                                   fontSize: 11,
                                   color: const Color(0xFF92400E),

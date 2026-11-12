@@ -28,27 +28,46 @@ export function ShopScanAlertListener({ agentProfileId }: { agentProfileId: stri
   const RING_REPEATS = 6;
   const RING_GAP_SECONDS = 0.8;
 
+  function getAudioCtx() {
+    const Ctx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const ctx = audioCtxRef.current ?? new Ctx();
+    audioCtxRef.current = ctx;
+    return ctx;
+  }
+
+  function scheduleTones(ctx: AudioContext) {
+    for (let repeat = 0; repeat < RING_REPEATS; repeat++) {
+      const ringStart = ctx.currentTime + repeat * RING_GAP_SECONDS;
+      [880, 1175].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.frequency.value = freq;
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        const start = ringStart + i * 0.22;
+        gain.gain.setValueAtTime(0.001, start);
+        gain.gain.exponentialRampToValueAtTime(0.25, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.2);
+        osc.start(start);
+        osc.stop(start + 0.22);
+      });
+    }
+  }
+
   function playRing() {
     try {
-      const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const ctx = audioCtxRef.current ?? new Ctx();
-      audioCtxRef.current = ctx;
-
-      for (let repeat = 0; repeat < RING_REPEATS; repeat++) {
-        const ringStart = ctx.currentTime + repeat * RING_GAP_SECONDS;
-        [880, 1175].forEach((freq, i) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.frequency.value = freq;
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          const start = ringStart + i * 0.22;
-          gain.gain.setValueAtTime(0.001, start);
-          gain.gain.exponentialRampToValueAtTime(0.25, start + 0.02);
-          gain.gain.exponentialRampToValueAtTime(0.001, start + 0.2);
-          osc.start(start);
-          osc.stop(start + 0.22);
-        });
+      const ctx = getAudioCtx();
+      // A context created (or left) in "suspended" state — the browser's
+      // autoplay policy blocking sound until the page has had some user
+      // gesture — schedules tones silently with no error. Resuming first
+      // (a no-op if already running) and scheduling only once that settles
+      // is what actually makes sound come out, instead of just the banner.
+      if (ctx.state === "suspended") {
+        ctx.resume().then(() => scheduleTones(ctx)).catch(() => {});
+      } else {
+        scheduleTones(ctx);
       }
     } catch {
       // Autoplay can be blocked before the first user interaction on the
@@ -92,6 +111,24 @@ export function ShopScanAlertListener({ agentProfileId }: { agentProfileId: stri
     if (typeof Notification !== "undefined" && Notification.permission === "default") {
       Notification.requestPermission();
     }
+  }, []);
+
+  // Unlock audio on the very first interaction anywhere on the dashboard
+  // (a click into a tab, a scroll) rather than waiting for a ring to try
+  // and fail — by the time a real alert arrives minutes later, sound is
+  // already allowed to play instead of needing a fresh gesture in that
+  // exact instant.
+  useEffect(() => {
+    function unlock() {
+      const ctx = getAudioCtx();
+      if (ctx.state === "suspended") ctx.resume().catch(() => {});
+    }
+    document.addEventListener("pointerdown", unlock, { once: true });
+    document.addEventListener("keydown", unlock, { once: true });
+    return () => {
+      document.removeEventListener("pointerdown", unlock);
+      document.removeEventListener("keydown", unlock);
+    };
   }, []);
 
   if (!alert) return null;

@@ -15,6 +15,7 @@ import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/auth_header.dart';
 import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
+import '../../../providers/agent_auth_provider.dart';
 import '../../../providers/customer_auth_provider.dart';
 
 // Matches the OTP provider's own per-number resend window — resending
@@ -89,7 +90,26 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
         otp: _otpController.text.trim(),
       );
       if (!mounted) return;
-      context.go(widget.from ?? RoutePaths.buyerDashboard);
+
+      // One OTP works for every role (the server-side provider matches
+      // whichever existing account owns this phone/email, or creates a new
+      // buyer) — so route to the right home base instead of making the
+      // person pick their role up front.
+      switch (customerAuth.role) {
+        case 'AGENT':
+          // AgentAuthProvider gates /agent/* separately from this provider
+          // (see its own isLoggedIn doc comment) — it needs its own refresh
+          // before the router will let this navigation through.
+          await context.read<AgentAuthProvider>().restoreSession();
+          if (!mounted) return;
+          context.go(RoutePaths.agentDashboard);
+          break;
+        case 'INVESTOR':
+          context.go(RoutePaths.investorDashboard);
+          break;
+        default:
+          context.go(widget.from ?? RoutePaths.buyerDashboard);
+      }
     } on ApiException catch (_) {
       setState(() => _errorMessage = 'That code isn\'t right — check and try again.');
     } finally {

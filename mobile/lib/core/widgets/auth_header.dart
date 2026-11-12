@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../config/app_brand.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 
@@ -27,7 +28,7 @@ class AuthHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
           child: Text(
-            'B',
+            AppBrand.name.substring(0, 1).toUpperCase(),
             style: GoogleFonts.fraunces(
               fontSize: 26,
               fontWeight: FontWeight.w600,

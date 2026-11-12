@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'core/config/app_brand.dart';
 import 'core/network/api_client.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -40,7 +41,7 @@ class _BayaEstateAppState extends State<BayaEstateApp> {
         ChangeNotifierProvider<CustomerAuthProvider>.value(value: _customerAuth),
       ],
       child: MaterialApp.router(
-        title: 'BayaEstate',
+        title: AppBrand.name,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         routerConfig: _router,

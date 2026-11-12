@@ -76,9 +76,9 @@ class _BuyerLoginScreenState extends State<BuyerLoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const AuthHeader(
-                          title: 'Buyer login',
+                          title: 'Sign in',
                           subtitle:
-                              'No password needed — we\'ll send a one-time code on WhatsApp (or email).',
+                              'One code gets you in — as a buyer, channel partner, or referral partner, whichever this number or email belongs to.',
                         ),
                         const SizedBox(height: AppSpacing.xl),
                         if (_errorMessage != null) ...[
@@ -106,6 +106,13 @@ class _BuyerLoginScreenState extends State<BuyerLoginScreen> {
                           expand: true,
                           loading: _submitting,
                           onPressed: _submit,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        Center(
+                          child: TextButton(
+                            onPressed: () => context.push(RoutePaths.agentLogin),
+                            child: const Text('Channel partner? Sign in with a password instead'),
+                          ),
                         ),
                       ],
                     ),

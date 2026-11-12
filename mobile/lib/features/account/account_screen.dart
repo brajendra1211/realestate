@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/config/app_brand.dart';
 import '../../core/router/route_paths.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
@@ -17,6 +18,12 @@ class AccountScreen extends StatelessWidget {
     final agentAuth = context.watch<AgentAuthProvider>();
     final customerAuth = context.watch<CustomerAuthProvider>();
 
+    // NextAuth holds one session per cookie jar, so at most one of these is
+    // ever true — show that one role's card, or a single sign-in entry
+    // point when logged out, rather than making the person guess which of
+    // three screens their account lives behind.
+    final signedIn = agentAuth.isLoggedIn || customerAuth.isBuyer || customerAuth.isInvestor;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Account')),
       body: SafeArea(
@@ -24,7 +31,7 @@ class AccountScreen extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.lg),
           children: [
             Text(
-              'Sign in',
+              'Account',
               style: GoogleFonts.fraunces(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
@@ -33,47 +40,46 @@ class AccountScreen extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              'Choose how you use BayaEstate.',
+              signedIn
+                  ? 'Your ${AppBrand.name} account.'
+                  : 'Sign in to save properties, manage listings, or track referrals.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: AppSpacing.lg),
-            _AccountOption(
-              icon: Icons.person_outline,
-              title: 'Buyer',
-              subtitle: customerAuth.isBuyer
-                  ? 'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'buyer'}'
-                  : 'Save properties, track enquiries, book visits.',
-              signedIn: customerAuth.isBuyer,
-              onTap: () => context.push(
-                customerAuth.isBuyer ? RoutePaths.buyerDashboard : RoutePaths.buyerLogin,
+            if (agentAuth.isLoggedIn)
+              _AccountOption(
+                icon: Icons.badge_outlined,
+                title: 'Channel Partner',
+                subtitle: 'Signed in as ${agentAuth.name ?? 'agent'}',
+                signedIn: true,
+                onTap: () => context.push(RoutePaths.agentDashboard),
+              )
+            else if (customerAuth.isInvestor)
+              _AccountOption(
+                icon: Icons.trending_up,
+                title: 'Referral Partner',
+                subtitle:
+                    'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'investor'}',
+                signedIn: true,
+                onTap: () => context.push(RoutePaths.investorDashboard),
+              )
+            else if (customerAuth.isBuyer)
+              _AccountOption(
+                icon: Icons.person_outline,
+                title: 'Buyer',
+                subtitle:
+                    'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'buyer'}',
+                signedIn: true,
+                onTap: () => context.push(RoutePaths.buyerDashboard),
+              )
+            else
+              _AccountOption(
+                icon: Icons.login,
+                title: 'Sign in',
+                subtitle: 'One code — we\'ll take you to the right place.',
+                signedIn: false,
+                onTap: () => context.push(RoutePaths.buyerLogin),
               ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            _AccountOption(
-              icon: Icons.trending_up,
-              title: 'Referral Partner',
-              subtitle: customerAuth.isInvestor
-                  ? 'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'investor'}'
-                  : 'Track your capital, profit ledger, and documents.',
-              signedIn: customerAuth.isInvestor,
-              onTap: () => context.push(
-                customerAuth.isInvestor
-                    ? RoutePaths.investorDashboard
-                    : RoutePaths.investorLogin,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            _AccountOption(
-              icon: Icons.badge_outlined,
-              title: 'Channel Partner',
-              subtitle: agentAuth.isLoggedIn
-                  ? 'Signed in as ${agentAuth.name ?? 'agent'}'
-                  : 'Manage listings, leads, and commissions.',
-              signedIn: agentAuth.isLoggedIn,
-              onTap: () => context.push(
-                agentAuth.isLoggedIn ? RoutePaths.agentDashboard : RoutePaths.agentLogin,
-              ),
-            ),
           ],
         ),
       ),

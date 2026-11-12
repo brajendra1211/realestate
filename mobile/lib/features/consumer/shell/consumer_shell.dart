@@ -38,9 +38,7 @@ class ConsumerShell extends StatelessWidget {
       case 3:
         final agentAuth = context.read<AgentAuthProvider>();
         context.push(
-          agentAuth.isLoggedIn
-              ? RoutePaths.agentDashboard
-              : RoutePaths.agentLogin,
+          agentAuth.isLoggedIn ? RoutePaths.agentDashboard : RoutePaths.buyerLogin,
         );
     }
   }

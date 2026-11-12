@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/config/app_brand.dart';
 import '../../core/router/route_paths.dart';
 import '../../providers/agent_auth_provider.dart';
 import '../../providers/customer_auth_provider.dart';
@@ -539,9 +540,9 @@ class _Brand extends StatelessWidget {
 
     Widget logoLayer({required bool stroke}) => RichText(
           text: TextSpan(children: [
-            TextSpan(text: 'BAY', style: styleFor(_ink, stroke: stroke)),
-            TextSpan(text: 'AE', style: styleFor(_gold, stroke: stroke)),
-            TextSpan(text: 'STATE', style: styleFor(_ink, stroke: stroke)),
+            TextSpan(text: AppBrand.splashSegment1, style: styleFor(_ink, stroke: stroke)),
+            TextSpan(text: AppBrand.splashSegment2, style: styleFor(_gold, stroke: stroke)),
+            TextSpan(text: AppBrand.splashSegment3, style: styleFor(_ink, stroke: stroke)),
           ]),
         );
 

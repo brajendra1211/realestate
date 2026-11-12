@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { UnifiedLoginCard } from "./UnifiedLoginCard";
+import { getSiteSettings } from "@/lib/site-settings";
 
 type SearchParams = Promise<{ error?: string; callbackUrl?: string }>;
 
@@ -9,6 +10,7 @@ export default async function LoginPage({
   searchParams: SearchParams;
 }) {
   const { callbackUrl } = await searchParams;
+  const { siteName } = await getSiteSettings();
 
   return (
     <div className="min-h-[85vh] bg-linear-to-b from-slate-50 via-white to-slate-100/70 py-12 px-4 sm:px-6 flex items-center justify-center">
@@ -20,9 +22,9 @@ export default async function LoginPage({
             className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900 text-white shadow-md hover:bg-slate-800 transition-all text-xs font-bold tracking-wide"
           >
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white text-[11px] font-black">
-              NP
+              {siteName.slice(0, 2).toUpperCase()}
             </span>
-            <span>Noida Prime Properties</span>
+            <span>{siteName}</span>
           </Link>
 
           <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-900">

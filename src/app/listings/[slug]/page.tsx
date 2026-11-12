@@ -116,16 +116,24 @@ export default async function ListingDetailPage({
       </div>
 
       {isBuyer && isSaved && listing.agentId && (
-        <form action={ringAgentListingAction} className="mt-3">
+        <form action={ringAgentListingAction} className="mt-4">
           <input type="hidden" name="agentListingId" value={listing.id} />
           <button
             type="submit"
             disabled={ringsRemainingToday <= 0}
-            className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-slate-900 px-5 py-3.5 text-sm font-bold text-amber-400 shadow-md shadow-slate-900/10 transition hover:bg-slate-800 hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
           >
-            {ringsRemainingToday > 0
-              ? `🔔 Ring this channel partner (${ringsRemainingToday} left today)`
-              : "Ring used for today"}
+            <span className="text-lg">🔔</span>
+            {ringsRemainingToday > 0 ? (
+              <span>
+                Ring this channel partner{" "}
+                <span className="text-amber-200/80 font-medium">
+                  ({ringsRemainingToday} left today)
+                </span>
+              </span>
+            ) : (
+              <span>Ring used for today</span>
+            )}
           </button>
         </form>
       )}

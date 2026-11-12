@@ -21,27 +21,35 @@ export function ShopScanAlertListener({ agentProfileId }: { agentProfileId: stri
   const [alert, setAlert] = useState<Alert | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
 
+  // A single "brring-brring" (two quick ascending beeps) was easy to miss —
+  // it's over in under half a second. This repeats that same two-tone
+  // pattern several times, phone-call-style, so it actually has a chance of
+  // catching an agent's attention instead of a blink-and-you-miss-it chirp.
+  const RING_REPEATS = 6;
+  const RING_GAP_SECONDS = 0.8;
+
   function playRing() {
     try {
       const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       const ctx = audioCtxRef.current ?? new Ctx();
       audioCtxRef.current = ctx;
 
-      // Two quick ascending beeps — no audio asset to license/ship, just a
-      // synthesized tone (Web Audio API, works in every modern browser).
-      [880, 1175].forEach((freq, i) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.frequency.value = freq;
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        const start = ctx.currentTime + i * 0.22;
-        gain.gain.setValueAtTime(0.001, start);
-        gain.gain.exponentialRampToValueAtTime(0.25, start + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.2);
-        osc.start(start);
-        osc.stop(start + 0.22);
-      });
+      for (let repeat = 0; repeat < RING_REPEATS; repeat++) {
+        const ringStart = ctx.currentTime + repeat * RING_GAP_SECONDS;
+        [880, 1175].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.frequency.value = freq;
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          const start = ringStart + i * 0.22;
+          gain.gain.setValueAtTime(0.001, start);
+          gain.gain.exponentialRampToValueAtTime(0.25, start + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, start + 0.2);
+          osc.start(start);
+          osc.stop(start + 0.22);
+        });
+      }
     } catch {
       // Autoplay can be blocked before the first user interaction on the
       // page — the on-screen banner below still shows regardless.

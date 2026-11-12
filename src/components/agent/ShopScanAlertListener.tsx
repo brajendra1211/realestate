@@ -77,7 +77,18 @@ export function ShopScanAlertListener({ agentProfileId }: { agentProfileId: stri
 
   useEffect(() => {
     const socket = getSocket();
-    socket.emit("join", { agentProfileId });
+
+    function join() {
+      socket.emit("join", { agentProfileId });
+    }
+    join();
+    // A server restart (every deploy) drops every open socket; the client
+    // auto-reconnects with a new socket id but was never told to re-join
+    // this agent's room, so emitToAgent finds nobody there until the page
+    // is reloaded. Re-joining on every "connect" (which also fires after
+    // a reconnect, not just the first connection) keeps room membership
+    // alive across that without needing a manual refresh.
+    socket.on("connect", join);
 
     function onNearby(payload: Omit<NearbyAlert, "kind">) {
       setAlert({ kind: "nearby", ...payload });
@@ -102,6 +113,7 @@ export function ShopScanAlertListener({ agentProfileId }: { agentProfileId: stri
     socket.on("shop-scan:nearby", onNearby);
     socket.on("property-ring", onPropertyRing);
     return () => {
+      socket.off("connect", join);
       socket.off("shop-scan:nearby", onNearby);
       socket.off("property-ring", onPropertyRing);
     };

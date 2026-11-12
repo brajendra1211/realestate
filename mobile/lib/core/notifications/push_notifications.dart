@@ -87,6 +87,15 @@ Future<void> _showLocalNotification(RemoteMessage message) async {
 
   final isRing = data['type'] == 'property-ring';
 
+  // fullScreenIntent only escalates to an actual takeover when the app
+  // *isn't* already the foregrounded, focused activity — if the agent is
+  // already looking at the app when a ring arrives, Android has nowhere
+  // further to "escalate" to, so it just queues the notification quietly
+  // instead. Jumping straight to the incoming-ring screen here covers that
+  // case the same way a real call would.
+  final ringPayload = _parseRingPayload(jsonEncode(data));
+  if (ringPayload != null) ringTapped.add(ringPayload);
+
   await _localNotifications.show(
     message.hashCode,
     title,

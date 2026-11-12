@@ -45,13 +45,13 @@ export async function sendPushToUser(
   data?: Record<string, string>
 ) {
   const fcm = await getMessaging();
-  if (!fcm) return;
+  if (!fcm) return { reason: "not-configured" as const };
 
   const tokens: { id: string; token: string }[] = await prisma.pushToken.findMany({
     where: { userId },
     select: { id: true, token: true },
   });
-  if (tokens.length === 0) return;
+  if (tokens.length === 0) return { reason: "no-tokens" as const };
 
   // Data-only (no top-level `notification` field): Android's FCM SDK would
   // otherwise auto-display a notification-shaped message itself whenever the
@@ -75,4 +75,14 @@ export async function sendPushToUser(
   if (deadTokenIds.length > 0) {
     await prisma.pushToken.deleteMany({ where: { id: { in: deadTokenIds } } });
   }
+
+  return {
+    successCount: response.successCount,
+    failureCount: response.failureCount,
+    errors: response.responses
+      .map((r: { success: boolean; error?: { code?: string; message?: string } }) =>
+        r.success ? null : { code: r.error?.code, message: r.error?.message }
+      )
+      .filter(Boolean),
+  };
 }

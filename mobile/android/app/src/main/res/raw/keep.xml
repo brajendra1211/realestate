@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ring_alert.wav is only ever referenced by name at runtime
+  (RawResourceAndroidNotificationSound('ring_alert') in
+  core/notifications/push_notifications.dart), which the release build's
+  resource shrinker can't trace back to a usage — without this it silently
+  drops the file from the APK entirely, so the notification channel points
+  at a sound resource that no longer exists and plays nothing.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@raw/ring_alert" />

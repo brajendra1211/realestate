@@ -49,6 +49,7 @@ class RoutePaths {
   static const agentCycle = '/agent/cycle';
   static const agentDeals = '/agent/deals';
   static const agentShopQr = '/agent/shop-qr';
+  static const incomingRing = '/agent/incoming-ring';
 
   static String listingDetailPath(String slug) => '/listing/$slug';
   static String rateAgentPath(String agentCode) => '/rate/$agentCode';

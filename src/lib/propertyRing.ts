@@ -45,7 +45,7 @@ export async function ringProperty(buyerId: string, propertyId: string) {
   if (usedToday >= MAX_RINGS_PER_DAY) throw new PropertyRingError("dailyLimitReached");
 
   const [buyer, property] = await Promise.all([
-    prisma.user.findUniqueOrThrow({ where: { id: buyerId }, select: { name: true } }),
+    prisma.user.findUniqueOrThrow({ where: { id: buyerId }, select: { name: true, phone: true } }),
     prisma.property.findUniqueOrThrow({ where: { id: propertyId }, select: { title: true } }),
   ]);
 
@@ -56,7 +56,13 @@ export async function ringProperty(buyerId: string, propertyId: string) {
   await sendPushToUser(
     agent.userId,
     { title: "Buyer is ringing you", body: `${buyer.name} wants to talk about "${property.title}".` },
-    { type: "property-ring", propertyId }
+    {
+      type: "property-ring",
+      propertyId,
+      propertyTitle: property.title,
+      buyerName: buyer.name,
+      buyerPhone: buyer.phone ?? "",
+    }
   );
 
   return { ringsRemaining: MAX_RINGS_PER_DAY - usedToday - 1 };

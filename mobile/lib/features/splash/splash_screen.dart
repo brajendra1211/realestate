@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/config/app_brand.dart';
+import '../../core/notifications/push_notifications.dart';
 import '../../core/router/route_paths.dart';
 import '../../providers/agent_auth_provider.dart';
 import '../../providers/customer_auth_provider.dart';
@@ -46,12 +47,25 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _bootstrap() async {
     final agentAuth = context.read<AgentAuthProvider>();
     final customerAuth = context.read<CustomerAuthProvider>();
-    final minimumSplash =
-        Future.delayed(const Duration(milliseconds: _totalMs));
-    await Future.wait([
+    final sessionsRestored = Future.wait([
       agentAuth.restoreSession(),
       customerAuth.restoreSession(),
-      minimumSplash,
+    ]);
+
+    // A cold launch via the incoming-ring notification shouldn't sit behind
+    // the full decorative splash animation — a real call doesn't wait for
+    // an app's splash screen to finish either.
+    final ringPayload = await PushNotifications.takeLaunchRingPayload();
+    if (ringPayload != null) {
+      await sessionsRestored;
+      if (!mounted) return;
+      context.go(incomingRingLocation(ringPayload));
+      return;
+    }
+
+    await Future.wait([
+      sessionsRestored,
+      Future.delayed(const Duration(milliseconds: _totalMs)),
     ]);
     if (!mounted) return;
     context.go(RoutePaths.home);

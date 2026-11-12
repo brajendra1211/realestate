@@ -43,6 +43,9 @@ dependencies:
   firebase_core: ^3.8.0
   firebase_messaging: ^15.1.5
   flutter_local_notifications: ^18.0.1
+  # Looping ring tone + call-back on the incoming-call-style ring screen
+  audioplayers: ^6.1.0
+  url_launcher: ^6.3.1
 
   # Camera-based QR scanning (channel partner shop QR)
   mobile_scanner: ^6.0.2
@@ -55,3 +58,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    # A Flutter-asset copy of android/app/src/main/res/raw/ring_alert.wav —
+    # that Android raw resource is for the one-shot notification sound;
+    # audioplayers (used to loop the tone on the incoming-ring screen) needs
+    # its own copy bundled as a regular Flutter asset.
+    - assets/sounds/ring_alert.wav

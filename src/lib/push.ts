@@ -53,14 +53,17 @@ export async function sendPushToUser(
   });
   if (tokens.length === 0) return;
 
+  // Data-only (no top-level `notification` field): Android's FCM SDK would
+  // otherwise auto-display a notification-shaped message itself whenever the
+  // app is backgrounded, bypassing the Dart background handler's *display*
+  // logic — which means no fullScreenIntent, no custom category, no payload
+  // threaded through to the tap handler. A data-only message always routes
+  // through our own handler, foreground, background, or killed alike, so we
+  // keep full control every time.
   const response = await fcm.sendEachForMulticast({
     tokens: tokens.map((t) => t.token),
-    notification,
-    data,
-    android: {
-      priority: "high",
-      notification: { channelId: "shop_scan_alerts", sound: "ring_alert", priority: "max" },
-    },
+    data: { ...data, title: notification.title, body: notification.body },
+    android: { priority: "high" },
   });
 
   // Prune tokens Firebase reports as dead (uninstalled app, expired token,

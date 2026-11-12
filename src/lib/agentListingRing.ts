@@ -35,7 +35,10 @@ export async function ringAgentListing(buyerId: string, agentListingId: string) 
   const usedToday = await getAgentListingRingsUsedToday(buyerId, agentListingId);
   if (usedToday >= MAX_RINGS_PER_DAY) throw new AgentListingRingError("dailyLimitReached");
 
-  const buyer = await prisma.user.findUniqueOrThrow({ where: { id: buyerId }, select: { name: true } });
+  const buyer = await prisma.user.findUniqueOrThrow({
+    where: { id: buyerId },
+    select: { name: true, phone: true },
+  });
 
   await prisma.agentListingRingLog.create({ data: { buyerId, agentListingId } });
 
@@ -44,7 +47,13 @@ export async function ringAgentListing(buyerId: string, agentListingId: string) 
   await sendPushToUser(
     listing.agent.userId,
     { title: "Buyer is ringing you", body: `${buyer.name} wants to talk about "${listing.title}".` },
-    { type: "property-ring", propertyId: agentListingId }
+    {
+      type: "property-ring",
+      propertyId: agentListingId,
+      propertyTitle: listing.title,
+      buyerName: buyer.name,
+      buyerPhone: buyer.phone ?? "",
+    }
   );
 
   return { ringsRemaining: MAX_RINGS_PER_DAY - usedToday - 1 };

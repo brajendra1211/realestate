@@ -24,6 +24,7 @@ import '../../features/agent/payouts/agent_payouts_screen.dart';
 import '../../features/agent/profile/agent_profile_screen.dart';
 import '../../features/agent/qr/agent_my_qr_screen.dart';
 import '../../features/agent/ratings/agent_ratings_screen.dart';
+import '../../features/agent/ring/incoming_ring_screen.dart';
 import '../../features/agent/shell/agent_shell.dart';
 import '../../features/agent/subscription/agent_subscription_screen.dart';
 import '../../features/agent/visits/agent_visits_screen.dart';
@@ -72,6 +73,7 @@ const _agentAuthRequiredPrefixes = [
   RoutePaths.agentCycle,
   RoutePaths.agentDeals,
   RoutePaths.agentShopQr,
+  RoutePaths.incomingRing,
 ];
 
 /// Routes needing an authenticated buyer session, gated the same way as
@@ -251,6 +253,14 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
       GoRoute(
         path: RoutePaths.agentShopQr,
         builder: (context, state) => const AgentMyQrScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.incomingRing,
+        builder: (context, state) => IncomingRingScreen(
+          propertyTitle: state.uri.queryParameters['propertyTitle'] ?? '',
+          buyerName: state.uri.queryParameters['buyerName'] ?? '',
+          buyerPhone: state.uri.queryParameters['buyerPhone'] ?? '',
+        ),
       ),
       GoRoute(
         path: RoutePaths.listingDetail,

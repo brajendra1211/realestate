@@ -55,6 +55,16 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+            // R8 is on by default for release here (confirmed by the
+            // obfuscated res/* paths a built release APK actually contains)
+            // even with nothing set here — these keep rules protect the
+            // Flutter/Firebase-messaging classes its background message
+            // handler's reflection needs. See proguard-rules.pro for why.
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }

@@ -55,16 +55,22 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
-            // R8 is on by default for release here (confirmed by the
-            // obfuscated res/* paths a built release APK actually contains)
-            // even with nothing set here — these keep rules protect the
-            // Flutter/Firebase-messaging classes its background message
-            // handler's reflection needs. See proguard-rules.pro for why.
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            // Disabled outright rather than chased further: R8 was on by
+            // default for release here (confirmed by the obfuscated res/*
+            // paths a built release APK actually contained) and silently
+            // broke the ring feature's FCM-to-Dart handoff even after
+            // fixing the resource-stripping issue, adding targeted keep
+            // rules for every class in the chain (confirmed unobfuscated
+            // in mapping.txt), and adding the attribute-preservation rules
+            // Firebase/Gson's reflection typically needs — still no
+            // reproducible fix. Minification is a pure APK-size
+            // optimization with no functional upside here (this app isn't
+            // Play-Store size-constrained); eliminating it removes this
+            // entire class of silent-failure risk instead of continuing to
+            // guess at rules. proguard-rules.pro is kept for if this is
+            // ever revisited.
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }

@@ -6,9 +6,8 @@ export class AgentListingRingError extends Error {}
 
 // Mirrors src/lib/propertyRing.ts's cap — AgentListing already has a direct
 // agentId, so this skips that file's owner->agentProfile indirection
-// entirely, but the buyer-facing rule ("2 rings/day, must be saved first")
-// is identical.
-const MAX_RINGS_PER_DAY = 2;
+// entirely, but the buyer-facing rule ("must be saved first") is identical.
+const MAX_RINGS_PER_DAY = 50;
 const RING_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 export async function getAgentListingRingsUsedToday(buyerId: string, agentListingId: string) {

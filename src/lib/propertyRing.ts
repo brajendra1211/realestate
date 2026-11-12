@@ -4,10 +4,10 @@ import { sendPushToUser } from "@/lib/push";
 
 export class PropertyRingError extends Error {}
 
-// "Din mein 2 baar" — per buyer, per saved property. A rolling 24h window
-// (counted from PropertyRingLog rows) rather than a calendar-day reset, same
-// convention as canSwitchAgent's since24h in src/lib/agentSwitch.ts.
-const MAX_RINGS_PER_DAY = 2;
+// Per buyer, per saved property. A rolling 24h window (counted from
+// PropertyRingLog rows) rather than a calendar-day reset, same convention
+// as canSwitchAgent's since24h in src/lib/agentSwitch.ts.
+const MAX_RINGS_PER_DAY = 50;
 const RING_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 export async function getListingAgent(propertyId: string) {

@@ -11,5 +11,14 @@
 -keep class io.flutter.embedding.engine.FlutterEngine { *; }
 -keep class io.flutter.view.FlutterCallbackInformation { *; }
 -keep class io.flutter.plugin.common.** { *; }
--keep class io.flutter.** { *; }
+-keep class io.flutter.embedding.** { *; }
 -keep class io.flutter.plugins.** { *; }
+
+# Flutter's embedding defensively references Play Feature Delivery's
+# "deferred components" classes (FlutterPlayStoreSplitApplication etc.) for
+# apps using dynamic feature modules — this one doesn't, so
+# com.google.android.play.core.* isn't a dependency at all. Keeping the
+# broader io.flutter.embedding.** rule above pulls those references back in
+# for R8 to resolve, which then fails the build since the classes
+# genuinely don't exist; this tells it that's expected or on purpose.
+-dontwarn com.google.android.play.core.**

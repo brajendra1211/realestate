@@ -31,6 +31,7 @@ class Endpoints {
   static const listings = '/api/listings';
   static String listingDetail(String slug) => '/api/listings/$slug';
   static String listingUnlock(String slug) => '/api/listings/$slug/unlock';
+  static String listingRing(String slug) => '/api/listings/$slug/ring';
   static String rateAgent(String agentCode) => '/api/rate/$agentCode';
   static const leaderboard = '/api/leaderboard';
 

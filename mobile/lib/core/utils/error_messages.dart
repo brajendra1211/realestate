@@ -31,11 +31,11 @@ String errorMessageFor(ApiException e) {
     case 'invalidSignature':
       return 'Payment verification failed. Please try again.';
     case 'dailyLimitReached':
-      return "You've used both rings for this property today. Try again tomorrow.";
+      return "You've reached today's ring limit for this property. Try again tomorrow.";
     case 'noChannelPartner':
       return 'No channel partner is attached to this property yet.';
     case 'notSaved':
-      return 'Save this property first, then you can ring its channel partner.';
+      return 'Save or unlock this property first, then you can ring its channel partner.';
     default:
       return 'Something went wrong. Please try again.';
   }

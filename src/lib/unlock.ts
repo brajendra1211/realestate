@@ -77,6 +77,16 @@ export async function unlockAgentListing(buyerId: string, agentListingId: string
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // PDF 1 & 2: 24-hour exclusivity lock
       },
     }),
+    // ringAgentListing() requires a SavedAgentListing row — paying to unlock
+    // is a stronger interest signal than the app's own separate "save"
+    // action would be, and the mobile app has no UI for that separate save
+    // at all, so without this a buyer could never actually ring an agent
+    // from the app.
+    prisma.savedAgentListing.upsert({
+      where: { userId_agentListingId: { userId: buyerId, agentListingId } },
+      create: { userId: buyerId, agentListingId },
+      update: {},
+    }),
   ];
 
   if (listing.agentId) {

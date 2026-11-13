@@ -82,4 +82,18 @@ class PublicListingsService {
       throw ApiException.fromDioError(e);
     }
   }
+
+  /// Rings this listing's channel partner (push + WhatsApp to them).
+  /// Requires the listing to already be unlocked — unlockListing() above
+  /// also records the save ringAgentListing() needs server-side, so by the
+  /// time this is callable from the UI that precondition is already met.
+  /// Capped at 50 per listing per rolling 24h; returns how many are left.
+  Future<int> ringListing(String slug) async {
+    try {
+      final res = await _dio.post(Endpoints.listingRing(slug));
+      return (res.data as Map)['ringsRemaining'] as int;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    }
+  }
 }

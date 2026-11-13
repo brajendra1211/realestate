@@ -34,6 +34,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
   final _pageController = PageController();
   int _imageIndex = 0;
   bool _unlocking = false;
+  bool _ringing = false;
 
   @override
   void initState() {
@@ -82,6 +83,23 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
       if (mounted) setState(() => _unlocking = false);
+    }
+  }
+
+  Future<void> _handleRing() async {
+    setState(() => _ringing = true);
+    try {
+      final ringsRemaining = await _service.ringListing(widget.slug);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Channel partner notified. $ringsRemaining ring(s) left today.')),
+      );
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+    } finally {
+      if (mounted) setState(() => _ringing = false);
     }
   }
 
@@ -338,6 +356,16 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                                 label: 'Phone',
                                 value: listing.agentPhone!,
                               ),
+                            if (listing.agentCode != null) ...[
+                              const SizedBox(height: AppSpacing.md),
+                              AppButton(
+                                label: _ringing ? 'Ringing…' : 'Ring channel partner',
+                                icon: Icons.notifications_active_outlined,
+                                expand: true,
+                                loading: _ringing,
+                                onPressed: _handleRing,
+                              ),
+                            ],
                           ],
                         ),
                       ),

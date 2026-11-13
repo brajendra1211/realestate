@@ -331,6 +331,13 @@ model Property {
   featured        Boolean            @default(false)
   metaTitle       String?
   metaDescription String?            @db.Text
+  // Admin-assigned channel partner who actually handles enquiries/visits for
+  // this listing — distinct from `owner`, which for a company-held property
+  // is the admin account itself, not someone who can go show it in person.
+  // Nullable: most Property rows are dealer/owner listings with no assigned
+  // agent, where getListingAgent() falls back to the owner's own AgentProfile.
+  assignedAgentId String?
+  assignedAgent   AgentProfile?      @relation("PropertyAssignedAgent", fields: [assignedAgentId], references: [id], onDelete: SetNull)
   images          PropertyImage[]
   enquiries       Enquiry[]
   savedBy         SavedProperty[]
@@ -341,6 +348,7 @@ model Property {
   @@index([ownerId])
   @@index([projectId])
   @@index([city])
+  @@index([assignedAgentId])
 }
 
 model PropertyImage {
@@ -594,6 +602,7 @@ model AgentProfile {
   areaAssignments       AreaAgentAssignment[]
   assignedUnlocks       PropertyUnlock[]
   shopUnlocks           AgentShopUnlock[]
+  assignedProperties    Property[]              @relation("PropertyAssignedAgent")
 
   @@index([status])
   @@index([referringAgentId])

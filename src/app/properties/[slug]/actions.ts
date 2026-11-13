@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { getSiteSettings } from "@/lib/site-settings";
+import { getListingAgent, notifyPropertyAgent } from "@/lib/propertyRing";
 
 export type SubmitEnquiryState = { sent?: boolean; error?: boolean };
 
@@ -40,12 +41,33 @@ export async function submitEnquiry(
   });
 
   if (enquiry.property) {
-    const { siteName } = await getSiteSettings();
-    await notifyUser(
-      enquiry.property.owner,
-      `New enquiry on "${enquiry.property.title}" from ${name} (${phone}).${message ? ` Message: ${message}` : ""} View it in your ${siteName} dashboard.`,
-      "New enquiry on your listing"
-    );
+    const enquiryMessage = `New enquiry on "${enquiry.property.title}" from ${name} (${phone}).${message ? ` Message: ${message}` : ""}`;
+
+    // A company-held property's "owner" is the admin account, which can't go
+    // show it in person — route to the assigned agent instead when one
+    // exists. Ordinary dealer/owner listings with no assigned agent keep the
+    // original behavior of notifying the owner directly.
+    const agent = await getListingAgent(propertyId);
+    if (agent) {
+      await notifyPropertyAgent(
+        agent,
+        { title: "New enquiry on your listing", body: enquiryMessage },
+        {
+          type: "property-enquiry",
+          propertyId,
+          propertyTitle: enquiry.property.title,
+          buyerName: name,
+          buyerPhone: phone,
+        }
+      );
+    } else {
+      const { siteName } = await getSiteSettings();
+      await notifyUser(
+        enquiry.property.owner,
+        `${enquiryMessage} View it in your ${siteName} dashboard.`,
+        "New enquiry on your listing"
+      );
+    }
   }
 
   return { sent: true };

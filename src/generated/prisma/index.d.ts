@@ -5959,6 +5959,7 @@ export namespace Prisma {
     areaAssignments: number
     assignedUnlocks: number
     shopUnlocks: number
+    assignedProperties: number
   }
 
   export type AgentProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5986,6 +5987,7 @@ export namespace Prisma {
     areaAssignments?: boolean | AgentProfileCountOutputTypeCountAreaAssignmentsArgs
     assignedUnlocks?: boolean | AgentProfileCountOutputTypeCountAssignedUnlocksArgs
     shopUnlocks?: boolean | AgentProfileCountOutputTypeCountShopUnlocksArgs
+    assignedProperties?: boolean | AgentProfileCountOutputTypeCountAssignedPropertiesArgs
   }
 
   // Custom InputTypes
@@ -6165,6 +6167,13 @@ export namespace Prisma {
    */
   export type AgentProfileCountOutputTypeCountShopUnlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AgentShopUnlockWhereInput
+  }
+
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeCountAssignedPropertiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropertyWhereInput
   }
 
 
@@ -18562,6 +18571,7 @@ export namespace Prisma {
     featured: boolean | null
     metaTitle: string | null
     metaDescription: string | null
+    assignedAgentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18599,6 +18609,7 @@ export namespace Prisma {
     featured: boolean | null
     metaTitle: string | null
     metaDescription: string | null
+    assignedAgentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18636,6 +18647,7 @@ export namespace Prisma {
     featured: number
     metaTitle: number
     metaDescription: number
+    assignedAgentId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -18693,6 +18705,7 @@ export namespace Prisma {
     featured?: true
     metaTitle?: true
     metaDescription?: true
+    assignedAgentId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18730,6 +18743,7 @@ export namespace Prisma {
     featured?: true
     metaTitle?: true
     metaDescription?: true
+    assignedAgentId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18767,6 +18781,7 @@ export namespace Prisma {
     featured?: true
     metaTitle?: true
     metaDescription?: true
+    assignedAgentId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -18891,6 +18906,7 @@ export namespace Prisma {
     featured: boolean
     metaTitle: string | null
     metaDescription: string | null
+    assignedAgentId: string | null
     createdAt: Date
     updatedAt: Date
     _count: PropertyCountAggregateOutputType | null
@@ -18947,10 +18963,12 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: boolean
     metaDescription?: boolean
+    assignedAgentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
     project?: boolean | Property$projectArgs<ExtArgs>
+    assignedAgent?: boolean | Property$assignedAgentArgs<ExtArgs>
     images?: boolean | Property$imagesArgs<ExtArgs>
     enquiries?: boolean | Property$enquiriesArgs<ExtArgs>
     savedBy?: boolean | Property$savedByArgs<ExtArgs>
@@ -18993,14 +19011,16 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: boolean
     metaDescription?: boolean
+    assignedAgentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "listingType" | "propertyType" | "condition" | "status" | "approvalStatus" | "expiresAt" | "price" | "priceNegotiable" | "bedrooms" | "bathrooms" | "areaSqft" | "city" | "locality" | "address" | "latitude" | "longitude" | "amenities" | "nearbyAmenities" | "brochureUrl" | "youtubeUrl" | "ownerId" | "projectId" | "contactName" | "contactPhone" | "contactEmail" | "featured" | "metaTitle" | "metaDescription" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
+  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "listingType" | "propertyType" | "condition" | "status" | "approvalStatus" | "expiresAt" | "price" | "priceNegotiable" | "bedrooms" | "bathrooms" | "areaSqft" | "city" | "locality" | "address" | "latitude" | "longitude" | "amenities" | "nearbyAmenities" | "brochureUrl" | "youtubeUrl" | "ownerId" | "projectId" | "contactName" | "contactPhone" | "contactEmail" | "featured" | "metaTitle" | "metaDescription" | "assignedAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
   export type PropertyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     project?: boolean | Property$projectArgs<ExtArgs>
+    assignedAgent?: boolean | Property$assignedAgentArgs<ExtArgs>
     images?: boolean | Property$imagesArgs<ExtArgs>
     enquiries?: boolean | Property$enquiriesArgs<ExtArgs>
     savedBy?: boolean | Property$savedByArgs<ExtArgs>
@@ -19013,6 +19033,7 @@ export namespace Prisma {
     objects: {
       owner: Prisma.$UserPayload<ExtArgs>
       project: Prisma.$ProjectPayload<ExtArgs> | null
+      assignedAgent: Prisma.$AgentProfilePayload<ExtArgs> | null
       images: Prisma.$PropertyImagePayload<ExtArgs>[]
       enquiries: Prisma.$EnquiryPayload<ExtArgs>[]
       savedBy: Prisma.$SavedPropertyPayload<ExtArgs>[]
@@ -19051,6 +19072,7 @@ export namespace Prisma {
       featured: boolean
       metaTitle: string | null
       metaDescription: string | null
+      assignedAgentId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["property"]>
@@ -19395,6 +19417,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     project<T extends Property$projectArgs<ExtArgs> = {}>(args?: Subset<T, Property$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    assignedAgent<T extends Property$assignedAgentArgs<ExtArgs> = {}>(args?: Subset<T, Property$assignedAgentArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     images<T extends Property$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Property$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     enquiries<T extends Property$enquiriesArgs<ExtArgs> = {}>(args?: Subset<T, Property$enquiriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnquiryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     savedBy<T extends Property$savedByArgs<ExtArgs> = {}>(args?: Subset<T, Property$savedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedPropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -19460,6 +19483,7 @@ export namespace Prisma {
     readonly featured: FieldRef<"Property", 'Boolean'>
     readonly metaTitle: FieldRef<"Property", 'String'>
     readonly metaDescription: FieldRef<"Property", 'String'>
+    readonly assignedAgentId: FieldRef<"Property", 'String'>
     readonly createdAt: FieldRef<"Property", 'DateTime'>
     readonly updatedAt: FieldRef<"Property", 'DateTime'>
   }
@@ -19826,6 +19850,25 @@ export namespace Prisma {
      */
     include?: ProjectInclude<ExtArgs> | null
     where?: ProjectWhereInput
+  }
+
+  /**
+   * Property.assignedAgent
+   */
+  export type Property$assignedAgentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AgentProfile
+     */
+    select?: AgentProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AgentProfile
+     */
+    omit?: AgentProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AgentProfileInclude<ExtArgs> | null
+    where?: AgentProfileWhereInput
   }
 
   /**
@@ -27689,6 +27732,7 @@ export namespace Prisma {
     areaAssignments?: boolean | AgentProfile$areaAssignmentsArgs<ExtArgs>
     assignedUnlocks?: boolean | AgentProfile$assignedUnlocksArgs<ExtArgs>
     shopUnlocks?: boolean | AgentProfile$shopUnlocksArgs<ExtArgs>
+    assignedProperties?: boolean | AgentProfile$assignedPropertiesArgs<ExtArgs>
     _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["agentProfile"]>
 
@@ -27768,6 +27812,7 @@ export namespace Prisma {
     areaAssignments?: boolean | AgentProfile$areaAssignmentsArgs<ExtArgs>
     assignedUnlocks?: boolean | AgentProfile$assignedUnlocksArgs<ExtArgs>
     shopUnlocks?: boolean | AgentProfile$shopUnlocksArgs<ExtArgs>
+    assignedProperties?: boolean | AgentProfile$assignedPropertiesArgs<ExtArgs>
     _count?: boolean | AgentProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -27800,6 +27845,7 @@ export namespace Prisma {
       areaAssignments: Prisma.$AreaAgentAssignmentPayload<ExtArgs>[]
       assignedUnlocks: Prisma.$PropertyUnlockPayload<ExtArgs>[]
       shopUnlocks: Prisma.$AgentShopUnlockPayload<ExtArgs>[]
+      assignedProperties: Prisma.$PropertyPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -28211,6 +28257,7 @@ export namespace Prisma {
     areaAssignments<T extends AgentProfile$areaAssignmentsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$areaAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AreaAgentAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     assignedUnlocks<T extends AgentProfile$assignedUnlocksArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$assignedUnlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyUnlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shopUnlocks<T extends AgentProfile$shopUnlocksArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$shopUnlocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentShopUnlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assignedProperties<T extends AgentProfile$assignedPropertiesArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$assignedPropertiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -29223,6 +29270,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AgentShopUnlockScalarFieldEnum | AgentShopUnlockScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile.assignedProperties
+   */
+  export type AgentProfile$assignedPropertiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Property
+     */
+    select?: PropertySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Property
+     */
+    omit?: PropertyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropertyInclude<ExtArgs> | null
+    where?: PropertyWhereInput
+    orderBy?: PropertyOrderByWithRelationInput | PropertyOrderByWithRelationInput[]
+    cursor?: PropertyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropertyScalarFieldEnum | PropertyScalarFieldEnum[]
   }
 
   /**
@@ -62565,6 +62636,7 @@ export namespace Prisma {
     featured: 'featured',
     metaTitle: 'metaTitle',
     metaDescription: 'metaDescription',
+    assignedAgentId: 'assignedAgentId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -63422,7 +63494,8 @@ export namespace Prisma {
     contactPhone: 'contactPhone',
     contactEmail: 'contactEmail',
     metaTitle: 'metaTitle',
-    metaDescription: 'metaDescription'
+    metaDescription: 'metaDescription',
+    assignedAgentId: 'assignedAgentId'
   };
 
   export type PropertyOrderByRelevanceFieldEnum = (typeof PropertyOrderByRelevanceFieldEnum)[keyof typeof PropertyOrderByRelevanceFieldEnum]
@@ -65196,10 +65269,12 @@ export namespace Prisma {
     featured?: BoolFilter<"Property"> | boolean
     metaTitle?: StringNullableFilter<"Property"> | string | null
     metaDescription?: StringNullableFilter<"Property"> | string | null
+    assignedAgentId?: StringNullableFilter<"Property"> | string | null
     createdAt?: DateTimeFilter<"Property"> | Date | string
     updatedAt?: DateTimeFilter<"Property"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    assignedAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
     images?: PropertyImageListRelationFilter
     enquiries?: EnquiryListRelationFilter
     savedBy?: SavedPropertyListRelationFilter
@@ -65239,10 +65314,12 @@ export namespace Prisma {
     featured?: SortOrder
     metaTitle?: SortOrderInput | SortOrder
     metaDescription?: SortOrderInput | SortOrder
+    assignedAgentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     owner?: UserOrderByWithRelationInput
     project?: ProjectOrderByWithRelationInput
+    assignedAgent?: AgentProfileOrderByWithRelationInput
     images?: PropertyImageOrderByRelationAggregateInput
     enquiries?: EnquiryOrderByRelationAggregateInput
     savedBy?: SavedPropertyOrderByRelationAggregateInput
@@ -65286,10 +65363,12 @@ export namespace Prisma {
     featured?: BoolFilter<"Property"> | boolean
     metaTitle?: StringNullableFilter<"Property"> | string | null
     metaDescription?: StringNullableFilter<"Property"> | string | null
+    assignedAgentId?: StringNullableFilter<"Property"> | string | null
     createdAt?: DateTimeFilter<"Property"> | Date | string
     updatedAt?: DateTimeFilter<"Property"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    assignedAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
     images?: PropertyImageListRelationFilter
     enquiries?: EnquiryListRelationFilter
     savedBy?: SavedPropertyListRelationFilter
@@ -65329,6 +65408,7 @@ export namespace Prisma {
     featured?: SortOrder
     metaTitle?: SortOrderInput | SortOrder
     metaDescription?: SortOrderInput | SortOrder
+    assignedAgentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PropertyCountOrderByAggregateInput
@@ -65374,6 +65454,7 @@ export namespace Prisma {
     featured?: BoolWithAggregatesFilter<"Property"> | boolean
     metaTitle?: StringNullableWithAggregatesFilter<"Property"> | string | null
     metaDescription?: StringNullableWithAggregatesFilter<"Property"> | string | null
+    assignedAgentId?: StringNullableWithAggregatesFilter<"Property"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Property"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Property"> | Date | string
   }
@@ -66078,6 +66159,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentListRelationFilter
     assignedUnlocks?: PropertyUnlockListRelationFilter
     shopUnlocks?: AgentShopUnlockListRelationFilter
+    assignedProperties?: PropertyListRelationFilter
   }
 
   export type AgentProfileOrderByWithRelationInput = {
@@ -66150,6 +66232,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentOrderByRelationAggregateInput
     assignedUnlocks?: PropertyUnlockOrderByRelationAggregateInput
     shopUnlocks?: AgentShopUnlockOrderByRelationAggregateInput
+    assignedProperties?: PropertyOrderByRelationAggregateInput
     _relevance?: AgentProfileOrderByRelevanceInput
   }
 
@@ -66226,6 +66309,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentListRelationFilter
     assignedUnlocks?: PropertyUnlockListRelationFilter
     shopUnlocks?: AgentShopUnlockListRelationFilter
+    assignedProperties?: PropertyListRelationFilter
   }, "id" | "userId" | "agentCode">
 
   export type AgentProfileOrderByWithAggregationInput = {
@@ -70241,6 +70325,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutPropertiesInput
     project?: ProjectCreateNestedOneWithoutUnitsInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
@@ -70280,6 +70365,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
@@ -70323,6 +70409,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     project?: ProjectUpdateOneWithoutUnitsNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
@@ -70362,6 +70449,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
@@ -70403,6 +70491,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -70475,6 +70564,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -71251,6 +71341,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateInput = {
@@ -71321,6 +71412,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUpdateInput = {
@@ -71391,6 +71483,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateInput = {
@@ -71461,6 +71554,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateManyInput = {
@@ -75665,6 +75759,7 @@ export namespace Prisma {
     featured?: SortOrder
     metaTitle?: SortOrder
     metaDescription?: SortOrder
+    assignedAgentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -75711,6 +75806,7 @@ export namespace Prisma {
     featured?: SortOrder
     metaTitle?: SortOrder
     metaDescription?: SortOrder
+    assignedAgentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -75748,6 +75844,7 @@ export namespace Prisma {
     featured?: SortOrder
     metaTitle?: SortOrder
     metaDescription?: SortOrder
+    assignedAgentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -79871,6 +79968,12 @@ export namespace Prisma {
     connect?: ProjectWhereUniqueInput
   }
 
+  export type AgentProfileCreateNestedOneWithoutAssignedPropertiesInput = {
+    create?: XOR<AgentProfileCreateWithoutAssignedPropertiesInput, AgentProfileUncheckedCreateWithoutAssignedPropertiesInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutAssignedPropertiesInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
   export type PropertyImageCreateNestedManyWithoutPropertyInput = {
     create?: XOR<PropertyImageCreateWithoutPropertyInput, PropertyImageUncheckedCreateWithoutPropertyInput> | PropertyImageCreateWithoutPropertyInput[] | PropertyImageUncheckedCreateWithoutPropertyInput[]
     connectOrCreate?: PropertyImageCreateOrConnectWithoutPropertyInput | PropertyImageCreateOrConnectWithoutPropertyInput[]
@@ -79963,6 +80066,16 @@ export namespace Prisma {
     delete?: ProjectWhereInput | boolean
     connect?: ProjectWhereUniqueInput
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutUnitsInput, ProjectUpdateWithoutUnitsInput>, ProjectUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type AgentProfileUpdateOneWithoutAssignedPropertiesNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutAssignedPropertiesInput, AgentProfileUncheckedCreateWithoutAssignedPropertiesInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutAssignedPropertiesInput
+    upsert?: AgentProfileUpsertWithoutAssignedPropertiesInput
+    disconnect?: AgentProfileWhereInput | boolean
+    delete?: AgentProfileWhereInput | boolean
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutAssignedPropertiesInput, AgentProfileUpdateWithoutAssignedPropertiesInput>, AgentProfileUncheckedUpdateWithoutAssignedPropertiesInput>
   }
 
   export type PropertyImageUpdateManyWithoutPropertyNestedInput = {
@@ -80409,6 +80522,13 @@ export namespace Prisma {
     connect?: AgentShopUnlockWhereUniqueInput | AgentShopUnlockWhereUniqueInput[]
   }
 
+  export type PropertyCreateNestedManyWithoutAssignedAgentInput = {
+    create?: XOR<PropertyCreateWithoutAssignedAgentInput, PropertyUncheckedCreateWithoutAssignedAgentInput> | PropertyCreateWithoutAssignedAgentInput[] | PropertyUncheckedCreateWithoutAssignedAgentInput[]
+    connectOrCreate?: PropertyCreateOrConnectWithoutAssignedAgentInput | PropertyCreateOrConnectWithoutAssignedAgentInput[]
+    createMany?: PropertyCreateManyAssignedAgentInputEnvelope
+    connect?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+  }
+
   export type AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput = {
     create?: XOR<AgentProfileCreateWithoutReferringAgentInput, AgentProfileUncheckedCreateWithoutReferringAgentInput> | AgentProfileCreateWithoutReferringAgentInput[] | AgentProfileUncheckedCreateWithoutReferringAgentInput[]
     connectOrCreate?: AgentProfileCreateOrConnectWithoutReferringAgentInput | AgentProfileCreateOrConnectWithoutReferringAgentInput[]
@@ -80575,6 +80695,13 @@ export namespace Prisma {
     connectOrCreate?: AgentShopUnlockCreateOrConnectWithoutAgentInput | AgentShopUnlockCreateOrConnectWithoutAgentInput[]
     createMany?: AgentShopUnlockCreateManyAgentInputEnvelope
     connect?: AgentShopUnlockWhereUniqueInput | AgentShopUnlockWhereUniqueInput[]
+  }
+
+  export type PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput = {
+    create?: XOR<PropertyCreateWithoutAssignedAgentInput, PropertyUncheckedCreateWithoutAssignedAgentInput> | PropertyCreateWithoutAssignedAgentInput[] | PropertyUncheckedCreateWithoutAssignedAgentInput[]
+    connectOrCreate?: PropertyCreateOrConnectWithoutAssignedAgentInput | PropertyCreateOrConnectWithoutAssignedAgentInput[]
+    createMany?: PropertyCreateManyAssignedAgentInputEnvelope
+    connect?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
   }
 
   export type EnumAgentPlanTierFieldUpdateOperationsInput = {
@@ -80935,6 +81062,20 @@ export namespace Prisma {
     deleteMany?: AgentShopUnlockScalarWhereInput | AgentShopUnlockScalarWhereInput[]
   }
 
+  export type PropertyUpdateManyWithoutAssignedAgentNestedInput = {
+    create?: XOR<PropertyCreateWithoutAssignedAgentInput, PropertyUncheckedCreateWithoutAssignedAgentInput> | PropertyCreateWithoutAssignedAgentInput[] | PropertyUncheckedCreateWithoutAssignedAgentInput[]
+    connectOrCreate?: PropertyCreateOrConnectWithoutAssignedAgentInput | PropertyCreateOrConnectWithoutAssignedAgentInput[]
+    upsert?: PropertyUpsertWithWhereUniqueWithoutAssignedAgentInput | PropertyUpsertWithWhereUniqueWithoutAssignedAgentInput[]
+    createMany?: PropertyCreateManyAssignedAgentInputEnvelope
+    set?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+    disconnect?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+    delete?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+    connect?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+    update?: PropertyUpdateWithWhereUniqueWithoutAssignedAgentInput | PropertyUpdateWithWhereUniqueWithoutAssignedAgentInput[]
+    updateMany?: PropertyUpdateManyWithWhereWithoutAssignedAgentInput | PropertyUpdateManyWithWhereWithoutAssignedAgentInput[]
+    deleteMany?: PropertyScalarWhereInput | PropertyScalarWhereInput[]
+  }
+
   export type AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput = {
     create?: XOR<AgentProfileCreateWithoutReferringAgentInput, AgentProfileUncheckedCreateWithoutReferringAgentInput> | AgentProfileCreateWithoutReferringAgentInput[] | AgentProfileUncheckedCreateWithoutReferringAgentInput[]
     connectOrCreate?: AgentProfileCreateOrConnectWithoutReferringAgentInput | AgentProfileCreateOrConnectWithoutReferringAgentInput[]
@@ -81269,6 +81410,20 @@ export namespace Prisma {
     update?: AgentShopUnlockUpdateWithWhereUniqueWithoutAgentInput | AgentShopUnlockUpdateWithWhereUniqueWithoutAgentInput[]
     updateMany?: AgentShopUnlockUpdateManyWithWhereWithoutAgentInput | AgentShopUnlockUpdateManyWithWhereWithoutAgentInput[]
     deleteMany?: AgentShopUnlockScalarWhereInput | AgentShopUnlockScalarWhereInput[]
+  }
+
+  export type PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput = {
+    create?: XOR<PropertyCreateWithoutAssignedAgentInput, PropertyUncheckedCreateWithoutAssignedAgentInput> | PropertyCreateWithoutAssignedAgentInput[] | PropertyUncheckedCreateWithoutAssignedAgentInput[]
+    connectOrCreate?: PropertyCreateOrConnectWithoutAssignedAgentInput | PropertyCreateOrConnectWithoutAssignedAgentInput[]
+    upsert?: PropertyUpsertWithWhereUniqueWithoutAssignedAgentInput | PropertyUpsertWithWhereUniqueWithoutAssignedAgentInput[]
+    createMany?: PropertyCreateManyAssignedAgentInputEnvelope
+    set?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+    disconnect?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+    delete?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+    connect?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+    update?: PropertyUpdateWithWhereUniqueWithoutAssignedAgentInput | PropertyUpdateWithWhereUniqueWithoutAssignedAgentInput[]
+    updateMany?: PropertyUpdateManyWithWhereWithoutAssignedAgentInput | PropertyUpdateManyWithWhereWithoutAssignedAgentInput[]
+    deleteMany?: PropertyScalarWhereInput | PropertyScalarWhereInput[]
   }
 
   export type AgentProfileCreateNestedOneWithoutAreaAssignmentsInput = {
@@ -83658,6 +83813,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     project?: ProjectCreateNestedOneWithoutUnitsInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
@@ -83696,6 +83852,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
@@ -83887,6 +84044,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutUserInput = {
@@ -83956,6 +84114,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutUserInput = {
@@ -84414,6 +84573,7 @@ export namespace Prisma {
     featured?: BoolFilter<"Property"> | boolean
     metaTitle?: StringNullableFilter<"Property"> | string | null
     metaDescription?: StringNullableFilter<"Property"> | string | null
+    assignedAgentId?: StringNullableFilter<"Property"> | string | null
     createdAt?: DateTimeFilter<"Property"> | Date | string
     updatedAt?: DateTimeFilter<"Property"> | Date | string
   }
@@ -84608,6 +84768,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutUserInput = {
@@ -84677,6 +84838,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type InvestorProfileUpsertWithoutUserInput = {
@@ -85866,6 +86028,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutPropertiesInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
@@ -85904,6 +86067,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
@@ -86674,6 +86838,151 @@ export namespace Prisma {
     create: XOR<ProjectCreateWithoutUnitsInput, ProjectUncheckedCreateWithoutUnitsInput>
   }
 
+  export type AgentProfileCreateWithoutAssignedPropertiesInput = {
+    id?: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
+    primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
+    referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
+    shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutAssignedPropertiesInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
+    primeStatus?: boolean
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
+    referringAgentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealUncheckedCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealUncheckedCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionUncheckedCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestUncheckedCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationUncheckedCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestUncheckedCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastUncheckedCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseUncheckedCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageUncheckedCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageUncheckedCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogUncheckedCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingUncheckedCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningUncheckedCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
+    shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutAssignedPropertiesInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutAssignedPropertiesInput, AgentProfileUncheckedCreateWithoutAssignedPropertiesInput>
+  }
+
   export type PropertyImageCreateWithoutPropertyInput = {
     id?: string
     url: string
@@ -86946,6 +87255,157 @@ export namespace Prisma {
     images?: ProjectImageUncheckedUpdateManyWithoutProjectNestedInput
   }
 
+  export type AgentProfileUpsertWithoutAssignedPropertiesInput = {
+    update: XOR<AgentProfileUpdateWithoutAssignedPropertiesInput, AgentProfileUncheckedUpdateWithoutAssignedPropertiesInput>
+    create: XOR<AgentProfileCreateWithoutAssignedPropertiesInput, AgentProfileUncheckedCreateWithoutAssignedPropertiesInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutAssignedPropertiesInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutAssignedPropertiesInput, AgentProfileUncheckedUpdateWithoutAssignedPropertiesInput>
+  }
+
+  export type AgentProfileUpdateWithoutAssignedPropertiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
+    referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
+    dealsAsBuyerAgent?: DealUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
+    shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutAssignedPropertiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
+    dealsAsBuyerAgent?: DealUncheckedUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUncheckedUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUncheckedUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUncheckedUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUncheckedUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUncheckedUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUncheckedUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUncheckedUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUncheckedUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUncheckedUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
+    shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+  }
+
   export type PropertyImageUpsertWithWhereUniqueWithoutPropertyInput = {
     where: PropertyImageWhereUniqueInput
     update: XOR<PropertyImageUpdateWithoutPropertyInput, PropertyImageUncheckedUpdateWithoutPropertyInput>
@@ -87056,6 +87516,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutPropertiesInput
     project?: ProjectCreateNestedOneWithoutUnitsInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedPropertiesInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
     ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
@@ -87094,6 +87555,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     enquiries?: EnquiryUncheckedCreateNestedManyWithoutPropertyInput
@@ -87152,6 +87614,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     project?: ProjectUpdateOneWithoutUnitsNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedPropertiesNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
     ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
@@ -87190,6 +87653,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     enquiries?: EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
@@ -87232,6 +87696,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutPropertiesInput
     project?: ProjectCreateNestedOneWithoutUnitsInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
     ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
@@ -87270,6 +87735,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
@@ -87461,6 +87927,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     project?: ProjectUpdateOneWithoutUnitsNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
     ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
@@ -87499,6 +87966,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
@@ -87785,6 +88253,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutPropertiesInput
     project?: ProjectCreateNestedOneWithoutUnitsInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
@@ -87823,6 +88292,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
@@ -87998,6 +88468,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     project?: ProjectUpdateOneWithoutUnitsNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
@@ -88036,6 +88507,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
@@ -88189,6 +88661,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutPropertiesInput
     project?: ProjectCreateNestedOneWithoutUnitsInput
+    assignedAgent?: AgentProfileCreateNestedOneWithoutAssignedPropertiesInput
     images?: PropertyImageCreateNestedManyWithoutPropertyInput
     enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
     savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
@@ -88227,6 +88700,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
@@ -88402,6 +88876,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutPropertiesNestedInput
     project?: ProjectUpdateOneWithoutUnitsNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
@@ -88440,6 +88915,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
@@ -88625,6 +89101,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutReferredAgentsInput = {
@@ -88694,6 +89171,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutReferredAgentsInput = {
@@ -88768,6 +89246,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutReferringAgentInput = {
@@ -88837,6 +89316,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutReferringAgentInput = {
@@ -89683,6 +90163,98 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PropertyCreateWithoutAssignedAgentInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    condition?: $Enums.PropertyCondition | null
+    status?: $Enums.PropertyStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    expiresAt?: Date | string | null
+    price: number
+    priceNegotiable?: boolean
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    city: string
+    locality?: string | null
+    address?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    brochureUrl?: string | null
+    youtubeUrl?: string | null
+    contactName?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    featured?: boolean
+    metaTitle?: string | null
+    metaDescription?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutPropertiesInput
+    project?: ProjectCreateNestedOneWithoutUnitsInput
+    images?: PropertyImageCreateNestedManyWithoutPropertyInput
+    enquiries?: EnquiryCreateNestedManyWithoutPropertyInput
+    savedBy?: SavedPropertyCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogCreateNestedManyWithoutPropertyInput
+  }
+
+  export type PropertyUncheckedCreateWithoutAssignedAgentInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    condition?: $Enums.PropertyCondition | null
+    status?: $Enums.PropertyStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    expiresAt?: Date | string | null
+    price: number
+    priceNegotiable?: boolean
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    city: string
+    locality?: string | null
+    address?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    brochureUrl?: string | null
+    youtubeUrl?: string | null
+    ownerId: string
+    projectId?: string | null
+    contactName?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    featured?: boolean
+    metaTitle?: string | null
+    metaDescription?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
+    enquiries?: EnquiryUncheckedCreateNestedManyWithoutPropertyInput
+    savedBy?: SavedPropertyUncheckedCreateNestedManyWithoutPropertyInput
+    ringLogs?: PropertyRingLogUncheckedCreateNestedManyWithoutPropertyInput
+  }
+
+  export type PropertyCreateOrConnectWithoutAssignedAgentInput = {
+    where: PropertyWhereUniqueInput
+    create: XOR<PropertyCreateWithoutAssignedAgentInput, PropertyUncheckedCreateWithoutAssignedAgentInput>
+  }
+
+  export type PropertyCreateManyAssignedAgentInputEnvelope = {
+    data: PropertyCreateManyAssignedAgentInput | PropertyCreateManyAssignedAgentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutAgentProfileInput = {
     update: XOR<UserUpdateWithoutAgentProfileInput, UserUncheckedUpdateWithoutAgentProfileInput>
     create: XOR<UserCreateWithoutAgentProfileInput, UserUncheckedCreateWithoutAgentProfileInput>
@@ -89878,6 +90450,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutReferredAgentsInput = {
@@ -89947,6 +90520,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUpsertWithWhereUniqueWithoutReferringAgentInput = {
@@ -90650,6 +91224,22 @@ export namespace Prisma {
     data: XOR<AgentShopUnlockUpdateManyMutationInput, AgentShopUnlockUncheckedUpdateManyWithoutAgentInput>
   }
 
+  export type PropertyUpsertWithWhereUniqueWithoutAssignedAgentInput = {
+    where: PropertyWhereUniqueInput
+    update: XOR<PropertyUpdateWithoutAssignedAgentInput, PropertyUncheckedUpdateWithoutAssignedAgentInput>
+    create: XOR<PropertyCreateWithoutAssignedAgentInput, PropertyUncheckedCreateWithoutAssignedAgentInput>
+  }
+
+  export type PropertyUpdateWithWhereUniqueWithoutAssignedAgentInput = {
+    where: PropertyWhereUniqueInput
+    data: XOR<PropertyUpdateWithoutAssignedAgentInput, PropertyUncheckedUpdateWithoutAssignedAgentInput>
+  }
+
+  export type PropertyUpdateManyWithWhereWithoutAssignedAgentInput = {
+    where: PropertyScalarWhereInput
+    data: XOR<PropertyUpdateManyMutationInput, PropertyUncheckedUpdateManyWithoutAssignedAgentInput>
+  }
+
   export type AgentProfileCreateWithoutAreaAssignmentsInput = {
     id?: string
     agentCode?: string | null
@@ -90717,6 +91307,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutAreaAssignmentsInput = {
@@ -90786,6 +91377,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutAreaAssignmentsInput = {
@@ -90871,6 +91463,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutAreaAssignmentsInput = {
@@ -90940,6 +91533,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutDocumentsInput = {
@@ -91009,6 +91603,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDocumentsInput = {
@@ -91078,6 +91673,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDocumentsInput = {
@@ -91163,6 +91759,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDocumentsInput = {
@@ -91232,6 +91829,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type UserCreateWithoutInvestorProfileInput = {
@@ -91412,6 +92010,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutInvestorsInput = {
@@ -91481,6 +92080,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutInvestorsInput = {
@@ -91821,6 +92421,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutInvestorsInput = {
@@ -91890,6 +92491,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type ProfitDistributionUpsertWithWhereUniqueWithoutInvestorProfileInput = {
@@ -92055,6 +92657,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutCommissionEntriesInput = {
@@ -92124,6 +92727,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutCommissionEntriesInput = {
@@ -92209,6 +92813,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutCommissionEntriesInput = {
@@ -92278,6 +92883,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentListingCreateWithoutMasterPropertyInput = {
@@ -92636,6 +93242,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutListingsInput = {
@@ -92705,6 +93312,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutListingsInput = {
@@ -93046,6 +93654,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutListingsInput = {
@@ -93115,6 +93724,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentListingImageUpsertWithWhereUniqueWithoutAgentListingInput = {
@@ -94529,6 +95139,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutAssignedUnlocksInput = {
@@ -94598,6 +95209,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutAssignedUnlocksInput = {
@@ -94895,6 +95507,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutAssignedUnlocksInput = {
@@ -94964,6 +95577,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentListingCreateWithoutGoldPurchaseInput = {
@@ -95484,6 +96098,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDealsAsBuyerAgentInput = {
@@ -95553,6 +96168,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDealsAsBuyerAgentInput = {
@@ -95627,6 +96243,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDealsAsSellerAgentInput = {
@@ -95696,6 +96313,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDealsAsSellerAgentInput = {
@@ -95826,6 +96444,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDealsAsBuyerAgentInput = {
@@ -95895,6 +96514,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUpsertWithoutDealsAsSellerAgentInput = {
@@ -95975,6 +96595,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDealsAsSellerAgentInput = {
@@ -96044,6 +96665,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type InvestorProfileCreateWithoutProfitDistributionsInput = {
@@ -96152,6 +96774,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutProfitDistributionsInput = {
@@ -96221,6 +96844,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutProfitDistributionsInput = {
@@ -96351,6 +96975,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutProfitDistributionsInput = {
@@ -96420,6 +97045,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type InvestorProfileCreateWithoutLedgerEntriesInput = {
@@ -96573,6 +97199,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutPayoutRequestsInput = {
@@ -96642,6 +97269,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutPayoutRequestsInput = {
@@ -96727,6 +97355,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutPayoutRequestsInput = {
@@ -96796,6 +97425,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type UserCreateWithoutDispatchRequestsInput = {
@@ -96976,6 +97606,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDispatchesAcceptedInput = {
@@ -97045,6 +97676,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDispatchesAcceptedInput = {
@@ -97271,6 +97903,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDispatchesAcceptedInput = {
@@ -97340,6 +97973,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type DispatchNotificationUpsertWithWhereUniqueWithoutDispatchRequestInput = {
@@ -97468,6 +98102,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDispatchNotificationsInput = {
@@ -97537,6 +98172,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDispatchNotificationsInput = {
@@ -97671,6 +98307,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDispatchNotificationsInput = {
@@ -97740,6 +98377,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutBroadcastsPostedInput = {
@@ -97809,6 +98447,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutBroadcastsPostedInput = {
@@ -97878,6 +98517,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutBroadcastsPostedInput = {
@@ -98071,6 +98711,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutBroadcastsPostedInput = {
@@ -98140,6 +98781,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type BroadcastResponseUpsertWithWhereUniqueWithoutBroadcastInput = {
@@ -98296,6 +98938,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutBroadcastResponsesInput = {
@@ -98365,6 +99008,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutBroadcastResponsesInput = {
@@ -98495,6 +99139,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutBroadcastResponsesInput = {
@@ -98564,6 +99209,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type BroadcastCreateWithoutMessagesInput = {
@@ -98672,6 +99318,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutChatMessagesSentInput = {
@@ -98741,6 +99388,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutChatMessagesSentInput = {
@@ -98815,6 +99463,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutChatMessagesReceivedInput = {
@@ -98884,6 +99533,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutChatMessagesReceivedInput = {
@@ -99014,6 +99664,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutChatMessagesSentInput = {
@@ -99083,6 +99734,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUpsertWithoutChatMessagesReceivedInput = {
@@ -99163,6 +99815,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutChatMessagesReceivedInput = {
@@ -99232,6 +99885,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type MasterPropertyCreateWithoutVisitLogsInput = {
@@ -99332,6 +99986,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutVisitLogsInput = {
@@ -99401,6 +100056,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutVisitLogsInput = {
@@ -99523,6 +100179,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutVisitLogsInput = {
@@ -99592,6 +100249,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutRatingsInput = {
@@ -99661,6 +100319,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutRatingsInput = {
@@ -99730,6 +100389,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutRatingsInput = {
@@ -99815,6 +100475,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutRatingsInput = {
@@ -99884,6 +100545,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutWarningsInput = {
@@ -99953,6 +100615,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutWarningsInput = {
@@ -100022,6 +100685,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutWarningsInput = {
@@ -100107,6 +100771,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutWarningsInput = {
@@ -100176,6 +100841,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileCreateWithoutCustomerBlocksInput = {
@@ -100245,6 +100911,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutCustomerBlocksInput = {
@@ -100314,6 +100981,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutCustomerBlocksInput = {
@@ -100399,6 +101067,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutCustomerBlocksInput = {
@@ -100468,6 +101137,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type MasterPropertyCreateWithoutDocumentVaultItemsInput = {
@@ -100568,6 +101238,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutDocumentVaultItemsInput = {
@@ -100637,6 +101308,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutDocumentVaultItemsInput = {
@@ -100798,6 +101470,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutDocumentVaultItemsInput = {
@@ -100867,6 +101540,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type InvestorProfileUpsertWithoutDocumentVaultItemsInput = {
@@ -101176,6 +101850,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutVisitAppointmentsInput = {
@@ -101245,6 +101920,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
     shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutVisitAppointmentsInput = {
@@ -101478,6 +102154,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutVisitAppointmentsInput = {
@@ -101547,6 +102224,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type MasterPropertyUpsertWithoutVisitAppointmentsInput = {
@@ -102619,6 +103297,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileUncheckedCreateWithoutShopUnlocksInput = {
@@ -102688,6 +103367,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
     areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
     assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
   }
 
   export type AgentProfileCreateOrConnectWithoutShopUnlocksInput = {
@@ -102884,6 +103564,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutShopUnlocksInput = {
@@ -102953,6 +103634,7 @@ export namespace Prisma {
     visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type UserUpsertWithoutAgentShopUnlocksInput = {
@@ -103332,6 +104014,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -103525,6 +104208,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneWithoutUnitsNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
@@ -103563,6 +104247,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
@@ -103603,6 +104288,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -104234,6 +104920,7 @@ export namespace Prisma {
     featured?: boolean
     metaTitle?: string | null
     metaDescription?: string | null
+    assignedAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -104278,6 +104965,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutPropertiesNestedInput
+    assignedAgent?: AgentProfileUpdateOneWithoutAssignedPropertiesNestedInput
     images?: PropertyImageUpdateManyWithoutPropertyNestedInput
     enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
     savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
@@ -104316,6 +105004,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
@@ -104356,6 +105045,7 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    assignedAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -105004,6 +105694,43 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type PropertyCreateManyAssignedAgentInput = {
+    id?: string
+    title: string
+    slug: string
+    description: string
+    listingType: $Enums.ListingType
+    propertyType: $Enums.PropertyType
+    condition?: $Enums.PropertyCondition | null
+    status?: $Enums.PropertyStatus
+    approvalStatus?: $Enums.ApprovalStatus
+    expiresAt?: Date | string | null
+    price: number
+    priceNegotiable?: boolean
+    bedrooms?: number | null
+    bathrooms?: number | null
+    areaSqft?: number | null
+    city: string
+    locality?: string | null
+    address?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    amenities?: string | null
+    nearbyAmenities?: string | null
+    brochureUrl?: string | null
+    youtubeUrl?: string | null
+    ownerId: string
+    projectId?: string | null
+    contactName?: string | null
+    contactPhone?: string | null
+    contactEmail?: string | null
+    featured?: boolean
+    metaTitle?: string | null
+    metaDescription?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AgentProfileUpdateWithoutReferringAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     agentCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -105071,6 +105798,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateWithoutReferringAgentInput = {
@@ -105140,6 +105868,7 @@ export namespace Prisma {
     areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
     assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
     shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
   }
 
   export type AgentProfileUncheckedUpdateManyWithoutReferringAgentInput = {
@@ -106076,6 +106805,125 @@ export namespace Prisma {
     razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PropertyUpdateWithoutAssignedAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    condition?: NullableEnumPropertyConditionFieldUpdateOperationsInput | $Enums.PropertyCondition | null
+    status?: EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    priceNegotiable?: BoolFieldUpdateOperationsInput | boolean
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutPropertiesNestedInput
+    project?: ProjectUpdateOneWithoutUnitsNestedInput
+    images?: PropertyImageUpdateManyWithoutPropertyNestedInput
+    enquiries?: EnquiryUpdateManyWithoutPropertyNestedInput
+    savedBy?: SavedPropertyUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUpdateManyWithoutPropertyNestedInput
+  }
+
+  export type PropertyUncheckedUpdateWithoutAssignedAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    condition?: NullableEnumPropertyConditionFieldUpdateOperationsInput | $Enums.PropertyCondition | null
+    status?: EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    priceNegotiable?: BoolFieldUpdateOperationsInput | boolean
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
+    enquiries?: EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
+    savedBy?: SavedPropertyUncheckedUpdateManyWithoutPropertyNestedInput
+    ringLogs?: PropertyRingLogUncheckedUpdateManyWithoutPropertyNestedInput
+  }
+
+  export type PropertyUncheckedUpdateManyWithoutAssignedAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
+    condition?: NullableEnumPropertyConditionFieldUpdateOperationsInput | $Enums.PropertyCondition | null
+    status?: EnumPropertyStatusFieldUpdateOperationsInput | $Enums.PropertyStatus
+    approvalStatus?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    priceNegotiable?: BoolFieldUpdateOperationsInput | boolean
+    bedrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSqft?: NullableIntFieldUpdateOperationsInput | number | null
+    city?: StringFieldUpdateOperationsInput | string
+    locality?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    amenities?: NullableStringFieldUpdateOperationsInput | string | null
+    nearbyAmenities?: NullableStringFieldUpdateOperationsInput | string | null
+    brochureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: NullableStringFieldUpdateOperationsInput | string | null
+    contactPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProfitDistributionCreateManyInvestorProfileInput = {

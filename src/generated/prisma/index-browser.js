@@ -313,6 +313,7 @@ exports.Prisma.PropertyScalarFieldEnum = {
   featured: 'featured',
   metaTitle: 'metaTitle',
   metaDescription: 'metaDescription',
+  assignedAgentId: 'assignedAgentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1008,7 +1009,8 @@ exports.Prisma.PropertyOrderByRelevanceFieldEnum = {
   contactPhone: 'contactPhone',
   contactEmail: 'contactEmail',
   metaTitle: 'metaTitle',
-  metaDescription: 'metaDescription'
+  metaDescription: 'metaDescription',
+  assignedAgentId: 'assignedAgentId'
 };
 
 exports.Prisma.PropertyImageOrderByRelevanceFieldEnum = {

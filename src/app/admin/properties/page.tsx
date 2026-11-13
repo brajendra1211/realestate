@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/lib/format";
+import { assignPropertyAgentAction } from "./actions";
 
 const APPROVAL_STYLES: Record<string, string> = {
   PENDING: "bg-amber-50 text-amber-800 border-amber-200",
@@ -15,13 +16,21 @@ export default async function AdminPropertiesPage() {
   const session = await auth();
   if (!session || session.user.role !== "ADMIN") redirect("/login");
 
-  const properties = await prisma.property.findMany({
-    include: {
-      owner: { select: { name: true, email: true, role: true } },
-      images: { orderBy: { order: "asc" }, take: 1 },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const [properties, agents] = await Promise.all([
+    prisma.property.findMany({
+      include: {
+        owner: { select: { name: true, email: true, role: true } },
+        images: { orderBy: { order: "asc" }, take: 1 },
+        assignedAgent: { select: { id: true, agentCode: true, shopName: true, user: { select: { name: true } } } },
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.agentProfile.findMany({
+      where: { status: "APPROVED" },
+      select: { id: true, agentCode: true, shopName: true, user: { select: { name: true } } },
+      orderBy: { agentCode: "asc" },
+    }),
+  ]);
 
   return (
     <div className="min-h-screen bg-slate-50/70 p-4 sm:p-8 lg:p-10 space-y-6 font-sans">
@@ -111,6 +120,31 @@ export default async function AdminPropertiesPage() {
                     {property.owner.email}
                   </span>
                 </div>
+
+                <form action={assignPropertyAgentAction} className="mt-2 flex items-center gap-2">
+                  <input type="hidden" name="propertyId" value={property.id} />
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                    Assigned agent
+                  </label>
+                  <select
+                    name="agentId"
+                    defaultValue={property.assignedAgent?.id ?? ""}
+                    className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-700 focus:border-blue-500 focus:outline-none"
+                  >
+                    <option value="">— unassigned —</option>
+                    {agents.map((agent) => (
+                      <option key={agent.id} value={agent.id}>
+                        {agent.user.name} {agent.agentCode ? `(${agent.agentCode})` : agent.shopName ? `(${agent.shopName})` : ""}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="submit"
+                    className="rounded-lg bg-slate-100 hover:bg-slate-200 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition"
+                  >
+                    Save
+                  </button>
+                </form>
               </div>
             </div>
 

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { emitToAgent } from "@/lib/socket";
 import { sendPushToUser } from "@/lib/push";
+import { sendWhatsAppText } from "@/lib/whatsapp";
 
 export class PropertyRingError extends Error {}
 
@@ -10,16 +11,36 @@ export class PropertyRingError extends Error {}
 const MAX_RINGS_PER_DAY = 50;
 const RING_WINDOW_MS = 24 * 60 * 60 * 1000;
 
+const AGENT_SELECT = { id: true, userId: true, agentCode: true, shopName: true, user: { select: { phone: true } } };
+
+// Admin-assigned agent (Property.assignedAgentId) takes precedence — this is
+// how a company-held property, whose `owner` is the admin account itself
+// (no AgentProfile of its own), gets a real agent to field enquiries/visits.
+// Falls back to the owner's own AgentProfile, unchanged from before, for
+// ordinary dealer/owner listings where the lister *is* the agent.
 export async function getListingAgent(propertyId: string) {
   const property = await prisma.property.findUnique({
     where: { id: propertyId },
     select: {
-      owner: {
-        select: { agentProfile: { select: { id: true, userId: true, agentCode: true, shopName: true } } },
-      },
+      assignedAgent: { select: AGENT_SELECT },
+      owner: { select: { agentProfile: { select: AGENT_SELECT } } },
     },
   });
-  return property?.owner.agentProfile ?? null;
+  if (!property) return null;
+  return property.assignedAgent ?? property.owner.agentProfile ?? null;
+}
+
+// Shared by ringProperty and the enquiry-form notification — both represent
+// a buyer acting on interest in a specific property, so both reach the
+// resolved agent the same two ways: a push to their Pronesto app, and a
+// WhatsApp text as a redundant channel (push delivery isn't guaranteed).
+export async function notifyPropertyAgent(
+  agent: { userId: string; user: { phone: string | null } },
+  notification: { title: string; body: string },
+  data: Record<string, string>
+) {
+  await sendPushToUser(agent.userId, notification, data);
+  if (agent.user.phone) await sendWhatsAppText(agent.user.phone, notification.body);
 }
 
 export async function getRingsUsedToday(buyerId: string, propertyId: string) {
@@ -53,8 +74,8 @@ export async function ringProperty(buyerId: string, propertyId: string) {
 
   const payload = { propertyId, propertyTitle: property.title, buyerName: buyer.name };
   emitToAgent(agent.id, "property-ring", payload);
-  await sendPushToUser(
-    agent.userId,
+  await notifyPropertyAgent(
+    agent,
     { title: "Buyer is ringing you", body: `${buyer.name} wants to talk about "${property.title}".` },
     {
       type: "property-ring",

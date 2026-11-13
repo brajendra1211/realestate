@@ -1,13 +1,20 @@
-// Relay for abwpl.com OTP calls. Deploy as a Cloudflare Worker and set a secret named PROXY_SECRET.
-// Only POST /send and POST /verify are forwarded, and only when X-Proxy-Secret matches.
-const UPSTREAM = "https://abwpl.com/api/public/otp";
-const ALLOWED_PATHS = new Set(["/send", "/verify"]);
+// Relay for abwpl.com calls (OTP delivery + template messages). Deploy as a
+// Cloudflare Worker and set a secret named PROXY_SECRET.
+const UPSTREAM = "https://abwpl.com/api/public";
+// path this worker accepts -> path on abwpl.com + required method
+const ROUTES = {
+  "/send": { upstreamPath: "/otp/send", method: "POST" },
+  "/verify": { upstreamPath: "/otp/verify", method: "POST" },
+  "/messages/templates": { upstreamPath: "/messages/templates", method: "GET" },
+  "/messages/send": { upstreamPath: "/messages/send", method: "POST" },
+};
 
 export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
+    const route = ROUTES[pathname];
 
-    if (request.method !== "POST" || !ALLOWED_PATHS.has(pathname)) {
+    if (!route || request.method !== route.method) {
       return new Response("Not found", { status: 404 });
     }
 
@@ -19,10 +26,13 @@ export default {
     const apiKey = request.headers.get("X-API-Key");
     if (!apiKey) return new Response("Missing API key", { status: 400 });
 
-    const upstream = await fetch(`${UPSTREAM}${pathname}`, {
-      method: "POST",
-      headers: { "X-API-Key": apiKey, "Content-Type": "application/json" },
-      body: await request.text(),
+    const upstream = await fetch(`${UPSTREAM}${route.upstreamPath}`, {
+      method: route.method,
+      headers:
+        route.method === "POST"
+          ? { "X-API-Key": apiKey, "Content-Type": "application/json" }
+          : { "X-API-Key": apiKey },
+      body: route.method === "POST" ? await request.text() : undefined,
     });
 
     return new Response(upstream.body, {

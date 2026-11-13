@@ -121,30 +121,35 @@ export default async function AdminPropertiesPage() {
                   </span>
                 </div>
 
-                <form action={assignPropertyAgentAction} className="mt-2 flex items-center gap-2">
-                  <input type="hidden" name="propertyId" value={property.id} />
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                    Assigned agent
-                  </label>
-                  <select
-                    name="agentId"
-                    defaultValue={property.assignedAgent?.id ?? ""}
-                    className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-700 focus:border-blue-500 focus:outline-none"
-                  >
-                    <option value="">— unassigned —</option>
-                    {agents.map((agent) => (
-                      <option key={agent.id} value={agent.id}>
-                        {agent.user.name} {agent.agentCode ? `(${agent.agentCode})` : agent.shopName ? `(${agent.shopName})` : ""}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    type="submit"
-                    className="rounded-lg bg-slate-100 hover:bg-slate-200 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition"
-                  >
-                    Save
-                  </button>
-                </form>
+                {/* Only a company-held listing (owner === the admin account)
+                    needs a delegated agent — a dealer/owner's own listing
+                    already has its lister as the point of contact. */}
+                {property.owner.role === "ADMIN" && (
+                  <form action={assignPropertyAgentAction} className="mt-2 flex items-center gap-2">
+                    <input type="hidden" name="propertyId" value={property.id} />
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      Assigned agent
+                    </label>
+                    <select
+                      name="agentId"
+                      defaultValue={property.assignedAgent?.id ?? ""}
+                      className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-700 focus:border-blue-500 focus:outline-none"
+                    >
+                      <option value="">— unassigned —</option>
+                      {agents.map((agent) => (
+                        <option key={agent.id} value={agent.id}>
+                          {agent.user.name} {agent.agentCode ? `(${agent.agentCode})` : agent.shopName ? `(${agent.shopName})` : ""}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="submit"
+                      className="rounded-lg bg-slate-100 hover:bg-slate-200 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition"
+                    >
+                      Save
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
 

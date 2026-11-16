@@ -3,11 +3,18 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { REQUEST_STATUS_LABEL } from "@/lib/listingRequest";
 import { formatPrice } from "@/lib/format";
 import { getListingUsage, getActiveSubscription } from "@/lib/listing-quota";
 import { getSiteSettings } from "@/lib/site-settings";
 import { isPropertyExpired, daysUntil } from "@/lib/propertyVisibility";
-import { deleteProperty, renewProperty, requestSubscription, cancelSubscriptionRequest } from "./actions";
+import {
+  deleteProperty,
+  renewProperty,
+  requestSubscription,
+  cancelSubscriptionRequest,
+  relistPropertyAction,
+} from "./actions";
 
 const APPROVAL_STYLES: Record<string, string> = {
   PENDING: "bg-amber-50 text-amber-700",
@@ -17,19 +24,31 @@ const APPROVAL_STYLES: Record<string, string> = {
 
 const RENEW_WINDOW_DAYS = 7;
 
-type SearchParams = Promise<{ requested?: string; renewed?: string; error?: string }>;
+type SearchParams = Promise<{
+  requested?: string;
+  renewed?: string;
+  relisted?: string;
+  error?: string;
+}>;
 
 export default async function DashboardPage({ searchParams }: { searchParams: SearchParams }) {
   const session = await auth();
   if (!session) redirect("/login");
+  // Admins manage every listing from the admin console; this owner view is empty for them.
+  if (session.user.role === "ADMIN") redirect("/admin/properties");
 
-  const { requested, renewed, error } = await searchParams;
+  const { requested, renewed, relisted, error } = await searchParams;
   const isLister = session.user.role === "OWNER" || session.user.role === "DEALER";
+  // Owners and dealers cannot list on their own: they request a channel partner instead.
+  const newHref = isLister ? "/list-property/request" : "/dashboard/properties/new";
 
   const [properties, usage, activeSubscription, pendingSubscription, plans, settings] = await Promise.all([
     prisma.property.findMany({
       where: { ownerId: session.user.id },
-      include: { images: { orderBy: { order: "asc" }, take: 1 } },
+      include: {
+        images: { orderBy: { order: "asc" }, take: 1 },
+        assignedAgent: { select: { id: true, agentCode: true, shopName: true, user: { select: { name: true } } } },
+      },
       orderBy: { createdAt: "desc" },
     }),
     isLister ? getListingUsage(session.user.id, session.user.role) : null,
@@ -50,6 +69,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
     getSiteSettings(),
   ]);
 
+  const listingRequests = isLister
+    ? await prisma.listingRequest.findMany({
+        where: { userId: session.user.id, status: { not: "PENDING_PAYMENT" } },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      })
+    : [];
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -60,16 +87,42 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
           </p>
         </div>
         <Link
-          href="/dashboard/properties/new"
+          href={newHref}
           className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
         >
-          Add property
+          {isLister ? "List a property" : "Add property"}
         </Link>
       </div>
+
+      {listingRequests.length > 0 && (
+        <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400">My listing requests</p>
+          <ul className="mt-2 divide-y divide-slate-100 text-sm">
+            {listingRequests.map((r) => (
+              <li key={r.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
+                <span className="font-semibold text-slate-800">
+                  {[r.locality, r.city].filter(Boolean).join(", ")} · {r.plan === "GOLD" ? "Gold" : "Basic"}
+                </span>
+                <span className="flex items-center gap-3">
+                  <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">{REQUEST_STATUS_LABEL[r.status]}</span>
+                  <Link href={`/list-property/request/${r.id}?k=${r.statusToken}`} className="text-xs font-bold text-blue-600 hover:underline">
+                    Track
+                  </Link>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {renewed === "1" && (
         <p className="mt-4 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
           Listing renewed for another 30 days.
+        </p>
+      )}
+      {relisted === "1" && (
+        <p className="mt-4 rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-700">
+          Property status updated to Available for new tenants.
         </p>
       )}
       {requested === "1" && (
@@ -116,7 +169,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                 </p>
               </div>
               <Link
-                href="/dashboard/properties/new"
+                href={newHref}
                 className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-blue-700 transition"
               >
                 Select Plan &amp; List
@@ -162,38 +215,56 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                 </form>
               </div>
             </div>
+          ) : plans.length > 0 && (usage.atLimit || !activeSubscription) ? (
+            <div className="mt-5">
+              <p className="text-sm font-semibold text-slate-900">
+                {usage.atLimit ? "Quota Reached — Upgrade to add more listings" : "Available plans"}
+              </p>
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {plans.map((plan) => (
+                  <div key={plan.id} className="rounded-xl border border-slate-200 p-4">
+                    <p className="font-semibold text-slate-900">{plan.name}</p>
+                    <p className="mt-1 text-xl font-bold text-slate-900">
+                      {plan.price === 0 ? "Free" : `₹${plan.price.toLocaleString("en-IN")}`}
+                    </p>
+                    <p className="mt-1 text-xs text-slate-500">
+                      Up to {plan.listingLimit} listings ·{" "}
+                      {plan.leadLimit === null ? "Unlimited" : plan.leadLimit} leads
+                      {plan.durationDays ? ` · ${plan.durationDays} days` : " · No expiry"}
+                    </p>
+                    <form action={requestSubscription} className="mt-3">
+                      <input type="hidden" name="planId" value={plan.id} />
+                      <button
+                        type="submit"
+                        className="w-full rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-700"
+                      >
+                        Choose this plan
+                      </button>
+                    </form>
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : (
-            plans.length > 0 && (
-              <div className="mt-5">
-                <p className="text-sm font-semibold text-slate-900">
-                  {usage.atLimit ? "Upgrade to add more listings" : "Available plans"}
-                </p>
-                <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {plans.map((plan) => (
-                    <div key={plan.id} className="rounded-xl border border-slate-200 p-4">
-                      <p className="font-semibold text-slate-900">{plan.name}</p>
-                      <p className="mt-1 text-xl font-bold text-slate-900">
-                        {plan.price === 0 ? "Free" : `₹${plan.price.toLocaleString("en-IN")}`}
-                      </p>
-                      <p className="mt-1 text-xs text-slate-500">
-                        Up to {plan.listingLimit} listings ·{" "}
-                        {plan.leadLimit === null ? "Unlimited" : plan.leadLimit} leads
-                        {plan.durationDays ? ` · ${plan.durationDays} days` : " · No expiry"}
-                      </p>
-                      <form action={requestSubscription} className="mt-3">
-                        <input type="hidden" name="planId" value={plan.id} />
-                        <button
-                          type="submit"
-                          className="w-full rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-700"
-                        >
-                          Choose this plan
-                        </button>
-                      </form>
-                    </div>
-                  ))}
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-emerald-50 border border-emerald-200 p-4">
+              <div className="flex items-center gap-3">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 text-xs text-white font-bold">✓</span>
+                <div>
+                  <p className="text-sm font-bold text-emerald-950">
+                    Your {activeSubscription?.plan.name} is Active!
+                  </p>
+                  <p className="text-xs text-emerald-700">
+                    You have <span className="font-bold">{usage.remaining} listing{usage.remaining === 1 ? "" : "s"}</span> remaining in this plan cycle.
+                  </p>
                 </div>
               </div>
-            )
+              <Link
+                href={newHref}
+                className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-700 transition shadow-xs"
+              >
+                + List Property Now
+              </Link>
+            </div>
           )}
         </div>
       )}
@@ -237,6 +308,21 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                     >
                       {property.approvalStatus}
                     </span>
+                    {property.status === "RENTED" && (
+                      <span className="rounded-full bg-purple-50 border border-purple-200 px-2 py-0.5 text-xs font-bold text-purple-700">
+                        ✓ Rented Out
+                      </span>
+                    )}
+                    {property.status === "SOLD" && (
+                      <span className="rounded-full bg-slate-900 px-2 py-0.5 text-xs font-bold text-white">
+                        ✓ Sold
+                      </span>
+                    )}
+                    {property.assignedAgent && (
+                      <span className="rounded-full bg-indigo-50 border border-indigo-200 px-2 py-0.5 text-xs font-semibold text-indigo-700">
+                        Agent: {property.assignedAgent.user.name} ({property.assignedAgent.agentCode ?? "Partner"})
+                      </span>
+                    )}
                     {expired ? (
                       <span className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700">
                         Expired
@@ -261,6 +347,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                   <p className="text-sm font-medium text-slate-700">
                     {formatPrice(property.price, property.listingType)}
                   </p>
+
+                  {property.status === "RENTED" && (
+                    <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2 text-xs">
+                      <span className="font-semibold text-purple-700 flex items-center gap-1.5">
+                        <span>●</span>
+                        <span>Currently Rented Out</span>
+                      </span>
+                      <form action={relistPropertyAction}>
+                        <input type="hidden" name="propertyId" value={property.id} />
+                        <button
+                          type="submit"
+                          className="text-[11px] text-slate-500 hover:text-slate-800 font-semibold underline cursor-pointer"
+                        >
+                          Mark Available (Re-list)
+                        </button>
+                      </form>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-3">

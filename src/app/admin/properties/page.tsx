@@ -52,7 +52,7 @@ export default async function AdminPropertiesPage() {
         </div>
 
         <Link
-          href="/dashboard/properties/new"
+          href="/admin/properties/new"
           className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 px-4 py-2.5 text-xs font-bold text-white shadow-xs transition"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -94,6 +94,16 @@ export default async function AdminPropertiesPage() {
                   <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-bold ${APPROVAL_STYLES[property.approvalStatus]}`}>
                     {property.approvalStatus}
                   </span>
+                  {property.status === "RENTED" && (
+                    <span className="rounded-full bg-purple-50 border border-purple-200 px-2.5 py-0.5 text-[11px] font-bold text-purple-700">
+                      ✓ Rented
+                    </span>
+                  )}
+                  {property.status === "SOLD" && (
+                    <span className="rounded-full bg-slate-900 px-2.5 py-0.5 text-[11px] font-bold text-white">
+                      ✓ Sold
+                    </span>
+                  )}
                   <span className="text-xs font-semibold text-slate-500">
                     {property.locality ? `${property.locality}, ${property.city}` : property.city}
                   </span>
@@ -121,14 +131,11 @@ export default async function AdminPropertiesPage() {
                   </span>
                 </div>
 
-                {/* Only a company-held listing (owner === the admin account)
-                    needs a delegated agent — a dealer/owner's own listing
-                    already has its lister as the point of contact. */}
-                {property.owner.role === "ADMIN" && (
+                {(property.owner.role === "ADMIN" || property.listingType === "RENT" || property.assignedAgent) && (
                   <form action={assignPropertyAgentAction} className="mt-2 flex items-center gap-2">
                     <input type="hidden" name="propertyId" value={property.id} />
                     <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                      Assigned agent
+                      Channel Partner
                     </label>
                     <select
                       name="agentId"
@@ -165,7 +172,7 @@ export default async function AdminPropertiesPage() {
                 </svg>
               </Link>
               <Link
-                href={`/dashboard/properties/${property.id}/edit`}
+                href={`/admin/properties/${property.id}/edit`}
                 className="inline-flex items-center gap-1 rounded-xl bg-slate-900 hover:bg-slate-800 px-4 py-2 text-xs font-bold text-white transition"
               >
                 <span>Edit / Manage</span>

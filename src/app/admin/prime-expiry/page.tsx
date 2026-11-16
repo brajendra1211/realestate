@@ -146,35 +146,38 @@ export default async function AdminPrimeExpiryPage({
 
           <Link
             href={`/admin/prime-expiry?filter=expired&sortBy=${sortBy}${search ? `&search=${encodeURIComponent(search)}` : ""}`}
-            className={`rounded-xl px-3.5 py-2 transition ${
+            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 transition ${
               filter === "expired"
                 ? "bg-red-600 text-white shadow-xs"
                 : "bg-white text-red-700 border border-red-200 hover:bg-red-50"
             }`}
           >
-            🔴 Expired ({expiredCount})
+            <span className="h-2 w-2 rounded-full bg-red-500" />
+            <span>Expired ({expiredCount})</span>
           </Link>
 
           <Link
             href={`/admin/prime-expiry?filter=critical&sortBy=${sortBy}${search ? `&search=${encodeURIComponent(search)}` : ""}`}
-            className={`rounded-xl px-3.5 py-2 transition ${
+            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 transition ${
               filter === "critical"
                 ? "bg-amber-600 text-white shadow-xs"
                 : "bg-white text-amber-800 border border-amber-200 hover:bg-amber-50"
             }`}
           >
-            🟠 Critical ≤ 5 Days ({criticalCount})
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            <span>Critical ≤ 5 Days ({criticalCount})</span>
           </Link>
 
           <Link
             href={`/admin/prime-expiry?filter=active&sortBy=${sortBy}${search ? `&search=${encodeURIComponent(search)}` : ""}`}
-            className={`rounded-xl px-3.5 py-2 transition ${
+            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 transition ${
               filter === "active"
                 ? "bg-emerald-600 text-white shadow-xs"
                 : "bg-white text-emerald-800 border border-emerald-200 hover:bg-emerald-50"
             }`}
           >
-            🟢 Active ({activeCount + soonCount})
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <span>Active ({activeCount + soonCount})</span>
           </Link>
         </div>
 
@@ -191,8 +194,10 @@ export default async function AdminPrimeExpiryPage({
               placeholder="Search partner, code, phone..."
               className="rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 w-52 sm:w-60"
             />
-            <button type="submit" className="absolute right-2.5 top-2 text-xs text-slate-400">
-              🔍
+            <button type="submit" className="absolute right-2.5 top-2.5 text-xs text-slate-400">
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </button>
           </form>
 
@@ -207,7 +212,7 @@ export default async function AdminPrimeExpiryPage({
               }`}
               title="Whoever is expiring soonest comes first"
             >
-              🔻 Expiring Soonest First (Default)
+              Expiring Soonest First (Default)
             </Link>
 
             <Link
@@ -219,7 +224,7 @@ export default async function AdminPrimeExpiryPage({
               }`}
               title="Lowest wallet balance first"
             >
-              💰 Lowest Wallet
+              Lowest Wallet
             </Link>
           </div>
         </div>
@@ -276,35 +281,38 @@ export default async function AdminPrimeExpiryPage({
 
                       {/* Expiry Badge */}
                       {isExpired ? (
-                        <span className="rounded-full bg-red-100 border border-red-300 px-3 py-0.5 text-xs font-black text-red-800 animate-pulse">
-                          🔴 Expired / Demoted
+                        <span className="inline-flex items-center gap-1 rounded-full bg-red-100 border border-red-300 px-3 py-0.5 text-xs font-black text-red-800 animate-pulse">
+                          <span className="h-1.5 w-1.5 rounded-full bg-red-600" />
+                          <span>Expired / Demoted</span>
                         </span>
                       ) : isCritical ? (
-                        <span className="rounded-full bg-amber-100 border border-amber-300 px-3 py-0.5 text-xs font-black text-amber-800">
-                          🟠 Expires in {partner.daysRemaining} Day{partner.daysRemaining === 1 ? "" : "s"}!
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-300 px-3 py-0.5 text-xs font-black text-amber-800">
+                          <span className="h-1.5 w-1.5 rounded-full bg-amber-600" />
+                          <span>Expires in {partner.daysRemaining} Day{partner.daysRemaining === 1 ? "" : "s"}!</span>
                         </span>
                       ) : (
-                        <span className="rounded-full bg-emerald-100 border border-emerald-300 px-3 py-0.5 text-xs font-bold text-emerald-800">
-                          🟢 Active ({partner.daysRemaining} Days Left)
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 border border-emerald-300 px-3 py-0.5 text-xs font-bold text-emerald-800">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
+                          <span>Active ({partner.daysRemaining} Days Left)</span>
                         </span>
                       )}
 
                       {partner.visibilityDeprioritized && (
                         <span className="rounded-full bg-red-50 px-2.5 py-0.5 text-[10px] font-black text-red-700 border border-red-200">
-                          ⚠️ Demoted Visibility
+                          Demoted Visibility
                         </span>
                       )}
                     </div>
 
                     <div className="mt-1.5 flex flex-wrap items-center gap-3 text-xs text-slate-500 font-medium">
-                      <span>👤 {partner.name}</span>
+                      <span>{partner.name}</span>
                       {partner.phone && (
-                        <span className="font-semibold text-slate-700">📞 {partner.phone}</span>
+                        <span className="font-semibold text-slate-700">· {partner.phone}</span>
                       )}
-                      {partner.city && <span>📍 {partner.city}</span>}
+                      {partner.city && <span>· {partner.city}</span>}
                       {partner.expiryDate && (
                         <span className="text-slate-400">
-                          📅 Expiry: {new Date(partner.expiryDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                          · Expiry: {new Date(partner.expiryDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                         </span>
                       )}
                     </div>
@@ -355,7 +363,9 @@ export default async function AdminPrimeExpiryPage({
                         className="inline-flex items-center gap-1.5 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] px-3.5 py-2.5 text-xs font-black text-white shadow-2xs transition cursor-pointer"
                         title="Send WhatsApp renewal reminder"
                       >
-                        <span>💬</span>
+                        <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z" />
+                        </svg>
                         <span>WhatsApp Reminder</span>
                       </a>
                     )}

@@ -69,7 +69,7 @@ export function DashboardSidebar({
   return (
     <PanelSidebar
       homeHref="/dashboard"
-      brandLabel="Noida Prime"
+      brandLabel="Pronesto"
       subLabel={roleLabel}
       navItems={navItems}
       personName={userName}

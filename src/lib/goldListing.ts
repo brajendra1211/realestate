@@ -1,3 +1,4 @@
+import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { slugify } from "@/lib/slug";
@@ -160,7 +161,7 @@ async function createGoldListingRecord(input: CreateGoldListingInput, razorpayOr
     },
   });
 
-  if (referringAgentId) {
+  if (referringAgentId && (await canAutoCredit("GOLD_SPLIT", referringAgentId))) {
     const agent = await prisma.agentProfile.findUniqueOrThrow({
       where: { id: referringAgentId },
       include: { user: { select: { phone: true, email: true } } },

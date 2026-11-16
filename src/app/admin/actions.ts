@@ -468,6 +468,9 @@ export async function approveProperty(formData: FormData) {
     "Listing approved"
   );
   revalidatePath("/admin");
+  revalidatePath("/admin/properties");
+  revalidatePath("/dashboard");
+  revalidatePath("/properties");
 }
 
 export async function rejectProperty(formData: FormData) {
@@ -478,6 +481,9 @@ export async function rejectProperty(formData: FormData) {
     data: { approvalStatus: "REJECTED" },
   });
   revalidatePath("/admin");
+  revalidatePath("/admin/properties");
+  revalidatePath("/dashboard");
+  revalidatePath("/properties");
 }
 
 async function uniqueAmenitySlug(name: string, ignoreId?: string) {
@@ -537,14 +543,14 @@ export async function verifyUser(formData: FormData) {
     `Your ${siteName} profile is verified — it and your listings are now live on the public site.`,
     "Profile verified"
   );
-  revalidatePath("/admin/users");
+  revalidatePath("/admin", "layout");
 }
 
 export async function unverifyUser(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await prisma.user.update({ where: { id }, data: { verified: false } });
-  revalidatePath("/admin/users");
+  revalidatePath("/admin", "layout");
 }
 
 function text(formData: FormData, key: string) {
@@ -795,6 +801,7 @@ export async function assignSubscription(formData: FormData) {
         planId,
         status: "ACTIVE",
         amount: plan!.price,
+        startDate: new Date(),
         endDate: plan!.durationDays
           ? new Date(Date.now() + plan!.durationDays * 24 * 60 * 60 * 1000)
           : null,
@@ -803,6 +810,8 @@ export async function assignSubscription(formData: FormData) {
   ]);
 
   revalidatePath("/admin/users");
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/properties/new");
 }
 
 export async function cancelSubscription(formData: FormData) {
@@ -813,6 +822,8 @@ export async function cancelSubscription(formData: FormData) {
     data: { status: "CANCELLED" },
   });
   revalidatePath("/admin/users");
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/properties/new");
 }
 
 export async function approveSubscriptionRequest(formData: FormData) {
@@ -850,6 +861,8 @@ export async function approveSubscriptionRequest(formData: FormData) {
   );
 
   revalidatePath("/admin/users");
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/properties/new");
 }
 
 export async function rejectSubscriptionRequest(formData: FormData) {

@@ -4,7 +4,7 @@ import { MobileBottomNavShell, type BottomNavItem } from "@/components/MobileBot
 export async function MobileBottomNav() {
   const session = await auth();
 
-  let middle: BottomNavItem = { href: "/register", label: "Post", icon: "plus" };
+  let middle: BottomNavItem = { href: "/list-property/request", label: "Post", icon: "plus" };
   let account: BottomNavItem = { href: "/login", label: "Login", icon: "user" };
 
   if (
@@ -12,7 +12,11 @@ export async function MobileBottomNav() {
     session?.user.role === "DEALER" ||
     session?.user.role === "SUBADMIN"
   ) {
-    middle = { href: "/dashboard/properties/new", label: "Add", icon: "plus" };
+    middle = {
+      href: session?.user.role === "SUBADMIN" ? "/dashboard/properties/new" : "/list-property/request",
+      label: session?.user.role === "SUBADMIN" ? "Add" : "List",
+      icon: "plus",
+    };
     account = { href: "/dashboard/profile", label: "Account", icon: "user" };
   } else if (session?.user.role === "ADMIN") {
     middle = { href: "/admin", label: "Admin", icon: "grid" };

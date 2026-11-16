@@ -42,8 +42,26 @@ export async function isAgentShopUnlocked(
       OR: conditions,
     },
   });
+  if (existing) return true;
 
-  return Boolean(existing);
+  // A buyer who already paid the unlock fee for one of this partner's listings, or whose
+  // buyer request this partner accepted, can see ALL of the partner's listings — that is
+  // what the partner's shop link is for.
+  if (buyerId) {
+    const [paid, accepted] = await Promise.all([
+      prisma.propertyUnlock.findFirst({
+        where: { buyerId, OR: [{ assignedAgentId: agentProfileId }, { agentListing: { agentId: agentProfileId } }] },
+        select: { id: true },
+      }),
+      prisma.buyerInterestAcceptance.findFirst({
+        where: { agentId: agentProfileId, interest: { buyerId } },
+        select: { id: true },
+      }),
+    ]);
+    if (paid || accepted) return true;
+  }
+
+  return false;
 }
 
 /**

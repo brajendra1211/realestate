@@ -8,7 +8,7 @@ export default async function AdminEnquiriesPage() {
   if (!session || session.user.role !== "ADMIN") redirect("/login");
 
   const enquiries = await prisma.enquiry.findMany({
-    include: { property: { select: { title: true, slug: true, locality: true, city: true, listingType: true } } },
+    include: { property: { select: { title: true, slug: true, locality: true, city: true, listingType: true, owner: { select: { id: true, name: true, phone: true, role: true, company: true } } } } },
     orderBy: { createdAt: "desc" },
   });
 
@@ -64,7 +64,13 @@ export default async function AdminEnquiriesPage() {
                         </span>
                         <div>
                           <p className="font-bold text-slate-900">{enquiry.name}</p>
-                          <span className="text-[11px] text-slate-400">Direct Lead</span>
+                          {enquiry.buyerId ? (
+                            <Link href={`/admin/people/${enquiry.buyerId}`} className="text-[11px] font-semibold text-blue-600 hover:underline">
+                              Registered buyer — view profile
+                            </Link>
+                          ) : (
+                            <span className="text-[11px] text-slate-400">Guest lead (not registered)</span>
+                          )}
                         </div>
                       </div>
                     </td>
@@ -88,6 +94,14 @@ export default async function AdminEnquiriesPage() {
                           </Link>
                           <p className="text-[11px] text-slate-400 mt-0.5">
                             {enquiry.property.locality || enquiry.property.city} · {enquiry.property.listingType}
+                          </p>
+                          <p className="mt-0.5 text-[11px] text-slate-500">
+                            Goes to:{" "}
+                            <Link href={`/admin/people/${enquiry.property.owner.id}`} className="font-semibold text-blue-600 hover:underline">
+                              {enquiry.property.owner.company ?? enquiry.property.owner.name}
+                            </Link>{" "}
+                            ({enquiry.property.owner.role.toLowerCase()}
+                            {enquiry.property.owner.phone ? ` · ${enquiry.property.owner.phone}` : ""})
                           </p>
                         </div>
                       ) : (

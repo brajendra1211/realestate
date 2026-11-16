@@ -52,6 +52,7 @@ export function ConfirmListingForm({
 }) {
   const [state, formAction, pending] = useActionState(submitAgentListing, initialState);
   const [videoUrls, setVideoUrls] = useState<string[]>([""]);
+  const [propertyType, setPropertyType] = useState<string>("APARTMENT");
   const generalAmenityOptions = amenityOptions.filter(
     (a) => !OTHER_ROOMS.some((room) => room.toLowerCase() === a.name.toLowerCase())
   );
@@ -149,71 +150,244 @@ export function ConfirmListingForm({
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
-        <div>
-          <label className="text-sm font-medium text-slate-700">Listing type</label>
-          <select
-            name="listingType"
-            defaultValue={IS_PRONESTO ? "RENT" : "SALE"}
-            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          >
-            {!IS_PRONESTO && <option value="SALE">Sale</option>}
-            <option value="RENT">Rent</option>
-          </select>
+        <div className="sm:col-span-2 rounded-xl border border-blue-200 bg-blue-50/80 p-3.5 flex items-start gap-3">
+          <span className="text-xl shrink-0">🛡️</span>
+          <div className="text-xs text-blue-900 leading-relaxed">
+            <strong className="font-bold text-blue-950">Channel Partner Policy:</strong> Buy listings are exclusively registered &amp; title-verified by Platform Admin. Channel Partners can register all <strong>Rent</strong> properties (Flats, PG / Co-Living, Commercial Offices/Shops/Warehouses, Luxury Villas, and Houses).
+          </div>
         </div>
+
         <div>
-          <label className="text-sm font-medium text-slate-700">Property type</label>
+          <label className="text-sm font-medium text-slate-700">Listing Type</label>
+          <input type="hidden" name="listingType" value="RENT" />
+          <div className="mt-1 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 font-semibold">
+            <span>For Rent</span>
+            <span className="rounded bg-blue-100 px-2 py-0.5 text-[11px] font-bold text-blue-800">Rental Market</span>
+          </div>
+        </div>
+
+        <div>
+          <label className="text-sm font-medium text-slate-700">Property Category</label>
           <select
             name="propertyType"
-            defaultValue="APARTMENT"
+            value={propertyType}
+            onChange={(e) => setPropertyType(e.target.value)}
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           >
-            {IS_PRONESTO ? (
-              <option value="APARTMENT">Flat</option>
-            ) : (
-              PROPERTY_TYPES.map((type) => (
-                <option key={type} value={type}>
-                  {type.replace("_", " ")}
-                </option>
-              ))
-            )}
+            <option value="APARTMENT">Flat / Apartment</option>
+            <option value="PG">PG / Co-Living (Boys, Girls, Unisex)</option>
+            <option value="COMMERCIAL">Commercial (Office, Shop, Warehouse)</option>
+            <option value="VILLA">Luxury Villa</option>
+            <option value="INDEPENDENT_HOUSE">Independent House / Builder Floor</option>
           </select>
         </div>
+
         <div>
-          <label className="text-sm font-medium text-slate-700">Price (₹)</label>
+          <label className="text-sm font-medium text-slate-700">Monthly Rent (₹)</label>
           <input
             type="number"
             name="price"
             required
             min={1}
+            placeholder="e.g. 25000"
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
+
         <div>
-          <label className="text-sm font-medium text-slate-700">Area (sqft)</label>
+          <label className="text-sm font-medium text-slate-700">Security Deposit (₹)</label>
+          <input
+            type="number"
+            name="securityDeposit"
+            min={0}
+            placeholder="e.g. 50000"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+
+        {/* PG Section */}
+        {propertyType === "PG" && (
+          <div className="sm:col-span-2 rounded-2xl border border-purple-200 bg-purple-50/50 p-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-sm font-medium text-slate-700">PG Gender</label>
+              <select
+                name="pgGender"
+                defaultValue="UNISEX"
+                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              >
+                <option value="MALE">Boys Only</option>
+                <option value="FEMALE">Girls Only</option>
+                <option value="UNISEX">Co-Living / Unisex</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700">Sharing Type</label>
+              <select
+                name="pgSharing"
+                defaultValue="DOUBLE"
+                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              >
+                <option value="SINGLE">Single Private Room</option>
+                <option value="DOUBLE">Double Sharing (2 Beds)</option>
+                <option value="TRIPLE">Triple Sharing (3 Beds)</option>
+                <option value="FOUR_PLUS">4+ Multi-Sharing</option>
+              </select>
+            </div>
+            <div className="sm:col-span-2 flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="foodIncluded"
+                id="foodIncludedAgent"
+                className="h-4 w-4 rounded border-slate-300"
+              />
+              <label htmlFor="foodIncludedAgent" className="text-sm font-semibold text-purple-900">
+                🍳 3-Time Chef Meals Included (Breakfast, Lunch &amp; Dinner)
+              </label>
+            </div>
+          </div>
+        )}
+
+        {/* Commercial Section */}
+        {propertyType === "COMMERCIAL" && (
+          <div className="sm:col-span-2 rounded-2xl border border-amber-200 bg-amber-50/50 p-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-sm font-medium text-slate-700">Commercial Subtype</label>
+              <select
+                name="commercialSubtype"
+                defaultValue="OFFICE"
+                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              >
+                <option value="OFFICE">Office Space (IT / Corporate / Co-Working)</option>
+                <option value="SHOP">Retail Shop / High-Street Showroom</option>
+                <option value="WAREHOUSE">Warehouse / Godown / Logistics Hub</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700">Furnishing</label>
+              <select
+                name="furnishing"
+                defaultValue="FURNISHED"
+                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              >
+                <option value="FURNISHED">Fully Fitted &amp; Furnished (Plug &amp; Play)</option>
+                <option value="WARM_SHELL">Warm Shell</option>
+                <option value="BARE_SHELL">Bare Shell</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {/* Residential Section */}
+        {(propertyType === "APARTMENT" || propertyType === "VILLA" || propertyType === "INDEPENDENT_HOUSE") && (
+          <>
+            <div>
+              <label className="text-sm font-medium text-slate-700">Bedrooms (BHK)</label>
+              <input
+                type="number"
+                name="bedrooms"
+                min={0}
+                placeholder="e.g. 3"
+                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700">Bathrooms</label>
+              <input
+                type="number"
+                name="bathrooms"
+                min={0}
+                placeholder="e.g. 3"
+                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700">Furnishing</label>
+              <select
+                name="furnishing"
+                defaultValue="SEMI_FURNISHED"
+                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              >
+                <option value="FURNISHED">Fully Furnished</option>
+                <option value="SEMI_FURNISHED">Semi-Furnished</option>
+                <option value="UNFURNISHED">Unfurnished</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700">Society / Tower Name</label>
+              <input
+                type="text"
+                name="societyName"
+                placeholder="e.g. Godrej Woods"
+                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              />
+            </div>
+          </>
+        )}
+
+        <div>
+          <label className="text-sm font-medium text-slate-700">Super Built-up Area (sqft)</label>
           <input
             type="number"
             name="areaSqft"
             min={0}
+            placeholder="e.g. 1650"
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-slate-700">Bedrooms</label>
+          <label className="text-sm font-medium text-slate-700">Carpet Area (sqft)</label>
           <input
             type="number"
-            name="bedrooms"
+            name="carpetAreaSqft"
             min={0}
+            placeholder="e.g. 1320"
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-slate-700">Bathrooms</label>
+          <label className="text-sm font-medium text-slate-700">Floor Number</label>
           <input
             type="number"
-            name="bathrooms"
-            min={0}
+            name="floorNumber"
+            placeholder="e.g. 7"
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">Total Floors</label>
+          <input
+            type="number"
+            name="totalFloors"
+            placeholder="e.g. 24"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">Maintenance Charges (₹/mo)</label>
+          <input
+            type="number"
+            name="maintenanceCharges"
+            min={0}
+            placeholder="e.g. 3500"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-700">Facing Direction</label>
+          <select
+            name="facingDirection"
+            defaultValue="EAST"
+            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          >
+            <option value="EAST">East</option>
+            <option value="NORTH_EAST">North-East</option>
+            <option value="NORTH">North</option>
+            <option value="WEST">West</option>
+            <option value="SOUTH">South</option>
+            <option value="NORTH_WEST">North-West</option>
+            <option value="SOUTH_EAST">South-East</option>
+            <option value="SOUTH_WEST">South-West</option>
+          </select>
         </div>
         <div className="sm:col-span-2">
           <label className="text-sm font-medium text-slate-700">Other rooms</label>

@@ -19,16 +19,15 @@ export type ProfitSplit = {
 
 export type ProfitSplitRates = {
   agentPercent: number;
-  expensePercent: number;
   investorPercent: number;
+  expensePercent?: number;
 };
 
-// Rounds the first three shares, then assigns the remainder to companyShare
-// so the four parts always sum exactly to totalProfit (no paise lost/gained
-// to independent rounding of each line).
+// Computes the 3-way profit split (35% Investor, 10% Agent, 55% Company)
+// while keeping backward-compatibility for optional expenseShare.
 export function computeProfitSplit(totalProfit: number, rates: ProfitSplitRates): ProfitSplit {
   const agentShare = Math.round(totalProfit * (rates.agentPercent / 100));
-  const expenseShare = Math.round(totalProfit * (rates.expensePercent / 100));
+  const expenseShare = rates.expensePercent ? Math.round(totalProfit * (rates.expensePercent / 100)) : 0;
   const investorShare = Math.round(totalProfit * (rates.investorPercent / 100));
   const companyShare = totalProfit - agentShare - expenseShare - investorShare;
   return { agentShare, expenseShare, investorShare, companyShare };

@@ -97,7 +97,7 @@ export function GoldListingForm() {
         amount: result.order.amount,
         currency: result.order.currency,
         order_id: result.order.id,
-        name: "BayaEstate",
+        name: "Pronesto",
         description: "Gold Membership self-listing",
         handler: async (response: {
           razorpay_order_id: string;

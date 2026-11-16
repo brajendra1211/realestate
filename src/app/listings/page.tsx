@@ -1,3 +1,4 @@
+import { PageBanner } from "@/components/ui/PageBanner";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getPublicListings } from "@/lib/listing";
@@ -19,17 +20,15 @@ export default async function ListingsPage({ searchParams }: { searchParams: Sea
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Channel Partner Listings</h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Free to browse. Pay ₹100 to unlock exact address and agent contact for any listing.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
+      <PageBanner
+        art="rent"
+        eyebrow="Channel partners"
+        title="Channel Partner Listings"
+        subtitle="Free to browse. Pay ₹100 to unlock exact address and agent contact for any listing."
+      >
           <Link
             href="/dispatch/new"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-100"
+            className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
           >
             <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -38,7 +37,7 @@ export default async function ListingsPage({ searchParams }: { searchParams: Sea
           </Link>
           <Link
             href="/list-property/gold"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700 transition hover:bg-amber-100"
+            className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
           >
             <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 2l2.6 6.5L21 9l-5 4.5L17.5 21 12 17.5 6.5 21 8 13.5 3 9l6.4-.5z" />
@@ -47,15 +46,14 @@ export default async function ListingsPage({ searchParams }: { searchParams: Sea
           </Link>
           <Link
             href="/leaderboard"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+            className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
           >
             <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 19V6l7 4.5V19M4 19h16" />
             </svg>
             Agent leaderboard
           </Link>
-        </div>
-      </div>
+      </PageBanner>
 
       {listings.length === 0 ? (
         <div className="mt-8 rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">

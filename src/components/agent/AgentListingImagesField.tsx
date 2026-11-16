@@ -36,9 +36,12 @@ async function compressImage(file: File): Promise<File> {
 export function AgentListingImagesField({
   name = "imageUrls",
   endpoint = "/api/agent/listings/upload-image",
+  extraFields,
 }: {
   name?: string;
   endpoint?: string;
+  /** Extra form fields sent with every upload (e.g. the owner link token). */
+  extraFields?: Record<string, string>;
 }) {
   const [images, setImages] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -55,6 +58,7 @@ export function AgentListingImagesField({
         const compressed = await compressImage(file);
         const body = new FormData();
         body.append("file", compressed);
+        for (const [key, value] of Object.entries(extraFields ?? {})) body.append(key, value);
         const response = await fetch(endpoint, { method: "POST", body });
         if (!response.ok) {
           const data = await response.json().catch(() => ({}));

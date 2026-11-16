@@ -11,6 +11,11 @@ import { getSiteSettings } from "@/lib/site-settings";
 import { getRingAlertsForAgent } from "@/lib/ringAlerts";
 import { DispatchNotifications } from "@/components/agent/DispatchNotifications";
 import { requestPayoutAction, setAutoPayMandateAction, upgradeAgentPlanAction } from "./actions";
+import { Tabs } from "@/components/ui/Tabs";
+import {
+  AlertTriangle, ArrowRight, Bell, Building2, CalendarCheck, Crown, FileText, PlusCircle, Phone, Radio,
+  Receipt, Star, Ticket, UserPlus, UserRound, Wallet,
+} from "lucide-react";
 
 const STATUS_COPY: Record<string, { title: string; body: string; tone: string }> = {
   PENDING: {
@@ -31,15 +36,15 @@ const STATUS_COPY: Record<string, { title: string; body: string; tone: string }>
 };
 
 const COMMISSION_LABELS: Record<string, string> = {
-  AGENT_REFERRAL: "1. Channel Partner-to-Partner Referral Code Income (10%, one-time)",
-  CUSTOMER_PROPERTY_UPDATE: "2. Customer Property Update Income (₹100 / 50% split)",
-  UNLOCK_SPLIT: "3. Customer Property Watch / Unlock Pass Income (50% split)",
-  REGISTRATION_REFERRAL: "4. Referral Partner Joining Income (10% of ₹20,000 fee)",
-  DEAL_PROFIT_SHARE: "5. Referral Partner Investment Profit Sharing Income (10% deal profit)",
-  REFERRAL_CUSTOMER_RENEWAL: "6. Referral Customer Renewal Property Income (50% split)",
-  BROKERAGE: "7 & 8. Property Sale & Buying Income (1% Brokerage)",
-  GOLD_SPLIT: "Direct Customer Gold Listing Income (50% split)",
-  COMPANY_FIVE_STAR_REWARD: "9. Company 5-Star Performance Reward Income",
+  AGENT_REFERRAL: "Partner referral income",
+  CUSTOMER_PROPERTY_UPDATE: "Customer property update income",
+  UNLOCK_SPLIT: "Contact unlock income",
+  REGISTRATION_REFERRAL: "Referral partner joining income",
+  DEAL_PROFIT_SHARE: "Referral partner deal profit income",
+  REFERRAL_CUSTOMER_RENEWAL: "Customer renewal income",
+  BROKERAGE: "Property sale & buying brokerage",
+  GOLD_SPLIT: "Direct customer Gold listing income",
+  COMPANY_FIVE_STAR_REWARD: "5-star performance reward",
 };
 
 const PAYOUT_ERROR_MESSAGES: Record<string, string> = {
@@ -99,382 +104,52 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
   const shopUrl = agent.agentCode ? getAgentShopUrl(agent.agentCode, originUrl) : `${originUrl}/listings`;
   const qrDataUrl = await generateQrDataUrl(shopUrl);
 
-  return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-slate-900">Channel Partner Dashboard</h1>
-        <div className="flex items-center gap-2">
-          {agent.agentCode && (
-            <span className="font-mono text-sm font-extrabold text-blue-700 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200">
-              Code: {agent.agentCode}
-            </span>
-          )}
-          <a
-            href="/agent/profile"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-700 shadow-2xs hover:bg-slate-50 transition"
-          >
-            <svg className="h-3.5 w-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-            </svg>
-            <span>Profile & KYC</span>
-          </a>
-        </div>
-      </div>
+  const totalEarned = Object.values(totals).reduce((sum, v) => sum + (Number(v) || 0), 0);
+  const pendingPayoutCount = payouts.filter((p) => p.status === "PENDING").length;
+  const firstName = (agent.user.name ?? "Partner").split(" ")[0];
 
-      {saved === "mandate" && (
-        <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
-          Auto-Pay UPI mandate saved successfully.
-        </p>
-      )}
-      {saved === "plan" && (
-        <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
-          ✓ Channel Partner plan updated successfully! You now have Unlimited property listings and top priority search placement.
-        </p>
-      )}
-      {mandateError && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-          {mandateError === "invalid" ? "Please enter a valid UPI VPA (e.g. name@upi)." : "Failed to update Auto-Pay mandate."}
-        </p>
-      )}
+  const targetRows = cycleProgress
+    ? [
+        { label: "Properties listed", achieved: cycleProgress.achieved.properties, target: cycleProgress.targets.properties, remaining: cycleProgress.remaining.properties, pct: cycleProgress.percentages.properties, unit: "properties", bar: "bg-brand-600" },
+        { label: "Downline partners", achieved: cycleProgress.achieved.directAgents, target: cycleProgress.targets.directAgents, remaining: cycleProgress.remaining.directAgents, pct: cycleProgress.percentages.directAgents, unit: "partners", bar: "bg-violet-600" },
+        { label: "Referral partners added", achieved: cycleProgress.achieved.investors, target: cycleProgress.targets.investors, remaining: cycleProgress.remaining.investors, pct: cycleProgress.percentages.investors, unit: "referral partners", bar: "bg-emerald-600" },
+      ]
+    : [];
 
-      {dispatchError && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-          {DISPATCH_ERROR_MESSAGES[dispatchError] ?? "Something went wrong. Try again."}
-        </p>
-      )}
+  const quickActions = [
+    { href: "/agent/owner-requests", label: "Owner requests", hint: "Paid owners waiting for a call", icon: Bell, tint: "from-amber-500 to-orange-600" },
+    { href: "/agent/listings/new", label: "Add rental listing", hint: "Post a new property", icon: PlusCircle, tint: "from-brand-500 to-brand-700" },
+    { href: "/agent/listings", label: "My listings", hint: "Edit or renew", icon: Building2, tint: "from-sky-500 to-cyan-600" },
+    { href: "/agent/investors/new", label: "Add referral partner", hint: "Earn joining income", icon: UserPlus, tint: "from-emerald-500 to-teal-600" },
+    { href: "/agent/broadcast", label: "B2B broadcast", hint: "Reach other partners", icon: Radio, tint: "from-violet-500 to-purple-600" },
+    { href: "/agent/appointments", label: "Scheduled visits", hint: "Upcoming site visits", icon: CalendarCheck, tint: "from-amber-500 to-orange-600" },
+    { href: "/agent/gold-feed", label: "Direct customer listings", hint: "Customer-posted homes", icon: Star, tint: "from-rose-500 to-pink-600" },
+    { href: "/agent/buyer-leads", label: "Buyer leads", hint: "Buyers who paid to see a home", icon: UserRound, tint: "from-emerald-500 to-green-600" },
+  ];
 
-      {subStatus?.visibilityDeprioritized && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-          <p className="font-bold flex items-center gap-1.5">
-            <svg className="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-            </svg>
-            Visibility Pushback Active
-          </p>
-          <p className="mt-1">
-            Your agent code subscription has expired. Per system rules, your property listings have been pushed to lowest feed visibility (demoted) and new leads are rerouted. Payout withdrawals are locked until renewed.
-          </p>
-        </div>
-      )}
+  const trafficTone =
+    cycleProgress?.trafficLight === "GREEN"
+      ? { cls: "bg-emerald-50 text-emerald-700 ring-emerald-200", dot: "bg-emerald-500", text: "On track" }
+      : cycleProgress?.trafficLight === "YELLOW"
+        ? { cls: "bg-amber-50 text-amber-700 ring-amber-200", dot: "bg-amber-500", text: "In progress" }
+        : { cls: "bg-rose-50 text-rose-700 ring-rose-200", dot: "bg-rose-500", text: "At risk" };
 
-      {subStatus?.renewalAlertActive && !subStatus?.visibilityDeprioritized && (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-          <p className="font-bold flex items-center gap-1.5">
-            <svg className="h-4 w-4 text-amber-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-            </svg>
-            Upcoming Renewal Alert ({subStatus.daysRemaining} Days Remaining)
-          </p>
-          <p className="mt-1">
-            Your {subStatus.planTier} Plan renewal is due soon. Current wallet balance is insufficient for auto-debit. Please top up your wallet or configure Auto-Pay to prevent property visibility pushback.
-          </p>
-        </div>
-      )}
+  const card = "rounded-3xl border border-slate-200/80 bg-white p-5 shadow-soft sm:p-6";
+  const inputCls =
+    "w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-3 text-sm font-medium text-ink outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-100";
+  const noticeCls = (tone: "green" | "red") =>
+    tone === "green"
+      ? "rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 ring-1 ring-inset ring-emerald-200"
+      : "rounded-xl bg-rose-50 px-4 py-3 text-sm font-medium text-rose-800 ring-1 ring-inset ring-rose-200";
 
-      {agent.status !== "APPROVED" || !agent.primeStatus ? (
-        <div className={`rounded-xl px-4 py-3 text-sm ${STATUS_COPY[agent.status].tone}`}>
-          <p className="font-semibold">{STATUS_COPY[agent.status].title}</p>
-          <p className="mt-1">{STATUS_COPY[agent.status].body}</p>
-          {agent.status === "REJECTED" && agent.rejectionReason && (
-            <p className="mt-1 font-medium">Reason: {agent.rejectionReason}</p>
-          )}
-        </div>
-      ) : (
-        <div className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 via-white to-teal-50/40 p-4 shadow-xs">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-slate-900">
-                  {subStatus?.planTier === "BASIC" ? "Basic Plan Active" : "Prime Plan Active"}
-                </span>
-                {/* Traffic Light Sign on Agent Code */}
-                {cycleProgress && (
-                  <span
-                    className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold border ${
-                      cycleProgress.trafficLight === "GREEN"
-                        ? "bg-emerald-100 text-emerald-800 border-emerald-300"
-                        : cycleProgress.trafficLight === "YELLOW"
-                        ? "bg-amber-100 text-amber-800 border-amber-300"
-                        : "bg-red-100 text-red-800 border-red-300"
-                    }`}
-                  >
-                    <span
-                      className={`h-2 w-2 rounded-full ${
-                        cycleProgress.trafficLight === "GREEN"
-                          ? "bg-emerald-500 animate-pulse"
-                          : cycleProgress.trafficLight === "YELLOW"
-                          ? "bg-amber-500"
-                          : "bg-red-500 animate-pulse"
-                      }`}
-                    />
-                    {cycleProgress.trafficLight === "GREEN"
-                      ? "Task Achieved"
-                      : cycleProgress.trafficLight === "YELLOW"
-                      ? "In Progress"
-                      : "At Risk / Pending"}
-                  </span>
-                )}
-              </div>
-              <p className="mt-1 text-sm text-slate-600">
-                Channel Partner Code:{" "}
-                <span className="font-mono font-bold text-blue-700 select-all cursor-pointer bg-blue-50/80 px-2 py-0.5 rounded-lg border border-blue-100" title="Click to select">
-                  {agent.agentCode}
-                </span>
-              </p>
-            </div>
-            {subStatus?.daysRemaining != null && (
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
-                {subStatus.daysRemaining} days to renewal
-              </span>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Prominent Shop QR Standee & Marketing Tools Hero Card */}
-      {agent.agentCode && (
-        <AgentQrHeroCard
-          agentCode={agent.agentCode}
-          name={agent.user.name}
-          shopName={agent.shopName}
-          shopAddress={agent.shopAddress}
-          city={agent.city}
-          qrDataUrl={qrDataUrl}
-          originUrl={originUrl}
-        />
-      )}
-
-      {/* 30-Day Partner Target Performance Matrix */}
-      {cycleProgress && (
-        <div className="rounded-3xl border border-indigo-200/80 bg-linear-to-br from-indigo-50/70 via-white to-purple-50/40 p-5 sm:p-6 shadow-xs">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo-100/70 pb-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="rounded-full bg-indigo-100 px-3 py-0.5 text-[11px] font-black text-indigo-800 uppercase tracking-wider">
-                  {cycleProgress.cycleDays}-Day Partner Target Cycle
-                </span>
-                {cycleProgress.customTargetEnabled && (
-                  <span className="rounded-full bg-purple-100 px-2.5 py-0.5 text-[10px] font-extrabold text-purple-800">
-                    Custom Target
-                  </span>
-                )}
-              </div>
-              <h2 className="mt-1.5 text-lg font-black text-slate-900">
-                {cycleProgress.daysRemaining} Days Left in Current Target Cycle
-              </h2>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="rounded-2xl bg-white border border-indigo-100 px-3.5 py-1.5 text-right shadow-2xs">
-                <span className="text-[10px] uppercase font-bold text-slate-400">Overall Progress</span>
-                <p className="text-base font-black text-indigo-700">{cycleProgress.percentages.overall}%</p>
-              </div>
-              {cycleProgress.isTargetMet && (
-                <span className="rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-black text-emerald-800 border border-emerald-300">
-                  ✓ Target Completed!
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* 3 Partner Target Progress Cards with Remaining Counts */}
-          <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-            {/* Target 1: 20 Properties */}
-            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs flex flex-col justify-between">
-              <div>
-                <div className="flex justify-between items-start text-xs">
-                  <span className="font-extrabold text-slate-800">1. Properties Listed</span>
-                  <span className="font-mono font-black text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">
-                    {cycleProgress.achieved.properties} / {cycleProgress.targets.properties}
-                  </span>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between text-xs">
-                  <span
-                    className={`font-black ${
-                      cycleProgress.remaining.properties > 0 ? "text-amber-600" : "text-emerald-600"
-                    }`}
-                  >
-                    {cycleProgress.remaining.properties > 0
-                      ? `Bacha hua: ${cycleProgress.remaining.properties} properties`
-                      : "✓ Target Achieved"}
-                  </span>
-                  <span className="text-[11px] font-bold text-slate-400">
-                    {cycleProgress.percentages.properties}%
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-2.5 h-2 w-full rounded-full bg-slate-100 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-blue-600 transition-all"
-                  style={{ width: `${cycleProgress.percentages.properties}%` }}
-                />
-              </div>
-            </div>
-
-            {/* Target 2: 10 Downline Channel Partners */}
-            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs flex flex-col justify-between">
-              <div>
-                <div className="flex justify-between items-start text-xs">
-                  <span className="font-extrabold text-slate-800">2. Downline Partners</span>
-                  <span className="font-mono font-black text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">
-                    {cycleProgress.achieved.directAgents} / {cycleProgress.targets.directAgents}
-                  </span>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between text-xs">
-                  <span
-                    className={`font-black ${
-                      cycleProgress.remaining.directAgents > 0 ? "text-amber-600" : "text-emerald-600"
-                    }`}
-                  >
-                    {cycleProgress.remaining.directAgents > 0
-                      ? `Bacha hua: ${cycleProgress.remaining.directAgents} partners`
-                      : "✓ Target Achieved"}
-                  </span>
-                  <span className="text-[11px] font-bold text-slate-400">
-                    {cycleProgress.percentages.directAgents}%
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-2.5 h-2 w-full rounded-full bg-slate-100 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-indigo-600 transition-all"
-                  style={{ width: `${cycleProgress.percentages.directAgents}%` }}
-                />
-              </div>
-            </div>
-
-            {/* Target 3: Referral Partners */}
-            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs flex flex-col justify-between">
-              <div>
-                <div className="flex justify-between items-start text-xs">
-                  <span className="font-extrabold text-slate-800">3. Referral Partners Added</span>
-                  <span className="font-mono font-black text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">
-                    {cycleProgress.achieved.investors} / {cycleProgress.targets.investors}
-                  </span>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between text-xs">
-                  <span
-                    className={`font-black ${
-                      cycleProgress.remaining.investors > 0 ? "text-amber-600" : "text-emerald-600"
-                    }`}
-                  >
-                    {cycleProgress.remaining.investors > 0
-                      ? `Bacha hua: ${cycleProgress.remaining.investors} referral partners`
-                      : "✓ Target Achieved"}
-                  </span>
-                  <span className="text-[11px] font-bold text-slate-400">
-                    {cycleProgress.percentages.investors}%
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-2.5 h-2 w-full rounded-full bg-slate-100 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-emerald-600 transition-all"
-                  style={{ width: `${cycleProgress.percentages.investors}%` }}
-                />
-              </div>
-            </div>
-          </div>
-
-          {cycleProgress.coupon && (
-            <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50/70 p-3 flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
-                </svg>
-                <div>
-                  <p className="text-xs font-bold text-amber-900">20% Pre-Expiry Discount Coupon Active!</p>
-                  <p className="text-[11px] text-amber-700">
-                    Code: <span className="font-mono font-bold">{cycleProgress.coupon.code}</span> (Valid for 48 hours)
-                  </p>
-                </div>
-              </div>
-              <span className="rounded-lg bg-amber-600 px-2.5 py-1 text-xs font-bold text-white">Save 20% on Renewal</span>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Marketing Assets: QR Code, Visiting Card, ID Card, Referral Links */}
-      {agent.agentCode && (
-        <AgentAssetCards
-          agentCode={agent.agentCode}
-          name={agent.user.name}
-          shopName={agent.shopName}
-          shopAddress={agent.shopAddress}
-          city={agent.city}
-          phone={agent.user.phone || ""}
-          alternatePhone={agent.alternatePhone}
-          whatsapp={agent.user.whatsappNumber}
-          planTier={subStatus?.planTier || "BASIC"}
-          primeStatus={agent.primeStatus}
-          qrDataUrl={qrDataUrl}
-          originUrl={originUrl}
-          siteName={siteName}
-        />
-      )}
-
-      {/* Agent Code Directory & Quick Connect (Lookup other agents by code) */}
-      <AgentCodeLookup siteName={siteName} />
-
-      {/* Direct Network & Renewals Follow-up Desk (Direct Agents & Customer Property Renewals) */}
-      <DirectRenewalsTracker agents={networkData.agents} listings={networkData.listings} siteName={siteName} />
-
-      {/* Ring Alerts — a persistent history of buyers who rang a listing of
-          yours, since the live Socket.io/push alert only reaches you if
-          your dashboard tab was open or the mobile app was logged in at
-          that exact moment. Check this any time you weren't online then. */}
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
-        <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-          🔔 Ring Alerts ({ringAlerts.length})
-        </h2>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Buyers who rang one of your listings. Live alerts only reach you while your
-          dashboard tab is open or the mobile app is logged in — check back here any time
-          you may have missed one.
-        </p>
-        {ringAlerts.length === 0 ? (
-          <p className="mt-3 rounded-xl border border-dashed border-slate-200 p-4 text-center text-xs text-slate-400">
-            No rings yet.
-          </p>
-        ) : (
-          <div className="mt-3 divide-y divide-slate-100">
-            {ringAlerts.map((ring) => (
-              <div key={ring.id} className="flex items-center justify-between py-2.5 text-sm">
-                <div>
-                  <p className="font-semibold text-slate-900">{ring.buyerName}</p>
-                  <p className="text-xs text-slate-500">
-                    Interested in &quot;{ring.listingTitle}&quot; ·{" "}
-                    {ring.createdAt.toLocaleString("en-IN")}
-                  </p>
-                </div>
-                {ring.buyerPhone && (
-                  <a
-                    href={`tel:${ring.buyerPhone}`}
-                    className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700 hover:bg-emerald-100"
-                  >
-                    Call {ring.buyerPhone}
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
+  /* ------------------------------- TAB: OVERVIEW ------------------------------- */
+  const overview = (
+    <>
       {agent.primeStatus && (
-        <div className="mt-6">
-          <h2 className="text-lg font-semibold text-slate-900">Incoming leads</h2>
-          <p className="mt-1 text-sm text-slate-500">
-            First to accept wins the lead — §3.5&apos;s Uber-style cascade dispatch.
-          </p>
-          <div className="mt-3">
+        <section className={card}>
+          <h2 className="font-display text-2xl font-semibold text-ink">Incoming leads</h2>
+          <p className="mt-1 text-sm text-slate-500">The first partner to accept a lead gets it — keep this page open to catch new ones.</p>
+          <div className="mt-4">
             <DispatchNotifications
               agentProfileId={agent.id}
               initial={activeDispatches.map((d) => ({
@@ -492,222 +167,440 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
               }))}
             />
           </div>
-        </div>
+        </section>
       )}
 
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Wallet balance</p>
-          <p className="mt-1 text-2xl font-bold text-slate-900">{formatINR(agent.walletBalance)}</p>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-4 flex flex-col justify-between">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Plan Tier</p>
-            <p className="mt-1 text-xl font-bold text-slate-900">
-              {subStatus?.planTier === "BASIC"
-                ? `Basic (₹${siteSettings.agentBasicPlanPrice.toLocaleString("en-IN")}/mo)`
-                : `Prime (₹${siteSettings.agentPrimePlanPrice.toLocaleString("en-IN")}/mo)`}
-            </p>
-            <p className="mt-0.5 text-xs text-slate-500">
-              {subStatus?.planTier === "BASIC"
-                ? "10 listings limit · Standard ranking"
-                : "Unlimited listings · Priority feed ranking"}
-            </p>
+      {cycleProgress && (
+        <section className={card}>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="font-display text-2xl font-semibold text-ink">{cycleProgress.cycleDays}-day target</h2>
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold ring-1 ring-inset ${trafficTone.cls}`}>
+                  <span className={`h-2 w-2 rounded-full ${trafficTone.dot}`} /> {trafficTone.text}
+                </span>
+                {cycleProgress.customTargetEnabled && (
+                  <span className="rounded-full bg-violet-50 px-2.5 py-1 text-[11px] font-bold text-violet-700 ring-1 ring-inset ring-violet-200">Custom target</span>
+                )}
+              </div>
+              <p className="mt-1 text-sm text-slate-500">{cycleProgress.daysRemaining} days left in this cycle</p>
+            </div>
+            <div className="rounded-2xl bg-brand-50 px-4 py-2 text-right">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-brand-700/70">Overall</p>
+              <p className="font-display text-2xl font-semibold text-brand-700">{cycleProgress.percentages.overall}%</p>
+            </div>
           </div>
-          {subStatus?.planTier === "BASIC" ? (
-            <form action={upgradeAgentPlanAction} className="mt-3">
-              <input type="hidden" name="tier" value="PRIME" />
-              <button
-                type="submit"
-                className="w-full rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:from-purple-700 hover:to-indigo-700 transition cursor-pointer"
-              >
-                Upgrade to Prime (Unlimited)
-              </button>
-            </form>
-          ) : (
-            <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-purple-700">
-              <span>★</span> Top Priority Prime Active
-            </span>
+
+          {cycleProgress.isTargetMet && (
+            <p className={`${noticeCls("green")} mt-4`}>Target completed — great work!</p>
           )}
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Rating & Trust</p>
-          <p className="mt-1 text-2xl font-bold text-slate-900">
-            {(agent.ratingAvg ?? 0).toFixed(1)} ★{" "}
-            <span className="text-sm font-normal text-slate-400">({ratingCount})</span>
-          </p>
-          {isTopRatedAgent(agent.ratingAvg, ratingCount) && (
-            <span className="mt-1 inline-block rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">
-              Top Rated Prime Channel Partner
-            </span>
-          )}
-        </div>
-      </div>
 
-      <div className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h2 className="text-base font-semibold text-slate-900">Auto-Pay Mandate (UPI / Google Pay)</h2>
-            <p className="mt-0.5 text-xs text-slate-500">
-              PDF 2 Rule: If wallet balance is insufficient at renewal date, system deducts via linked mandate to prevent visibility pushback.
-            </p>
-          </div>
-          <span
-            className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-              agent.autoPayActive && agent.autoPayMandate
-                ? "bg-green-50 text-green-700"
-                : "bg-slate-100 text-slate-600"
-            }`}
-          >
-            {agent.autoPayActive && agent.autoPayMandate ? `Active: ${agent.autoPayMandate}` : "Not Configured"}
-          </span>
-        </div>
-
-        <form action={setAutoPayMandateAction} className="mt-4 flex flex-wrap items-center gap-3">
-          <div className="flex-1 min-w-[220px]">
-            <input
-              type="text"
-              name="vpa"
-              placeholder="Enter UPI ID (e.g. mobile@okhdfcbank)"
-              defaultValue={agent.autoPayMandate ?? ""}
-              required
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            />
-          </div>
-          <button
-            type="submit"
-            className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-          >
-            {agent.autoPayMandate ? "Update Mandate" : "Link Auto-Pay"}
-          </button>
-        </form>
-      </div>
-
-      <div className="mt-8 flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-semibold text-slate-900">Commission breakdown</h2>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Each category is tracked separately and never merged into a single number.
-          </p>
-        </div>
-        <Link
-          href="/agent/payments"
-          className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-blue-600 hover:bg-slate-50 transition"
-        >
-          View Full Payment History ({entries.length}) →
-        </Link>
-      </div>
-      <div className="mt-3 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
-        {Object.entries(COMMISSION_LABELS).map(([type, label]) => (
-          <div key={type} className="flex items-center justify-between px-4 py-3 text-sm">
-            <span className="text-slate-600">{label}</span>
-            <span className="font-semibold text-slate-900">{formatINR(totals[type] ?? 0)}</span>
-          </div>
-        ))}
-      </div>
-
-      {entries.length > 0 && (
-        <div className="mt-6">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-bold text-slate-800">Recent Commission Credits</h3>
-            <Link href="/agent/payments" className="text-xs text-blue-600 hover:underline">
-              See all
-            </Link>
-          </div>
-          <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white">
-            {entries.slice(0, 5).map((entry) => (
-              <div key={entry.id} className="flex items-center justify-between px-4 py-3 text-xs">
-                <div>
-                  <p className="font-semibold text-slate-900">
-                    {COMMISSION_LABELS[entry.type] ?? entry.type}
-                  </p>
-                  <p className="text-slate-500 mt-0.5">{entry.note || "Commission credit"}</p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            {targetRows.map((row) => (
+              <div key={row.label} className="rounded-2xl bg-slate-50 p-4">
+                <div className="flex items-baseline justify-between">
+                  <span className="text-sm font-bold text-ink">{row.label}</span>
+                  <span className="text-sm font-semibold text-slate-500">
+                    <b className="text-ink">{row.achieved}</b> / {row.target}
+                  </span>
                 </div>
-                <div className="text-right">
-                  <span className="font-black text-emerald-700">+{formatINR(entry.amount)}</span>
-                  <p className="text-[10px] text-slate-400">
-                    {entry.createdAt.toLocaleDateString("en-IN")}
-                  </p>
+                <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-200">
+                  <div className={`h-full rounded-full ${row.bar} transition-all`} style={{ width: `${Math.min(100, row.pct)}%` }} />
                 </div>
+                <p className={`mt-2 text-xs font-semibold ${row.remaining > 0 ? "text-amber-600" : "text-emerald-600"}`}>
+                  {row.remaining > 0 ? `${row.remaining} more ${row.unit} to go` : "Target achieved"}
+                </p>
               </div>
             ))}
           </div>
-        </div>
+
+          {cycleProgress.coupon && (
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-amber-50 p-4 ring-1 ring-inset ring-amber-200">
+              <div className="flex items-center gap-3">
+                <Ticket className="h-5 w-5 text-amber-600" />
+                <div>
+                  <p className="text-sm font-bold text-amber-900">20% renewal discount unlocked</p>
+                  <p className="text-xs text-amber-700">
+                    Code <span className="font-mono font-bold">{cycleProgress.coupon.code}</span> · valid for 48 hours
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
       )}
 
-      <div className="mt-8 flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-semibold text-slate-900">Withdraw to bank</h2>
-          <p className="mt-0.5 text-sm text-slate-500">
-            TDS is deducted automatically before the payout is marked paid by admin.
+      <div className="grid gap-6 lg:grid-cols-2">
+        <section className={`${card} flex flex-col justify-between`}>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Your plan</p>
+            <p className="font-display mt-1 text-2xl font-semibold text-ink">
+              {subStatus?.planTier === "BASIC"
+                ? `Basic · ₹${siteSettings.agentBasicPlanPrice.toLocaleString("en-IN")}/mo`
+                : `Prime · ₹${siteSettings.agentPrimePlanPrice.toLocaleString("en-IN")}/mo`}
+            </p>
+            <p className="mt-1 text-sm text-slate-500">
+              {subStatus?.planTier === "BASIC"
+                ? "10 listings limit · standard ranking"
+                : "Unlimited listings · priority feed ranking"}
+            </p>
+          </div>
+          {subStatus?.planTier === "BASIC" ? (
+            <form action={upgradeAgentPlanAction} className="mt-5">
+              <input type="hidden" name="tier" value="PRIME" />
+              <button type="submit" className="shine w-full cursor-pointer rounded-xl bg-gradient-to-r from-violet-600 to-brand-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-brand-600/25 transition hover:brightness-110">
+                Upgrade to Prime
+              </button>
+            </form>
+          ) : (
+            <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-violet-700">
+              <Crown className="h-4 w-4" /> Top-priority Prime is active
+            </span>
+          )}
+        </section>
+
+        <section className={card}>
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Rating &amp; trust</p>
+          <p className="font-display mt-1 flex items-baseline gap-2 text-4xl font-semibold text-ink">
+            {(agent.ratingAvg ?? 0).toFixed(1)}
+            <Star className="h-6 w-6 fill-amber-400 text-amber-400" />
+            <span className="text-sm font-medium text-slate-400">({ratingCount} reviews)</span>
           </p>
-        </div>
-        <Link
-          href="/agent/payments?tab=payouts"
-          className="text-xs font-semibold text-blue-600 hover:underline"
-        >
-          All Payouts ({payouts.length}) →
-        </Link>
+          {isTopRatedAgent(agent.ratingAvg, ratingCount) && (
+            <span className="mt-3 inline-block rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700 ring-1 ring-inset ring-amber-200">
+              Top-rated Prime partner
+            </span>
+          )}
+        </section>
       </div>
 
-      {saved === "payout" && (
-        <p className="mt-3 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
-          Payout requested — pending admin processing.
-        </p>
-      )}
-      {error && (
-        <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-          {PAYOUT_ERROR_MESSAGES[error] ?? "Something went wrong. Try again."}
-        </p>
-      )}
-
-      <form action={requestPayoutAction} className="mt-3 flex flex-wrap items-end gap-3">
-        <div>
-          <label className="text-sm font-medium text-slate-700">Amount (₹)</label>
-          <input
-            type="number"
-            name="amount"
-            min={1}
-            max={agent.walletBalance}
-            required
-            className="mt-1 w-40 rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={agent.walletBalance <= 0}
-          className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          Request payout
-        </button>
-      </form>
-
-      {payouts.length > 0 && (
-        <div className="mt-4 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
-          {payouts.map((payout) => (
-            <div key={payout.id} className="flex items-center justify-between px-4 py-3 text-sm">
-              <div>
-                <p className="text-slate-600">
-                  {formatINR(payout.grossAmount)} gross · {formatINR(payout.tdsAmount)} TDS ·{" "}
-                  <span className="font-semibold text-slate-900">{formatINR(payout.netAmount)} net</span>
-                </p>
-                <p className="text-xs text-slate-400">{payout.requestedAt.toLocaleDateString("en-IN")}</p>
+      <section className={card}>
+        <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-ink">
+          <Bell className="h-5 w-5 text-brand-600" /> Ring alerts
+          <span className="rounded-full bg-slate-100 px-2.5 py-0.5 font-sans text-xs font-bold text-slate-500">{ringAlerts.length}</span>
+        </h2>
+        <p className="mt-1 text-sm text-slate-500">Buyers who rang one of your listings. Check here any time you missed a live alert.</p>
+        {ringAlerts.length === 0 ? (
+          <p className="mt-4 rounded-2xl border border-dashed border-slate-200 p-6 text-center text-sm text-slate-400">No rings yet.</p>
+        ) : (
+          <div className="mt-4 divide-y divide-slate-100">
+            {ringAlerts.map((ring) => (
+              <div key={ring.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+                <div className="min-w-0">
+                  <p className="font-bold text-ink">{ring.buyerName}</p>
+                  <p className="truncate text-xs text-slate-500">
+                    {ring.listingTitle} · {ring.createdAt.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                {ring.buyerPhone && (
+                  <a href={`tel:${ring.buyerPhone}`} className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-emerald-700">
+                    <Phone className="h-4 w-4" /> Call
+                  </a>
+                )}
               </div>
-              <span
-                className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                  payout.status === "PAID"
-                    ? "bg-green-50 text-green-700"
-                    : payout.status === "REJECTED"
-                      ? "bg-red-50 text-red-700"
-                      : "bg-amber-50 text-amber-700"
-                }`}
-              >
-                {payout.status}
-              </span>
+            ))}
+          </div>
+        )}
+      </section>
+    </>
+  );
+
+  /* ------------------------------- TAB: EARNINGS ------------------------------- */
+  const earnings = (
+    <>
+      <section id="withdraw" className={card}>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-ink">Withdraw to bank</h2>
+            <p className="mt-1 text-sm text-slate-500">TDS is deducted automatically. Admin marks it paid once the money is sent.</p>
+          </div>
+          <Link href="/agent/payments?tab=payouts" className="text-sm font-semibold text-brand-600 hover:underline">
+            All payouts ({payouts.length}) →
+          </Link>
+        </div>
+
+        {saved === "payout" && <p className={`${noticeCls("green")} mt-4`}>Payout requested — pending admin processing.</p>}
+        {error && <p className={`${noticeCls("red")} mt-4`}>{PAYOUT_ERROR_MESSAGES[error] ?? "Something went wrong. Try again."}</p>}
+
+        <form action={requestPayoutAction} className="mt-5 flex flex-wrap items-end gap-3">
+          <div className="min-w-[200px] flex-1">
+            <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+              Amount (₹) · available {formatINR(agent.walletBalance)}
+            </label>
+            <input type="number" name="amount" min={1} max={agent.walletBalance} required className={inputCls} placeholder="Enter amount" />
+          </div>
+          <button
+            type="submit"
+            disabled={agent.walletBalance <= 0}
+            className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-brand-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-brand-600/25 transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <Wallet className="h-4 w-4" /> Request payout
+          </button>
+        </form>
+
+        {payouts.length > 0 && (
+          <div className="mt-5 divide-y divide-slate-100 rounded-2xl border border-slate-200/80">
+            {payouts.map((payout) => (
+              <div key={payout.id} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
+                <div>
+                  <p className="text-slate-600">
+                    {formatINR(payout.grossAmount)} − {formatINR(payout.tdsAmount)} TDS ={" "}
+                    <b className="text-ink">{formatINR(payout.netAmount)}</b>
+                  </p>
+                  <p className="text-xs text-slate-400">{payout.requestedAt.toLocaleDateString("en-IN")}</p>
+                </div>
+                <span
+                  className={`rounded-full px-3 py-1 text-[11px] font-bold ring-1 ring-inset ${
+                    payout.status === "PAID"
+                      ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
+                      : payout.status === "REJECTED"
+                        ? "bg-rose-50 text-rose-700 ring-rose-200"
+                        : "bg-amber-50 text-amber-700 ring-amber-200"
+                  }`}
+                >
+                  {payout.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className={card}>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-ink">Where your income comes from</h2>
+            <p className="mt-1 text-sm text-slate-500">Each income type is tracked separately.</p>
+          </div>
+          <Link href="/agent/payments" className="text-sm font-semibold text-brand-600 hover:underline">
+            Full history ({entries.length}) →
+          </Link>
+        </div>
+        <div className="mt-4 divide-y divide-slate-100 rounded-2xl border border-slate-200/80">
+          {Object.entries(COMMISSION_LABELS).map(([type, label]) => {
+            const amount = totals[type] ?? 0;
+            return (
+              <div key={type} className="flex items-center justify-between gap-4 px-4 py-3 text-sm">
+                <span className={amount > 0 ? "font-medium text-ink" : "text-slate-500"}>{label}</span>
+                <span className={`font-semibold ${amount > 0 ? "text-emerald-700" : "text-slate-400"}`}>{formatINR(amount)}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        {entries.length > 0 && (
+          <>
+            <h3 className="mt-6 text-sm font-bold text-ink">Latest credits</h3>
+            <div className="mt-2 divide-y divide-slate-100 rounded-2xl border border-slate-200/80">
+              {entries.slice(0, 5).map((entry) => (
+                <div key={entry.id} className="flex items-center justify-between gap-4 px-4 py-3 text-sm">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-ink">{COMMISSION_LABELS[entry.type] ?? entry.type}</p>
+                    <p className="truncate text-xs text-slate-500">{entry.note || "Commission credit"}</p>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    <p className="font-display text-lg font-semibold text-emerald-700">+{formatINR(entry.amount)}</p>
+                    <p className="text-[11px] text-slate-400">{entry.createdAt.toLocaleDateString("en-IN")}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </>
+        )}
+      </section>
+
+      <section className={card}>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-ink">Auto-pay (UPI)</h2>
+            <p className="mt-1 text-sm text-slate-500">If your wallet is short on renewal day, we deduct via this UPI ID so your listings never lose visibility.</p>
+          </div>
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-bold ring-1 ring-inset ${
+              agent.autoPayActive && agent.autoPayMandate ? "bg-emerald-50 text-emerald-700 ring-emerald-200" : "bg-slate-100 text-slate-600 ring-slate-200"
+            }`}
+          >
+            {agent.autoPayActive && agent.autoPayMandate ? `Active: ${agent.autoPayMandate}` : "Not set up"}
+          </span>
+        </div>
+        <form action={setAutoPayMandateAction} className="mt-4 flex flex-wrap items-center gap-3">
+          <div className="min-w-[220px] flex-1">
+            <input type="text" name="vpa" placeholder="Your UPI ID, e.g. mobile@okhdfcbank" defaultValue={agent.autoPayMandate ?? ""} required className={inputCls} />
+          </div>
+          <button type="submit" className="cursor-pointer rounded-xl bg-ink px-5 py-3 text-sm font-bold text-white transition hover:bg-brand-700">
+            {agent.autoPayMandate ? "Update" : "Link auto-pay"}
+          </button>
+        </form>
+      </section>
+    </>
+  );
+
+  /* ------------------------------ TAB: MARKETING ------------------------------ */
+  const marketing = agent.agentCode ? (
+    <>
+      <AgentQrHeroCard
+        agentCode={agent.agentCode}
+        name={agent.user.name}
+        shopName={agent.shopName}
+        shopAddress={agent.shopAddress}
+        city={agent.city}
+        qrDataUrl={qrDataUrl}
+        originUrl={originUrl}
+      />
+      <AgentAssetCards
+        agentCode={agent.agentCode}
+        name={agent.user.name}
+        shopName={agent.shopName}
+        shopAddress={agent.shopAddress}
+        city={agent.city}
+        phone={agent.user.phone || ""}
+        alternatePhone={agent.alternatePhone}
+        whatsapp={agent.user.whatsappNumber}
+        planTier={subStatus?.planTier || "BASIC"}
+        primeStatus={agent.primeStatus}
+        qrDataUrl={qrDataUrl}
+        originUrl={originUrl}
+        siteName={siteName}
+      />
+    </>
+  ) : (
+    <p className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">
+      Your QR code, visiting card and ID card appear here once your Channel Partner Code is issued.
+    </p>
+  );
+
+  /* ------------------------------- TAB: NETWORK ------------------------------- */
+  const network = (
+    <>
+      <AgentCodeLookup siteName={siteName} />
+      <DirectRenewalsTracker agents={networkData.agents} listings={networkData.listings} siteName={siteName} />
+    </>
+  );
+
+  return (
+    <div className="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6">
+      {/* Header */}
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-brand-600">Channel partner portal</p>
+          <h1 className="font-display text-3xl font-semibold text-ink sm:text-4xl">Namaste, {firstName}</h1>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {agent.agentCode && (
+            <span className="rounded-xl bg-white px-4 py-2 font-mono text-sm font-bold text-brand-700 ring-1 ring-inset ring-brand-200">
+              {agent.agentCode}
+            </span>
+          )}
+          <Link href="/agent/profile" className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:border-brand-600 hover:text-brand-700">
+            <UserRound className="h-4 w-4" /> Profile &amp; KYC
+          </Link>
+        </div>
+      </div>
+
+      {/* Alerts */}
+      {saved === "mandate" && <p className={noticeCls("green")}>Auto-pay UPI mandate saved.</p>}
+      {saved === "plan" && <p className={noticeCls("green")}>Plan updated — you now have unlimited listings and top-priority placement.</p>}
+      {mandateError && <p className={noticeCls("red")}>{mandateError === "invalid" ? "Please enter a valid UPI ID (e.g. name@upi)." : "Could not update auto-pay."}</p>}
+      {dispatchError && <p className={noticeCls("red")}>{DISPATCH_ERROR_MESSAGES[dispatchError] ?? "Something went wrong. Try again."}</p>}
+
+      {subStatus?.visibilityDeprioritized && (
+        <div className="flex gap-3 rounded-2xl bg-rose-50 p-4 text-sm text-rose-800 ring-1 ring-inset ring-rose-200">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+          <div>
+            <p className="font-bold">Your listings are hidden lower in search</p>
+            <p className="mt-0.5">Your subscription expired, so listings are demoted, new leads are rerouted and payouts are locked until you renew.</p>
+          </div>
         </div>
       )}
+      {subStatus?.renewalAlertActive && !subStatus?.visibilityDeprioritized && (
+        <div className="flex gap-3 rounded-2xl bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-inset ring-amber-200">
+          <Bell className="mt-0.5 h-5 w-5 shrink-0" />
+          <div>
+            <p className="font-bold">Renewal due in {subStatus.daysRemaining} days</p>
+            <p className="mt-0.5">Your {subStatus.planTier} plan is due soon and your wallet is short. Top up, or set up auto-pay in the Earnings tab.</p>
+          </div>
+        </div>
+      )}
+      {(agent.status !== "APPROVED" || !agent.primeStatus) && (
+        <div className={`rounded-2xl px-4 py-3 text-sm ${STATUS_COPY[agent.status].tone}`}>
+          <p className="font-bold">{STATUS_COPY[agent.status].title}</p>
+          <p className="mt-0.5">{STATUS_COPY[agent.status].body}</p>
+          {agent.status === "REJECTED" && agent.rejectionReason && <p className="mt-1 font-semibold">Reason: {agent.rejectionReason}</p>}
+        </div>
+      )}
+
+      {/* Wallet + key numbers */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        <div className="relative overflow-hidden rounded-3xl bg-brand-950 p-6 text-white shadow-lift lg:col-span-2">
+          <div className="absolute -right-12 -top-12 h-52 w-52 rounded-full bg-brand-500/40 blur-3xl" />
+          <div className="absolute -bottom-16 left-10 h-40 w-40 rounded-full bg-gold-400/20 blur-3xl" />
+          <div className="relative flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                <Wallet className="h-4 w-4 text-gold-300" /> Wallet balance
+              </p>
+              <p className="font-display mt-2 text-5xl font-semibold">{formatINR(agent.walletBalance)}</p>
+              <p className="mt-2 text-sm text-slate-300">
+                {pendingPayoutCount > 0 ? `${pendingPayoutCount} payout waiting for admin` : "Ready to withdraw anytime"}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <a href="#tab-earnings" className="shine inline-flex items-center gap-2 rounded-xl bg-gold-400 px-5 py-3 text-sm font-bold text-ink transition hover:bg-gold-300">
+                Withdraw <ArrowRight className="h-4 w-4" />
+              </a>
+              <Link href="/agent/payments" className="inline-flex items-center rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
+                History
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
+          <div className={card}>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Total earned</p>
+            <p className="font-display mt-1 text-3xl font-semibold text-emerald-700">{formatINR(totalEarned)}</p>
+          </div>
+          <div className={card}>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Plan</p>
+            <p className="font-display mt-1 text-3xl font-semibold text-ink">{subStatus?.planTier === "BASIC" ? "Basic" : "Prime"}</p>
+            {subStatus?.daysRemaining != null && <p className="text-xs text-slate-500">{subStatus.daysRemaining} days to renewal</p>}
+          </div>
+        </div>
+      </div>
+
+      {/* Quick actions */}
+      <div>
+        <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-slate-400">Quick actions</h2>
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          {quickActions.map((a) => {
+            const Icon = a.icon;
+            return (
+              <Link
+                key={a.href}
+                href={a.href}
+                className="group flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-soft transition-all hover:-translate-y-1 hover:border-transparent hover:shadow-lift"
+              >
+                <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${a.tint} text-white shadow-md transition group-hover:scale-110`}>
+                  <Icon className="h-5 w-5" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold leading-tight text-ink">{a.label}</span>
+                  <span className="block truncate text-xs text-slate-500">{a.hint}</span>
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
+      <Tabs
+        tabs={[
+          { id: "overview", label: "Overview", badge: activeDispatches.length || undefined, content: overview },
+          { id: "earnings", label: "Earnings", content: earnings },
+          { id: "marketing", label: "QR & marketing", content: marketing },
+          { id: "network", label: "Network", content: network },
+        ]}
+      />
     </div>
   );
 }

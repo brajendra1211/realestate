@@ -1,3 +1,4 @@
+import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { getSiteSettings } from "@/lib/site-settings";
@@ -281,6 +282,7 @@ export async function renewPropertyListing(
   const now = new Date();
   const newExpiry = new Date(now.getTime() + validityDays * 24 * 60 * 60 * 1000);
 
+  const renewalAuto = await canAutoCredit("REFERRAL_CUSTOMER_RENEWAL", agentProfileId);
   const updated = await prisma.$transaction([
     prisma.agentListing.update({
       where: { id: listingId },
@@ -296,20 +298,24 @@ export async function renewPropertyListing(
         expiryWarning2dSentAt: null,
       },
     }),
-    // Credit 50% split to agent wallet if renewed
-    prisma.agentProfile.update({
-      where: { id: agentProfileId },
-      data: { walletBalance: { increment: agentSplit } },
-    }),
-    prisma.commissionLedgerEntry.create({
-      data: {
-        agentId: agentProfileId,
-        type: planTier === "GOLD" ? "GOLD_SPLIT" : "UNLOCK_SPLIT",
-        amount: agentSplit,
-        refId: listingId,
-        note: `50% split for ${planTier} listing renewal on "${listing.title}"`,
-      },
-    }),
+    // Credit the split to the agent wallet if renewed (skipped when the admin handles it by hand)
+    ...(renewalAuto
+      ? [
+          prisma.agentProfile.update({
+            where: { id: agentProfileId },
+            data: { walletBalance: { increment: agentSplit } },
+          }),
+          prisma.commissionLedgerEntry.create({
+            data: {
+              agentId: agentProfileId,
+              type: "REFERRAL_CUSTOMER_RENEWAL",
+              amount: agentSplit,
+              refId: listingId,
+              note: `50% Property Renewal Royalty for ${planTier} listing on "${listing.title}"`,
+            },
+          }),
+        ]
+      : []),
   ]);
 
   return updated[0];

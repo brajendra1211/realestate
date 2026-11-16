@@ -58,7 +58,7 @@ export function UnlockButton({
         amount: order.amount,
         currency: order.currency,
         order_id: order.id,
-        name: "BayaEstate",
+        name: "Pronesto",
         description: "Unlock property contact & address",
         handler: async (response: {
           razorpay_order_id: string;

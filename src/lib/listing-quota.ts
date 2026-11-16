@@ -26,9 +26,27 @@ export async function getListingLimit(userId: string, role: string) {
 }
 
 export async function getListingUsage(userId: string, role: string) {
-  const [used, limit] = await Promise.all([
-    prisma.property.count({ where: { ownerId: userId, approvalStatus: { not: "REJECTED" } } }),
-    getListingLimit(userId, role),
-  ]);
+  if (role === "ADMIN" || role === "SUBADMIN") {
+    return { used: 0, limit: Infinity, remaining: Infinity, atLimit: false };
+  }
+
+  const activeSubscription = await getActiveSubscription(userId);
+  const limit = activeSubscription?.plan.listingLimit ?? FREE_LISTING_LIMITS[role] ?? 0;
+
+  // If no active subscription, owner cannot list any properties
+  if (!activeSubscription) {
+    return { used: 0, limit: 0, remaining: 0, atLimit: true };
+  }
+
+  // Count only properties created during this active subscription cycle
+  const cycleStart = activeSubscription.startDate ?? activeSubscription.createdAt;
+  const used = await prisma.property.count({
+    where: {
+      ownerId: userId,
+      approvalStatus: { not: "REJECTED" },
+      createdAt: { gte: cycleStart },
+    },
+  });
+
   return { used, limit, remaining: Math.max(limit - used, 0), atLimit: used >= limit };
 }

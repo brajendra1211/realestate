@@ -47,8 +47,11 @@ export default async function AdminTargetsPage({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-wider text-blue-700 mb-2 border border-blue-200">
-            <span>🎯</span>
-            Performance Engine
+            <svg className="h-3.5 w-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <circle cx="12" cy="12" r="9" strokeWidth="2" />
+              <circle cx="12" cy="12" r="3" fill="currentColor" />
+            </svg>
+            <span>Performance Engine</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             Channel Partner Targets
@@ -204,8 +207,10 @@ export default async function AdminTargetsPage({
                 placeholder="Search partner, code, city..."
                 className="rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 w-56 sm:w-64"
               />
-              <button type="submit" className="absolute right-2.5 top-2 text-xs text-slate-400">
-                🔍
+              <button type="submit" className="absolute right-2.5 top-2.5 text-xs text-slate-400">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
               </button>
             </form>
 
@@ -220,7 +225,7 @@ export default async function AdminTargetsPage({
                 }`}
                 title="Lowest achievement rate first"
               >
-                🔻 Lowest Progress (Default)
+                Lowest Progress (Default)
               </Link>
 
               <Link
@@ -231,7 +236,7 @@ export default async function AdminTargetsPage({
                     : "text-slate-500 hover:text-slate-900"
                 }`}
               >
-                🔺 Highest First
+                Highest First
               </Link>
 
               <Link
@@ -324,11 +329,11 @@ export default async function AdminTargetsPage({
                       </div>
 
                       <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-slate-500 font-medium">
-                        <span>👤 {partner.userName}</span>
-                        {partner.userPhone && <span>📞 {partner.userPhone}</span>}
-                        {partner.city && <span>📍 {partner.city}</span>}
+                        <span>{partner.userName}</span>
+                        {partner.userPhone && <span>· {partner.userPhone}</span>}
+                        {partner.city && <span>· {partner.city}</span>}
                         <span className="text-slate-400">
-                          ⏱️ {partner.daysRemaining} days left (Cycle: {partner.cycleDays}d)
+                          · {partner.daysRemaining} days left (Cycle: {partner.cycleDays}d)
                         </span>
                       </div>
                     </div>
@@ -387,7 +392,7 @@ export default async function AdminTargetsPage({
                           }`}
                         >
                           {partner.remaining.properties > 0
-                            ? `Bacha hua: ${partner.remaining.properties} remaining`
+                            ? `${partner.remaining.properties} more to go`
                             : "✓ Completed!"}
                         </span>
                         <span className="font-semibold text-slate-400">
@@ -417,7 +422,7 @@ export default async function AdminTargetsPage({
                           }`}
                         >
                           {partner.remaining.directAgents > 0
-                            ? `Bacha hua: ${partner.remaining.directAgents} remaining`
+                            ? `${partner.remaining.directAgents} more to go`
                             : "✓ Completed!"}
                         </span>
                         <span className="font-semibold text-slate-400">
@@ -447,7 +452,7 @@ export default async function AdminTargetsPage({
                           }`}
                         >
                           {partner.remaining.investors > 0
-                            ? `Bacha hua: ${partner.remaining.investors} remaining`
+                            ? `${partner.remaining.investors} more to go`
                             : "✓ Completed!"}
                         </span>
                         <span className="font-semibold text-slate-400">

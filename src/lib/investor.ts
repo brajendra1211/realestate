@@ -1,3 +1,4 @@
+import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { notifyUser } from "@/lib/notify";
@@ -119,27 +120,32 @@ export async function confirmInvestorPayment(investorProfileId: string, paymentM
   // already-registered investor's referral was worth.
   const referralShare = Math.round(investor.registrationFee * (settings.investorReferralPercent / 100));
 
+  const referralAuto = await canAutoCredit("REGISTRATION_REFERRAL", investor.referringAgentId);
   const [updatedInvestor] = await prisma.$transaction([
     prisma.investorProfile.update({
       where: { id: investorProfileId },
       data: { feeStatus: "PAID", investorCode, registeredAt: now, expiresAt, feePaymentMode: paymentMode },
     }),
-    prisma.commissionLedgerEntry.create({
-      data: {
-        agentId: investor.referringAgentId,
-        type: "REGISTRATION_REFERRAL",
-        amount: referralShare,
-        refId: investorProfileId,
-        note: `${settings.investorReferralPercent}% referral for referral partner ${investorCode} registration fee`,
-      },
-    }),
-    prisma.agentProfile.update({
-      where: { id: investor.referringAgentId },
-      data: { walletBalance: { increment: referralShare } },
-    }),
+    ...(referralAuto
+      ? [
+          prisma.commissionLedgerEntry.create({
+            data: {
+              agentId: investor.referringAgentId,
+              type: "REGISTRATION_REFERRAL",
+              amount: referralShare,
+              refId: investorProfileId,
+              note: `${settings.investorReferralPercent}% referral for referral partner ${investorCode} registration fee`,
+            },
+          }),
+          prisma.agentProfile.update({
+            where: { id: investor.referringAgentId },
+            data: { walletBalance: { increment: referralShare } },
+          }),
+        ]
+      : []),
   ]);
 
-  await notifyUser(
+  if (referralAuto) await notifyUser(
     investor.referringAgent.user,
     `You earned ₹${referralShare} for referring referral partner ${investorCode}. It's now in your wallet.`,
     "Referral commission credited"
@@ -232,6 +238,7 @@ export async function distributeInvestorDealProfit(input: DistributeProfitInput)
     Math.round((now.getTime() - investor.registeredAt.getTime()) / (24 * 60 * 60 * 1000))
   );
 
+  const profitAuto = await canAutoCredit("DEAL_PROFIT_SHARE", investor.referringAgentId);
   const [distribution] = await prisma.$transaction([
     prisma.profitDistribution.create({
       data: {
@@ -243,19 +250,23 @@ export async function distributeInvestorDealProfit(input: DistributeProfitInput)
         note: input.note?.trim() || null,
       },
     }),
-    prisma.commissionLedgerEntry.create({
-      data: {
-        agentId: investor.referringAgentId,
-        type: "DEAL_PROFIT_SHARE",
-        amount: split.agentShare,
-        refId: investor.id,
-        note: `${settings.profitAgentSharePercent}% referral partner deal profit share for ${investor.investorCode ?? investor.id}`,
-      },
-    }),
-    prisma.agentProfile.update({
-      where: { id: investor.referringAgentId },
-      data: { walletBalance: { increment: split.agentShare } },
-    }),
+    ...(profitAuto
+      ? [
+          prisma.commissionLedgerEntry.create({
+            data: {
+              agentId: investor.referringAgentId,
+              type: "DEAL_PROFIT_SHARE",
+              amount: split.agentShare,
+              refId: investor.id,
+              note: `${settings.profitAgentSharePercent}% referral partner deal profit share for ${investor.investorCode ?? investor.id}`,
+            },
+          }),
+          prisma.agentProfile.update({
+            where: { id: investor.referringAgentId },
+            data: { walletBalance: { increment: split.agentShare } },
+          }),
+        ]
+      : []),
     prisma.investorLedgerEntry.create({
       data: {
         investorProfileId: investor.id,
@@ -268,7 +279,7 @@ export async function distributeInvestorDealProfit(input: DistributeProfitInput)
     }),
   ]);
 
-  await notifyUser(
+  if (profitAuto) await notifyUser(
     investor.referringAgent.user,
     `You earned ₹${split.agentShare} (${settings.profitAgentSharePercent}% deal profit share) for referral partner ${investor.investorCode ?? ""}. It's now in your wallet.`,
     "Deal profit share credited"

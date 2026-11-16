@@ -19,12 +19,12 @@ export async function processPayoutAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const paymentMode = String(formData.get("paymentMode") ?? "BANK_TRANSFER") as PaymentMode;
   await processAgentPayout(id, paymentMode);
-  revalidatePath("/admin/payouts");
+  revalidatePath("/admin/partners");
 }
 
 export async function rejectPayoutAction(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await rejectAgentPayout(id);
-  revalidatePath("/admin/payouts");
+  revalidatePath("/admin/partners");
 }

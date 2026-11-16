@@ -2,6 +2,19 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { motion } from "motion/react";
+import {
+  Search,
+  MapPin,
+  Building2,
+  ChevronDown,
+  ShieldCheck,
+  Sparkles,
+  ArrowUpRight,
+  BadgeCheck,
+} from "lucide-react";
+import { CountUp, Float } from "@/components/ui/Motion";
 
 type AcresHeroProps = {
   propertyCount: number;
@@ -11,275 +24,275 @@ type AcresHeroProps = {
   cities: { slug: string; name: string }[];
 };
 
-type TabType = "BUY" | "RENT" | "PROJECTS" | "COMMERCIAL" | "PLOT";
+type SearchTab = "BUY" | "RENT" | "NEW_LAUNCH" | "COMMERCIAL" | "PG" | "PROJECTS";
 
-const TABS: { id: TabType; label: string }[] = [
+const TABS: { id: SearchTab; label: string; badge?: string }[] = [
   { id: "BUY", label: "Buy" },
   { id: "RENT", label: "Rent" },
-  { id: "PROJECTS", label: "New Projects" },
+  { id: "NEW_LAUNCH", label: "New Launch", badge: "New" },
   { id: "COMMERCIAL", label: "Commercial" },
-  { id: "PLOT", label: "Plots & Land" },
+  { id: "PG", label: "PG / Co-Living" },
+  { id: "PROJECTS", label: "Projects" },
 ];
 
-const POPULAR_LOCALITIES = [
-  "Sector 150",
-  "Sector 128",
-  "Sector 43",
-  "Sector 137",
-  "Greater Noida West",
-  "Expressway",
+const POPULAR_METROS = ["Noida", "Gurgaon", "Delhi NCR", "Bengaluru", "Mumbai", "Hyderabad", "Pune"];
+
+const QUICK_BROWSE_PILLS = [
+  { label: "Rent in Noida", city: "Noida", type: "RENT" },
+  { label: "Buy in Noida", city: "Noida", type: "BUY" },
+  { label: "Commercial in Noida", city: "Noida", type: "COMMERCIAL" },
+  { label: "Buy in Gurgaon", city: "Gurgaon", type: "BUY" },
+  { label: "Rent in Bengaluru", city: "Bengaluru", type: "RENT" },
 ];
+
 
 export function AcresHero({
   propertyCount,
+  agentCount,
+  cityCount,
   currentCityName,
+  cities,
 }: AcresHeroProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<TabType>("BUY");
-  const [selectedCity] = useState(currentCityName || "Noida");
-  const [query, setQuery] = useState("");
-  const [propertyType, setPropertyType] = useState("");
-  const [budget, setBudget] = useState("");
-  const [bedrooms, setBedrooms] = useState("");
+  const [activeTab, setActiveTab] = useState<SearchTab>("RENT");
+  const [selectedCategory, setSelectedCategory] = useState("ALL_RESIDENTIAL");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCity, setSelectedCity] = useState(currentCityName || "Noida");
+
+  const handleTabSwitch = (tab: SearchTab) => {
+    setActiveTab(tab);
+    if (tab === "COMMERCIAL") setSelectedCategory("COMMERCIAL");
+    else if (tab === "PG") setSelectedCategory("PG");
+    else setSelectedCategory("ALL_RESIDENTIAL");
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (activeTab === "PROJECTS") {
-      const params = new URLSearchParams();
-      if (selectedCity) params.set("city", selectedCity);
-      if (query.trim()) params.set("q", query.trim());
-      router.push(`/projects?${params.toString()}`);
-      return;
-    }
-
     const params = new URLSearchParams();
-    if (selectedCity) params.set("city", selectedCity);
-    if (query.trim()) params.set("city", query.trim());
+    if (selectedCity && selectedCity !== "All Cities") params.set("city", selectedCity);
+    if (searchQuery.trim()) params.set("city", searchQuery.trim());
 
-    if (activeTab === "BUY") {
+    if (activeTab === "BUY" || activeTab === "NEW_LAUNCH" || activeTab === "PROJECTS") {
       params.set("listingType", "SALE");
-    } else if (activeTab === "RENT") {
+      if (activeTab === "NEW_LAUNCH") params.set("condition", "NEW_BOOKING");
+    } else {
       params.set("listingType", "RENT");
-    } else if (activeTab === "COMMERCIAL") {
-      params.set("propertyType", "COMMERCIAL");
-    } else if (activeTab === "PLOT") {
-      params.set("propertyType", "PLOT");
     }
 
-    if (propertyType && activeTab !== "COMMERCIAL" && activeTab !== "PLOT") {
-      params.set("propertyType", propertyType);
-    }
-
-    if (bedrooms && (activeTab === "BUY" || activeTab === "RENT")) {
-      params.set("bedrooms", bedrooms);
-    }
-
-    if (budget) {
-      if (budget === "under_50l") {
-        params.set("maxPrice", "5000000");
-      } else if (budget === "50l_1cr") {
-        params.set("minPrice", "5000000");
-        params.set("maxPrice", "10000000");
-      } else if (budget === "1cr_2cr") {
-        params.set("minPrice", "10000000");
-        params.set("maxPrice", "20000000");
-      } else if (budget === "2cr_5cr") {
-        params.set("minPrice", "20000000");
-        params.set("maxPrice", "50000000");
-      } else if (budget === "above_5cr") {
-        params.set("minPrice", "50000000");
-      }
-    }
+    if (selectedCategory === "APARTMENT") params.set("propertyType", "APARTMENT");
+    else if (selectedCategory === "VILLA") params.set("propertyType", "VILLA");
+    else if (selectedCategory === "COMMERCIAL") params.set("propertyType", "COMMERCIAL");
+    else if (selectedCategory === "PG") params.set("propertyType", "PG");
 
     router.push(`/properties?${params.toString()}`);
   };
 
-  const handleQuickLocality = (loc: string) => {
+  const handleQuickPill = (city: string, type: string) => {
     const params = new URLSearchParams();
-    params.set("city", loc);
-    if (activeTab === "BUY") params.set("listingType", "SALE");
-    if (activeTab === "RENT") params.set("listingType", "RENT");
+    params.set("city", city);
+    if (type === "BUY") params.set("listingType", "SALE");
+    else if (type === "RENT") params.set("listingType", "RENT");
+    else if (type === "COMMERCIAL") {
+      params.set("listingType", "RENT");
+      params.set("propertyType", "COMMERCIAL");
+    }
     router.push(`/properties?${params.toString()}`);
   };
+
+  const selectCls =
+    "w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50/80 py-3.5 pl-11 pr-9 text-sm font-semibold text-ink outline-none transition focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-100 cursor-pointer";
 
   return (
-    <section className="relative overflow-hidden bg-slate-800 text-white py-16 sm:py-24">
-      {/* Bright Luxury Architectural Daylight Backdrop */}
+    <section className="relative isolate overflow-hidden bg-brand-950 pb-24 pt-14 text-white sm:pb-32 sm:pt-20">
+      {/* Background image + layered gradients */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&auto=format&fit=crop&q=85')`,
-        }}
+        className="absolute inset-0 -z-10 bg-cover bg-bottom"
+        style={{ backgroundImage: "url('/brand/hero-home.svg')" }}
       />
-      {/* Soft Ambient Overlay for text readability without darkening the photo */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-900/40 to-slate-900/20" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-950/70 via-brand-950/20 to-brand-950/60" />
+      <div className="absolute inset-0 -z-10 bg-grid [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
+      <div className="absolute -left-32 top-10 -z-10 h-96 w-96 rounded-full bg-brand-500/30 blur-[120px] animate-blob" />
+      <div className="absolute -right-24 top-40 -z-10 h-96 w-96 rounded-full bg-gold-400/20 blur-[120px] animate-blob animation-delay-4000" />
 
-      {/* Main Content */}
-      <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-semibold text-slate-200 backdrop-blur-md">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            <span>Noida & Greater Noida Real Estate</span>
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <div className="mx-auto max-w-3xl text-center">
+          <div
+            style={{ animationDuration: "0.6s", animationDelay: "0s" }}
+            className="hero-in glass-dark inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs font-semibold"
+          >
+            <Sparkles className="h-3.5 w-3.5 text-gold-300" />
+            <span>Zero-brokerage rentals</span>
+            <span className="h-1 w-1 rounded-full bg-white/40" />
+            <span>Admin-verified buying</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-            Find Your Ideal Property in Noida
+          <h1
+            style={{ animationDuration: "0.8s", animationDelay: "0.1s" }}
+            className="hero-in font-display mt-6 text-4xl font-semibold leading-[1.05] sm:text-6xl lg:text-7xl"
+          >
+            Find a home that
+            <br />
+            <span className="text-gradient-gold italic">feels like yours.</span>
           </h1>
 
-          <p className="text-xs sm:text-sm text-slate-300">
-            Curated residential apartments, luxury villas, and prime commercial plots with verified ownership records.
+          <p
+            style={{ animationDuration: "0.7s", animationDelay: "0.25s" }}
+            className="hero-in mx-auto mt-5 max-w-xl text-base text-slate-300 sm:text-lg"
+          >
+            Rent directly from owners with no broker fees, or buy from a curated catalogue where every
+            property is legally verified by our team.
           </p>
         </div>
 
-        {/* Unified Search Console */}
-        <div className="mt-8 max-w-4xl mx-auto">
-          {/* Clean Modern Tabs */}
-          <div className="flex items-center justify-center gap-1.5 pb-2">
+        {/* Search console */}
+        <div
+          style={{ animationDuration: "0.9s", animationDelay: "0.35s" }}
+          className="hero-in mx-auto mt-10 max-w-4xl rounded-[28px] border border-white/20 bg-white p-4 text-ink shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)] sm:p-5"
+        >
+          {/* Tabs with sliding indicator */}
+          <div className="no-scrollbar mb-4 flex items-center gap-1 overflow-x-auto rounded-2xl bg-slate-100 p-1">
             {TABS.map((tab) => {
               const active = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
                   type="button"
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer ${
-                    active
-                      ? "bg-blue-600 text-white shadow-sm"
-                      : "bg-white/10 text-slate-200 hover:bg-white/20 hover:text-white backdrop-blur-md"
+                  onClick={() => handleTabSwitch(tab.id)}
+                  className={`relative shrink-0 cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${
+                    active ? "text-white" : "text-slate-600 hover:text-ink"
                   }`}
                 >
-                  {tab.label}
+                  {active && (
+                    <motion.span
+                      layoutId="hero-tab"
+                      className="absolute inset-0 rounded-xl bg-brand-600 shadow-md"
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    {tab.label}
+                    {tab.badge && (
+                      <span className="rounded-full bg-gold-400 px-1.5 py-px text-[9px] font-black uppercase text-ink">
+                        {tab.badge}
+                      </span>
+                    )}
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          {/* Search Box */}
-          <form
-            onSubmit={handleSearch}
-            className="rounded-2xl bg-white p-3 sm:p-4 shadow-xl border border-slate-100 text-slate-800"
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
-              {/* Sector / Locality Input */}
-              <div className="lg:col-span-5 relative">
-                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                  Location / Sector
-                </label>
-                <div className="relative flex items-center">
-                  <span className="absolute left-3 text-slate-400">
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </span>
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Sector 43, Sector 128, Sector 150..."
-                    className="w-full rounded-lg border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-3 text-xs sm:text-sm font-semibold text-slate-800 placeholder-slate-400 focus:border-blue-600 focus:bg-white focus:outline-none transition"
-                  />
-                </div>
-              </div>
-
-              {/* Property Type Dropdown */}
-              <div className="lg:col-span-3">
-                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                  Property Type
-                </label>
-                <select
-                  value={propertyType}
-                  onChange={(e) => setPropertyType(e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-slate-50 py-2.5 px-3 text-xs sm:text-sm font-semibold text-slate-700 focus:border-blue-600 focus:bg-white focus:outline-none transition cursor-pointer"
-                >
-                  <option value="">All Types</option>
-                  <option value="APARTMENT">Apartment / Flat</option>
-                  <option value="VILLA">Luxury Villa</option>
-                  <option value="INDEPENDENT_HOUSE">Independent House</option>
-                  <option value="PLOT">Residential Plot</option>
-                  <option value="COMMERCIAL">Commercial Space</option>
-                  <option value="OFFICE">Office Space</option>
-                </select>
-              </div>
-
-              {/* Budget Range Dropdown */}
-              <div className="lg:col-span-2">
-                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                  Budget
-                </label>
-                <select
-                  value={budget}
-                  onChange={(e) => setBudget(e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-slate-50 py-2.5 px-3 text-xs sm:text-sm font-semibold text-slate-700 focus:border-blue-600 focus:bg-white focus:outline-none transition cursor-pointer"
-                >
-                  <option value="">Any Budget</option>
-                  <option value="under_50l">Under ₹50 Lac</option>
-                  <option value="50l_1cr">₹50L - ₹1 Cr</option>
-                  <option value="1cr_2cr">₹1 Cr - ₹2 Cr</option>
-                  <option value="2cr_5cr">₹2 Cr - ₹5 Cr</option>
-                  <option value="above_5cr">Above ₹5 Cr</option>
-                </select>
-              </div>
-
-              {/* Search Submit Button */}
-              <div className="lg:col-span-2 flex flex-col justify-end pt-1 sm:pt-0">
-                <button
-                  type="submit"
-                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-700 py-2.5 px-4 text-xs sm:text-sm font-bold text-white shadow-sm transition cursor-pointer"
-                >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  <span>Search</span>
-                </button>
-              </div>
+          <form onSubmit={handleSearch} className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_1fr_1.6fr_auto]">
+            <div className="relative">
+              <Building2 className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-600" />
+              <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className={selectCls}>
+                <option value="ALL_RESIDENTIAL">All Residential</option>
+                <option value="APARTMENT">Flats / Apartments</option>
+                <option value="VILLA">Villas &amp; Houses</option>
+                <option value="COMMERCIAL">Commercial Spaces</option>
+                <option value="PG">PG / Co-Living</option>
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             </div>
 
-            {/* Bedroom Quick Filters for Residential */}
-            {(activeTab === "BUY" || activeTab === "RENT") && (
-              <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="text-slate-400 font-semibold">BHK:</span>
-                  {["", "1", "2", "3", "4"].map((bhk) => (
-                    <button
-                      key={bhk}
-                      type="button"
-                      onClick={() => setBedrooms(bhk)}
-                      className={`px-2.5 py-1 rounded-md font-semibold text-xs transition cursor-pointer ${
-                        bedrooms === bhk
-                          ? "bg-slate-900 text-white"
-                          : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                      }`}
-                    >
-                      {bhk === "" ? "Any" : `${bhk} BHK`}
-                    </button>
+            <div className="relative">
+              <MapPin className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-600" />
+              <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className={selectCls}>
+                {POPULAR_METROS.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+                {cities
+                  .filter((c) => !POPULAR_METROS.includes(c.name))
+                  .map((c) => (
+                    <option key={c.slug} value={c.name}>
+                      {c.name}
+                    </option>
                   ))}
-                </div>
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            </div>
 
-                <div className="text-slate-400 text-[11px] hidden sm:block">
-                  {propertyCount} verified properties available
-                </div>
-              </div>
-            )}
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Locality, project or landmark"
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50/80 py-3.5 pl-11 pr-4 text-sm font-medium text-ink outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-100"
+              />
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              type="submit"
+              className="shine inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-600 to-brand-500 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-brand-600/30"
+            >
+              <Search className="h-4 w-4" />
+              Search
+            </motion.button>
           </form>
 
-          {/* Quick Locality Pills */}
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs">
-            <span className="text-slate-400">Popular:</span>
-            {POPULAR_LOCALITIES.map((loc) => (
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+            <span className="font-semibold text-slate-500">Popular:</span>
+            {QUICK_BROWSE_PILLS.map((pill) => (
               <button
-                key={loc}
+                key={pill.label}
                 type="button"
-                onClick={() => handleQuickLocality(loc)}
-                className="rounded-full bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1 text-slate-200 hover:text-white transition font-medium cursor-pointer"
+                onClick={() => handleQuickPill(pill.city, pill.type)}
+                className="cursor-pointer rounded-full border border-slate-200 bg-white px-3 py-1.5 font-semibold text-slate-700 transition hover:border-brand-500 hover:bg-brand-50 hover:text-brand-700"
               >
-                {loc}
+                {pill.label}
               </button>
             ))}
+            <Link
+              href="/list-property/request"
+              className="ml-auto hidden items-center gap-1 font-bold text-brand-700 hover:underline sm:inline-flex"
+            >
+              Post rental <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </div>
+
+        {/* Stats */}
+        <div
+          style={{ animationDuration: "0.8s", animationDelay: "0.6s" }}
+          className="hero-in mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-3 sm:gap-6"
+        >
+          {[
+            { n: propertyCount, s: "+", l: "Verified listings" },
+            { n: agentCount, s: "+", l: "Channel partners" },
+            { n: cityCount, s: "", l: "Cities live" },
+          ].map((st) => (
+            <div key={st.l} className="text-center">
+              <div className="font-display text-3xl font-semibold sm:text-4xl">
+                <CountUp to={st.n} suffix={st.s} />
+              </div>
+              <div className="mt-1 text-[11px] font-medium uppercase tracking-wider text-slate-400 sm:text-xs">
+                {st.l}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+
+      {/* Floating trust chips (desktop) */}
+      <Float className="absolute left-[4%] top-[38%] hidden xl:block">
+        <div className="glass-dark flex items-center gap-2 rounded-2xl border border-white/15 px-4 py-3 text-sm font-semibold">
+          <ShieldCheck className="h-5 w-5 text-emerald-400" />
+          RERA &amp; title checked
+        </div>
+      </Float>
+      <Float className="absolute right-[4%] top-[48%] hidden xl:block" delay={1.5}>
+        <div className="glass-dark flex items-center gap-2 rounded-2xl border border-white/15 px-4 py-3 text-sm font-semibold">
+          <BadgeCheck className="h-5 w-5 text-gold-300" />
+          0% brokerage on rent
+        </div>
+      </Float>
     </section>
   );
 }

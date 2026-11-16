@@ -1,3 +1,4 @@
+import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { getOrCreateMasterProperty } from "@/lib/masterProperty";
@@ -28,7 +29,21 @@ export type CreateAgentListingInput = {
   title: string;
   description: string;
   listingType: "SALE" | "RENT";
-  propertyType: "APARTMENT" | "VILLA" | "INDEPENDENT_HOUSE" | "PLOT" | "COMMERCIAL" | "OFFICE";
+  propertyType: "APARTMENT" | "VILLA" | "INDEPENDENT_HOUSE" | "PLOT" | "COMMERCIAL" | "OFFICE" | "SHOP" | "WAREHOUSE" | "PG";
+  commercialSubtype?: string | null;
+  pgGender?: string | null;
+  pgSharing?: string | null;
+  foodIncluded?: boolean;
+  furnishing?: string | null;
+  floorNumber?: number | null;
+  totalFloors?: number | null;
+  carpetAreaSqft?: number | null;
+  superAreaSqft?: number | null;
+  facingDirection?: string | null;
+  maintenanceCharges?: number | null;
+  securityDeposit?: number | null;
+  bachelorFriendly?: boolean;
+  societyName?: string | null;
   bedrooms?: number | null;
   bathrooms?: number | null;
   areaSqft?: number | null;
@@ -112,6 +127,7 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
   const listingExpiresAt = new Date(now.getTime() + validityDays * 24 * 60 * 60 * 1000);
   const agreementExpiryDate = new Date(now.getTime() + 180 * 24 * 60 * 60 * 1000); // 6-Month agreement
 
+  const listingAuto = await canAutoCredit(listingPlan === "GOLD" ? "GOLD_SPLIT" : "UNLOCK_SPLIT", agentProfileId);
   const [listing] = await prisma.$transaction([
     prisma.agentListing.create({
       data: {
@@ -130,6 +146,20 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
         amenities: input.amenities?.trim() || null,
         nearbyAmenities: formatAmenitiesNote(nearby),
         videoUrl: input.videoUrl?.trim() || null,
+        commercialSubtype: input.commercialSubtype ?? null,
+        pgGender: input.pgGender ?? null,
+        pgSharing: input.pgSharing ?? null,
+        foodIncluded: input.foodIncluded ?? false,
+        furnishing: input.furnishing ?? null,
+        floorNumber: input.floorNumber ?? null,
+        totalFloors: input.totalFloors ?? null,
+        carpetAreaSqft: input.carpetAreaSqft ?? null,
+        superAreaSqft: input.superAreaSqft ?? null,
+        facingDirection: input.facingDirection ?? null,
+        maintenanceCharges: input.maintenanceCharges ?? null,
+        securityDeposit: input.securityDeposit ?? null,
+        bachelorFriendly: input.bachelorFriendly ?? true,
+        societyName: input.societyName ?? null,
         listingPlan,
         listingFee: fee,
         listingAgentSplit: agentSplit,
@@ -142,19 +172,23 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
       },
       include: { images: true, masterProperty: true },
     }),
-    // 50% listing fee split credited to agent wallet
-    prisma.agentProfile.update({
-      where: { id: agentProfileId },
-      data: { walletBalance: { increment: agentSplit } },
-    }),
-    prisma.commissionLedgerEntry.create({
-      data: {
-        agentId: agentProfileId,
-        type: listingPlan === "GOLD" ? "GOLD_SPLIT" : "UNLOCK_SPLIT",
-        amount: agentSplit,
-        note: `50% split for new ${listingPlan} listing "${title}"`,
-      },
-    }),
+    // Listing fee split credited to agent wallet (skipped when the admin handles it by hand)
+    ...(listingAuto
+      ? [
+          prisma.agentProfile.update({
+            where: { id: agentProfileId },
+            data: { walletBalance: { increment: agentSplit } },
+          }),
+          prisma.commissionLedgerEntry.create({
+            data: {
+              agentId: agentProfileId,
+              type: listingPlan === "GOLD" ? "GOLD_SPLIT" : "UNLOCK_SPLIT",
+              amount: agentSplit,
+              note: `50% split for new ${listingPlan} listing "${title}"`,
+            },
+          }),
+        ]
+      : []),
   ]);
 
   return listing;

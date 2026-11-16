@@ -195,7 +195,7 @@ export function PartnerBreakdownView({
                   : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
               }`}
             >
-              <span>📑 Properties Listed</span>
+              <span>Properties Listed</span>
               <span className={`rounded-full px-1.5 py-0.2 text-[10px] ${activeTab === "listings" ? "bg-blue-700 text-white" : "bg-slate-100 text-slate-700"}`}>
                 {listings.length}
               </span>
@@ -210,7 +210,7 @@ export function PartnerBreakdownView({
                   : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
               }`}
             >
-              <span>👥 Downline Partners</span>
+              <span>Downline Partners</span>
               <span className={`rounded-full px-1.5 py-0.2 text-[10px] ${activeTab === "downline" ? "bg-indigo-700 text-white" : "bg-slate-100 text-slate-700"}`}>
                 {downlineAgents.length}
               </span>
@@ -225,7 +225,7 @@ export function PartnerBreakdownView({
                   : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
               }`}
             >
-              <span>🤝 Referral Investors</span>
+              <span>Referral Investors</span>
               <span className={`rounded-full px-1.5 py-0.2 text-[10px] ${activeTab === "investors" ? "bg-emerald-700 text-white" : "bg-slate-100 text-slate-700"}`}>
                 {investors.length}
               </span>
@@ -282,7 +282,11 @@ export function PartnerBreakdownView({
 
               {filteredListings.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-xs text-slate-500">
-                  <span className="text-2xl block mb-1">🏠</span>
+                  <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-500 mb-2">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                  </div>
                   <p className="font-bold text-slate-700">Koi listing nahi mili</p>
                   <p className="text-[11px] text-slate-400 mt-0.5">
                     {listingsFilter === "cycle"
@@ -324,7 +328,7 @@ export function PartnerBreakdownView({
                           </h5>
 
                           <p className="text-[11px] text-slate-500 truncate">
-                            📍 {item.locality ? `${item.locality}, ` : ""}{item.city}
+                            {item.locality ? `${item.locality}, ` : ""}{item.city}
                           </p>
                         </div>
 
@@ -378,7 +382,11 @@ export function PartnerBreakdownView({
 
               {downlineAgents.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-xs text-slate-500">
-                  <span className="text-2xl block mb-1">👥</span>
+                  <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-500 mb-2">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
                   <p className="font-bold text-slate-700">Koi Downline Partner nahi mila</p>
                   <p className="text-[11px] text-slate-400 mt-0.5">
                     Target: {partner.targets.directAgents} downline partners onboard karna.
@@ -420,11 +428,11 @@ export function PartnerBreakdownView({
                           </h5>
                           {subAgent.shopName && (
                             <p className="text-[11px] font-semibold text-slate-600 truncate">
-                              🏪 {subAgent.shopName}
+                              Shop: {subAgent.shopName}
                             </p>
                           )}
                           <p className="text-[11px] text-slate-500 truncate">
-                            📍 {subAgent.city || "City not set"}
+                            {subAgent.city || "City not set"}
                           </p>
                         </div>
 
@@ -436,7 +444,7 @@ export function PartnerBreakdownView({
                               rel="noreferrer"
                               className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-1 text-[10px] font-black flex items-center justify-center gap-1 shadow-2xs"
                             >
-                              <span>💬 WhatsApp</span>
+                              <span>WhatsApp</span>
                             </a>
                           )}
                           {subAgent.phone && (
@@ -444,7 +452,7 @@ export function PartnerBreakdownView({
                               href={`tel:${subAgent.phone}`}
                               className="rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 px-2 py-1 text-[10px] font-bold text-center"
                             >
-                              📞 Call
+                              Call
                             </a>
                           )}
                         </div>
@@ -483,7 +491,11 @@ export function PartnerBreakdownView({
 
               {investors.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-xs text-slate-500">
-                  <span className="text-2xl block mb-1">🤝</span>
+                  <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-500 mb-2">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  </div>
                   <p className="font-bold text-slate-700">Koi Referral Investor nahi mila</p>
                   <p className="text-[11px] text-slate-400 mt-0.5">
                     Target: {partner.targets.investors} referral investors onboard karna.
@@ -524,7 +536,7 @@ export function PartnerBreakdownView({
                             {inv.name}
                           </h5>
                           <p className="text-[11px] text-slate-500 truncate">
-                            ✉️ {inv.email}
+                            {inv.email}
                           </p>
                           <p className="text-[11px] font-extrabold text-slate-700">
                             Capital Invested: {formatInr(inv.totalCapitalInvested)}
@@ -539,7 +551,7 @@ export function PartnerBreakdownView({
                               rel="noreferrer"
                               className="rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-1 text-[10px] font-black flex items-center justify-center gap-1 shadow-2xs"
                             >
-                              <span>💬 WhatsApp</span>
+                              <span>WhatsApp</span>
                             </a>
                           )}
                           {inv.phone && (
@@ -547,7 +559,7 @@ export function PartnerBreakdownView({
                               href={`tel:${inv.phone}`}
                               className="rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 px-2 py-1 text-[10px] font-bold text-center"
                             >
-                              📞 Call
+                              Call
                             </a>
                           )}
                         </div>
@@ -706,7 +718,7 @@ export function PartnerBreakdownView({
                         href={`tel:${partner.userPhone}`}
                         className="flex-1 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 text-center text-xs"
                       >
-                        📞 Call Partner
+                        Call Partner
                       </a>
                     )}
                     {(partner.userWhatsapp || partner.userPhone) && (
@@ -716,7 +728,7 @@ export function PartnerBreakdownView({
                         rel="noreferrer"
                         className="flex-1 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 text-center text-xs"
                       >
-                        💬 WhatsApp
+                        WhatsApp
                       </a>
                     )}
                     {partner.agentCode && (
@@ -725,7 +737,7 @@ export function PartnerBreakdownView({
                         target="_blank"
                         className="w-full rounded-xl border border-slate-300 hover:border-slate-400 bg-white text-slate-700 font-bold py-2 text-center text-xs hover:bg-slate-50"
                       >
-                        🏪 Open Agent Public Shop ↗
+                        Open Agent Public Shop ↗
                       </Link>
                     )}
                   </div>

@@ -62,3 +62,39 @@ export async function distributeProfitAction(formData: FormData) {
 
   revalidatePath("/admin/deals");
 }
+
+export async function recordRentalDealAction(formData: FormData) {
+  await requireAdmin();
+
+  const propertyId = String(formData.get("propertyId") ?? "").trim();
+  const agentId = String(formData.get("agentId") ?? "").trim();
+  const rentAmount = Number(formData.get("rentAmount"));
+  const tenantName = String(formData.get("tenantName") ?? "").trim() || null;
+  const tenantPhone = String(formData.get("tenantPhone") ?? "").trim() || null;
+  const paymentMode = String(formData.get("paymentMode") ?? "BANK_TRANSFER") as PaymentMode;
+  const note = String(formData.get("note") ?? "");
+
+  if (!propertyId || !agentId || !rentAmount) {
+    redirect(`/admin/deals?error=validation`);
+  }
+
+  try {
+    const { recordRentalDeal } = await import("@/lib/deal");
+    await recordRentalDeal({
+      propertyId,
+      agentId,
+      rentAmount,
+      tenantName,
+      tenantPhone,
+      paymentMode,
+      note,
+    });
+  } catch (error) {
+    const code = error instanceof DealServiceError ? error.message : "unknown";
+    redirect(`/admin/deals?error=${code}`);
+  }
+
+  revalidatePath("/admin/deals");
+  revalidatePath("/admin/partners");
+  revalidatePath("/admin/properties");
+}

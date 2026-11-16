@@ -1,3 +1,4 @@
+import { PageBanner } from "@/components/ui/PageBanner";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -107,17 +108,14 @@ export default async function LocalityPage({ params }: { params: Params }) {
       <JsonLd data={collectionJsonLd} />
 
       <div className="mx-auto max-w-6xl px-4 pb-10 pt-4 sm:px-6">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              Property for Sale &amp; Rent in {fullName}
-            </h1>
-            <p className="text-sm text-slate-500">
-              {city.state.name}, {city.state.country.name}
-            </p>
-          </div>
-          <NearMeButton className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50" />
-        </div>
+        <PageBanner
+          art="rent"
+          eyebrow={city.name}
+          title={<>Property for Sale &amp; Rent in {fullName}</>}
+          subtitle={`${city.state.name}, ${city.state.country.name}`}
+        >
+          <NearMeButton className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20" />
+        </PageBanner>
 
         {locality.description && (
           <p className="mt-3 max-w-3xl text-slate-600">{locality.description}</p>

@@ -5,7 +5,7 @@ export const DEFAULT_OWNER_PLANS = [
   {
     name: "Owner Basic Plan (1 Month)",
     role: "OWNER" as const,
-    price: 200,
+    price: 300,
     durationDays: 30,
     listingLimit: 1,
     leadLimit: 10,
@@ -28,7 +28,7 @@ export const DEFAULT_OWNER_PLANS = [
  */
 export async function ensureDefaultOwnerPlans() {
   const settings = await getSiteSettings();
-  const basicFee = settings.basicListingFee ?? 200;
+  const basicFee = settings.basicListingFee ?? 300;
   const goldFee = settings.goldListingFee ?? 500;
 
   // Deactivate any legacy free owner plans

@@ -56,7 +56,7 @@ export function DispatchTrigger() {
             amount: result.order.amount,
             currency: result.order.currency,
             order_id: result.order.id,
-            name: "BayaEstate",
+            name: "Pronesto",
             description: "Find a nearby channel partner",
             handler: async (response: {
               razorpay_order_id: string;

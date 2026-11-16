@@ -7,8 +7,11 @@ export function AcresOwnerBanner() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           {/* Left copy & highlights */}
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/15 border border-amber-400/40 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-amber-900">
-              <span>🏠</span> Owner & Builder Corner
+            <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/15 border border-amber-400/40 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-amber-900">
+              <svg className="h-3.5 w-3.5 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              <span>Owner &amp; Builder Corner</span>
             </div>
 
             <h2 className="mt-2 text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
@@ -48,7 +51,7 @@ export function AcresOwnerBanner() {
           {/* Right CTA Button */}
           <div className="flex flex-col sm:flex-row md:flex-col items-start sm:items-center md:items-end gap-2.5 shrink-0">
             <Link
-              href="/register"
+              href="/list-property/request"
               className="inline-flex items-center gap-2 rounded-xl sm:rounded-2xl bg-[#0054a6] hover:bg-[#004080] px-6 py-3.5 text-xs sm:text-sm font-extrabold text-white shadow-md hover:shadow-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
             >
               <span>List Your Property</span>
@@ -59,8 +62,11 @@ export function AcresOwnerBanner() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </Link>
-            <span className="text-[11px] font-semibold text-slate-500">
-              ⚡ Verified owner listing • Zero brokerage
+            <span className="text-[11px] font-semibold text-slate-500 flex items-center gap-1">
+              <svg className="h-3 w-3 text-emerald-600 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Verified owner listing • Zero brokerage</span>
             </span>
           </div>
         </div>

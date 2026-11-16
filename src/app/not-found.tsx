@@ -64,7 +64,7 @@ export default function NotFound() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <Link
-              href="/register"
+              href="/list-property/request"
               className="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 transition"
             >
               List Property

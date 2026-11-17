@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/site-settings";
+import { PageBanner } from "@/components/ui/PageBanner";
 
 export const metadata = {
   title: "Account & Data Deletion",
@@ -11,35 +12,37 @@ export default async function AccountDeletionPage() {
   const phone = contactPhone ?? "";
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <Link href="/" className="text-sm font-semibold text-blue-600 hover:underline">
+    <div className="bg-slate-50">
+      <PageBanner
+        art="home"
+        eyebrow="Legal"
+        title="Account & Data Deletion"
+        subtitle="Last updated: November 2026"
+      />
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+      <Link href="/" className="text-sm font-semibold text-brand-700 hover:underline">
         ← Back to {siteName}
       </Link>
 
-      <h1 className="mt-6 text-3xl font-black text-slate-900">
-        {siteName} Account &amp; Data Deletion
-      </h1>
-      <p className="mt-2 text-sm text-slate-500">Last updated: November 2026</p>
-
-      <div className="mt-8 max-w-none space-y-4 text-sm leading-relaxed text-slate-700">
+      <div className="mt-6 max-w-none space-y-4 rounded-3xl border border-slate-200/80 bg-white p-6 text-sm leading-relaxed text-slate-700 shadow-soft sm:p-10">
         <p>
           If you have a {siteName} account (as a buyer, channel partner, investor, or
           property owner) and would like it — and the personal data associated with it —
           deleted, follow the steps below.
         </p>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">How to request deletion</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">How to request deletion</h2>
         <ol className="list-decimal space-y-2 pl-5">
           <li>
             Send an email to{" "}
-            <a className="text-blue-600 hover:underline" href={`mailto:${email}?subject=${encodeURIComponent(`${siteName} account deletion request`)}`}>
+            <a className="text-brand-700 hover:underline" href={`mailto:${email}?subject=${encodeURIComponent(`${siteName} account deletion request`)}`}>
               {email}
             </a>{" "}
             with the subject line <strong>&quot;Account deletion request&quot;</strong>
             {phone ? (
               <>
                 , or message us on WhatsApp at{" "}
-                <a className="text-blue-600 hover:underline" href={`tel:${phone}`}>
+                <a className="text-brand-700 hover:underline" href={`tel:${phone}`}>
                   {phone}
                 </a>
               </>
@@ -61,7 +64,7 @@ export default async function AccountDeletionPage() {
           </li>
         </ol>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">What gets deleted</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">What gets deleted</h2>
         <ul className="list-disc space-y-2 pl-5">
           <li>Your profile: name, phone number, email address, and photos.</li>
           <li>Saved and unlocked properties, enquiries, and saved searches.</li>
@@ -70,7 +73,7 @@ export default async function AccountDeletionPage() {
           <li>Your login credentials — you will no longer be able to sign in.</li>
         </ul>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">What we retain, and why</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">What we retain, and why</h2>
         <p>
           Some information cannot be deleted immediately because we are legally required to
           keep it, or because it is shared, aggregated data that doesn&apos;t only concern
@@ -94,11 +97,12 @@ export default async function AccountDeletionPage() {
         </ul>
         <p>
           For more detail on how we handle your data generally, see our{" "}
-          <Link className="text-blue-600 hover:underline" href="/privacy-policy">
+          <Link className="text-brand-700 hover:underline" href="/privacy-policy">
             Privacy Policy
           </Link>
           .
         </p>
+      </div>
       </div>
     </div>
   );

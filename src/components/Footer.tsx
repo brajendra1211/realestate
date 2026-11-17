@@ -136,6 +136,7 @@ export function Footer({
             <Link href="/properties" className="hover:text-white">All properties</Link>
             <Link href="/login" className="hover:text-white">Portal login</Link>
             <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
+            <Link href="/account-deletion" className="hover:text-white">Delete Account</Link>
           </div>
         </div>
       </div>

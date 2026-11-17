@@ -45,7 +45,7 @@ export async function adminRenewAgentPrimeAction(formData: FormData) {
 
   revalidatePath("/admin/prime-expiry");
   revalidatePath("/admin/billing");
-  revalidatePath("/admin/agents");
+  revalidatePath("/admin/partners");
   revalidatePath("/agent/dashboard");
   redirect("/admin/prime-expiry?saved=renewed");
 }

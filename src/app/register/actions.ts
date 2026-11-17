@@ -57,7 +57,7 @@ export async function register(_prevState: RegisterState, formData: FormData): P
   });
 
   try {
-    const targetUrl = role === "OWNER" ? "/dashboard/properties/new" : "/dashboard";
+    const targetUrl = "/list-property/request";
     const redirectTo = await signIn("credentials", {
       email,
       password,

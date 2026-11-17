@@ -1,3 +1,4 @@
+import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
 import { slugify } from "@/lib/slug";
@@ -224,7 +225,8 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
     }),
   ];
 
-  if (referralAmount > 0 && agent.referringAgent) {
+  const referralAuto = !!agent.referringAgent && (await canAutoCredit("AGENT_REFERRAL", agent.referringAgent.id));
+  if (referralAmount > 0 && agent.referringAgent && referralAuto) {
     ops.push(
       prisma.commissionLedgerEntry.create({
         data: {
@@ -256,7 +258,7 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
     "Prime activated — Channel Partner Code assigned"
   );
 
-  if (referralAmount > 0 && agent.referringAgent) {
+  if (referralAmount > 0 && agent.referringAgent && referralAuto) {
     await notifyUser(
       agent.referringAgent.user,
       `You earned ₹${referralAmount} for referring channel partner ${agentCode}, who just activated Prime. It's now in your wallet.`,

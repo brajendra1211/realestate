@@ -1,0 +1,605 @@
+import "dotenv/config";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaClient } from "../src/generated/prisma/index.js";
+
+const adapter = new PrismaMariaDb(process.env.DATABASE_URL);
+const prisma = new PrismaClient({ adapter });
+
+async function main() {
+  console.log("Seeding premium listings for Buy and Rent...");
+
+  const admin = await prisma.user.findFirst({ where: { role: "ADMIN" } });
+  const owner = await prisma.user.findFirst({ where: { role: "OWNER" } });
+  const agentUser = await prisma.user.findFirst({ where: { role: "AGENT" } });
+
+  if (!admin || !owner || !agentUser) {
+    console.error("Required users not found. Make sure admin, owner, and agent exist.");
+    return;
+  }
+
+  // Ensure cities exist
+  const cities = [
+    { name: "Delhi NCR", slug: "delhi-ncr" },
+    { name: "Gurgaon", slug: "gurgaon" },
+    { name: "Noida", slug: "noida" },
+    { name: "Mumbai", slug: "mumbai" },
+    { name: "Bengaluru", slug: "bengaluru" },
+    { name: "Hyderabad", slug: "hyderabad" },
+    { name: "Pune", slug: "pune" },
+    { name: "Dubai", slug: "dubai" },
+  ];
+
+  for (const c of cities) {
+    const existing = await prisma.city.findFirst({ where: { slug: c.slug } });
+    if (!existing) {
+      const state = await prisma.state.findFirst();
+      if (state) {
+        await prisma.city.create({
+          data: {
+            name: c.name,
+            slug: c.slug,
+            stateId: state.id,
+            published: true,
+          },
+        });
+      }
+    }
+  }
+
+  const premiumProperties = [
+    // -------------------------------------------------------------------------
+    // BUY PROPERTIES (Admin registered ONLY: Flats & Villas)
+    // -------------------------------------------------------------------------
+    {
+      title: "The Camellias — Ultra-Luxury Sky Penthouse",
+      slug: "the-camellias-ultra-luxury-sky-penthouse",
+      description: "Step into an unprecedented realm of bespoke living at DLF The Camellias on Golf Course Road. Designed by Hafeez Contractor with interiors curated by Richmond International, this landmark 4 BHK Sky Residence features floor-to-ceiling double-glazed acoustic facades overlooking the 18-hole Gary Player signature golf course. Boasts private high-speed elevators, wrap-around sunset terraces, VRV air filtration, Italian Statuario marble, Poggenpohl chef kitchen, and access to a 150,000 sq.ft private clubhouse with Olympic heated pool, spa pavilions, and Michelin-class dining.",
+      listingType: "SALE",
+      propertyType: "APARTMENT",
+      condition: "NEW_BOOKING",
+      possessionStatus: "READY_TO_MOVE",
+      price: 325000000, // ₹32.50 Cr
+      priceNegotiable: false,
+      bedrooms: 4,
+      bathrooms: 5,
+      areaSqft: 7400,
+      carpetAreaSqft: 6150,
+      superAreaSqft: 7400,
+      city: "Gurgaon",
+      locality: "Golf Course Road, Sector 42",
+      address: "DLF Phase 5, Golf Course Road, Sector 42, Gurugram, Haryana 122002",
+      societyName: "DLF The Camellias",
+      furnishing: "FURNISHED",
+      floorNumber: 26,
+      totalFloors: 38,
+      facingDirection: "NORTH_EAST",
+      maintenanceCharges: 65000,
+      securityDeposit: 5000000,
+      reraNumber: "GGM/382/2020/09",
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: admin.id,
+      images: [
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "Private Elevator, Golf Course Facing, Swimming Pool, Spa & Wellness Club, 24x7 Valet Concierge, VRV Climate Control, Piped Gas, 100% Power Backup, Italian Marble Flooring, EV Fast Charging",
+    },
+    {
+      title: "Godrej Woods — Forest-Themed 3 BHK Luxury Residence",
+      slug: "godrej-woods-forest-themed-3bhk-luxury-residence",
+      description: "Nestled adjacent to the lush 97-acre Noida Golf Course in Sector 43, Godrej Woods is an urban forest sanctuary featuring over 1,100 indigenous trees, elevated sky-walkways, and cascading water bodies. This 3 BHK residence offers expansive panoramic forest views, cross-ventilation, imported vitrified tiles, modular kitchen with chimney, glass-railing balconies, and clubhouse amenities including temperature-controlled indoor pool, squash courts, and rooftop lounge. Situated 2 minutes from Noida City Centre Metro Station and 15 minutes from DND Flyway.",
+      listingType: "SALE",
+      propertyType: "APARTMENT",
+      condition: "NEW_BOOKING",
+      possessionStatus: "READY_TO_MOVE",
+      price: 28500000, // ₹2.85 Cr
+      priceNegotiable: true,
+      bedrooms: 3,
+      bathrooms: 3,
+      areaSqft: 2088,
+      carpetAreaSqft: 1620,
+      superAreaSqft: 2088,
+      city: "Noida",
+      locality: "Sector 43",
+      address: "Plot GH-01, Sector 43, Noida, Uttar Pradesh 201303",
+      societyName: "Godrej Woods",
+      furnishing: "SEMI_FURNISHED",
+      floorNumber: 14,
+      totalFloors: 32,
+      facingDirection: "EAST",
+      maintenanceCharges: 7500,
+      securityDeposit: 500000,
+      reraNumber: "UPRERAPRJ704730",
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: admin.id,
+      images: [
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "Forest Trail, Elevated Sky Walk, Temperature Controlled Pool, Badminton & Tennis Courts, EV Charging, Piped Gas, 24x7 CCTV Security, Club Evergreen, Kids Play Zone",
+    },
+    {
+      title: "Emaar Marbella — Spanish Architectural Gated Villa",
+      slug: "emaar-marbella-spanish-architectural-gated-villa",
+      description: "An extraordinary Mediterranean Spanish villa set inside the prestigious 110-acre gated enclave of Emaar Marbella on Golf Course Extension Road. Spread across 3 expansive levels with a private elevator, private heated lap pool, landscaped zen lawn, and private party terrace with barbecue pavilion. Features double-height living foyer, imported Turkish marble flooring, master suite with walk-in wardrobe and jacuzzi bath, smart home automation by Control4, and dedicated staff quarters.",
+      listingType: "SALE",
+      propertyType: "VILLA",
+      condition: "RESALE",
+      possessionStatus: "READY_TO_MOVE",
+      price: 125000000, // ₹12.50 Cr
+      priceNegotiable: true,
+      bedrooms: 5,
+      bathrooms: 6,
+      areaSqft: 6500,
+      carpetAreaSqft: 5400,
+      superAreaSqft: 6500,
+      city: "Gurgaon",
+      locality: "Golf Course Extension Road, Sector 66",
+      address: "Emaar Marbella, Sector 66, Gurugram, Haryana 122102",
+      societyName: "Emaar Marbella Villas",
+      furnishing: "FURNISHED",
+      floorNumber: 0,
+      totalFloors: 3,
+      facingDirection: "NORTH_EAST",
+      maintenanceCharges: 22000,
+      securityDeposit: 2000000,
+      reraNumber: "GGM/05/2017/02",
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: admin.id,
+      images: [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "Private Heated Pool, Private Elevator, Landscaped Garden, Spanish Clay Tile Roof, Smart Automation, 4 Car Covered Parking, Gated Security 24x7, Club Marbella Access",
+    },
+    {
+      title: "Prestige Golfshire — 4 BHK Signature Golf Villa",
+      slug: "prestige-golfshire-4bhk-signature-golf-villa",
+      description: "Set against the scenic backdrop of the Nandi Hills, Prestige Golfshire is South India's premier 275-acre golf resort and residential community. This sprawling 4 BHK independent golf villa overlooks the pristine greens of an 18-hole championship golf course designed by Bob Hunt. Complete with infinity dipping pool, teak wood decks, private courtyard garden, solar water heating, and direct buggy path access to the JW Marriott Resort and Golf Clubhouse.",
+      listingType: "SALE",
+      propertyType: "VILLA",
+      condition: "RESALE",
+      possessionStatus: "READY_TO_MOVE",
+      price: 95000000, // ₹9.50 Cr
+      priceNegotiable: true,
+      bedrooms: 4,
+      bathrooms: 5,
+      areaSqft: 5890,
+      carpetAreaSqft: 4800,
+      superAreaSqft: 5890,
+      city: "Bengaluru",
+      locality: "Nandi Hills Road, Devanahalli",
+      address: "Prestige Golfshire, Kundana Hobli, Devanahalli, Bengaluru 562110",
+      societyName: "Prestige Golfshire",
+      furnishing: "SEMI_FURNISHED",
+      floorNumber: 0,
+      totalFloors: 2,
+      facingDirection: "EAST",
+      maintenanceCharges: 18000,
+      securityDeposit: 1500000,
+      reraNumber: "PRM/KA/RERA/1251/310/PR/170915/000224",
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: admin.id,
+      images: [
+        "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "18-Hole Championship Golf Course, Infinity Pool, Lake Front Promenade, Helipad, Falcon Club, JW Marriott Hospitality, 24x7 Armed Security",
+    },
+    {
+      title: "Lodha World One — Panoramic Sea View Luxury Suite",
+      slug: "lodha-world-one-panoramic-sea-view-luxury-suite",
+      description: "Perched high in Mumbai's iconic World Towers on the Golden Mile in Lower Parel, this 3 BHK sea-facing residence commands breathtaking unhindered vistas of the Arabian Sea and the Bandra-Worli Sea Link. Interiors custom crafted with Giorgio Armani/Casa furnishings, Italian marble, master bathroom with German Hansgrohe rain showers, and central acoustic soundproofing. Residents enjoy the private 7-acre landscaped podium, Olympic swimming pool, indoor cricket pitch, and private cinema.",
+      listingType: "SALE",
+      propertyType: "APARTMENT",
+      condition: "RESALE",
+      possessionStatus: "READY_TO_MOVE",
+      price: 148000000, // ₹14.80 Cr
+      priceNegotiable: true,
+      bedrooms: 3,
+      bathrooms: 4,
+      areaSqft: 2450,
+      carpetAreaSqft: 1980,
+      superAreaSqft: 2450,
+      city: "Mumbai",
+      locality: "Lower Parel, South Mumbai",
+      address: "World Towers, Senapati Bapat Marg, Lower Parel, Mumbai, Maharashtra 400013",
+      societyName: "Lodha World Towers",
+      furnishing: "FURNISHED",
+      floorNumber: 52,
+      totalFloors: 76,
+      facingDirection: "WEST",
+      maintenanceCharges: 35000,
+      securityDeposit: 2000000,
+      reraNumber: "P51900008345",
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: admin.id,
+      images: [
+        "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "Sea View, Armani/Casa Designed Lobby, 7-Acre Private Podium, Olympic Size Lap Pool, Private Screening Room, Concierge by Quintessentially, Valet Parking",
+    },
+
+    // -------------------------------------------------------------------------
+    // RENT PROPERTIES (Flats, PG, Commercial, Villa, House)
+    // -------------------------------------------------------------------------
+    {
+      title: "ATS Knightsbridge — 4 BHK Ultra-Luxury Furnished Apartment",
+      slug: "ats-knightsbridge-4bhk-ultra-luxury-furnished-apartment",
+      description: "Occupying an entire private floor wing with 360-degree panoramic skyline views at the confluence of the Yamuna River and Noida-Greater Noida Expressway. Fully furnished with bespoke designer furniture, VRV central heating and cooling, private lift lobby opening directly into the apartment, smart home automation, high-end Miele appliances, separate servant room, and 4 dedicated basement car parks. 5-star concierge services, indoor heated swimming pool, squash courts, and cigar lounge.",
+      listingType: "RENT",
+      propertyType: "APARTMENT",
+      possessionStatus: "READY_TO_MOVE",
+      price: 250000, // ₹2.5 Lakh/mo
+      priceNegotiable: true,
+      bedrooms: 4,
+      bathrooms: 5,
+      areaSqft: 6000,
+      carpetAreaSqft: 4850,
+      superAreaSqft: 6000,
+      city: "Noida",
+      locality: "Sector 124, Expressway",
+      address: "ATS Knightsbridge, Plot 01, Sector 124, Noida Expressway, UP 201301",
+      societyName: "ATS Knightsbridge",
+      furnishing: "FURNISHED",
+      floorNumber: 32,
+      totalFloors: 47,
+      facingDirection: "NORTH_EAST",
+      maintenanceCharges: 15000,
+      securityDeposit: 500000,
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: owner.id,
+      images: [
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "Private Lift Lobby, 360 Skyline View, Heated Indoor Pool, Concierge, VRV Air Conditioning, 4 Covered Parking, Piped Gas, 100% Power Backup",
+    },
+    {
+      title: "Sobha Dream Acres — 2 BHK Semi-Furnished Modern Flat",
+      slug: "sobha-dream-acres-2bhk-semi-furnished-modern-flat",
+      description: "Direct owner listing with zero brokerage! Situated in the heart of Bengaluru's Golden Quadrilateral near Outer Ring Road, Marathahalli, and Whitefield tech parks. Features pre-cast German construction, modular kitchen with Faber chimney, custom wardrobes in both bedrooms, premium Kohler bathroom fittings, and a pleasant park-facing balcony. Society features 5 operational clubhouses, 5 swimming pools, supermarket, medical clinic, and round-the-clock security.",
+      listingType: "RENT",
+      propertyType: "APARTMENT",
+      possessionStatus: "READY_TO_MOVE",
+      price: 42000, // ₹42,000/mo
+      priceNegotiable: true,
+      bedrooms: 2,
+      bathrooms: 2,
+      areaSqft: 1205,
+      carpetAreaSqft: 980,
+      superAreaSqft: 1205,
+      city: "Bengaluru",
+      locality: "Panathur, Outer Ring Road",
+      address: "Sobha Dream Acres, Balagere, Panathur Main Road, Bengaluru 560087",
+      societyName: "Sobha Dream Acres",
+      furnishing: "SEMI_FURNISHED",
+      floorNumber: 9,
+      totalFloors: 14,
+      facingDirection: "EAST",
+      maintenanceCharges: 3500,
+      securityDeposit: 150000,
+      bachelorFriendly: true,
+      featured: false,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: owner.id,
+      images: [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "5 Swimming Pools, 5 Clubhouses, Badminton Courts, Supermarket Inside Society, EV Charging, Piped Gas, 24x7 Security, Walking Track",
+    },
+    {
+      title: "Stanza Living Tokyo House — Premium Co-Living & PG",
+      slug: "stanza-living-tokyo-house-premium-coliving-pg",
+      description: "India's highest rated luxury student & working professional co-living residence. Fully air-conditioned private and shared suites featuring ergonomic study desks, orthopaedic mattresses, and attached private washrooms. Includes 3-time gourmet chef-cooked meals (breakfast, lunch, dinner, high tea) curated by culinary experts, high-speed optical fiber WiFi (300 Mbps), daily professional housekeeping, laundry service, gaming lounge (PS5, pool table), and biometric facial recognition security with zero curfew.",
+      listingType: "RENT",
+      propertyType: "PG",
+      pgGender: "UNISEX",
+      pgSharing: "DOUBLE",
+      foodIncluded: true,
+      price: 16500, // ₹16,500/mo
+      priceNegotiable: false,
+      bedrooms: 1,
+      bathrooms: 1,
+      areaSqft: 280,
+      carpetAreaSqft: 240,
+      city: "Bengaluru",
+      locality: "Electronic City Phase 1",
+      address: "Tokyo House by Stanza Living, Near Infosys Gate 1, Electronic City, Bengaluru 560100",
+      societyName: "Stanza Living Tokyo House",
+      furnishing: "FURNISHED",
+      floorNumber: 3,
+      totalFloors: 5,
+      maintenanceCharges: 0,
+      securityDeposit: 20000,
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: owner.id,
+      images: [
+        "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "3-Time Gourmet Chef Meals, High-Speed Optical WiFi, AC in all rooms, Daily Room Cleaning, App-based Laundry, PS5 Gaming Lounge, Biometric Security, No Curfew",
+    },
+    {
+      title: "Zolo Signature Suites — Girls PG & Co-Living Sanctuary",
+      slug: "zolo-signature-suites-girls-pg-coliving-sanctuary",
+      description: "Safe, secure, and upscale women's boutique PG in Sector 62, Noida, walking distance from Fortis Hospital, Electronic City Metro Station, and institutional IT hubs. Features twin and single sharing air-conditioned bedrooms with spring mattresses, attached sanitary washrooms with geysers, all 3 meals included with North & South Indian menus, high-speed WiFi, microwave, refrigerator, RO water purifier, 24x7 female warden, biometric access, and CCTV surveillance.",
+      listingType: "RENT",
+      propertyType: "PG",
+      pgGender: "FEMALE",
+      pgSharing: "SINGLE",
+      foodIncluded: true,
+      price: 14000, // ₹14,000/mo
+      priceNegotiable: false,
+      bedrooms: 1,
+      bathrooms: 1,
+      areaSqft: 220,
+      carpetAreaSqft: 190,
+      city: "Noida",
+      locality: "Sector 62",
+      address: "B-Block, Sector 62, Near Electronic City Metro Station, Noida 201309",
+      societyName: "Zolo Signature Suites",
+      furnishing: "FURNISHED",
+      floorNumber: 2,
+      totalFloors: 4,
+      maintenanceCharges: 0,
+      securityDeposit: 14000,
+      bachelorFriendly: true,
+      featured: false,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: owner.id,
+      images: [
+        "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "All Meals Included, Attached Bathrooms, High Speed WiFi, AC, 24x7 CCTV & Female Warden, RO Water, Refrigerator & Microwave, Daily Housekeeping",
+    },
+    {
+      title: "Advant Navis Business Park — Grade-A Fully Furnished IT Office",
+      slug: "advant-navis-business-park-grade-a-furnished-it-office",
+      description: "LEED Gold certified iconic twin commercial towers situated directly on the Noida Expressway in Sector 142. This plug-and-play corporate office space comes fully equipped with 65 ergonomic modular workstations, 2 director executive cabins, 1 boardroom (16-seater) with video conferencing audio-visual hardware, cafeteria pantry, server room with precision cooling, and dedicated reception lobby. Direct skywalk access to Sector 142 Metro Station.",
+      listingType: "RENT",
+      propertyType: "COMMERCIAL",
+      commercialSubtype: "OFFICE",
+      price: 380000, // ₹3.80 Lakh/mo
+      priceNegotiable: true,
+      areaSqft: 4500,
+      carpetAreaSqft: 3850,
+      superAreaSqft: 4500,
+      city: "Noida",
+      locality: "Sector 142, Expressway",
+      address: "Advant Navis Business Park, Plot 7, Sector 142, Noida Expressway, UP 201305",
+      societyName: "Advant Navis Business Park",
+      furnishing: "FURNISHED",
+      floorNumber: 8,
+      totalFloors: 16,
+      facingDirection: "NORTH",
+      maintenanceCharges: 35000,
+      securityDeposit: 1500000,
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: owner.id,
+      images: [
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "65 Fitted Workstations, 16-Seater Boardroom, Central HVAC, High Speed Otis Elevators, 100% DG Power Backup, Direct Skywalk to Metro, Food Court Inside Complex",
+    },
+    {
+      title: "Prime High-Street Retail Corner Showroom — Indiranagar 100ft Road",
+      slug: "prime-high-street-retail-corner-showroom-indiranagar",
+      description: "Unbeatable retail positioning on Bengaluru's premier lifestyle and shopping boulevard: 100 Feet Road, Indiranagar. Ground floor commercial retail space with 40-feet clear glass double-height frontage offering maximum pedestrian footfall and vehicular visibility. Suitable for luxury fashion apparel, jewelry showroom, consumer tech flagship store, or high-end cafe. Features 3-phase 50KW commercial power load, dedicated customer valet parking, and rear service entry.",
+      listingType: "RENT",
+      propertyType: "COMMERCIAL",
+      commercialSubtype: "SHOP",
+      price: 220000, // ₹2.20 Lakh/mo
+      priceNegotiable: true,
+      areaSqft: 1800,
+      carpetAreaSqft: 1650,
+      superAreaSqft: 1800,
+      city: "Bengaluru",
+      locality: "100 Feet Road, Indiranagar",
+      address: "Ground Floor, Corner Plot, 100 Feet Road, Indiranagar, Bengaluru 560038",
+      societyName: "Indiranagar High-Street Complex",
+      furnishing: "WARM_SHELL",
+      floorNumber: 0,
+      totalFloors: 4,
+      facingDirection: "EAST",
+      maintenanceCharges: 12000,
+      securityDeposit: 1200000,
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: owner.id,
+      images: [
+        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "40ft High Glass Frontage, Corner Plot Visibility, 50KW 3-Phase Power, Customer Parking, High Footfall Hub, Dedicated Signage Space",
+    },
+    {
+      title: "Modern Grade-A Logistics & Fulfillment Warehouse — Bilaspur / NH-48",
+      slug: "modern-grade-a-logistics-fulfillment-warehouse-bilaspur",
+      description: "World-class pre-engineered steel building (PEB) warehouse located within an integrated logistics park right off National Highway 48 (Delhi-Jaipur corridor). Built to FM Global standards with 12-meter clear internal height, FM2 laser-screed industrial flooring with 7 MT/sq.m floor load capacity, 6 hydraulic dock levelers with canopy, K-17 early suppression fast response (ESFR) ceiling fire sprinklers, insulated roof panels, 24x7 truck staging area, and weighbridge on campus.",
+      listingType: "RENT",
+      propertyType: "COMMERCIAL",
+      commercialSubtype: "WAREHOUSE",
+      price: 450000, // ₹4.50 Lakh/mo (approx ₹18/sq.ft)
+      priceNegotiable: true,
+      areaSqft: 25000,
+      carpetAreaSqft: 24500,
+      superAreaSqft: 25000,
+      city: "Gurgaon",
+      locality: "Bilaspur Industrial Hub, NH-48",
+      address: "Logistics Hub Sector 3, Bilaspur-Tauru Road, Gurugram, Haryana 122413",
+      societyName: "Apex Logistics & Fulfillment Park",
+      furnishing: "BARE_SHELL",
+      floorNumber: 0,
+      totalFloors: 1,
+      facingDirection: "NORTH",
+      maintenanceCharges: 30000,
+      securityDeposit: 1800000,
+      bachelorFriendly: true,
+      featured: false,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: owner.id,
+      images: [
+        "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "12m Clear Eaves Height, 6 Hydraulic Dock Levelers, ESFR Fire Sprinklers, Laser Screed FM2 Flooring, 24x7 Truck Staging, Weighbridge, Insulated Roof",
+    },
+    {
+      title: "Jaypee Greens Pavilion Court & Golf Villas — 4 BHK Luxury Gated Villa",
+      slug: "jaypee-greens-pavilion-court-golf-villas-4bhk-rent",
+      description: "Experience serene living inside Greater Noida's sprawling 452-acre golf township. This 4 BHK independent golf villa is available for lease, boasting an unhindered frontage to the Greg Norman championship golf course. Features private manicured garden, Italian marble flooring, 4 en-suite bedrooms, modular kitchen with Bosch appliances, private terrace lounge, servant quarter, and access to the Jaypee Greens Atlantic Club with Olympic pools, tennis academy, and equestrian club.",
+      listingType: "RENT",
+      propertyType: "VILLA",
+      possessionStatus: "READY_TO_MOVE",
+      price: 140000, // ₹1.40 Lakh/mo
+      priceNegotiable: true,
+      bedrooms: 4,
+      bathrooms: 5,
+      areaSqft: 4200,
+      carpetAreaSqft: 3500,
+      superAreaSqft: 4200,
+      city: "Noida",
+      locality: "Jaypee Greens, Greater Noida",
+      address: "Pavilion Villas, Sector Surajpur Kasna, Greater Noida, UP 201310",
+      societyName: "Jaypee Greens Pavilion Villas",
+      furnishing: "SEMI_FURNISHED",
+      floorNumber: 0,
+      totalFloors: 2,
+      facingDirection: "NORTH_EAST",
+      maintenanceCharges: 14000,
+      securityDeposit: 400000,
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: owner.id,
+      images: [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "18-Hole Greg Norman Golf Course, Private Manicured Lawn, Club Atlantic Access, Tennis Academy, 24x7 Gated Security, Piped Gas, 100% Power Backup",
+    },
+    {
+      title: "Defence Colony Luxury Independent Builder Floor with Private Lift",
+      slug: "defence-colony-luxury-builder-floor-with-private-lift",
+      description: "Nestled in South Delhi's most prestigious gated residential neighborhood, this 3 BHK upper ground builder floor features a dedicated private stilt elevator, 2 reserved covered car parks, and private rear deck. Fitted with Italian Botticino marble flooring, double-glazed soundproof German fenestration, VRV air conditioning, and a German Häcker modular kitchen with built-in microwave and oven. Just 5 minutes walk from the famous Defence Colony Main Market and Lajpat Nagar Metro Station.",
+      listingType: "RENT",
+      propertyType: "INDEPENDENT_HOUSE",
+      possessionStatus: "READY_TO_MOVE",
+      price: 175000, // ₹1.75 Lakh/mo
+      priceNegotiable: true,
+      bedrooms: 3,
+      bathrooms: 3,
+      areaSqft: 2200,
+      carpetAreaSqft: 1850,
+      superAreaSqft: 2200,
+      city: "Delhi NCR",
+      locality: "Defence Colony, South Delhi",
+      address: "A-Block, Defence Colony, New Delhi 110024",
+      societyName: "Defence Colony Enclave",
+      furnishing: "FURNISHED",
+      floorNumber: 1,
+      totalFloors: 4,
+      facingDirection: "NORTH",
+      maintenanceCharges: 5000,
+      securityDeposit: 350000,
+      bachelorFriendly: true,
+      featured: true,
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      ownerId: owner.id,
+      images: [
+        "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1600&auto=format&fit=crop&q=85",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1600&auto=format&fit=crop&q=85",
+      ],
+      amenities: "Private Stilt Lift, 2 Reserved Stilt Parking, VRV Air Conditioning, Hacker Modular Kitchen, Italian Marble, Gated Neighborhood Security 24x7, Walking Distance to Market",
+    },
+  ];
+
+  for (const prop of premiumProperties) {
+    const { images, ...data } = prop;
+    const existing = await prisma.property.findUnique({ where: { slug: prop.slug } });
+
+    if (existing) {
+      console.log(`Updating existing listing: ${prop.title}`);
+      await prisma.property.update({
+        where: { id: existing.id },
+        data: {
+          ...data,
+          images: {
+            deleteMany: {},
+            create: images.map((url, index) => ({
+              url,
+              order: index,
+              category: index === 0 ? "EXTERIOR" : "LIVING_ROOM",
+            })),
+          },
+        },
+      });
+    } else {
+      console.log(`Creating new listing: ${prop.title}`);
+      await prisma.property.create({
+        data: {
+          ...data,
+          images: {
+            create: images.map((url, index) => ({
+              url,
+              order: index,
+              category: index === 0 ? "EXTERIOR" : "LIVING_ROOM",
+            })),
+          },
+        },
+      });
+    }
+  }
+
+  console.log("Successfully seeded premium Buy and Rent properties!");
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
+

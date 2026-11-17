@@ -1,8 +1,10 @@
+import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
 import { computeSplit } from "@/lib/commission";
 import { getSiteSettings } from "@/lib/site-settings";
+import { createBuyerInterest } from "@/lib/buyerInterest";
 import type { Prisma } from "@/generated/prisma";
 
 export class UnlockServiceError extends Error {}
@@ -89,7 +91,8 @@ export async function unlockAgentListing(buyerId: string, agentListingId: string
     }),
   ];
 
-  if (listing.agentId) {
+  const unlockAuto = !!listing.agentId && (await canAutoCredit("UNLOCK_SPLIT", listing.agentId));
+  if (listing.agentId && unlockAuto) {
     ops.push(
       prisma.commissionLedgerEntry.create({
         data: {
@@ -109,13 +112,16 @@ export async function unlockAgentListing(buyerId: string, agentListingId: string
 
   const [unlock] = (await prisma.$transaction(ops)) as [Awaited<ReturnType<typeof prisma.propertyUnlock.create>>, ...unknown[]];
 
-  if (listing.agentId && listing.agent) {
+  if (listing.agentId && listing.agent && unlockAuto) {
     await notifyUser(
       listing.agent.user,
       `Your listing "${listing.title}" was unlocked by a customer. ₹${agentSplit} has been credited to your wallet.`,
       "Listing unlocked — wallet credited"
     );
   }
+
+  // The buzzer: ring the listing's partner now, then nearby partners 10 seconds later.
+  await createBuyerInterest(unlock.id);
 
   return unlock;
 }

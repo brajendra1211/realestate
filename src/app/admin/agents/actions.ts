@@ -17,7 +17,7 @@ export async function approveAgentAction(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   await approveAgent(id);
-  revalidatePath("/admin/agents");
+  revalidatePath("/admin/partners");
 }
 
 export async function rejectAgentAction(formData: FormData) {
@@ -25,23 +25,23 @@ export async function rejectAgentAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const reason = String(formData.get("reason") ?? "");
   await rejectAgent(id, reason);
-  revalidatePath("/admin/agents");
+  revalidatePath("/admin/partners");
 }
 
 export async function activatePrimeAction(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   const planId = String(formData.get("planId") ?? "");
-  if (!planId) redirect("/admin/agents?error=plan");
+  if (!planId) redirect("/admin/partners?tab=partners&error=plan");
 
   try {
     await activateAgentPrime(id, planId);
   } catch (error) {
     if (error instanceof AgentServiceError) {
-      redirect(`/admin/agents?error=${error.message}`);
+      redirect(`/admin/partners?tab=partners&error=${error.message}`);
     }
     throw error;
   }
 
-  revalidatePath("/admin/agents");
+  revalidatePath("/admin/partners");
 }

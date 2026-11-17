@@ -25,7 +25,7 @@ export function OwnerPlanSelection({
           Choose a Plan to List Your Property
         </h2>
         <p className="mt-1.5 text-sm text-slate-600 max-w-xl">
-          To maintain verified, high-quality inventory on BayaEstate, free listings are disabled. Select an owner listing plan below to publish your property:
+          To maintain verified, high-quality inventory on Pronesto, free listings are disabled. Select an owner listing plan below to publish your property:
         </p>
       </div>
 

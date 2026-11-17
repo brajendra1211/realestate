@@ -1,14 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { PROPERTY_TYPE_LABELS } from "@/lib/format";
 import { setLocationCookie } from "@/app/actions/location";
 
 type CityOption = { slug: string; name: string };
 
-const PROPERTY_TYPES = Object.keys(PROPERTY_TYPE_LABELS);
+const TOP_METROS = [
+  "Noida",
+  "Gurgaon",
+  "Delhi NCR",
+  "Bengaluru",
+  "Mumbai",
+  "Hyderabad",
+  "Pune",
+  "Dubai",
+];
 
 export function LocationMenu({
   currentCity,
@@ -81,108 +88,113 @@ export function LocationMenu({
     );
   }
 
-  const cityQuery = currentCity ? encodeURIComponent(currentCity.name) : "";
+  const activeCityName = currentCity ? currentCity.name : "Noida";
 
   return (
     <div ref={rootRef} className="relative">
+      {/* 99acres-Style Location Trigger (Clean SVG, No Emojis, No Clunky Pills) */}
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        aria-label={currentCity ? `Location: ${currentCity.name}` : "Select location"}
-        className="flex shrink-0 items-center gap-1 rounded-full border border-slate-300 bg-white px-2.5 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 sm:gap-1.5 sm:px-3"
+        aria-label={`Location: ${activeCityName}`}
+        className="flex cursor-pointer items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-2 text-sm font-semibold text-ink transition hover:border-brand-600"
       >
-        <span>📍</span>
-        <span className="hidden max-w-[110px] truncate sm:inline">
-          {currentCity ? currentCity.name : "Select location"}
-        </span>
-        <span className="text-xs text-slate-400">▾</span>
+        <svg className="h-3.5 w-3.5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        <span className="truncate max-w-[100px] sm:max-w-[130px]">{activeCityName}</span>
+        <svg className={`h-3 w-3 text-slate-400 transition-transform ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-50 mt-2 w-[calc(100vw-2rem)] max-w-md rounded-2xl border border-slate-200 bg-white p-4 shadow-xl sm:w-96">
-          <input
-            type="text"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search city…"
-            className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          />
+        <div className="absolute left-0 top-full z-50 mt-2 w-80 sm:w-96 rounded-3xl border border-slate-200/80 bg-white p-4 shadow-[0_30px_80px_-20px_rgba(10,18,48,0.3)] animate-fade-in-up">
+          {/* Header */}
+          <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
+            <span className="text-xs font-bold text-slate-800 uppercase tracking-wide">Select City / Hub</span>
+            <span className="text-[11px] text-slate-400">Pan-India Network</span>
+          </div>
 
+          {/* Search Box */}
+          <div className="relative">
+            <svg className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              type="text"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search your city (e.g. Noida, Gurgaon)..."
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-8 pr-3 text-xs sm:text-sm font-medium text-slate-800 placeholder:text-slate-400 focus:border-brand-600 focus:bg-white focus:outline-none transition"
+              autoFocus
+            />
+          </div>
+
+          {/* Detect Location Button */}
           <button
             type="button"
             onClick={useMyLocation}
             disabled={switching}
-            className="mt-2 w-full rounded-xl border border-blue-100 bg-blue-50 px-3 py-2 text-left text-sm font-medium text-blue-700 hover:bg-blue-100 disabled:opacity-60"
+            className="mt-2.5 flex items-center justify-center gap-2 w-full rounded-xl border border-blue-100 bg-blue-50/80 hover:bg-blue-100 py-2 px-3 text-xs font-bold text-brand-600 transition disabled:opacity-60 cursor-pointer"
           >
-            📍 {switching ? "Finding you…" : "Use my current location"}
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <circle cx="12" cy="12" r="7" strokeWidth="2" />
+              <circle cx="12" cy="12" r="2" fill="currentColor" />
+              <path strokeLinecap="round" strokeWidth="2" d="M12 2v3m0 14v3M2 12h3m14 0h3" />
+            </svg>
+            <span>{switching ? "Detecting location..." : "Use Current Location"}</span>
           </button>
 
-          {filteredCities.length > 0 && (
-            <div className="mt-3 max-h-40 space-y-0.5 overflow-y-auto">
+          {/* Popular Metros Chips */}
+          <div className="mt-3.5 pt-3 border-t border-slate-100">
+            <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+              Popular Metros
+            </span>
+            <div className="grid grid-cols-3 gap-1.5">
+              {TOP_METROS.map((metroName) => {
+                const match = cities.find((c) => c.name.toLowerCase() === metroName.toLowerCase()) || {
+                  slug: metroName.toLowerCase().replace(/\s+/g, "-"),
+                  name: metroName,
+                };
+                const isActive = activeCityName.toLowerCase() === metroName.toLowerCase();
+                return (
+                  <button
+                    key={metroName}
+                    type="button"
+                    onClick={() => switchCity(match)}
+                    className={`rounded-lg py-1.5 px-2 text-xs font-semibold transition text-center truncate cursor-pointer ${
+                      isActive
+                        ? "bg-brand-600 text-white shadow-xs font-bold"
+                        : "bg-slate-50 text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/60"
+                    }`}
+                  >
+                    {metroName}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Filtered Cities List (if typing) */}
+          {query.trim() && filteredCities.length > 0 && (
+            <div className="mt-3 max-h-36 overflow-y-auto space-y-1 pt-2 border-t border-slate-100 scrollbar-thin">
               {filteredCities.map((city) => (
                 <button
                   key={city.slug}
                   type="button"
                   onClick={() => switchCity(city)}
-                  className={`block w-full rounded-lg px-3 py-1.5 text-left text-sm hover:bg-slate-50 ${
-                    currentCity?.slug === city.slug ? "font-semibold text-blue-700" : "text-slate-700"
+                  className={`block w-full rounded-lg px-2.5 py-1.5 text-left text-xs font-semibold transition ${
+                    activeCityName.toLowerCase() === city.name.toLowerCase()
+                      ? "bg-blue-50 text-brand-600"
+                      : "text-slate-700 hover:bg-slate-50"
                   }`}
                 >
                   {city.name}
                 </button>
               ))}
             </div>
-          )}
-
-          {currentCity && (
-            <>
-              <div className="mt-4 border-t border-slate-100 pt-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                  Properties in {currentCity.name}
-                </p>
-                <div className="mt-2 grid grid-cols-2 gap-1.5">
-                  {PROPERTY_TYPES.map((type) => (
-                    <Link
-                      key={type}
-                      href={`/properties?city=${cityQuery}&propertyType=${type}`}
-                      onClick={() => setOpen(false)}
-                      className="rounded-lg px-2 py-1.5 text-sm text-slate-600 hover:bg-slate-50"
-                    >
-                      {PROPERTY_TYPE_LABELS[type]}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-4 border-t border-slate-100 pt-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                  Popular searches
-                </p>
-                <div className="mt-2 space-y-1">
-                  <Link
-                    href={`/properties?city=${cityQuery}&listingType=SALE`}
-                    onClick={() => setOpen(false)}
-                    className="block rounded-lg px-2 py-1.5 text-sm text-slate-600 hover:bg-slate-50"
-                  >
-                    Property for sale in {currentCity.name}
-                  </Link>
-                  <Link
-                    href={`/properties?city=${cityQuery}&listingType=RENT`}
-                    onClick={() => setOpen(false)}
-                    className="block rounded-lg px-2 py-1.5 text-sm text-slate-600 hover:bg-slate-50"
-                  >
-                    Property for rent in {currentCity.name}
-                  </Link>
-                  <Link
-                    href={`/properties-in/${currentCity.slug}`}
-                    onClick={() => setOpen(false)}
-                    className="block rounded-lg px-2 py-1.5 text-sm text-slate-600 hover:bg-slate-50"
-                  >
-                    Verified property in {currentCity.name}
-                  </Link>
-                </div>
-              </div>
-            </>
           )}
         </div>
       )}

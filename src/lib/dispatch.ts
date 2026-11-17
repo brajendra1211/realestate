@@ -1,3 +1,4 @@
+import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { findNearbyAgents } from "@/lib/agentGeo";
@@ -268,7 +269,7 @@ export async function acceptDispatch(dispatchRequestId: string, agentProfileId: 
   // createFreeDispatchForEscalation) don't credit anything: there's no new
   // ₹100 charge behind them, just a re-match of an engagement the customer
   // already paid for once.
-  if (dispatch.agentSplit > 0) {
+  if (dispatch.agentSplit > 0 && (await canAutoCredit("UNLOCK_SPLIT", agentProfileId))) {
     await prisma.$transaction([
       prisma.commissionLedgerEntry.create({
         data: {

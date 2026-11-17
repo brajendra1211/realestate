@@ -1,3 +1,4 @@
+import { PageBanner } from "@/components/ui/PageBanner";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
@@ -30,14 +31,12 @@ export default async function ProjectsDirectoryPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Featured Real Estate Projects</h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Browse premium residential and commercial township projects from top developers.
-          </p>
-        </div>
-      </div>
+      <PageBanner
+        art="buy"
+        eyebrow="New launches"
+        title="Featured Real Estate Projects"
+        subtitle="Browse premium residential and commercial township projects from top developers."
+      />
 
       {projects.length === 0 ? (
         <div className="mt-8 rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500">

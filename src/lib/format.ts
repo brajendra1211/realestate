@@ -136,12 +136,37 @@ export function getVideoEmbed(url: string): VideoEmbedInfo {
 }
 
 export const PROPERTY_TYPE_LABELS: Record<string, string> = {
-  APARTMENT: "Apartment",
-  VILLA: "Villa",
+  APARTMENT: "Flat / Apartment",
+  VILLA: "Luxury Villa",
   INDEPENDENT_HOUSE: "Independent House",
-  PLOT: "Plot",
-  COMMERCIAL: "Commercial",
-  OFFICE: "Office",
+  PLOT: "Plot / Land",
+  COMMERCIAL: "Commercial Space",
+  OFFICE: "Office Space",
+  SHOP: "Retail Shop",
+  WAREHOUSE: "Warehouse / Godown",
+  PG: "PG / Co-Living",
+};
+
+export const COMMERCIAL_SUBTYPE_LABELS: Record<string, string> = {
+  OFFICE: "Commercial Office",
+  SHOP: "Retail Shop / Showroom",
+  WAREHOUSE: "Warehouse / Godown",
+  SHOWROOM: "High-Street Showroom",
+};
+
+export const PG_SHARING_LABELS: Record<string, string> = {
+  SINGLE: "Single Private Room",
+  DOUBLE: "Double Sharing",
+  TRIPLE: "Triple Sharing",
+  FOUR_PLUS: "4+ Multi-Sharing",
+};
+
+export const FURNISHING_LABELS: Record<string, string> = {
+  FURNISHED: "Fully Furnished",
+  SEMI_FURNISHED: "Semi-Furnished",
+  UNFURNISHED: "Unfurnished",
+  BARE_SHELL: "Bare Shell",
+  WARM_SHELL: "Warm Shell",
 };
 
 export const IMAGE_CATEGORY_LABELS: Record<string, string> = {

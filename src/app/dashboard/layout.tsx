@@ -32,7 +32,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
     if (LISTER_ONLY_HREFS.has(item.href)) return isLister;
     if (BILLING_ONLY_HREFS.has(item.href)) return isPlanHolder;
     return true;
-  });
+  }).map((item) =>
+    // Owners and dealers cannot add listings themselves — they request a channel partner.
+    isPlanHolder && item.href === "/dashboard/properties/new"
+      ? { ...item, href: "/list-property/request", label: "List a Property" }
+      : item,
+  );
 
   return (
     <div className="flex flex-col bg-slate-50 md:min-h-screen md:flex-row">

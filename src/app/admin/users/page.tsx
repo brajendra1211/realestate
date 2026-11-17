@@ -68,6 +68,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
           { label: "Dealers", href: filterLink({ role: "DEALER", status }) },
           { label: "Owners", href: filterLink({ role: "OWNER", status }) },
           { label: "Buyers & Customers ➔", href: "/admin/buyers" },
+          { label: "Investors ➔", href: "/admin/investors" },
         ].map((item) => (
           <a
             key={item.label}
@@ -121,7 +122,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
               >
                 <div>
                   <div className="flex items-center gap-2">
-                    <p className="font-semibold text-slate-900">{user.company ?? user.name}</p>
+                    <p className="font-semibold text-slate-900"><a href={`/admin/people/${user.id}`} className="hover:text-brand-600 hover:underline">{user.company ?? user.name}</a></p>
                     <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
                       {user.role}
                     </span>

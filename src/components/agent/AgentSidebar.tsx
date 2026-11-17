@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import { PanelSidebar, type PanelNavItem } from "@/components/PanelSidebar";
+import { PanelSidebar, type PanelNavItem, type PanelNavEntry } from "@/components/PanelSidebar";
 
-const NAV_ITEMS: PanelNavItem[] = [
+const ITEMS: PanelNavItem[] = [
   {
     href: "/agent/dashboard",
     label: "Overview",
@@ -27,6 +27,18 @@ const NAV_ITEMS: PanelNavItem[] = [
     ),
   },
   {
+    href: "/agent/commissions",
+    label: "Commissions",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.75}
+        d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"
+      />
+    ),
+  },
+  {
     href: "/agent/profile",
     label: "My Profile & KYC",
     icon: (
@@ -39,6 +51,30 @@ const NAV_ITEMS: PanelNavItem[] = [
           d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"
         />
       </>
+    ),
+  },
+  {
+    href: "/agent/owner-requests",
+    label: "Owner Requests",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.75}
+        d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0a3 3 0 11-6 0"
+      />
+    ),
+  },
+  {
+    href: "/agent/buyer-leads",
+    label: "Buyer Leads",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.75}
+        d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-5.13a4 4 0 11-8 0 4 4 0 018 0zm6 2a3 3 0 11-6 0 3 3 0 016 0z"
+      />
     ),
   },
   {
@@ -138,13 +174,29 @@ const NAV_ITEMS: PanelNavItem[] = [
   },
 ];
 
+const byHref = Object.fromEntries(ITEMS.map((i) => [i.href, i])) as Record<string, PanelNavItem>;
+const pick = (...hrefs: string[]) => hrefs.map((h) => byHref[h]);
+
+// Grouped so a partner can find things by task instead of scanning 13 flat links.
+const NAV_ITEMS: PanelNavEntry[] = [
+  byHref["/agent/dashboard"],
+  { label: "Money", items: pick("/agent/payments", "/agent/commissions") },
+  {
+    label: "Listings & leads",
+    items: pick("/agent/owner-requests", "/agent/buyer-leads", "/agent/listings", "/agent/gold-feed", "/agent/appointments", "/agent/visits", "/agent/broadcast", "/agent/digest"),
+  },
+  { label: "My network", items: pick("/agent/investors", "/agent/investors/new") },
+  { label: "Account", items: pick("/agent/profile", "/agent/documents") },
+];
+
 export function AgentSidebar({ agentName, logoutButton }: { agentName: string; logoutButton: ReactNode }) {
   return (
     <PanelSidebar
       homeHref="/agent/dashboard"
-      brandLabel="Noida Prime"
+      brandLabel="Pronesto"
       subLabel="Channel Partner Portal"
       navItems={NAV_ITEMS}
+      defaultExpanded
       personName={agentName}
       personRole="Channel Partner"
       logoutButton={logoutButton}

@@ -109,7 +109,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
 
       <form action={updateSiteSettings} className="mt-6 max-w-3xl space-y-6">
         <Section title="Branding" description="Your site name and logo, shown across the whole site.">
-          <Field label="Site name" name="siteName" defaultValue={settings?.siteName ?? "BayaEstate"} />
+          <Field label="Site name" name="siteName" defaultValue={settings?.siteName ?? "Pronesto"} />
           <Field label="Tagline" name="tagline" defaultValue={settings?.tagline} />
           <SingleImageField name="logoUrl" label="Logo (navbar)" defaultValue={settings?.logoUrl} />
           <SingleImageField name="favicon" label="Favicon" defaultValue={settings?.favicon} />
@@ -146,7 +146,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             label="Default meta title"
             name="metaTitle"
             defaultValue={settings?.metaTitle}
-            placeholder={settings?.siteName ?? "BayaEstate"}
+            placeholder={settings?.siteName ?? "Pronesto"}
             span
           />
           <TextAreaField
@@ -235,8 +235,8 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             label="Owner Basic Listing Plan fee (₹) — 1 Month (30 Days)"
             name="basicListingFee"
             type="number"
-            defaultValue={String(settings?.basicListingFee ?? 200)}
-            placeholder="₹200 for 1 month active listing"
+            defaultValue={String(settings?.basicListingFee ?? 300)}
+            placeholder="₹300 for 1 month active listing"
           />
           <Field
             label="Owner Gold Listing Plan fee (₹) — 3 Months (90 Days)"
@@ -309,27 +309,27 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             placeholder="% credited to referring partner wallet"
           />
           <Field
-            label="Deal profit — Channel Partner share (%)"
+            label="Deal profit — Referral Partner (Investor) share (%)"
+            name="profitInvestorSharePercent"
+            type="number"
+            defaultValue={String(settings?.profitInvestorSharePercent ?? 35)}
+          />
+          <Field
+            label="Deal profit — Channel Partner (Agent Code) share (%)"
             name="profitAgentSharePercent"
             type="number"
             defaultValue={String(settings?.profitAgentSharePercent ?? 10)}
           />
           <Field
-            label="Deal profit — Platform expense share (%)"
+            label="Deal profit — Company Expense / Reserve share (%, default 0)"
             name="profitExpenseSharePercent"
             type="number"
-            defaultValue={String(settings?.profitExpenseSharePercent ?? 10)}
-          />
-          <Field
-            label="Deal profit — Referral Partner (Investor) share (%)"
-            name="profitInvestorSharePercent"
-            type="number"
-            defaultValue={String(settings?.profitInvestorSharePercent ?? 40)}
+            defaultValue={String(settings?.profitExpenseSharePercent ?? 0)}
           />
           <div>
-            <label className="text-sm font-medium text-slate-700">Deal profit — Company retained share</label>
-            <p className={inputClass + " bg-slate-50 text-slate-500 font-medium"}>
-              Remainder — 100% minus the three shares above
+            <label className="text-sm font-medium text-slate-700">Deal profit — Company unified share</label>
+            <p className={inputClass + " bg-slate-50 text-slate-700 font-bold"}>
+              Remainder — 100% minus Investor &amp; Agent shares ({100 - (settings?.profitInvestorSharePercent ?? 35) - (settings?.profitAgentSharePercent ?? 10) - (settings?.profitExpenseSharePercent ?? 0)}%)
             </p>
           </div>
         </Section>

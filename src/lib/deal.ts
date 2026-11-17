@@ -1,3 +1,4 @@
+import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { computeBrokerage } from "@/lib/commission";
@@ -46,6 +47,9 @@ export async function recordDeal(input: RecordDealInput) {
   const buyerCommission = buyerAgent ? computeBrokerage(input.dealValue, settings.brokeragePercent) : null;
   const sellerCommission = sellerAgent ? computeBrokerage(input.dealValue, settings.brokeragePercent) : null;
 
+  const buyerAuto = !!buyerAgent && (await canAutoCredit("BROKERAGE", buyerAgent.id));
+  const sellerAuto = !!sellerAgent && (await canAutoCredit("BROKERAGE", sellerAgent.id));
+
   const ops: Prisma.PrismaPromise<unknown>[] = [
     prisma.deal.create({
       data: {
@@ -54,13 +58,16 @@ export async function recordDeal(input: RecordDealInput) {
         sellerAgentId: input.sellerAgentId || null,
         buyerCommission,
         sellerCommission,
+        // Brokerage is credited right here, so the registry-stage payout in
+        // advanceDealStage must never pay this deal a second time.
+        commissionDistributed: true,
         paymentMode: input.paymentMode,
         note: input.note?.trim() || null,
       },
     }),
   ];
 
-  if (buyerAgent && buyerCommission) {
+  if (buyerAgent && buyerCommission && buyerAuto) {
     ops.push(
       prisma.commissionLedgerEntry.create({
         data: {
@@ -76,7 +83,7 @@ export async function recordDeal(input: RecordDealInput) {
       })
     );
   }
-  if (sellerAgent && sellerCommission) {
+  if (sellerAgent && sellerCommission && sellerAuto) {
     ops.push(
       prisma.commissionLedgerEntry.create({
         data: {
@@ -95,14 +102,14 @@ export async function recordDeal(input: RecordDealInput) {
 
   const [deal] = (await prisma.$transaction(ops)) as [Deal, ...unknown[]];
 
-  if (buyerAgent && buyerCommission) {
+  if (buyerAgent && buyerCommission && buyerAuto) {
     await notifyUser(
       buyerAgent.user,
       `You earned ₹${buyerCommission} (${settings.brokeragePercent}% buyer-side brokerage) on a ₹${input.dealValue.toLocaleString("en-IN")} deal. It's now in your wallet.`,
       "Brokerage commission credited"
     );
   }
-  if (sellerAgent && sellerCommission) {
+  if (sellerAgent && sellerCommission && sellerAuto) {
     await notifyUser(
       sellerAgent.user,
       `You earned ₹${sellerCommission} (${settings.brokeragePercent}% seller-side brokerage) on a ₹${input.dealValue.toLocaleString("en-IN")} deal. It's now in your wallet.`,
@@ -232,8 +239,10 @@ export async function advanceDealStage(
         data: updateData,
       }),
     ];
+    const regBuyerAuto = !!deal.buyerAgent && (await canAutoCredit("DEAL_PROFIT_SHARE", deal.buyerAgent.id));
+    const regSellerAuto = !!deal.sellerAgent && (await canAutoCredit("DEAL_PROFIT_SHARE", deal.sellerAgent.id));
 
-    if (deal.buyerAgent && deal.buyerCommission && deal.buyerCommission > 0) {
+    if (deal.buyerAgent && deal.buyerCommission && deal.buyerCommission > 0 && regBuyerAuto) {
       ops.push(
         prisma.commissionLedgerEntry.create({
           data: {
@@ -251,7 +260,7 @@ export async function advanceDealStage(
       );
     }
 
-    if (deal.sellerAgent && deal.sellerCommission && deal.sellerCommission > 0) {
+    if (deal.sellerAgent && deal.sellerCommission && deal.sellerCommission > 0 && regSellerAuto) {
       ops.push(
         prisma.commissionLedgerEntry.create({
           data: {
@@ -271,7 +280,7 @@ export async function advanceDealStage(
 
     const [updatedDeal] = (await prisma.$transaction(ops)) as [Deal, ...unknown[]];
 
-    if (deal.buyerAgent && deal.buyerCommission) {
+    if (deal.buyerAgent && deal.buyerCommission && regBuyerAuto) {
       await notifyUser(
         deal.buyerAgent.user,
         `Registry Completed! Your 45% deal commission of ₹${deal.buyerCommission.toLocaleString(
@@ -280,7 +289,7 @@ export async function advanceDealStage(
         "Deal Commission Credited"
       );
     }
-    if (deal.sellerAgent && deal.sellerCommission) {
+    if (deal.sellerAgent && deal.sellerCommission && regSellerAuto) {
       await notifyUser(
         deal.sellerAgent.user,
         `Registry Completed! Your 45% deal commission of ₹${deal.sellerCommission.toLocaleString(
@@ -315,4 +324,150 @@ export async function getDealsForAgent(agentProfileId: string) {
     },
     orderBy: { createdAt: "desc" },
   });
+}
+
+export type RecordRentalDealInput = {
+  propertyId: string;
+  agentId: string;
+  rentAmount: number;
+  tenantName?: string | null;
+  tenantPhone?: string | null;
+  paymentMode?: PaymentMode;
+  note?: string | null;
+};
+
+// Automatic rental brokerage when an owner rents their property through a channel partner.
+// Awards 1 month's rent (100% of monthly rent) directly to the channel partner's wallet.
+export async function recordRentalDeal(input: RecordRentalDealInput) {
+  if (!Number.isFinite(input.rentAmount) || input.rentAmount <= 0) {
+    throw new DealServiceError("validation");
+  }
+
+  const [property, agent] = await Promise.all([
+    prisma.property.findUnique({
+      where: { id: input.propertyId },
+      include: {
+        owner: { select: { id: true, name: true, email: true, phone: true } },
+      },
+    }),
+    prisma.agentProfile.findUnique({
+      where: { id: input.agentId },
+      include: {
+        user: { select: { id: true, name: true, email: true, phone: true } },
+      },
+    }),
+  ]);
+
+  if (!property) throw new DealServiceError("propertyNotFound");
+  if (!agent) throw new DealServiceError("agentNotFound");
+
+  // Standard rental brokerage = 1 month's rent
+  const commissionAmount = Math.round(input.rentAmount);
+  const rentalAuto = await canAutoCredit("BROKERAGE", agent.id);
+
+  const ops: Prisma.PrismaPromise<unknown>[] = [
+    // 1. Record Deal
+    prisma.deal.create({
+      data: {
+        dealValue: input.rentAmount,
+        propertyTitle: property.title,
+        sellerAgentId: agent.id,
+        sellerCommission: commissionAmount,
+        totalCommission: commissionAmount,
+        commissionDistributed: true,
+        paymentMode: input.paymentMode ?? "BANK_TRANSFER",
+        status: "CLOSED",
+        note: `Rental Deal: ${property.title} · 1 Month Brokerage: ₹${commissionAmount.toLocaleString("en-IN")}${input.tenantName ? ` (Tenant: ${input.tenantName})` : ""}`,
+      },
+    }),
+    // 2+3. Ledger entry and wallet credit (skipped when the admin handles this commission by hand)
+    ...(rentalAuto
+      ? [
+          prisma.commissionLedgerEntry.create({
+            data: {
+              agentId: agent.id,
+              type: "BROKERAGE",
+              amount: commissionAmount,
+              refId: property.id,
+              note: `Rental Brokerage for "${property.title}" (1 month rent: ₹${commissionAmount.toLocaleString("en-IN")})${input.tenantName ? ` · Tenant: ${input.tenantName}` : ""}`,
+            },
+          }),
+          prisma.agentProfile.update({
+            where: { id: agent.id },
+            data: { walletBalance: { increment: commissionAmount } },
+          }),
+        ]
+      : []),
+    // 4. Mark property as RENTED and ensure assigned agent is recorded
+    prisma.property.update({
+      where: { id: property.id },
+      data: {
+        status: "RENTED",
+        assignedAgentId: agent.id,
+      },
+    }),
+  ];
+
+  const [deal] = (await prisma.$transaction(ops)) as [Deal, ...unknown[]];
+
+  // 5. Notify the channel partner immediately
+  if (rentalAuto) await notifyUser(
+    agent.user,
+    `Congratulations! Property "${property.title}" has been rented via your network. Rental brokerage of ₹${commissionAmount.toLocaleString("en-IN")} (1 month rent) has been credited directly to your wallet.`,
+    "Rental Brokerage Credited"
+  );
+
+  return deal;
+}
+
+export type AdminCommissionLedgerFilters = {
+  agentId?: string;
+  type?: import("@/generated/prisma").CommissionType;
+  take?: number;
+  skip?: number;
+};
+
+// Master ledger query for Admin console to see all commissions paid to all agents
+export async function getAdminCommissionLedger(filters?: AdminCommissionLedgerFilters) {
+  const where: Prisma.CommissionLedgerEntryWhereInput = {};
+  if (filters?.agentId) where.agentId = filters.agentId;
+  if (filters?.type) where.type = filters.type;
+
+  const [entries, totalCount, totalsByType, grandTotal, totalWallets] = await Promise.all([
+    prisma.commissionLedgerEntry.findMany({
+      where,
+      include: {
+        agent: {
+          select: {
+            id: true,
+            agentCode: true,
+            shopName: true,
+            user: { select: { name: true, email: true, phone: true } },
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      take: filters?.take ?? 100,
+      skip: filters?.skip ?? 0,
+    }),
+    prisma.commissionLedgerEntry.count({ where }),
+    prisma.commissionLedgerEntry.groupBy({
+      by: ["type"],
+      _sum: { amount: true },
+    }),
+    prisma.commissionLedgerEntry.aggregate({
+      _sum: { amount: true },
+    }),
+    prisma.agentProfile.aggregate({
+      _sum: { walletBalance: true },
+    }),
+  ]);
+
+  return {
+    entries,
+    totalCount,
+    totalsByType,
+    grandTotal: grandTotal._sum.amount ?? 0,
+    totalWallets: totalWallets._sum.walletBalance ?? 0,
+  };
 }

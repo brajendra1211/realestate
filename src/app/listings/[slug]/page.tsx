@@ -1,3 +1,4 @@
+import { AutoRefresh } from "@/components/AutoRefresh";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
@@ -47,6 +48,12 @@ export default async function ListingDetailPage({
       : 0,
   ]);
   const isUnlocked = Boolean(unlock);
+  const interest = unlock
+    ? await prisma.buyerInterest.findUnique({
+        where: { unlockId: unlock.id },
+        include: { acceptances: { include: { agent: { select: { agentCode: true, user: { select: { name: true, phone: true } } } } }, orderBy: { acceptedAt: "asc" } } },
+      })
+    : null;
   const isSaved = Boolean(savedEntry);
 
   let activeAgent = listing.agent;
@@ -275,6 +282,33 @@ export default async function ListingDetailPage({
         {isUnlocked ? (
           <>
             <p className="text-sm font-semibold text-green-700">Unlocked</p>
+            {interest && (
+              <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900">
+                {interest.acceptances.length > 0 ? (
+                  <>
+                    <p className="font-semibold">
+                      {interest.acceptances.length === 1 ? "A channel partner has" : `${interest.acceptances.length} channel partners have`} taken your request and will call you.
+                    </p>
+                    <ul className="mt-2 space-y-1">
+                      {interest.acceptances.map((a) => (
+                        <li key={a.id}>
+                          <b>{a.agent.user.name}</b> ({a.agent.agentCode})
+                          {a.agent.user.phone ? ` · ${a.agent.user.phone}` : ""} ·{" "}
+                          <Link href={`/shop/${a.agent.agentCode}`} className="font-bold underline">
+                            see all their listings
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : interest.status === "CLOSED" ? (
+                  <>We could not reach a partner right now. Our team will contact you shortly.</>
+                ) : (
+                  <>We have alerted the channel partner and partners near you. One of them will call you shortly. This page updates by itself.</>
+                )}
+              </div>
+            )}
+            <AutoRefresh active={interest ? interest.status !== "CLOSED" && interest.acceptances.length < 5 : false} seconds={8} />
             <p className="mt-2 text-sm text-slate-700">
               <span className="font-medium">Exact address:</span> {listing.exactAddress}
             </p>

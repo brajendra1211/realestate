@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/site-settings";
+import { PageBanner } from "@/components/ui/PageBanner";
 
 export const metadata = {
   title: "Privacy Policy",
@@ -11,15 +12,19 @@ export default async function PrivacyPolicyPage() {
   const phone = contactPhone ?? "";
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <Link href="/" className="text-sm font-semibold text-blue-600 hover:underline">
+    <div className="bg-slate-50">
+      <PageBanner
+        art="home"
+        eyebrow="Legal"
+        title="Privacy Policy"
+        subtitle="Last updated: November 2026"
+      />
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+      <Link href="/" className="text-sm font-semibold text-brand-700 hover:underline">
         ← Back to {siteName}
       </Link>
 
-      <h1 className="mt-6 text-3xl font-black text-slate-900">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-slate-500">Last updated: November 2026</p>
-
-      <div className="mt-8 max-w-none space-y-4 text-sm leading-relaxed text-slate-700">
+      <div className="mt-6 max-w-none space-y-4 rounded-3xl border border-slate-200/80 bg-white p-6 text-sm leading-relaxed text-slate-700 shadow-soft sm:p-10">
         <p>
           {siteName} (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) operates this website
           and the {siteName} mobile app (together, the &quot;Service&quot;), connecting
@@ -28,7 +33,7 @@ export default async function PrivacyPolicyPage() {
           and the choices you have.
         </p>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">1. Information we collect</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">1. Information we collect</h2>
         <ul className="list-disc space-y-2 pl-5">
           <li>
             <strong>Account information:</strong> name, phone number, and email address when
@@ -63,7 +68,7 @@ export default async function PrivacyPolicyPage() {
           </li>
         </ul>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">2. How we use your information</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">2. How we use your information</h2>
         <ul className="list-disc space-y-2 pl-5">
           <li>To create and manage your account, and verify you via WhatsApp or email OTP.</li>
           <li>To connect buyers with the right channel partner or property owner.</li>
@@ -73,7 +78,7 @@ export default async function PrivacyPolicyPage() {
           <li>To comply with legal obligations and enforce our terms.</li>
         </ul>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">3. Who we share information with</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">3. Who we share information with</h2>
         <p>We share only what&apos;s necessary, and only with:</p>
         <ul className="list-disc space-y-2 pl-5">
           <li>
@@ -93,13 +98,13 @@ export default async function PrivacyPolicyPage() {
         </ul>
         <p>We do not sell your personal information to third parties.</p>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">4. Data security</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">4. Data security</h2>
         <p>
           All data in transit is encrypted (HTTPS). We restrict access to personal data to
           personnel and systems that need it to operate the Service.
         </p>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">5. Your choices and rights</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">5. Your choices and rights</h2>
         <ul className="list-disc space-y-2 pl-5">
           <li>You can review and update your profile information from your dashboard.</li>
           <li>You can disable location or notification permissions at any time from your device settings.</li>
@@ -109,41 +114,42 @@ export default async function PrivacyPolicyPage() {
           </li>
         </ul>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">6. Data retention</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">6. Data retention</h2>
         <p>
           We retain account and transaction data for as long as your account is active, and
           as needed to comply with legal, accounting, or reporting obligations.
         </p>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">7. Children&apos;s privacy</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">7. Children&apos;s privacy</h2>
         <p>
           The Service is intended for users 18 years and older. We do not knowingly collect
           personal information from children.
         </p>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">8. Changes to this policy</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">8. Changes to this policy</h2>
         <p>
           We may update this policy from time to time. Material changes will be reflected by
           updating the &quot;Last updated&quot; date above.
         </p>
 
-        <h2 className="mt-8 text-xl font-bold text-slate-900">9. Contact us</h2>
+        <h2 className="mt-8 font-display text-xl font-semibold text-ink">9. Contact us</h2>
         <p>
           For any privacy-related questions or requests, contact us at{" "}
-          <a className="text-blue-600 hover:underline" href={`mailto:${email}`}>
+          <a className="text-brand-700 hover:underline" href={`mailto:${email}`}>
             {email}
           </a>
           {phone ? (
             <>
               {" "}
               or call{" "}
-              <a className="text-blue-600 hover:underline" href={`tel:${phone}`}>
+              <a className="text-brand-700 hover:underline" href={`tel:${phone}`}>
                 {phone}
               </a>
             </>
           ) : null}
           .
         </p>
+      </div>
       </div>
     </div>
   );

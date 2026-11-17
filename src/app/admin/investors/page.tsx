@@ -12,7 +12,7 @@ export default async function AdminInvestorsPage({ searchParams }: { searchParam
   if (!session || session.user.role !== "ADMIN") redirect("/login");
 
   const { status, saved, error } = await searchParams;
-  const filterStatus = status === "PAID" ? "PAID" : status === "ALL" ? undefined : "PENDING";
+  const filterStatus = status === "PAID" ? "PAID" : status === "PENDING" ? "PENDING" : undefined;
 
   const [investors, expiringSoon] = await Promise.all([
     prisma.investorProfile.findMany({
@@ -27,16 +27,15 @@ export default async function AdminInvestorsPage({ searchParams }: { searchParam
 
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
-      <h1 className="text-2xl font-bold text-slate-900">Referral Partners</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Investors (Referral Partners)</h1>
       <p className="mt-1 max-w-2xl text-sm text-slate-500">
-        Confirm the ₹20,000/year registration fee to issue a Referral Partner Code and credit the
-        referring channel partner&apos;s wallet with the 10% referral commission.
+        Manage registered investors, confirm annual registration fees (₹20,000/yr), issue Investor Codes, and track invested capital &amp; profit shares.
       </p>
 
       {expiringSoon.length > 0 && (
         <div className="mt-4 max-w-2xl rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
           <p className="font-semibold">
-            {expiringSoon.length} referral partner{expiringSoon.length > 1 ? "s" : ""} expiring within 30 days
+            {expiringSoon.length} investor{expiringSoon.length > 1 ? "s" : ""} expiring within 30 days
           </p>
           <ul className="mt-1 space-y-0.5">
             {expiringSoon.map((inv) => (
@@ -65,9 +64,9 @@ export default async function AdminInvestorsPage({ searchParams }: { searchParam
 
       <div className="mt-6 flex flex-wrap gap-2 text-sm">
         {[
-          { label: "Pending", value: "PENDING" },
-          { label: "Paid", value: "PAID" },
-          { label: "All", value: "ALL" },
+          { label: "All Investors", value: "ALL" },
+          { label: "Fee Paid", value: "PAID" },
+          { label: "Pending Verification", value: "PENDING" },
         ].map((item) => (
           <a
             key={item.value}
@@ -86,7 +85,7 @@ export default async function AdminInvestorsPage({ searchParams }: { searchParam
       <div className="mt-6 space-y-3">
         {investors.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">
-            No referral partners in this status.
+            No investors found in this filter.
           </p>
         ) : (
           investors.map((investor) => (
@@ -96,7 +95,7 @@ export default async function AdminInvestorsPage({ searchParams }: { searchParam
             >
               <div>
                 <div className="flex items-center gap-2">
-                  <p className="font-semibold text-slate-900">{investor.user.name}</p>
+                  <p className="font-semibold text-slate-900"><a href={`/admin/people/${investor.userId}`} className="hover:text-brand-600 hover:underline">{investor.user.name}</a></p>
                   {investor.investorCode && (
                     <span className="rounded-full bg-blue-50 px-2 py-0.5 font-mono text-xs font-semibold text-blue-700">
                       {investor.investorCode}

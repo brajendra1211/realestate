@@ -103,8 +103,28 @@ async function readPropertyFields(formData: FormData) {
       | "INDEPENDENT_HOUSE"
       | "PLOT"
       | "COMMERCIAL"
-      | "OFFICE",
+      | "OFFICE"
+      | "SHOP"
+      | "WAREHOUSE"
+      | "PG",
     condition: listingType === "SALE" ? readPropertyCondition(formData) : null,
+    commercialSubtype: String(formData.get("commercialSubtype") ?? "").trim() || null,
+    pgGender: String(formData.get("pgGender") ?? "").trim() || null,
+    pgSharing: String(formData.get("pgSharing") ?? "").trim() || null,
+    foodIncluded: formData.get("foodIncluded") === "on" || formData.get("foodIncluded") === "true",
+    furnishing: String(formData.get("furnishing") ?? "").trim() || null,
+    floorNumber: formData.get("floorNumber") ? Number(formData.get("floorNumber")) : null,
+    totalFloors: formData.get("totalFloors") ? Number(formData.get("totalFloors")) : null,
+    carpetAreaSqft: formData.get("carpetAreaSqft") ? Number(formData.get("carpetAreaSqft")) : null,
+    superAreaSqft: formData.get("superAreaSqft") ? Number(formData.get("superAreaSqft")) : null,
+    facingDirection: String(formData.get("facingDirection") ?? "").trim() || null,
+    maintenanceCharges: formData.get("maintenanceCharges") ? Number(formData.get("maintenanceCharges")) : null,
+    securityDeposit: formData.get("securityDeposit") ? Number(formData.get("securityDeposit")) : null,
+    possessionStatus: String(formData.get("possessionStatus") ?? "").trim() || null,
+    bachelorFriendly: formData.get("bachelorFriendly") !== "off" && formData.get("bachelorFriendly") !== "false",
+    reraNumber: String(formData.get("reraNumber") ?? "").trim() || null,
+    societyName: String(formData.get("societyName") ?? "").trim() || null,
+    specifications: String(formData.get("specifications") ?? "").trim() || null,
     price: Number(formData.get("price") ?? 0),
     priceNegotiable: formData.get("priceNegotiable") === "on",
     bedrooms: formData.get("bedrooms") ? Number(formData.get("bedrooms")) : null,
@@ -147,21 +167,34 @@ async function resolveOwnerId(session: { user: { id: string; role: string } }, f
 
 export async function createProperty(formData: FormData): Promise<{ redirectTo?: string } | void> {
   const session = await requireListerOrAdmin();
+  // Owners and dealers cannot publish listings themselves any more — a channel
+  // partner creates them through the paid owner-request flow.
+  if (session.user.role === "OWNER" || session.user.role === "DEALER") {
+    return { redirectTo: "/list-property/request" };
+  }
   const { ownerId, ownerRole } = await resolveOwnerId(session, formData);
+
+  // The admin works inside the admin console; everyone else stays in the owner dashboard.
+  const base = session.user.role === "ADMIN" ? "/admin/properties" : "/dashboard/properties";
 
   const usage = await getListingUsage(ownerId, ownerRole);
   if (usage.atLimit) {
-    redirect("/dashboard/properties/new?error=limit");
+    redirect(`${base}/new?error=limit`);
   }
 
   const fields = await readPropertyFields(formData);
+  const isAdminAuthored = session.user.role === "ADMIN" || session.user.role === "SUBADMIN";
+
+  if (!isAdminAuthored && fields.listingType === "SALE") {
+    redirect(`${base}/new?error=sale_admin_only`);
+  }
+
   if (!fields.city) {
-    redirect("/dashboard/properties/new?error=location");
+    redirect(`${base}/new?error=location`);
   }
 
   const images = readImages(formData);
   const slug = await uniqueSlug(fields.title);
-  const isAdminAuthored = session.user.role === "ADMIN" || session.user.role === "SUBADMIN";
 
   const activeSub = await getActiveSubscription(ownerId);
   const durationDays = activeSub?.plan?.durationDays ?? (activeSub?.plan?.name?.toLowerCase().includes("gold") ? 90 : 30);
@@ -185,21 +218,24 @@ export async function createProperty(formData: FormData): Promise<{ redirectTo?:
   });
 
   revalidatePath("/dashboard");
-  return { redirectTo: `/dashboard/properties/${property.id}/edit?saved=1` };
+  revalidatePath("/admin/properties");
+  return { redirectTo: `${base}/${property.id}/edit?saved=1` };
 }
 
 export async function updateProperty(formData: FormData) {
   const session = await requireListerOrAdmin();
   const id = String(formData.get("id") ?? "");
+  const homeHref = session.user.role === "ADMIN" ? "/admin/properties" : "/dashboard";
   const property = await prisma.property.findUnique({ where: { id } });
-  if (!property) redirect("/dashboard");
+  if (!property) redirect(homeHref);
   if (!isAdminLike(session.user.role) && property!.ownerId !== session.user.id) {
     redirect("/dashboard");
   }
 
   const fields = await readPropertyFields(formData);
   if (!fields.city) {
-    redirect(`/dashboard/properties/${id}/edit?error=location`);
+    const editBase = session.user.role === "ADMIN" ? "/admin/properties" : "/dashboard/properties";
+    redirect(`${editBase}/${id}/edit?error=location`);
   }
 
   // A failed re-geocode on update (Nominatim/Overpass hiccup, or the
@@ -234,19 +270,24 @@ export async function updateProperty(formData: FormData) {
   ]);
 
   revalidatePath(`/dashboard/properties/${id}/edit`);
+  revalidatePath(`/admin/properties/${id}/edit`);
+  revalidatePath("/admin/properties");
 }
 
 export async function deleteProperty(formData: FormData) {
   const session = await requireListerOrAdmin();
   const id = String(formData.get("id") ?? "");
+  const homeHref = session.user.role === "ADMIN" ? "/admin/properties" : "/dashboard";
   const property = await prisma.property.findUnique({ where: { id } });
-  if (!property) redirect("/dashboard");
+  if (!property) redirect(homeHref);
   if (!isAdminLike(session.user.role) && property!.ownerId !== session.user.id) {
     redirect("/dashboard");
   }
 
   await prisma.property.delete({ where: { id } });
   revalidatePath("/dashboard");
+  revalidatePath("/admin/properties");
+  redirect(homeHref);
 }
 
 export async function renewProperty(formData: FormData) {
@@ -337,5 +378,59 @@ export async function chooseOwnerPlanAction(formData: FormData) {
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/properties/new");
   redirect("/dashboard/properties/new?planActivated=1");
+}
+
+export async function markRentalDealAction(formData: FormData) {
+  const session = await requireListerOrAdmin();
+  const propertyId = String(formData.get("propertyId") ?? "");
+  const agentId = String(formData.get("agentId") ?? "").trim();
+  const rentAmount = Number(formData.get("rentAmount") ?? 0);
+  const tenantName = String(formData.get("tenantName") ?? "").trim() || null;
+  const tenantPhone = String(formData.get("tenantPhone") ?? "").trim() || null;
+  const note = String(formData.get("note") ?? "").trim() || null;
+
+  if (!propertyId || !agentId || rentAmount <= 0) {
+    redirect("/dashboard?error=invalidRentalInput");
+  }
+
+  const property = await prisma.property.findUnique({ where: { id: propertyId } });
+  if (!property || (property.ownerId !== session.user.id && !isAdminLike(session.user.role))) {
+    redirect("/dashboard?error=unauthorized");
+  }
+
+  const { recordRentalDeal } = await import("@/lib/deal");
+  await recordRentalDeal({
+    propertyId,
+    agentId,
+    rentAmount,
+    tenantName,
+    tenantPhone,
+    note,
+  });
+
+  revalidatePath("/dashboard");
+  revalidatePath("/admin/deals");
+  revalidatePath("/admin/partners");
+  revalidatePath("/admin/properties");
+  revalidatePath(`/properties/${property.slug}`);
+  redirect("/dashboard?rentalClosed=1");
+}
+
+export async function relistPropertyAction(formData: FormData) {
+  const session = await requireListerOrAdmin();
+  const propertyId = String(formData.get("propertyId") ?? "");
+  const property = await prisma.property.findUnique({ where: { id: propertyId } });
+  if (!property || (property.ownerId !== session.user.id && !isAdminLike(session.user.role))) {
+    redirect("/dashboard?error=unauthorized");
+  }
+
+  await prisma.property.update({
+    where: { id: propertyId },
+    data: { status: "AVAILABLE" },
+  });
+
+  revalidatePath("/dashboard");
+  revalidatePath(`/properties/${property.slug}`);
+  redirect("/dashboard?relisted=1");
 }
 

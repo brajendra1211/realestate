@@ -26,7 +26,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
       )}
 
       <div>
-        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+        <label className="block text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">
           Email, Phone Number or Partner Code (ID)
         </label>
         <div className="relative mt-1.5">
@@ -40,15 +40,15 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
             name="email"
             required
             suppressHydrationWarning
-            placeholder="e.g. admin@bayaestate.com, 9876543210, or Partner Code"
-            className="w-full rounded-2xl border border-slate-200/90 bg-slate-50/50 py-3 pl-10 pr-4 text-xs font-semibold text-slate-900 placeholder:text-slate-400 placeholder:font-normal transition focus:border-slate-400 focus:bg-white focus:outline-none"
+            placeholder="e.g. admin@pronesto.in, 9876543210, or Partner Code"
+            className="w-full rounded-xl border border-slate-200 bg-slate-50/70 py-3.5 pl-10 pr-4 text-sm font-medium text-ink outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-100"
           />
         </div>
       </div>
 
       <div>
         <div className="flex items-center justify-between">
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+          <label className="block text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">
             Password
           </label>
         </div>
@@ -63,7 +63,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
             name="password"
             required
             placeholder="••••••••••••"
-            className="w-full rounded-2xl border border-slate-200/90 bg-slate-50/50 py-3 pl-10 pr-4 text-xs font-semibold text-slate-900 placeholder:text-slate-400 placeholder:font-normal transition focus:border-slate-400 focus:bg-white focus:outline-none"
+            className="w-full rounded-xl border border-slate-200 bg-slate-50/70 py-3.5 pl-10 pr-4 text-sm font-medium text-ink outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-100"
           />
         </div>
       </div>
@@ -71,7 +71,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-2xl bg-slate-900 py-3.5 text-xs font-black uppercase tracking-wider text-white shadow-md transition hover:bg-slate-800 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+        className="shine flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 py-3.5 text-sm font-bold text-white shadow-lg shadow-brand-600/25 transition hover:brightness-110 active:scale-[0.99] disabled:opacity-50"
       >
         {pending ? (
           <>
@@ -82,7 +82,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
             <span>Authenticating...</span>
           </>
         ) : (
-          <span>Sign In with Password →</span>
+          <span>Sign in with password →</span>
         )}
       </button>
     </form>

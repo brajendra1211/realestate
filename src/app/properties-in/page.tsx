@@ -1,3 +1,4 @@
+import { PageBanner } from "@/components/ui/PageBanner";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
@@ -33,10 +34,9 @@ export default async function LocationsIndexPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold text-slate-900">Property by Location</h1>
-        <NearMeButton className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700" />
-      </div>
+      <PageBanner art="home" eyebrow="Browse by city" title="Property by Location" subtitle="Pick a city or locality to see verified homes for rent and sale.">
+        <NearMeButton className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20" />
+      </PageBanner>
 
       {countries.every((country) => country.states.every((state) => state.cities.length === 0)) ? (
         <p className="mt-8 rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500">

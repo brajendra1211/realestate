@@ -38,6 +38,7 @@ export default async function AdminPage() {
       prisma.enquiry.count(),
       prisma.property.count({ where: { listingType: "SALE" } }),
       prisma.property.count({ where: { listingType: "RENT" } }),
+      prisma.investorProfile.count().catch(() => 0),
     ]),
     prisma.enquiry.findMany({
       include: { property: { select: { title: true, slug: true, price: true, listingType: true } } },
@@ -57,6 +58,7 @@ export default async function AdminPage() {
     totalEnquiriesCount,
     saleCount,
     rentCount,
+    totalInvestors,
   ] = stats;
 
   const todayFormatted = new Intl.DateTimeFormat("en-IN", {
@@ -72,8 +74,8 @@ export default async function AdminPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/90 pb-6">
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 border border-blue-200/80 px-3 py-0.5 text-[11px] font-bold text-blue-700 uppercase tracking-wider">
-              Noida Prime Console
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 border border-blue-200/80 px-3 py-0.5 text-[11px] font-bold text-brand-600 uppercase tracking-wider">
+              Pronesto Enterprise
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -101,7 +103,7 @@ export default async function AdminPage() {
             </svg>
           </Link>
           <Link
-            href="/dashboard/properties/new"
+            href="/admin/properties/new"
             className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:shadow-md"
           >
             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -109,6 +111,52 @@ export default async function AdminPage() {
             </svg>
             <span>+ Add Property</span>
           </Link>
+        </div>
+      </div>
+
+      {/* JV Commission & Distribution Policy Banner */}
+      <div className="rounded-2xl border border-blue-200/80 bg-gradient-to-r from-blue-900 via-slate-900 to-indigo-950 p-5 text-white shadow-md">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="rounded bg-blue-500/30 border border-blue-400/40 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-blue-200">
+                JV Distribution Standard
+              </span>
+              <span className="text-xs text-slate-300">10% Agent · 35% Investors Pool · 55% Company</span>
+            </div>
+            <h2 className="text-base sm:text-lg font-bold text-white">
+              Automated Commission &amp; Syndication Architecture
+            </h2>
+            <p className="text-xs text-slate-300 max-w-2xl">
+              Supports multi-agent and multi-investor syndicate allocations per deal with direct ledger audit.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-2 bg-white/10 rounded-xl p-2.5 backdrop-blur-xs border border-white/10 text-center text-xs">
+              <div>
+                <div className="text-[10px] text-slate-400 uppercase font-bold">Agent Code</div>
+                <div className="text-sm font-black text-emerald-400">10%</div>
+              </div>
+              <span className="text-slate-600">|</span>
+              <div>
+                <div className="text-[10px] text-slate-400 uppercase font-bold">Investors</div>
+                <div className="text-sm font-black text-amber-400">35%</div>
+              </div>
+              <span className="text-slate-600">|</span>
+              <div>
+                <div className="text-[10px] text-slate-400 uppercase font-bold">Company</div>
+                <div className="text-sm font-black text-blue-400">55%</div>
+              </div>
+            </div>
+
+            <Link
+              href="/admin/commissions"
+              className="rounded-xl bg-white text-slate-950 px-3.5 py-2 text-xs font-bold hover:bg-slate-100 transition shrink-0"
+            >
+              Ledger →
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -212,7 +260,7 @@ export default async function AdminPage() {
       </div>
 
       {/* 3. Operational Quick Navigation Ribbon */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         <Link
           href="/admin/deals"
           className="group rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs hover:border-blue-400 hover:shadow-xs transition"
@@ -222,7 +270,7 @@ export default async function AdminPage() {
             <span className="text-blue-600 opacity-0 group-hover:opacity-100 transition">→</span>
           </div>
           <div className="mt-2 text-2xl font-black text-slate-900">{activeDealsCount}</div>
-          <div className="mt-0.5 text-xs font-medium text-slate-500">Pipeline & Closures</div>
+          <div className="mt-0.5 text-xs font-medium text-slate-500">Pipeline &amp; Closures</div>
         </Link>
 
         <Link
@@ -258,7 +306,19 @@ export default async function AdminPage() {
             <span className="text-blue-600 opacity-0 group-hover:opacity-100 transition">→</span>
           </div>
           <div className="mt-2 text-2xl font-black text-slate-900">{totalListers}</div>
-          <div className="mt-0.5 text-xs font-medium text-slate-500">Owners & Dealers</div>
+          <div className="mt-0.5 text-xs font-medium text-slate-500">Owners &amp; Dealers</div>
+        </Link>
+
+        <Link
+          href="/admin/investors"
+          className="group rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs hover:border-blue-400 hover:shadow-xs transition"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Investors</span>
+            <span className="text-blue-600 opacity-0 group-hover:opacity-100 transition">→</span>
+          </div>
+          <div className="mt-2 text-2xl font-black text-slate-900">{totalInvestors}</div>
+          <div className="mt-0.5 text-xs font-medium text-slate-500">Referral Partners</div>
         </Link>
       </div>
 
@@ -351,7 +411,7 @@ export default async function AdminPage() {
                     </svg>
                   </Link>
                   <Link
-                    href={`/dashboard/properties/${property.id}/edit`}
+                    href={`/admin/properties/${property.id}/edit`}
                     className="inline-flex items-center gap-1 rounded-xl bg-slate-900 hover:bg-slate-800 px-3 py-1.5 text-xs font-bold text-white transition"
                   >
                     <span>Edit</span>

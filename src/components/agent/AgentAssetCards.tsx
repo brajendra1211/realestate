@@ -364,7 +364,7 @@ export function AgentAssetCards({
             <div className="mt-4 mx-auto w-full rounded-2xl border-2 border-indigo-200 bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-950 p-5 text-white shadow-xl">
               <div className="border-b border-indigo-800 pb-3">
                 <span className="text-[11px] font-black tracking-widest uppercase text-amber-300">
-                  BAYACONNECT REAL ESTATE
+                  PRONESTO REAL ESTATE
                 </span>
                 <p className="text-[10px] text-indigo-200">Authorized Channel Partner Badge</p>
               </div>

@@ -8,6 +8,28 @@ import { getLocationCookie } from "@/lib/location-context";
 import { SITE_URL } from "@/lib/seo";
 import { AcresHero } from "@/components/acres/AcresHero";
 import { PropertyCard } from "@/components/PropertyCard";
+import { AcresTopCities } from "@/components/acres/AcresTopCities";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Reveal, Stagger, StaggerItem, HoverLift } from "@/components/ui/Motion";
+import { Faq } from "@/components/ui/Faq";
+import {
+  ArrowRight,
+  Building2,
+  Home as HomeIcon,
+  BedDouble,
+  Briefcase,
+  Rocket,
+  Landmark,
+  ShieldCheck,
+  Handshake,
+  MapPinned,
+  FileLock2,
+  UserPlus,
+  Search,
+  KeyRound,
+  Check,
+  Crown,
+} from "lucide-react";
 
 export default async function Home() {
   const [settings, location, dbCities] = await Promise.all([
@@ -20,432 +42,371 @@ export default async function Home() {
     }),
   ]);
 
-  const properties = await prisma.property.findMany({
+  // Fetch Recommended Properties for 99acres-Style Split Section (Screenshot 2 Benchmark)
+  const recommendedProperties = await prisma.property.findMany({
     where: {
       approvalStatus: "APPROVED",
       status: "AVAILABLE",
       owner: PUBLIC_LISTER_FILTER,
       ...notExpiredFilter(),
     },
-    include: { images: { orderBy: { order: "asc" }, take: 1 } },
+    include: { images: { orderBy: { order: "asc" } } },
+    orderBy: { createdAt: "desc" },
+    take: 3,
+  });
+
+  // Fetch Buy Properties (Admin-Curated Luxury Flats & Villas)
+  const buyProperties = await prisma.property.findMany({
+    where: {
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      listingType: "SALE",
+      owner: PUBLIC_LISTER_FILTER,
+      ...notExpiredFilter(),
+    },
+    include: { images: { orderBy: { order: "asc" } } },
     orderBy: { createdAt: "desc" },
     take: 6,
+  });
+
+  // Fetch Rental Flats & Apartments
+  const rentalFlats = await prisma.property.findMany({
+    where: {
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      listingType: "RENT",
+      propertyType: { in: ["APARTMENT", "VILLA", "INDEPENDENT_HOUSE"] },
+      owner: PUBLIC_LISTER_FILTER,
+      ...notExpiredFilter(),
+    },
+    include: { images: { orderBy: { order: "asc" } } },
+    orderBy: { createdAt: "desc" },
+    take: 6,
+  });
+
+  // Fetch PG & Co-Living Spaces
+  const pgProperties = await prisma.property.findMany({
+    where: {
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      propertyType: "PG",
+      owner: PUBLIC_LISTER_FILTER,
+      ...notExpiredFilter(),
+    },
+    include: { images: { orderBy: { order: "asc" } } },
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
+
+  // Fetch Commercial Properties (Offices, Shops, Warehouses)
+  const commercialProperties = await prisma.property.findMany({
+    where: {
+      approvalStatus: "APPROVED",
+      status: "AVAILABLE",
+      propertyType: { in: ["COMMERCIAL", "OFFICE", "SHOP", "WAREHOUSE"] },
+      owner: PUBLIC_LISTER_FILTER,
+      ...notExpiredFilter(),
+    },
+    include: { images: { orderBy: { order: "asc" } } },
+    orderBy: { createdAt: "desc" },
+    take: 4,
   });
 
   const propertyCount = await prisma.property.count({
     where: { approvalStatus: "APPROVED", status: "AVAILABLE", owner: PUBLIC_LISTER_FILTER, ...notExpiredFilter() },
   });
 
+  const brandName =
+    settings.siteName && settings.siteName !== "BayaEstate" && !settings.siteName.toLowerCase().includes("noida prime") && !settings.siteName.toLowerCase().includes("baya prime")
+      ? settings.siteName
+      : "Pronesto";
+
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: settings.siteName || "Noida Prime Properties",
+    name: brandName,
     url: SITE_URL,
     logo: settings.logoUrl ? { "@type": "ImageObject", url: settings.logoUrl } : undefined,
   };
 
-  const topSectors = [
-    {
-      title: "Sector 150, Noida",
-      tagline: "Sports City & Expressway Green Belt",
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&auto=format&fit=crop&q=80",
-      query: "Sector 150",
-    },
-    {
-      title: "Sector 128, Noida",
-      tagline: "Golf Course Living & Jaypee Wish Town",
-      image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&auto=format&fit=crop&q=80",
-      query: "Sector 128",
-    },
-    {
-      title: "Sector 43 & Central Noida",
-      tagline: "Forest-Themed Residencies & Metro Connected",
-      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&auto=format&fit=crop&q=80",
-      query: "Sector 43",
-    },
-    {
-      title: "Greater Noida West",
-      tagline: "Fastest-Growing Affordable & Mid-Segment Hub",
-      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&auto=format&fit=crop&q=80",
-      query: "Greater Noida West",
-    },
+  const categories = [
+    { title: "Flats & Apartments", sub: "Rent or buy", href: "/properties?propertyType=APARTMENT", icon: <Building2 className="h-6 w-6" />, tint: "from-brand-500 to-brand-700" },
+    { title: "Villas & Houses", sub: "Independent living", href: "/properties?propertyType=VILLA", icon: <HomeIcon className="h-6 w-6" />, tint: "from-emerald-500 to-emerald-700" },
+    { title: "PG / Co-Living", sub: "Meals & furnished", href: "/properties?listingType=RENT&propertyType=PG", icon: <BedDouble className="h-6 w-6" />, tint: "from-violet-500 to-violet-700" },
+    { title: "Commercial", sub: "Offices & shops", href: "/properties?propertyType=COMMERCIAL", icon: <Briefcase className="h-6 w-6" />, tint: "from-amber-500 to-orange-600" },
+    { title: "New Launches", sub: "RERA projects", href: "/properties?listingType=SALE&condition=NEW_BOOKING", icon: <Rocket className="h-6 w-6" />, tint: "from-rose-500 to-rose-700" },
+    { title: "Home Loans", sub: "EMI calculator", href: "/properties?listingType=SALE", icon: <Landmark className="h-6 w-6" />, tint: "from-cyan-500 to-sky-700" },
   ];
 
-  const topDevelopers = [
-    { name: "Godrej Properties", tag: "Forest & Eco Residencies", projects: "8 Projects in Noida" },
-    { name: "ATS Infrastructure", tag: "Iconic High-Rises & Penthouses", projects: "12 Projects in Noida" },
-    { name: "Mahagun Group", tag: "Luxury Golf Suites & Mansions", projects: "9 Projects in Noida" },
-    { name: "Gaursons India", tag: "Integrated Mega Townships", projects: "15 Projects in NCR" },
-    { name: "DLF Limited", tag: "Ultra-Luxury Living & Tech Hubs", projects: "6 Projects in NCR" },
-    { name: "Tata Housing", tag: "Sustainable Modern Communities", projects: "5 Projects in NCR" },
+  const pillars = [
+    { icon: <Handshake className="h-5 w-5" />, title: "Zero-brokerage rentals", text: "Connect straight with owners. No middlemen, no commission." },
+    { icon: <ShieldCheck className="h-5 w-5" />, title: "Admin-verified buying", text: "Every sale listing is checked for title and RERA before it goes live." },
+    { icon: <MapPinned className="h-5 w-5" />, title: "OTP + GPS site visits", text: "Visits are confirmed on location, so every enquiry is genuine." },
+    { icon: <FileLock2 className="h-5 w-5" />, title: "Secure document vault", text: "Agreements and KYC stay encrypted and in one place." },
   ];
 
-  const commercialHotspots = [
-    { name: "Sector 62 IT Park Corridor", desc: "Institutional & IT hubs, walking distance to Electronic City Metro Station." },
-    { name: "Sector 132 / 142 Expressway", desc: "Grade-A office towers, Advant Navis, and Fortune 500 corporate campuses." },
-    { name: "Sector 18 Commercial District", desc: "Noida's premier retail, banking, showroom, and corporate hub." },
-    { name: "Knowledge Park, Greater Noida", desc: "Educational institutes, data centers, and multi-modal logistics zone." },
+  const topMetroCorridors = [
+    { title: "Golf Course Road, Gurgaon", tagline: "Ultra-luxury residences", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop&q=80", query: "Gurgaon", stats: "DLF Camellias · Aralias" },
+    { title: "Noida Expressway", tagline: "IT corridors & green living", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&auto=format&fit=crop&q=80", query: "Noida", stats: "Sector 150 · 128 · 43" },
+    { title: "Whitefield & ORR", tagline: "Tech parks & gated communities", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&auto=format&fit=crop&q=80", query: "Bengaluru", stats: "Prestige · Sobha · E-City" },
+    { title: "Lower Parel & Worli", tagline: "Sea-view towers", image: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=800&auto=format&fit=crop&q=80", query: "Mumbai", stats: "World Towers · Bandra-Worli" },
   ];
 
-  const testimonials = [
-    {
-      quote: "Found our 3 BHK home in Godrej Woods within a week. RERA documents and layout sanctions were verified transparently before token payment.",
-      name: "Ankit Sharma",
-      role: "Homeowner, Sector 43 Noida",
-    },
-    {
-      quote: "Direct owner connect saved us heavy brokerage on our rental flat in Gaur City 2. Clean platform and very genuine listings.",
-      name: "Priya & Rohit Verma",
-      role: "Tenants, Greater Noida West",
-    },
-    {
-      quote: "Assisted site visit service with dedicated relationship manager made inspecting multiple expressway properties effortless.",
-      name: "Vikram Singhal",
-      role: "Commercial Investor, Sector 132",
-    },
+  const steps = [
+    { icon: <UserPlus className="h-5 w-5" />, title: "Create your account", text: "Sign up as an owner or channel partner in under a minute." },
+    { icon: <Search className="h-5 w-5" />, title: "List or discover", text: "Post a rental, or browse verified homes by city, budget and type." },
+    { icon: <KeyRound className="h-5 w-5" />, title: "Visit & move in", text: "Schedule an OTP-verified visit, sign digitally and get the keys." },
   ];
 
   const faqs = [
-    {
-      q: "Are properties on Noida Prime Properties RERA approved?",
-      a: "Yes. All featured new projects and developer inventories are cross-checked against official Uttar Pradesh RERA (UP RERA) registration numbers and sanction plans.",
-    },
-    {
-      q: "How does property listing work for owners?",
-      a: "Owners can list their property directly with our transparent verified listing plans. Free spam listings are disabled platform-wide to guarantee 100% genuine buyer inquiries.",
-    },
-    {
-      q: "How can I schedule a physical site visit?",
-      a: "Click on 'View Details' on any property card and click 'WhatsApp' to connect directly with our relationship manager who arranges doorstep cab assistance and on-ground tours.",
-    },
-    {
-      q: "Which are the best sectors to invest in Noida currently?",
-      a: "Sector 150 (Sports City), Sector 128 (Expressway Golf Corridor), Sector 43, and areas surrounding the upcoming Noida International Airport (Jewar) offer high capital appreciation.",
-    },
+    { q: "Why can only the admin team list properties for sale?", a: "To keep the Buy section free of fake and duplicate listings, every sale property is registered by our admin team after a physical and legal title audit and RERA verification." },
+    { q: "Can owners and channel partners list rental properties?", a: "Yes. Anyone can register and list rentals — flats, PGs & co-living, commercial spaces, villas and independent floors. Listings are reviewed before they go live." },
+    { q: "How does the zero-brokerage rental promise work?", a: "Tenants browse verified owner listings and schedule visits with OTP verification. There is no broker commission on direct owner connects." },
+    { q: "What details do PG listings show?", a: "Sharing type, gender preference, meal inclusion, security deposit and house rules — all shown upfront so there are no surprises." },
   ];
 
+  const grid = (cols: 3 | 4) =>
+    `mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 ${cols === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`;
+
   return (
-    <div className="bg-white min-h-screen text-slate-900">
+    <div className="min-h-screen bg-white text-ink">
       <JsonLd data={organizationJsonLd} />
 
-      {/* 1. HERO SECTION WITH SMART SEARCH */}
       <AcresHero
-        propertyCount={propertyCount || 5}
+        propertyCount={propertyCount || 14}
         agentCount={150}
-        cityCount={dbCities.length || 2}
+        cityCount={dbCities.length || 8}
         currentCityName={location?.cityName}
         cities={dbCities}
       />
 
-      {/* 2. CURATED VERIFIED PROPERTIES SHOWCASE */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5">
-          <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 border border-blue-200 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700">
-              Verified Residences
-            </div>
-            <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Featured Properties in Noida & NCR
-            </h2>
-            <p className="mt-1 text-xs sm:text-sm text-slate-500 font-medium">
-              Sanctioned layouts, authenticated ownership documents, and transparent pricing.
-            </p>
-          </div>
-
-          <Link
-            href="/properties"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-700 px-4 py-2.5 text-xs font-bold text-white transition shadow-xs"
-          >
-            <span>View All ({propertyCount})</span>
-            <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5 stroke-[2.5]">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
-
-        {/* 3-Column Property Card Grid */}
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {properties.map((property) => (
-            <PropertyCard key={property.slug} property={property} />
-          ))}
-        </div>
-      </section>
-
-      {/* 3. BROWSE BY BUDGET & CONFIGURATION */}
-      <section className="bg-slate-50 border-y border-slate-200/80 py-16">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Explore by Budget & Configurations
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-500">
-              Filter verified inventory according to your family requirements and investment capacity.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <Link
-              href="/properties?maxPrice=5000000"
-              className="p-5 rounded-xl border border-slate-200/90 bg-white hover:border-blue-500 hover:shadow-md transition group text-center"
-            >
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Affordable Homes</div>
-              <div className="text-lg font-black text-slate-900 mt-1 group-hover:text-blue-600 transition">Under ₹50 Lakh</div>
-              <p className="text-[11px] text-slate-500 mt-1">High-growth sectors & Noida Extension</p>
-            </Link>
-
-            <Link
-              href="/properties?minPrice=5000000&maxPrice=15000000"
-              className="p-5 rounded-xl border border-slate-200/90 bg-white hover:border-blue-500 hover:shadow-md transition group text-center"
-            >
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Mid-Segment Living</div>
-              <div className="text-lg font-black text-slate-900 mt-1 group-hover:text-blue-600 transition">₹50L - ₹1.5 Cr</div>
-              <p className="text-[11px] text-slate-500 mt-1">Gated societies with modern amenities</p>
-            </Link>
-
-            <Link
-              href="/properties?minPrice=15000000&maxPrice=30000000"
-              className="p-5 rounded-xl border border-slate-200/90 bg-white hover:border-blue-500 hover:shadow-md transition group text-center"
-            >
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Premium Residencies</div>
-              <div className="text-lg font-black text-slate-900 mt-1 group-hover:text-blue-600 transition">₹1.5 Cr - ₹3 Cr</div>
-              <p className="text-[11px] text-slate-500 mt-1">Expressway towers & 3-4 BHK homes</p>
-            </Link>
-
-            <Link
-              href="/properties?minPrice=30000000"
-              className="p-5 rounded-xl border border-slate-200/90 bg-white hover:border-blue-500 hover:shadow-md transition group text-center"
-            >
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Ultra Luxury</div>
-              <div className="text-lg font-black text-slate-900 mt-1 group-hover:text-blue-600 transition">Above ₹3 Crore</div>
-              <p className="text-[11px] text-slate-500 mt-1">Golf suites, penthouses & villas</p>
-            </Link>
-          </div>
-
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs font-bold">
-            <span className="text-slate-400">By BHK:</span>
-            <Link href="/properties?bedrooms=1" className="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-blue-500 text-slate-700 transition">
-              1 BHK Flats
-            </Link>
-            <Link href="/properties?bedrooms=2" className="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-blue-500 text-slate-700 transition">
-              2 BHK Family Homes
-            </Link>
-            <Link href="/properties?bedrooms=3" className="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-blue-500 text-slate-700 transition">
-              3 BHK Luxury Suites
-            </Link>
-            <Link href="/properties?bedrooms=4" className="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-blue-500 text-slate-700 transition">
-              4+ BHK Penthouses
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. EXPLORE TOP LOCALITIES (VISUAL CARDS) */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Explore Popular Localities in Noida
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500">
-            Discover residential hotspots offering prime connectivity, top schools, and lush green belts.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {topSectors.map((sec) => (
-            <Link
-              key={sec.title}
-              href={`/properties?city=${encodeURIComponent(sec.query)}`}
-              className="group relative overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-xs transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
-                <Image
-                  src={sec.image}
-                  alt={sec.title}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
-                <div className="absolute bottom-3 left-3 right-3 text-white">
-                  <h3 className="font-bold text-sm leading-snug">{sec.title}</h3>
-                  <p className="text-[11px] text-slate-300 font-medium leading-tight mt-0.5">{sec.tagline}</p>
+      {/* Trust pillars overlapping hero */}
+      <section className="relative z-10 mx-auto -mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Stagger className="grid grid-cols-1 gap-3 rounded-[28px] border border-slate-200/80 bg-white p-3 shadow-soft sm:grid-cols-2 lg:grid-cols-4">
+          {pillars.map((p) => (
+            <StaggerItem key={p.title}>
+              <div className="flex h-full items-start gap-3 rounded-2xl p-4 transition hover:bg-brand-50/60">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-400 text-white shadow-md shadow-brand-600/25">
+                  {p.icon}
+                </span>
+                <div>
+                  <h3 className="text-sm font-bold text-ink">{p.title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-500">{p.text}</p>
                 </div>
               </div>
-            </Link>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </section>
 
-      {/* 5. TOP BUILDERS & DEVELOPERS SPOTLIGHT */}
-      <section className="bg-slate-50 border-y border-slate-200/80 py-16">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-5 mb-8">
-            <div>
-              <div className="text-[11px] font-bold uppercase tracking-wider text-blue-700">Certified Partners</div>
-              <h2 className="mt-1 text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Leading Real Estate Developers
-              </h2>
-              <p className="mt-1 text-xs text-slate-500">
-                Trusted builders delivering premium residential townships and commercial hubs across Noida & NCR.
-              </p>
-            </div>
-            <Link href="/projects" className="text-xs font-bold text-blue-600 hover:underline">
-              View All Projects →
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {topDevelopers.map((dev) => (
-              <div key={dev.name} className="p-5 rounded-xl border border-slate-200/80 bg-white shadow-xs">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-slate-900 text-sm">{dev.name}</h3>
-                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                    RERA Certified
+      {/* Categories */}
+      <section className="mx-auto max-w-7xl px-4 pt-20 sm:px-6 lg:px-8">
+        <SectionHeader eyebrow="Browse by need" title="What are you looking for?" subtitle="Jump straight into the kind of space that fits your life." />
+        <Stagger className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+          {categories.map((c) => (
+            <StaggerItem key={c.title}>
+              <HoverLift className="h-full">
+                <Link href={c.href} className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-5 shadow-soft transition hover:border-transparent hover:shadow-lift">
+                  <span className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${c.tint} text-white shadow-lg transition group-hover:scale-110 group-hover:-rotate-6`}>
+                    {c.icon}
                   </span>
-                </div>
-                <p className="text-xs text-slate-500 mt-1">{dev.tag}</p>
-                <div className="mt-3 text-[11px] font-semibold text-blue-600">{dev.projects}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 6. COMMERCIAL HUBS & OFFICE SPACES */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-10">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Commercial & IT Hubs in Noida
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500">
-            High-yield commercial offices, retail shops, and corporate campuses in prime business zones.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {commercialHotspots.map((hub) => (
-            <div key={hub.name} className="p-5 rounded-xl border border-slate-200/80 bg-white space-y-2 shadow-xs">
-              <div className="h-2 w-8 bg-blue-600 rounded-full" />
-              <h3 className="font-bold text-slate-900 text-sm">{hub.name}</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">{hub.desc}</p>
-            </div>
+                  <h3 className="mt-4 text-sm font-bold text-ink">{c.title}</h3>
+                  <p className="text-xs text-slate-500">{c.sub}</p>
+                  <ArrowRight className="mt-4 h-4 w-4 text-slate-300 transition group-hover:translate-x-1 group-hover:text-brand-600" />
+                </Link>
+              </HoverLift>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </section>
 
-      {/* 7. HOME LOAN ASSISTANCE & EMI GUIDE */}
-      <section className="bg-slate-900 text-white py-14">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-            <div className="space-y-3 max-w-xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/20 border border-blue-400/30 px-3 py-1 text-xs font-semibold text-blue-300">
-                Home Loan Assistance
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
-                Planning Your Home Purchase in Noida?
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Get pre-approved home loans starting from <strong className="text-white">8.35% p.a.</strong> with doorstep paperwork and minimal processing fees through our banking partners.
-              </p>
-              <div className="flex flex-wrap gap-4 pt-1 text-xs font-semibold text-slate-300">
-                <span>✓ SBI</span>
-                <span>✓ HDFC Bank</span>
-                <span>✓ ICICI Bank</span>
-                <span>✓ Axis Bank</span>
-                <span>✓ Bank of Baroda</span>
-              </div>
-            </div>
+      {/* Fresh listings + owner CTA */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <SectionHeader eyebrow="Fresh on Pronesto" title="Recommended for you" subtitle="Newly verified homes, hand-picked from the latest approvals." href="/properties" />
+        <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-8 xl:col-span-9 xl:grid-cols-3">
+            {recommendedProperties.map((property) => (
+              <StaggerItem key={property.slug}>
+                <PropertyCard property={property} />
+              </StaggerItem>
+            ))}
+          </Stagger>
 
-            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-4 max-w-md w-full">
-              <div className="text-sm font-bold text-white">Direct Financial Advisory</div>
-              <p className="text-xs text-slate-400">
-                Our in-house loan experts compare offers across 15+ leading banks to secure the best loan tenure and lowest EMI for your property.
-              </p>
-              <a
-                href="https://wa.me/919876543210?text=Hello,%20I%20would%20like%20home%20loan%20assistance%20for%20Noida%20property"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-center rounded-lg bg-blue-600 hover:bg-blue-700 px-4 py-2.5 text-xs font-bold text-white transition shadow-sm"
-              >
-                Get Loan Assistance on WhatsApp
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. CLIENT & BUYER TESTIMONIALS */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-blue-700">Client Reviews</div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            What Homebuyers Say About Us
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500">
-            Authentic experiences from families and investors who bought or rented through Noida Prime Properties.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {testimonials.map((t, idx) => (
-            <div key={idx} className="p-6 rounded-xl border border-slate-200/80 bg-white shadow-xs space-y-4 flex flex-col justify-between">
-              <div className="space-y-3">
-                <div className="flex gap-1 text-amber-500 text-xs">
-                  {"★".repeat(5)}
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed italic">
-                  &ldquo;{t.quote}&rdquo;
+          <Reveal className="lg:col-span-4 xl:col-span-3">
+            <div className="relative flex h-full min-h-[320px] flex-col justify-between overflow-hidden rounded-[22px] bg-brand-950 p-6 text-white shadow-soft">
+              <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand-500/40 blur-3xl" />
+              <div className="absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-gold-400/20 blur-3xl" />
+              <div className="relative">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-gold-300">
+                  <Crown className="h-3.5 w-3.5" /> For owners
+                </span>
+                <h3 className="font-display mt-4 text-2xl font-semibold leading-snug">
+                  Got a rental to list?
+                </h3>
+                <p className="mt-2 text-sm text-slate-300">
+                  Reach genuine tenants directly and skip broker fees entirely.
                 </p>
               </div>
-              <div className="border-t border-slate-100 pt-3">
-                <div className="text-xs font-bold text-slate-900">{t.name}</div>
-                <div className="text-[11px] text-slate-400">{t.role}</div>
+              <div className="relative mt-6">
+                <Link href="/list-property/request" className="shine inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gold-400 px-5 py-3.5 text-sm font-bold text-ink transition hover:bg-gold-300">
+                  Post property <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/login" className="mt-3 block text-center text-xs font-semibold text-slate-300 hover:text-white">
+                  Already registered? Sign in
+                </Link>
               </div>
             </div>
-          ))}
+          </Reveal>
         </div>
       </section>
 
-      {/* 9. FREQUENTLY ASKED QUESTIONS (FAQ) */}
-      <section className="bg-slate-50 border-y border-slate-200/80 py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
-          <div className="text-center space-y-2 mb-10">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-500">
-              Clear answers regarding buying, renting, and RERA compliance in Noida and Greater Noida.
-            </p>
+      {/* BUY — admin curated, dark showcase */}
+      {buyProperties.length > 0 && (
+        <section className="relative overflow-hidden bg-brand-950 py-20 text-white">
+          <div className="absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]" />
+          <div className="absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-brand-500/30 blur-[120px]" />
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionHeader tone="dark" eyebrow="Admin-curated exclusives" title="Residences for sale, verified by us" subtitle="Clear title, RERA sanction and escrow safety on every listing." href="/properties?listingType=SALE" hrefLabel="Explore all homes" />
+            <Stagger className={grid(3)}>
+              {buyProperties.map((property) => (
+                <StaggerItem key={property.slug}>
+                  <PropertyCard property={property} />
+                </StaggerItem>
+              ))}
+            </Stagger>
           </div>
+        </section>
+      )}
 
-          <div className="space-y-3">
-            {faqs.map((f, idx) => (
-              <div key={idx} className="p-5 rounded-xl border border-slate-200/90 bg-white shadow-xs space-y-1.5">
-                <h3 className="text-sm font-bold text-slate-900">{f.q}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">{f.a}</p>
-              </div>
+      {/* RENT */}
+      {rentalFlats.length > 0 && (
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <SectionHeader eyebrow="0% brokerage" title="Rental flats & gated societies" subtitle="1 BHK to 4+ BHK apartments, builder floors and villas straight from owners." href="/properties?listingType=RENT" hrefLabel="All rentals" />
+          <Stagger className={grid(3)}>
+            {rentalFlats.map((property) => (
+              <StaggerItem key={property.slug}>
+                <PropertyCard property={property} />
+              </StaggerItem>
             ))}
+          </Stagger>
+        </section>
+      )}
+
+      {/* PG */}
+      {pgProperties.length > 0 && (
+        <section className="border-y border-slate-200/70 bg-gradient-to-b from-brand-50/60 to-white py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionHeader eyebrow="Co-living & student housing" title="Premium PG & co-living" subtitle="WiFi, meals, housekeeping and flexible stays near tech parks and campuses." href="/properties?listingType=RENT&propertyType=PG" hrefLabel="Explore PGs" />
+            <Stagger className={grid(4)}>
+              {pgProperties.map((property) => (
+                <StaggerItem key={property.slug}>
+                  <PropertyCard property={property} />
+                </StaggerItem>
+              ))}
+            </Stagger>
           </div>
+        </section>
+      )}
+
+      {/* Commercial */}
+      {commercialProperties.length > 0 && (
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <SectionHeader eyebrow="Grade-A commercial" title="Offices, showrooms & warehouses" subtitle="High-footfall corners, plug-and-play workspaces and logistics units." href="/properties?listingType=RENT&propertyType=COMMERCIAL" hrefLabel="View commercial" />
+          <Stagger className={grid(4)}>
+            {commercialProperties.map((property) => (
+              <StaggerItem key={property.slug}>
+                <PropertyCard property={property} />
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </section>
+      )}
+
+      <AcresTopCities />
+
+      {/* Corridors */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <SectionHeader align="center" eyebrow="Investment hotspots" title="Top metro corridors" subtitle="Where capital appreciation meets verified title histories." />
+        <Stagger className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {topMetroCorridors.map((sec) => (
+            <StaggerItem key={sec.title}>
+              <Link href={`/properties?city=${encodeURIComponent(sec.query)}`} className="group relative block aspect-[3/4] overflow-hidden rounded-[26px] bg-ink shadow-soft">
+                <Image src={sec.image} alt={sec.title} fill sizes="(min-width:1024px) 25vw, 50vw" className="object-cover transition duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
+                <div className="absolute inset-x-5 bottom-5 text-white">
+                  <span className="glass-dark inline-block rounded-full px-2.5 py-1 text-[10px] font-semibold">{sec.stats}</span>
+                  <h3 className="font-display mt-3 text-xl font-semibold leading-tight">{sec.title}</h3>
+                  <p className="mt-1 text-xs text-slate-300">{sec.tagline}</p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-gold-300 transition-all group-hover:gap-2">
+                    Explore <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </div>
+              </Link>
+            </StaggerItem>
+          ))}
+        </Stagger>
+      </section>
+
+      {/* Two ways in: rent vs buy */}
+      <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Reveal>
+            <div className="relative h-full overflow-hidden rounded-[28px] border border-brand-100 bg-gradient-to-br from-brand-50 via-white to-white p-8 shadow-soft sm:p-10">
+              <span className="inline-flex rounded-full bg-brand-600 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">Rent</span>
+              <h3 className="font-display mt-4 text-3xl font-semibold text-ink">Open to every owner</h3>
+              <p className="mt-2 text-slate-600">Anyone can register and list a rental in minutes — owners, dealers and channel partners alike.</p>
+              <ul className="mt-6 space-y-2.5 text-sm font-medium text-slate-700">
+                {["Flats, PGs, commercial & villas", "Photo, amenity and pricing details", "Reviewed and approved before going live"].map((t) => (
+                  <li key={t} className="flex items-center gap-2.5"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700"><Check className="h-3 w-3" /></span>{t}</li>
+                ))}
+              </ul>
+              <Link href="/list-property/request" className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-brand-700">
+                List a rental <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="relative h-full overflow-hidden rounded-[28px] bg-brand-950 p-8 text-white shadow-soft sm:p-10">
+              <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-gold-400/20 blur-3xl" />
+              <span className="relative inline-flex rounded-full bg-gold-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-ink">Buy</span>
+              <h3 className="font-display relative mt-4 text-3xl font-semibold">Curated by our admin team</h3>
+              <p className="relative mt-2 text-slate-300">Sale properties are registered only by the platform, so what you see is audited and genuine.</p>
+              <ul className="relative mt-6 space-y-2.5 text-sm font-medium text-slate-200">
+                {["Physical & legal title audit", "RERA sanction verified", "Escrow-protected transactions"].map((t) => (
+                  <li key={t} className="flex items-center gap-2.5"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold-400/20 text-gold-300"><Check className="h-3 w-3" /></span>{t}</li>
+                ))}
+              </ul>
+              <Link href="/properties?listingType=SALE" className="relative mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-ink transition hover:bg-gold-300">
+                Browse homes for sale <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* 10. OWNER CALLOUT STRIP */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
-        <div className="rounded-2xl bg-slate-900 text-white p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div className="space-y-2 max-w-xl">
-            <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight">
-              Looking to Sell or Rent Your Property in Noida?
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-400">
-              List your flat, villa, plot, or commercial space directly and connect with verified buyers every month with zero brokerage.
-            </p>
-          </div>
-          <Link
-            href="/register"
-            className="rounded-lg bg-blue-600 hover:bg-blue-700 px-6 py-3 text-xs sm:text-sm font-bold text-white transition shadow-sm shrink-0"
-          >
-            List Property
-          </Link>
+      {/* How it works */}
+      <section className="border-t border-slate-200/70 bg-slate-50/70 py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeader align="center" eyebrow="How it works" title="From search to keys in three steps" />
+          <Stagger className="mt-12 grid gap-6 md:grid-cols-3">
+            {steps.map((st, i) => (
+              <StaggerItem key={st.title}>
+                <div className="relative h-full rounded-3xl border border-slate-200/80 bg-white p-7 shadow-soft">
+                  <span className="font-display absolute right-6 top-4 text-6xl font-semibold text-brand-100">{i + 1}</span>
+                  <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-lg shadow-brand-600/30">{st.icon}</span>
+                  <h3 className="relative mt-5 text-lg font-bold text-ink">{st.title}</h3>
+                  <p className="relative mt-1.5 text-sm text-slate-500">{st.text}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
+        <SectionHeader align="center" eyebrow="Got questions?" title="Frequently asked" />
+        <Faq items={faqs} />
       </section>
     </div>
   );

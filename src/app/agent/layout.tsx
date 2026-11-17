@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { AgentSidebar } from "@/components/agent/AgentSidebar";
 import { LogoutButton } from "@/components/LogoutButton";
 import { ShopScanAlertListener } from "@/components/agent/ShopScanAlertListener";
+import { OwnerRequestBuzzer } from "@/components/agent/OwnerRequestBuzzer";
 
 export default async function AgentLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -17,6 +18,7 @@ export default async function AgentLayout({ children }: { children: React.ReactN
   return (
     <div className="flex flex-col bg-slate-50 md:min-h-screen md:flex-row">
       {agentProfile && <ShopScanAlertListener agentProfileId={agentProfile.id} />}
+      {agentProfile && <OwnerRequestBuzzer />}
       <AgentSidebar
         agentName={session.user.name ?? "Channel Partner"}
         logoutButton={

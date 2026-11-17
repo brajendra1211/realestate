@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  devIndicators: false,
-  turbopack: {
+  devIndicators: false,  turbopack: {
     // Next.js auto-detects the workspace root by walking up for a lockfile,
     // and picks up C:\Users\<user>\package-lock.json first — pulling in
     // sibling projects under the home directory and causing chunk/manifest

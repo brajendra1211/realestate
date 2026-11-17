@@ -128,7 +128,11 @@ export default async function AdminBuyersPage({ searchParams }: { searchParams: 
       <div className="mt-6 space-y-3">
         {buyers.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center text-slate-500">
-            <span className="text-3xl block mb-2">👥</span>
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-500 mb-3">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
             <p className="font-semibold text-slate-700">No buyers found</p>
             <p className="text-xs text-slate-400 mt-1">
               Buyers will appear here automatically when they log in or book site visits via Mobile App or Website.
@@ -142,7 +146,7 @@ export default async function AdminBuyersPage({ searchParams }: { searchParams: 
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <p className="font-semibold text-slate-900">{buyer.name || "Customer / Buyer"}</p>
+                  <p className="font-semibold text-slate-900"><a href={`/admin/people/${buyer.id}`} className="hover:text-brand-600 hover:underline">{buyer.name || "Customer / Buyer"}</a></p>
                   <span className="rounded-full bg-blue-100 text-blue-700 px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     BUYER
                   </span>
@@ -155,26 +159,26 @@ export default async function AdminBuyersPage({ searchParams }: { searchParams: 
                   </span>
                 </div>
 
-                <p className="text-sm text-slate-600">
-                  📱 <span className="font-medium text-slate-900">{buyer.phone || "No phone"}</span>
-                  {buyer.email && ` · ✉️ ${buyer.email}`}
+                <p className="text-sm text-slate-600 flex items-center gap-2">
+                  <span className="font-medium text-slate-900">{buyer.phone || "No phone"}</span>
+                  {buyer.email && <span className="text-slate-400">· {buyer.email}</span>}
                 </p>
 
                 <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-slate-500">
                   <span className="rounded-md bg-slate-100 px-2 py-0.5 font-medium">
-                    ❤️ Saved: {buyer._count.savedProperties}
+                    Saved: {buyer._count.savedProperties}
                   </span>
                   <span className="rounded-md bg-slate-100 px-2 py-0.5 font-medium">
-                    💬 Enquiries: {buyer._count.enquiries}
+                    Enquiries: {buyer._count.enquiries}
                   </span>
                   <span className="rounded-md bg-slate-100 px-2 py-0.5 font-medium">
-                    📅 Visits: {buyer._count.visitAppointments + buyer._count.directVisits}
+                    Visits: {buyer._count.visitAppointments + buyer._count.directVisits}
                   </span>
                   <span className="rounded-md bg-slate-100 px-2 py-0.5 font-medium">
-                    🔓 Unlocks: {buyer._count.propertyUnlocks}
+                    Unlocks: {buyer._count.propertyUnlocks}
                   </span>
                   <span className="rounded-md bg-slate-100 px-2 py-0.5 font-medium">
-                    🚗 Dispatch: {buyer._count.dispatchRequests}
+                    Dispatch: {buyer._count.dispatchRequests}
                   </span>
                   <span className="text-slate-400">
                     Joined: {new Date(buyer.createdAt).toLocaleDateString("en-IN", { dateStyle: "medium" })}
@@ -183,8 +187,11 @@ export default async function AdminBuyersPage({ searchParams }: { searchParams: 
               </div>
 
               <div className="flex items-center gap-2 self-start sm:self-center">
+                <a href={`/admin/people/${buyer.id}`} className="rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-blue-600 hover:text-blue-700">
+                  View details
+                </a>
                 <form action={buyer.verified ? unverifyUser : verifyUser}>
-                  <input type="hidden" name="userId" value={buyer.id} />
+                  <input type="hidden" name="id" value={buyer.id} />
                   <button
                     type="submit"
                     className={`rounded-xl border px-3 py-1.5 text-xs font-semibold transition ${

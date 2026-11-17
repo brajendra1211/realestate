@@ -3,14 +3,46 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { formatPrice, parseVideoUrls, getVideoEmbed, PROPERTY_TYPE_LABELS } from "@/lib/format";
+import {
+  formatPrice,
+  formatIndianShortPrice,
+  parseVideoUrls,
+  getVideoEmbed,
+  PROPERTY_TYPE_LABELS,
+  COMMERCIAL_SUBTYPE_LABELS,
+  PG_SHARING_LABELS,
+  FURNISHING_LABELS,
+} from "@/lib/format";
 import { absoluteUrl } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PropertyGallery } from "@/components/PropertyGallery";
 import { isOwnerPublic, isPropertyExpired } from "@/lib/propertyVisibility";
 import { toggleSavedProperty } from "@/app/buyer/actions";
 import { EnquiryForm } from "./EnquiryForm";
+import { getSiteSettings } from "@/lib/site-settings";
+import { Reveal, Stagger, StaggerItem } from "@/components/ui/Motion";
+import {
+  BadgeCheck,
+  BedDouble,
+  Building2,
+  Check,
+  ChevronRight,
+  Compass,
+  FileText,
+  Heart,
+  ListChecks,
+  PlayCircle,
+  Sparkles,
+  Video,
+  Landmark,
+  MapPin,
+  Maximize2,
+  MessageCircle,
+  Phone,
+  ShieldCheck,
+  Sofa,
+  Users,
+} from "lucide-react";
 
 type Params = Promise<{ slug: string }>;
 
@@ -75,7 +107,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 export default async function PropertyDetailPage({ params }: { params: Params }) {
   const { slug } = await params;
-
   const property = await getProperty(slug);
 
   if (!property || property.approvalStatus !== "APPROVED") {
@@ -93,16 +124,23 @@ export default async function PropertyDetailPage({ params }: { params: Params })
       : null,
   ]);
 
-  const details = [
-    { label: "Type", value: PROPERTY_TYPE_LABELS[property.propertyType] ?? property.propertyType },
-    { label: "Bedrooms", value: property.bedrooms ?? "—" },
-    { label: "Bathrooms", value: property.bathrooms ?? "—" },
-    { label: "Area", value: property.areaSqft ? `${property.areaSqft} sqft` : "—" },
-    { label: "Status", value: property.status === "AVAILABLE" ? "Available" : property.status },
-  ];
+  const effectiveArea = property.superAreaSqft ?? property.areaSqft ?? property.carpetAreaSqft;
+  const pricePerSqft =
+    effectiveArea && property.listingType === "SALE"
+      ? Math.round(property.price / effectiveArea)
+      : null;
+
+  const approxEmi =
+    property.listingType === "SALE" && property.price >= 1000000
+      ? Math.round((property.price * 0.8 * 86.78) / 10000)
+      : null;
 
   const videoUrls = parseVideoUrls(property.youtubeUrl);
   const videoEmbeds = videoUrls.map(getVideoEmbed);
+
+  const formattedDeposit = property.securityDeposit
+    ? `₹${property.securityDeposit >= 100000 ? `${(property.securityDeposit / 100000).toFixed(1)}L` : `${Math.round(property.securityDeposit / 1000)}K`} deposit`
+    : "";
 
   const listingJsonLd = {
     "@context": "https://schema.org",
@@ -126,231 +164,389 @@ export default async function PropertyDetailPage({ params }: { params: Params })
     },
   };
 
+  const settings = await getSiteSettings();
+  const waDigits = settings.whatsappNumber?.replace(/\D/g, "") ?? "";
+  const ownerPhone = property.owner.phone?.trim() || null;
+  const listerLabel = property.owner.role === "OWNER" ? "Owner" : "Partner";
+  const isRent = property.listingType === "RENT";
+
+  const amenityList = (property.amenities ?? "")
+    .split(/[,\n]/)
+    .map((a) => a.trim())
+    .filter(Boolean);
+
+  const floorText =
+    property.floorNumber != null
+      ? property.floorNumber === 0
+        ? property.totalFloors
+          ? `Ground of ${property.totalFloors} floors`
+          : "Ground floor"
+        : property.totalFloors
+          ? `Floor ${property.floorNumber} of ${property.totalFloors}`
+          : `Floor ${property.floorNumber}`
+      : null;
+
+  // Only real data is shown — rows without a value are simply omitted.
+  const keyFacts: { icon: React.ReactNode; label: string; value: string }[] = (
+    [
+      {
+        icon: <BedDouble className="h-5 w-5" />,
+        label: "Configuration",
+        value: property.bedrooms
+          ? `${property.bedrooms} Bed${property.bedrooms > 1 ? "s" : ""}${property.bathrooms ? `, ${property.bathrooms} Bath${property.bathrooms > 1 ? "s" : ""}` : ""}`
+          : (PROPERTY_TYPE_LABELS[property.propertyType] ?? ""),
+      },
+      {
+        icon: <Maximize2 className="h-5 w-5" />,
+        label: property.superAreaSqft ? "Super area" : "Area",
+        value: effectiveArea ? `${effectiveArea.toLocaleString("en-IN")} sqft` : "",
+      },
+      {
+        icon: <Sofa className="h-5 w-5" />,
+        label: "Furnishing",
+        value: property.furnishing ? (FURNISHING_LABELS[property.furnishing] ?? property.furnishing) : "",
+      },
+      { icon: <Building2 className="h-5 w-5" />, label: "Floor", value: floorText ?? "" },
+      {
+        icon: <Compass className="h-5 w-5" />,
+        label: "Facing",
+        value: property.facingDirection ? `${property.facingDirection.replace(/_/g, "-")} facing` : "",
+      },
+      {
+        icon: <Users className="h-5 w-5" />,
+        label: "Suitable for",
+        value: isRent ? (property.bachelorFriendly ? "Family & bachelors" : "Family") : "",
+      },
+    ] as { icon: React.ReactNode; label: string; value: string }[]
+  ).filter((f) => f.value);
+
+  const detailRows: [string, string][] = (
+    [
+      [isRent ? "Monthly rent" : "Price", formatPrice(property.price, property.listingType) + (property.maintenanceCharges ? `  ·  ₹${property.maintenanceCharges.toLocaleString("en-IN")} maintenance` : "")],
+      ["Security deposit", property.securityDeposit ? `₹${property.securityDeposit.toLocaleString("en-IN")}` : ""],
+      ["Price per sq.ft", pricePerSqft ? `₹${pricePerSqft.toLocaleString("en-IN")}` : ""],
+      ["Possession", property.possessionStatus ? property.possessionStatus.replace(/_/g, " ").toLowerCase() : ""],
+      ["Society / project", property.societyName ?? property.project?.name ?? ""],
+      ["RERA number", property.reraNumber ?? property.project?.reraNumber ?? ""],
+      ["PG sharing", property.propertyType === "PG" && property.pgSharing ? (PG_SHARING_LABELS[property.pgSharing] ?? property.pgSharing) : ""],
+      ["PG for", property.propertyType === "PG" && property.pgGender ? (property.pgGender === "MALE" ? "Boys" : property.pgGender === "FEMALE" ? "Girls" : "Co-living") : ""],
+      ["Meals", property.propertyType === "PG" ? (property.foodIncluded ? "Included" : "Not included") : ""],
+      [
+        "Commercial type",
+        property.commercialSubtype ? (COMMERCIAL_SUBTYPE_LABELS[property.commercialSubtype] ?? property.commercialSubtype) : "",
+      ],
+      ["Address", [property.societyName, property.locality, property.city].filter(Boolean).join(", ")],
+    ] as [string, string][]
+  ).filter(([, v]) => v);
+
+  const rowCls = "grid grid-cols-1 gap-1 py-3.5 sm:grid-cols-12 sm:gap-4";
+
+  const FACT_TONES = [
+    { tile: "bg-sky-50 border-sky-100", icon: "bg-sky-500" },
+    { tile: "bg-amber-50 border-amber-100", icon: "bg-amber-500" },
+    { tile: "bg-emerald-50 border-emerald-100", icon: "bg-emerald-500" },
+    { tile: "bg-violet-50 border-violet-100", icon: "bg-violet-500" },
+    { tile: "bg-rose-50 border-rose-100", icon: "bg-rose-500" },
+    { tile: "bg-cyan-50 border-cyan-100", icon: "bg-cyan-500" },
+  ];
+  const CHIP_TONES = [
+    "bg-sky-50 text-sky-800 border-sky-100",
+    "bg-emerald-50 text-emerald-800 border-emerald-100",
+    "bg-amber-50 text-amber-800 border-amber-100",
+    "bg-violet-50 text-violet-800 border-violet-100",
+    "bg-rose-50 text-rose-800 border-rose-100",
+    "bg-cyan-50 text-cyan-800 border-cyan-100",
+  ];
+  const sectionCls = "overflow-hidden rounded-[24px] border border-slate-200/80 bg-white shadow-soft";
+  const SectionTitle = ({ icon, tone, children }: { icon: React.ReactNode; tone: string; children: React.ReactNode }) => (
+    <h2 className="flex items-center gap-3 font-display text-2xl font-semibold">
+      <span className={`flex h-10 w-10 items-center justify-center rounded-xl text-white shadow-md ${tone}`}>{icon}</span>
+      {children}
+    </h2>
+  );
+
   return (
-    <div>
-      <Breadcrumbs
-        items={[
-          { label: "Home", href: "/" },
-          { label: "Properties", href: "/properties" },
-          { label: property.city, href: `/properties?city=${encodeURIComponent(property.city)}` },
-          { label: property.title, href: `/properties/${property.slug}` },
-        ]}
-      />
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-brand-50/60 via-slate-50 to-white pb-24 text-ink">
       <JsonLd data={listingJsonLd} />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-gradient-to-br from-brand-100/80 via-gold-50/70 to-transparent" />
+      <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-gold-300/30 blur-3xl" />
+      <div className="pointer-events-none absolute -left-24 top-40 h-72 w-72 rounded-full bg-brand-400/20 blur-3xl" />
 
-      <div className="mx-auto max-w-6xl px-4 pb-10 pt-4 sm:px-6">
-        <PropertyGallery images={property.images} title={property.title} />
-
-        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-block rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-                  {property.listingType === "SALE" ? "For Sale" : "For Rent"}
-                </span>
-                {property.condition && (
-                  <span className="inline-block rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
-                    {property.condition === "NEW_BOOKING" ? "New Booking" : "Resale"}
-                  </span>
-                )}
-                {property.listingType === "SALE" && property.project?.reraNumber && (
-                  <span className="inline-block rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
-                    RERA Registered
-                  </span>
-                )}
-              </div>
-              {isBuyer ? (
-                <form action={toggleSavedProperty}>
-                  <input type="hidden" name="propertyId" value={property.id} />
-                  <input type="hidden" name="redirectTo" value={`/properties/${property.slug}`} />
-                  <button
-                    type="submit"
-                    aria-label={isSaved ? "Remove from saved" : "Save property"}
-                    className={`flex h-9 w-9 items-center justify-center rounded-full border text-lg ${
-                      isSaved
-                        ? "border-red-200 bg-red-50 text-red-500"
-                        : "border-slate-200 text-slate-400 hover:border-red-200 hover:text-red-500"
-                    }`}
-                  >
-                    ♥
-                  </button>
-                </form>
-              ) : (
-                <Link
-                  href="/buyer/login"
-                  aria-label="Log in to save"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-lg text-slate-400 hover:border-red-200 hover:text-red-500"
-                >
-                  ♡
-                </Link>
-              )}
-            </div>
-            <h1 className="mt-3 text-3xl font-bold text-slate-900">{property.title}</h1>
-            <p className="mt-1 text-slate-500">
-              {[property.locality, property.city].filter(Boolean).join(", ")}
-            </p>
-            {property.project && (
-              <p className="mt-1 text-sm text-slate-500">
-                Part of{" "}
-                <Link href={`/projects/${property.project.slug}`} className="text-blue-600 hover:underline">
-                  {property.project.name}
-                </Link>
-              </p>
+      {/* Breadcrumbs */}
+      <div className="relative border-b border-white/60 bg-white/70 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 text-xs text-slate-500 sm:px-6 lg:px-8">
+          <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto whitespace-nowrap">
+            <Link href="/" className="transition hover:text-brand-600">Home</Link>
+            <ChevronRight className="h-3 w-3" />
+            <Link href={`/properties?city=${encodeURIComponent(property.city)}`} className="transition hover:text-brand-600">
+              {isRent ? "For rent" : "For sale"} in {property.city}
+            </Link>
+            {property.locality && (
+              <>
+                <ChevronRight className="h-3 w-3" />
+                <span className="max-w-[200px] truncate font-medium text-slate-700">{property.locality}</span>
+              </>
             )}
-            <p className="mt-4 text-3xl font-bold text-slate-900">
-              {formatPrice(property.price, property.listingType)}
-              {property.priceNegotiable && (
-                <span className="ml-2 text-sm font-normal text-slate-500">Negotiable</span>
+            <ChevronRight className="h-3 w-3" />
+            <span className="max-w-[240px] truncate font-semibold text-ink">{property.title}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+        {/* Title row */}
+        <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div className="min-w-0 max-w-3xl">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
+              <span className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${isRent ? "bg-brand-600 text-white" : "bg-gradient-to-r from-gold-500 to-gold-400 text-ink"}`}>
+                {isRent ? "For rent" : "For sale"}
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-700">
+                <BadgeCheck className="h-3.5 w-3.5" /> Verified listing
+              </span>
+              {(property.reraNumber || property.project?.reraNumber) && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-slate-900 px-3 py-1 text-[11px] font-bold text-white">
+                  <ShieldCheck className="h-3.5 w-3.5" /> RERA
+                </span>
               )}
+            </div>
+            <h1 className="font-display text-3xl font-semibold leading-tight sm:text-4xl">{property.title}</h1>
+            <p className="mt-2 flex items-center gap-1.5 text-sm text-slate-500">
+              <MapPin className="h-4 w-4 shrink-0 text-brand-600" />
+              {[property.societyName, property.locality, property.city].filter(Boolean).join(", ")}
             </p>
+          </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-4 rounded-2xl border border-slate-200 p-5 sm:grid-cols-5">
-              {details.map((item) => (
-                <div key={item.label}>
-                  <p className="text-xs text-slate-400">{item.label}</p>
-                  <p className="text-sm font-semibold text-slate-800">{item.value}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8">
-              <h2 className="text-lg font-semibold text-slate-900">Description</h2>
-              <p className="mt-2 whitespace-pre-line text-slate-600">{property.description}</p>
-            </div>
-
-            {property.brochureUrl && (
-              <div className="mt-6">
-                <a
-                  href={property.brochureUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-100"
+          <div className="flex items-center gap-2.5">
+            {videoEmbeds.length > 0 && (
+              <a
+                href="#video"
+                className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-rose-600/25 transition hover:bg-rose-700"
+              >
+                <PlayCircle className="h-4 w-4" /> Watch video tour
+              </a>
+            )}
+            {isBuyer ? (
+              <form action={toggleSavedProperty}>
+                <input type="hidden" name="propertyId" value={property.id} />
+                <input type="hidden" name="redirectTo" value={`/properties/${property.slug}`} />
+                <button
+                  type="submit"
+                  className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
+                    isSaved ? "border-rose-300 bg-rose-50 text-rose-600" : "border-slate-200 bg-white text-ink hover:border-brand-600"
+                  }`}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
-                  </svg>
-                  Download Brochure (PDF)
-                </a>
-              </div>
+                  <Heart className={`h-4 w-4 ${isSaved ? "fill-rose-500 text-rose-500" : ""}`} />
+                  {isSaved ? "Saved" : "Shortlist"}
+                </button>
+              </form>
+            ) : (
+              <Link href="/buyer/login" className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-ink transition hover:border-brand-600">
+                <Heart className="h-4 w-4" /> Shortlist
+              </Link>
+            )}
+          </div>
+        </Reveal>
+
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          {/* LEFT */}
+          <div className="space-y-6 lg:col-span-8">
+            <Reveal>
+              <PropertyGallery images={property.images} title={property.title} />
+            </Reveal>
+
+            {keyFacts.length > 0 && (
+              <Stagger className="grid grid-cols-2 gap-3 sm:grid-cols-3" gap={0.05}>
+                {keyFacts.map((f, i) => (
+                  <StaggerItem key={f.label}>
+                    <div className={`flex h-full items-center gap-3 rounded-2xl border p-4 shadow-soft ${FACT_TONES[i % FACT_TONES.length].tile}`}>
+                      <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-md ${FACT_TONES[i % FACT_TONES.length].icon}`}>
+                        {f.icon}
+                      </span>
+                      <div className="min-w-0">
+                        <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">{f.label}</div>
+                        <div className="truncate text-sm font-bold capitalize">{f.value}</div>
+                      </div>
+                    </div>
+                  </StaggerItem>
+                ))}
+              </Stagger>
             )}
 
             {videoEmbeds.length > 0 && (
-              <div className="mt-8">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-slate-900">
-                    Video Tours & Virtual Walkthroughs
-                  </h2>
-                  <span className="rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-semibold text-red-600">
-                    {videoEmbeds.length} {videoEmbeds.length === 1 ? "Video" : "Videos"}
-                  </span>
-                </div>
-                <div
-                  className={`mt-3 grid gap-4 ${
-                    videoEmbeds.length === 1 ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2"
-                  }`}
-                >
-                  {videoEmbeds.map((video, idx) => (
-                    <div
-                      key={idx}
-                      className="overflow-hidden rounded-2xl border border-slate-200 bg-black shadow-sm"
-                    >
-                      {video.embedUrl ? (
-                        <div className="relative aspect-video w-full">
-                          <iframe
-                            src={video.embedUrl}
-                            title={`${property.title} video tour ${idx + 1}`}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            className="absolute inset-0 h-full w-full"
-                          />
+              <Reveal>
+                <section id="video" className={`${sectionCls} scroll-mt-24`}>
+                  <div className="h-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-amber-400" />
+                  <div className="p-6 sm:p-8">
+                    <SectionTitle icon={<Video className="h-5 w-5" />} tone="bg-rose-500">Video tour</SectionTitle>
+                    <div className={`mt-5 grid gap-4 ${videoEmbeds.length > 1 ? "sm:grid-cols-2" : ""}`}>
+                      {videoEmbeds.map((video, idx) => (
+                        <div key={idx} className="aspect-video overflow-hidden rounded-2xl bg-black shadow-lift">
+                          {video.type === "direct" && video.embedUrl ? (
+                            <video src={video.embedUrl} controls preload="metadata" className="h-full w-full" />
+                          ) : video.embedUrl ? (
+                            <iframe
+                              src={video.embedUrl}
+                              title={`${property.title} video tour ${idx + 1}`}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              loading="lazy"
+                              className="h-full w-full"
+                            />
+                          ) : (
+                            <a
+                              href={video.originalUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-rose-600 to-rose-800 text-white"
+                            >
+                              <PlayCircle className="h-12 w-12" />
+                              <span className="text-sm font-bold">Open video in a new tab</span>
+                            </a>
+                          )}
                         </div>
-                      ) : (
-                        <div className="flex aspect-video w-full flex-col items-center justify-center bg-slate-900 p-4 text-center text-white">
-                          <svg className="h-10 w-10 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-                          </svg>
-                          <p className="mt-2 text-sm font-medium">Video Tour #{idx + 1}</p>
-                          <a
-                            href={video.originalUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-2 inline-flex items-center gap-1 rounded-lg bg-red-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-red-700"
-                          >
-                            Watch Video
-                          </a>
-                        </div>
-                      )}
+                      ))}
                     </div>
-                  ))}
+                  </div>
+                </section>
+              </Reveal>
+            )}
+
+            {/* Description */}
+            <Reveal>
+              <section className={sectionCls}>
+                <div className="h-1.5 bg-gradient-to-r from-brand-600 to-brand-400" />
+                <div className="p-6 sm:p-8">
+                  <SectionTitle icon={<FileText className="h-5 w-5" />} tone="bg-brand-600">About this property</SectionTitle>
+                  <p className="mt-4 whitespace-pre-line text-[15px] leading-relaxed text-slate-600">{property.description}</p>
                 </div>
-              </div>
+              </section>
+            </Reveal>
+
+            {/* Details */}
+            <Reveal>
+              <section id="more-details" className={sectionCls}>
+                <div className="h-1.5 bg-gradient-to-r from-gold-500 to-gold-300" />
+                <div className="p-6 sm:p-8">
+                  <SectionTitle icon={<ListChecks className="h-5 w-5" />} tone="bg-gold-500">Property details</SectionTitle>
+                  <dl className="mt-3 divide-y divide-slate-100 text-sm">
+                    {detailRows.map(([k, v], i) => (
+                      <div key={k} className={`${rowCls} ${i % 2 === 0 ? "" : "bg-slate-50/60"} -mx-3 rounded-lg px-3`}>
+                        <dt className="font-medium text-slate-500 sm:col-span-4">{k}</dt>
+                        <dd className="font-semibold capitalize sm:col-span-8">{v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </section>
+            </Reveal>
+
+            {/* Amenities */}
+            {amenityList.length > 0 && (
+              <Reveal>
+                <section id="amenities" className={sectionCls}>
+                  <div className="h-1.5 bg-gradient-to-r from-emerald-500 to-teal-400" />
+                  <div className="p-6 sm:p-8">
+                    <SectionTitle icon={<Sparkles className="h-5 w-5" />} tone="bg-emerald-500">Amenities</SectionTitle>
+                    <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                      {amenityList.map((a, i) => (
+                        <li key={a} className={`flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-sm font-semibold ${CHIP_TONES[i % CHIP_TONES.length]}`}>
+                          <Check className="h-4 w-4 shrink-0" />
+                          {a}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </section>
+              </Reveal>
             )}
 
-            {property.amenities && (
-              <div className="mt-8">
-                <h2 className="text-lg font-semibold text-slate-900">Amenities</h2>
-                <p className="mt-2 whitespace-pre-line text-slate-600">{property.amenities}</p>
-              </div>
-            )}
+          </div>
 
-            {property.nearbyAmenities && (
-              <div className="mt-8">
-                <h2 className="text-lg font-semibold text-slate-900">Nearby</h2>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {property.nearbyAmenities.split(" | ").map((item) => (
-                    <span key={item} className="rounded-full bg-blue-50 px-3 py-1 text-xs text-blue-700">
-                      {item}
+          {/* RIGHT — sticky contact */}
+          <aside className="lg:col-span-4">
+            <div className="space-y-4 lg:sticky lg:top-24">
+              <Reveal>
+                <div className="relative overflow-hidden rounded-[24px] bg-gradient-to-br from-brand-700 via-brand-600 to-indigo-700 p-6 text-white shadow-lift">
+                  <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gold-300/50 blur-3xl" />
+                  <div className="absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-sky-300/30 blur-3xl" />
+                  <div className="relative">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-brand-100">{isRent ? "Monthly rent" : "Asking price"}</div>
+                    <div className="font-display mt-1 text-4xl font-semibold">{formatPrice(property.price, property.listingType)}</div>
+                    <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold">
+                      {formattedDeposit && <span className="rounded-full bg-white/15 px-3 py-1">{formattedDeposit}</span>}
+                      {property.maintenanceCharges ? (
+                        <span className="rounded-full bg-white/15 px-3 py-1">+ ₹{property.maintenanceCharges.toLocaleString("en-IN")} maintenance</span>
+                      ) : null}
+                      {pricePerSqft && <span className="rounded-full bg-gold-400 px-3 py-1 text-ink">₹{pricePerSqft.toLocaleString("en-IN")}/sq.ft</span>}
+                    </div>
+                    {approxEmi && (
+                      <div className="mt-4 flex items-center gap-2 rounded-xl bg-white/10 px-3.5 py-2.5 text-xs">
+                        <Landmark className="h-4 w-4 text-gold-300" />
+                        <span>
+                          Est. EMI <b className="text-gold-300">{formatIndianShortPrice(approxEmi)}</b>/mo (80% loan, 20 yrs)
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.08}>
+                <div id="contact-card" className="rounded-[24px] border border-slate-200/80 bg-white p-6 shadow-soft">
+                  <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-brand-400 text-lg font-bold text-white">
+                      {(property.contactName ?? property.owner.company ?? property.owner.name).charAt(0).toUpperCase()}
                     </span>
-                  ))}
+                    <div className="min-w-0">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Listed by {listerLabel.toLowerCase()}</div>
+                      <div className="truncate font-bold">{property.contactName ?? property.owner.company ?? property.owner.name}</div>
+                      <div className="flex items-center gap-1 text-xs font-semibold text-emerald-600">
+                        <BadgeCheck className="h-3.5 w-3.5" /> Verified lister
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-2 gap-2.5">
+                    {ownerPhone ? (
+                      <a href={`tel:${ownerPhone}`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-brand-600 px-3 py-3 text-sm font-bold text-brand-700 transition hover:bg-brand-50">
+                        <Phone className="h-4 w-4" /> Call
+                      </a>
+                    ) : (
+                      <span className="inline-flex cursor-not-allowed items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-3 text-sm font-bold text-slate-400">
+                        <Phone className="h-4 w-4" /> Call
+                      </span>
+                    )}
+                    {waDigits ? (
+                      <a
+                        href={`https://wa.me/${waDigits}?text=${encodeURIComponent(`Hello, I would like to schedule a visit for: ${property.title}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-3 text-sm font-bold text-white transition hover:bg-emerald-700"
+                      >
+                        <MessageCircle className="h-4 w-4" /> WhatsApp
+                      </a>
+                    ) : (
+                      <span className="inline-flex cursor-not-allowed items-center justify-center gap-2 rounded-xl bg-slate-100 px-3 py-3 text-sm font-bold text-slate-400">
+                        <MessageCircle className="h-4 w-4" /> WhatsApp
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="mt-5">
+                    <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">Send enquiry</h4>
+                    <EnquiryForm
+                      propertyId={property.id}
+                      slug={property.slug}
+                      defaultName={buyer?.name && buyer.name !== "Buyer" ? buyer.name : undefined}
+                      defaultPhone={buyer?.phone ?? undefined}
+                      defaultEmail={buyer?.email ?? undefined}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
-
-            {property.address && (
-              <div className="mt-8">
-                <h2 className="text-lg font-semibold text-slate-900">Address</h2>
-                <p className="mt-2 text-slate-600">{property.address}</p>
-              </div>
-            )}
-          </div>
-
-          <div>
-            <div className="rounded-2xl border border-slate-200 p-5">
-              <h2 className="font-semibold text-slate-900">Contact</h2>
-              {property.owner.slug && (property.owner.role === "DEALER" || property.owner.role === "OWNER") ? (
-                <Link
-                  href={`/${property.owner.role === "DEALER" ? "dealers" : "owners"}/${property.owner.slug}`}
-                  className="mt-2 block text-sm font-medium text-blue-600 hover:underline"
-                >
-                  {property.contactName ?? property.owner.company ?? property.owner.name}
-                </Link>
-              ) : (
-                <p className="mt-2 text-sm text-slate-600">
-                  {property.contactName ?? property.owner.name}
-                </p>
-              )}
-              {(property.contactPhone ?? property.owner.phone) && (
-                <p className="text-sm text-slate-600">
-                  {property.contactPhone ?? property.owner.phone}
-                </p>
-              )}
-              {(property.contactEmail ?? property.owner.email) && (
-                <p className="text-sm text-slate-600">
-                  {property.contactEmail ?? property.owner.email}
-                </p>
-              )}
-
-              <h3 className="mt-5 text-sm font-semibold text-slate-900">Send an enquiry</h3>
-
-              <EnquiryForm
-                propertyId={property.id}
-                slug={property.slug}
-                defaultName={buyer?.name && buyer.name !== "Buyer" ? buyer.name : undefined}
-                defaultPhone={buyer?.phone ?? undefined}
-                defaultEmail={buyer?.email ?? undefined}
-              />
+              </Reveal>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </div>

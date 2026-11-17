@@ -313,6 +313,23 @@ exports.Prisma.PropertyScalarFieldEnum = {
   featured: 'featured',
   metaTitle: 'metaTitle',
   metaDescription: 'metaDescription',
+  commercialSubtype: 'commercialSubtype',
+  pgGender: 'pgGender',
+  pgSharing: 'pgSharing',
+  foodIncluded: 'foodIncluded',
+  furnishing: 'furnishing',
+  floorNumber: 'floorNumber',
+  totalFloors: 'totalFloors',
+  carpetAreaSqft: 'carpetAreaSqft',
+  superAreaSqft: 'superAreaSqft',
+  facingDirection: 'facingDirection',
+  maintenanceCharges: 'maintenanceCharges',
+  securityDeposit: 'securityDeposit',
+  possessionStatus: 'possessionStatus',
+  bachelorFriendly: 'bachelorFriendly',
+  reraNumber: 'reraNumber',
+  societyName: 'societyName',
+  specifications: 'specifications',
   assignedAgentId: 'assignedAgentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -412,6 +429,7 @@ exports.Prisma.SiteSettingsScalarFieldEnum = {
   basicListingFee: 'basicListingFee',
   goldListingFee: 'goldListingFee',
   listingSplitPercent: 'listingSplitPercent',
+  manualCommissionTypes: 'manualCommissionTypes',
   partnerTargetDays: 'partnerTargetDays',
   partnerTargetProperties: 'partnerTargetProperties',
   partnerTargetSubPartners: 'partnerTargetSubPartners',
@@ -423,6 +441,7 @@ exports.Prisma.AgentProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   agentCode: 'agentCode',
+  manualCommissionTypes: 'manualCommissionTypes',
   city: 'city',
   shopName: 'shopName',
   shopAddress: 'shopAddress',
@@ -533,6 +552,20 @@ exports.Prisma.AgentListingScalarFieldEnum = {
   amenities: 'amenities',
   nearbyAmenities: 'nearbyAmenities',
   videoUrl: 'videoUrl',
+  commercialSubtype: 'commercialSubtype',
+  pgGender: 'pgGender',
+  pgSharing: 'pgSharing',
+  foodIncluded: 'foodIncluded',
+  furnishing: 'furnishing',
+  floorNumber: 'floorNumber',
+  totalFloors: 'totalFloors',
+  carpetAreaSqft: 'carpetAreaSqft',
+  superAreaSqft: 'superAreaSqft',
+  facingDirection: 'facingDirection',
+  maintenanceCharges: 'maintenanceCharges',
+  securityDeposit: 'securityDeposit',
+  bachelorFriendly: 'bachelorFriendly',
+  societyName: 'societyName',
   listingPlan: 'listingPlan',
   listingFee: 'listingFee',
   listingAgentSplit: 'listingAgentSplit',
@@ -862,6 +895,70 @@ exports.Prisma.PushTokenScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ListingRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ownerName: 'ownerName',
+  ownerPhone: 'ownerPhone',
+  ownerEmail: 'ownerEmail',
+  city: 'city',
+  locality: 'locality',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  plan: 'plan',
+  amount: 'amount',
+  agentSplit: 'agentSplit',
+  companySplit: 'companySplit',
+  referredByAgentCode: 'referredByAgentCode',
+  razorpayOrderId: 'razorpayOrderId',
+  status: 'status',
+  statusToken: 'statusToken',
+  formToken: 'formToken',
+  alertedAgentIds: 'alertedAgentIds',
+  buzzCount: 'buzzCount',
+  lastBuzzAt: 'lastBuzzAt',
+  acceptedByAgentId: 'acceptedByAgentId',
+  acceptedAt: 'acceptedAt',
+  linkSentAt: 'linkSentAt',
+  paidAt: 'paidAt',
+  agentListingId: 'agentListingId',
+  adminNote: 'adminNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BuyerInterestScalarFieldEnum = {
+  id: 'id',
+  unlockId: 'unlockId',
+  buyerId: 'buyerId',
+  agentListingId: 'agentListingId',
+  primaryAgentId: 'primaryAgentId',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  listingTitle: 'listingTitle',
+  listingCity: 'listingCity',
+  listingLocality: 'listingLocality',
+  listingType: 'listingType',
+  propertyType: 'propertyType',
+  listingPrice: 'listingPrice',
+  bedrooms: 'bedrooms',
+  status: 'status',
+  acceptedByAgentId: 'acceptedByAgentId',
+  acceptedAt: 'acceptedAt',
+  notifiedAgentIds: 'notifiedAgentIds',
+  buzzCount: 'buzzCount',
+  adminNote: 'adminNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BuyerInterestAcceptanceScalarFieldEnum = {
+  id: 'id',
+  interestId: 'interestId',
+  agentId: 'agentId',
+  acceptedAt: 'acceptedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1010,6 +1107,15 @@ exports.Prisma.PropertyOrderByRelevanceFieldEnum = {
   contactEmail: 'contactEmail',
   metaTitle: 'metaTitle',
   metaDescription: 'metaDescription',
+  commercialSubtype: 'commercialSubtype',
+  pgGender: 'pgGender',
+  pgSharing: 'pgSharing',
+  furnishing: 'furnishing',
+  facingDirection: 'facingDirection',
+  possessionStatus: 'possessionStatus',
+  reraNumber: 'reraNumber',
+  societyName: 'societyName',
+  specifications: 'specifications',
   assignedAgentId: 'assignedAgentId'
 };
 
@@ -1077,13 +1183,15 @@ exports.Prisma.SiteSettingsOrderByRelevanceFieldEnum = {
   metaDescription: 'metaDescription',
   ogImage: 'ogImage',
   googleAnalyticsId: 'googleAnalyticsId',
-  googleSiteVerification: 'googleSiteVerification'
+  googleSiteVerification: 'googleSiteVerification',
+  manualCommissionTypes: 'manualCommissionTypes'
 };
 
 exports.Prisma.AgentProfileOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
   agentCode: 'agentCode',
+  manualCommissionTypes: 'manualCommissionTypes',
   city: 'city',
   shopName: 'shopName',
   shopAddress: 'shopAddress',
@@ -1140,7 +1248,13 @@ exports.Prisma.AgentListingOrderByRelevanceFieldEnum = {
   exactAddress: 'exactAddress',
   amenities: 'amenities',
   nearbyAmenities: 'nearbyAmenities',
-  videoUrl: 'videoUrl'
+  videoUrl: 'videoUrl',
+  commercialSubtype: 'commercialSubtype',
+  pgGender: 'pgGender',
+  pgSharing: 'pgSharing',
+  furnishing: 'furnishing',
+  facingDirection: 'facingDirection',
+  societyName: 'societyName'
 };
 
 exports.Prisma.SavedAgentListingOrderByRelevanceFieldEnum = {
@@ -1344,6 +1458,46 @@ exports.Prisma.PushTokenOrderByRelevanceFieldEnum = {
   token: 'token',
   platform: 'platform'
 };
+
+exports.Prisma.ListingRequestOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ownerName: 'ownerName',
+  ownerPhone: 'ownerPhone',
+  ownerEmail: 'ownerEmail',
+  city: 'city',
+  locality: 'locality',
+  referredByAgentCode: 'referredByAgentCode',
+  razorpayOrderId: 'razorpayOrderId',
+  statusToken: 'statusToken',
+  formToken: 'formToken',
+  alertedAgentIds: 'alertedAgentIds',
+  acceptedByAgentId: 'acceptedByAgentId',
+  agentListingId: 'agentListingId',
+  adminNote: 'adminNote'
+};
+
+exports.Prisma.BuyerInterestOrderByRelevanceFieldEnum = {
+  id: 'id',
+  unlockId: 'unlockId',
+  buyerId: 'buyerId',
+  agentListingId: 'agentListingId',
+  primaryAgentId: 'primaryAgentId',
+  listingTitle: 'listingTitle',
+  listingCity: 'listingCity',
+  listingLocality: 'listingLocality',
+  listingType: 'listingType',
+  propertyType: 'propertyType',
+  acceptedByAgentId: 'acceptedByAgentId',
+  notifiedAgentIds: 'notifiedAgentIds',
+  adminNote: 'adminNote'
+};
+
+exports.Prisma.BuyerInterestAcceptanceOrderByRelevanceFieldEnum = {
+  id: 'id',
+  interestId: 'interestId',
+  agentId: 'agentId'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SUBADMIN: 'SUBADMIN',
@@ -1385,7 +1539,10 @@ exports.PropertyType = exports.$Enums.PropertyType = {
   INDEPENDENT_HOUSE: 'INDEPENDENT_HOUSE',
   PLOT: 'PLOT',
   COMMERCIAL: 'COMMERCIAL',
-  OFFICE: 'OFFICE'
+  OFFICE: 'OFFICE',
+  SHOP: 'SHOP',
+  WAREHOUSE: 'WAREHOUSE',
+  PG: 'PG'
 };
 
 exports.PropertyCondition = exports.$Enums.PropertyCondition = {
@@ -1530,6 +1687,21 @@ exports.AppointmentStatus = exports.$Enums.AppointmentStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.ListingRequestStatus = exports.$Enums.ListingRequestStatus = {
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  SEARCHING: 'SEARCHING',
+  ACCEPTED: 'ACCEPTED',
+  LINK_SENT: 'LINK_SENT',
+  SUBMITTED: 'SUBMITTED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.BuyerInterestStatus = exports.$Enums.BuyerInterestStatus = {
+  OPEN: 'OPEN',
+  ACCEPTED: 'ACCEPTED',
+  CLOSED: 'CLOSED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Plan: 'Plan',
@@ -1582,7 +1754,10 @@ exports.Prisma.ModelName = {
   DirectPropertyVisit: 'DirectPropertyVisit',
   PlatformAntiBypassAgreement: 'PlatformAntiBypassAgreement',
   AgentShopUnlock: 'AgentShopUnlock',
-  PushToken: 'PushToken'
+  PushToken: 'PushToken',
+  ListingRequest: 'ListingRequest',
+  BuyerInterest: 'BuyerInterest',
+  BuyerInterestAcceptance: 'BuyerInterestAcceptance'
 };
 
 /**

@@ -58,6 +58,8 @@ type PropertyFormValues = {
 
 const PROPERTY_TYPES = [
   "APARTMENT",
+  "PENTHOUSE",
+  "DUPLEX",
   "VILLA",
   "INDEPENDENT_HOUSE",
   "PLOT",
@@ -317,8 +319,9 @@ export function PropertyForm({
               </>
             ) : (
               <>
-                <option value="APARTMENT">Flat / Apartment</option>
-                <option value="VILLA">Luxury Villa</option>
+                <option value="APARTMENT">Apartment / Flat</option>
+                <option value="PENTHOUSE">Penthouse</option>
+                <option value="DUPLEX">Duplex</option>
               </>
             )}
           </select>
@@ -542,7 +545,7 @@ export function PropertyForm({
         )}
 
         {/* Residential (Apartment, Villa, House) Specific Fields */}
-        {(selectedPropertyType === "APARTMENT" || selectedPropertyType === "VILLA" || selectedPropertyType === "INDEPENDENT_HOUSE") && (
+        {(selectedPropertyType === "APARTMENT" || selectedPropertyType === "PENTHOUSE" || selectedPropertyType === "DUPLEX" || selectedPropertyType === "VILLA" || selectedPropertyType === "INDEPENDENT_HOUSE") && (
           <div className="sm:col-span-2 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
@@ -613,23 +616,6 @@ export function PropertyForm({
                 <option value="FURNISHED">Fully Furnished</option>
                 <option value="SEMI_FURNISHED">Semi-Furnished</option>
                 <option value="UNFURNISHED">Unfurnished</option>
-              </select>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-slate-700">Facing Direction</label>
-              <select
-                name="facingDirection"
-                defaultValue={defaultValues?.facingDirection ?? "EAST"}
-                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-              >
-                <option value="EAST">East</option>
-                <option value="NORTH_EAST">North-East</option>
-                <option value="NORTH">North</option>
-                <option value="WEST">West</option>
-                <option value="SOUTH">South</option>
-                <option value="NORTH_WEST">North-West</option>
-                <option value="SOUTH_EAST">South-East</option>
-                <option value="SOUTH_WEST">South-West</option>
               </select>
             </div>
             <div>

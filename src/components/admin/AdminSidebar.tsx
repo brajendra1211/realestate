@@ -34,6 +34,8 @@ import {
   Activity,
   BellRing,
   UserSearch,
+  ShoppingBag,
+  LifeBuoy,
   Menu,
   X,
   type LucideIcon,
@@ -47,6 +49,7 @@ const ADMIN_GROUPS: NavGroup[] = [
     title: "Command center",
     items: [
       { href: "/admin", label: "Overview", icon: LayoutDashboard },
+      { href: "/admin/sales", label: "Sales & monitoring", icon: TrendingUp, badge: "Live" },
       { href: "/admin/analytics", label: "Analytics & traffic", icon: BarChart3 },
     ],
   },
@@ -56,6 +59,7 @@ const ADMIN_GROUPS: NavGroup[] = [
       { href: "/admin/properties", label: "All properties", icon: Building2, badge: "Live" },
       { href: "/admin/listing-requests", label: "Owner requests", icon: BellRing },
       { href: "/admin/buyer-leads", label: "Buyer leads", icon: UserSearch },
+      { href: "/admin/buy-leads", label: "Buy leads desk", icon: ShoppingBag },
       { href: "/admin/gold-listings", label: "Listing moderation", icon: ShieldCheck },
       { href: "/admin/developers", label: "Developers & builders", icon: Landmark },
       { href: "/admin/locations", label: "Metros & localities", icon: MapPin },
@@ -89,6 +93,7 @@ const ADMIN_GROUPS: NavGroup[] = [
   {
     title: "System & platform",
     items: [
+      { href: "/admin/support", label: "Support & disputes", icon: LifeBuoy },
       { href: "/admin/trust", label: "Trust & retention", icon: ShieldCheck },
       { href: "/admin/documents", label: "Document vault", icon: FileLock2 },
       { href: "/admin/sitemap", label: "Sitemap", icon: Globe },

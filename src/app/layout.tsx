@@ -11,7 +11,6 @@ import { LocationDetector } from "@/components/LocationDetector";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getLocationCookie } from "@/lib/location-context";
-import { prisma } from "@/lib/prisma";
 import { SITE_URL } from "@/lib/seo";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -33,6 +32,9 @@ const geistMono = Geist_Mono({
 
 import { SiteShell } from "@/components/SiteShell";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { TermsGate } from "@/components/TermsGate";
+import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
@@ -82,6 +84,13 @@ export default async function RootLayout({
       orderBy: { name: "asc" },
     }),
   ]);
+
+  const session = await auth().catch(() => null);
+  const needsTerms =
+    !!session &&
+    session.user.role !== "ADMIN" &&
+    session.user.role !== "SUBADMIN" &&
+    !(await prisma.user.findUnique({ where: { id: session.user.id }, select: { termsAcceptedAt: true } }))?.termsAcceptedAt;
 
   const gaId =
     settings.googleAnalyticsId && /^[A-Z0-9-]{1,20}$/i.test(settings.googleAnalyticsId)
@@ -136,6 +145,7 @@ export default async function RootLayout({
         >
           {children}
         </SiteShell>
+        {needsTerms && <TermsGate />}
         <ScrollToTop />
       </body>
     </html>

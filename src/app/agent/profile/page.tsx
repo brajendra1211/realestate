@@ -251,6 +251,17 @@ export default async function AgentProfilePage({ searchParams }: { searchParams:
               />
             </div>
 
+            <div>
+              <label className="text-xs font-bold text-slate-700">Company WhatsApp / Meta channel link (optional)</label>
+              <input
+                type="url"
+                name="metaChannelUrl"
+                placeholder="https://whatsapp.com/channel/..."
+                defaultValue={user.metaChannelUrl ?? ""}
+                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              />
+            </div>
+
             <div className="sm:col-span-2">
               <label className="text-xs font-bold text-slate-700">Current Office / Shop Address</label>
               <textarea

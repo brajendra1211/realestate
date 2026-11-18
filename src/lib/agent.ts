@@ -314,6 +314,8 @@ export async function getAgentByCode(agentCode: string) {
           phone: true,
           email: true,
           logoUrl: true,
+          website: true,
+          metaChannelUrl: true,
           whatsappNumber: true,
           address: true,
         },

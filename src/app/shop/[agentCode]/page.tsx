@@ -102,6 +102,21 @@ export default async function AgentShopPage({ params }: Props) {
           <span className="font-mono text-[11px] text-slate-400">Channel Partner Shop</span>
         </div>
 
+        {(agent.user.website || agent.user.metaChannelUrl) && (
+          <div className="mb-4 flex flex-wrap gap-2 text-xs font-bold">
+            {agent.user.website && (
+              <a href={agent.user.website} target="_blank" rel="noopener noreferrer" className="rounded-full border border-slate-200 bg-white px-4 py-2 text-slate-700 hover:border-brand-600">
+                Visit our website
+              </a>
+            )}
+            {agent.user.metaChannelUrl && (
+              <a href={agent.user.metaChannelUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-emerald-800 hover:border-emerald-500">
+                Join our WhatsApp channel
+              </a>
+            )}
+          </div>
+        )}
+
         <ShopClientView
           agentCode={agent.agentCode}
           name={agent.user.name}

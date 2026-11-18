@@ -29,7 +29,7 @@ export type CreateAgentListingInput = {
   title: string;
   description: string;
   listingType: "SALE" | "RENT";
-  propertyType: "APARTMENT" | "VILLA" | "INDEPENDENT_HOUSE" | "PLOT" | "COMMERCIAL" | "OFFICE" | "SHOP" | "WAREHOUSE" | "PG";
+  propertyType: "APARTMENT" | "PENTHOUSE" | "DUPLEX" | "VILLA" | "INDEPENDENT_HOUSE" | "PLOT" | "COMMERCIAL" | "OFFICE" | "SHOP" | "WAREHOUSE" | "PG";
   commercialSubtype?: string | null;
   pgGender?: string | null;
   pgSharing?: string | null;

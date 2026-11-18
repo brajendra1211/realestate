@@ -31,6 +31,8 @@ enum ListingType {
 
 enum PropertyType {
   APARTMENT
+  PENTHOUSE
+  DUPLEX
   VILLA
   INDEPENDENT_HOUSE
   PLOT
@@ -82,6 +84,8 @@ model User {
   licenseNumber   String?
   address         String?         @db.Text
   website         String?
+  metaChannelUrl  String?
+  termsAcceptedAt DateTime?
   instagramUrl    String?
   facebookUrl     String?
   passwordHash    String?
@@ -1012,6 +1016,14 @@ enum DispatchStatus {
   MATCHED
   EXPIRED
   CANCELLED
+  COMPANY // BUY requirement: handled directly by company staff, never broadcast to partners
+}
+
+enum DispatchPurpose {
+  RENT
+  BUY
+  SELL
+  LETOUT
 }
 
 // Uber-style cascade dispatch — §3.5. Trigger is the same ₹100 payment as the
@@ -1019,24 +1031,39 @@ enum DispatchStatus {
 // only one "₹100 unlock pass, 50/50 split" line item, not a separate dispatch
 // fee, so this reuses that exact split rather than inventing a second charge.
 model DispatchRequest {
-  id                String         @id @default(cuid())
-  buyerId           String
-  buyer             User           @relation(fields: [buyerId], references: [id], onDelete: Cascade)
-  latitude          Float
-  longitude         Float
-  amount            Int            @default(100)
-  agentSplit        Int            @default(50)
-  companySplit      Int            @default(50)
-  paymentMode       PaymentMode?
-  razorpayOrderId   String?
-  status            DispatchStatus @default(SEARCHING)
-  currentRadiusKm   Int            @default(1)
-  currentBatch      Int            @default(1)
-  batchStartedAt    DateTime       @default(now())
+  id              String         @id @default(cuid())
+  buyerId         String
+  buyer           User           @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  latitude        Float
+  longitude       Float
+  amount          Int            @default(100)
+  agentSplit      Int            @default(50)
+  companySplit    Int            @default(50)
+  paymentMode     PaymentMode?
+  razorpayOrderId String?
+  status          DispatchStatus @default(SEARCHING)
+  currentRadiusKm Int            @default(1)
+  currentBatch    Int            @default(1)
+  batchStartedAt  DateTime       @default(now())
+
+  // What the customer asked for (dropdown form). BUY goes to the company desk.
+  purpose          DispatchPurpose @default(RENT)
+  selectedRadiusKm Int             @default(5)
+  societyName      String?
+  bhk              Int?
+  budgetMin        Int?
+  budgetMax        Int?
+  budgetLabel      String?
+  highPriority     Boolean         @default(false)
+  // Company BUY desk
+  staffId          String?
+  staffNote        String?         @db.Text
+  contactedAt      DateTime?
+
   acceptedByAgentId String?
-  acceptedAgent     AgentProfile?  @relation("DispatchAccepted", fields: [acceptedByAgentId], references: [id])
+  acceptedAgent     AgentProfile? @relation("DispatchAccepted", fields: [acceptedByAgentId], references: [id])
   acceptedAt        DateTime?
-  createdAt         DateTime       @default(now())
+  createdAt         DateTime      @default(now())
 
   notifications DispatchNotification[]
 
@@ -1502,4 +1529,35 @@ model BuyerInterestAcceptance {
 
   @@unique([interestId, agentId])
   @@index([agentId])
+}
+
+enum SupportCategory {
+  COMMISSION_CONFLICT
+  CUSTOMER_COMPLAINT
+  WEBSITE_FEEDBACK
+}
+
+enum SupportStatus {
+  OPEN
+  IN_REVIEW
+  RESOLVED
+}
+
+// Support & dispute desk — commission conflicts / complaints are audited and
+// resolved within a 2 hour SLA (dueAt).
+model SupportTicket {
+  id         String          @id @default(cuid())
+  userId     String
+  role       String
+  category   SupportCategory
+  subject    String
+  message    String          @db.Text
+  status     SupportStatus   @default(OPEN)
+  resolution String?         @db.Text
+  dueAt      DateTime
+  resolvedAt DateTime?
+  createdAt  DateTime        @default(now())
+
+  @@index([status, dueAt])
+  @@index([userId])
 }

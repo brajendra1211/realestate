@@ -82,7 +82,7 @@ export function GuddyChatbot({ siteName }: { siteName: string }) {
             {messages.map((m, i) => (
               <div
                 key={i}
-                className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed ${
+                className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm leading-relaxed ${
                   m.role === "user"
                     ? "ml-auto bg-brand-700 text-white"
                     : "bg-white text-slate-700 shadow-sm"

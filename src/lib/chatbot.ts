@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getPublicListings, getListingBySlug } from "@/lib/listing";
 import { getWebsiteListings, getWebsiteListingDetail } from "@/lib/websiteListings";
+import { PUBLIC_LISTER_FILTER } from "@/lib/propertyVisibility";
 import { formatPrice } from "@/lib/format";
 
 export class ChatbotError extends Error {}
@@ -241,10 +242,152 @@ async function getPropertyDetailsForChatbot(slug: string): Promise<string> {
   return "Couldn't find a listing with that reference — it may have been delisted.";
 }
 
+// --- compare_properties --------------------------------------------------
+
+async function comparePropertiesForChatbot(
+  slugs: string[]
+): Promise<{ properties: ChatProperty[]; summary: string }> {
+  const properties: ChatProperty[] = [];
+  const rows: string[] = [];
+
+  for (const slug of slugs.slice(0, 4)) {
+    const listing = await getListingBySlug(slug);
+    if (listing) {
+      properties.push({
+        slug: listing.slug,
+        title: listing.title,
+        price: listing.price,
+        listingType: listing.listingType,
+        bedrooms: listing.bedrooms,
+        city: listing.masterProperty.city,
+        locality: listing.masterProperty.locality,
+        imageUrl: listing.images[0]?.url ?? null,
+        href: `/listings/${listing.slug}`,
+        source: "agent",
+      });
+      rows.push(
+        `${listing.title}: ${listing.bedrooms ?? "?"}BHK, ${listing.bathrooms ?? "?"} bath, ${listing.areaSqft ?? "?"} sqft, ${formatPrice(listing.price, listing.listingType)}, ${listing.masterProperty.locality ?? listing.masterProperty.city}${listing.amenities ? `, amenities: ${listing.amenities}` : ""}`
+      );
+      continue;
+    }
+
+    const property = await getWebsiteListingDetail(slug);
+    if (property) {
+      properties.push({
+        slug: property.slug,
+        title: property.title,
+        price: property.price,
+        listingType: property.listingType,
+        bedrooms: property.bedrooms,
+        city: property.city,
+        locality: property.locality,
+        imageUrl: property.images[0]?.url ?? null,
+        href: `/properties/${property.slug}`,
+        source: "website",
+      });
+      rows.push(
+        `${property.title}: ${property.bedrooms ?? "?"}BHK, ${property.bathrooms ?? "?"} bath, ${property.areaSqft ?? "?"} sqft, ${formatPrice(property.price, property.listingType)}, ${property.locality ?? property.city}${property.amenities ? `, amenities: ${property.amenities}` : ""}`
+      );
+    }
+  }
+
+  if (rows.length < 2) {
+    return { properties, summary: "Need at least two valid slugs to compare — one or more weren't found." };
+  }
+
+  return {
+    properties,
+    summary: `Comparison data: ${rows.join(" | ")}. Already shown to the visitor as clickable cards side by side — summarize the real differences (price, size, locality, amenities) in 1-3 sentences, don't just repeat every field.`,
+  };
+}
+
+// --- calculate_emi --------------------------------------------------------
+
+function calculateEmi(input: {
+  price: number;
+  downPaymentPercent?: number;
+  tenureYears?: number;
+  interestRatePercent?: number;
+}): string {
+  const { price } = input;
+  if (!price || price <= 0) return "Need a valid property price to calculate EMI.";
+
+  const downPaymentPercent = input.downPaymentPercent ?? 20;
+  const tenureYears = input.tenureYears ?? 20;
+  const interestRatePercent = input.interestRatePercent ?? 8.5;
+
+  const downPayment = Math.round((price * downPaymentPercent) / 100);
+  const principal = price - downPayment;
+  const monthlyRate = interestRatePercent / 12 / 100;
+  const months = tenureYears * 12;
+  const emi = Math.round(
+    (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1)
+  );
+
+  return `Estimated EMI: ₹${emi.toLocaleString("en-IN")}/month, for a ₹${principal.toLocaleString("en-IN")} loan (₹${downPayment.toLocaleString("en-IN")} down payment at ${downPaymentPercent}%, ${tenureYears} years tenure, ${interestRatePercent}% annual interest — a rough estimate, actual rates depend on the bank and the visitor's credit profile). Say this is an estimate, not a guaranteed quote.`;
+}
+
+// --- get_featured_listings -------------------------------------------------
+
+async function getFeaturedListingsForChatbot(): Promise<ChatProperty[]> {
+  const [goldListings, featuredProperties] = await Promise.all([
+    prisma.agentListing.findMany({
+      where: { approvalStatus: "APPROVED", isDelisted: false, listingPlan: "GOLD" },
+      include: { images: { orderBy: { order: "asc" } }, masterProperty: true },
+      orderBy: { createdAt: "desc" },
+      take: MAX_RESULTS,
+    }),
+    prisma.property.findMany({
+      where: { approvalStatus: "APPROVED", status: "AVAILABLE", featured: true, owner: PUBLIC_LISTER_FILTER },
+      include: { images: { orderBy: { order: "asc" } } },
+      orderBy: { createdAt: "desc" },
+      take: MAX_RESULTS,
+    }),
+  ]);
+
+  const properties: ChatProperty[] = [
+    ...goldListings.map(
+      (l): ChatProperty => ({
+        slug: l.slug,
+        title: l.title,
+        price: l.price,
+        listingType: l.listingType,
+        bedrooms: l.bedrooms,
+        city: l.masterProperty.city,
+        locality: l.masterProperty.locality,
+        imageUrl: l.images[0]?.url ?? null,
+        href: `/listings/${l.slug}`,
+        source: "agent",
+      })
+    ),
+    ...featuredProperties.map(
+      (p): ChatProperty => ({
+        slug: p.slug,
+        title: p.title,
+        price: p.price,
+        listingType: p.listingType,
+        bedrooms: p.bedrooms,
+        city: p.city,
+        locality: p.locality,
+        imageUrl: p.images[0]?.url ?? null,
+        href: `/properties/${p.slug}`,
+        source: "website",
+      })
+    ),
+  ];
+
+  return properties.slice(0, MAX_RESULTS);
+}
+
 // --- save_lead -----------------------------------------------------------
 
-async function saveLead(input: { name?: string; phone?: string; interest?: string; propertySlug?: string }) {
-  if (!input.name || !input.phone) return "Missing name or phone — ask the visitor for both before saving.";
+async function saveLead(
+  input: { name?: string; phone?: string; interest?: string; propertySlug?: string },
+  whatsappNumber: string | null
+): Promise<{ resultText: string; whatsappLink: string | null }> {
+  if (!input.name || !input.phone) {
+    return { resultText: "Missing name or phone — ask the visitor for both before saving.", whatsappLink: null };
+  }
 
   let propertyId: string | null = null;
   let propertyNote = "";
@@ -277,7 +420,22 @@ async function saveLead(input: { name?: string; phone?: string; interest?: strin
     },
   });
 
-  return "Lead saved successfully. Thank the visitor warmly and let them know our team will reach out shortly.";
+  // A direct WhatsApp handoff — pre-filled so the visitor doesn't have to
+  // retype what they just told Guddy — gives them an immediate, human
+  // channel to continue on instead of just waiting for a callback.
+  const whatsappDigits = whatsappNumber?.replace(/[^\d]/g, "");
+  const whatsappLink = whatsappDigits
+    ? `https://wa.me/${whatsappDigits}?text=${encodeURIComponent(
+        `Hi, I'm ${input.name}. ${input.interest ?? "I'm interested in a property"}.${propertyNote}`
+      )}`
+    : null;
+
+  return {
+    resultText:
+      "Lead saved successfully. Thank the visitor warmly and let them know our team will reach out shortly." +
+      (whatsappLink ? " A 'Continue on WhatsApp' button is already shown to them — mention they can tap it to chat with the team right now if they'd like." : ""),
+    whatsappLink,
+  };
 }
 
 // --- tool schema ------------------------------------------------------
@@ -324,19 +482,64 @@ const TOOLS: Anthropic.Tool[] = [
       required: ["name", "phone", "interest"],
     },
   },
+  {
+    name: "compare_properties",
+    description:
+      "Compare two to four specific properties side by side by their slugs (from prior search results). Use this when the visitor asks to compare options, or asks which of a few results is better.",
+    input_schema: {
+      type: "object",
+      properties: {
+        slugs: { type: "array", items: { type: "string" }, description: "2-4 property slugs to compare" },
+      },
+      required: ["slugs"],
+    },
+  },
+  {
+    name: "calculate_emi",
+    description:
+      "Estimate a monthly home loan EMI for a given property price. Use this when the visitor asks about affordability, monthly payments, or loan EMI for a SALE property — never calculate this yourself, always call the tool so the numbers are accurate.",
+    input_schema: {
+      type: "object",
+      properties: {
+        price: { type: "integer", description: "Property price in INR" },
+        downPaymentPercent: { type: "integer", description: "Down payment %, defaults to 20 if not given" },
+        tenureYears: { type: "integer", description: "Loan tenure in years, defaults to 20 if not given" },
+        interestRatePercent: { type: "number", description: "Annual interest rate %, defaults to 8.5 if not given" },
+      },
+      required: ["price"],
+    },
+  },
+  {
+    name: "get_featured_listings",
+    description:
+      "Get our current Gold/featured listings — the platform's best-promoted properties. Use this to proactively suggest something when the visitor is just browsing, undecided, or asks what's good/popular right now, instead of only ever reacting to a specific search.",
+    input_schema: { type: "object", properties: {} },
+  },
 ];
 
 // Static knowledge about the platform — kept here rather than pulled live
 // from the DB/schema, since this is "how does the site work" explainer
 // content for visitors, not personalized or frequently-changing data.
 function buildSystemPrompt(siteName: string) {
-  return `You are Guddy AI — ${siteName}'s own sales and support agent, not just an FAQ bot. You work this chat exactly like a good human channel partner would: understand what the visitor actually wants, search real listings for them, answer anything about a specific property or the platform in real detail, and gently but genuinely move every serious visitor toward sharing their contact so our team can close the deal.
+  return `You are Guddy AI — ${siteName}'s own sales and support agent, not an FAQ bot and not a generic AI assistant. You have real personality: warm, upbeat, genuinely enthusiastic about helping someone find their next home, with a bit of charm — think of a sharp, friendly channel partner who's great with people, not a corporate script. A little light emoji use (🏠 ✨ 👍 — never more than one per message) and real enthusiasm when something's a great fit is welcome. You're still professional: no flirting, no slang that reads as unprofessional, no overdoing it.
+
+You work this chat exactly like a good human channel partner would: understand what the visitor actually wants, search real listings for them, answer anything about a specific property or the platform in real detail, and gently but genuinely move every serious visitor toward sharing their contact so our team can close the deal.
 
 Your job, in order of priority:
 1. As soon as the visitor gives you ANYTHING to search with — even just a city, or just "2BHK", or just "rent" — call search_properties right away with whatever you have. Inventory is limited, so searching immediately and showing what's actually available is more useful than interrogating them for every field first. Only ask a clarifying question if they've given you nothing at all to go on (e.g. just "hi" or "I want a flat" with zero other detail).
-2. If they ask more about a specific result, use get_property_details for the real address/amenities/contact instead of guessing.
-3. Once a visitor is seriously engaged (reacted positively to a result, asked for contact/visit, or wants to list/sell/rent/become a partner), ask for their name and phone number so our team can follow up — frame it as helping them move faster ("Main aapka number note kar loon? Humari team aapko property visit arrange karne ke liye call karegi"), then call save_lead immediately once you have both.
-4. Be genuinely persuasive about why ${siteName} is worth choosing — verified channel partners, zero brokerage for owners, instant ring-a-partner notifications, secure OTP login — but only where it's relevant to what they're asking, never as a generic sales pitch.
+2. If they ask more about a specific result, use get_property_details for the real address/amenities/contact instead of guessing. If they're comparing a couple of results, use compare_properties instead of eyeballing it yourself. If they ask about affordability or EMI on a SALE property, use calculate_emi — never do the math yourself.
+3. If a visitor seems undecided, is just browsing, or asks what's good right now, proactively offer get_featured_listings — don't wait to only ever react to an exact search.
+4. Once a visitor is seriously engaged (reacted positively to a result, asked for contact/visit, or wants to list/sell/rent/become a partner), ask for their name and phone number so our team can follow up — frame it as helping them move faster ("Main aapka number note kar loon? Humari team aapko property visit arrange karne ke liye call karegi"), then call save_lead immediately once you have both.
+5. Be genuinely persuasive about why ${siteName} is worth choosing — verified channel partners, zero brokerage for owners, instant ring-a-partner notifications, secure OTP login — but only where it's relevant to what they're asking, never as a generic sales pitch.
+
+Business rules — follow these without exception:
+- Never badmouth or even name competing portals (Housing.com, 99acres, MagicBricks, NoBroker, etc.) if the visitor brings one up — acknowledge it neutrally and redirect to what ${siteName} offers, never compare feature-by-feature against a named competitor.
+- Never promise or negotiate a price, discount, or commission split yourself — those are decided between the visitor and the channel partner/our team. If asked to negotiate, say you'll connect them with the team who can actually discuss that.
+- Handle price/budget objections by offering real alternatives (search a lower budget, a different locality, rent instead of buy, etc.) via search_properties — never just say "that's the price" and stop there.
+- Never claim a property is still available, already sold/rented, or confirm any status beyond what search_properties/get_property_details actually returned — if the data doesn't say, say you'll have the team confirm.
+- If a visitor is rude, abusive, or tries to get you to say something off-topic or inappropriate, stay calm, polite, and brief, and steer back to how you can help with their property search — never argue, never match their tone.
+- Never share one visitor's personal details (name, phone, what they asked) with another visitor, and never discuss internal company financials, commission percentages, or operations beyond what's in the public feature list below.
+- Don't repeatedly ask for contact info if a visitor has already declined once in this conversation — respect that and keep helping without re-asking.
 
 This is a live chat conversation, not an article or a support ticket reply. Follow these rules strictly:
 - Reply in 1-3 short sentences. Never write more than one short paragraph.
@@ -345,7 +548,7 @@ This is a live chat conversation, not an article or a support ticket reply. Foll
 - Search results are shown as clickable cards automatically — never re-describe each one in text, just introduce them briefly.
 - Never say a property was found if the tool returned none — say so honestly and suggest widening the search (different city, budget, or BHK) instead.
 - If search_properties tells you the results don't all exactly match (search widened automatically), say so honestly — e.g. "exact match nahi mila, lekin ye closest options hain" — never present a widened/approximate result as an exact match.
-- Never fabricate a price, address, amenity, or contact detail — only state what search_properties or get_property_details actually returned.
+- Never fabricate a price, address, amenity, or contact detail — only state what a tool actually returned.
 - Never narrate your own uncertainty about something you said earlier in this conversation (e.g. "earlier I said X, but that wasn't confirmed, so don't take it as certain" — this confuses the visitor and sounds broken). If an earlier claim of yours wasn't actually grounded in a tool result, just don't repeat it — answer the current question cleanly from the current tool result only, with no meta-commentary about your own prior messages.
 
 What ${siteName} offers:
@@ -377,7 +580,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 export async function askGuddyAI(
   history: ChatMessage[]
-): Promise<{ reply: string; properties: ChatProperty[] }> {
+): Promise<{ reply: string; properties: ChatProperty[]; whatsappLink: string | null }> {
   const anthropic = getClient();
   if (!anthropic) throw new ChatbotError("notConfigured");
 
@@ -386,11 +589,12 @@ export async function askGuddyAI(
     throw new ChatbotError("invalidHistory");
   }
 
-  const { siteName } = await getSiteSettings();
+  const { siteName, whatsappNumber } = await getSiteSettings();
   const system = buildSystemPrompt(siteName);
   const messages: Anthropic.MessageParam[] = trimmed.map((m) => ({ role: m.role, content: m.content }));
 
   let properties: ChatProperty[] = [];
+  let whatsappLink: string | null = null;
   let rounds = 0;
   let response = await anthropic.messages.create({ model: MODEL, max_tokens: 400, system, tools: TOOLS, messages });
 
@@ -413,8 +617,26 @@ export async function askGuddyAI(
         resultText = summarizeResultsForModel(result.properties, result.exact, result.exactSlugs);
       } else if (toolUse.name === "get_property_details") {
         resultText = await getPropertyDetailsForChatbot(String(input.slug ?? ""));
+      } else if (toolUse.name === "compare_properties") {
+        const slugs = Array.isArray(input.slugs) ? input.slugs.map(String) : [];
+        const result = await comparePropertiesForChatbot(slugs);
+        properties = result.properties;
+        resultText = result.summary;
+      } else if (toolUse.name === "calculate_emi") {
+        resultText = calculateEmi(input as { price: number; downPaymentPercent?: number; tenureYears?: number; interestRatePercent?: number });
+      } else if (toolUse.name === "get_featured_listings") {
+        properties = await getFeaturedListingsForChatbot();
+        resultText =
+          properties.length > 0
+            ? `${properties.length} featured listing(s) found, already shown as clickable cards — introduce them briefly as our top-promoted picks.`
+            : "No featured listings available right now.";
       } else if (toolUse.name === "save_lead") {
-        resultText = await saveLead(input as { name?: string; phone?: string; interest?: string; propertySlug?: string });
+        const result = await saveLead(
+          input as { name?: string; phone?: string; interest?: string; propertySlug?: string },
+          whatsappNumber
+        );
+        resultText = result.resultText;
+        whatsappLink = result.whatsappLink;
       } else {
         resultText = "Unknown tool.";
       }
@@ -429,5 +651,5 @@ export async function askGuddyAI(
   const text = response.content.find((block) => block.type === "text");
   if (!text || text.type !== "text") throw new ChatbotError("emptyResponse");
 
-  return { reply: text.text, properties };
+  return { reply: text.text, properties, whatsappLink };
 }

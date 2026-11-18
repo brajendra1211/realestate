@@ -91,7 +91,7 @@ const MIN_DESIRED_RESULTS = 3;
 // free-text extracted from a conversation.
 async function searchPropertiesForChatbot(
   input: SearchInput
-): Promise<{ properties: ChatProperty[]; exact: boolean }> {
+): Promise<{ properties: ChatProperty[]; exact: boolean; exactSlugs: Set<string> }> {
   const [agentListings, websiteListings] = await Promise.all([
     getPublicListings({ listingType: input.listingType }),
     getWebsiteListings({ listingType: input.listingType }),
@@ -130,16 +130,24 @@ async function searchPropertiesForChatbot(
     ),
   ];
 
-  // Each tier drops one more constraint than the last — city is kept
-  // longest (changing city entirely rarely matches intent), bedrooms is
-  // dropped first (most likely to over-narrow a sparse inventory).
+  // Strict predicate kept separate from the tiers below so each individual
+  // result can still be flagged as an exact match even when the overall
+  // search had to widen — e.g. a widened "no city filter" pass might
+  // *happen* to include something that still satisfies every original
+  // criterion, and that's worth saying plainly rather than lumping it in
+  // with the approximate ones.
+  const strict = (l: RawMatch) =>
+    (!input.city || matchesCity(input.city, l.city, l.locality)) &&
+    (!input.propertyType || l.propertyType === input.propertyType) &&
+    (!input.bedrooms || l.bedrooms === input.bedrooms) &&
+    (!input.minPrice || l.price >= input.minPrice) &&
+    (!input.maxPrice || l.price <= input.maxPrice);
+
+  // Each further tier drops one more constraint than the last — city is
+  // kept longest (changing city entirely rarely matches intent), bedrooms
+  // is dropped first (most likely to over-narrow a sparse inventory).
   const tiers: Array<(l: RawMatch) => boolean> = [
-    (l) =>
-      (!input.city || matchesCity(input.city, l.city, l.locality)) &&
-      (!input.propertyType || l.propertyType === input.propertyType) &&
-      (!input.bedrooms || l.bedrooms === input.bedrooms) &&
-      (!input.minPrice || l.price >= input.minPrice) &&
-      (!input.maxPrice || l.price <= input.maxPrice),
+    strict,
     (l) =>
       (!input.city || matchesCity(input.city, l.city, l.locality)) &&
       (!input.propertyType || l.propertyType === input.propertyType) &&
@@ -174,17 +182,26 @@ async function searchPropertiesForChatbot(
     })
   );
 
-  return { properties, exact };
+  const exactSlugs = new Set(matches.filter(strict).map((m) => m.slug));
+
+  return { properties, exact, exactSlugs };
 }
 
-function summarizeResultsForModel(properties: ChatProperty[], exact: boolean) {
+function summarizeResultsForModel(properties: ChatProperty[], exact: boolean, exactSlugs: Set<string>) {
   if (properties.length === 0) return "No listings matched those criteria right now, even after widening the search.";
   const lines = properties
-    .map((p) => `${p.title} — ${p.bedrooms ?? "?"}BHK, ${formatPrice(p.price, p.listingType as "SALE" | "RENT")}, ${p.locality ?? p.city} (slug: ${p.slug})`)
+    .map(
+      (p) =>
+        `${p.title} — ${p.bedrooms ?? "?"}BHK, ${formatPrice(p.price, p.listingType as "SALE" | "RENT")}, ${p.locality ?? p.city} (slug: ${p.slug})${
+          exactSlugs.has(p.slug) ? " [EXACT MATCH]" : " [nearby/approximate, not an exact match]"
+        }`
+    )
     .join("; ");
   const matchNote = exact
-    ? "These exactly match what was asked."
-    : "These DON'T all exactly match every criterion (the search widened automatically because an exact match had too few results) — say so honestly, e.g. mention these are the closest options rather than claiming they're exact matches.";
+    ? "All of these exactly match what was asked."
+    : exactSlugs.size > 0
+      ? "The search widened automatically because an exact match alone had too few results — some of these are marked [EXACT MATCH] above and genuinely satisfy every criterion; call those out specifically as the real match, and the rest honestly as nearby/approximate options."
+      : "None of these exactly match every criterion — the search widened automatically because an exact match had too few (or zero) results. Say so honestly, e.g. these are the closest options rather than claiming they're exact matches.";
   return `${properties.length} propert${properties.length === 1 ? "y" : "ies"} found: ${lines}. ${matchNote} Already shown to the visitor as clickable cards — don't repeat this list in your reply, just introduce it briefly and offer to narrow it down further or share more detail on one of them.`;
 }
 
@@ -329,6 +346,7 @@ This is a live chat conversation, not an article or a support ticket reply. Foll
 - Never say a property was found if the tool returned none — say so honestly and suggest widening the search (different city, budget, or BHK) instead.
 - If search_properties tells you the results don't all exactly match (search widened automatically), say so honestly — e.g. "exact match nahi mila, lekin ye closest options hain" — never present a widened/approximate result as an exact match.
 - Never fabricate a price, address, amenity, or contact detail — only state what search_properties or get_property_details actually returned.
+- Never narrate your own uncertainty about something you said earlier in this conversation (e.g. "earlier I said X, but that wasn't confirmed, so don't take it as certain" — this confuses the visitor and sounds broken). If an earlier claim of yours wasn't actually grounded in a tool result, just don't repeat it — answer the current question cleanly from the current tool result only, with no meta-commentary about your own prior messages.
 
 What ${siteName} offers:
 - Buy, Rent, Commercial, and Plot listings across Noida & NCR, searchable by city, locality, budget, and BHK.
@@ -392,7 +410,7 @@ export async function askGuddyAI(
       if (toolUse.name === "search_properties") {
         const result = await searchPropertiesForChatbot(input as SearchInput);
         properties = result.properties;
-        resultText = summarizeResultsForModel(result.properties, result.exact);
+        resultText = summarizeResultsForModel(result.properties, result.exact, result.exactSlugs);
       } else if (toolUse.name === "get_property_details") {
         resultText = await getPropertyDetailsForChatbot(String(input.slug ?? ""));
       } else if (toolUse.name === "save_lead") {

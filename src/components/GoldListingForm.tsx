@@ -152,7 +152,7 @@ export function GoldListingForm() {
             {IS_PRONESTO ? (
               <option value="APARTMENT">Flat</option>
             ) : (
-              ["APARTMENT", "VILLA", "INDEPENDENT_HOUSE", "PLOT", "COMMERCIAL", "OFFICE"].map((t) => (
+              ["APARTMENT", "PENTHOUSE", "DUPLEX", "VILLA", "INDEPENDENT_HOUSE", "PLOT", "COMMERCIAL", "OFFICE"].map((t) => (
                 <option key={t} value={t}>
                   {t.replace(/_/g, " ")}
                 </option>

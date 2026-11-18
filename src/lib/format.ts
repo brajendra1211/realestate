@@ -137,6 +137,8 @@ export function getVideoEmbed(url: string): VideoEmbedInfo {
 
 export const PROPERTY_TYPE_LABELS: Record<string, string> = {
   APARTMENT: "Flat / Apartment",
+  PENTHOUSE: "Penthouse",
+  DUPLEX: "Duplex",
   VILLA: "Luxury Villa",
   INDEPENDENT_HOUSE: "Independent House",
   PLOT: "Plot / Land",

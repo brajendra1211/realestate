@@ -11,6 +11,7 @@ import {
 } from "@/lib/queues/dispatchQueue";
 import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
 import { computeSplit } from "@/lib/commission";
+import { haversineDistanceKm } from "@/lib/geo";
 import { getSiteSettings } from "@/lib/site-settings";
 
 export class DispatchServiceError extends Error {}
@@ -18,12 +19,67 @@ export class DispatchServiceError extends Error {}
 const BATCH_SIZE = 8; // "5-10 nearest Prime agents" — §3.5
 // PDF 1 Page 4 & 5, PDF 2 Page 7: Cascade Broadcast Radius Ladder
 // Batch 1 (5km radius) -> Batch 2 (10km radius) -> Batch 3 (Citywide 25km radius)
-const RADIUS_LADDER_KM = [5, 10, 25];
+// The customer picks 1/3/5 km; if nobody there accepts, the radius keeps widening.
+const RADIUS_LADDER_KM = [1, 3, 5, 10, 25];
+const nextRungKm = (radiusKm: number) => RADIUS_LADDER_KM.find((r) => r > radiusKm);
+
+// Buzzer limits (client PDF §33/34/55): max 3 buzzes a day with a 1 hour gap
+// between them, max 3 a week, and the buzzer only works inside 5 km of where
+// the customer first searched (valid for 7 days).
+export const BUZZER_MAX_PER_DAY = 3;
+export const BUZZER_MAX_PER_WEEK = 3;
+export const BUZZER_GAP_MS = 60 * 60 * 1000;
+export const BUZZER_GEOFENCE_KM = 5;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const WEEK_MS = 7 * DAY_MS;
+const HIGH_PRIORITY_BUDGET = 10_000_000; // ₹1 Crore+
+
+export type DispatchPurposeInput = "RENT" | "BUY" | "SELL" | "LETOUT";
 
 export type CreateDispatchInput = {
   buyerId: string;
   latitude: number;
   longitude: number;
+  purpose?: DispatchPurposeInput;
+  radiusKm?: number;
+  societyName?: string | null;
+  bhk?: number | null;
+  budgetMin?: number | null;
+  budgetMax?: number | null;
+  budgetLabel?: string | null;
+};
+
+function normalizeRadius(value: number | undefined) {
+  return value === 1 || value === 3 || value === 5 ? value : 5;
+}
+
+// Throws DispatchServiceError("buzzerDailyLimit" | "buzzerWeeklyLimit" |
+// "buzzerCooldown" | "buzzerOutOfArea"). Called before any payment is taken.
+export async function assertBuzzerAllowed(buyerId: string, latitude: number, longitude: number) {
+  const now = Date.now();
+  const recent = await prisma.dispatchRequest.findMany({
+    where: { buyerId, amount: { gt: 0 }, createdAt: { gte: new Date(now - WEEK_MS) } },
+    orderBy: { createdAt: "asc" },
+    select: { createdAt: true, latitude: true, longitude: true },
+  });
+  if (recent.length === 0) return;
+
+  const origin = recent[0];
+  if (haversineDistanceKm({ latitude, longitude }, { latitude: origin.latitude, longitude: origin.longitude }) > BUZZER_GEOFENCE_KM) {
+    throw new DispatchServiceError("buzzerOutOfArea");
+  }
+  if (recent.length >= BUZZER_MAX_PER_WEEK) throw new DispatchServiceError("buzzerWeeklyLimit");
+  const today = recent.filter((r) => now - r.createdAt.getTime() < DAY_MS);
+  if (today.length >= BUZZER_MAX_PER_DAY) throw new DispatchServiceError("buzzerDailyLimit");
+  const last = recent[recent.length - 1];
+  if (now - last.createdAt.getTime() < BUZZER_GAP_MS) throw new DispatchServiceError("buzzerCooldown");
+}
+
+export const BUZZER_ERROR_TEXT: Record<string, string> = {
+  buzzerDailyLimit: "You have used all 3 buzzers for today. Please try again tomorrow.",
+  buzzerWeeklyLimit: "You have used all 3 buzzers for this week. Please try again next week.",
+  buzzerCooldown: "Please wait 1 hour between buzzers.",
+  buzzerOutOfArea: "The buzzer only works within 5 km of the area where you first searched.",
 };
 
 // The dispatch trigger reuses the exact ₹100 unlock-pass payment/split —
@@ -35,6 +91,7 @@ export async function createDispatchOrder(input: CreateDispatchInput) {
   if (!isDispatchQueueConfigured()) {
     throw new DispatchServiceError("dispatchNotConfigured");
   }
+  await assertBuzzerAllowed(input.buyerId, input.latitude, input.longitude);
   if (!isRazorpayConfigured()) return { order: null, keyId: null };
 
   const settings = await getSiteSettings();
@@ -62,6 +119,10 @@ async function createDispatchRecordAndCascade(
   razorpayOrderId: string | null,
   overrides?: { amount: number; agentSplit: number; companySplit: number; excludeAgentIds?: string[] }
 ) {
+  if (!overrides) await assertBuzzerAllowed(input.buyerId, input.latitude, input.longitude);
+  const purpose = input.purpose ?? "RENT";
+  const radiusKm = normalizeRadius(input.radiusKm);
+  const isBuy = purpose === "BUY";
   let amount = overrides?.amount;
   let agentSplit = overrides?.agentSplit;
   let companySplit = overrides?.companySplit;
@@ -82,17 +143,38 @@ async function createDispatchRecordAndCascade(
       agentSplit,
       companySplit,
       razorpayOrderId,
-      currentRadiusKm: RADIUS_LADDER_KM[0],
+      currentRadiusKm: radiusKm,
       currentBatch: 1,
+      purpose,
+      selectedRadiusKm: radiusKm,
+      societyName: input.societyName ?? null,
+      bhk: input.bhk ?? null,
+      budgetMin: input.budgetMin ?? null,
+      budgetMax: input.budgetMax ?? null,
+      budgetLabel: input.budgetLabel ?? null,
+      highPriority: isBuy && (input.budgetMax ?? input.budgetMin ?? 0) >= HIGH_PRIORITY_BUDGET,
+      // BUY leads are handled by company staff — they never go to partners.
+      status: isBuy ? "COMPANY" : "SEARCHING",
+      ...(isBuy ? { agentSplit: 0, companySplit: amount } : {}),
     },
+    include: { buyer: { select: { name: true, phone: true, email: true } } },
   });
+
+  if (isBuy) {
+    await notifyUser(
+      dispatch.buyer,
+      "Thank you for submitting your BUY requirement. Your lead has been assigned to our Headquarters Deal Team. Our Property Expert will call you shortly with the best verified options.",
+      "Your BUY requirement is registered"
+    );
+    return dispatch;
+  }
 
   await dispatchBatch(
     dispatch.id,
     input.latitude,
     input.longitude,
     1,
-    RADIUS_LADDER_KM[0],
+    radiusKm,
     overrides?.excludeAgentIds ?? []
   );
   return dispatch;
@@ -152,16 +234,9 @@ async function dispatchBatch(
     // persisting this batch and waiting out a full minute for an empty
     // radius. The "1-minute accept timer" (§3.5) only starts once agents
     // are actually notified, below.
-    const nextRungIndex = RADIUS_LADDER_KM.indexOf(radiusKm) + 1;
-    if (nextRungIndex < RADIUS_LADDER_KM.length) {
-      return dispatchBatch(
-        dispatchRequestId,
-        latitude,
-        longitude,
-        batch + 1,
-        RADIUS_LADDER_KM[nextRungIndex],
-        extraExcludeAgentIds
-      );
+    const widerKm = nextRungKm(radiusKm);
+    if (widerKm !== undefined) {
+      return dispatchBatch(dispatchRequestId, latitude, longitude, batch + 1, widerKm, extraExcludeAgentIds);
     }
     await expireDispatch(dispatchRequestId);
     return { notifiedCount: 0 };
@@ -207,17 +282,14 @@ export async function advanceDispatchBatch(dispatchRequestId: string, batch: num
   if (dispatch.currentBatch !== batch) return;
 
   const nextBatch = batch + 1;
-  const nextRungIndex = Math.min(
-    RADIUS_LADDER_KM.indexOf(dispatch.currentRadiusKm) + 1,
-    RADIUS_LADDER_KM.length - 1
-  );
+  const widerKm = nextRungKm(dispatch.currentRadiusKm) ?? dispatch.currentRadiusKm;
 
   await dispatchBatch(
     dispatchRequestId,
     dispatch.latitude,
     dispatch.longitude,
     nextBatch,
-    RADIUS_LADDER_KM[nextRungIndex]
+    widerKm
   );
 }
 

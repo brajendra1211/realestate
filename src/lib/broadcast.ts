@@ -92,6 +92,22 @@ export async function getSocietiesNearAgent(agentProfileId: string, radiusKm: nu
   return Array.from(localities).sort();
 }
 
+export async function getSocietiesNearPoint(latitude: number, longitude: number, radiusKm: number) {
+  const properties = await prisma.masterProperty.findMany({
+    where: { locality: { not: null } },
+    select: { locality: true, latitude: true, longitude: true },
+  });
+  const { haversineDistanceKm } = await import("@/lib/geo");
+  const localities = new Set<string>();
+  for (const property of properties) {
+    if (!property.locality) continue;
+    if (haversineDistanceKm({ latitude, longitude }, { latitude: property.latitude, longitude: property.longitude }) <= radiusKm) {
+      localities.add(property.locality);
+    }
+  }
+  return Array.from(localities).sort();
+}
+
 // "I Have This Property" — opens the Agent Code ↔ Agent Code chat.
 // Idempotent: clicking twice doesn't create two response rows.
 export async function respondToBroadcast(broadcastId: string, agentProfileId: string) {

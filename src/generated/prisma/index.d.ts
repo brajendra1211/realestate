@@ -288,6 +288,11 @@ export type BuyerInterest = $Result.DefaultSelection<Prisma.$BuyerInterestPayloa
  * 
  */
 export type BuyerInterestAcceptance = $Result.DefaultSelection<Prisma.$BuyerInterestAcceptancePayload>
+/**
+ * Model SupportTicket
+ * 
+ */
+export type SupportTicket = $Result.DefaultSelection<Prisma.$SupportTicketPayload>
 
 /**
  * Enums
@@ -325,6 +330,8 @@ export type ListingType = (typeof ListingType)[keyof typeof ListingType]
 
 export const PropertyType: {
   APARTMENT: 'APARTMENT',
+  PENTHOUSE: 'PENTHOUSE',
+  DUPLEX: 'DUPLEX',
   VILLA: 'VILLA',
   INDEPENDENT_HOUSE: 'INDEPENDENT_HOUSE',
   PLOT: 'PLOT',
@@ -504,10 +511,21 @@ export const DispatchStatus: {
   SEARCHING: 'SEARCHING',
   MATCHED: 'MATCHED',
   EXPIRED: 'EXPIRED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  COMPANY: 'COMPANY'
 };
 
 export type DispatchStatus = (typeof DispatchStatus)[keyof typeof DispatchStatus]
+
+
+export const DispatchPurpose: {
+  RENT: 'RENT',
+  BUY: 'BUY',
+  SELL: 'SELL',
+  LETOUT: 'LETOUT'
+};
+
+export type DispatchPurpose = (typeof DispatchPurpose)[keyof typeof DispatchPurpose]
 
 
 export const BroadcastStatus: {
@@ -576,6 +594,24 @@ export const BuyerInterestStatus: {
 };
 
 export type BuyerInterestStatus = (typeof BuyerInterestStatus)[keyof typeof BuyerInterestStatus]
+
+
+export const SupportCategory: {
+  COMMISSION_CONFLICT: 'COMMISSION_CONFLICT',
+  CUSTOMER_COMPLAINT: 'CUSTOMER_COMPLAINT',
+  WEBSITE_FEEDBACK: 'WEBSITE_FEEDBACK'
+};
+
+export type SupportCategory = (typeof SupportCategory)[keyof typeof SupportCategory]
+
+
+export const SupportStatus: {
+  OPEN: 'OPEN',
+  IN_REVIEW: 'IN_REVIEW',
+  RESOLVED: 'RESOLVED'
+};
+
+export type SupportStatus = (typeof SupportStatus)[keyof typeof SupportStatus]
 
 }
 
@@ -663,6 +699,10 @@ export type DispatchStatus = $Enums.DispatchStatus
 
 export const DispatchStatus: typeof $Enums.DispatchStatus
 
+export type DispatchPurpose = $Enums.DispatchPurpose
+
+export const DispatchPurpose: typeof $Enums.DispatchPurpose
+
 export type BroadcastStatus = $Enums.BroadcastStatus
 
 export const BroadcastStatus: typeof $Enums.BroadcastStatus
@@ -686,6 +726,14 @@ export const ListingRequestStatus: typeof $Enums.ListingRequestStatus
 export type BuyerInterestStatus = $Enums.BuyerInterestStatus
 
 export const BuyerInterestStatus: typeof $Enums.BuyerInterestStatus
+
+export type SupportCategory = $Enums.SupportCategory
+
+export const SupportCategory: typeof $Enums.SupportCategory
+
+export type SupportStatus = $Enums.SupportStatus
+
+export const SupportStatus: typeof $Enums.SupportStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1357,6 +1405,16 @@ export class PrismaClient<
     * ```
     */
   get buyerInterestAcceptance(): Prisma.BuyerInterestAcceptanceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.supportTicket`: Exposes CRUD operations for the **SupportTicket** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SupportTickets
+    * const supportTickets = await prisma.supportTicket.findMany()
+    * ```
+    */
+  get supportTicket(): Prisma.SupportTicketDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1858,7 +1916,8 @@ export namespace Prisma {
     PushToken: 'PushToken',
     ListingRequest: 'ListingRequest',
     BuyerInterest: 'BuyerInterest',
-    BuyerInterestAcceptance: 'BuyerInterestAcceptance'
+    BuyerInterestAcceptance: 'BuyerInterestAcceptance',
+    SupportTicket: 'SupportTicket'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1874,7 +1933,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "propertyRingLog" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "savedAgentListing" | "agentListingRingLog" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment" | "directPropertyVisit" | "platformAntiBypassAgreement" | "agentShopUnlock" | "pushToken" | "listingRequest" | "buyerInterest" | "buyerInterestAcceptance"
+      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "propertyRingLog" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "savedAgentListing" | "agentListingRingLog" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment" | "directPropertyVisit" | "platformAntiBypassAgreement" | "agentShopUnlock" | "pushToken" | "listingRequest" | "buyerInterest" | "buyerInterestAcceptance" | "supportTicket"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5508,6 +5567,72 @@ export namespace Prisma {
           }
         }
       }
+      SupportTicket: {
+        payload: Prisma.$SupportTicketPayload<ExtArgs>
+        fields: Prisma.SupportTicketFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SupportTicketFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SupportTicketFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketPayload>
+          }
+          findFirst: {
+            args: Prisma.SupportTicketFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SupportTicketFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketPayload>
+          }
+          findMany: {
+            args: Prisma.SupportTicketFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketPayload>[]
+          }
+          create: {
+            args: Prisma.SupportTicketCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketPayload>
+          }
+          createMany: {
+            args: Prisma.SupportTicketCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.SupportTicketDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketPayload>
+          }
+          update: {
+            args: Prisma.SupportTicketUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketPayload>
+          }
+          deleteMany: {
+            args: Prisma.SupportTicketDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SupportTicketUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SupportTicketUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SupportTicketPayload>
+          }
+          aggregate: {
+            args: Prisma.SupportTicketAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSupportTicket>
+          }
+          groupBy: {
+            args: Prisma.SupportTicketGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SupportTicketGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SupportTicketCountArgs<ExtArgs>
+            result: $Utils.Optional<SupportTicketCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5686,6 +5811,7 @@ export namespace Prisma {
     listingRequest?: ListingRequestOmit
     buyerInterest?: BuyerInterestOmit
     buyerInterestAcceptance?: BuyerInterestAcceptanceOmit
+    supportTicket?: SupportTicketOmit
   }
 
   /* Types for Logging */
@@ -6855,6 +6981,8 @@ export namespace Prisma {
     licenseNumber: string | null
     address: string | null
     website: string | null
+    metaChannelUrl: string | null
+    termsAcceptedAt: Date | null
     instagramUrl: string | null
     facebookUrl: string | null
     passwordHash: string | null
@@ -6891,6 +7019,8 @@ export namespace Prisma {
     licenseNumber: string | null
     address: string | null
     website: string | null
+    metaChannelUrl: string | null
+    termsAcceptedAt: Date | null
     instagramUrl: string | null
     facebookUrl: string | null
     passwordHash: string | null
@@ -6927,6 +7057,8 @@ export namespace Prisma {
     licenseNumber: number
     address: number
     website: number
+    metaChannelUrl: number
+    termsAcceptedAt: number
     instagramUrl: number
     facebookUrl: number
     passwordHash: number
@@ -6973,6 +7105,8 @@ export namespace Prisma {
     licenseNumber?: true
     address?: true
     website?: true
+    metaChannelUrl?: true
+    termsAcceptedAt?: true
     instagramUrl?: true
     facebookUrl?: true
     passwordHash?: true
@@ -7009,6 +7143,8 @@ export namespace Prisma {
     licenseNumber?: true
     address?: true
     website?: true
+    metaChannelUrl?: true
+    termsAcceptedAt?: true
     instagramUrl?: true
     facebookUrl?: true
     passwordHash?: true
@@ -7045,6 +7181,8 @@ export namespace Prisma {
     licenseNumber?: true
     address?: true
     website?: true
+    metaChannelUrl?: true
+    termsAcceptedAt?: true
     instagramUrl?: true
     facebookUrl?: true
     passwordHash?: true
@@ -7168,6 +7306,8 @@ export namespace Prisma {
     licenseNumber: string | null
     address: string | null
     website: string | null
+    metaChannelUrl: string | null
+    termsAcceptedAt: Date | null
     instagramUrl: string | null
     facebookUrl: string | null
     passwordHash: string | null
@@ -7223,6 +7363,8 @@ export namespace Prisma {
     licenseNumber?: boolean
     address?: boolean
     website?: boolean
+    metaChannelUrl?: boolean
+    termsAcceptedAt?: boolean
     instagramUrl?: boolean
     facebookUrl?: boolean
     passwordHash?: boolean
@@ -7280,6 +7422,8 @@ export namespace Prisma {
     licenseNumber?: boolean
     address?: boolean
     website?: boolean
+    metaChannelUrl?: boolean
+    termsAcceptedAt?: boolean
     instagramUrl?: boolean
     facebookUrl?: boolean
     passwordHash?: boolean
@@ -7304,7 +7448,7 @@ export namespace Prisma {
     cancelledChequeUrl?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "company" | "slug" | "about" | "logoUrl" | "licenseNumber" | "address" | "website" | "instagramUrl" | "facebookUrl" | "passwordHash" | "role" | "verified" | "createdAt" | "referredByAgentId" | "secondaryPhone" | "whatsappNumber" | "age" | "dateOfBirth" | "panNumber" | "panCardUrl" | "aadhaarNumber" | "aadhaarFrontUrl" | "aadhaarBackUrl" | "bankAccountName" | "bankAccountNumber" | "bankIfsc" | "bankName" | "bankBranch" | "cancelledChequeUrl", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "company" | "slug" | "about" | "logoUrl" | "licenseNumber" | "address" | "website" | "metaChannelUrl" | "termsAcceptedAt" | "instagramUrl" | "facebookUrl" | "passwordHash" | "role" | "verified" | "createdAt" | "referredByAgentId" | "secondaryPhone" | "whatsappNumber" | "age" | "dateOfBirth" | "panNumber" | "panCardUrl" | "aadhaarNumber" | "aadhaarFrontUrl" | "aadhaarBackUrl" | "bankAccountName" | "bankAccountNumber" | "bankIfsc" | "bankName" | "bankBranch" | "cancelledChequeUrl", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     properties?: boolean | User$propertiesArgs<ExtArgs>
     subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
@@ -7361,6 +7505,8 @@ export namespace Prisma {
       licenseNumber: string | null
       address: string | null
       website: string | null
+      metaChannelUrl: string | null
+      termsAcceptedAt: Date | null
       instagramUrl: string | null
       facebookUrl: string | null
       passwordHash: string | null
@@ -7781,6 +7927,8 @@ export namespace Prisma {
     readonly licenseNumber: FieldRef<"User", 'String'>
     readonly address: FieldRef<"User", 'String'>
     readonly website: FieldRef<"User", 'String'>
+    readonly metaChannelUrl: FieldRef<"User", 'String'>
+    readonly termsAcceptedAt: FieldRef<"User", 'DateTime'>
     readonly instagramUrl: FieldRef<"User", 'String'>
     readonly facebookUrl: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
@@ -46080,6 +46228,10 @@ export namespace Prisma {
     companySplit: number | null
     currentRadiusKm: number | null
     currentBatch: number | null
+    selectedRadiusKm: number | null
+    bhk: number | null
+    budgetMin: number | null
+    budgetMax: number | null
   }
 
   export type DispatchRequestSumAggregateOutputType = {
@@ -46090,6 +46242,10 @@ export namespace Prisma {
     companySplit: number | null
     currentRadiusKm: number | null
     currentBatch: number | null
+    selectedRadiusKm: number | null
+    bhk: number | null
+    budgetMin: number | null
+    budgetMax: number | null
   }
 
   export type DispatchRequestMinAggregateOutputType = {
@@ -46106,6 +46262,17 @@ export namespace Prisma {
     currentRadiusKm: number | null
     currentBatch: number | null
     batchStartedAt: Date | null
+    purpose: $Enums.DispatchPurpose | null
+    selectedRadiusKm: number | null
+    societyName: string | null
+    bhk: number | null
+    budgetMin: number | null
+    budgetMax: number | null
+    budgetLabel: string | null
+    highPriority: boolean | null
+    staffId: string | null
+    staffNote: string | null
+    contactedAt: Date | null
     acceptedByAgentId: string | null
     acceptedAt: Date | null
     createdAt: Date | null
@@ -46125,6 +46292,17 @@ export namespace Prisma {
     currentRadiusKm: number | null
     currentBatch: number | null
     batchStartedAt: Date | null
+    purpose: $Enums.DispatchPurpose | null
+    selectedRadiusKm: number | null
+    societyName: string | null
+    bhk: number | null
+    budgetMin: number | null
+    budgetMax: number | null
+    budgetLabel: string | null
+    highPriority: boolean | null
+    staffId: string | null
+    staffNote: string | null
+    contactedAt: Date | null
     acceptedByAgentId: string | null
     acceptedAt: Date | null
     createdAt: Date | null
@@ -46144,6 +46322,17 @@ export namespace Prisma {
     currentRadiusKm: number
     currentBatch: number
     batchStartedAt: number
+    purpose: number
+    selectedRadiusKm: number
+    societyName: number
+    bhk: number
+    budgetMin: number
+    budgetMax: number
+    budgetLabel: number
+    highPriority: number
+    staffId: number
+    staffNote: number
+    contactedAt: number
     acceptedByAgentId: number
     acceptedAt: number
     createdAt: number
@@ -46159,6 +46348,10 @@ export namespace Prisma {
     companySplit?: true
     currentRadiusKm?: true
     currentBatch?: true
+    selectedRadiusKm?: true
+    bhk?: true
+    budgetMin?: true
+    budgetMax?: true
   }
 
   export type DispatchRequestSumAggregateInputType = {
@@ -46169,6 +46362,10 @@ export namespace Prisma {
     companySplit?: true
     currentRadiusKm?: true
     currentBatch?: true
+    selectedRadiusKm?: true
+    bhk?: true
+    budgetMin?: true
+    budgetMax?: true
   }
 
   export type DispatchRequestMinAggregateInputType = {
@@ -46185,6 +46382,17 @@ export namespace Prisma {
     currentRadiusKm?: true
     currentBatch?: true
     batchStartedAt?: true
+    purpose?: true
+    selectedRadiusKm?: true
+    societyName?: true
+    bhk?: true
+    budgetMin?: true
+    budgetMax?: true
+    budgetLabel?: true
+    highPriority?: true
+    staffId?: true
+    staffNote?: true
+    contactedAt?: true
     acceptedByAgentId?: true
     acceptedAt?: true
     createdAt?: true
@@ -46204,6 +46412,17 @@ export namespace Prisma {
     currentRadiusKm?: true
     currentBatch?: true
     batchStartedAt?: true
+    purpose?: true
+    selectedRadiusKm?: true
+    societyName?: true
+    bhk?: true
+    budgetMin?: true
+    budgetMax?: true
+    budgetLabel?: true
+    highPriority?: true
+    staffId?: true
+    staffNote?: true
+    contactedAt?: true
     acceptedByAgentId?: true
     acceptedAt?: true
     createdAt?: true
@@ -46223,6 +46442,17 @@ export namespace Prisma {
     currentRadiusKm?: true
     currentBatch?: true
     batchStartedAt?: true
+    purpose?: true
+    selectedRadiusKm?: true
+    societyName?: true
+    bhk?: true
+    budgetMin?: true
+    budgetMax?: true
+    budgetLabel?: true
+    highPriority?: true
+    staffId?: true
+    staffNote?: true
+    contactedAt?: true
     acceptedByAgentId?: true
     acceptedAt?: true
     createdAt?: true
@@ -46329,6 +46559,17 @@ export namespace Prisma {
     currentRadiusKm: number
     currentBatch: number
     batchStartedAt: Date
+    purpose: $Enums.DispatchPurpose
+    selectedRadiusKm: number
+    societyName: string | null
+    bhk: number | null
+    budgetMin: number | null
+    budgetMax: number | null
+    budgetLabel: string | null
+    highPriority: boolean
+    staffId: string | null
+    staffNote: string | null
+    contactedAt: Date | null
     acceptedByAgentId: string | null
     acceptedAt: Date | null
     createdAt: Date
@@ -46367,6 +46608,17 @@ export namespace Prisma {
     currentRadiusKm?: boolean
     currentBatch?: boolean
     batchStartedAt?: boolean
+    purpose?: boolean
+    selectedRadiusKm?: boolean
+    societyName?: boolean
+    bhk?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    budgetLabel?: boolean
+    highPriority?: boolean
+    staffId?: boolean
+    staffNote?: boolean
+    contactedAt?: boolean
     acceptedByAgentId?: boolean
     acceptedAt?: boolean
     createdAt?: boolean
@@ -46392,12 +46644,23 @@ export namespace Prisma {
     currentRadiusKm?: boolean
     currentBatch?: boolean
     batchStartedAt?: boolean
+    purpose?: boolean
+    selectedRadiusKm?: boolean
+    societyName?: boolean
+    bhk?: boolean
+    budgetMin?: boolean
+    budgetMax?: boolean
+    budgetLabel?: boolean
+    highPriority?: boolean
+    staffId?: boolean
+    staffNote?: boolean
+    contactedAt?: boolean
     acceptedByAgentId?: boolean
     acceptedAt?: boolean
     createdAt?: boolean
   }
 
-  export type DispatchRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "buyerId" | "latitude" | "longitude" | "amount" | "agentSplit" | "companySplit" | "paymentMode" | "razorpayOrderId" | "status" | "currentRadiusKm" | "currentBatch" | "batchStartedAt" | "acceptedByAgentId" | "acceptedAt" | "createdAt", ExtArgs["result"]["dispatchRequest"]>
+  export type DispatchRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "buyerId" | "latitude" | "longitude" | "amount" | "agentSplit" | "companySplit" | "paymentMode" | "razorpayOrderId" | "status" | "currentRadiusKm" | "currentBatch" | "batchStartedAt" | "purpose" | "selectedRadiusKm" | "societyName" | "bhk" | "budgetMin" | "budgetMax" | "budgetLabel" | "highPriority" | "staffId" | "staffNote" | "contactedAt" | "acceptedByAgentId" | "acceptedAt" | "createdAt", ExtArgs["result"]["dispatchRequest"]>
   export type DispatchRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     acceptedAgent?: boolean | DispatchRequest$acceptedAgentArgs<ExtArgs>
@@ -46426,6 +46689,17 @@ export namespace Prisma {
       currentRadiusKm: number
       currentBatch: number
       batchStartedAt: Date
+      purpose: $Enums.DispatchPurpose
+      selectedRadiusKm: number
+      societyName: string | null
+      bhk: number | null
+      budgetMin: number | null
+      budgetMax: number | null
+      budgetLabel: string | null
+      highPriority: boolean
+      staffId: string | null
+      staffNote: string | null
+      contactedAt: Date | null
       acceptedByAgentId: string | null
       acceptedAt: Date | null
       createdAt: Date
@@ -46814,6 +47088,17 @@ export namespace Prisma {
     readonly currentRadiusKm: FieldRef<"DispatchRequest", 'Int'>
     readonly currentBatch: FieldRef<"DispatchRequest", 'Int'>
     readonly batchStartedAt: FieldRef<"DispatchRequest", 'DateTime'>
+    readonly purpose: FieldRef<"DispatchRequest", 'DispatchPurpose'>
+    readonly selectedRadiusKm: FieldRef<"DispatchRequest", 'Int'>
+    readonly societyName: FieldRef<"DispatchRequest", 'String'>
+    readonly bhk: FieldRef<"DispatchRequest", 'Int'>
+    readonly budgetMin: FieldRef<"DispatchRequest", 'Int'>
+    readonly budgetMax: FieldRef<"DispatchRequest", 'Int'>
+    readonly budgetLabel: FieldRef<"DispatchRequest", 'String'>
+    readonly highPriority: FieldRef<"DispatchRequest", 'Boolean'>
+    readonly staffId: FieldRef<"DispatchRequest", 'String'>
+    readonly staffNote: FieldRef<"DispatchRequest", 'String'>
+    readonly contactedAt: FieldRef<"DispatchRequest", 'DateTime'>
     readonly acceptedByAgentId: FieldRef<"DispatchRequest", 'String'>
     readonly acceptedAt: FieldRef<"DispatchRequest", 'DateTime'>
     readonly createdAt: FieldRef<"DispatchRequest", 'DateTime'>
@@ -66722,6 +67007,959 @@ export namespace Prisma {
 
 
   /**
+   * Model SupportTicket
+   */
+
+  export type AggregateSupportTicket = {
+    _count: SupportTicketCountAggregateOutputType | null
+    _min: SupportTicketMinAggregateOutputType | null
+    _max: SupportTicketMaxAggregateOutputType | null
+  }
+
+  export type SupportTicketMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    role: string | null
+    category: $Enums.SupportCategory | null
+    subject: string | null
+    message: string | null
+    status: $Enums.SupportStatus | null
+    resolution: string | null
+    dueAt: Date | null
+    resolvedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type SupportTicketMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    role: string | null
+    category: $Enums.SupportCategory | null
+    subject: string | null
+    message: string | null
+    status: $Enums.SupportStatus | null
+    resolution: string | null
+    dueAt: Date | null
+    resolvedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type SupportTicketCountAggregateOutputType = {
+    id: number
+    userId: number
+    role: number
+    category: number
+    subject: number
+    message: number
+    status: number
+    resolution: number
+    dueAt: number
+    resolvedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SupportTicketMinAggregateInputType = {
+    id?: true
+    userId?: true
+    role?: true
+    category?: true
+    subject?: true
+    message?: true
+    status?: true
+    resolution?: true
+    dueAt?: true
+    resolvedAt?: true
+    createdAt?: true
+  }
+
+  export type SupportTicketMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    role?: true
+    category?: true
+    subject?: true
+    message?: true
+    status?: true
+    resolution?: true
+    dueAt?: true
+    resolvedAt?: true
+    createdAt?: true
+  }
+
+  export type SupportTicketCountAggregateInputType = {
+    id?: true
+    userId?: true
+    role?: true
+    category?: true
+    subject?: true
+    message?: true
+    status?: true
+    resolution?: true
+    dueAt?: true
+    resolvedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SupportTicketAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupportTicket to aggregate.
+     */
+    where?: SupportTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportTickets to fetch.
+     */
+    orderBy?: SupportTicketOrderByWithRelationInput | SupportTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SupportTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SupportTickets
+    **/
+    _count?: true | SupportTicketCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SupportTicketMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SupportTicketMaxAggregateInputType
+  }
+
+  export type GetSupportTicketAggregateType<T extends SupportTicketAggregateArgs> = {
+        [P in keyof T & keyof AggregateSupportTicket]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSupportTicket[P]>
+      : GetScalarType<T[P], AggregateSupportTicket[P]>
+  }
+
+
+
+
+  export type SupportTicketGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SupportTicketWhereInput
+    orderBy?: SupportTicketOrderByWithAggregationInput | SupportTicketOrderByWithAggregationInput[]
+    by: SupportTicketScalarFieldEnum[] | SupportTicketScalarFieldEnum
+    having?: SupportTicketScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SupportTicketCountAggregateInputType | true
+    _min?: SupportTicketMinAggregateInputType
+    _max?: SupportTicketMaxAggregateInputType
+  }
+
+  export type SupportTicketGroupByOutputType = {
+    id: string
+    userId: string
+    role: string
+    category: $Enums.SupportCategory
+    subject: string
+    message: string
+    status: $Enums.SupportStatus
+    resolution: string | null
+    dueAt: Date
+    resolvedAt: Date | null
+    createdAt: Date
+    _count: SupportTicketCountAggregateOutputType | null
+    _min: SupportTicketMinAggregateOutputType | null
+    _max: SupportTicketMaxAggregateOutputType | null
+  }
+
+  type GetSupportTicketGroupByPayload<T extends SupportTicketGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SupportTicketGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SupportTicketGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SupportTicketGroupByOutputType[P]>
+            : GetScalarType<T[P], SupportTicketGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SupportTicketSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    role?: boolean
+    category?: boolean
+    subject?: boolean
+    message?: boolean
+    status?: boolean
+    resolution?: boolean
+    dueAt?: boolean
+    resolvedAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["supportTicket"]>
+
+
+
+  export type SupportTicketSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    role?: boolean
+    category?: boolean
+    subject?: boolean
+    message?: boolean
+    status?: boolean
+    resolution?: boolean
+    dueAt?: boolean
+    resolvedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type SupportTicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "role" | "category" | "subject" | "message" | "status" | "resolution" | "dueAt" | "resolvedAt" | "createdAt", ExtArgs["result"]["supportTicket"]>
+
+  export type $SupportTicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SupportTicket"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      role: string
+      category: $Enums.SupportCategory
+      subject: string
+      message: string
+      status: $Enums.SupportStatus
+      resolution: string | null
+      dueAt: Date
+      resolvedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["supportTicket"]>
+    composites: {}
+  }
+
+  type SupportTicketGetPayload<S extends boolean | null | undefined | SupportTicketDefaultArgs> = $Result.GetResult<Prisma.$SupportTicketPayload, S>
+
+  type SupportTicketCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SupportTicketFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SupportTicketCountAggregateInputType | true
+    }
+
+  export interface SupportTicketDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SupportTicket'], meta: { name: 'SupportTicket' } }
+    /**
+     * Find zero or one SupportTicket that matches the filter.
+     * @param {SupportTicketFindUniqueArgs} args - Arguments to find a SupportTicket
+     * @example
+     * // Get one SupportTicket
+     * const supportTicket = await prisma.supportTicket.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SupportTicketFindUniqueArgs>(args: SelectSubset<T, SupportTicketFindUniqueArgs<ExtArgs>>): Prisma__SupportTicketClient<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SupportTicket that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SupportTicketFindUniqueOrThrowArgs} args - Arguments to find a SupportTicket
+     * @example
+     * // Get one SupportTicket
+     * const supportTicket = await prisma.supportTicket.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SupportTicketFindUniqueOrThrowArgs>(args: SelectSubset<T, SupportTicketFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SupportTicketClient<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupportTicket that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketFindFirstArgs} args - Arguments to find a SupportTicket
+     * @example
+     * // Get one SupportTicket
+     * const supportTicket = await prisma.supportTicket.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SupportTicketFindFirstArgs>(args?: SelectSubset<T, SupportTicketFindFirstArgs<ExtArgs>>): Prisma__SupportTicketClient<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SupportTicket that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketFindFirstOrThrowArgs} args - Arguments to find a SupportTicket
+     * @example
+     * // Get one SupportTicket
+     * const supportTicket = await prisma.supportTicket.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SupportTicketFindFirstOrThrowArgs>(args?: SelectSubset<T, SupportTicketFindFirstOrThrowArgs<ExtArgs>>): Prisma__SupportTicketClient<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SupportTickets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SupportTickets
+     * const supportTickets = await prisma.supportTicket.findMany()
+     * 
+     * // Get first 10 SupportTickets
+     * const supportTickets = await prisma.supportTicket.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const supportTicketWithIdOnly = await prisma.supportTicket.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SupportTicketFindManyArgs>(args?: SelectSubset<T, SupportTicketFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SupportTicket.
+     * @param {SupportTicketCreateArgs} args - Arguments to create a SupportTicket.
+     * @example
+     * // Create one SupportTicket
+     * const SupportTicket = await prisma.supportTicket.create({
+     *   data: {
+     *     // ... data to create a SupportTicket
+     *   }
+     * })
+     * 
+     */
+    create<T extends SupportTicketCreateArgs>(args: SelectSubset<T, SupportTicketCreateArgs<ExtArgs>>): Prisma__SupportTicketClient<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SupportTickets.
+     * @param {SupportTicketCreateManyArgs} args - Arguments to create many SupportTickets.
+     * @example
+     * // Create many SupportTickets
+     * const supportTicket = await prisma.supportTicket.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SupportTicketCreateManyArgs>(args?: SelectSubset<T, SupportTicketCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a SupportTicket.
+     * @param {SupportTicketDeleteArgs} args - Arguments to delete one SupportTicket.
+     * @example
+     * // Delete one SupportTicket
+     * const SupportTicket = await prisma.supportTicket.delete({
+     *   where: {
+     *     // ... filter to delete one SupportTicket
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SupportTicketDeleteArgs>(args: SelectSubset<T, SupportTicketDeleteArgs<ExtArgs>>): Prisma__SupportTicketClient<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SupportTicket.
+     * @param {SupportTicketUpdateArgs} args - Arguments to update one SupportTicket.
+     * @example
+     * // Update one SupportTicket
+     * const supportTicket = await prisma.supportTicket.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SupportTicketUpdateArgs>(args: SelectSubset<T, SupportTicketUpdateArgs<ExtArgs>>): Prisma__SupportTicketClient<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SupportTickets.
+     * @param {SupportTicketDeleteManyArgs} args - Arguments to filter SupportTickets to delete.
+     * @example
+     * // Delete a few SupportTickets
+     * const { count } = await prisma.supportTicket.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SupportTicketDeleteManyArgs>(args?: SelectSubset<T, SupportTicketDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SupportTickets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SupportTickets
+     * const supportTicket = await prisma.supportTicket.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SupportTicketUpdateManyArgs>(args: SelectSubset<T, SupportTicketUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SupportTicket.
+     * @param {SupportTicketUpsertArgs} args - Arguments to update or create a SupportTicket.
+     * @example
+     * // Update or create a SupportTicket
+     * const supportTicket = await prisma.supportTicket.upsert({
+     *   create: {
+     *     // ... data to create a SupportTicket
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SupportTicket we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SupportTicketUpsertArgs>(args: SelectSubset<T, SupportTicketUpsertArgs<ExtArgs>>): Prisma__SupportTicketClient<$Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SupportTickets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketCountArgs} args - Arguments to filter SupportTickets to count.
+     * @example
+     * // Count the number of SupportTickets
+     * const count = await prisma.supportTicket.count({
+     *   where: {
+     *     // ... the filter for the SupportTickets we want to count
+     *   }
+     * })
+    **/
+    count<T extends SupportTicketCountArgs>(
+      args?: Subset<T, SupportTicketCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SupportTicketCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SupportTicket.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SupportTicketAggregateArgs>(args: Subset<T, SupportTicketAggregateArgs>): Prisma.PrismaPromise<GetSupportTicketAggregateType<T>>
+
+    /**
+     * Group by SupportTicket.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SupportTicketGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SupportTicketGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SupportTicketGroupByArgs['orderBy'] }
+        : { orderBy?: SupportTicketGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SupportTicketGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSupportTicketGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SupportTicket model
+   */
+  readonly fields: SupportTicketFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SupportTicket.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SupportTicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SupportTicket model
+   */
+  interface SupportTicketFieldRefs {
+    readonly id: FieldRef<"SupportTicket", 'String'>
+    readonly userId: FieldRef<"SupportTicket", 'String'>
+    readonly role: FieldRef<"SupportTicket", 'String'>
+    readonly category: FieldRef<"SupportTicket", 'SupportCategory'>
+    readonly subject: FieldRef<"SupportTicket", 'String'>
+    readonly message: FieldRef<"SupportTicket", 'String'>
+    readonly status: FieldRef<"SupportTicket", 'SupportStatus'>
+    readonly resolution: FieldRef<"SupportTicket", 'String'>
+    readonly dueAt: FieldRef<"SupportTicket", 'DateTime'>
+    readonly resolvedAt: FieldRef<"SupportTicket", 'DateTime'>
+    readonly createdAt: FieldRef<"SupportTicket", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SupportTicket findUnique
+   */
+  export type SupportTicketFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * Filter, which SupportTicket to fetch.
+     */
+    where: SupportTicketWhereUniqueInput
+  }
+
+  /**
+   * SupportTicket findUniqueOrThrow
+   */
+  export type SupportTicketFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * Filter, which SupportTicket to fetch.
+     */
+    where: SupportTicketWhereUniqueInput
+  }
+
+  /**
+   * SupportTicket findFirst
+   */
+  export type SupportTicketFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * Filter, which SupportTicket to fetch.
+     */
+    where?: SupportTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportTickets to fetch.
+     */
+    orderBy?: SupportTicketOrderByWithRelationInput | SupportTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupportTickets.
+     */
+    cursor?: SupportTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupportTickets.
+     */
+    distinct?: SupportTicketScalarFieldEnum | SupportTicketScalarFieldEnum[]
+  }
+
+  /**
+   * SupportTicket findFirstOrThrow
+   */
+  export type SupportTicketFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * Filter, which SupportTicket to fetch.
+     */
+    where?: SupportTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportTickets to fetch.
+     */
+    orderBy?: SupportTicketOrderByWithRelationInput | SupportTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SupportTickets.
+     */
+    cursor?: SupportTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupportTickets.
+     */
+    distinct?: SupportTicketScalarFieldEnum | SupportTicketScalarFieldEnum[]
+  }
+
+  /**
+   * SupportTicket findMany
+   */
+  export type SupportTicketFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * Filter, which SupportTickets to fetch.
+     */
+    where?: SupportTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SupportTickets to fetch.
+     */
+    orderBy?: SupportTicketOrderByWithRelationInput | SupportTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SupportTickets.
+     */
+    cursor?: SupportTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SupportTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SupportTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SupportTickets.
+     */
+    distinct?: SupportTicketScalarFieldEnum | SupportTicketScalarFieldEnum[]
+  }
+
+  /**
+   * SupportTicket create
+   */
+  export type SupportTicketCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SupportTicket.
+     */
+    data: XOR<SupportTicketCreateInput, SupportTicketUncheckedCreateInput>
+  }
+
+  /**
+   * SupportTicket createMany
+   */
+  export type SupportTicketCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SupportTickets.
+     */
+    data: SupportTicketCreateManyInput | SupportTicketCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SupportTicket update
+   */
+  export type SupportTicketUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SupportTicket.
+     */
+    data: XOR<SupportTicketUpdateInput, SupportTicketUncheckedUpdateInput>
+    /**
+     * Choose, which SupportTicket to update.
+     */
+    where: SupportTicketWhereUniqueInput
+  }
+
+  /**
+   * SupportTicket updateMany
+   */
+  export type SupportTicketUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SupportTickets.
+     */
+    data: XOR<SupportTicketUpdateManyMutationInput, SupportTicketUncheckedUpdateManyInput>
+    /**
+     * Filter which SupportTickets to update
+     */
+    where?: SupportTicketWhereInput
+    /**
+     * Limit how many SupportTickets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupportTicket upsert
+   */
+  export type SupportTicketUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SupportTicket to update in case it exists.
+     */
+    where: SupportTicketWhereUniqueInput
+    /**
+     * In case the SupportTicket found by the `where` argument doesn't exist, create a new SupportTicket with this data.
+     */
+    create: XOR<SupportTicketCreateInput, SupportTicketUncheckedCreateInput>
+    /**
+     * In case the SupportTicket was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SupportTicketUpdateInput, SupportTicketUncheckedUpdateInput>
+  }
+
+  /**
+   * SupportTicket delete
+   */
+  export type SupportTicketDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+    /**
+     * Filter which SupportTicket to delete.
+     */
+    where: SupportTicketWhereUniqueInput
+  }
+
+  /**
+   * SupportTicket deleteMany
+   */
+  export type SupportTicketDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SupportTickets to delete
+     */
+    where?: SupportTicketWhereInput
+    /**
+     * Limit how many SupportTickets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SupportTicket without action
+   */
+  export type SupportTicketDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SupportTicket
+     */
+    select?: SupportTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SupportTicket
+     */
+    omit?: SupportTicketOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -66747,6 +67985,8 @@ export namespace Prisma {
     licenseNumber: 'licenseNumber',
     address: 'address',
     website: 'website',
+    metaChannelUrl: 'metaChannelUrl',
+    termsAcceptedAt: 'termsAcceptedAt',
     instagramUrl: 'instagramUrl',
     facebookUrl: 'facebookUrl',
     passwordHash: 'passwordHash',
@@ -67427,6 +68667,17 @@ export namespace Prisma {
     currentRadiusKm: 'currentRadiusKm',
     currentBatch: 'currentBatch',
     batchStartedAt: 'batchStartedAt',
+    purpose: 'purpose',
+    selectedRadiusKm: 'selectedRadiusKm',
+    societyName: 'societyName',
+    bhk: 'bhk',
+    budgetMin: 'budgetMin',
+    budgetMax: 'budgetMax',
+    budgetLabel: 'budgetLabel',
+    highPriority: 'highPriority',
+    staffId: 'staffId',
+    staffNote: 'staffNote',
+    contactedAt: 'contactedAt',
     acceptedByAgentId: 'acceptedByAgentId',
     acceptedAt: 'acceptedAt',
     createdAt: 'createdAt'
@@ -67739,6 +68990,23 @@ export namespace Prisma {
   export type BuyerInterestAcceptanceScalarFieldEnum = (typeof BuyerInterestAcceptanceScalarFieldEnum)[keyof typeof BuyerInterestAcceptanceScalarFieldEnum]
 
 
+  export const SupportTicketScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    role: 'role',
+    category: 'category',
+    subject: 'subject',
+    message: 'message',
+    status: 'status',
+    resolution: 'resolution',
+    dueAt: 'dueAt',
+    resolvedAt: 'resolvedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type SupportTicketScalarFieldEnum = (typeof SupportTicketScalarFieldEnum)[keyof typeof SupportTicketScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -67767,6 +69035,7 @@ export namespace Prisma {
     licenseNumber: 'licenseNumber',
     address: 'address',
     website: 'website',
+    metaChannelUrl: 'metaChannelUrl',
     instagramUrl: 'instagramUrl',
     facebookUrl: 'facebookUrl',
     passwordHash: 'passwordHash',
@@ -68214,6 +69483,10 @@ export namespace Prisma {
     id: 'id',
     buyerId: 'buyerId',
     razorpayOrderId: 'razorpayOrderId',
+    societyName: 'societyName',
+    budgetLabel: 'budgetLabel',
+    staffId: 'staffId',
+    staffNote: 'staffNote',
     acceptedByAgentId: 'acceptedByAgentId'
   };
 
@@ -68450,6 +69723,18 @@ export namespace Prisma {
   export type BuyerInterestAcceptanceOrderByRelevanceFieldEnum = (typeof BuyerInterestAcceptanceOrderByRelevanceFieldEnum)[keyof typeof BuyerInterestAcceptanceOrderByRelevanceFieldEnum]
 
 
+  export const SupportTicketOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    role: 'role',
+    subject: 'subject',
+    message: 'message',
+    resolution: 'resolution'
+  };
+
+  export type SupportTicketOrderByRelevanceFieldEnum = (typeof SupportTicketOrderByRelevanceFieldEnum)[keyof typeof SupportTicketOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -68459,6 +69744,13 @@ export namespace Prisma {
    * Reference to a field of type 'String'
    */
   export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
 
 
@@ -68473,13 +69765,6 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime'
-   */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
 
 
@@ -68638,6 +69923,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DispatchPurpose'
+   */
+  export type EnumDispatchPurposeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DispatchPurpose'>
+    
+
+
+  /**
    * Reference to a field of type 'BroadcastTxnType'
    */
   export type EnumBroadcastTxnTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BroadcastTxnType'>
@@ -68677,6 +69969,20 @@ export namespace Prisma {
    */
   export type EnumBuyerInterestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BuyerInterestStatus'>
     
+
+
+  /**
+   * Reference to a field of type 'SupportCategory'
+   */
+  export type EnumSupportCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupportCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'SupportStatus'
+   */
+  export type EnumSupportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupportStatus'>
+    
   /**
    * Deep Input Types
    */
@@ -68697,6 +70003,8 @@ export namespace Prisma {
     licenseNumber?: StringNullableFilter<"User"> | string | null
     address?: StringNullableFilter<"User"> | string | null
     website?: StringNullableFilter<"User"> | string | null
+    metaChannelUrl?: StringNullableFilter<"User"> | string | null
+    termsAcceptedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     instagramUrl?: StringNullableFilter<"User"> | string | null
     facebookUrl?: StringNullableFilter<"User"> | string | null
     passwordHash?: StringNullableFilter<"User"> | string | null
@@ -68751,6 +70059,8 @@ export namespace Prisma {
     licenseNumber?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     website?: SortOrderInput | SortOrder
+    metaChannelUrl?: SortOrderInput | SortOrder
+    termsAcceptedAt?: SortOrderInput | SortOrder
     instagramUrl?: SortOrderInput | SortOrder
     facebookUrl?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
@@ -68809,6 +70119,8 @@ export namespace Prisma {
     licenseNumber?: StringNullableFilter<"User"> | string | null
     address?: StringNullableFilter<"User"> | string | null
     website?: StringNullableFilter<"User"> | string | null
+    metaChannelUrl?: StringNullableFilter<"User"> | string | null
+    termsAcceptedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     instagramUrl?: StringNullableFilter<"User"> | string | null
     facebookUrl?: StringNullableFilter<"User"> | string | null
     passwordHash?: StringNullableFilter<"User"> | string | null
@@ -68863,6 +70175,8 @@ export namespace Prisma {
     licenseNumber?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     website?: SortOrderInput | SortOrder
+    metaChannelUrl?: SortOrderInput | SortOrder
+    termsAcceptedAt?: SortOrderInput | SortOrder
     instagramUrl?: SortOrderInput | SortOrder
     facebookUrl?: SortOrderInput | SortOrder
     passwordHash?: SortOrderInput | SortOrder
@@ -68907,6 +70221,8 @@ export namespace Prisma {
     licenseNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     address?: StringNullableWithAggregatesFilter<"User"> | string | null
     website?: StringNullableWithAggregatesFilter<"User"> | string | null
+    metaChannelUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    termsAcceptedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     instagramUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     facebookUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     passwordHash?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -72432,6 +73748,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFilter<"DispatchRequest"> | number
     currentBatch?: IntFilter<"DispatchRequest"> | number
     batchStartedAt?: DateTimeFilter<"DispatchRequest"> | Date | string
+    purpose?: EnumDispatchPurposeFilter<"DispatchRequest"> | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFilter<"DispatchRequest"> | number
+    societyName?: StringNullableFilter<"DispatchRequest"> | string | null
+    bhk?: IntNullableFilter<"DispatchRequest"> | number | null
+    budgetMin?: IntNullableFilter<"DispatchRequest"> | number | null
+    budgetMax?: IntNullableFilter<"DispatchRequest"> | number | null
+    budgetLabel?: StringNullableFilter<"DispatchRequest"> | string | null
+    highPriority?: BoolFilter<"DispatchRequest"> | boolean
+    staffId?: StringNullableFilter<"DispatchRequest"> | string | null
+    staffNote?: StringNullableFilter<"DispatchRequest"> | string | null
+    contactedAt?: DateTimeNullableFilter<"DispatchRequest"> | Date | string | null
     acceptedByAgentId?: StringNullableFilter<"DispatchRequest"> | string | null
     acceptedAt?: DateTimeNullableFilter<"DispatchRequest"> | Date | string | null
     createdAt?: DateTimeFilter<"DispatchRequest"> | Date | string
@@ -72454,6 +73781,17 @@ export namespace Prisma {
     currentRadiusKm?: SortOrder
     currentBatch?: SortOrder
     batchStartedAt?: SortOrder
+    purpose?: SortOrder
+    selectedRadiusKm?: SortOrder
+    societyName?: SortOrderInput | SortOrder
+    bhk?: SortOrderInput | SortOrder
+    budgetMin?: SortOrderInput | SortOrder
+    budgetMax?: SortOrderInput | SortOrder
+    budgetLabel?: SortOrderInput | SortOrder
+    highPriority?: SortOrder
+    staffId?: SortOrderInput | SortOrder
+    staffNote?: SortOrderInput | SortOrder
+    contactedAt?: SortOrderInput | SortOrder
     acceptedByAgentId?: SortOrderInput | SortOrder
     acceptedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -72480,6 +73818,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFilter<"DispatchRequest"> | number
     currentBatch?: IntFilter<"DispatchRequest"> | number
     batchStartedAt?: DateTimeFilter<"DispatchRequest"> | Date | string
+    purpose?: EnumDispatchPurposeFilter<"DispatchRequest"> | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFilter<"DispatchRequest"> | number
+    societyName?: StringNullableFilter<"DispatchRequest"> | string | null
+    bhk?: IntNullableFilter<"DispatchRequest"> | number | null
+    budgetMin?: IntNullableFilter<"DispatchRequest"> | number | null
+    budgetMax?: IntNullableFilter<"DispatchRequest"> | number | null
+    budgetLabel?: StringNullableFilter<"DispatchRequest"> | string | null
+    highPriority?: BoolFilter<"DispatchRequest"> | boolean
+    staffId?: StringNullableFilter<"DispatchRequest"> | string | null
+    staffNote?: StringNullableFilter<"DispatchRequest"> | string | null
+    contactedAt?: DateTimeNullableFilter<"DispatchRequest"> | Date | string | null
     acceptedByAgentId?: StringNullableFilter<"DispatchRequest"> | string | null
     acceptedAt?: DateTimeNullableFilter<"DispatchRequest"> | Date | string | null
     createdAt?: DateTimeFilter<"DispatchRequest"> | Date | string
@@ -72502,6 +73851,17 @@ export namespace Prisma {
     currentRadiusKm?: SortOrder
     currentBatch?: SortOrder
     batchStartedAt?: SortOrder
+    purpose?: SortOrder
+    selectedRadiusKm?: SortOrder
+    societyName?: SortOrderInput | SortOrder
+    bhk?: SortOrderInput | SortOrder
+    budgetMin?: SortOrderInput | SortOrder
+    budgetMax?: SortOrderInput | SortOrder
+    budgetLabel?: SortOrderInput | SortOrder
+    highPriority?: SortOrder
+    staffId?: SortOrderInput | SortOrder
+    staffNote?: SortOrderInput | SortOrder
+    contactedAt?: SortOrderInput | SortOrder
     acceptedByAgentId?: SortOrderInput | SortOrder
     acceptedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -72529,6 +73889,17 @@ export namespace Prisma {
     currentRadiusKm?: IntWithAggregatesFilter<"DispatchRequest"> | number
     currentBatch?: IntWithAggregatesFilter<"DispatchRequest"> | number
     batchStartedAt?: DateTimeWithAggregatesFilter<"DispatchRequest"> | Date | string
+    purpose?: EnumDispatchPurposeWithAggregatesFilter<"DispatchRequest"> | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntWithAggregatesFilter<"DispatchRequest"> | number
+    societyName?: StringNullableWithAggregatesFilter<"DispatchRequest"> | string | null
+    bhk?: IntNullableWithAggregatesFilter<"DispatchRequest"> | number | null
+    budgetMin?: IntNullableWithAggregatesFilter<"DispatchRequest"> | number | null
+    budgetMax?: IntNullableWithAggregatesFilter<"DispatchRequest"> | number | null
+    budgetLabel?: StringNullableWithAggregatesFilter<"DispatchRequest"> | string | null
+    highPriority?: BoolWithAggregatesFilter<"DispatchRequest"> | boolean
+    staffId?: StringNullableWithAggregatesFilter<"DispatchRequest"> | string | null
+    staffNote?: StringNullableWithAggregatesFilter<"DispatchRequest"> | string | null
+    contactedAt?: DateTimeNullableWithAggregatesFilter<"DispatchRequest"> | Date | string | null
     acceptedByAgentId?: StringNullableWithAggregatesFilter<"DispatchRequest"> | string | null
     acceptedAt?: DateTimeNullableWithAggregatesFilter<"DispatchRequest"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"DispatchRequest"> | Date | string
@@ -74155,6 +75526,89 @@ export namespace Prisma {
     acceptedAt?: DateTimeWithAggregatesFilter<"BuyerInterestAcceptance"> | Date | string
   }
 
+  export type SupportTicketWhereInput = {
+    AND?: SupportTicketWhereInput | SupportTicketWhereInput[]
+    OR?: SupportTicketWhereInput[]
+    NOT?: SupportTicketWhereInput | SupportTicketWhereInput[]
+    id?: StringFilter<"SupportTicket"> | string
+    userId?: StringFilter<"SupportTicket"> | string
+    role?: StringFilter<"SupportTicket"> | string
+    category?: EnumSupportCategoryFilter<"SupportTicket"> | $Enums.SupportCategory
+    subject?: StringFilter<"SupportTicket"> | string
+    message?: StringFilter<"SupportTicket"> | string
+    status?: EnumSupportStatusFilter<"SupportTicket"> | $Enums.SupportStatus
+    resolution?: StringNullableFilter<"SupportTicket"> | string | null
+    dueAt?: DateTimeFilter<"SupportTicket"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"SupportTicket"> | Date | string | null
+    createdAt?: DateTimeFilter<"SupportTicket"> | Date | string
+  }
+
+  export type SupportTicketOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrderInput | SortOrder
+    dueAt?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _relevance?: SupportTicketOrderByRelevanceInput
+  }
+
+  export type SupportTicketWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SupportTicketWhereInput | SupportTicketWhereInput[]
+    OR?: SupportTicketWhereInput[]
+    NOT?: SupportTicketWhereInput | SupportTicketWhereInput[]
+    userId?: StringFilter<"SupportTicket"> | string
+    role?: StringFilter<"SupportTicket"> | string
+    category?: EnumSupportCategoryFilter<"SupportTicket"> | $Enums.SupportCategory
+    subject?: StringFilter<"SupportTicket"> | string
+    message?: StringFilter<"SupportTicket"> | string
+    status?: EnumSupportStatusFilter<"SupportTicket"> | $Enums.SupportStatus
+    resolution?: StringNullableFilter<"SupportTicket"> | string | null
+    dueAt?: DateTimeFilter<"SupportTicket"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"SupportTicket"> | Date | string | null
+    createdAt?: DateTimeFilter<"SupportTicket"> | Date | string
+  }, "id">
+
+  export type SupportTicketOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrderInput | SortOrder
+    dueAt?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: SupportTicketCountOrderByAggregateInput
+    _max?: SupportTicketMaxOrderByAggregateInput
+    _min?: SupportTicketMinOrderByAggregateInput
+  }
+
+  export type SupportTicketScalarWhereWithAggregatesInput = {
+    AND?: SupportTicketScalarWhereWithAggregatesInput | SupportTicketScalarWhereWithAggregatesInput[]
+    OR?: SupportTicketScalarWhereWithAggregatesInput[]
+    NOT?: SupportTicketScalarWhereWithAggregatesInput | SupportTicketScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SupportTicket"> | string
+    userId?: StringWithAggregatesFilter<"SupportTicket"> | string
+    role?: StringWithAggregatesFilter<"SupportTicket"> | string
+    category?: EnumSupportCategoryWithAggregatesFilter<"SupportTicket"> | $Enums.SupportCategory
+    subject?: StringWithAggregatesFilter<"SupportTicket"> | string
+    message?: StringWithAggregatesFilter<"SupportTicket"> | string
+    status?: EnumSupportStatusWithAggregatesFilter<"SupportTicket"> | $Enums.SupportStatus
+    resolution?: StringNullableWithAggregatesFilter<"SupportTicket"> | string | null
+    dueAt?: DateTimeWithAggregatesFilter<"SupportTicket"> | Date | string
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"SupportTicket"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SupportTicket"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -74167,6 +75621,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -74221,6 +75677,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -74275,6 +75733,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74329,6 +75789,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74383,6 +75845,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -74419,6 +75883,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74455,6 +75921,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78434,6 +79902,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     buyer: UserCreateNestedOneWithoutDispatchRequestsInput
@@ -78455,6 +79934,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedByAgentId?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
@@ -78474,6 +79964,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyer?: UserUpdateOneRequiredWithoutDispatchRequestsNestedInput
@@ -78495,6 +79996,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -78515,6 +80027,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedByAgentId?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
@@ -78533,6 +80056,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -78551,6 +80085,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -80271,6 +81816,104 @@ export namespace Prisma {
     acceptedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SupportTicketCreateInput = {
+    id?: string
+    userId: string
+    role: string
+    category: $Enums.SupportCategory
+    subject: string
+    message: string
+    status?: $Enums.SupportStatus
+    resolution?: string | null
+    dueAt: Date | string
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportTicketUncheckedCreateInput = {
+    id?: string
+    userId: string
+    role: string
+    category: $Enums.SupportCategory
+    subject: string
+    message: string
+    status?: $Enums.SupportStatus
+    resolution?: string | null
+    dueAt: Date | string
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportTicketUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    category?: EnumSupportCategoryFieldUpdateOperationsInput | $Enums.SupportCategory
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumSupportStatusFieldUpdateOperationsInput | $Enums.SupportStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportTicketUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    category?: EnumSupportCategoryFieldUpdateOperationsInput | $Enums.SupportCategory
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumSupportStatusFieldUpdateOperationsInput | $Enums.SupportStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportTicketCreateManyInput = {
+    id?: string
+    userId: string
+    role: string
+    category: $Enums.SupportCategory
+    subject: string
+    message: string
+    status?: $Enums.SupportStatus
+    resolution?: string | null
+    dueAt: Date | string
+    resolvedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type SupportTicketUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    category?: EnumSupportCategoryFieldUpdateOperationsInput | $Enums.SupportCategory
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumSupportStatusFieldUpdateOperationsInput | $Enums.SupportStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SupportTicketUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    category?: EnumSupportCategoryFieldUpdateOperationsInput | $Enums.SupportCategory
+    subject?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumSupportStatusFieldUpdateOperationsInput | $Enums.SupportStatus
+    resolution?: NullableStringFieldUpdateOperationsInput | string | null
+    dueAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -80299,6 +81942,17 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     search?: string
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type EnumRoleFilter<$PrismaModel = never> = {
@@ -80333,17 +81987,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type PropertyListRelationFilter = {
@@ -80539,6 +82182,8 @@ export namespace Prisma {
     licenseNumber?: SortOrder
     address?: SortOrder
     website?: SortOrder
+    metaChannelUrl?: SortOrder
+    termsAcceptedAt?: SortOrder
     instagramUrl?: SortOrder
     facebookUrl?: SortOrder
     passwordHash?: SortOrder
@@ -80579,6 +82224,8 @@ export namespace Prisma {
     licenseNumber?: SortOrder
     address?: SortOrder
     website?: SortOrder
+    metaChannelUrl?: SortOrder
+    termsAcceptedAt?: SortOrder
     instagramUrl?: SortOrder
     facebookUrl?: SortOrder
     passwordHash?: SortOrder
@@ -80615,6 +82262,8 @@ export namespace Prisma {
     licenseNumber?: SortOrder
     address?: SortOrder
     website?: SortOrder
+    metaChannelUrl?: SortOrder
+    termsAcceptedAt?: SortOrder
     instagramUrl?: SortOrder
     facebookUrl?: SortOrder
     passwordHash?: SortOrder
@@ -80679,6 +82328,20 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[]
@@ -80725,20 +82388,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumPlanRoleFilter<$PrismaModel = never> = {
@@ -83765,6 +85414,13 @@ export namespace Prisma {
     not?: NestedEnumDispatchStatusFilter<$PrismaModel> | $Enums.DispatchStatus
   }
 
+  export type EnumDispatchPurposeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DispatchPurpose | EnumDispatchPurposeFieldRefInput<$PrismaModel>
+    in?: $Enums.DispatchPurpose[]
+    notIn?: $Enums.DispatchPurpose[]
+    not?: NestedEnumDispatchPurposeFilter<$PrismaModel> | $Enums.DispatchPurpose
+  }
+
   export type DispatchRequestOrderByRelevanceInput = {
     fields: DispatchRequestOrderByRelevanceFieldEnum | DispatchRequestOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -83785,6 +85441,17 @@ export namespace Prisma {
     currentRadiusKm?: SortOrder
     currentBatch?: SortOrder
     batchStartedAt?: SortOrder
+    purpose?: SortOrder
+    selectedRadiusKm?: SortOrder
+    societyName?: SortOrder
+    bhk?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    budgetLabel?: SortOrder
+    highPriority?: SortOrder
+    staffId?: SortOrder
+    staffNote?: SortOrder
+    contactedAt?: SortOrder
     acceptedByAgentId?: SortOrder
     acceptedAt?: SortOrder
     createdAt?: SortOrder
@@ -83798,6 +85465,10 @@ export namespace Prisma {
     companySplit?: SortOrder
     currentRadiusKm?: SortOrder
     currentBatch?: SortOrder
+    selectedRadiusKm?: SortOrder
+    bhk?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
   }
 
   export type DispatchRequestMaxOrderByAggregateInput = {
@@ -83814,6 +85485,17 @@ export namespace Prisma {
     currentRadiusKm?: SortOrder
     currentBatch?: SortOrder
     batchStartedAt?: SortOrder
+    purpose?: SortOrder
+    selectedRadiusKm?: SortOrder
+    societyName?: SortOrder
+    bhk?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    budgetLabel?: SortOrder
+    highPriority?: SortOrder
+    staffId?: SortOrder
+    staffNote?: SortOrder
+    contactedAt?: SortOrder
     acceptedByAgentId?: SortOrder
     acceptedAt?: SortOrder
     createdAt?: SortOrder
@@ -83833,6 +85515,17 @@ export namespace Prisma {
     currentRadiusKm?: SortOrder
     currentBatch?: SortOrder
     batchStartedAt?: SortOrder
+    purpose?: SortOrder
+    selectedRadiusKm?: SortOrder
+    societyName?: SortOrder
+    bhk?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
+    budgetLabel?: SortOrder
+    highPriority?: SortOrder
+    staffId?: SortOrder
+    staffNote?: SortOrder
+    contactedAt?: SortOrder
     acceptedByAgentId?: SortOrder
     acceptedAt?: SortOrder
     createdAt?: SortOrder
@@ -83846,6 +85539,10 @@ export namespace Prisma {
     companySplit?: SortOrder
     currentRadiusKm?: SortOrder
     currentBatch?: SortOrder
+    selectedRadiusKm?: SortOrder
+    bhk?: SortOrder
+    budgetMin?: SortOrder
+    budgetMax?: SortOrder
   }
 
   export type EnumDispatchStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -83856,6 +85553,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDispatchStatusFilter<$PrismaModel>
     _max?: NestedEnumDispatchStatusFilter<$PrismaModel>
+  }
+
+  export type EnumDispatchPurposeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DispatchPurpose | EnumDispatchPurposeFieldRefInput<$PrismaModel>
+    in?: $Enums.DispatchPurpose[]
+    notIn?: $Enums.DispatchPurpose[]
+    not?: NestedEnumDispatchPurposeWithAggregatesFilter<$PrismaModel> | $Enums.DispatchPurpose
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDispatchPurposeFilter<$PrismaModel>
+    _max?: NestedEnumDispatchPurposeFilter<$PrismaModel>
   }
 
   export type DispatchRequestScalarRelationFilter = {
@@ -84974,6 +86681,88 @@ export namespace Prisma {
     acceptedAt?: SortOrder
   }
 
+  export type EnumSupportCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportCategory | EnumSupportCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportCategory[]
+    notIn?: $Enums.SupportCategory[]
+    not?: NestedEnumSupportCategoryFilter<$PrismaModel> | $Enums.SupportCategory
+  }
+
+  export type EnumSupportStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportStatus | EnumSupportStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportStatus[]
+    notIn?: $Enums.SupportStatus[]
+    not?: NestedEnumSupportStatusFilter<$PrismaModel> | $Enums.SupportStatus
+  }
+
+  export type SupportTicketOrderByRelevanceInput = {
+    fields: SupportTicketOrderByRelevanceFieldEnum | SupportTicketOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type SupportTicketCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrder
+    dueAt?: SortOrder
+    resolvedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SupportTicketMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrder
+    dueAt?: SortOrder
+    resolvedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SupportTicketMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    category?: SortOrder
+    subject?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    resolution?: SortOrder
+    dueAt?: SortOrder
+    resolvedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumSupportCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportCategory | EnumSupportCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportCategory[]
+    notIn?: $Enums.SupportCategory[]
+    not?: NestedEnumSupportCategoryWithAggregatesFilter<$PrismaModel> | $Enums.SupportCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSupportCategoryFilter<$PrismaModel>
+    _max?: NestedEnumSupportCategoryFilter<$PrismaModel>
+  }
+
+  export type EnumSupportStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportStatus | EnumSupportStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportStatus[]
+    notIn?: $Enums.SupportStatus[]
+    not?: NestedEnumSupportStatusWithAggregatesFilter<$PrismaModel> | $Enums.SupportStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSupportStatusFilter<$PrismaModel>
+    _max?: NestedEnumSupportStatusFilter<$PrismaModel>
+  }
+
   export type PropertyCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -85230,6 +87019,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
   }
@@ -85248,10 +87041,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type PropertyUpdateManyWithoutOwnerNestedInput = {
@@ -88890,6 +90679,10 @@ export namespace Prisma {
     set?: $Enums.DispatchStatus
   }
 
+  export type EnumDispatchPurposeFieldUpdateOperationsInput = {
+    set?: $Enums.DispatchPurpose
+  }
+
   export type UserUpdateOneRequiredWithoutDispatchRequestsNestedInput = {
     create?: XOR<UserCreateWithoutDispatchRequestsInput, UserUncheckedCreateWithoutDispatchRequestsInput>
     connectOrCreate?: UserCreateOrConnectWithoutDispatchRequestsInput
@@ -89664,6 +91457,14 @@ export namespace Prisma {
     update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutBuyerInterestAcceptancesInput, AgentProfileUpdateWithoutBuyerInterestAcceptancesInput>, AgentProfileUncheckedUpdateWithoutBuyerInterestAcceptancesInput>
   }
 
+  export type EnumSupportCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.SupportCategory
+  }
+
+  export type EnumSupportStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SupportStatus
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -89692,6 +91493,17 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     search?: string
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
@@ -89726,17 +91538,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -89784,6 +91585,20 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -89843,20 +91658,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumPlanRoleFilter<$PrismaModel = never> = {
@@ -90265,6 +92066,13 @@ export namespace Prisma {
     not?: NestedEnumDispatchStatusFilter<$PrismaModel> | $Enums.DispatchStatus
   }
 
+  export type NestedEnumDispatchPurposeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DispatchPurpose | EnumDispatchPurposeFieldRefInput<$PrismaModel>
+    in?: $Enums.DispatchPurpose[]
+    notIn?: $Enums.DispatchPurpose[]
+    not?: NestedEnumDispatchPurposeFilter<$PrismaModel> | $Enums.DispatchPurpose
+  }
+
   export type NestedEnumDispatchStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.DispatchStatus | EnumDispatchStatusFieldRefInput<$PrismaModel>
     in?: $Enums.DispatchStatus[]
@@ -90273,6 +92081,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDispatchStatusFilter<$PrismaModel>
     _max?: NestedEnumDispatchStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDispatchPurposeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DispatchPurpose | EnumDispatchPurposeFieldRefInput<$PrismaModel>
+    in?: $Enums.DispatchPurpose[]
+    notIn?: $Enums.DispatchPurpose[]
+    not?: NestedEnumDispatchPurposeWithAggregatesFilter<$PrismaModel> | $Enums.DispatchPurpose
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDispatchPurposeFilter<$PrismaModel>
+    _max?: NestedEnumDispatchPurposeFilter<$PrismaModel>
   }
 
   export type NestedEnumBroadcastTxnTypeFilter<$PrismaModel = never> = {
@@ -90375,6 +92193,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBuyerInterestStatusFilter<$PrismaModel>
     _max?: NestedEnumBuyerInterestStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSupportCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportCategory | EnumSupportCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportCategory[]
+    notIn?: $Enums.SupportCategory[]
+    not?: NestedEnumSupportCategoryFilter<$PrismaModel> | $Enums.SupportCategory
+  }
+
+  export type NestedEnumSupportStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportStatus | EnumSupportStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportStatus[]
+    notIn?: $Enums.SupportStatus[]
+    not?: NestedEnumSupportStatusFilter<$PrismaModel> | $Enums.SupportStatus
+  }
+
+  export type NestedEnumSupportCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportCategory | EnumSupportCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportCategory[]
+    notIn?: $Enums.SupportCategory[]
+    not?: NestedEnumSupportCategoryWithAggregatesFilter<$PrismaModel> | $Enums.SupportCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSupportCategoryFilter<$PrismaModel>
+    _max?: NestedEnumSupportCategoryFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSupportStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SupportStatus | EnumSupportStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SupportStatus[]
+    notIn?: $Enums.SupportStatus[]
+    not?: NestedEnumSupportStatusWithAggregatesFilter<$PrismaModel> | $Enums.SupportStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSupportStatusFilter<$PrismaModel>
+    _max?: NestedEnumSupportStatusFilter<$PrismaModel>
   }
 
   export type PropertyCreateWithoutOwnerInput = {
@@ -90854,6 +92706,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     acceptedAgent?: AgentProfileCreateNestedOneWithoutDispatchesAcceptedInput
@@ -90873,6 +92736,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedByAgentId?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
@@ -91620,6 +93494,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFilter<"DispatchRequest"> | number
     currentBatch?: IntFilter<"DispatchRequest"> | number
     batchStartedAt?: DateTimeFilter<"DispatchRequest"> | Date | string
+    purpose?: EnumDispatchPurposeFilter<"DispatchRequest"> | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFilter<"DispatchRequest"> | number
+    societyName?: StringNullableFilter<"DispatchRequest"> | string | null
+    bhk?: IntNullableFilter<"DispatchRequest"> | number | null
+    budgetMin?: IntNullableFilter<"DispatchRequest"> | number | null
+    budgetMax?: IntNullableFilter<"DispatchRequest"> | number | null
+    budgetLabel?: StringNullableFilter<"DispatchRequest"> | string | null
+    highPriority?: BoolFilter<"DispatchRequest"> | boolean
+    staffId?: StringNullableFilter<"DispatchRequest"> | string | null
+    staffNote?: StringNullableFilter<"DispatchRequest"> | string | null
+    contactedAt?: DateTimeNullableFilter<"DispatchRequest"> | Date | string | null
     acceptedByAgentId?: StringNullableFilter<"DispatchRequest"> | string | null
     acceptedAt?: DateTimeNullableFilter<"DispatchRequest"> | Date | string | null
     createdAt?: DateTimeFilter<"DispatchRequest"> | Date | string
@@ -91954,6 +93839,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -92007,6 +93894,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -92107,6 +93996,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92160,6 +94051,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92250,6 +94143,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -92303,6 +94198,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -92399,6 +94296,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -92452,6 +94351,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93391,6 +95292,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -93444,6 +95347,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -93815,6 +95720,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -93868,6 +95775,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94579,6 +96488,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -94632,6 +96543,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -94850,6 +96763,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94903,6 +96818,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -94972,6 +96889,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -95025,6 +96944,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -95215,6 +97136,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95268,6 +97191,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95448,6 +97373,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -95501,6 +97428,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -95691,6 +97620,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95744,6 +97675,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -95924,6 +97857,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -95977,6 +97912,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -96931,6 +98868,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     buyer: UserCreateNestedOneWithoutDispatchRequestsInput
@@ -96951,6 +98899,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     notifications?: DispatchNotificationUncheckedCreateNestedManyWithoutDispatchRequestInput
@@ -97503,6 +99462,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97556,6 +99517,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99245,6 +101208,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -99298,6 +101263,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -99658,6 +101625,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -99711,6 +101680,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -101497,6 +103468,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -101550,6 +103523,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -101738,6 +103713,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -101791,6 +103768,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -101969,6 +103948,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -102022,6 +104003,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -102210,6 +104193,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -102263,6 +104248,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -102804,6 +104791,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -102857,6 +104846,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -103259,6 +105250,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -103312,6 +105305,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -103704,6 +105699,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -103757,6 +105754,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -103951,6 +105950,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -104004,6 +106005,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -105557,6 +107560,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -105610,6 +107615,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -105856,6 +107863,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -105909,6 +107918,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106138,6 +108149,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     buyer: UserCreateNestedOneWithoutDispatchRequestsInput
@@ -106158,6 +108180,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedByAgentId?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
@@ -106345,6 +108378,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyer?: UserUpdateOneRequiredWithoutDispatchRequestsNestedInput
@@ -106365,6 +108409,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -109977,6 +112032,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -110030,6 +112087,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -110283,6 +112342,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110336,6 +112397,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110704,6 +112767,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -110757,6 +112822,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -111001,6 +113068,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111054,6 +113123,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111277,6 +113348,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -111330,6 +113403,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -111565,6 +113640,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111618,6 +113695,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111824,6 +113903,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -111877,6 +113958,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -112105,6 +114188,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -112158,6 +114243,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -112211,6 +114298,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -112264,6 +114353,8 @@ export namespace Prisma {
     licenseNumber?: string | null
     address?: string | null
     website?: string | null
+    metaChannelUrl?: string | null
+    termsAcceptedAt?: Date | string | null
     instagramUrl?: string | null
     facebookUrl?: string | null
     passwordHash?: string | null
@@ -112333,6 +114424,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -112386,6 +114479,8 @@ export namespace Prisma {
     licenseNumber?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    metaChannelUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    termsAcceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
     facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113950,6 +116045,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedByAgentId?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
@@ -114371,6 +116477,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     acceptedAgent?: AgentProfileUpdateOneWithoutDispatchesAcceptedNestedInput
@@ -114390,6 +116507,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -114409,6 +116537,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -115634,6 +117773,17 @@ export namespace Prisma {
     currentRadiusKm?: number
     currentBatch?: number
     batchStartedAt?: Date | string
+    purpose?: $Enums.DispatchPurpose
+    selectedRadiusKm?: number
+    societyName?: string | null
+    bhk?: number | null
+    budgetMin?: number | null
+    budgetMax?: number | null
+    budgetLabel?: string | null
+    highPriority?: boolean
+    staffId?: string | null
+    staffNote?: string | null
+    contactedAt?: Date | string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
   }
@@ -116707,6 +118857,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyer?: UserUpdateOneRequiredWithoutDispatchRequestsNestedInput
@@ -116727,6 +118888,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: DispatchNotificationUncheckedUpdateManyWithoutDispatchRequestNestedInput
@@ -116746,6 +118918,17 @@ export namespace Prisma {
     currentRadiusKm?: IntFieldUpdateOperationsInput | number
     currentBatch?: IntFieldUpdateOperationsInput | number
     batchStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purpose?: EnumDispatchPurposeFieldUpdateOperationsInput | $Enums.DispatchPurpose
+    selectedRadiusKm?: IntFieldUpdateOperationsInput | number
+    societyName?: NullableStringFieldUpdateOperationsInput | string | null
+    bhk?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMin?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetMax?: NullableIntFieldUpdateOperationsInput | number | null
+    budgetLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    highPriority?: BoolFieldUpdateOperationsInput | boolean
+    staffId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffNote?: NullableStringFieldUpdateOperationsInput | string | null
+    contactedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -22,6 +22,7 @@ export async function updateAgentProfileAction(formData: FormData) {
   const shopAddress = String(formData.get("shopAddress") ?? "").trim();
   const city = String(formData.get("city") ?? "").trim();
   const website = String(formData.get("website") ?? "").trim();
+  const metaChannelUrl = String(formData.get("metaChannelUrl") ?? "").trim();
 
   // KYC
   const panNumber = String(formData.get("panNumber") ?? "").trim().toUpperCase();
@@ -54,6 +55,7 @@ export async function updateAgentProfileAction(formData: FormData) {
       dateOfBirth: dateOfBirth && !isNaN(dateOfBirth.getTime()) ? dateOfBirth : null,
       address: shopAddress || null,
       website: website || null,
+      metaChannelUrl: metaChannelUrl || null,
       panNumber: panNumber || null,
       panCardUrl: panCardUrl || null,
       aadhaarNumber: aadhaarNumber || null,

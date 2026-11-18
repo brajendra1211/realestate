@@ -5,6 +5,9 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/lib/format";
 import { approveProperty, rejectProperty } from "./actions";
+import { MonitorGrid } from "@/components/admin/MonitorGrid";
+import { ChartCard, StackedColumns } from "@/components/charts/Charts";
+import { STREAMS, getMonitorStats, getSalesStats } from "@/lib/salesStats";
 
 export default async function AdminPage() {
   const session = await auth();
@@ -60,6 +63,8 @@ export default async function AdminPage() {
     rentCount,
     totalInvestors,
   ] = stats;
+
+  const [monitor, sales] = await Promise.all([getMonitorStats(), getSalesStats(14)]);
 
   const todayFormatted = new Intl.DateTimeFormat("en-IN", {
     weekday: "long",
@@ -159,6 +164,24 @@ export default async function AdminPage() {
           </div>
         </div>
       </div>
+
+      <MonitorGrid stats={monitor} />
+
+      <ChartCard
+        title="Money collected, last 14 days"
+        subtitle="By source"
+        right={
+          <Link href="/admin/sales" className="text-xs font-bold text-brand-700 hover:underline">
+            Full sales dashboard →
+          </Link>
+        }
+      >
+        <StackedColumns
+          labels={sales.labels}
+          series={STREAMS.map((st, i) => ({ name: st.name, color: `var(--viz-${i + 1})` }))}
+          values={STREAMS.map((st) => sales.revenue[st.key])}
+        />
+      </ChartCard>
 
       {/* 2. Top Executive KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

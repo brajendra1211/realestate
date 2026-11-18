@@ -75,7 +75,7 @@ export default async function Home() {
       approvalStatus: "APPROVED",
       status: "AVAILABLE",
       listingType: "RENT",
-      propertyType: { in: ["APARTMENT", "VILLA", "INDEPENDENT_HOUSE"] },
+      propertyType: { in: ["APARTMENT", "PENTHOUSE", "DUPLEX", "VILLA", "INDEPENDENT_HOUSE"] },
       owner: PUBLIC_LISTER_FILTER,
       ...notExpiredFilter(),
     },

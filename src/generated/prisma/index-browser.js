@@ -132,6 +132,8 @@ exports.Prisma.UserScalarFieldEnum = {
   licenseNumber: 'licenseNumber',
   address: 'address',
   website: 'website',
+  metaChannelUrl: 'metaChannelUrl',
+  termsAcceptedAt: 'termsAcceptedAt',
   instagramUrl: 'instagramUrl',
   facebookUrl: 'facebookUrl',
   passwordHash: 'passwordHash',
@@ -707,6 +709,17 @@ exports.Prisma.DispatchRequestScalarFieldEnum = {
   currentRadiusKm: 'currentRadiusKm',
   currentBatch: 'currentBatch',
   batchStartedAt: 'batchStartedAt',
+  purpose: 'purpose',
+  selectedRadiusKm: 'selectedRadiusKm',
+  societyName: 'societyName',
+  bhk: 'bhk',
+  budgetMin: 'budgetMin',
+  budgetMax: 'budgetMax',
+  budgetLabel: 'budgetLabel',
+  highPriority: 'highPriority',
+  staffId: 'staffId',
+  staffNote: 'staffNote',
+  contactedAt: 'contactedAt',
   acceptedByAgentId: 'acceptedByAgentId',
   acceptedAt: 'acceptedAt',
   createdAt: 'createdAt'
@@ -959,6 +972,20 @@ exports.Prisma.BuyerInterestAcceptanceScalarFieldEnum = {
   acceptedAt: 'acceptedAt'
 };
 
+exports.Prisma.SupportTicketScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  role: 'role',
+  category: 'category',
+  subject: 'subject',
+  message: 'message',
+  status: 'status',
+  resolution: 'resolution',
+  dueAt: 'dueAt',
+  resolvedAt: 'resolvedAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -981,6 +1008,7 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   licenseNumber: 'licenseNumber',
   address: 'address',
   website: 'website',
+  metaChannelUrl: 'metaChannelUrl',
   instagramUrl: 'instagramUrl',
   facebookUrl: 'facebookUrl',
   passwordHash: 'passwordHash',
@@ -1323,6 +1351,10 @@ exports.Prisma.DispatchRequestOrderByRelevanceFieldEnum = {
   id: 'id',
   buyerId: 'buyerId',
   razorpayOrderId: 'razorpayOrderId',
+  societyName: 'societyName',
+  budgetLabel: 'budgetLabel',
+  staffId: 'staffId',
+  staffNote: 'staffNote',
   acceptedByAgentId: 'acceptedByAgentId'
 };
 
@@ -1498,6 +1530,15 @@ exports.Prisma.BuyerInterestAcceptanceOrderByRelevanceFieldEnum = {
   interestId: 'interestId',
   agentId: 'agentId'
 };
+
+exports.Prisma.SupportTicketOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  role: 'role',
+  subject: 'subject',
+  message: 'message',
+  resolution: 'resolution'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SUBADMIN: 'SUBADMIN',
@@ -1535,6 +1576,8 @@ exports.ListingType = exports.$Enums.ListingType = {
 
 exports.PropertyType = exports.$Enums.PropertyType = {
   APARTMENT: 'APARTMENT',
+  PENTHOUSE: 'PENTHOUSE',
+  DUPLEX: 'DUPLEX',
   VILLA: 'VILLA',
   INDEPENDENT_HOUSE: 'INDEPENDENT_HOUSE',
   PLOT: 'PLOT',
@@ -1649,7 +1692,15 @@ exports.DispatchStatus = exports.$Enums.DispatchStatus = {
   SEARCHING: 'SEARCHING',
   MATCHED: 'MATCHED',
   EXPIRED: 'EXPIRED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  COMPANY: 'COMPANY'
+};
+
+exports.DispatchPurpose = exports.$Enums.DispatchPurpose = {
+  RENT: 'RENT',
+  BUY: 'BUY',
+  SELL: 'SELL',
+  LETOUT: 'LETOUT'
 };
 
 exports.BroadcastTxnType = exports.$Enums.BroadcastTxnType = {
@@ -1700,6 +1751,18 @@ exports.BuyerInterestStatus = exports.$Enums.BuyerInterestStatus = {
   OPEN: 'OPEN',
   ACCEPTED: 'ACCEPTED',
   CLOSED: 'CLOSED'
+};
+
+exports.SupportCategory = exports.$Enums.SupportCategory = {
+  COMMISSION_CONFLICT: 'COMMISSION_CONFLICT',
+  CUSTOMER_COMPLAINT: 'CUSTOMER_COMPLAINT',
+  WEBSITE_FEEDBACK: 'WEBSITE_FEEDBACK'
+};
+
+exports.SupportStatus = exports.$Enums.SupportStatus = {
+  OPEN: 'OPEN',
+  IN_REVIEW: 'IN_REVIEW',
+  RESOLVED: 'RESOLVED'
 };
 
 exports.Prisma.ModelName = {
@@ -1757,7 +1820,8 @@ exports.Prisma.ModelName = {
   PushToken: 'PushToken',
   ListingRequest: 'ListingRequest',
   BuyerInterest: 'BuyerInterest',
-  BuyerInterestAcceptance: 'BuyerInterestAcceptance'
+  BuyerInterestAcceptance: 'BuyerInterestAcceptance',
+  SupportTicket: 'SupportTicket'
 };
 
 /**

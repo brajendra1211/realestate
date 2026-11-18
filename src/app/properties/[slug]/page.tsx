@@ -27,7 +27,6 @@ import {
   Building2,
   Check,
   ChevronRight,
-  Compass,
   FileText,
   Heart,
   ListChecks,
@@ -207,11 +206,6 @@ export default async function PropertyDetailPage({ params }: { params: Params })
         value: property.furnishing ? (FURNISHING_LABELS[property.furnishing] ?? property.furnishing) : "",
       },
       { icon: <Building2 className="h-5 w-5" />, label: "Floor", value: floorText ?? "" },
-      {
-        icon: <Compass className="h-5 w-5" />,
-        label: "Facing",
-        value: property.facingDirection ? `${property.facingDirection.replace(/_/g, "-")} facing` : "",
-      },
       {
         icon: <Users className="h-5 w-5" />,
         label: "Suitable for",

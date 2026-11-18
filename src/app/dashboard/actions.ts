@@ -99,6 +99,8 @@ async function readPropertyFields(formData: FormData) {
     listingType,
     propertyType: String(formData.get("propertyType") ?? "APARTMENT") as
       | "APARTMENT"
+      | "PENTHOUSE"
+      | "DUPLEX"
       | "VILLA"
       | "INDEPENDENT_HOUSE"
       | "PLOT"

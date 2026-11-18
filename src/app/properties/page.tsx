@@ -259,8 +259,9 @@ export default async function PropertiesPage({
       ]
     : isBuyMode
     ? [
-        { label: "Luxury flats & penthouses", type: "APARTMENT", listing: "SALE", icon: <Building2 className="h-3.5 w-3.5" /> },
-        { label: "Golf & pool villas", type: "VILLA", listing: "SALE", icon: <HomeIcon className="h-3.5 w-3.5" /> },
+        { label: "Apartments", type: "APARTMENT", listing: "SALE", icon: <Building2 className="h-3.5 w-3.5" /> },
+        { label: "Penthouses", type: "PENTHOUSE", listing: "SALE", icon: <Building2 className="h-3.5 w-3.5" /> },
+        { label: "Duplex", type: "DUPLEX", listing: "SALE", icon: <Building2 className="h-3.5 w-3.5" /> },
       ]
     : [
         { label: "Flats & apartments", type: "APARTMENT", listing: "RENT", icon: <Building2 className="h-3.5 w-3.5" /> },
@@ -368,11 +369,13 @@ export default async function PropertiesPage({
             <select name="propertyType" defaultValue={params.propertyType ?? ""} className={fieldCls}>
               <option value="">All categories</option>
               {!isBuyMode && !isRentMode && <option value="APARTMENT">Flats / Apartments</option>}
-              {isBuyMode && <option value="APARTMENT">Luxury flats &amp; penthouses</option>}
+              {isBuyMode && <option value="APARTMENT">Apartments</option>}
+              {isBuyMode && <option value="PENTHOUSE">Penthouses</option>}
+              {isBuyMode && <option value="DUPLEX">Duplex</option>}
               {isRentMode && <option value="APARTMENT">Flats / Apartments</option>}
               {!isBuyMode && <option value="PG">PG / Co-Living</option>}
               {!isBuyMode && <option value="COMMERCIAL">Commercial (Office/Shop/Warehouse)</option>}
-              <option value="VILLA">Luxury Villas</option>
+              {!isBuyMode && <option value="VILLA">Luxury Villas</option>}
               {!isBuyMode && <option value="INDEPENDENT_HOUSE">Independent Houses</option>}
             </select>
           </div>

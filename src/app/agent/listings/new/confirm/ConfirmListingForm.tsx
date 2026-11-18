@@ -7,7 +7,7 @@ import { amenityIcon } from "@/lib/amenityIcons";
 
 const initialState: SubmitAgentListingState = {};
 
-const PROPERTY_TYPES = ["APARTMENT", "VILLA", "INDEPENDENT_HOUSE", "PLOT", "COMMERCIAL", "OFFICE"];
+const PROPERTY_TYPES = ["APARTMENT", "PENTHOUSE", "DUPLEX", "VILLA", "INDEPENDENT_HOUSE", "PLOT", "COMMERCIAL", "OFFICE"];
 
 // Pronesto.in launched as a rent-only, flats-only listing site — see
 // PropertyForm.tsx for the same gate applied to the main listing form.
@@ -175,6 +175,8 @@ export function ConfirmListingForm({
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           >
             <option value="APARTMENT">Flat / Apartment</option>
+            <option value="PENTHOUSE">Penthouse</option>
+            <option value="DUPLEX">Duplex</option>
             <option value="PG">PG / Co-Living (Boys, Girls, Unisex)</option>
             <option value="COMMERCIAL">Commercial (Office, Shop, Warehouse)</option>
             <option value="VILLA">Luxury Villa</option>
@@ -278,7 +280,7 @@ export function ConfirmListingForm({
         )}
 
         {/* Residential Section */}
-        {(propertyType === "APARTMENT" || propertyType === "VILLA" || propertyType === "INDEPENDENT_HOUSE") && (
+        {(propertyType === "APARTMENT" || propertyType === "PENTHOUSE" || propertyType === "DUPLEX" || propertyType === "VILLA" || propertyType === "INDEPENDENT_HOUSE") && (
           <>
             <div>
               <label className="text-sm font-medium text-slate-700">Bedrooms (BHK)</label>
@@ -371,23 +373,6 @@ export function ConfirmListingForm({
             placeholder="e.g. 3500"
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
-        </div>
-        <div>
-          <label className="text-sm font-medium text-slate-700">Facing Direction</label>
-          <select
-            name="facingDirection"
-            defaultValue="EAST"
-            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          >
-            <option value="EAST">East</option>
-            <option value="NORTH_EAST">North-East</option>
-            <option value="NORTH">North</option>
-            <option value="WEST">West</option>
-            <option value="SOUTH">South</option>
-            <option value="NORTH_WEST">North-West</option>
-            <option value="SOUTH_EAST">South-East</option>
-            <option value="SOUTH_WEST">South-West</option>
-          </select>
         </div>
         <div className="sm:col-span-2">
           <label className="text-sm font-medium text-slate-700">Other rooms</label>

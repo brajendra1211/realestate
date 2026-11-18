@@ -5,6 +5,8 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { GuddyChatbot } from "@/components/GuddyChatbot";
+import { isChatbotConfigured } from "@/lib/chatbot";
 import { LocationDetector } from "@/components/LocationDetector";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { getSiteSettings } from "@/lib/site-settings";
@@ -129,6 +131,7 @@ export default async function RootLayout({
             />
           }
           whatsapp={<WhatsAppButton phoneNumber={settings.whatsappNumber} />}
+          chatbot={isChatbotConfigured() ? <GuddyChatbot siteName={settings.siteName} /> : null}
           mobileNav={<MobileBottomNav />}
         >
           {children}

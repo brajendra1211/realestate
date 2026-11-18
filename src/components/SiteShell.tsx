@@ -7,12 +7,14 @@ export function SiteShell({
   navbar,
   footer,
   whatsapp,
+  chatbot,
   mobileNav,
 }: {
   children: React.ReactNode;
   navbar: React.ReactNode;
   footer: React.ReactNode;
   whatsapp: React.ReactNode;
+  chatbot: React.ReactNode;
   mobileNav: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -40,6 +42,7 @@ export function SiteShell({
       <main className="flex-1">{children}</main>
       {footer}
       {whatsapp}
+      {chatbot}
       {mobileNav}
     </>
   );

@@ -168,7 +168,13 @@ async function searchPropertiesForChatbot(
     }
   }
 
-  const properties = matches.slice(0, MAX_RESULTS).map(
+  // Exact matches go first — and must survive the slice below even when
+  // there are more than MAX_RESULTS matches overall, so this computes the
+  // set and reorders before cutting down to size, not after.
+  const exactSlugs = new Set(matches.filter(strict).map((m) => m.slug));
+  const ordered = [...matches].sort((a, b) => Number(exactSlugs.has(b.slug)) - Number(exactSlugs.has(a.slug)));
+
+  const properties = ordered.slice(0, MAX_RESULTS).map(
     (m): ChatProperty => ({
       slug: m.slug,
       title: m.title,
@@ -182,8 +188,6 @@ async function searchPropertiesForChatbot(
       source: m.source,
     })
   );
-
-  const exactSlugs = new Set(matches.filter(strict).map((m) => m.slug));
 
   return { properties, exact, exactSlugs };
 }

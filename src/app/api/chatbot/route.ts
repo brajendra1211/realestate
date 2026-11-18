@@ -51,8 +51,8 @@ export async function POST(request: Request) {
   }
 
   try {
-    const reply = await askGuddyAI(messages);
-    return NextResponse.json({ reply });
+    const { reply, properties } = await askGuddyAI(messages);
+    return NextResponse.json({ reply, properties });
   } catch (error) {
     if (error instanceof ChatbotError) {
       return NextResponse.json({ error: error.message }, { status: 400 });

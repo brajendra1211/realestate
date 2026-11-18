@@ -1,5 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { getSiteSettings } from "@/lib/site-settings";
+import { getPublicListings } from "@/lib/listing";
+import { getWebsiteListings } from "@/lib/websiteListings";
+import { formatPrice } from "@/lib/format";
 
 export class ChatbotError extends Error {}
 
@@ -17,6 +20,129 @@ function getClient() {
 
 const MODEL = "claude-haiku-5-5";
 const MAX_TURNS = 20;
+const MAX_RESULTS = 5;
+
+const PROPERTY_TYPES = [
+  "APARTMENT",
+  "PENTHOUSE",
+  "DUPLEX",
+  "VILLA",
+  "INDEPENDENT_HOUSE",
+  "PLOT",
+  "COMMERCIAL",
+  "OFFICE",
+  "SHOP",
+  "WAREHOUSE",
+  "PG",
+] as const;
+
+const SEARCH_TOOL: Anthropic.Tool = {
+  name: "search_properties",
+  description:
+    "Search live property listings on the platform and return real matches. Call this whenever the visitor describes what they're looking for (city, BHK, budget, buy/rent, property type) — actually search and let the UI show them real results, don't just describe the feature in words.",
+  input_schema: {
+    type: "object",
+    properties: {
+      city: { type: "string", description: "City or area, e.g. Noida, Greater Noida, Delhi" },
+      listingType: { type: "string", enum: ["SALE", "RENT"], description: "SALE to buy, RENT to rent" },
+      propertyType: { type: "string", enum: [...PROPERTY_TYPES] },
+      bedrooms: { type: "integer", description: "Number of BHK/bedrooms, e.g. 2 for 2BHK" },
+      minPrice: { type: "integer", description: "Minimum budget in INR" },
+      maxPrice: { type: "integer", description: "Maximum budget in INR" },
+    },
+  },
+};
+
+type SearchInput = {
+  city?: string;
+  listingType?: "SALE" | "RENT";
+  propertyType?: (typeof PROPERTY_TYPES)[number];
+  bedrooms?: number;
+  minPrice?: number;
+  maxPrice?: number;
+};
+
+function isSearchInput(value: unknown): value is SearchInput {
+  return typeof value === "object" && value !== null;
+}
+
+export type ChatProperty = {
+  slug: string;
+  title: string;
+  price: number;
+  listingType: string;
+  bedrooms: number | null;
+  city: string;
+  locality: string | null;
+  imageUrl: string | null;
+  href: string;
+};
+
+type RawMatch = ChatProperty & { propertyType: string };
+
+// Reuses the same two queries GET /api/listings already merges (channel
+// partner marketplace + website owner/dealer listings) rather than
+// standing up a separate search path for the chatbot.
+async function searchPropertiesForChatbot(input: SearchInput): Promise<ChatProperty[]> {
+  const filters = { city: input.city, listingType: input.listingType };
+  const [agentListings, websiteListings] = await Promise.all([
+    getPublicListings(filters),
+    getWebsiteListings(filters),
+  ]);
+
+  const combined: RawMatch[] = [
+    ...agentListings.map(
+      (l): RawMatch => ({
+        slug: l.slug,
+        title: l.title,
+        price: l.price,
+        listingType: l.listingType,
+        propertyType: l.propertyType,
+        bedrooms: l.bedrooms,
+        city: l.masterProperty.city,
+        locality: l.masterProperty.locality,
+        imageUrl: l.images[0]?.url ?? null,
+        href: `/listings/${l.slug}`,
+      })
+    ),
+    ...websiteListings.map(
+      (l): RawMatch => ({
+        slug: l.slug,
+        title: l.title,
+        price: l.price,
+        listingType: l.listingType,
+        propertyType: l.propertyType,
+        bedrooms: l.bedrooms,
+        city: l.masterProperty.city,
+        locality: l.masterProperty.locality,
+        imageUrl: l.images[0]?.url ?? null,
+        href: `/properties/${l.slug}`,
+      })
+    ),
+  ];
+
+  const filtered = combined.filter((l) => {
+    if (input.propertyType && l.propertyType !== input.propertyType) return false;
+    if (input.bedrooms && l.bedrooms !== input.bedrooms) return false;
+    if (input.minPrice && l.price < input.minPrice) return false;
+    if (input.maxPrice && l.price > input.maxPrice) return false;
+    return true;
+  });
+
+  return filtered.slice(0, MAX_RESULTS).map(
+    (m): ChatProperty => ({
+      slug: m.slug,
+      title: m.title,
+      price: m.price,
+      listingType: m.listingType,
+      bedrooms: m.bedrooms,
+      city: m.city,
+      locality: m.locality,
+      imageUrl: m.imageUrl,
+      href: m.href,
+    })
+  );
+}
 
 // Static knowledge about the platform — kept here rather than pulled live
 // from the DB/schema, since this is "how does the site work" explainer
@@ -32,6 +158,8 @@ This is a live chat conversation, not an article or a support ticket reply. Foll
 - If there's more to say, end with a short follow-up question ("Want to know how to list a property, or how ringing a partner works?") instead of saying everything at once.
 - Write in plain conversational text only — no markdown, no **bold**, no bullet/numbered lists, no headings. If you must list a couple of things, write them inline separated by commas or "and".
 - Match the visitor's language and tone — reply in Hindi/Hinglish if they write in Hindi/Hinglish, in English if they write in English.
+
+Searching for properties: whenever the visitor describes what they want to see — a city, BHK count, budget, buy vs rent, or property type — call search_properties with whatever criteria they gave (leave the rest out, don't guess). The results are shown to the visitor as clickable cards in the UI automatically, so in your reply just briefly introduce them (e.g. "Yahan kuch 2BHK options hain Noida mein:") — never re-describe each result in text, and never say a property was found if the tool returned none (say so honestly and suggest widening the search instead).
 
 What ${siteName} offers:
 - Buy, Rent, Commercial, and Plot listings across Noida & NCR, searchable by city, locality, budget, and BHK.
@@ -56,7 +184,9 @@ If you don't know something specific (exact current prices, a specific listing, 
 
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 
-export async function askGuddyAI(history: ChatMessage[]) {
+export async function askGuddyAI(
+  history: ChatMessage[]
+): Promise<{ reply: string; properties: ChatProperty[] }> {
   const anthropic = getClient();
   if (!anthropic) throw new ChatbotError("notConfigured");
 
@@ -66,16 +196,56 @@ export async function askGuddyAI(history: ChatMessage[]) {
   }
 
   const { siteName } = await getSiteSettings();
+  const system = buildSystemPrompt(siteName);
+  const messages: Anthropic.MessageParam[] = trimmed.map((m) => ({ role: m.role, content: m.content }));
 
-  const response = await anthropic.messages.create({
+  let response = await anthropic.messages.create({
     model: MODEL,
-    max_tokens: 150,
-    system: buildSystemPrompt(siteName),
-    messages: trimmed.map((m) => ({ role: m.role, content: m.content })),
+    max_tokens: 300,
+    system,
+    tools: [SEARCH_TOOL],
+    messages,
   });
+
+  let properties: ChatProperty[] = [];
+
+  // One tool hop per turn — enough for "search then describe the results",
+  // without an open-ended agent loop a chat widget doesn't need.
+  if (response.stop_reason === "tool_use") {
+    const toolUse = response.content.find((block) => block.type === "tool_use");
+    if (toolUse && toolUse.type === "tool_use" && toolUse.name === "search_properties") {
+      const input = isSearchInput(toolUse.input) ? toolUse.input : {};
+      properties = await searchPropertiesForChatbot(input);
+
+      messages.push({ role: "assistant", content: response.content });
+      messages.push({
+        role: "user",
+        content: [
+          {
+            type: "tool_result",
+            tool_use_id: toolUse.id,
+            content:
+              properties.length > 0
+                ? `${properties.length} matching propert${properties.length === 1 ? "y" : "ies"} found: ${properties
+                    .map((p) => `${p.title} (${p.bedrooms ?? "?"}BHK, ${formatPrice(p.price, p.listingType as "SALE" | "RENT")}, ${p.locality ?? p.city})`)
+                    .join("; ")}. Already shown to the visitor as clickable cards — don't repeat this list in your reply, just introduce it briefly.`
+                : "No listings matched those exact criteria right now.",
+          },
+        ],
+      });
+
+      response = await anthropic.messages.create({
+        model: MODEL,
+        max_tokens: 150,
+        system,
+        tools: [SEARCH_TOOL],
+        messages,
+      });
+    }
+  }
 
   const text = response.content.find((block) => block.type === "text");
   if (!text || text.type !== "text") throw new ChatbotError("emptyResponse");
 
-  return text.text;
+  return { reply: text.text, properties };
 }

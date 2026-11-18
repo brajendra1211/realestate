@@ -75,13 +75,23 @@ function matchesCity(query: string, city: string, locality: string | null) {
   return c.includes(q) || q.includes(c) || l.includes(q);
 }
 
+// Inventory is small right now — an exact-match search can legitimately
+// find only one listing even though several "close enough" ones exist
+// (different BHK, slightly over budget, etc.). Rather than show just that
+// one and imply it's all there is, relax one constraint at a time until
+// there's a reasonable spread to choose from, and tell the model whether
+// what it got back was an exact match or a widened one.
+const MIN_DESIRED_RESULTS = 3;
+
 // Reuses the same two queries GET /api/listings already merges (channel
 // partner marketplace + website owner/dealer listings) rather than
 // standing up a separate search path for the chatbot. City filtering is
 // done here in-memory (not passed to the DB layer) because
 // getPublicListings' city filter is an exact match — too strict for
 // free-text extracted from a conversation.
-async function searchPropertiesForChatbot(input: SearchInput): Promise<ChatProperty[]> {
+async function searchPropertiesForChatbot(
+  input: SearchInput
+): Promise<{ properties: ChatProperty[]; exact: boolean }> {
   const [agentListings, websiteListings] = await Promise.all([
     getPublicListings({ listingType: input.listingType }),
     getWebsiteListings({ listingType: input.listingType }),
@@ -120,16 +130,36 @@ async function searchPropertiesForChatbot(input: SearchInput): Promise<ChatPrope
     ),
   ];
 
-  const filtered = combined.filter((l) => {
-    if (input.city && !matchesCity(input.city, l.city, l.locality)) return false;
-    if (input.propertyType && l.propertyType !== input.propertyType) return false;
-    if (input.bedrooms && l.bedrooms !== input.bedrooms) return false;
-    if (input.minPrice && l.price < input.minPrice) return false;
-    if (input.maxPrice && l.price > input.maxPrice) return false;
-    return true;
-  });
+  // Each tier drops one more constraint than the last — city is kept
+  // longest (changing city entirely rarely matches intent), bedrooms is
+  // dropped first (most likely to over-narrow a sparse inventory).
+  const tiers: Array<(l: RawMatch) => boolean> = [
+    (l) =>
+      (!input.city || matchesCity(input.city, l.city, l.locality)) &&
+      (!input.propertyType || l.propertyType === input.propertyType) &&
+      (!input.bedrooms || l.bedrooms === input.bedrooms) &&
+      (!input.minPrice || l.price >= input.minPrice) &&
+      (!input.maxPrice || l.price <= input.maxPrice),
+    (l) =>
+      (!input.city || matchesCity(input.city, l.city, l.locality)) &&
+      (!input.propertyType || l.propertyType === input.propertyType) &&
+      (!input.minPrice || l.price >= input.minPrice) &&
+      (!input.maxPrice || l.price <= input.maxPrice),
+    (l) => !input.city || matchesCity(input.city, l.city, l.locality),
+    () => true,
+  ];
 
-  return filtered.slice(0, MAX_RESULTS).map(
+  let matches: RawMatch[] = [];
+  let exact = true;
+  for (const [i, tier] of tiers.entries()) {
+    matches = combined.filter(tier);
+    if (matches.length >= MIN_DESIRED_RESULTS || i === tiers.length - 1) {
+      exact = i === 0;
+      break;
+    }
+  }
+
+  const properties = matches.slice(0, MAX_RESULTS).map(
     (m): ChatProperty => ({
       slug: m.slug,
       title: m.title,
@@ -143,14 +173,19 @@ async function searchPropertiesForChatbot(input: SearchInput): Promise<ChatPrope
       source: m.source,
     })
   );
+
+  return { properties, exact };
 }
 
-function summarizeResultsForModel(properties: ChatProperty[]) {
-  if (properties.length === 0) return "No listings matched those criteria right now.";
+function summarizeResultsForModel(properties: ChatProperty[], exact: boolean) {
+  if (properties.length === 0) return "No listings matched those criteria right now, even after widening the search.";
   const lines = properties
     .map((p) => `${p.title} — ${p.bedrooms ?? "?"}BHK, ${formatPrice(p.price, p.listingType as "SALE" | "RENT")}, ${p.locality ?? p.city} (slug: ${p.slug})`)
     .join("; ");
-  return `${properties.length} matching propert${properties.length === 1 ? "y" : "ies"} found: ${lines}. These are already shown to the visitor as clickable cards — don't repeat this list in your reply, just introduce it briefly and offer to narrow it down further or share more detail on one of them.`;
+  const matchNote = exact
+    ? "These exactly match what was asked."
+    : "These DON'T all exactly match every criterion (the search widened automatically because an exact match had too few results) — say so honestly, e.g. mention these are the closest options rather than claiming they're exact matches.";
+  return `${properties.length} propert${properties.length === 1 ? "y" : "ies"} found: ${lines}. ${matchNote} Already shown to the visitor as clickable cards — don't repeat this list in your reply, just introduce it briefly and offer to narrow it down further or share more detail on one of them.`;
 }
 
 // --- get_property_details ----------------------------------------------
@@ -281,11 +316,10 @@ function buildSystemPrompt(siteName: string) {
   return `You are Guddy AI — ${siteName}'s own sales and support agent, not just an FAQ bot. You work this chat exactly like a good human channel partner would: understand what the visitor actually wants, search real listings for them, answer anything about a specific property or the platform in real detail, and gently but genuinely move every serious visitor toward sharing their contact so our team can close the deal.
 
 Your job, in order of priority:
-1. Understand what the visitor wants — if they're vague ("I want a flat"), ask one short clarifying question (city? buy or rent? budget? BHK?) rather than guessing.
-2. Search for real matches with search_properties as soon as you have enough to search with (you don't need every field — search with whatever they've given).
-3. If they ask more about a specific result, use get_property_details for the real address/amenities/contact instead of guessing.
-4. Once a visitor is seriously engaged (reacted positively to a result, asked for contact/visit, or wants to list/sell/rent/become a partner), ask for their name and phone number so our team can follow up — frame it as helping them move faster ("Main aapka number note kar loon? Humari team aapko property visit arrange karne ke liye call karegi"), then call save_lead immediately once you have both.
-5. Be genuinely persuasive about why ${siteName} is worth choosing — verified channel partners, zero brokerage for owners, instant ring-a-partner notifications, secure OTP login — but only where it's relevant to what they're asking, never as a generic sales pitch.
+1. As soon as the visitor gives you ANYTHING to search with — even just a city, or just "2BHK", or just "rent" — call search_properties right away with whatever you have. Inventory is limited, so searching immediately and showing what's actually available is more useful than interrogating them for every field first. Only ask a clarifying question if they've given you nothing at all to go on (e.g. just "hi" or "I want a flat" with zero other detail).
+2. If they ask more about a specific result, use get_property_details for the real address/amenities/contact instead of guessing.
+3. Once a visitor is seriously engaged (reacted positively to a result, asked for contact/visit, or wants to list/sell/rent/become a partner), ask for their name and phone number so our team can follow up — frame it as helping them move faster ("Main aapka number note kar loon? Humari team aapko property visit arrange karne ke liye call karegi"), then call save_lead immediately once you have both.
+4. Be genuinely persuasive about why ${siteName} is worth choosing — verified channel partners, zero brokerage for owners, instant ring-a-partner notifications, secure OTP login — but only where it's relevant to what they're asking, never as a generic sales pitch.
 
 This is a live chat conversation, not an article or a support ticket reply. Follow these rules strictly:
 - Reply in 1-3 short sentences. Never write more than one short paragraph.
@@ -293,6 +327,7 @@ This is a live chat conversation, not an article or a support ticket reply. Foll
 - Match the visitor's language and tone — reply in Hindi/Hinglish if they write in Hindi/Hinglish, in English if they write in English.
 - Search results are shown as clickable cards automatically — never re-describe each one in text, just introduce them briefly.
 - Never say a property was found if the tool returned none — say so honestly and suggest widening the search (different city, budget, or BHK) instead.
+- If search_properties tells you the results don't all exactly match (search widened automatically), say so honestly — e.g. "exact match nahi mila, lekin ye closest options hain" — never present a widened/approximate result as an exact match.
 - Never fabricate a price, address, amenity, or contact detail — only state what search_properties or get_property_details actually returned.
 
 What ${siteName} offers:
@@ -355,8 +390,9 @@ export async function askGuddyAI(
       let resultText = "";
 
       if (toolUse.name === "search_properties") {
-        properties = await searchPropertiesForChatbot(input as SearchInput);
-        resultText = summarizeResultsForModel(properties);
+        const result = await searchPropertiesForChatbot(input as SearchInput);
+        properties = result.properties;
+        resultText = summarizeResultsForModel(result.properties, result.exact);
       } else if (toolUse.name === "get_property_details") {
         resultText = await getPropertyDetailsForChatbot(String(input.slug ?? ""));
       } else if (toolUse.name === "save_lead") {

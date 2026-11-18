@@ -134,8 +134,13 @@ export function GuddyChatbot({ siteName }: { siteName: string }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7">
-            <path d="M12 2C6.48 2 2 5.94 2 10.8c0 2.57 1.26 4.87 3.26 6.47-.08.9-.4 2.3-1.26 3.73 1.56-.2 3.03-.82 4.17-1.76.9.24 1.85.36 2.83.36 5.52 0 10-3.94 10-8.8S17.52 2 12 2z" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="h-7 w-7">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 2v3" />
+            <circle cx="12" cy="6" r="1.2" fill="currentColor" stroke="none" />
+            <rect x="4" y="9" width="16" height="11" rx="4" />
+            <path strokeLinecap="round" d="M8 14.5h.01M16 14.5h.01" strokeWidth={2.4} />
+            <path strokeLinecap="round" d="M9.5 17.5c.9.6 1.9.9 2.5.9s1.6-.3 2.5-.9" />
+            <path strokeLinecap="round" d="M1.5 13v3M22.5 13v3" />
           </svg>
         )}
       </button>

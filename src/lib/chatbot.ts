@@ -1,7 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { prisma } from "@/lib/prisma";
 import { getSiteSettings } from "@/lib/site-settings";
-import { getPublicListings } from "@/lib/listing";
-import { getWebsiteListings } from "@/lib/websiteListings";
+import { getPublicListings, getListingBySlug } from "@/lib/listing";
+import { getWebsiteListings, getWebsiteListingDetail } from "@/lib/websiteListings";
 import { formatPrice } from "@/lib/format";
 
 export class ChatbotError extends Error {}
@@ -20,7 +21,8 @@ function getClient() {
 
 const MODEL = "claude-haiku-5-5";
 const MAX_TURNS = 20;
-const MAX_RESULTS = 5;
+const MAX_RESULTS = 6;
+const MAX_TOOL_ROUNDS = 4;
 
 const PROPERTY_TYPES = [
   "APARTMENT",
@@ -36,22 +38,7 @@ const PROPERTY_TYPES = [
   "PG",
 ] as const;
 
-const SEARCH_TOOL: Anthropic.Tool = {
-  name: "search_properties",
-  description:
-    "Search live property listings on the platform and return real matches. Call this whenever the visitor describes what they're looking for (city, BHK, budget, buy/rent, property type) — actually search and let the UI show them real results, don't just describe the feature in words.",
-  input_schema: {
-    type: "object",
-    properties: {
-      city: { type: "string", description: "City or area, e.g. Noida, Greater Noida, Delhi" },
-      listingType: { type: "string", enum: ["SALE", "RENT"], description: "SALE to buy, RENT to rent" },
-      propertyType: { type: "string", enum: [...PROPERTY_TYPES] },
-      bedrooms: { type: "integer", description: "Number of BHK/bedrooms, e.g. 2 for 2BHK" },
-      minPrice: { type: "integer", description: "Minimum budget in INR" },
-      maxPrice: { type: "integer", description: "Maximum budget in INR" },
-    },
-  },
-};
+// --- search_properties ------------------------------------------------
 
 type SearchInput = {
   city?: string;
@@ -61,10 +48,6 @@ type SearchInput = {
   minPrice?: number;
   maxPrice?: number;
 };
-
-function isSearchInput(value: unknown): value is SearchInput {
-  return typeof value === "object" && value !== null;
-}
 
 export type ChatProperty = {
   slug: string;
@@ -76,18 +59,32 @@ export type ChatProperty = {
   locality: string | null;
   imageUrl: string | null;
   href: string;
+  source: "agent" | "website";
 };
 
 type RawMatch = ChatProperty & { propertyType: string };
 
+function matchesCity(query: string, city: string, locality: string | null) {
+  const q = query.trim().toLowerCase();
+  const c = city.toLowerCase();
+  const l = locality?.toLowerCase() ?? "";
+  // Loose both-ways substring match — "Noida" should also surface "Greater
+  // Noida" listings and vice versa, and match against locality too, since
+  // visitors (and the model's extraction of what they said) rarely use the
+  // exact string stored in the DB.
+  return c.includes(q) || q.includes(c) || l.includes(q);
+}
+
 // Reuses the same two queries GET /api/listings already merges (channel
 // partner marketplace + website owner/dealer listings) rather than
-// standing up a separate search path for the chatbot.
+// standing up a separate search path for the chatbot. City filtering is
+// done here in-memory (not passed to the DB layer) because
+// getPublicListings' city filter is an exact match — too strict for
+// free-text extracted from a conversation.
 async function searchPropertiesForChatbot(input: SearchInput): Promise<ChatProperty[]> {
-  const filters = { city: input.city, listingType: input.listingType };
   const [agentListings, websiteListings] = await Promise.all([
-    getPublicListings(filters),
-    getWebsiteListings(filters),
+    getPublicListings({ listingType: input.listingType }),
+    getWebsiteListings({ listingType: input.listingType }),
   ]);
 
   const combined: RawMatch[] = [
@@ -103,6 +100,7 @@ async function searchPropertiesForChatbot(input: SearchInput): Promise<ChatPrope
         locality: l.masterProperty.locality,
         imageUrl: l.images[0]?.url ?? null,
         href: `/listings/${l.slug}`,
+        source: "agent",
       })
     ),
     ...websiteListings.map(
@@ -117,11 +115,13 @@ async function searchPropertiesForChatbot(input: SearchInput): Promise<ChatPrope
         locality: l.masterProperty.locality,
         imageUrl: l.images[0]?.url ?? null,
         href: `/properties/${l.slug}`,
+        source: "website",
       })
     ),
   ];
 
   const filtered = combined.filter((l) => {
+    if (input.city && !matchesCity(input.city, l.city, l.locality)) return false;
     if (input.propertyType && l.propertyType !== input.propertyType) return false;
     if (input.bedrooms && l.bedrooms !== input.bedrooms) return false;
     if (input.minPrice && l.price < input.minPrice) return false;
@@ -140,26 +140,160 @@ async function searchPropertiesForChatbot(input: SearchInput): Promise<ChatPrope
       locality: m.locality,
       imageUrl: m.imageUrl,
       href: m.href,
+      source: m.source,
     })
   );
 }
+
+function summarizeResultsForModel(properties: ChatProperty[]) {
+  if (properties.length === 0) return "No listings matched those criteria right now.";
+  const lines = properties
+    .map((p) => `${p.title} — ${p.bedrooms ?? "?"}BHK, ${formatPrice(p.price, p.listingType as "SALE" | "RENT")}, ${p.locality ?? p.city} (slug: ${p.slug})`)
+    .join("; ");
+  return `${properties.length} matching propert${properties.length === 1 ? "y" : "ies"} found: ${lines}. These are already shown to the visitor as clickable cards — don't repeat this list in your reply, just introduce it briefly and offer to narrow it down further or share more detail on one of them.`;
+}
+
+// --- get_property_details ----------------------------------------------
+
+async function getPropertyDetailsForChatbot(slug: string): Promise<string> {
+  const listing = await getListingBySlug(slug);
+  if (listing) {
+    return [
+      `${listing.title} — ${listing.bedrooms ?? "?"}BHK, ${listing.bathrooms ?? "?"} bath, ${listing.areaSqft ?? "?"} sqft.`,
+      `${formatPrice(listing.price, listing.listingType)}.`,
+      `Address: ${listing.exactAddress}.`,
+      listing.amenities ? `Amenities: ${listing.amenities}.` : "",
+      listing.agent
+        ? `Channel partner: ${listing.agent.user.name}${listing.agent.shopName ? ` (${listing.agent.shopName})` : ""}, phone ${listing.agent.user.phone ?? "not available"}.`
+        : "No channel partner assigned yet.",
+      listing.description,
+    ]
+      .filter(Boolean)
+      .join(" ");
+  }
+
+  const property = await getWebsiteListingDetail(slug);
+  if (property) {
+    return [
+      `${property.title} — ${property.bedrooms ?? "?"}BHK, ${property.bathrooms ?? "?"} bath, ${property.areaSqft ?? "?"} sqft.`,
+      `${formatPrice(property.price, property.listingType)}.`,
+      `Address: ${property.exactAddress}.`,
+      property.amenities ? `Amenities: ${property.amenities}.` : "",
+      property.agentName ? `Contact: ${property.agentName}, phone ${property.agentPhone ?? "not available"}.` : "",
+      property.description,
+    ]
+      .filter(Boolean)
+      .join(" ");
+  }
+
+  return "Couldn't find a listing with that reference — it may have been delisted.";
+}
+
+// --- save_lead -----------------------------------------------------------
+
+async function saveLead(input: { name?: string; phone?: string; interest?: string; propertySlug?: string }) {
+  if (!input.name || !input.phone) return "Missing name or phone — ask the visitor for both before saving.";
+
+  let propertyId: string | null = null;
+  let propertyNote = "";
+  if (input.propertySlug) {
+    const property = await prisma.property.findUnique({
+      where: { slug: input.propertySlug },
+      select: { id: true, title: true },
+    });
+    if (property) {
+      propertyId = property.id;
+      propertyNote = ` Property: ${property.title}.`;
+    } else {
+      const listing = await prisma.agentListing.findUnique({
+        where: { slug: input.propertySlug },
+        select: { title: true },
+      });
+      // AgentListing isn't FK-linkable from Enquiry.propertyId (that column
+      // only references the website's own Property table) — note it in the
+      // message text instead of dropping the context.
+      if (listing) propertyNote = ` Listing: ${listing.title}.`;
+    }
+  }
+
+  await prisma.enquiry.create({
+    data: {
+      name: input.name,
+      phone: input.phone,
+      propertyId,
+      message: `${input.interest ?? "General interest"}.${propertyNote} (via Guddy AI chat)`,
+    },
+  });
+
+  return "Lead saved successfully. Thank the visitor warmly and let them know our team will reach out shortly.";
+}
+
+// --- tool schema ------------------------------------------------------
+
+const TOOLS: Anthropic.Tool[] = [
+  {
+    name: "search_properties",
+    description:
+      "Search live property listings and return real matches. Call this whenever the visitor describes what they're looking for (city, BHK, budget, buy/rent, property type) — actually search and let the UI show real results, don't just describe the feature in words.",
+    input_schema: {
+      type: "object",
+      properties: {
+        city: { type: "string", description: "City or area, e.g. Noida, Greater Noida, Delhi" },
+        listingType: { type: "string", enum: ["SALE", "RENT"], description: "SALE to buy, RENT to rent" },
+        propertyType: { type: "string", enum: [...PROPERTY_TYPES] },
+        bedrooms: { type: "integer", description: "Number of BHK/bedrooms, e.g. 2 for 2BHK" },
+        minPrice: { type: "integer", description: "Minimum budget in INR" },
+        maxPrice: { type: "integer", description: "Maximum budget in INR" },
+      },
+    },
+  },
+  {
+    name: "get_property_details",
+    description:
+      "Get full details (address, amenities, size, contact) of one specific property by its slug. Use this when the visitor asks more about a specific search result or names a property directly.",
+    input_schema: {
+      type: "object",
+      properties: { slug: { type: "string", description: "The property's slug, from a prior search result" } },
+      required: ["slug"],
+    },
+  },
+  {
+    name: "save_lead",
+    description:
+      "Save the visitor's name, phone number, and what they want as a lead for our sales team to follow up on. Call this as soon as you have BOTH their name and phone number and they've shown real interest (buying, renting, selling, listing a property, or becoming a channel partner) — don't wait until the conversation ends, and don't ask for the same info twice.",
+    input_schema: {
+      type: "object",
+      properties: {
+        name: { type: "string" },
+        phone: { type: "string", description: "10-digit Indian phone number" },
+        interest: { type: "string", description: "Short phrase: what they want, e.g. '2BHK rent in Noida under 20k', 'wants to list a 3BHK for sale'" },
+        propertySlug: { type: "string", description: "If discussing a specific property from search results, its slug" },
+      },
+      required: ["name", "phone", "interest"],
+    },
+  },
+];
 
 // Static knowledge about the platform — kept here rather than pulled live
 // from the DB/schema, since this is "how does the site work" explainer
 // content for visitors, not personalized or frequently-changing data.
 function buildSystemPrompt(siteName: string) {
-  return `You are Guddy AI, the friendly assistant for ${siteName} — a real estate platform connecting buyers, renters, and investors with verified channel partners (agents) and property owners across Noida & NCR.
+  return `You are Guddy AI — ${siteName}'s own sales and support agent, not just an FAQ bot. You work this chat exactly like a good human channel partner would: understand what the visitor actually wants, search real listings for them, answer anything about a specific property or the platform in real detail, and gently but genuinely move every serious visitor toward sharing their contact so our team can close the deal.
 
-Answer visitor questions about ${siteName} itself: what it does, how its features work, and how to get started. If asked something unrelated to ${siteName} or real estate on the platform, politely redirect to what you can help with.
+Your job, in order of priority:
+1. Understand what the visitor wants — if they're vague ("I want a flat"), ask one short clarifying question (city? buy or rent? budget? BHK?) rather than guessing.
+2. Search for real matches with search_properties as soon as you have enough to search with (you don't need every field — search with whatever they've given).
+3. If they ask more about a specific result, use get_property_details for the real address/amenities/contact instead of guessing.
+4. Once a visitor is seriously engaged (reacted positively to a result, asked for contact/visit, or wants to list/sell/rent/become a partner), ask for their name and phone number so our team can follow up — frame it as helping them move faster ("Main aapka number note kar loon? Humari team aapko property visit arrange karne ke liye call karegi"), then call save_lead immediately once you have both.
+5. Be genuinely persuasive about why ${siteName} is worth choosing — verified channel partners, zero brokerage for owners, instant ring-a-partner notifications, secure OTP login — but only where it's relevant to what they're asking, never as a generic sales pitch.
 
 This is a live chat conversation, not an article or a support ticket reply. Follow these rules strictly:
 - Reply in 1-3 short sentences. Never write more than one short paragraph.
-- Cover only what the visitor actually asked — don't dump the full feature list unless they ask "what can you do" or similar.
-- If there's more to say, end with a short follow-up question ("Want to know how to list a property, or how ringing a partner works?") instead of saying everything at once.
 - Write in plain conversational text only — no markdown, no **bold**, no bullet/numbered lists, no headings. If you must list a couple of things, write them inline separated by commas or "and".
 - Match the visitor's language and tone — reply in Hindi/Hinglish if they write in Hindi/Hinglish, in English if they write in English.
-
-Searching for properties: whenever the visitor describes what they want to see — a city, BHK count, budget, buy vs rent, or property type — call search_properties with whatever criteria they gave (leave the rest out, don't guess). The results are shown to the visitor as clickable cards in the UI automatically, so in your reply just briefly introduce them (e.g. "Yahan kuch 2BHK options hain Noida mein:") — never re-describe each result in text, and never say a property was found if the tool returned none (say so honestly and suggest widening the search instead).
+- Search results are shown as clickable cards automatically — never re-describe each one in text, just introduce them briefly.
+- Never say a property was found if the tool returned none — say so honestly and suggest widening the search (different city, budget, or BHK) instead.
+- Never fabricate a price, address, amenity, or contact detail — only state what search_properties or get_property_details actually returned.
 
 What ${siteName} offers:
 - Buy, Rent, Commercial, and Plot listings across Noida & NCR, searchable by city, locality, budget, and BHK.
@@ -179,10 +313,14 @@ How to get started:
 - Agents/channel partners: use "Register" to become a channel partner, set up a shop profile, and start listing.
 - Investors: use the Investor sign-in to register and view opportunities.
 
-If you don't know something specific (exact current prices, a specific listing, account-specific details), say so honestly and suggest contacting support or checking the relevant page, rather than guessing.`;
+If you don't know something specific and no tool can answer it (account-specific details, a human policy question), say so honestly and suggest contacting support, rather than guessing.`;
 }
 
 export type ChatMessage = { role: "user" | "assistant"; content: string };
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
 
 export async function askGuddyAI(
   history: ChatMessage[]
@@ -199,49 +337,39 @@ export async function askGuddyAI(
   const system = buildSystemPrompt(siteName);
   const messages: Anthropic.MessageParam[] = trimmed.map((m) => ({ role: m.role, content: m.content }));
 
-  let response = await anthropic.messages.create({
-    model: MODEL,
-    max_tokens: 300,
-    system,
-    tools: [SEARCH_TOOL],
-    messages,
-  });
-
   let properties: ChatProperty[] = [];
+  let rounds = 0;
+  let response = await anthropic.messages.create({ model: MODEL, max_tokens: 400, system, tools: TOOLS, messages });
 
-  // One tool hop per turn — enough for "search then describe the results",
-  // without an open-ended agent loop a chat widget doesn't need.
-  if (response.stop_reason === "tool_use") {
-    const toolUse = response.content.find((block) => block.type === "tool_use");
-    if (toolUse && toolUse.type === "tool_use" && toolUse.name === "search_properties") {
-      const input = isSearchInput(toolUse.input) ? toolUse.input : {};
-      properties = await searchPropertiesForChatbot(input);
+  // Multiple tool calls in one turn are possible (e.g. search + save a lead
+  // in the same breath) — loop with a hard cap so a misbehaving model can't
+  // spin forever.
+  while (response.stop_reason === "tool_use" && rounds < MAX_TOOL_ROUNDS) {
+    rounds++;
+    const toolUses = response.content.filter((b): b is Anthropic.ToolUseBlock => b.type === "tool_use");
+    messages.push({ role: "assistant", content: response.content });
 
-      messages.push({ role: "assistant", content: response.content });
-      messages.push({
-        role: "user",
-        content: [
-          {
-            type: "tool_result",
-            tool_use_id: toolUse.id,
-            content:
-              properties.length > 0
-                ? `${properties.length} matching propert${properties.length === 1 ? "y" : "ies"} found: ${properties
-                    .map((p) => `${p.title} (${p.bedrooms ?? "?"}BHK, ${formatPrice(p.price, p.listingType as "SALE" | "RENT")}, ${p.locality ?? p.city})`)
-                    .join("; ")}. Already shown to the visitor as clickable cards — don't repeat this list in your reply, just introduce it briefly.`
-                : "No listings matched those exact criteria right now.",
-          },
-        ],
-      });
+    const toolResults: Anthropic.ToolResultBlockParam[] = [];
+    for (const toolUse of toolUses) {
+      const input = isRecord(toolUse.input) ? toolUse.input : {};
+      let resultText = "";
 
-      response = await anthropic.messages.create({
-        model: MODEL,
-        max_tokens: 150,
-        system,
-        tools: [SEARCH_TOOL],
-        messages,
-      });
+      if (toolUse.name === "search_properties") {
+        properties = await searchPropertiesForChatbot(input as SearchInput);
+        resultText = summarizeResultsForModel(properties);
+      } else if (toolUse.name === "get_property_details") {
+        resultText = await getPropertyDetailsForChatbot(String(input.slug ?? ""));
+      } else if (toolUse.name === "save_lead") {
+        resultText = await saveLead(input as { name?: string; phone?: string; interest?: string; propertySlug?: string });
+      } else {
+        resultText = "Unknown tool.";
+      }
+
+      toolResults.push({ type: "tool_result", tool_use_id: toolUse.id, content: resultText });
     }
+
+    messages.push({ role: "user", content: toolResults });
+    response = await anthropic.messages.create({ model: MODEL, max_tokens: 300, system, tools: TOOLS, messages });
   }
 
   const text = response.content.find((block) => block.type === "text");

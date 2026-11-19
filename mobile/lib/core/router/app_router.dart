@@ -27,6 +27,7 @@ import '../../features/agent/ratings/agent_ratings_screen.dart';
 import '../../features/agent/ring/incoming_ring_screen.dart';
 import '../../features/agent/shell/agent_shell.dart';
 import '../../features/agent/subscription/agent_subscription_screen.dart';
+import '../../features/agent/settings/agent_settings_screen.dart';
 import '../../features/agent/visits/agent_visits_screen.dart';
 import '../../features/buyer/auth/buyer_login_screen.dart';
 import '../../features/buyer/auth/buyer_verify_screen.dart';
@@ -64,6 +65,7 @@ const _agentAuthRequiredPrefixes = [
   RoutePaths.agentAppointments,
   RoutePaths.agentBroadcast,
   RoutePaths.agentVisits,
+  RoutePaths.agentSettings,
   RoutePaths.agentPayouts,
   RoutePaths.agentRatings,
   RoutePaths.agentDigest,
@@ -221,6 +223,10 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
       GoRoute(
         path: RoutePaths.agentVisits,
         builder: (context, state) => const AgentVisitsScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.agentSettings,
+        builder: (context, state) => const AgentSettingsScreen(),
       ),
       GoRoute(
         path: RoutePaths.agentPayouts,

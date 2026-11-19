@@ -575,6 +575,8 @@ model AgentProfile {
   rejectionReason               String?        @db.Text
   planTier                      AgentPlanTier  @default(PRIME)
   primeStatus                   Boolean        @default(false)
+  buzzerAlerts                  Boolean        @default(true)
+  listingAlerts                 Boolean        @default(true)
   visibilityDeprioritized       Boolean        @default(false)
   autoPayMandate                String?
   autoPayActive                 Boolean        @default(false)

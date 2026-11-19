@@ -437,7 +437,7 @@ export default async function AdminTargetsPage({
                       </div>
                     </div>
 
-                    {/* Target 3: Investors */}
+                    {/* Target 3: Referral Partners */}
                     <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5">
                       <div className="flex items-center justify-between text-xs">
                         <span className="font-bold text-slate-700">3. Referral Partners Added</span>
@@ -468,7 +468,7 @@ export default async function AdminTargetsPage({
                     </div>
                   </div>
 
-                  {/* Detailed Breakdown: Listings, Downline Partners, Investors & Profile */}
+                  {/* Detailed Breakdown: Listings, Downline Partners, Referral Partners & Profile */}
                   <PartnerBreakdownView partner={partner} />
                 </div>
               );

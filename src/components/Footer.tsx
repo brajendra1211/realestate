@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin, ShieldCheck, Handshake, Eye } from "lucide-react";
+import { TRUST_BADGES } from "@/content/site-copy";
 
 const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
   {
@@ -19,6 +20,17 @@ const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
       { href: "/properties?listingType=RENT&propertyType=PG", label: "PG & co-living" },
       { href: "/properties?listingType=RENT&propertyType=COMMERCIAL", label: "Commercial spaces" },
       { href: "/properties?listingType=RENT&propertyType=VILLA", label: "Villas & houses" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { href: "/about", label: "About us, vision & mission" },
+      { href: "/commission-policy", label: "Commission policy" },
+      { href: "/faq", label: "FAQ" },
+      { href: "/reviews", label: "Market reviews" },
+      { href: "/case-studies", label: "Case studies" },
+      { href: "/legal-cell", label: "Legal cell & success stories" },
     ],
   },
   {
@@ -64,7 +76,7 @@ export function Footer({
       <div className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-gold-400/10 blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-7">
           <div className="space-y-5 lg:col-span-2">
             <Link href="/" className="font-display inline-block text-3xl font-semibold text-white">
               {brandTitle.toLowerCase()}
@@ -126,17 +138,27 @@ export function Footer({
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-slate-500 sm:flex-row">
+        <ul className="mt-12 flex flex-wrap items-center justify-center gap-2 border-t border-white/10 pt-8">
+          {TRUST_BADGES.map((b) => (
+            <li key={b} className="rounded-full bg-white/5 px-3.5 py-1.5 text-[11px] font-semibold text-slate-300 ring-1 ring-white/10">
+              {b}
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-slate-500 sm:flex-row">
           <div>
             © {new Date().getFullYear()} {brandTitle} (
             <a href="https://pronesto.in/" target="_blank" rel="noopener noreferrer" className="hover:text-white">pronesto.in</a>
             ). All rights reserved.
           </div>
-          <div className="flex gap-5">
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
             <Link href="/properties" className="hover:text-white">All properties</Link>
             <Link href="/login" className="hover:text-white">Portal login</Link>
             <Link href="/support" className="hover:text-white">Support</Link>
             <Link href="/terms" className="hover:text-white">Terms</Link>
+            <Link href="/commission-policy" className="hover:text-white">Commission Policy</Link>
+            <Link href="/faq" className="hover:text-white">FAQ</Link>
             <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
             <Link href="/account-deletion" className="hover:text-white">Delete Account</Link>
           </div>

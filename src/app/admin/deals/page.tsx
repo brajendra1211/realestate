@@ -156,7 +156,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
             Deals &amp; Network Hierarchy Hub
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-slate-500 font-medium">
-            Connected multi-level operations: Channel Partner ➔ Assigned Properties ➔ Sales &amp; Rentals ➔ Referral Partners (Investors).
+            Connected multi-level operations: Channel Partner ➔ Assigned Properties ➔ Sales &amp; Rentals ➔ Referral Partners.
           </p>
         </div>
 
@@ -191,7 +191,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4.5 shadow-2xs">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Referral Investors</span>
+          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Referral Partners</span>
           <p className="mt-2 text-2xl font-black text-purple-700 tracking-tight">{activeInvestorsCount}</p>
           <p className="mt-0.5 text-xs text-slate-500">35% deal profit partners</p>
         </div>
@@ -216,7 +216,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
             <span>Referral Partner Profit Distributed!</span>
           </p>
           <p className="text-xs text-purple-700 mt-0.5">
-            35% Investor, 10% Referring Agent, 20% Company Renovation, 35% Company Treasury ledger lines saved.
+            35% Referral Partner, 10% Referring Agent, 20% Company Renovation, 35% Company Treasury ledger lines saved.
           </p>
         </div>
       )}
@@ -318,8 +318,8 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                   <h3 className="font-black text-sm text-white mt-1">Platform Inflows</h3>
                   <ul className="mt-2 text-xs text-slate-300 space-y-1">
                     <li>• Property Sold (B2B Close)</li>
-                    <li>• Investor Exit (Flip Profit)</li>
-                    <li>• Investor Joining (₹20,000)</li>
+                    <li>• Referral Partner Exit (Flip Profit)</li>
+                    <li>• Referral Partner Joining (₹20,000)</li>
                     <li>• Contact Unlock &amp; Gold Plans</li>
                   </ul>
                 </div>
@@ -381,7 +381,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                   <h3 className="font-black text-sm text-white mt-1">Wallets &amp; Reserves</h3>
                   <ul className="mt-2 text-xs text-emerald-100 space-y-1">
                     <li>• Partner Wallet (+credits)</li>
-                    <li>• Investor Portfolio (35%)</li>
+                    <li>• Referral Partner Portfolio (35%)</li>
                     <li>• Company Treasury (55%)</li>
                     <li>• Renovation Reserve</li>
                   </ul>
@@ -451,7 +451,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                   filter === "investors" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
-                With Investors ({agentsWithHierarchy.filter((a) => a.investors.length > 0).length})
+                With Referral Partners ({agentsWithHierarchy.filter((a) => a.investors.length > 0).length})
               </Link>
               <Link
                 href={`/admin/deals?tab=hierarchy&filter=wallet${q ? `&q=${q}` : ""}`}
@@ -558,7 +558,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                         <svg className="h-3.5 w-3.5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
-                        <span>{agent.investors.length} Referred Investors</span>
+                        <span>{agent.investors.length} Referred Partners</span>
                       </span>
                       <span className="text-slate-300">·</span>
                       <span className="flex items-center gap-1.5">
@@ -668,7 +668,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                           </div>
                         </div>
 
-                        {/* Branch 3B: Referred Investor Network */}
+                        {/* Branch 3B: Referred Partner Network */}
                         <div className="relative">
                           {/* Tree node indicator */}
                           <div className="absolute -left-[23px] sm:-left-[31px] top-1 h-3.5 w-3.5 rounded-full border-2 border-purple-500 bg-white" />
@@ -678,10 +678,10 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                               <div>
                                 <div className="flex items-center gap-2">
                                   <span className="text-xs font-black uppercase text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100">
-                                    Branch 3B: Investor Network
+                                    Branch 3B: Referral Partner Network
                                   </span>
                                   <h4 className="font-bold text-sm text-slate-900">
-                                    Referred Investors ({agent.investors.length})
+                                    Referred Partners ({agent.investors.length})
                                   </h4>
                                 </div>
                                 <p className="text-xs text-slate-500 mt-0.5">
@@ -692,13 +692,13 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                                 href="/admin/investors"
                                 className="text-xs font-bold text-purple-600 hover:underline self-start sm:self-auto"
                               >
-                                View All Investors →
+                                View All Referral Partners →
                               </Link>
                             </div>
 
                             {agent.investors.length === 0 ? (
                               <p className="text-xs text-slate-400 italic py-2">
-                                No investors registered under {agent.agentCode} yet.
+                                No referral partners registered under {agent.agentCode} yet.
                               </p>
                             ) : (
                               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -909,7 +909,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
               </div>
             </div>
 
-            {/* Form 2: Investor Joint Venture Profit (35/10/20/35) */}
+            {/* Form 2: Referral Partner Joint Venture Profit (35/10/20/35) */}
             <div className="rounded-3xl border border-purple-200 bg-white p-6 shadow-xs flex flex-col justify-between border-t-4 border-t-purple-600">
               <div>
                 <div className="flex items-center justify-between mb-2">
@@ -919,13 +919,13 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 mb-4">
-                  35% Investor, 10% Referring Agent (Agent Code), 55% Company Treasury — supports multiple investors per deal with automatic agent mapping.
+                  35% Referral Partner, 10% Referring Agent (Agent Code), 55% Company Treasury — supports multiple referral partners per deal with automatic agent mapping.
                 </p>
 
                 <form action={distributeProfitAction} className="space-y-3.5">
                   <div>
                     <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                      Referral Partner (Investor) *
+                      Referral Partner *
                     </label>
                     <select
                       name="investorProfileId"
@@ -933,7 +933,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                       defaultValue={prefillInvestorId ?? ""}
                       className={selectClass}
                     >
-                      <option value="">— Select Verified Investor —</option>
+                      <option value="">— Select Verified Referral Partner —</option>
                       {investors.map((inv) => (
                         <option key={inv.id} value={inv.id}>
                           {inv.investorCode} · {inv.user.name} (Agent: {inv.referringAgent?.agentCode ?? "Direct"})
@@ -1075,7 +1075,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
               Referral Partner Joint Profit Distributions
             </h2>
             <p className="text-xs text-slate-500">
-              4-way breakdown: 35% Investor, 10% Referring Agent, 20% Company Renovation, 35% Company Treasury.
+              4-way breakdown: 35% Referral Partner, 10% Referring Agent, 20% Company Renovation, 35% Company Treasury.
             </p>
           </div>
 
@@ -1084,11 +1084,11 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
               <thead className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 border-b border-slate-100">
                 <tr>
                   <th className="px-4 py-3">Date</th>
-                  <th className="px-4 py-3">Investor</th>
+                  <th className="px-4 py-3">Referral Partner</th>
                   <th className="px-4 py-3">Profit Pool</th>
                   <th className="px-4 py-3">Agent (10%)</th>
                   <th className="px-4 py-3">Renovation (20%)</th>
-                  <th className="px-4 py-3">Investor (35%)</th>
+                  <th className="px-4 py-3">Referral Partner (35%)</th>
                   <th className="px-4 py-3">Company (35%)</th>
                 </tr>
               </thead>
@@ -1106,7 +1106,7 @@ export default async function AdminDealsPage({ searchParams }: { searchParams: S
                         {dist.distributedAt.toLocaleDateString("en-IN")}
                       </td>
                       <td className="px-4 py-3 font-bold text-slate-900 whitespace-nowrap">
-                        {dist.investorProfile.investorCode ?? dist.investorProfile.user?.name ?? "Investor"}
+                        {dist.investorProfile.investorCode ?? dist.investorProfile.user?.name ?? "Referral Partner"}
                       </td>
                       <td className="px-4 py-3 font-black text-slate-900 whitespace-nowrap">
                         {formatINR(dist.totalProfit)}

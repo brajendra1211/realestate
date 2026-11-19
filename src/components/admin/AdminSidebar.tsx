@@ -37,6 +37,7 @@ import {
   ShoppingBag,
   LifeBuoy,
   Menu,
+  Presentation,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -54,11 +55,19 @@ const ADMIN_GROUPS: NavGroup[] = [
     ],
   },
   {
+    title: "Buzzer & agent leads",
+    items: [
+      { href: "/admin/buzzer-control", label: "Buzzer & direct leads", icon: BellRing, badge: "New" },
+      { href: "/admin/demo", label: "Agent demo", icon: Presentation, badge: "New" },
+      { href: "/admin/area-routing", label: "Area routing", icon: Route },
+      { href: "/admin/buyer-leads", label: "Buyer leads", icon: UserSearch },
+      { href: "/admin/listing-requests", label: "Owner requests", icon: BellRing },
+    ],
+  },
+  {
     title: "Inventory & assets",
     items: [
       { href: "/admin/properties", label: "All properties", icon: Building2, badge: "Live" },
-      { href: "/admin/listing-requests", label: "Owner requests", icon: BellRing },
-      { href: "/admin/buyer-leads", label: "Buyer leads", icon: UserSearch },
       { href: "/admin/buy-leads", label: "Buy leads desk", icon: ShoppingBag },
       { href: "/admin/gold-listings", label: "Listing moderation", icon: ShieldCheck },
       { href: "/admin/developers", label: "Developers & builders", icon: Landmark },
@@ -70,7 +79,7 @@ const ADMIN_GROUPS: NavGroup[] = [
     title: "Commissions & deals",
     items: [
       { href: "/admin/deals", label: "Deal closures", icon: Handshake },
-      { href: "/admin/investors", label: "Investors", icon: TrendingUp },
+      { href: "/admin/investors", label: "Referral Partners", icon: TrendingUp },
       { href: "/admin/payments", label: "Payments & history", icon: CreditCard },
       { href: "/admin/billing", label: "Prime billing", icon: Receipt },
       { href: "/admin/plans", label: "Plans & pricing", icon: Tags },
@@ -83,7 +92,6 @@ const ADMIN_GROUPS: NavGroup[] = [
       { href: "/admin/targets", label: "Partner targets", icon: Target },
       { href: "/admin/prime-expiry", label: "Prime expiry tracker", icon: Crown },
       { href: "/admin/hierarchy", label: "Hierarchy map", icon: Network },
-      { href: "/admin/area-routing", label: "Area routing", icon: Route },
       { href: "/admin/enquiries", label: "Lead inquiries", icon: Mail },
       { href: "/admin/users", label: "Owners & dealers", icon: UserRound },
       { href: "/admin/buyers", label: "Buyers directory", icon: HeartHandshake },

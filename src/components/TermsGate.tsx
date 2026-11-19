@@ -22,7 +22,7 @@ export function TermsGate() {
       <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
         <h2 className="font-display text-2xl font-semibold text-ink">Terms &amp; Conditions</h2>
         <p className="mt-2 text-sm text-slate-600">
-          To keep using Pronesto as an agent, customer or investor, please read and accept our{" "}
+          To keep using Pronesto as an agent, customer or referral partner, please read and accept our{" "}
           <Link href="/terms" target="_blank" className="font-semibold text-brand-700 underline">
             Terms &amp; Conditions
           </Link>{" "}
@@ -39,8 +39,12 @@ export function TermsGate() {
             onChange={(e) => setChecked(e.target.checked)}
             className="mt-0.5 h-4 w-4 accent-brand-600"
           />
-          I have read and accept the Terms &amp; Conditions.
+          I have read and accepted the Annual Retainer Agreement &amp; Risk Disclaimer.
         </label>
+        <p className="mt-3 text-[11px] leading-relaxed text-slate-500">
+          Our onboarding adheres to Section 10A of the Information Technology Act, 2000. Checking this box and submitting creates a legally binding
+          click-wrap agreement, backed by digital audit logs (IP, timestamp, OTP).
+        </p>
         <button
           type="button"
           disabled={!checked || pending}

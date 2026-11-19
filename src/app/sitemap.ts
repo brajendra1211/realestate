@@ -79,6 +79,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/dealers`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE_URL}/owners`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE_URL}/developers`, changeFrequency: "daily", priority: 0.7 },
+    { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/commission-policy`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/faq`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/reviews`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/case-studies`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/legal-cell`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/terms`, changeFrequency: "monthly", priority: 0.5 },
   ];
 
   const propertyRoutes: MetadataRoute.Sitemap = properties.map((property) => ({

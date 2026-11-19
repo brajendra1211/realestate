@@ -28,7 +28,7 @@ export default async function PrivacyPolicyPage() {
         <p>
           {siteName} (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) operates this website
           and the {siteName} mobile app (together, the &quot;Service&quot;), connecting
-          property buyers, renters, and investors with verified channel partners (agents) and
+          property buyers, renters, and referral partners with verified channel partners (agents) and
           property owners. This policy explains what information we collect, how we use it,
           and the choices you have.
         </p>

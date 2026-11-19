@@ -23,9 +23,9 @@ export default async function AdminAnalyticsPage() {
     <div className="px-4 py-8 sm:px-8 lg:px-10">
       <h1 className="text-2xl font-bold text-slate-900">Financial Analytics</h1>
       <p className="mt-1 max-w-2xl text-sm text-slate-500">
-        Net profit, investor returns, agent payouts, and operating expenses — §3.14. Company
+        Net profit, referral partner returns, agent payouts, and operating expenses — §3.14. Company
         revenue counts only money that&apos;s actually the company&apos;s (profit-distribution
-        company share, unlock-pass company split, non-referral part of investor registration
+        company share, unlock-pass company split, non-referral part of referral partner registration
         fees); agent commissions were never company money, so agent payouts are shown
         separately, not subtracted from net profit.
       </p>

@@ -283,7 +283,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
         </Section>
 
         <Section
-          title="Deals, Brokerage & Referral Partner (Investor) Sharing"
+          title="Deals, Brokerage & Referral Partner Sharing"
           description="Every payout % and fee for B2B deals, registration fees, and profit sharing across closed transactions."
         >
           <Field
@@ -295,7 +295,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             span
           />
           <Field
-            label="Referral Partner (Investor) registration fee (₹)"
+            label="Referral Partner registration fee (₹)"
             name="investorRegistrationFee"
             type="number"
             defaultValue={String(settings?.investorRegistrationFee ?? 20000)}
@@ -309,7 +309,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             placeholder="% credited to referring partner wallet"
           />
           <Field
-            label="Deal profit — Referral Partner (Investor) share (%)"
+            label="Deal profit — Referral Partner share (%)"
             name="profitInvestorSharePercent"
             type="number"
             defaultValue={String(settings?.profitInvestorSharePercent ?? 35)}
@@ -329,7 +329,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
           <div>
             <label className="text-sm font-medium text-slate-700">Deal profit — Company unified share</label>
             <p className={inputClass + " bg-slate-50 text-slate-700 font-bold"}>
-              Remainder — 100% minus Investor &amp; Agent shares ({100 - (settings?.profitInvestorSharePercent ?? 35) - (settings?.profitAgentSharePercent ?? 10) - (settings?.profitExpenseSharePercent ?? 0)}%)
+              Remainder — 100% minus Referral Partner &amp; Agent shares ({100 - (settings?.profitInvestorSharePercent ?? 35) - (settings?.profitAgentSharePercent ?? 10) - (settings?.profitExpenseSharePercent ?? 0)}%)
             </p>
           </div>
         </Section>
@@ -360,7 +360,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             placeholder="Default 10 sub-partners"
           />
           <Field
-            label="Target: Referral Partners (Investors) Added"
+            label="Target: Referral Partners Added"
             name="partnerTargetInvestors"
             type="number"
             defaultValue={String(settings?.partnerTargetInvestors ?? 3)}

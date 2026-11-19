@@ -12,6 +12,7 @@ import { AcresTopCities } from "@/components/acres/AcresTopCities";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Reveal, Stagger, StaggerItem, HoverLift } from "@/components/ui/Motion";
 import { Faq } from "@/components/ui/Faq";
+import { HomeTrustSections } from "@/components/content/HomeTrustSections";
 import {
   ArrowRight,
   Building2,
@@ -403,10 +404,15 @@ export default async function Home() {
         </div>
       </section>
 
+      <HomeTrustSections />
+
       {/* FAQ */}
       <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
         <SectionHeader align="center" eyebrow="Got questions?" title="Frequently asked" />
         <Faq items={faqs} />
+        <p className="mt-6 text-center text-sm">
+          <Link href="/faq" className="font-semibold text-brand-700 hover:underline">See all 24 questions →</Link>
+        </p>
       </section>
     </div>
   );

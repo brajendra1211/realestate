@@ -96,7 +96,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
           <div>
             <span className="text-[11px] font-bold uppercase text-slate-400">Legal Document Vault</span>
             <p className="mt-1 text-xs text-slate-600">
-              Sale deeds, agreements, and bank loan records scoped to your investor code.
+              Sale deeds, agreements, and bank loan records scoped to your referral partner code.
             </p>
           </div>
           <Link
@@ -399,7 +399,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
               <p className="text-[10px] text-slate-500 mt-0.5">Registry & Title search</p>
             </div>
             <div className="rounded-xl bg-white border border-indigo-100 p-2.5 shadow-2xs">
-              <span className="font-bold text-slate-800">🤝 Company-Investor Agreement</span>
+              <span className="font-bold text-slate-800">🤝 Company-Referral Partner Agreement</span>
               <p className="text-[10px] text-slate-500 mt-0.5">Profit share terms</p>
             </div>
           </div>

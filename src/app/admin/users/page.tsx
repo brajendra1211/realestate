@@ -68,7 +68,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
           { label: "Dealers", href: filterLink({ role: "DEALER", status }) },
           { label: "Owners", href: filterLink({ role: "OWNER", status }) },
           { label: "Buyers & Customers ➔", href: "/admin/buyers" },
-          { label: "Investors ➔", href: "/admin/investors" },
+          { label: "Referral Partners ➔", href: "/admin/investors" },
         ].map((item) => (
           <a
             key={item.label}

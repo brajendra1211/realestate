@@ -15,8 +15,8 @@ const COMMISSION_TYPE_META: Record<string, { label: string; badge: string }> = {
   BROKERAGE: { label: "Deal brokerage", badge: "bg-emerald-50 text-emerald-800 border-emerald-200" },
   UNLOCK_SPLIT: { label: "Contact unlock split", badge: "bg-blue-50 text-blue-800 border-blue-200" },
   GOLD_SPLIT: { label: "Gold listing split", badge: "bg-amber-50 text-amber-800 border-amber-200" },
-  DEAL_PROFIT_SHARE: { label: "Investor deal profit", badge: "bg-purple-50 text-purple-800 border-purple-200" },
-  REGISTRATION_REFERRAL: { label: "Investor joining referral", badge: "bg-indigo-50 text-indigo-800 border-indigo-200" },
+  DEAL_PROFIT_SHARE: { label: "Referral Partner deal profit", badge: "bg-purple-50 text-purple-800 border-purple-200" },
+  REGISTRATION_REFERRAL: { label: "Referral Partner joining referral", badge: "bg-indigo-50 text-indigo-800 border-indigo-200" },
   AGENT_REFERRAL: { label: "Partner referral", badge: "bg-teal-50 text-teal-800 border-teal-200" },
   CUSTOMER_PROPERTY_UPDATE: { label: "Property update split", badge: "bg-cyan-50 text-cyan-800 border-cyan-200" },
   REFERRAL_CUSTOMER_RENEWAL: { label: "Renewal royalty", badge: "bg-sky-50 text-sky-800 border-sky-200" },
@@ -60,7 +60,7 @@ export async function CommissionsTab({
         <StatCard label="Total credited" value={formatINR(grandTotal)} hint={`${totalCount} transactions`} icon={IndianRupee} />
         <StatCard label="Wallet balance owed" value={formatINR(totalWallets)} hint="Not yet withdrawn" icon={Wallet} tone="green" />
         <StatCard label="Deal brokerage" value={formatINR(brokerageTotal)} hint="From sales & rentals" icon={Handshake} tone="amber" />
-        <StatCard label="Referrals & splits" value={formatINR(referralAndSplitsTotal)} hint="Unlocks, gold, investors" icon={Layers} tone="violet" />
+        <StatCard label="Referrals & splits" value={formatINR(referralAndSplitsTotal)} hint="Unlocks, gold, referral partners" icon={Layers} tone="violet" />
       </div>
 
       {saved === "manual" && <Notice tone="green">Commission credited to the partner wallet.</Notice>}
@@ -81,8 +81,8 @@ export async function CommissionsTab({
             { k: "UNLOCK_SPLIT", rate: `${st.unlockAgentSplitPercent}%`, rule: `${st.unlockAgentSplitPercent}% of the ${formatINR(st.unlockPassAmount)} contact unlock fee` },
             { k: "GOLD_SPLIT", rate: `${st.goldAgentSplitPercent}%`, rule: `${st.goldAgentSplitPercent}% of the ${formatINR(st.goldListingAmount)} Gold listing fee` },
             { k: "AGENT_REFERRAL", rate: `${st.agentReferralPercent}%`, rule: `${st.agentReferralPercent}% of a referred partner's first Prime payment` },
-            { k: "REGISTRATION_REFERRAL", rate: `${st.investorReferralPercent}%`, rule: `${st.investorReferralPercent}% of the ${formatINR(st.investorRegistrationFee)} investor joining fee` },
-            { k: "DEAL_PROFIT_SHARE", rate: `${st.profitAgentSharePercent}%`, rule: `${st.profitAgentSharePercent}% of deal profit to the referring partner (investor gets ${st.profitInvestorSharePercent}%)` },
+            { k: "REGISTRATION_REFERRAL", rate: `${st.investorReferralPercent}%`, rule: `${st.investorReferralPercent}% of the ${formatINR(st.investorRegistrationFee)} referral partner joining fee` },
+            { k: "DEAL_PROFIT_SHARE", rate: `${st.profitAgentSharePercent}%`, rule: `${st.profitAgentSharePercent}% of deal profit to the referring partner (referral partner gets ${st.profitInvestorSharePercent}%)` },
             { k: "REFERRAL_CUSTOMER_RENEWAL", rate: `${st.listingSplitPercent}%`, rule: `${st.listingSplitPercent}% of a referred customer's listing renewal fee (${formatINR(st.basicListingFee)} Basic / ${formatINR(st.goldListingFee)} Gold)` },
             { k: "CUSTOMER_PROPERTY_UPDATE", rate: "—", rule: "No automatic payout is set up for this type yet" },
             { k: "COMPANY_FIVE_STAR_REWARD", rate: "—", rule: "No automatic payout is set up for this type yet" },

@@ -9,7 +9,7 @@ const DOC_TYPE_LABELS: Record<string, string> = {
   SALE_DEED: "Sale Deed",
   AGREEMENT_TO_SELL: "Agreement to Sell",
   CUSTOMER_BANK_LOAN_PAPERS: "Customer Bank Loan All Papers",
-  COMPANY_INVESTOR_AGREEMENT: "Company & Investor Agreement",
+  COMPANY_INVESTOR_AGREEMENT: "Company & Referral Partner Agreement",
   ENCUMBRANCE_CERTIFICATE: "Encumbrance Certificate",
   LAYOUT_PLAN: "Layout Plan",
   PAYMENT_RECEIPT: "Payment Receipt",

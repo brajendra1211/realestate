@@ -3,6 +3,7 @@ import { notifyUser } from "@/lib/notify";
 import { sendPushToUser } from "@/lib/push";
 import { emitToAgent } from "@/lib/socket";
 import { findNearbyAgents } from "@/lib/agentGeo";
+import { filterAgentIdsByAlert } from "@/lib/agentAlerts";
 import { haversineDistanceKm } from "@/lib/geo";
 import { absoluteUrl } from "@/lib/seo";
 import type { BuyerInterest } from "@/generated/prisma";
@@ -116,7 +117,10 @@ export async function runPhase(interestId: string, phase: number) {
   if (!interest || interest.status === "CLOSED" || interest._count.acceptances >= MAX_ACCEPTORS) return 0;
 
   const already = new Set(ids(interest.notifiedAgentIds));
-  const audience = (await audienceFor(interest, phase)).filter((id) => !already.has(id));
+  const audience = await filterAgentIdsByAlert(
+    (await audienceFor(interest, phase)).filter((id) => !already.has(id)),
+    "buzzerAlerts",
+  );
   if (audience.length === 0) return 0;
 
   await prisma.buyerInterest.update({
@@ -191,6 +195,8 @@ function canSee(
   now = Date.now(),
 ) {
   if (i.primaryAgentId === agentProfileId) return true;
+  // Partners the admin buzzed on purpose (or an earlier phase already buzzed) can always see it.
+  if (ids(i.notifiedAgentIds).includes(agentProfileId)) return true;
   const phase = phaseIndex(now - i.createdAt.getTime());
   if (phase === 0) return false;
   const radius = PHASES[phase].radiusKm;
@@ -248,6 +254,45 @@ export async function adminRebuzzInterest(interestId: string) {
   if (interest.status === "CLOSED") throw new BuyerInterestError("This request is closed.");
   await prisma.buyerInterest.update({ where: { id: interestId }, data: { notifiedAgentIds: null } });
   return runPhase(interestId, PHASES.length - 1);
+}
+
+/**
+ * Admin: buzz ONLY the chosen partners (no widening to other partners).
+ * Returns how many approved Prime partners were actually buzzed.
+ */
+export async function adminBuzzSelectedAgents(interestId: string, agentProfileIds: string[]) {
+  const interest = await prisma.buyerInterest.findUniqueOrThrow({ where: { id: interestId } });
+  if (interest.status === "CLOSED") throw new BuyerInterestError("This request is closed.");
+
+  const agents = await prisma.agentProfile.findMany({
+    where: { id: { in: [...new Set(agentProfileIds)] }, status: "APPROVED", primeStatus: true, buzzerAlerts: true },
+    include: { user: { select: { id: true, phone: true, email: true } } },
+  });
+  if (agents.length === 0) throw new BuyerInterestError("No eligible partner selected (must be approved Prime with buzzer alerts ON).");
+
+  const already = new Set(ids(interest.notifiedAgentIds));
+  agents.forEach((a) => already.add(a.id));
+  await prisma.buyerInterest.update({
+    where: { id: interestId },
+    data: { notifiedAgentIds: [...already].join(","), buzzCount: { increment: 1 } },
+  });
+
+  await Promise.all(
+    agents.map(async (a) => {
+      const text = `Admin sent you a buyer request: ${describe(interest)}. Open Buyer Leads and accept to get their number.`;
+      emitToAgent(a.id, "buyer-interest:new", { id: interest.id });
+      await sendPushToUser(a.user.id, { title: "Buyer wants to see a property", body: text }, { type: "buyer-interest", interestId }).catch(() => {});
+      await notifyUser(a.user, text, "Buyer wants to see a property").catch(() => {});
+    }),
+  );
+  return agents.length;
+}
+
+/** Admin: buzz only the partners the admin mapped to this pincode (Area routing). */
+export async function adminBuzzAreaAgents(interestId: string, pincode: string) {
+  const assignments = await prisma.areaAgentAssignment.findMany({ where: { pincode: pincode.trim() }, select: { agentId: true } });
+  if (assignments.length === 0) throw new BuyerInterestError(`No partners are mapped to pincode ${pincode}.`);
+  return adminBuzzSelectedAgents(interestId, assignments.map((a) => a.agentId));
 }
 
 export async function adminAssignInterest(interestId: string, agentProfileId: string) {

@@ -10,7 +10,7 @@ export const STREAMS = [
   { key: "owner", name: "Owner plans" },
   { key: "partner", name: "Partner memberships" },
   { key: "gold", name: "Gold listings" },
-  { key: "investor", name: "Investor fees" },
+  { key: "investor", name: "Referral Partner fees" },
   { key: "deals", name: "Deal commission" },
 ] as const;
 export type StreamKey = (typeof STREAMS)[number]["key"];

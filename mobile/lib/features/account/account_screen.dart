@@ -59,7 +59,7 @@ class AccountScreen extends StatelessWidget {
                 icon: Icons.trending_up,
                 title: 'Referral Partner',
                 subtitle:
-                    'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'investor'}',
+                    'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'referral partner'}',
                 signedIn: true,
                 onTap: () => context.push(RoutePaths.investorDashboard),
               )

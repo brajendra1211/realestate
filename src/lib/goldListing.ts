@@ -5,6 +5,7 @@ import { slugify } from "@/lib/slug";
 import { getOrCreateMasterProperty } from "@/lib/masterProperty";
 import { findNearbyAgents } from "@/lib/agentGeo";
 import { emitToAgent } from "@/lib/socket";
+import { filterAgentsByAlert } from "@/lib/agentAlerts";
 import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
 import { getNearbyAmenities, formatAmenitiesNote } from "@/lib/amenityLookup";
 import { computeSplit } from "@/lib/commission";
@@ -252,7 +253,10 @@ export async function rejectGoldListing(agentListingId: string, reason?: string)
 // (getGoldListingsForAgent below) is a live radius query, same reasoning as
 // Phase 4's broadcasts: this is a one-shot push, not a stateful cascade.
 async function injectToNearbyAgents(agentListingId: string, latitude: number, longitude: number) {
-  const nearby = await findNearbyAgents(latitude, longitude, AUTO_INJECT_RADIUS_KM, AUTO_INJECT_MAX_AGENTS);
+  const nearby = await filterAgentsByAlert(
+    await findNearbyAgents(latitude, longitude, AUTO_INJECT_RADIUS_KM, AUTO_INJECT_MAX_AGENTS),
+    "listingAlerts",
+  );
   for (const agent of nearby) {
     emitToAgent(agent.agentProfileId, "listing:new-gold", { agentListingId });
   }

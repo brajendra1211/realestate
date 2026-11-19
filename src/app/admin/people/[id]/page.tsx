@@ -37,7 +37,7 @@ const BACK: Record<string, { href: string; label: string }> = {
   OWNER: { href: "/admin/users", label: "Owners & dealers" },
   DEALER: { href: "/admin/users", label: "Owners & dealers" },
   BUYER: { href: "/admin/buyers", label: "Buyers" },
-  INVESTOR: { href: "/admin/investors", label: "Investors" },
+  INVESTOR: { href: "/admin/investors", label: "Referral Partners" },
   AGENT: { href: "/admin/partners", label: "Channel partners" },
   SUBADMIN: { href: "/admin/subadmins", label: "Sub-admins" },
   ADMIN: { href: "/admin", label: "Overview" },
@@ -407,7 +407,7 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
               </div>
               <Card title="Referral partner details" icon={IdCard}>
                 <dl className="divide-y divide-slate-100">
-                  <Row k="Investor code" v={user.investorProfile.investorCode} />
+                  <Row k="Referral Partner code" v={user.investorProfile.investorCode} />
                   <Row
                     k="Referred by partner"
                     v={`${user.investorProfile.referringAgent.user.name} (${user.investorProfile.referringAgent.agentCode ?? "—"})`}
@@ -415,7 +415,7 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
                   <Row k="Registered" v={date(user.investorProfile.registeredAt)} />
                 </dl>
               </Card>
-              <Card title="Investor ledger" icon={Wallet} count={investorLedger.length}>
+              <Card title="Referral Partner ledger" icon={Wallet} count={investorLedger.length}>
                 {investorLedger.length === 0 ? (
                   <p className="text-sm text-slate-500">No profit credited yet.</p>
                 ) : (

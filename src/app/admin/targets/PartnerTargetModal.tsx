@@ -114,7 +114,7 @@ export function PartnerTargetModal({
                   </p>
                 </div>
                 <div className="bg-white p-2 rounded-xl border border-slate-200/70">
-                  <p className="text-slate-400 font-medium">Investors</p>
+                  <p className="text-slate-400 font-medium">Referral Partners</p>
                   <p className="font-extrabold text-slate-900 mt-0.5">
                     {partner.achieved.investors} / {partner.targets.investors}
                   </p>
@@ -198,7 +198,7 @@ export function PartnerTargetModal({
 
                 <div>
                   <label className="block text-[11px] font-bold text-slate-700">
-                    Investors to Onboard
+                    Referral Partners to Onboard
                   </label>
                   <input
                     type="number"

@@ -127,7 +127,7 @@ export default async function AdminPage() {
               <span className="rounded bg-blue-500/30 border border-blue-400/40 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-blue-200">
                 JV Distribution Standard
               </span>
-              <span className="text-xs text-slate-300">10% Agent · 35% Investors Pool · 55% Company</span>
+              <span className="text-xs text-slate-300">10% Agent · 35% Referral Partners Pool · 55% Company</span>
             </div>
             <h2 className="text-base sm:text-lg font-bold text-white">
               Automated Commission &amp; Syndication Architecture
@@ -145,7 +145,7 @@ export default async function AdminPage() {
               </div>
               <span className="text-slate-600">|</span>
               <div>
-                <div className="text-[10px] text-slate-400 uppercase font-bold">Investors</div>
+                <div className="text-[10px] text-slate-400 uppercase font-bold">Referral Partners</div>
                 <div className="text-sm font-black text-amber-400">35%</div>
               </div>
               <span className="text-slate-600">|</span>
@@ -337,7 +337,7 @@ export default async function AdminPage() {
           className="group rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs hover:border-blue-400 hover:shadow-xs transition"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Investors</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Referral Partners</span>
             <span className="text-blue-600 opacity-0 group-hover:opacity-100 transition">→</span>
           </div>
           <div className="mt-2 text-2xl font-black text-slate-900">{totalInvestors}</div>

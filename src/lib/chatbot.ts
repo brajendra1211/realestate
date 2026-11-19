@@ -561,9 +561,9 @@ What ${siteName} offers:
 - "Ring a channel partner" — from a listing, a buyer can instantly notify the agent (app push notification + WhatsApp) that they're interested, instead of waiting for a callback.
 - Zero-brokerage property listing — property owners can list directly with zero brokerage fees.
 - An "unlock" model for some listings — a small one-time fee (around ₹100) reveals full address and the channel partner's direct contact.
-- Secure sign-in via OTP (WhatsApp or email) for buyers, channel partners, and investors — no passwords to remember.
+- Secure sign-in via OTP (WhatsApp or email) for buyers, channel partners, and referral partners — no passwords to remember.
 - A Channel Partner program: agents can register, build a shop profile, list properties, and earn commission/splits on deals.
-- An Investor program for people who want to invest in property deals through the platform.
+- An Referral Partner program for people who want to invest in property deals through the platform.
 - Dispatch: a buyer can request a nearby channel partner to visit a location, routed to the closest available verified partner.
 - Ratings and visit history for channel partners, so buyers can see how reliable a partner has been.
 
@@ -571,7 +571,7 @@ How to get started:
 - Buyers: tap "Sign in", verify with an OTP, then browse or search listings. Save properties, scan a partner's QR code, or ring a partner directly from a listing.
 - Property owners: use "List a property" / "Post Property Free" — list directly with zero brokerage.
 - Agents/channel partners: use "Register" to become a channel partner, set up a shop profile, and start listing.
-- Investors: use the Investor sign-in to register and view opportunities.
+- Referral Partners: use the Referral Partner sign-in to register and view opportunities.
 
 If you don't know something specific and no tool can answer it (account-specific details, a human policy question), say so honestly and suggest contacting support, rather than guessing.`;
 }

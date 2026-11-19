@@ -173,7 +173,7 @@ export async function alertAgents(requestId: string, extraAgentIds: string[] = [
   });
 
   const agents = await prisma.agentProfile.findMany({
-    where: { id: { in: ids }, status: "APPROVED" },
+    where: { id: { in: ids }, status: "APPROVED", buzzerAlerts: true },
     include: { user: { select: { id: true, phone: true, email: true } } },
   });
   const where = [request.locality, request.city].filter(Boolean).join(", ");

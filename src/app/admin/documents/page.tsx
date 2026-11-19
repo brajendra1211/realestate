@@ -41,7 +41,7 @@ export default async function AdminDocumentsPage({ searchParams }: { searchParam
     <div className="px-4 py-8 sm:px-8 lg:px-10">
       <h1 className="text-2xl font-bold text-slate-900">Document Vault Management</h1>
       <p className="mt-1 max-w-2xl text-sm text-slate-500">
-        Upload on behalf of any Agent Code / Investor Code, or record a Customer↔Investor
+        Upload on behalf of any Agent Code / Referral Partner Code, or record a Customer↔Referral Partner
         agreement (§3.10).
       </p>
 
@@ -137,7 +137,7 @@ export default async function AdminDocumentsPage({ searchParams }: { searchParam
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="text-sm font-medium text-slate-700">
-                  Investor → customer payment (₹)
+                  Referral Partner → customer payment (₹)
                 </label>
                 <input type="number" name="paymentAmount" min={0} className={inputClass} />
               </div>

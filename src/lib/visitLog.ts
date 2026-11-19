@@ -19,7 +19,7 @@ export async function requestVisitOtp(customerPhone: string) {
 // customer's entire cross-agent visit history."
 export async function getCustomerVisitHistory(customerPhone: string) {
   return prisma.propertyVisitLog.findMany({
-    where: { customerPhone },
+    where: { customerPhone: { endsWith: customerPhone.replace(/\D/g, "").slice(-10) || customerPhone } },
     include: {
       agent: { select: { agentCode: true, shopName: true } },
       masterProperty: { select: { masterId: true, city: true, locality: true } },

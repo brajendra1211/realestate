@@ -38,7 +38,7 @@ export default async function AdminHierarchyPage() {
     <div className="px-4 py-8 sm:px-8 lg:px-10">
       <h1 className="text-2xl font-bold text-slate-900">Master Hierarchy Map</h1>
       <p className="mt-1 max-w-2xl text-sm text-slate-500">
-        Agent Code → Investor Code → deal cycle, in one tree (§3.14). Only Prime agents
+        Agent Code → Referral Partner Code → deal cycle, in one tree (§3.14). Only Prime agents
         (with an issued Agent Code) are shown.
       </p>
 

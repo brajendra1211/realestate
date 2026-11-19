@@ -4,6 +4,7 @@ import { notifyUser } from "@/lib/notify";
 import { findNearbyAgents } from "@/lib/agentGeo";
 import { findAssignedAgentsForLocation } from "@/lib/areaRouting";
 import { emitToAgent, emitToDispatch } from "@/lib/socket";
+import { filterAgentsByAlert } from "@/lib/agentAlerts";
 import {
   scheduleBatchTimeout,
   cancelPendingBatchTimeout,
@@ -223,11 +224,18 @@ async function dispatchBatch(
   // agents have all been notified (and are therefore in excludeAgentIds on
   // a later batch), this naturally returns empty and falls through to the
   // normal radius cascade — no special-casing by batch number needed.
-  const assigned = await findAssignedAgentsForLocation(latitude, longitude, excludeAgentIds);
+  // Partners who switched buzzer alerts OFF in their app are skipped entirely.
+  const assigned = await filterAgentsByAlert(
+    await findAssignedAgentsForLocation(latitude, longitude, excludeAgentIds),
+    "buzzerAlerts",
+  );
   const nearby =
     assigned.length > 0
       ? assigned.slice(0, BATCH_SIZE)
-      : await findNearbyAgents(latitude, longitude, radiusKm, BATCH_SIZE, excludeAgentIds);
+      : (await filterAgentsByAlert(
+          await findNearbyAgents(latitude, longitude, radiusKm, BATCH_SIZE * 3, excludeAgentIds),
+          "buzzerAlerts",
+        )).slice(0, BATCH_SIZE);
 
   if (nearby.length === 0) {
     // Nobody at this rung — widen immediately and try again rather than

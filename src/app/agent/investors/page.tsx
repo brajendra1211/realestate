@@ -20,7 +20,7 @@ export default async function AgentInvestorsPage() {
           href="/agent/investors/new"
           className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
         >
-          Register Investor
+          Register Referral Partner
         </a>
       </div>
 

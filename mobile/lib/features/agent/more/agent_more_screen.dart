@@ -95,6 +95,11 @@ class AgentMoreScreen extends StatelessWidget {
             label: 'Appointments',
             onTap: () => context.push(RoutePaths.agentAppointments),
           ),
+          _MoreTile(
+            icon: Icons.settings_outlined,
+            label: 'Settings',
+            onTap: () => context.push(RoutePaths.agentSettings),
+          ),
         ],
       ),
     );

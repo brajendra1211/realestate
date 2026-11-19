@@ -27922,6 +27922,8 @@ export namespace Prisma {
     rejectionReason: string | null
     planTier: $Enums.AgentPlanTier | null
     primeStatus: boolean | null
+    buzzerAlerts: boolean | null
+    listingAlerts: boolean | null
     visibilityDeprioritized: boolean | null
     autoPayMandate: string | null
     autoPayActive: boolean | null
@@ -27969,6 +27971,8 @@ export namespace Prisma {
     rejectionReason: string | null
     planTier: $Enums.AgentPlanTier | null
     primeStatus: boolean | null
+    buzzerAlerts: boolean | null
+    listingAlerts: boolean | null
     visibilityDeprioritized: boolean | null
     autoPayMandate: string | null
     autoPayActive: boolean | null
@@ -28016,6 +28020,8 @@ export namespace Prisma {
     rejectionReason: number
     planTier: number
     primeStatus: number
+    buzzerAlerts: number
+    listingAlerts: number
     visibilityDeprioritized: number
     autoPayMandate: number
     autoPayActive: number
@@ -28103,6 +28109,8 @@ export namespace Prisma {
     rejectionReason?: true
     planTier?: true
     primeStatus?: true
+    buzzerAlerts?: true
+    listingAlerts?: true
     visibilityDeprioritized?: true
     autoPayMandate?: true
     autoPayActive?: true
@@ -28150,6 +28158,8 @@ export namespace Prisma {
     rejectionReason?: true
     planTier?: true
     primeStatus?: true
+    buzzerAlerts?: true
+    listingAlerts?: true
     visibilityDeprioritized?: true
     autoPayMandate?: true
     autoPayActive?: true
@@ -28197,6 +28207,8 @@ export namespace Prisma {
     rejectionReason?: true
     planTier?: true
     primeStatus?: true
+    buzzerAlerts?: true
+    listingAlerts?: true
     visibilityDeprioritized?: true
     autoPayMandate?: true
     autoPayActive?: true
@@ -28331,6 +28343,8 @@ export namespace Prisma {
     rejectionReason: string | null
     planTier: $Enums.AgentPlanTier
     primeStatus: boolean
+    buzzerAlerts: boolean
+    listingAlerts: boolean
     visibilityDeprioritized: boolean
     autoPayMandate: string | null
     autoPayActive: boolean
@@ -28397,6 +28411,8 @@ export namespace Prisma {
     rejectionReason?: boolean
     planTier?: boolean
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: boolean
     autoPayActive?: boolean
@@ -28477,6 +28493,8 @@ export namespace Prisma {
     rejectionReason?: boolean
     planTier?: boolean
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: boolean
     autoPayActive?: boolean
@@ -28505,7 +28523,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "manualCommissionTypes" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleDaysTarget" | "customTargetEnabled" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "cycleDirectAgentsTarget" | "cycleCustomerPropertiesTarget" | "cycleInvestorsTarget" | "targetStatus" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
+  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "manualCommissionTypes" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "buzzerAlerts" | "listingAlerts" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleDaysTarget" | "customTargetEnabled" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "cycleDirectAgentsTarget" | "cycleCustomerPropertiesTarget" | "cycleInvestorsTarget" | "targetStatus" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
   export type AgentProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     referringAgent?: boolean | AgentProfile$referringAgentArgs<ExtArgs>
@@ -28593,6 +28611,8 @@ export namespace Prisma {
       rejectionReason: string | null
       planTier: $Enums.AgentPlanTier
       primeStatus: boolean
+      buzzerAlerts: boolean
+      listingAlerts: boolean
       visibilityDeprioritized: boolean
       autoPayMandate: string | null
       autoPayActive: boolean
@@ -29036,6 +29056,8 @@ export namespace Prisma {
     readonly rejectionReason: FieldRef<"AgentProfile", 'String'>
     readonly planTier: FieldRef<"AgentProfile", 'AgentPlanTier'>
     readonly primeStatus: FieldRef<"AgentProfile", 'Boolean'>
+    readonly buzzerAlerts: FieldRef<"AgentProfile", 'Boolean'>
+    readonly listingAlerts: FieldRef<"AgentProfile", 'Boolean'>
     readonly visibilityDeprioritized: FieldRef<"AgentProfile", 'Boolean'>
     readonly autoPayMandate: FieldRef<"AgentProfile", 'String'>
     readonly autoPayActive: FieldRef<"AgentProfile", 'Boolean'>
@@ -68368,6 +68390,8 @@ export namespace Prisma {
     rejectionReason: 'rejectionReason',
     planTier: 'planTier',
     primeStatus: 'primeStatus',
+    buzzerAlerts: 'buzzerAlerts',
+    listingAlerts: 'listingAlerts',
     visibilityDeprioritized: 'visibilityDeprioritized',
     autoPayMandate: 'autoPayMandate',
     autoPayActive: 'autoPayActive',
@@ -72025,6 +72049,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableFilter<"AgentProfile"> | string | null
     planTier?: EnumAgentPlanTierFilter<"AgentProfile"> | $Enums.AgentPlanTier
     primeStatus?: BoolFilter<"AgentProfile"> | boolean
+    buzzerAlerts?: BoolFilter<"AgentProfile"> | boolean
+    listingAlerts?: BoolFilter<"AgentProfile"> | boolean
     visibilityDeprioritized?: BoolFilter<"AgentProfile"> | boolean
     autoPayMandate?: StringNullableFilter<"AgentProfile"> | string | null
     autoPayActive?: BoolFilter<"AgentProfile"> | boolean
@@ -72102,6 +72128,8 @@ export namespace Prisma {
     rejectionReason?: SortOrderInput | SortOrder
     planTier?: SortOrder
     primeStatus?: SortOrder
+    buzzerAlerts?: SortOrder
+    listingAlerts?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrderInput | SortOrder
     autoPayActive?: SortOrder
@@ -72183,6 +72211,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableFilter<"AgentProfile"> | string | null
     planTier?: EnumAgentPlanTierFilter<"AgentProfile"> | $Enums.AgentPlanTier
     primeStatus?: BoolFilter<"AgentProfile"> | boolean
+    buzzerAlerts?: BoolFilter<"AgentProfile"> | boolean
+    listingAlerts?: BoolFilter<"AgentProfile"> | boolean
     visibilityDeprioritized?: BoolFilter<"AgentProfile"> | boolean
     autoPayMandate?: StringNullableFilter<"AgentProfile"> | string | null
     autoPayActive?: BoolFilter<"AgentProfile"> | boolean
@@ -72260,6 +72290,8 @@ export namespace Prisma {
     rejectionReason?: SortOrderInput | SortOrder
     planTier?: SortOrder
     primeStatus?: SortOrder
+    buzzerAlerts?: SortOrder
+    listingAlerts?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrderInput | SortOrder
     autoPayActive?: SortOrder
@@ -72315,6 +72347,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
     planTier?: EnumAgentPlanTierWithAggregatesFilter<"AgentProfile"> | $Enums.AgentPlanTier
     primeStatus?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
+    buzzerAlerts?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
+    listingAlerts?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
     visibilityDeprioritized?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
     autoPayMandate?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
     autoPayActive?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
@@ -77961,6 +77995,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -78037,6 +78073,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -78111,6 +78149,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -78187,6 +78227,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -78262,6 +78304,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -78308,6 +78352,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -78354,6 +78400,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -84103,6 +84151,8 @@ export namespace Prisma {
     rejectionReason?: SortOrder
     planTier?: SortOrder
     primeStatus?: SortOrder
+    buzzerAlerts?: SortOrder
+    listingAlerts?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrder
     autoPayActive?: SortOrder
@@ -84169,6 +84219,8 @@ export namespace Prisma {
     rejectionReason?: SortOrder
     planTier?: SortOrder
     primeStatus?: SortOrder
+    buzzerAlerts?: SortOrder
+    listingAlerts?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrder
     autoPayActive?: SortOrder
@@ -84216,6 +84268,8 @@ export namespace Prisma {
     rejectionReason?: SortOrder
     planTier?: SortOrder
     primeStatus?: SortOrder
+    buzzerAlerts?: SortOrder
+    listingAlerts?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrder
     autoPayActive?: SortOrder
@@ -92479,6 +92533,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -92553,6 +92609,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -93252,6 +93310,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -93326,6 +93386,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -95462,6 +95524,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -95537,6 +95601,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -95902,6 +95968,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -95977,6 +96045,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -97978,6 +98048,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -98053,6 +98125,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -98131,6 +98205,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -98206,6 +98282,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -99589,6 +99667,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -99664,6 +99744,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -99757,6 +99839,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableFilter<"AgentProfile"> | string | null
     planTier?: EnumAgentPlanTierFilter<"AgentProfile"> | $Enums.AgentPlanTier
     primeStatus?: BoolFilter<"AgentProfile"> | boolean
+    buzzerAlerts?: BoolFilter<"AgentProfile"> | boolean
+    listingAlerts?: BoolFilter<"AgentProfile"> | boolean
     visibilityDeprioritized?: BoolFilter<"AgentProfile"> | boolean
     autoPayMandate?: StringNullableFilter<"AgentProfile"> | string | null
     autoPayActive?: BoolFilter<"AgentProfile"> | boolean
@@ -100590,6 +100674,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -100665,6 +100751,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -100754,6 +100842,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -100829,6 +100919,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -100902,6 +100994,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -100977,6 +101071,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -101066,6 +101162,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -101141,6 +101239,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -101329,6 +101429,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -101404,6 +101506,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -101752,6 +101856,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -101827,6 +101933,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -101996,6 +102104,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -102071,6 +102181,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -102160,6 +102272,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -102235,6 +102349,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -102627,6 +102743,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -102702,6 +102820,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -103116,6 +103236,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -103191,6 +103313,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -104912,6 +105036,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -104987,6 +105113,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -105377,6 +105505,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -105452,6 +105582,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -106105,6 +106237,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106180,6 +106314,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106258,6 +106394,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106333,6 +106471,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106467,6 +106607,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -106542,6 +106684,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -106626,6 +106770,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -106701,6 +106847,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -106813,6 +106961,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106888,6 +107038,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107022,6 +107174,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -107097,6 +107251,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -107254,6 +107410,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107329,6 +107487,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107418,6 +107578,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -107493,6 +107655,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -107681,6 +107845,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107756,6 +107922,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107990,6 +108158,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -108065,6 +108235,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -108219,6 +108391,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -108294,6 +108468,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -108454,6 +108630,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -108529,6 +108707,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -108602,6 +108782,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -108677,6 +108859,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -108874,6 +109058,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -108949,6 +109135,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -109109,6 +109297,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109184,6 +109374,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109318,6 +109510,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -109393,6 +109587,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -109505,6 +109701,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109580,6 +109778,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109658,6 +109858,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109733,6 +109935,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109867,6 +110071,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -109942,6 +110148,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110026,6 +110234,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110101,6 +110311,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110205,6 +110417,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -110280,6 +110494,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -110406,6 +110622,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110481,6 +110699,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110554,6 +110774,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -110629,6 +110851,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -110718,6 +110942,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110793,6 +111019,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110866,6 +111094,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -110941,6 +111171,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111030,6 +111262,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111105,6 +111339,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111178,6 +111414,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111253,6 +111491,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111342,6 +111582,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111417,6 +111659,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111521,6 +111765,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111596,6 +111842,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111761,6 +112009,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111836,6 +112086,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -112153,6 +112405,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -112228,6 +112482,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -112469,6 +112725,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -112544,6 +112802,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -113756,6 +114016,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -113831,6 +114093,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -114035,6 +114299,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -114110,6 +114376,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -114540,6 +114808,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -114615,6 +114885,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -114823,6 +115095,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -114898,6 +115172,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -115131,6 +115407,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -115206,6 +115484,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -115358,6 +115638,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -115433,6 +115715,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -115577,6 +115861,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -115652,6 +115938,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -115802,6 +116090,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -115877,6 +116167,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -117513,6 +117805,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     planTier?: $Enums.AgentPlanTier
     primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -117985,6 +118279,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -118060,6 +118356,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -118134,6 +118432,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean

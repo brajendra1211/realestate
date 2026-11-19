@@ -27,15 +27,15 @@ export default async function AdminInvestorsPage({ searchParams }: { searchParam
 
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
-      <h1 className="text-2xl font-bold text-slate-900">Investors (Referral Partners)</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Referral Partners</h1>
       <p className="mt-1 max-w-2xl text-sm text-slate-500">
-        Manage registered investors, confirm annual registration fees (₹20,000/yr), issue Investor Codes, and track invested capital &amp; profit shares.
+        Manage registered investors, confirm annual registration fees (₹20,000/yr), issue Referral Partner Codes, and track invested capital &amp; profit shares.
       </p>
 
       {expiringSoon.length > 0 && (
         <div className="mt-4 max-w-2xl rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
           <p className="font-semibold">
-            {expiringSoon.length} investor{expiringSoon.length > 1 ? "s" : ""} expiring within 30 days
+            {expiringSoon.length} referral partner{expiringSoon.length > 1 ? "s" : ""} expiring within 30 days
           </p>
           <ul className="mt-1 space-y-0.5">
             {expiringSoon.map((inv) => (
@@ -64,7 +64,7 @@ export default async function AdminInvestorsPage({ searchParams }: { searchParam
 
       <div className="mt-6 flex flex-wrap gap-2 text-sm">
         {[
-          { label: "All Investors", value: "ALL" },
+          { label: "All Referral Partners", value: "ALL" },
           { label: "Fee Paid", value: "PAID" },
           { label: "Pending Verification", value: "PENDING" },
         ].map((item) => (
@@ -85,7 +85,7 @@ export default async function AdminInvestorsPage({ searchParams }: { searchParam
       <div className="mt-6 space-y-3">
         {investors.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">
-            No investors found in this filter.
+            No referral partners found in this filter.
           </p>
         ) : (
           investors.map((investor) => (

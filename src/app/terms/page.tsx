@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/site-settings";
 import { PageBanner } from "@/components/ui/PageBanner";
+import { DocBlocks, type Block } from "@/components/content/DocBlocks";
+import terms from "@/content/docs/terms.json";
+import consent from "@/content/docs/consent.json";
 
 export const metadata = { title: "Terms & Conditions" };
 
@@ -18,12 +21,19 @@ export default async function TermsPage() {
           ← Back to {siteName}
         </Link>
         <div className="mt-6 space-y-4 rounded-3xl border border-slate-200/80 bg-white p-6 text-sm leading-relaxed text-slate-700 shadow-soft sm:p-10">
+          <div className="rounded-2xl border border-gold-300/60 bg-gold-50/50 p-5">
+            <DocBlocks blocks={consent as Block[]} />
+          </div>
+
+          <DocBlocks blocks={terms as Block[]} />
+
+          <h2 className="font-display mt-12 border-t border-slate-100 pt-8 text-2xl font-semibold text-ink">Platform usage rules</h2>
           <p>
             These terms apply to everyone who uses {siteName}: customers (buyers and renters), channel partners (agents), property
-            owners and investors. By using the Service you accept them.
+            owners and referral partners. The rules below describe how the apps and website work day to day.
           </p>
 
-          <h2 className={H}>1. Channel partners (agents)</h2>
+          <h2 className={H}>A. Channel partners (agents)</h2>
           <ul className="list-disc space-y-2 pl-5">
             <li>A partner code needs an active monthly Basic or Prime membership. If a renewal is missed, your listings stay but move to the bottom of the feed and are hidden from customers until you renew.</li>
             <li>Commission earned stays in your wallet. Withdrawals are blocked while your membership is not active.</li>
@@ -31,7 +41,7 @@ export default async function TermsPage() {
             <li>You must not bypass the platform to avoid commission, or contact a customer you did not receive through the platform without their consent.</li>
           </ul>
 
-          <h2 className={H}>2. Customers</h2>
+          <h2 className={H}>B. Customers</h2>
           <ul className="list-disc space-y-2 pl-5">
             <li>You can browse properties for free. A ₹100 fee unlocks full contact details and lets you buzz nearby partners.</li>
             <li>Buzzer use is limited to 3 times a day (1 hour apart) and 3 times a week, within 5 km of the area you first searched.</li>
@@ -39,29 +49,29 @@ export default async function TermsPage() {
             <li>You may replace a partner using &quot;Split Agent&quot;; that partner will not be shown to you again.</li>
           </ul>
 
-          <h2 className={H}>3. Property owners</h2>
+          <h2 className={H}>C. Property owners</h2>
           <ul className="list-disc space-y-2 pl-5">
             <li>Owners cannot list on their own. You choose a plan, and a verified partner in your area calls you and lists the property under their code.</li>
           </ul>
 
-          <h2 className={H}>4. Investors</h2>
+          <h2 className={H}>D. Referral Partners</h2>
           <ul className="list-disc space-y-2 pl-5">
-            <li>Investor onboarding is subject to the investor agreement you sign. Returns are not guaranteed.</li>
+            <li>Referral Partner onboarding is subject to the referral partner agreement you sign. Returns are not guaranteed.</li>
           </ul>
 
-          <h2 className={H}>5. Payments</h2>
+          <h2 className={H}>E. Payments</h2>
           <p>All fees are charged through our payment partner and are non-refundable unless stated otherwise. Taxes (including GST and TDS) apply as required by law.</p>
 
-          <h2 className={H}>6. Disputes</h2>
+          <h2 className={H}>F. Disputes</h2>
           <p>
             Commission conflicts and complaints can be raised from the Support page. We aim to audit and resolve them within 2 hours.
             Our decision after audit is final.
           </p>
 
-          <h2 className={H}>7. Suspension</h2>
+          <h2 className={H}>G. Suspension</h2>
           <p>We may suspend or remove accounts or listings that are fraudulent, misleading or break these terms.</p>
 
-          <h2 className={H}>8. Contact</h2>
+          <h2 className={H}>H. Contact</h2>
           <p>
             Questions about these terms:{" "}
             <a className="text-brand-700 hover:underline" href={`mailto:${email}`}>

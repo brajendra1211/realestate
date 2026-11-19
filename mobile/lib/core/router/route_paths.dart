@@ -40,6 +40,7 @@ class RoutePaths {
   static const agentAppointments = '/agent/appointments';
   static const agentBroadcast = '/agent/broadcast';
   static const agentVisits = '/agent/visits';
+  static const agentSettings = '/agent/settings';
   static const agentPayouts = '/agent/payouts';
   static const agentRatings = '/agent/ratings';
   static const agentDigest = '/agent/digest';

@@ -458,6 +458,8 @@ exports.Prisma.AgentProfileScalarFieldEnum = {
   rejectionReason: 'rejectionReason',
   planTier: 'planTier',
   primeStatus: 'primeStatus',
+  buzzerAlerts: 'buzzerAlerts',
+  listingAlerts: 'listingAlerts',
   visibilityDeprioritized: 'visibilityDeprioritized',
   autoPayMandate: 'autoPayMandate',
   autoPayActive: 'autoPayActive',

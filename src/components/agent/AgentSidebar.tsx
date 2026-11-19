@@ -170,6 +170,13 @@ const ITEMS: PanelNavItem[] = [
     ),
   },
   {
+    href: "/agent/brochures",
+    label: "Brochure Maker",
+    icon: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1zM14 3v5h5M9 13h6M9 17h6" />
+    ),
+  },
+  {
     href: "/agent/broadcast",
     label: "B2B Broadcast",
     icon: (
@@ -195,7 +202,7 @@ const NAV_ITEMS: PanelNavEntry[] = [
   { label: "Money", items: pick("/agent/payments", "/agent/commissions") },
   {
     label: "Listings & leads",
-    items: pick("/agent/owner-requests", "/agent/buyer-leads", "/agent/listings", "/agent/gold-feed", "/agent/appointments", "/agent/visits", "/agent/broadcast", "/agent/digest"),
+    items: pick("/agent/owner-requests", "/agent/buyer-leads", "/agent/listings", "/agent/gold-feed", "/agent/appointments", "/agent/visits", "/agent/broadcast", "/agent/digest", "/agent/brochures"),
   },
   { label: "My network", items: pick("/agent/investors", "/agent/investors/new") },
   { label: "Account", items: pick("/agent/profile", "/agent/documents", "/support") },

@@ -293,6 +293,16 @@ export type BuyerInterestAcceptance = $Result.DefaultSelection<Prisma.$BuyerInte
  * 
  */
 export type SupportTicket = $Result.DefaultSelection<Prisma.$SupportTicketPayload>
+/**
+ * Model Brochure
+ * 
+ */
+export type Brochure = $Result.DefaultSelection<Prisma.$BrochurePayload>
+/**
+ * Model BrochureRecharge
+ * 
+ */
+export type BrochureRecharge = $Result.DefaultSelection<Prisma.$BrochureRechargePayload>
 
 /**
  * Enums
@@ -1415,6 +1425,26 @@ export class PrismaClient<
     * ```
     */
   get supportTicket(): Prisma.SupportTicketDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.brochure`: Exposes CRUD operations for the **Brochure** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Brochures
+    * const brochures = await prisma.brochure.findMany()
+    * ```
+    */
+  get brochure(): Prisma.BrochureDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.brochureRecharge`: Exposes CRUD operations for the **BrochureRecharge** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BrochureRecharges
+    * const brochureRecharges = await prisma.brochureRecharge.findMany()
+    * ```
+    */
+  get brochureRecharge(): Prisma.BrochureRechargeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1917,7 +1947,9 @@ export namespace Prisma {
     ListingRequest: 'ListingRequest',
     BuyerInterest: 'BuyerInterest',
     BuyerInterestAcceptance: 'BuyerInterestAcceptance',
-    SupportTicket: 'SupportTicket'
+    SupportTicket: 'SupportTicket',
+    Brochure: 'Brochure',
+    BrochureRecharge: 'BrochureRecharge'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1933,7 +1965,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "propertyRingLog" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "savedAgentListing" | "agentListingRingLog" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment" | "directPropertyVisit" | "platformAntiBypassAgreement" | "agentShopUnlock" | "pushToken" | "listingRequest" | "buyerInterest" | "buyerInterestAcceptance" | "supportTicket"
+      modelProps: "user" | "plan" | "subscription" | "leadView" | "developer" | "project" | "projectImage" | "country" | "state" | "city" | "locality" | "property" | "propertyImage" | "enquiry" | "otpCode" | "savedProperty" | "propertyRingLog" | "amenity" | "siteSettings" | "agentProfile" | "areaAgentAssignment" | "agentDocument" | "investorProfile" | "commissionLedgerEntry" | "masterProperty" | "agentListing" | "savedAgentListing" | "agentListingRingLog" | "agentListingImage" | "propertyUnlock" | "goldListingPurchase" | "deal" | "profitDistribution" | "investorLedgerEntry" | "payoutRequest" | "dispatchRequest" | "dispatchNotification" | "broadcast" | "broadcastResponse" | "agentChatMessage" | "propertyVisitLog" | "agentRating" | "agentWarning" | "customerAgentBlock" | "agentSwitchLog" | "documentVaultItem" | "customerInvestorAgreement" | "visitAppointment" | "directPropertyVisit" | "platformAntiBypassAgreement" | "agentShopUnlock" | "pushToken" | "listingRequest" | "buyerInterest" | "buyerInterestAcceptance" | "supportTicket" | "brochure" | "brochureRecharge"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5633,6 +5665,138 @@ export namespace Prisma {
           }
         }
       }
+      Brochure: {
+        payload: Prisma.$BrochurePayload<ExtArgs>
+        fields: Prisma.BrochureFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BrochureFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochurePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BrochureFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochurePayload>
+          }
+          findFirst: {
+            args: Prisma.BrochureFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochurePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BrochureFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochurePayload>
+          }
+          findMany: {
+            args: Prisma.BrochureFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochurePayload>[]
+          }
+          create: {
+            args: Prisma.BrochureCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochurePayload>
+          }
+          createMany: {
+            args: Prisma.BrochureCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.BrochureDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochurePayload>
+          }
+          update: {
+            args: Prisma.BrochureUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochurePayload>
+          }
+          deleteMany: {
+            args: Prisma.BrochureDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BrochureUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BrochureUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochurePayload>
+          }
+          aggregate: {
+            args: Prisma.BrochureAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBrochure>
+          }
+          groupBy: {
+            args: Prisma.BrochureGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BrochureGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BrochureCountArgs<ExtArgs>
+            result: $Utils.Optional<BrochureCountAggregateOutputType> | number
+          }
+        }
+      }
+      BrochureRecharge: {
+        payload: Prisma.$BrochureRechargePayload<ExtArgs>
+        fields: Prisma.BrochureRechargeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BrochureRechargeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochureRechargePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BrochureRechargeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochureRechargePayload>
+          }
+          findFirst: {
+            args: Prisma.BrochureRechargeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochureRechargePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BrochureRechargeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochureRechargePayload>
+          }
+          findMany: {
+            args: Prisma.BrochureRechargeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochureRechargePayload>[]
+          }
+          create: {
+            args: Prisma.BrochureRechargeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochureRechargePayload>
+          }
+          createMany: {
+            args: Prisma.BrochureRechargeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.BrochureRechargeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochureRechargePayload>
+          }
+          update: {
+            args: Prisma.BrochureRechargeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochureRechargePayload>
+          }
+          deleteMany: {
+            args: Prisma.BrochureRechargeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BrochureRechargeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BrochureRechargeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BrochureRechargePayload>
+          }
+          aggregate: {
+            args: Prisma.BrochureRechargeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBrochureRecharge>
+          }
+          groupBy: {
+            args: Prisma.BrochureRechargeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BrochureRechargeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BrochureRechargeCountArgs<ExtArgs>
+            result: $Utils.Optional<BrochureRechargeCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5812,6 +5976,8 @@ export namespace Prisma {
     buyerInterest?: BuyerInterestOmit
     buyerInterestAcceptance?: BuyerInterestAcceptanceOmit
     supportTicket?: SupportTicketOmit
+    brochure?: BrochureOmit
+    brochureRecharge?: BrochureRechargeOmit
   }
 
   /* Types for Logging */
@@ -6342,6 +6508,8 @@ export namespace Prisma {
    */
 
   export type AgentProfileCountOutputType = {
+    brochures: number
+    brochureRecharges: number
     referredAgents: number
     documents: number
     investors: number
@@ -6373,6 +6541,8 @@ export namespace Prisma {
   }
 
   export type AgentProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    brochures?: boolean | AgentProfileCountOutputTypeCountBrochuresArgs
+    brochureRecharges?: boolean | AgentProfileCountOutputTypeCountBrochureRechargesArgs
     referredAgents?: boolean | AgentProfileCountOutputTypeCountReferredAgentsArgs
     documents?: boolean | AgentProfileCountOutputTypeCountDocumentsArgs
     investors?: boolean | AgentProfileCountOutputTypeCountInvestorsArgs
@@ -6412,6 +6582,20 @@ export namespace Prisma {
      * Select specific fields to fetch from the AgentProfileCountOutputType
      */
     select?: AgentProfileCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeCountBrochuresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BrochureWhereInput
+  }
+
+  /**
+   * AgentProfileCountOutputType without action
+   */
+  export type AgentProfileCountOutputTypeCountBrochureRechargesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BrochureRechargeWhereInput
   }
 
   /**
@@ -27870,6 +28054,7 @@ export namespace Prisma {
     shopLongitude: number | null
     yearsExperience: number | null
     staffCount: number | null
+    brochureCredits: number | null
     walletBalance: number | null
     warningCount: number | null
     ratingAvg: number | null
@@ -27889,6 +28074,7 @@ export namespace Prisma {
     shopLongitude: number | null
     yearsExperience: number | null
     staffCount: number | null
+    brochureCredits: number | null
     walletBalance: number | null
     warningCount: number | null
     ratingAvg: number | null
@@ -27924,6 +28110,7 @@ export namespace Prisma {
     primeStatus: boolean | null
     buzzerAlerts: boolean | null
     listingAlerts: boolean | null
+    brochureCredits: number | null
     visibilityDeprioritized: boolean | null
     autoPayMandate: string | null
     autoPayActive: boolean | null
@@ -27973,6 +28160,7 @@ export namespace Prisma {
     primeStatus: boolean | null
     buzzerAlerts: boolean | null
     listingAlerts: boolean | null
+    brochureCredits: number | null
     visibilityDeprioritized: boolean | null
     autoPayMandate: string | null
     autoPayActive: boolean | null
@@ -28022,6 +28210,7 @@ export namespace Prisma {
     primeStatus: number
     buzzerAlerts: number
     listingAlerts: number
+    brochureCredits: number
     visibilityDeprioritized: number
     autoPayMandate: number
     autoPayActive: number
@@ -28057,6 +28246,7 @@ export namespace Prisma {
     shopLongitude?: true
     yearsExperience?: true
     staffCount?: true
+    brochureCredits?: true
     walletBalance?: true
     warningCount?: true
     ratingAvg?: true
@@ -28076,6 +28266,7 @@ export namespace Prisma {
     shopLongitude?: true
     yearsExperience?: true
     staffCount?: true
+    brochureCredits?: true
     walletBalance?: true
     warningCount?: true
     ratingAvg?: true
@@ -28111,6 +28302,7 @@ export namespace Prisma {
     primeStatus?: true
     buzzerAlerts?: true
     listingAlerts?: true
+    brochureCredits?: true
     visibilityDeprioritized?: true
     autoPayMandate?: true
     autoPayActive?: true
@@ -28160,6 +28352,7 @@ export namespace Prisma {
     primeStatus?: true
     buzzerAlerts?: true
     listingAlerts?: true
+    brochureCredits?: true
     visibilityDeprioritized?: true
     autoPayMandate?: true
     autoPayActive?: true
@@ -28209,6 +28402,7 @@ export namespace Prisma {
     primeStatus?: true
     buzzerAlerts?: true
     listingAlerts?: true
+    brochureCredits?: true
     visibilityDeprioritized?: true
     autoPayMandate?: true
     autoPayActive?: true
@@ -28345,6 +28539,7 @@ export namespace Prisma {
     primeStatus: boolean
     buzzerAlerts: boolean
     listingAlerts: boolean
+    brochureCredits: number
     visibilityDeprioritized: boolean
     autoPayMandate: string | null
     autoPayActive: boolean
@@ -28413,6 +28608,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: boolean
     autoPayActive?: boolean
@@ -28440,6 +28636,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    brochures?: boolean | AgentProfile$brochuresArgs<ExtArgs>
+    brochureRecharges?: boolean | AgentProfile$brochureRechargesArgs<ExtArgs>
     referringAgent?: boolean | AgentProfile$referringAgentArgs<ExtArgs>
     referredAgents?: boolean | AgentProfile$referredAgentsArgs<ExtArgs>
     documents?: boolean | AgentProfile$documentsArgs<ExtArgs>
@@ -28495,6 +28693,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: boolean
     visibilityDeprioritized?: boolean
     autoPayMandate?: boolean
     autoPayActive?: boolean
@@ -28523,9 +28722,11 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "manualCommissionTypes" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "buzzerAlerts" | "listingAlerts" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleDaysTarget" | "customTargetEnabled" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "cycleDirectAgentsTarget" | "cycleCustomerPropertiesTarget" | "cycleInvestorsTarget" | "targetStatus" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
+  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "manualCommissionTypes" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "buzzerAlerts" | "listingAlerts" | "brochureCredits" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleDaysTarget" | "customTargetEnabled" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "cycleDirectAgentsTarget" | "cycleCustomerPropertiesTarget" | "cycleInvestorsTarget" | "targetStatus" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
   export type AgentProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    brochures?: boolean | AgentProfile$brochuresArgs<ExtArgs>
+    brochureRecharges?: boolean | AgentProfile$brochureRechargesArgs<ExtArgs>
     referringAgent?: boolean | AgentProfile$referringAgentArgs<ExtArgs>
     referredAgents?: boolean | AgentProfile$referredAgentsArgs<ExtArgs>
     documents?: boolean | AgentProfile$documentsArgs<ExtArgs>
@@ -28562,6 +28763,8 @@ export namespace Prisma {
     name: "AgentProfile"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      brochures: Prisma.$BrochurePayload<ExtArgs>[]
+      brochureRecharges: Prisma.$BrochureRechargePayload<ExtArgs>[]
       referringAgent: Prisma.$AgentProfilePayload<ExtArgs> | null
       referredAgents: Prisma.$AgentProfilePayload<ExtArgs>[]
       documents: Prisma.$AgentDocumentPayload<ExtArgs>[]
@@ -28613,6 +28816,7 @@ export namespace Prisma {
       primeStatus: boolean
       buzzerAlerts: boolean
       listingAlerts: boolean
+      brochureCredits: number
       visibilityDeprioritized: boolean
       autoPayMandate: string | null
       autoPayActive: boolean
@@ -28980,6 +29184,8 @@ export namespace Prisma {
   export interface Prisma__AgentProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    brochures<T extends AgentProfile$brochuresArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$brochuresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    brochureRecharges<T extends AgentProfile$brochureRechargesArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$brochureRechargesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     referringAgent<T extends AgentProfile$referringAgentArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$referringAgentArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     referredAgents<T extends AgentProfile$referredAgentsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$referredAgentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documents<T extends AgentProfile$documentsArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfile$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -29058,6 +29264,7 @@ export namespace Prisma {
     readonly primeStatus: FieldRef<"AgentProfile", 'Boolean'>
     readonly buzzerAlerts: FieldRef<"AgentProfile", 'Boolean'>
     readonly listingAlerts: FieldRef<"AgentProfile", 'Boolean'>
+    readonly brochureCredits: FieldRef<"AgentProfile", 'Int'>
     readonly visibilityDeprioritized: FieldRef<"AgentProfile", 'Boolean'>
     readonly autoPayMandate: FieldRef<"AgentProfile", 'String'>
     readonly autoPayActive: FieldRef<"AgentProfile", 'Boolean'>
@@ -29429,6 +29636,54 @@ export namespace Prisma {
      * Limit how many AgentProfiles to delete.
      */
     limit?: number
+  }
+
+  /**
+   * AgentProfile.brochures
+   */
+  export type AgentProfile$brochuresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    where?: BrochureWhereInput
+    orderBy?: BrochureOrderByWithRelationInput | BrochureOrderByWithRelationInput[]
+    cursor?: BrochureWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BrochureScalarFieldEnum | BrochureScalarFieldEnum[]
+  }
+
+  /**
+   * AgentProfile.brochureRecharges
+   */
+  export type AgentProfile$brochureRechargesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    where?: BrochureRechargeWhereInput
+    orderBy?: BrochureRechargeOrderByWithRelationInput | BrochureRechargeOrderByWithRelationInput[]
+    cursor?: BrochureRechargeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BrochureRechargeScalarFieldEnum | BrochureRechargeScalarFieldEnum[]
   }
 
   /**
@@ -67982,6 +68237,1978 @@ export namespace Prisma {
 
 
   /**
+   * Model Brochure
+   */
+
+  export type AggregateBrochure = {
+    _count: BrochureCountAggregateOutputType | null
+    _min: BrochureMinAggregateOutputType | null
+    _max: BrochureMaxAggregateOutputType | null
+  }
+
+  export type BrochureMinAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    sourceType: string | null
+    sourceRef: string | null
+    title: string | null
+    data: string | null
+    createdAt: Date | null
+  }
+
+  export type BrochureMaxAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    sourceType: string | null
+    sourceRef: string | null
+    title: string | null
+    data: string | null
+    createdAt: Date | null
+  }
+
+  export type BrochureCountAggregateOutputType = {
+    id: number
+    agentId: number
+    sourceType: number
+    sourceRef: number
+    title: number
+    data: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BrochureMinAggregateInputType = {
+    id?: true
+    agentId?: true
+    sourceType?: true
+    sourceRef?: true
+    title?: true
+    data?: true
+    createdAt?: true
+  }
+
+  export type BrochureMaxAggregateInputType = {
+    id?: true
+    agentId?: true
+    sourceType?: true
+    sourceRef?: true
+    title?: true
+    data?: true
+    createdAt?: true
+  }
+
+  export type BrochureCountAggregateInputType = {
+    id?: true
+    agentId?: true
+    sourceType?: true
+    sourceRef?: true
+    title?: true
+    data?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BrochureAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Brochure to aggregate.
+     */
+    where?: BrochureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Brochures to fetch.
+     */
+    orderBy?: BrochureOrderByWithRelationInput | BrochureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BrochureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Brochures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Brochures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Brochures
+    **/
+    _count?: true | BrochureCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BrochureMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BrochureMaxAggregateInputType
+  }
+
+  export type GetBrochureAggregateType<T extends BrochureAggregateArgs> = {
+        [P in keyof T & keyof AggregateBrochure]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBrochure[P]>
+      : GetScalarType<T[P], AggregateBrochure[P]>
+  }
+
+
+
+
+  export type BrochureGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BrochureWhereInput
+    orderBy?: BrochureOrderByWithAggregationInput | BrochureOrderByWithAggregationInput[]
+    by: BrochureScalarFieldEnum[] | BrochureScalarFieldEnum
+    having?: BrochureScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BrochureCountAggregateInputType | true
+    _min?: BrochureMinAggregateInputType
+    _max?: BrochureMaxAggregateInputType
+  }
+
+  export type BrochureGroupByOutputType = {
+    id: string
+    agentId: string
+    sourceType: string
+    sourceRef: string
+    title: string
+    data: string
+    createdAt: Date
+    _count: BrochureCountAggregateOutputType | null
+    _min: BrochureMinAggregateOutputType | null
+    _max: BrochureMaxAggregateOutputType | null
+  }
+
+  type GetBrochureGroupByPayload<T extends BrochureGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BrochureGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BrochureGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BrochureGroupByOutputType[P]>
+            : GetScalarType<T[P], BrochureGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BrochureSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentId?: boolean
+    sourceType?: boolean
+    sourceRef?: boolean
+    title?: boolean
+    data?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["brochure"]>
+
+
+
+  export type BrochureSelectScalar = {
+    id?: boolean
+    agentId?: boolean
+    sourceType?: boolean
+    sourceRef?: boolean
+    title?: boolean
+    data?: boolean
+    createdAt?: boolean
+  }
+
+  export type BrochureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentId" | "sourceType" | "sourceRef" | "title" | "data" | "createdAt", ExtArgs["result"]["brochure"]>
+  export type BrochureInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $BrochurePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Brochure"
+    objects: {
+      agent: Prisma.$AgentProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      agentId: string
+      sourceType: string
+      sourceRef: string
+      title: string
+      data: string
+      createdAt: Date
+    }, ExtArgs["result"]["brochure"]>
+    composites: {}
+  }
+
+  type BrochureGetPayload<S extends boolean | null | undefined | BrochureDefaultArgs> = $Result.GetResult<Prisma.$BrochurePayload, S>
+
+  type BrochureCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BrochureFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BrochureCountAggregateInputType | true
+    }
+
+  export interface BrochureDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Brochure'], meta: { name: 'Brochure' } }
+    /**
+     * Find zero or one Brochure that matches the filter.
+     * @param {BrochureFindUniqueArgs} args - Arguments to find a Brochure
+     * @example
+     * // Get one Brochure
+     * const brochure = await prisma.brochure.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BrochureFindUniqueArgs>(args: SelectSubset<T, BrochureFindUniqueArgs<ExtArgs>>): Prisma__BrochureClient<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Brochure that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BrochureFindUniqueOrThrowArgs} args - Arguments to find a Brochure
+     * @example
+     * // Get one Brochure
+     * const brochure = await prisma.brochure.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BrochureFindUniqueOrThrowArgs>(args: SelectSubset<T, BrochureFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BrochureClient<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Brochure that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureFindFirstArgs} args - Arguments to find a Brochure
+     * @example
+     * // Get one Brochure
+     * const brochure = await prisma.brochure.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BrochureFindFirstArgs>(args?: SelectSubset<T, BrochureFindFirstArgs<ExtArgs>>): Prisma__BrochureClient<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Brochure that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureFindFirstOrThrowArgs} args - Arguments to find a Brochure
+     * @example
+     * // Get one Brochure
+     * const brochure = await prisma.brochure.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BrochureFindFirstOrThrowArgs>(args?: SelectSubset<T, BrochureFindFirstOrThrowArgs<ExtArgs>>): Prisma__BrochureClient<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Brochures that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Brochures
+     * const brochures = await prisma.brochure.findMany()
+     * 
+     * // Get first 10 Brochures
+     * const brochures = await prisma.brochure.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const brochureWithIdOnly = await prisma.brochure.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BrochureFindManyArgs>(args?: SelectSubset<T, BrochureFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Brochure.
+     * @param {BrochureCreateArgs} args - Arguments to create a Brochure.
+     * @example
+     * // Create one Brochure
+     * const Brochure = await prisma.brochure.create({
+     *   data: {
+     *     // ... data to create a Brochure
+     *   }
+     * })
+     * 
+     */
+    create<T extends BrochureCreateArgs>(args: SelectSubset<T, BrochureCreateArgs<ExtArgs>>): Prisma__BrochureClient<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Brochures.
+     * @param {BrochureCreateManyArgs} args - Arguments to create many Brochures.
+     * @example
+     * // Create many Brochures
+     * const brochure = await prisma.brochure.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BrochureCreateManyArgs>(args?: SelectSubset<T, BrochureCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Brochure.
+     * @param {BrochureDeleteArgs} args - Arguments to delete one Brochure.
+     * @example
+     * // Delete one Brochure
+     * const Brochure = await prisma.brochure.delete({
+     *   where: {
+     *     // ... filter to delete one Brochure
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BrochureDeleteArgs>(args: SelectSubset<T, BrochureDeleteArgs<ExtArgs>>): Prisma__BrochureClient<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Brochure.
+     * @param {BrochureUpdateArgs} args - Arguments to update one Brochure.
+     * @example
+     * // Update one Brochure
+     * const brochure = await prisma.brochure.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BrochureUpdateArgs>(args: SelectSubset<T, BrochureUpdateArgs<ExtArgs>>): Prisma__BrochureClient<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Brochures.
+     * @param {BrochureDeleteManyArgs} args - Arguments to filter Brochures to delete.
+     * @example
+     * // Delete a few Brochures
+     * const { count } = await prisma.brochure.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BrochureDeleteManyArgs>(args?: SelectSubset<T, BrochureDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Brochures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Brochures
+     * const brochure = await prisma.brochure.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BrochureUpdateManyArgs>(args: SelectSubset<T, BrochureUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Brochure.
+     * @param {BrochureUpsertArgs} args - Arguments to update or create a Brochure.
+     * @example
+     * // Update or create a Brochure
+     * const brochure = await prisma.brochure.upsert({
+     *   create: {
+     *     // ... data to create a Brochure
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Brochure we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BrochureUpsertArgs>(args: SelectSubset<T, BrochureUpsertArgs<ExtArgs>>): Prisma__BrochureClient<$Result.GetResult<Prisma.$BrochurePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Brochures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureCountArgs} args - Arguments to filter Brochures to count.
+     * @example
+     * // Count the number of Brochures
+     * const count = await prisma.brochure.count({
+     *   where: {
+     *     // ... the filter for the Brochures we want to count
+     *   }
+     * })
+    **/
+    count<T extends BrochureCountArgs>(
+      args?: Subset<T, BrochureCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BrochureCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Brochure.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BrochureAggregateArgs>(args: Subset<T, BrochureAggregateArgs>): Prisma.PrismaPromise<GetBrochureAggregateType<T>>
+
+    /**
+     * Group by Brochure.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BrochureGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BrochureGroupByArgs['orderBy'] }
+        : { orderBy?: BrochureGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BrochureGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBrochureGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Brochure model
+   */
+  readonly fields: BrochureFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Brochure.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BrochureClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agent<T extends AgentProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfileDefaultArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Brochure model
+   */
+  interface BrochureFieldRefs {
+    readonly id: FieldRef<"Brochure", 'String'>
+    readonly agentId: FieldRef<"Brochure", 'String'>
+    readonly sourceType: FieldRef<"Brochure", 'String'>
+    readonly sourceRef: FieldRef<"Brochure", 'String'>
+    readonly title: FieldRef<"Brochure", 'String'>
+    readonly data: FieldRef<"Brochure", 'String'>
+    readonly createdAt: FieldRef<"Brochure", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Brochure findUnique
+   */
+  export type BrochureFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    /**
+     * Filter, which Brochure to fetch.
+     */
+    where: BrochureWhereUniqueInput
+  }
+
+  /**
+   * Brochure findUniqueOrThrow
+   */
+  export type BrochureFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    /**
+     * Filter, which Brochure to fetch.
+     */
+    where: BrochureWhereUniqueInput
+  }
+
+  /**
+   * Brochure findFirst
+   */
+  export type BrochureFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    /**
+     * Filter, which Brochure to fetch.
+     */
+    where?: BrochureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Brochures to fetch.
+     */
+    orderBy?: BrochureOrderByWithRelationInput | BrochureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Brochures.
+     */
+    cursor?: BrochureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Brochures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Brochures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Brochures.
+     */
+    distinct?: BrochureScalarFieldEnum | BrochureScalarFieldEnum[]
+  }
+
+  /**
+   * Brochure findFirstOrThrow
+   */
+  export type BrochureFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    /**
+     * Filter, which Brochure to fetch.
+     */
+    where?: BrochureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Brochures to fetch.
+     */
+    orderBy?: BrochureOrderByWithRelationInput | BrochureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Brochures.
+     */
+    cursor?: BrochureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Brochures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Brochures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Brochures.
+     */
+    distinct?: BrochureScalarFieldEnum | BrochureScalarFieldEnum[]
+  }
+
+  /**
+   * Brochure findMany
+   */
+  export type BrochureFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    /**
+     * Filter, which Brochures to fetch.
+     */
+    where?: BrochureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Brochures to fetch.
+     */
+    orderBy?: BrochureOrderByWithRelationInput | BrochureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Brochures.
+     */
+    cursor?: BrochureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Brochures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Brochures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Brochures.
+     */
+    distinct?: BrochureScalarFieldEnum | BrochureScalarFieldEnum[]
+  }
+
+  /**
+   * Brochure create
+   */
+  export type BrochureCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Brochure.
+     */
+    data: XOR<BrochureCreateInput, BrochureUncheckedCreateInput>
+  }
+
+  /**
+   * Brochure createMany
+   */
+  export type BrochureCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Brochures.
+     */
+    data: BrochureCreateManyInput | BrochureCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Brochure update
+   */
+  export type BrochureUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Brochure.
+     */
+    data: XOR<BrochureUpdateInput, BrochureUncheckedUpdateInput>
+    /**
+     * Choose, which Brochure to update.
+     */
+    where: BrochureWhereUniqueInput
+  }
+
+  /**
+   * Brochure updateMany
+   */
+  export type BrochureUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Brochures.
+     */
+    data: XOR<BrochureUpdateManyMutationInput, BrochureUncheckedUpdateManyInput>
+    /**
+     * Filter which Brochures to update
+     */
+    where?: BrochureWhereInput
+    /**
+     * Limit how many Brochures to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Brochure upsert
+   */
+  export type BrochureUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Brochure to update in case it exists.
+     */
+    where: BrochureWhereUniqueInput
+    /**
+     * In case the Brochure found by the `where` argument doesn't exist, create a new Brochure with this data.
+     */
+    create: XOR<BrochureCreateInput, BrochureUncheckedCreateInput>
+    /**
+     * In case the Brochure was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BrochureUpdateInput, BrochureUncheckedUpdateInput>
+  }
+
+  /**
+   * Brochure delete
+   */
+  export type BrochureDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+    /**
+     * Filter which Brochure to delete.
+     */
+    where: BrochureWhereUniqueInput
+  }
+
+  /**
+   * Brochure deleteMany
+   */
+  export type BrochureDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Brochures to delete
+     */
+    where?: BrochureWhereInput
+    /**
+     * Limit how many Brochures to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Brochure without action
+   */
+  export type BrochureDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Brochure
+     */
+    select?: BrochureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Brochure
+     */
+    omit?: BrochureOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BrochureRecharge
+   */
+
+  export type AggregateBrochureRecharge = {
+    _count: BrochureRechargeCountAggregateOutputType | null
+    _avg: BrochureRechargeAvgAggregateOutputType | null
+    _sum: BrochureRechargeSumAggregateOutputType | null
+    _min: BrochureRechargeMinAggregateOutputType | null
+    _max: BrochureRechargeMaxAggregateOutputType | null
+  }
+
+  export type BrochureRechargeAvgAggregateOutputType = {
+    amount: number | null
+    credits: number | null
+  }
+
+  export type BrochureRechargeSumAggregateOutputType = {
+    amount: number | null
+    credits: number | null
+  }
+
+  export type BrochureRechargeMinAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    amount: number | null
+    credits: number | null
+    source: string | null
+    razorpayOrderId: string | null
+    razorpayPaymentId: string | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type BrochureRechargeMaxAggregateOutputType = {
+    id: string | null
+    agentId: string | null
+    amount: number | null
+    credits: number | null
+    source: string | null
+    razorpayOrderId: string | null
+    razorpayPaymentId: string | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type BrochureRechargeCountAggregateOutputType = {
+    id: number
+    agentId: number
+    amount: number
+    credits: number
+    source: number
+    razorpayOrderId: number
+    razorpayPaymentId: number
+    note: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BrochureRechargeAvgAggregateInputType = {
+    amount?: true
+    credits?: true
+  }
+
+  export type BrochureRechargeSumAggregateInputType = {
+    amount?: true
+    credits?: true
+  }
+
+  export type BrochureRechargeMinAggregateInputType = {
+    id?: true
+    agentId?: true
+    amount?: true
+    credits?: true
+    source?: true
+    razorpayOrderId?: true
+    razorpayPaymentId?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type BrochureRechargeMaxAggregateInputType = {
+    id?: true
+    agentId?: true
+    amount?: true
+    credits?: true
+    source?: true
+    razorpayOrderId?: true
+    razorpayPaymentId?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type BrochureRechargeCountAggregateInputType = {
+    id?: true
+    agentId?: true
+    amount?: true
+    credits?: true
+    source?: true
+    razorpayOrderId?: true
+    razorpayPaymentId?: true
+    note?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BrochureRechargeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BrochureRecharge to aggregate.
+     */
+    where?: BrochureRechargeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BrochureRecharges to fetch.
+     */
+    orderBy?: BrochureRechargeOrderByWithRelationInput | BrochureRechargeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BrochureRechargeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BrochureRecharges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BrochureRecharges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BrochureRecharges
+    **/
+    _count?: true | BrochureRechargeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BrochureRechargeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BrochureRechargeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BrochureRechargeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BrochureRechargeMaxAggregateInputType
+  }
+
+  export type GetBrochureRechargeAggregateType<T extends BrochureRechargeAggregateArgs> = {
+        [P in keyof T & keyof AggregateBrochureRecharge]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBrochureRecharge[P]>
+      : GetScalarType<T[P], AggregateBrochureRecharge[P]>
+  }
+
+
+
+
+  export type BrochureRechargeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BrochureRechargeWhereInput
+    orderBy?: BrochureRechargeOrderByWithAggregationInput | BrochureRechargeOrderByWithAggregationInput[]
+    by: BrochureRechargeScalarFieldEnum[] | BrochureRechargeScalarFieldEnum
+    having?: BrochureRechargeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BrochureRechargeCountAggregateInputType | true
+    _avg?: BrochureRechargeAvgAggregateInputType
+    _sum?: BrochureRechargeSumAggregateInputType
+    _min?: BrochureRechargeMinAggregateInputType
+    _max?: BrochureRechargeMaxAggregateInputType
+  }
+
+  export type BrochureRechargeGroupByOutputType = {
+    id: string
+    agentId: string
+    amount: number
+    credits: number
+    source: string
+    razorpayOrderId: string | null
+    razorpayPaymentId: string | null
+    note: string | null
+    createdAt: Date
+    _count: BrochureRechargeCountAggregateOutputType | null
+    _avg: BrochureRechargeAvgAggregateOutputType | null
+    _sum: BrochureRechargeSumAggregateOutputType | null
+    _min: BrochureRechargeMinAggregateOutputType | null
+    _max: BrochureRechargeMaxAggregateOutputType | null
+  }
+
+  type GetBrochureRechargeGroupByPayload<T extends BrochureRechargeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BrochureRechargeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BrochureRechargeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BrochureRechargeGroupByOutputType[P]>
+            : GetScalarType<T[P], BrochureRechargeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BrochureRechargeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    agentId?: boolean
+    amount?: boolean
+    credits?: boolean
+    source?: boolean
+    razorpayOrderId?: boolean
+    razorpayPaymentId?: boolean
+    note?: boolean
+    createdAt?: boolean
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["brochureRecharge"]>
+
+
+
+  export type BrochureRechargeSelectScalar = {
+    id?: boolean
+    agentId?: boolean
+    amount?: boolean
+    credits?: boolean
+    source?: boolean
+    razorpayOrderId?: boolean
+    razorpayPaymentId?: boolean
+    note?: boolean
+    createdAt?: boolean
+  }
+
+  export type BrochureRechargeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentId" | "amount" | "credits" | "source" | "razorpayOrderId" | "razorpayPaymentId" | "note" | "createdAt", ExtArgs["result"]["brochureRecharge"]>
+  export type BrochureRechargeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    agent?: boolean | AgentProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $BrochureRechargePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BrochureRecharge"
+    objects: {
+      agent: Prisma.$AgentProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      agentId: string
+      amount: number
+      credits: number
+      source: string
+      razorpayOrderId: string | null
+      razorpayPaymentId: string | null
+      note: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["brochureRecharge"]>
+    composites: {}
+  }
+
+  type BrochureRechargeGetPayload<S extends boolean | null | undefined | BrochureRechargeDefaultArgs> = $Result.GetResult<Prisma.$BrochureRechargePayload, S>
+
+  type BrochureRechargeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BrochureRechargeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BrochureRechargeCountAggregateInputType | true
+    }
+
+  export interface BrochureRechargeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BrochureRecharge'], meta: { name: 'BrochureRecharge' } }
+    /**
+     * Find zero or one BrochureRecharge that matches the filter.
+     * @param {BrochureRechargeFindUniqueArgs} args - Arguments to find a BrochureRecharge
+     * @example
+     * // Get one BrochureRecharge
+     * const brochureRecharge = await prisma.brochureRecharge.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BrochureRechargeFindUniqueArgs>(args: SelectSubset<T, BrochureRechargeFindUniqueArgs<ExtArgs>>): Prisma__BrochureRechargeClient<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BrochureRecharge that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BrochureRechargeFindUniqueOrThrowArgs} args - Arguments to find a BrochureRecharge
+     * @example
+     * // Get one BrochureRecharge
+     * const brochureRecharge = await prisma.brochureRecharge.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BrochureRechargeFindUniqueOrThrowArgs>(args: SelectSubset<T, BrochureRechargeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BrochureRechargeClient<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BrochureRecharge that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureRechargeFindFirstArgs} args - Arguments to find a BrochureRecharge
+     * @example
+     * // Get one BrochureRecharge
+     * const brochureRecharge = await prisma.brochureRecharge.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BrochureRechargeFindFirstArgs>(args?: SelectSubset<T, BrochureRechargeFindFirstArgs<ExtArgs>>): Prisma__BrochureRechargeClient<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BrochureRecharge that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureRechargeFindFirstOrThrowArgs} args - Arguments to find a BrochureRecharge
+     * @example
+     * // Get one BrochureRecharge
+     * const brochureRecharge = await prisma.brochureRecharge.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BrochureRechargeFindFirstOrThrowArgs>(args?: SelectSubset<T, BrochureRechargeFindFirstOrThrowArgs<ExtArgs>>): Prisma__BrochureRechargeClient<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BrochureRecharges that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureRechargeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BrochureRecharges
+     * const brochureRecharges = await prisma.brochureRecharge.findMany()
+     * 
+     * // Get first 10 BrochureRecharges
+     * const brochureRecharges = await prisma.brochureRecharge.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const brochureRechargeWithIdOnly = await prisma.brochureRecharge.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BrochureRechargeFindManyArgs>(args?: SelectSubset<T, BrochureRechargeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BrochureRecharge.
+     * @param {BrochureRechargeCreateArgs} args - Arguments to create a BrochureRecharge.
+     * @example
+     * // Create one BrochureRecharge
+     * const BrochureRecharge = await prisma.brochureRecharge.create({
+     *   data: {
+     *     // ... data to create a BrochureRecharge
+     *   }
+     * })
+     * 
+     */
+    create<T extends BrochureRechargeCreateArgs>(args: SelectSubset<T, BrochureRechargeCreateArgs<ExtArgs>>): Prisma__BrochureRechargeClient<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BrochureRecharges.
+     * @param {BrochureRechargeCreateManyArgs} args - Arguments to create many BrochureRecharges.
+     * @example
+     * // Create many BrochureRecharges
+     * const brochureRecharge = await prisma.brochureRecharge.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BrochureRechargeCreateManyArgs>(args?: SelectSubset<T, BrochureRechargeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a BrochureRecharge.
+     * @param {BrochureRechargeDeleteArgs} args - Arguments to delete one BrochureRecharge.
+     * @example
+     * // Delete one BrochureRecharge
+     * const BrochureRecharge = await prisma.brochureRecharge.delete({
+     *   where: {
+     *     // ... filter to delete one BrochureRecharge
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BrochureRechargeDeleteArgs>(args: SelectSubset<T, BrochureRechargeDeleteArgs<ExtArgs>>): Prisma__BrochureRechargeClient<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BrochureRecharge.
+     * @param {BrochureRechargeUpdateArgs} args - Arguments to update one BrochureRecharge.
+     * @example
+     * // Update one BrochureRecharge
+     * const brochureRecharge = await prisma.brochureRecharge.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BrochureRechargeUpdateArgs>(args: SelectSubset<T, BrochureRechargeUpdateArgs<ExtArgs>>): Prisma__BrochureRechargeClient<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BrochureRecharges.
+     * @param {BrochureRechargeDeleteManyArgs} args - Arguments to filter BrochureRecharges to delete.
+     * @example
+     * // Delete a few BrochureRecharges
+     * const { count } = await prisma.brochureRecharge.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BrochureRechargeDeleteManyArgs>(args?: SelectSubset<T, BrochureRechargeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BrochureRecharges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureRechargeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BrochureRecharges
+     * const brochureRecharge = await prisma.brochureRecharge.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BrochureRechargeUpdateManyArgs>(args: SelectSubset<T, BrochureRechargeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BrochureRecharge.
+     * @param {BrochureRechargeUpsertArgs} args - Arguments to update or create a BrochureRecharge.
+     * @example
+     * // Update or create a BrochureRecharge
+     * const brochureRecharge = await prisma.brochureRecharge.upsert({
+     *   create: {
+     *     // ... data to create a BrochureRecharge
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BrochureRecharge we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BrochureRechargeUpsertArgs>(args: SelectSubset<T, BrochureRechargeUpsertArgs<ExtArgs>>): Prisma__BrochureRechargeClient<$Result.GetResult<Prisma.$BrochureRechargePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BrochureRecharges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureRechargeCountArgs} args - Arguments to filter BrochureRecharges to count.
+     * @example
+     * // Count the number of BrochureRecharges
+     * const count = await prisma.brochureRecharge.count({
+     *   where: {
+     *     // ... the filter for the BrochureRecharges we want to count
+     *   }
+     * })
+    **/
+    count<T extends BrochureRechargeCountArgs>(
+      args?: Subset<T, BrochureRechargeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BrochureRechargeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BrochureRecharge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureRechargeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BrochureRechargeAggregateArgs>(args: Subset<T, BrochureRechargeAggregateArgs>): Prisma.PrismaPromise<GetBrochureRechargeAggregateType<T>>
+
+    /**
+     * Group by BrochureRecharge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BrochureRechargeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BrochureRechargeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BrochureRechargeGroupByArgs['orderBy'] }
+        : { orderBy?: BrochureRechargeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BrochureRechargeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBrochureRechargeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BrochureRecharge model
+   */
+  readonly fields: BrochureRechargeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BrochureRecharge.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BrochureRechargeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    agent<T extends AgentProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentProfileDefaultArgs<ExtArgs>>): Prisma__AgentProfileClient<$Result.GetResult<Prisma.$AgentProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BrochureRecharge model
+   */
+  interface BrochureRechargeFieldRefs {
+    readonly id: FieldRef<"BrochureRecharge", 'String'>
+    readonly agentId: FieldRef<"BrochureRecharge", 'String'>
+    readonly amount: FieldRef<"BrochureRecharge", 'Int'>
+    readonly credits: FieldRef<"BrochureRecharge", 'Int'>
+    readonly source: FieldRef<"BrochureRecharge", 'String'>
+    readonly razorpayOrderId: FieldRef<"BrochureRecharge", 'String'>
+    readonly razorpayPaymentId: FieldRef<"BrochureRecharge", 'String'>
+    readonly note: FieldRef<"BrochureRecharge", 'String'>
+    readonly createdAt: FieldRef<"BrochureRecharge", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BrochureRecharge findUnique
+   */
+  export type BrochureRechargeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    /**
+     * Filter, which BrochureRecharge to fetch.
+     */
+    where: BrochureRechargeWhereUniqueInput
+  }
+
+  /**
+   * BrochureRecharge findUniqueOrThrow
+   */
+  export type BrochureRechargeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    /**
+     * Filter, which BrochureRecharge to fetch.
+     */
+    where: BrochureRechargeWhereUniqueInput
+  }
+
+  /**
+   * BrochureRecharge findFirst
+   */
+  export type BrochureRechargeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    /**
+     * Filter, which BrochureRecharge to fetch.
+     */
+    where?: BrochureRechargeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BrochureRecharges to fetch.
+     */
+    orderBy?: BrochureRechargeOrderByWithRelationInput | BrochureRechargeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BrochureRecharges.
+     */
+    cursor?: BrochureRechargeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BrochureRecharges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BrochureRecharges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BrochureRecharges.
+     */
+    distinct?: BrochureRechargeScalarFieldEnum | BrochureRechargeScalarFieldEnum[]
+  }
+
+  /**
+   * BrochureRecharge findFirstOrThrow
+   */
+  export type BrochureRechargeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    /**
+     * Filter, which BrochureRecharge to fetch.
+     */
+    where?: BrochureRechargeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BrochureRecharges to fetch.
+     */
+    orderBy?: BrochureRechargeOrderByWithRelationInput | BrochureRechargeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BrochureRecharges.
+     */
+    cursor?: BrochureRechargeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BrochureRecharges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BrochureRecharges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BrochureRecharges.
+     */
+    distinct?: BrochureRechargeScalarFieldEnum | BrochureRechargeScalarFieldEnum[]
+  }
+
+  /**
+   * BrochureRecharge findMany
+   */
+  export type BrochureRechargeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    /**
+     * Filter, which BrochureRecharges to fetch.
+     */
+    where?: BrochureRechargeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BrochureRecharges to fetch.
+     */
+    orderBy?: BrochureRechargeOrderByWithRelationInput | BrochureRechargeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BrochureRecharges.
+     */
+    cursor?: BrochureRechargeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BrochureRecharges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BrochureRecharges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BrochureRecharges.
+     */
+    distinct?: BrochureRechargeScalarFieldEnum | BrochureRechargeScalarFieldEnum[]
+  }
+
+  /**
+   * BrochureRecharge create
+   */
+  export type BrochureRechargeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BrochureRecharge.
+     */
+    data: XOR<BrochureRechargeCreateInput, BrochureRechargeUncheckedCreateInput>
+  }
+
+  /**
+   * BrochureRecharge createMany
+   */
+  export type BrochureRechargeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BrochureRecharges.
+     */
+    data: BrochureRechargeCreateManyInput | BrochureRechargeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BrochureRecharge update
+   */
+  export type BrochureRechargeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BrochureRecharge.
+     */
+    data: XOR<BrochureRechargeUpdateInput, BrochureRechargeUncheckedUpdateInput>
+    /**
+     * Choose, which BrochureRecharge to update.
+     */
+    where: BrochureRechargeWhereUniqueInput
+  }
+
+  /**
+   * BrochureRecharge updateMany
+   */
+  export type BrochureRechargeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BrochureRecharges.
+     */
+    data: XOR<BrochureRechargeUpdateManyMutationInput, BrochureRechargeUncheckedUpdateManyInput>
+    /**
+     * Filter which BrochureRecharges to update
+     */
+    where?: BrochureRechargeWhereInput
+    /**
+     * Limit how many BrochureRecharges to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BrochureRecharge upsert
+   */
+  export type BrochureRechargeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BrochureRecharge to update in case it exists.
+     */
+    where: BrochureRechargeWhereUniqueInput
+    /**
+     * In case the BrochureRecharge found by the `where` argument doesn't exist, create a new BrochureRecharge with this data.
+     */
+    create: XOR<BrochureRechargeCreateInput, BrochureRechargeUncheckedCreateInput>
+    /**
+     * In case the BrochureRecharge was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BrochureRechargeUpdateInput, BrochureRechargeUncheckedUpdateInput>
+  }
+
+  /**
+   * BrochureRecharge delete
+   */
+  export type BrochureRechargeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+    /**
+     * Filter which BrochureRecharge to delete.
+     */
+    where: BrochureRechargeWhereUniqueInput
+  }
+
+  /**
+   * BrochureRecharge deleteMany
+   */
+  export type BrochureRechargeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BrochureRecharges to delete
+     */
+    where?: BrochureRechargeWhereInput
+    /**
+     * Limit how many BrochureRecharges to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BrochureRecharge without action
+   */
+  export type BrochureRechargeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BrochureRecharge
+     */
+    select?: BrochureRechargeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BrochureRecharge
+     */
+    omit?: BrochureRechargeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BrochureRechargeInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -68392,6 +70619,7 @@ export namespace Prisma {
     primeStatus: 'primeStatus',
     buzzerAlerts: 'buzzerAlerts',
     listingAlerts: 'listingAlerts',
+    brochureCredits: 'brochureCredits',
     visibilityDeprioritized: 'visibilityDeprioritized',
     autoPayMandate: 'autoPayMandate',
     autoPayActive: 'autoPayActive',
@@ -69029,6 +71257,34 @@ export namespace Prisma {
   };
 
   export type SupportTicketScalarFieldEnum = (typeof SupportTicketScalarFieldEnum)[keyof typeof SupportTicketScalarFieldEnum]
+
+
+  export const BrochureScalarFieldEnum: {
+    id: 'id',
+    agentId: 'agentId',
+    sourceType: 'sourceType',
+    sourceRef: 'sourceRef',
+    title: 'title',
+    data: 'data',
+    createdAt: 'createdAt'
+  };
+
+  export type BrochureScalarFieldEnum = (typeof BrochureScalarFieldEnum)[keyof typeof BrochureScalarFieldEnum]
+
+
+  export const BrochureRechargeScalarFieldEnum: {
+    id: 'id',
+    agentId: 'agentId',
+    amount: 'amount',
+    credits: 'credits',
+    source: 'source',
+    razorpayOrderId: 'razorpayOrderId',
+    razorpayPaymentId: 'razorpayPaymentId',
+    note: 'note',
+    createdAt: 'createdAt'
+  };
+
+  export type BrochureRechargeScalarFieldEnum = (typeof BrochureRechargeScalarFieldEnum)[keyof typeof BrochureRechargeScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -69757,6 +72013,30 @@ export namespace Prisma {
   };
 
   export type SupportTicketOrderByRelevanceFieldEnum = (typeof SupportTicketOrderByRelevanceFieldEnum)[keyof typeof SupportTicketOrderByRelevanceFieldEnum]
+
+
+  export const BrochureOrderByRelevanceFieldEnum: {
+    id: 'id',
+    agentId: 'agentId',
+    sourceType: 'sourceType',
+    sourceRef: 'sourceRef',
+    title: 'title',
+    data: 'data'
+  };
+
+  export type BrochureOrderByRelevanceFieldEnum = (typeof BrochureOrderByRelevanceFieldEnum)[keyof typeof BrochureOrderByRelevanceFieldEnum]
+
+
+  export const BrochureRechargeOrderByRelevanceFieldEnum: {
+    id: 'id',
+    agentId: 'agentId',
+    source: 'source',
+    razorpayOrderId: 'razorpayOrderId',
+    razorpayPaymentId: 'razorpayPaymentId',
+    note: 'note'
+  };
+
+  export type BrochureRechargeOrderByRelevanceFieldEnum = (typeof BrochureRechargeOrderByRelevanceFieldEnum)[keyof typeof BrochureRechargeOrderByRelevanceFieldEnum]
 
 
   /**
@@ -72051,6 +74331,7 @@ export namespace Prisma {
     primeStatus?: BoolFilter<"AgentProfile"> | boolean
     buzzerAlerts?: BoolFilter<"AgentProfile"> | boolean
     listingAlerts?: BoolFilter<"AgentProfile"> | boolean
+    brochureCredits?: IntFilter<"AgentProfile"> | number
     visibilityDeprioritized?: BoolFilter<"AgentProfile"> | boolean
     autoPayMandate?: StringNullableFilter<"AgentProfile"> | string | null
     autoPayActive?: BoolFilter<"AgentProfile"> | boolean
@@ -72078,6 +74359,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AgentProfile"> | Date | string
     updatedAt?: DateTimeFilter<"AgentProfile"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    brochures?: BrochureListRelationFilter
+    brochureRecharges?: BrochureRechargeListRelationFilter
     referringAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
     referredAgents?: AgentProfileListRelationFilter
     documents?: AgentDocumentListRelationFilter
@@ -72130,6 +74413,7 @@ export namespace Prisma {
     primeStatus?: SortOrder
     buzzerAlerts?: SortOrder
     listingAlerts?: SortOrder
+    brochureCredits?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrderInput | SortOrder
     autoPayActive?: SortOrder
@@ -72157,6 +74441,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    brochures?: BrochureOrderByRelationAggregateInput
+    brochureRecharges?: BrochureRechargeOrderByRelationAggregateInput
     referringAgent?: AgentProfileOrderByWithRelationInput
     referredAgents?: AgentProfileOrderByRelationAggregateInput
     documents?: AgentDocumentOrderByRelationAggregateInput
@@ -72213,6 +74499,7 @@ export namespace Prisma {
     primeStatus?: BoolFilter<"AgentProfile"> | boolean
     buzzerAlerts?: BoolFilter<"AgentProfile"> | boolean
     listingAlerts?: BoolFilter<"AgentProfile"> | boolean
+    brochureCredits?: IntFilter<"AgentProfile"> | number
     visibilityDeprioritized?: BoolFilter<"AgentProfile"> | boolean
     autoPayMandate?: StringNullableFilter<"AgentProfile"> | string | null
     autoPayActive?: BoolFilter<"AgentProfile"> | boolean
@@ -72240,6 +74527,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AgentProfile"> | Date | string
     updatedAt?: DateTimeFilter<"AgentProfile"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    brochures?: BrochureListRelationFilter
+    brochureRecharges?: BrochureRechargeListRelationFilter
     referringAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
     referredAgents?: AgentProfileListRelationFilter
     documents?: AgentDocumentListRelationFilter
@@ -72292,6 +74581,7 @@ export namespace Prisma {
     primeStatus?: SortOrder
     buzzerAlerts?: SortOrder
     listingAlerts?: SortOrder
+    brochureCredits?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrderInput | SortOrder
     autoPayActive?: SortOrder
@@ -72349,6 +74639,7 @@ export namespace Prisma {
     primeStatus?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
     buzzerAlerts?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
     listingAlerts?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
+    brochureCredits?: IntWithAggregatesFilter<"AgentProfile"> | number
     visibilityDeprioritized?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
     autoPayMandate?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
     autoPayActive?: BoolWithAggregatesFilter<"AgentProfile"> | boolean
@@ -75643,6 +77934,150 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"SupportTicket"> | Date | string
   }
 
+  export type BrochureWhereInput = {
+    AND?: BrochureWhereInput | BrochureWhereInput[]
+    OR?: BrochureWhereInput[]
+    NOT?: BrochureWhereInput | BrochureWhereInput[]
+    id?: StringFilter<"Brochure"> | string
+    agentId?: StringFilter<"Brochure"> | string
+    sourceType?: StringFilter<"Brochure"> | string
+    sourceRef?: StringFilter<"Brochure"> | string
+    title?: StringFilter<"Brochure"> | string
+    data?: StringFilter<"Brochure"> | string
+    createdAt?: DateTimeFilter<"Brochure"> | Date | string
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }
+
+  export type BrochureOrderByWithRelationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    sourceType?: SortOrder
+    sourceRef?: SortOrder
+    title?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+    agent?: AgentProfileOrderByWithRelationInput
+    _relevance?: BrochureOrderByRelevanceInput
+  }
+
+  export type BrochureWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BrochureWhereInput | BrochureWhereInput[]
+    OR?: BrochureWhereInput[]
+    NOT?: BrochureWhereInput | BrochureWhereInput[]
+    agentId?: StringFilter<"Brochure"> | string
+    sourceType?: StringFilter<"Brochure"> | string
+    sourceRef?: StringFilter<"Brochure"> | string
+    title?: StringFilter<"Brochure"> | string
+    data?: StringFilter<"Brochure"> | string
+    createdAt?: DateTimeFilter<"Brochure"> | Date | string
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }, "id">
+
+  export type BrochureOrderByWithAggregationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    sourceType?: SortOrder
+    sourceRef?: SortOrder
+    title?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+    _count?: BrochureCountOrderByAggregateInput
+    _max?: BrochureMaxOrderByAggregateInput
+    _min?: BrochureMinOrderByAggregateInput
+  }
+
+  export type BrochureScalarWhereWithAggregatesInput = {
+    AND?: BrochureScalarWhereWithAggregatesInput | BrochureScalarWhereWithAggregatesInput[]
+    OR?: BrochureScalarWhereWithAggregatesInput[]
+    NOT?: BrochureScalarWhereWithAggregatesInput | BrochureScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Brochure"> | string
+    agentId?: StringWithAggregatesFilter<"Brochure"> | string
+    sourceType?: StringWithAggregatesFilter<"Brochure"> | string
+    sourceRef?: StringWithAggregatesFilter<"Brochure"> | string
+    title?: StringWithAggregatesFilter<"Brochure"> | string
+    data?: StringWithAggregatesFilter<"Brochure"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Brochure"> | Date | string
+  }
+
+  export type BrochureRechargeWhereInput = {
+    AND?: BrochureRechargeWhereInput | BrochureRechargeWhereInput[]
+    OR?: BrochureRechargeWhereInput[]
+    NOT?: BrochureRechargeWhereInput | BrochureRechargeWhereInput[]
+    id?: StringFilter<"BrochureRecharge"> | string
+    agentId?: StringFilter<"BrochureRecharge"> | string
+    amount?: IntFilter<"BrochureRecharge"> | number
+    credits?: IntFilter<"BrochureRecharge"> | number
+    source?: StringFilter<"BrochureRecharge"> | string
+    razorpayOrderId?: StringNullableFilter<"BrochureRecharge"> | string | null
+    razorpayPaymentId?: StringNullableFilter<"BrochureRecharge"> | string | null
+    note?: StringNullableFilter<"BrochureRecharge"> | string | null
+    createdAt?: DateTimeFilter<"BrochureRecharge"> | Date | string
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }
+
+  export type BrochureRechargeOrderByWithRelationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    amount?: SortOrder
+    credits?: SortOrder
+    source?: SortOrder
+    razorpayOrderId?: SortOrderInput | SortOrder
+    razorpayPaymentId?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    agent?: AgentProfileOrderByWithRelationInput
+    _relevance?: BrochureRechargeOrderByRelevanceInput
+  }
+
+  export type BrochureRechargeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BrochureRechargeWhereInput | BrochureRechargeWhereInput[]
+    OR?: BrochureRechargeWhereInput[]
+    NOT?: BrochureRechargeWhereInput | BrochureRechargeWhereInput[]
+    agentId?: StringFilter<"BrochureRecharge"> | string
+    amount?: IntFilter<"BrochureRecharge"> | number
+    credits?: IntFilter<"BrochureRecharge"> | number
+    source?: StringFilter<"BrochureRecharge"> | string
+    razorpayOrderId?: StringNullableFilter<"BrochureRecharge"> | string | null
+    razorpayPaymentId?: StringNullableFilter<"BrochureRecharge"> | string | null
+    note?: StringNullableFilter<"BrochureRecharge"> | string | null
+    createdAt?: DateTimeFilter<"BrochureRecharge"> | Date | string
+    agent?: XOR<AgentProfileScalarRelationFilter, AgentProfileWhereInput>
+  }, "id">
+
+  export type BrochureRechargeOrderByWithAggregationInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    amount?: SortOrder
+    credits?: SortOrder
+    source?: SortOrder
+    razorpayOrderId?: SortOrderInput | SortOrder
+    razorpayPaymentId?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: BrochureRechargeCountOrderByAggregateInput
+    _avg?: BrochureRechargeAvgOrderByAggregateInput
+    _max?: BrochureRechargeMaxOrderByAggregateInput
+    _min?: BrochureRechargeMinOrderByAggregateInput
+    _sum?: BrochureRechargeSumOrderByAggregateInput
+  }
+
+  export type BrochureRechargeScalarWhereWithAggregatesInput = {
+    AND?: BrochureRechargeScalarWhereWithAggregatesInput | BrochureRechargeScalarWhereWithAggregatesInput[]
+    OR?: BrochureRechargeScalarWhereWithAggregatesInput[]
+    NOT?: BrochureRechargeScalarWhereWithAggregatesInput | BrochureRechargeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BrochureRecharge"> | string
+    agentId?: StringWithAggregatesFilter<"BrochureRecharge"> | string
+    amount?: IntWithAggregatesFilter<"BrochureRecharge"> | number
+    credits?: IntWithAggregatesFilter<"BrochureRecharge"> | number
+    source?: StringWithAggregatesFilter<"BrochureRecharge"> | string
+    razorpayOrderId?: StringNullableWithAggregatesFilter<"BrochureRecharge"> | string | null
+    razorpayPaymentId?: StringNullableWithAggregatesFilter<"BrochureRecharge"> | string | null
+    note?: StringNullableWithAggregatesFilter<"BrochureRecharge"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BrochureRecharge"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -77997,6 +80432,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -78023,6 +80459,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -78075,6 +80513,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -78101,6 +80540,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -78151,6 +80592,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -78177,6 +80619,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -78229,6 +80673,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -78255,6 +80700,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -78306,6 +80753,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -78354,6 +80802,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -78402,6 +80851,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -81962,6 +84412,158 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BrochureCreateInput = {
+    id?: string
+    sourceType: string
+    sourceRef: string
+    title: string
+    data: string
+    createdAt?: Date | string
+    agent: AgentProfileCreateNestedOneWithoutBrochuresInput
+  }
+
+  export type BrochureUncheckedCreateInput = {
+    id?: string
+    agentId: string
+    sourceType: string
+    sourceRef: string
+    title: string
+    data: string
+    createdAt?: Date | string
+  }
+
+  export type BrochureUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sourceType?: StringFieldUpdateOperationsInput | string
+    sourceRef?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    data?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentProfileUpdateOneRequiredWithoutBrochuresNestedInput
+  }
+
+  export type BrochureUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    sourceType?: StringFieldUpdateOperationsInput | string
+    sourceRef?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    data?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureCreateManyInput = {
+    id?: string
+    agentId: string
+    sourceType: string
+    sourceRef: string
+    title: string
+    data: string
+    createdAt?: Date | string
+  }
+
+  export type BrochureUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sourceType?: StringFieldUpdateOperationsInput | string
+    sourceRef?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    data?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    sourceType?: StringFieldUpdateOperationsInput | string
+    sourceRef?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    data?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureRechargeCreateInput = {
+    id?: string
+    amount: number
+    credits: number
+    source?: string
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+    agent: AgentProfileCreateNestedOneWithoutBrochureRechargesInput
+  }
+
+  export type BrochureRechargeUncheckedCreateInput = {
+    id?: string
+    agentId: string
+    amount: number
+    credits: number
+    source?: string
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BrochureRechargeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    credits?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentProfileUpdateOneRequiredWithoutBrochureRechargesNestedInput
+  }
+
+  export type BrochureRechargeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    credits?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureRechargeCreateManyInput = {
+    id?: string
+    agentId: string
+    amount: number
+    credits: number
+    source?: string
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BrochureRechargeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    credits?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureRechargeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    credits?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -83916,6 +86518,18 @@ export namespace Prisma {
     not?: NestedEnumAgentPlanTierFilter<$PrismaModel> | $Enums.AgentPlanTier
   }
 
+  export type BrochureListRelationFilter = {
+    every?: BrochureWhereInput
+    some?: BrochureWhereInput
+    none?: BrochureWhereInput
+  }
+
+  export type BrochureRechargeListRelationFilter = {
+    every?: BrochureRechargeWhereInput
+    some?: BrochureRechargeWhereInput
+    none?: BrochureRechargeWhereInput
+  }
+
   export type AgentProfileListRelationFilter = {
     every?: AgentProfileWhereInput
     some?: AgentProfileWhereInput
@@ -84042,6 +86656,14 @@ export namespace Prisma {
     none?: AreaAgentAssignmentWhereInput
   }
 
+  export type BrochureOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BrochureRechargeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type AgentProfileOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -84153,6 +86775,7 @@ export namespace Prisma {
     primeStatus?: SortOrder
     buzzerAlerts?: SortOrder
     listingAlerts?: SortOrder
+    brochureCredits?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrder
     autoPayActive?: SortOrder
@@ -84186,6 +86809,7 @@ export namespace Prisma {
     shopLongitude?: SortOrder
     yearsExperience?: SortOrder
     staffCount?: SortOrder
+    brochureCredits?: SortOrder
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrder
@@ -84221,6 +86845,7 @@ export namespace Prisma {
     primeStatus?: SortOrder
     buzzerAlerts?: SortOrder
     listingAlerts?: SortOrder
+    brochureCredits?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrder
     autoPayActive?: SortOrder
@@ -84270,6 +86895,7 @@ export namespace Prisma {
     primeStatus?: SortOrder
     buzzerAlerts?: SortOrder
     listingAlerts?: SortOrder
+    brochureCredits?: SortOrder
     visibilityDeprioritized?: SortOrder
     autoPayMandate?: SortOrder
     autoPayActive?: SortOrder
@@ -84303,6 +86929,7 @@ export namespace Prisma {
     shopLongitude?: SortOrder
     yearsExperience?: SortOrder
     staffCount?: SortOrder
+    brochureCredits?: SortOrder
     walletBalance?: SortOrder
     warningCount?: SortOrder
     ratingAvg?: SortOrder
@@ -86817,6 +89444,94 @@ export namespace Prisma {
     _max?: NestedEnumSupportStatusFilter<$PrismaModel>
   }
 
+  export type BrochureOrderByRelevanceInput = {
+    fields: BrochureOrderByRelevanceFieldEnum | BrochureOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type BrochureCountOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    sourceType?: SortOrder
+    sourceRef?: SortOrder
+    title?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BrochureMaxOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    sourceType?: SortOrder
+    sourceRef?: SortOrder
+    title?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BrochureMinOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    sourceType?: SortOrder
+    sourceRef?: SortOrder
+    title?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BrochureRechargeOrderByRelevanceInput = {
+    fields: BrochureRechargeOrderByRelevanceFieldEnum | BrochureRechargeOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type BrochureRechargeCountOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    amount?: SortOrder
+    credits?: SortOrder
+    source?: SortOrder
+    razorpayOrderId?: SortOrder
+    razorpayPaymentId?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BrochureRechargeAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    credits?: SortOrder
+  }
+
+  export type BrochureRechargeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    amount?: SortOrder
+    credits?: SortOrder
+    source?: SortOrder
+    razorpayOrderId?: SortOrder
+    razorpayPaymentId?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BrochureRechargeMinOrderByAggregateInput = {
+    id?: SortOrder
+    agentId?: SortOrder
+    amount?: SortOrder
+    credits?: SortOrder
+    source?: SortOrder
+    razorpayOrderId?: SortOrder
+    razorpayPaymentId?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BrochureRechargeSumOrderByAggregateInput = {
+    amount?: SortOrder
+    credits?: SortOrder
+  }
+
   export type PropertyCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PropertyCreateWithoutOwnerInput, PropertyUncheckedCreateWithoutOwnerInput> | PropertyCreateWithoutOwnerInput[] | PropertyUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PropertyCreateOrConnectWithoutOwnerInput | PropertyCreateOrConnectWithoutOwnerInput[]
@@ -88425,6 +91140,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type BrochureCreateNestedManyWithoutAgentInput = {
+    create?: XOR<BrochureCreateWithoutAgentInput, BrochureUncheckedCreateWithoutAgentInput> | BrochureCreateWithoutAgentInput[] | BrochureUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: BrochureCreateOrConnectWithoutAgentInput | BrochureCreateOrConnectWithoutAgentInput[]
+    createMany?: BrochureCreateManyAgentInputEnvelope
+    connect?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+  }
+
+  export type BrochureRechargeCreateNestedManyWithoutAgentInput = {
+    create?: XOR<BrochureRechargeCreateWithoutAgentInput, BrochureRechargeUncheckedCreateWithoutAgentInput> | BrochureRechargeCreateWithoutAgentInput[] | BrochureRechargeUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: BrochureRechargeCreateOrConnectWithoutAgentInput | BrochureRechargeCreateOrConnectWithoutAgentInput[]
+    createMany?: BrochureRechargeCreateManyAgentInputEnvelope
+    connect?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
+  }
+
   export type AgentProfileCreateNestedOneWithoutReferredAgentsInput = {
     create?: XOR<AgentProfileCreateWithoutReferredAgentsInput, AgentProfileUncheckedCreateWithoutReferredAgentsInput>
     connectOrCreate?: AgentProfileCreateOrConnectWithoutReferredAgentsInput
@@ -88625,6 +91354,20 @@ export namespace Prisma {
     connectOrCreate?: PropertyCreateOrConnectWithoutAssignedAgentInput | PropertyCreateOrConnectWithoutAssignedAgentInput[]
     createMany?: PropertyCreateManyAssignedAgentInputEnvelope
     connect?: PropertyWhereUniqueInput | PropertyWhereUniqueInput[]
+  }
+
+  export type BrochureUncheckedCreateNestedManyWithoutAgentInput = {
+    create?: XOR<BrochureCreateWithoutAgentInput, BrochureUncheckedCreateWithoutAgentInput> | BrochureCreateWithoutAgentInput[] | BrochureUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: BrochureCreateOrConnectWithoutAgentInput | BrochureCreateOrConnectWithoutAgentInput[]
+    createMany?: BrochureCreateManyAgentInputEnvelope
+    connect?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+  }
+
+  export type BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput = {
+    create?: XOR<BrochureRechargeCreateWithoutAgentInput, BrochureRechargeUncheckedCreateWithoutAgentInput> | BrochureRechargeCreateWithoutAgentInput[] | BrochureRechargeUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: BrochureRechargeCreateOrConnectWithoutAgentInput | BrochureRechargeCreateOrConnectWithoutAgentInput[]
+    createMany?: BrochureRechargeCreateManyAgentInputEnvelope
+    connect?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
   }
 
   export type AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput = {
@@ -88833,6 +91576,34 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAgentProfileInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAgentProfileInput, UserUpdateWithoutAgentProfileInput>, UserUncheckedUpdateWithoutAgentProfileInput>
+  }
+
+  export type BrochureUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<BrochureCreateWithoutAgentInput, BrochureUncheckedCreateWithoutAgentInput> | BrochureCreateWithoutAgentInput[] | BrochureUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: BrochureCreateOrConnectWithoutAgentInput | BrochureCreateOrConnectWithoutAgentInput[]
+    upsert?: BrochureUpsertWithWhereUniqueWithoutAgentInput | BrochureUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: BrochureCreateManyAgentInputEnvelope
+    set?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+    disconnect?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+    delete?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+    connect?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+    update?: BrochureUpdateWithWhereUniqueWithoutAgentInput | BrochureUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: BrochureUpdateManyWithWhereWithoutAgentInput | BrochureUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: BrochureScalarWhereInput | BrochureScalarWhereInput[]
+  }
+
+  export type BrochureRechargeUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<BrochureRechargeCreateWithoutAgentInput, BrochureRechargeUncheckedCreateWithoutAgentInput> | BrochureRechargeCreateWithoutAgentInput[] | BrochureRechargeUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: BrochureRechargeCreateOrConnectWithoutAgentInput | BrochureRechargeCreateOrConnectWithoutAgentInput[]
+    upsert?: BrochureRechargeUpsertWithWhereUniqueWithoutAgentInput | BrochureRechargeUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: BrochureRechargeCreateManyAgentInputEnvelope
+    set?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
+    disconnect?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
+    delete?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
+    connect?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
+    update?: BrochureRechargeUpdateWithWhereUniqueWithoutAgentInput | BrochureRechargeUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: BrochureRechargeUpdateManyWithWhereWithoutAgentInput | BrochureRechargeUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: BrochureRechargeScalarWhereInput | BrochureRechargeScalarWhereInput[]
   }
 
   export type AgentProfileUpdateOneWithoutReferredAgentsNestedInput = {
@@ -89235,6 +92006,34 @@ export namespace Prisma {
     update?: PropertyUpdateWithWhereUniqueWithoutAssignedAgentInput | PropertyUpdateWithWhereUniqueWithoutAssignedAgentInput[]
     updateMany?: PropertyUpdateManyWithWhereWithoutAssignedAgentInput | PropertyUpdateManyWithWhereWithoutAssignedAgentInput[]
     deleteMany?: PropertyScalarWhereInput | PropertyScalarWhereInput[]
+  }
+
+  export type BrochureUncheckedUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<BrochureCreateWithoutAgentInput, BrochureUncheckedCreateWithoutAgentInput> | BrochureCreateWithoutAgentInput[] | BrochureUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: BrochureCreateOrConnectWithoutAgentInput | BrochureCreateOrConnectWithoutAgentInput[]
+    upsert?: BrochureUpsertWithWhereUniqueWithoutAgentInput | BrochureUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: BrochureCreateManyAgentInputEnvelope
+    set?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+    disconnect?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+    delete?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+    connect?: BrochureWhereUniqueInput | BrochureWhereUniqueInput[]
+    update?: BrochureUpdateWithWhereUniqueWithoutAgentInput | BrochureUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: BrochureUpdateManyWithWhereWithoutAgentInput | BrochureUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: BrochureScalarWhereInput | BrochureScalarWhereInput[]
+  }
+
+  export type BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput = {
+    create?: XOR<BrochureRechargeCreateWithoutAgentInput, BrochureRechargeUncheckedCreateWithoutAgentInput> | BrochureRechargeCreateWithoutAgentInput[] | BrochureRechargeUncheckedCreateWithoutAgentInput[]
+    connectOrCreate?: BrochureRechargeCreateOrConnectWithoutAgentInput | BrochureRechargeCreateOrConnectWithoutAgentInput[]
+    upsert?: BrochureRechargeUpsertWithWhereUniqueWithoutAgentInput | BrochureRechargeUpsertWithWhereUniqueWithoutAgentInput[]
+    createMany?: BrochureRechargeCreateManyAgentInputEnvelope
+    set?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
+    disconnect?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
+    delete?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
+    connect?: BrochureRechargeWhereUniqueInput | BrochureRechargeWhereUniqueInput[]
+    update?: BrochureRechargeUpdateWithWhereUniqueWithoutAgentInput | BrochureRechargeUpdateWithWhereUniqueWithoutAgentInput[]
+    updateMany?: BrochureRechargeUpdateManyWithWhereWithoutAgentInput | BrochureRechargeUpdateManyWithWhereWithoutAgentInput[]
+    deleteMany?: BrochureRechargeScalarWhereInput | BrochureRechargeScalarWhereInput[]
   }
 
   export type AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput = {
@@ -91519,6 +94318,34 @@ export namespace Prisma {
     set?: $Enums.SupportStatus
   }
 
+  export type AgentProfileCreateNestedOneWithoutBrochuresInput = {
+    create?: XOR<AgentProfileCreateWithoutBrochuresInput, AgentProfileUncheckedCreateWithoutBrochuresInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutBrochuresInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
+  export type AgentProfileUpdateOneRequiredWithoutBrochuresNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutBrochuresInput, AgentProfileUncheckedCreateWithoutBrochuresInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutBrochuresInput
+    upsert?: AgentProfileUpsertWithoutBrochuresInput
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutBrochuresInput, AgentProfileUpdateWithoutBrochuresInput>, AgentProfileUncheckedUpdateWithoutBrochuresInput>
+  }
+
+  export type AgentProfileCreateNestedOneWithoutBrochureRechargesInput = {
+    create?: XOR<AgentProfileCreateWithoutBrochureRechargesInput, AgentProfileUncheckedCreateWithoutBrochureRechargesInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutBrochureRechargesInput
+    connect?: AgentProfileWhereUniqueInput
+  }
+
+  export type AgentProfileUpdateOneRequiredWithoutBrochureRechargesNestedInput = {
+    create?: XOR<AgentProfileCreateWithoutBrochureRechargesInput, AgentProfileUncheckedCreateWithoutBrochureRechargesInput>
+    connectOrCreate?: AgentProfileCreateOrConnectWithoutBrochureRechargesInput
+    upsert?: AgentProfileUpsertWithoutBrochureRechargesInput
+    connect?: AgentProfileWhereUniqueInput
+    update?: XOR<XOR<AgentProfileUpdateToOneWithWhereWithoutBrochureRechargesInput, AgentProfileUpdateWithoutBrochureRechargesInput>, AgentProfileUncheckedUpdateWithoutBrochureRechargesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -92535,6 +95362,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -92560,6 +95388,8 @@ export namespace Prisma {
     couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -92611,6 +95441,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -92637,6 +95468,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -93312,6 +96145,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -93337,6 +96171,8 @@ export namespace Prisma {
     couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -93388,6 +96224,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -93414,6 +96251,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -95526,6 +98365,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -95552,6 +98392,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -95603,6 +98445,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -95629,6 +98472,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -95970,6 +98815,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -95996,6 +98842,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -96047,6 +98895,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -96073,6 +98922,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -98030,6 +100881,66 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutAgentProfileInput, UserUncheckedCreateWithoutAgentProfileInput>
   }
 
+  export type BrochureCreateWithoutAgentInput = {
+    id?: string
+    sourceType: string
+    sourceRef: string
+    title: string
+    data: string
+    createdAt?: Date | string
+  }
+
+  export type BrochureUncheckedCreateWithoutAgentInput = {
+    id?: string
+    sourceType: string
+    sourceRef: string
+    title: string
+    data: string
+    createdAt?: Date | string
+  }
+
+  export type BrochureCreateOrConnectWithoutAgentInput = {
+    where: BrochureWhereUniqueInput
+    create: XOR<BrochureCreateWithoutAgentInput, BrochureUncheckedCreateWithoutAgentInput>
+  }
+
+  export type BrochureCreateManyAgentInputEnvelope = {
+    data: BrochureCreateManyAgentInput | BrochureCreateManyAgentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BrochureRechargeCreateWithoutAgentInput = {
+    id?: string
+    amount: number
+    credits: number
+    source?: string
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BrochureRechargeUncheckedCreateWithoutAgentInput = {
+    id?: string
+    amount: number
+    credits: number
+    source?: string
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BrochureRechargeCreateOrConnectWithoutAgentInput = {
+    where: BrochureRechargeWhereUniqueInput
+    create: XOR<BrochureRechargeCreateWithoutAgentInput, BrochureRechargeUncheckedCreateWithoutAgentInput>
+  }
+
+  export type BrochureRechargeCreateManyAgentInputEnvelope = {
+    data: BrochureRechargeCreateManyAgentInput | BrochureRechargeCreateManyAgentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AgentProfileCreateWithoutReferredAgentsInput = {
     id?: string
     agentCode?: string | null
@@ -98050,6 +100961,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -98076,6 +100988,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
@@ -98127,6 +101041,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -98153,6 +101068,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
@@ -98207,6 +101124,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -98233,6 +101151,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
@@ -98284,6 +101204,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -98309,6 +101230,8 @@ export namespace Prisma {
     couponExpiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -99638,6 +102561,66 @@ export namespace Prisma {
     agentListingRings?: AgentListingRingLogUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
+  export type BrochureUpsertWithWhereUniqueWithoutAgentInput = {
+    where: BrochureWhereUniqueInput
+    update: XOR<BrochureUpdateWithoutAgentInput, BrochureUncheckedUpdateWithoutAgentInput>
+    create: XOR<BrochureCreateWithoutAgentInput, BrochureUncheckedCreateWithoutAgentInput>
+  }
+
+  export type BrochureUpdateWithWhereUniqueWithoutAgentInput = {
+    where: BrochureWhereUniqueInput
+    data: XOR<BrochureUpdateWithoutAgentInput, BrochureUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type BrochureUpdateManyWithWhereWithoutAgentInput = {
+    where: BrochureScalarWhereInput
+    data: XOR<BrochureUpdateManyMutationInput, BrochureUncheckedUpdateManyWithoutAgentInput>
+  }
+
+  export type BrochureScalarWhereInput = {
+    AND?: BrochureScalarWhereInput | BrochureScalarWhereInput[]
+    OR?: BrochureScalarWhereInput[]
+    NOT?: BrochureScalarWhereInput | BrochureScalarWhereInput[]
+    id?: StringFilter<"Brochure"> | string
+    agentId?: StringFilter<"Brochure"> | string
+    sourceType?: StringFilter<"Brochure"> | string
+    sourceRef?: StringFilter<"Brochure"> | string
+    title?: StringFilter<"Brochure"> | string
+    data?: StringFilter<"Brochure"> | string
+    createdAt?: DateTimeFilter<"Brochure"> | Date | string
+  }
+
+  export type BrochureRechargeUpsertWithWhereUniqueWithoutAgentInput = {
+    where: BrochureRechargeWhereUniqueInput
+    update: XOR<BrochureRechargeUpdateWithoutAgentInput, BrochureRechargeUncheckedUpdateWithoutAgentInput>
+    create: XOR<BrochureRechargeCreateWithoutAgentInput, BrochureRechargeUncheckedCreateWithoutAgentInput>
+  }
+
+  export type BrochureRechargeUpdateWithWhereUniqueWithoutAgentInput = {
+    where: BrochureRechargeWhereUniqueInput
+    data: XOR<BrochureRechargeUpdateWithoutAgentInput, BrochureRechargeUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type BrochureRechargeUpdateManyWithWhereWithoutAgentInput = {
+    where: BrochureRechargeScalarWhereInput
+    data: XOR<BrochureRechargeUpdateManyMutationInput, BrochureRechargeUncheckedUpdateManyWithoutAgentInput>
+  }
+
+  export type BrochureRechargeScalarWhereInput = {
+    AND?: BrochureRechargeScalarWhereInput | BrochureRechargeScalarWhereInput[]
+    OR?: BrochureRechargeScalarWhereInput[]
+    NOT?: BrochureRechargeScalarWhereInput | BrochureRechargeScalarWhereInput[]
+    id?: StringFilter<"BrochureRecharge"> | string
+    agentId?: StringFilter<"BrochureRecharge"> | string
+    amount?: IntFilter<"BrochureRecharge"> | number
+    credits?: IntFilter<"BrochureRecharge"> | number
+    source?: StringFilter<"BrochureRecharge"> | string
+    razorpayOrderId?: StringNullableFilter<"BrochureRecharge"> | string | null
+    razorpayPaymentId?: StringNullableFilter<"BrochureRecharge"> | string | null
+    note?: StringNullableFilter<"BrochureRecharge"> | string | null
+    createdAt?: DateTimeFilter<"BrochureRecharge"> | Date | string
+  }
+
   export type AgentProfileUpsertWithoutReferredAgentsInput = {
     update: XOR<AgentProfileUpdateWithoutReferredAgentsInput, AgentProfileUncheckedUpdateWithoutReferredAgentsInput>
     create: XOR<AgentProfileCreateWithoutReferredAgentsInput, AgentProfileUncheckedCreateWithoutReferredAgentsInput>
@@ -99669,6 +102652,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -99695,6 +102679,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
@@ -99746,6 +102732,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -99772,6 +102759,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
@@ -99841,6 +102830,7 @@ export namespace Prisma {
     primeStatus?: BoolFilter<"AgentProfile"> | boolean
     buzzerAlerts?: BoolFilter<"AgentProfile"> | boolean
     listingAlerts?: BoolFilter<"AgentProfile"> | boolean
+    brochureCredits?: IntFilter<"AgentProfile"> | number
     visibilityDeprioritized?: BoolFilter<"AgentProfile"> | boolean
     autoPayMandate?: StringNullableFilter<"AgentProfile"> | string | null
     autoPayActive?: BoolFilter<"AgentProfile"> | boolean
@@ -100676,6 +103666,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -100702,6 +103693,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -100753,6 +103746,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -100779,6 +103773,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -100844,6 +103840,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -100870,6 +103867,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -100921,6 +103920,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -100947,6 +103947,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -100996,6 +103998,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -101022,6 +104025,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
@@ -101073,6 +104078,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -101099,6 +104105,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
@@ -101164,6 +104172,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -101190,6 +104199,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
@@ -101241,6 +104252,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -101267,6 +104279,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
@@ -101431,6 +104445,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -101457,6 +104472,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -101508,6 +104525,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -101534,6 +104552,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
@@ -101858,6 +104878,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -101884,6 +104905,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -101935,6 +104958,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -101961,6 +104985,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
@@ -102106,6 +105132,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -102132,6 +105159,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -102183,6 +105212,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -102209,6 +105239,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -102274,6 +105306,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -102300,6 +105333,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -102351,6 +105386,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -102377,6 +105413,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -102745,6 +105783,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -102771,6 +105810,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -102822,6 +105863,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -102848,6 +105890,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -103238,6 +106282,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -103264,6 +106309,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -103315,6 +106362,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -103341,6 +106389,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -105038,6 +108088,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -105064,6 +108115,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -105115,6 +108168,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -105141,6 +108195,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -105507,6 +108563,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -105533,6 +108590,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -105584,6 +108643,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -105610,6 +108670,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -106239,6 +109301,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106265,6 +109328,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -106316,6 +109381,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106342,6 +109408,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -106396,6 +109464,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106422,6 +109491,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -106473,6 +109544,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106499,6 +109571,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -106609,6 +109683,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -106635,6 +109710,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -106686,6 +109763,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -106712,6 +109790,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -106772,6 +109852,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -106798,6 +109879,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -106849,6 +109932,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -106875,6 +109959,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -106963,6 +110049,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -106989,6 +110076,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -107040,6 +110129,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107066,6 +110156,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -107176,6 +110268,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -107202,6 +110295,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -107253,6 +110348,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -107279,6 +110375,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -107412,6 +110510,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107438,6 +110537,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -107489,6 +110590,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107515,6 +110617,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -107580,6 +110684,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -107606,6 +110711,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -107657,6 +110764,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -107683,6 +110791,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -107847,6 +110957,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107873,6 +110984,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -107924,6 +111037,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -107950,6 +111064,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -108160,6 +111276,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -108186,6 +111303,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -108237,6 +111356,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -108263,6 +111383,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -108393,6 +111515,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -108419,6 +111542,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -108470,6 +111595,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -108496,6 +111622,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -108632,6 +111760,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -108658,6 +111787,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -108709,6 +111840,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -108735,6 +111867,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -108784,6 +111918,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -108810,6 +111945,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -108861,6 +111998,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -108887,6 +112025,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -109060,6 +112200,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -109086,6 +112227,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -109137,6 +112280,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -109163,6 +112307,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -109299,6 +112445,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109325,6 +112472,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -109376,6 +112525,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109402,6 +112552,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -109512,6 +112664,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -109538,6 +112691,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -109589,6 +112744,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -109615,6 +112771,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -109703,6 +112861,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109729,6 +112888,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -109780,6 +112941,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109806,6 +112968,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -109860,6 +113024,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109886,6 +113051,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -109937,6 +113104,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -109963,6 +113131,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -110073,6 +113243,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110099,6 +113270,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -110150,6 +113323,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110176,6 +113350,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -110236,6 +113412,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110262,6 +113439,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -110313,6 +113492,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110339,6 +113519,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -110419,6 +113601,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -110445,6 +113628,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -110496,6 +113681,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -110522,6 +113708,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -110624,6 +113812,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110650,6 +113839,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -110701,6 +113892,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110727,6 +113919,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -110776,6 +113970,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -110802,6 +113997,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -110853,6 +114050,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -110879,6 +114077,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -110944,6 +114144,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -110970,6 +114171,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -111021,6 +114224,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111047,6 +114251,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -111096,6 +114302,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111122,6 +114329,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -111173,6 +114382,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111199,6 +114409,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -111264,6 +114476,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111290,6 +114503,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -111341,6 +114556,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111367,6 +114583,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -111416,6 +114634,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111442,6 +114661,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -111493,6 +114714,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111519,6 +114741,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -111584,6 +114808,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111610,6 +114835,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -111661,6 +114888,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -111687,6 +114915,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -111767,6 +114997,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111793,6 +115024,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -111844,6 +115077,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -111870,6 +115104,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -112011,6 +115247,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -112037,6 +115274,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -112088,6 +115327,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -112114,6 +115354,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -112407,6 +115649,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -112433,6 +115676,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -112484,6 +115729,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -112510,6 +115756,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -112727,6 +115975,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -112753,6 +116002,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -112804,6 +116055,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -112830,6 +116082,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -114018,6 +117272,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -114044,6 +117299,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -114095,6 +117352,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -114121,6 +117379,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -114301,6 +117561,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -114327,6 +117588,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -114378,6 +117641,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -114404,6 +117668,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -114810,6 +118076,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -114836,6 +118103,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -114887,6 +118156,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -114913,6 +118183,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -115097,6 +118369,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -115123,6 +118396,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -115174,6 +118449,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -115200,6 +118476,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -115409,6 +118687,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -115435,6 +118714,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -115486,6 +118767,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -115512,6 +118794,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -115640,6 +118924,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -115666,6 +118951,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -115717,6 +119004,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -115743,6 +119031,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -115863,6 +119153,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -115889,6 +119180,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
     referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
     referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
@@ -115940,6 +119233,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -115966,6 +119260,8 @@ export namespace Prisma {
     referringAgentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
     referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
     documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
     investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
@@ -116092,6 +119388,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -116118,6 +119415,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
@@ -116169,6 +119468,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -116195,6 +119495,8 @@ export namespace Prisma {
     referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -116202,6 +119504,670 @@ export namespace Prisma {
     listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
     acceptedListingRequests?: ListingRequestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
     acceptedBuyerInterests?: BuyerInterestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    dealsAsBuyerAgent?: DealUncheckedUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUncheckedUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUncheckedUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUncheckedUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUncheckedUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUncheckedUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUncheckedUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUncheckedUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUncheckedUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUncheckedUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
+    shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
+  }
+
+  export type AgentProfileCreateWithoutBrochuresInput = {
+    id?: string
+    agentCode?: string | null
+    manualCommissionTypes?: string
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
+    primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
+    brochureCredits?: number
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    brochureRecharges?: BrochureRechargeCreateNestedManyWithoutAgentInput
+    referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
+    referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
+    acceptedListingRequests?: ListingRequestCreateNestedManyWithoutAcceptedAgentInput
+    acceptedBuyerInterests?: BuyerInterestCreateNestedManyWithoutAcceptedAgentInput
+    buyerInterestAcceptances?: BuyerInterestAcceptanceCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
+    shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutBrochuresInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    manualCommissionTypes?: string
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
+    primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
+    brochureCredits?: number
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
+    referringAgentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    brochureRecharges?: BrochureRechargeUncheckedCreateNestedManyWithoutAgentInput
+    referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
+    acceptedListingRequests?: ListingRequestUncheckedCreateNestedManyWithoutAcceptedAgentInput
+    acceptedBuyerInterests?: BuyerInterestUncheckedCreateNestedManyWithoutAcceptedAgentInput
+    buyerInterestAcceptances?: BuyerInterestAcceptanceUncheckedCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealUncheckedCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealUncheckedCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionUncheckedCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestUncheckedCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationUncheckedCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestUncheckedCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastUncheckedCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseUncheckedCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageUncheckedCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageUncheckedCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogUncheckedCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingUncheckedCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningUncheckedCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
+    shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutBrochuresInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutBrochuresInput, AgentProfileUncheckedCreateWithoutBrochuresInput>
+  }
+
+  export type AgentProfileUpsertWithoutBrochuresInput = {
+    update: XOR<AgentProfileUpdateWithoutBrochuresInput, AgentProfileUncheckedUpdateWithoutBrochuresInput>
+    create: XOR<AgentProfileCreateWithoutBrochuresInput, AgentProfileUncheckedCreateWithoutBrochuresInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutBrochuresInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutBrochuresInput, AgentProfileUncheckedUpdateWithoutBrochuresInput>
+  }
+
+  export type AgentProfileUpdateWithoutBrochuresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    manualCommissionTypes?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
+    referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
+    referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
+    acceptedListingRequests?: ListingRequestUpdateManyWithoutAcceptedAgentNestedInput
+    acceptedBuyerInterests?: BuyerInterestUpdateManyWithoutAcceptedAgentNestedInput
+    buyerInterestAcceptances?: BuyerInterestAcceptanceUpdateManyWithoutAgentNestedInput
+    dealsAsBuyerAgent?: DealUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
+    shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutBrochuresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    manualCommissionTypes?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
+    referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
+    acceptedListingRequests?: ListingRequestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    acceptedBuyerInterests?: BuyerInterestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    buyerInterestAcceptances?: BuyerInterestAcceptanceUncheckedUpdateManyWithoutAgentNestedInput
+    dealsAsBuyerAgent?: DealUncheckedUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUncheckedUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUncheckedUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUncheckedUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUncheckedUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUncheckedUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUncheckedUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUncheckedUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUncheckedUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUncheckedUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUncheckedUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUncheckedUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUncheckedUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUncheckedUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUncheckedUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUncheckedUpdateManyWithoutAssignedAgentNestedInput
+    shopUnlocks?: AgentShopUnlockUncheckedUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUncheckedUpdateManyWithoutAssignedAgentNestedInput
+  }
+
+  export type AgentProfileCreateWithoutBrochureRechargesInput = {
+    id?: string
+    agentCode?: string | null
+    manualCommissionTypes?: string
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
+    primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
+    brochureCredits?: number
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAgentProfileInput
+    brochures?: BrochureCreateNestedManyWithoutAgentInput
+    referringAgent?: AgentProfileCreateNestedOneWithoutReferredAgentsInput
+    referredAgents?: AgentProfileCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryCreateNestedManyWithoutAgentInput
+    listings?: AgentListingCreateNestedManyWithoutAgentInput
+    acceptedListingRequests?: ListingRequestCreateNestedManyWithoutAcceptedAgentInput
+    acceptedBuyerInterests?: BuyerInterestCreateNestedManyWithoutAcceptedAgentInput
+    buyerInterestAcceptances?: BuyerInterestAcceptanceCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockCreateNestedManyWithoutAssignedAgentInput
+    shopUnlocks?: AgentShopUnlockCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyCreateNestedManyWithoutAssignedAgentInput
+  }
+
+  export type AgentProfileUncheckedCreateWithoutBrochureRechargesInput = {
+    id?: string
+    userId: string
+    agentCode?: string | null
+    manualCommissionTypes?: string
+    city?: string | null
+    shopName?: string | null
+    shopAddress?: string | null
+    shopLatitude?: number | null
+    shopLongitude?: number | null
+    alternatePhone?: string | null
+    yearsExperience?: number | null
+    staffCount?: number | null
+    reraNumber?: string | null
+    gstNumber?: string | null
+    status?: $Enums.ApprovalStatus
+    rejectionReason?: string | null
+    planTier?: $Enums.AgentPlanTier
+    primeStatus?: boolean
+    buzzerAlerts?: boolean
+    listingAlerts?: boolean
+    brochureCredits?: number
+    visibilityDeprioritized?: boolean
+    autoPayMandate?: string | null
+    autoPayActive?: boolean
+    renewalAlertSentAt?: Date | string | null
+    walletBalance?: number
+    warningCount?: number
+    ratingAvg?: number | null
+    verifiedAt?: Date | string | null
+    cycleStartDate?: Date | string | null
+    cycleEndDate?: Date | string | null
+    cycleDaysTarget?: number
+    customTargetEnabled?: boolean
+    cycleListingsTarget?: number
+    cycleDealsTarget?: number
+    cycleVisitsTarget?: number
+    cycleDirectAgentsTarget?: number
+    cycleCustomerPropertiesTarget?: number
+    cycleInvestorsTarget?: number
+    targetStatus?: string
+    carryForwardScore?: number
+    cycleCompletedCount?: number
+    activeDiscountCoupon?: string | null
+    couponExpiresAt?: Date | string | null
+    referringAgentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    brochures?: BrochureUncheckedCreateNestedManyWithoutAgentInput
+    referredAgents?: AgentProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    documents?: AgentDocumentUncheckedCreateNestedManyWithoutAgentProfileInput
+    investors?: InvestorProfileUncheckedCreateNestedManyWithoutReferringAgentInput
+    commissionEntries?: CommissionLedgerEntryUncheckedCreateNestedManyWithoutAgentInput
+    listings?: AgentListingUncheckedCreateNestedManyWithoutAgentInput
+    acceptedListingRequests?: ListingRequestUncheckedCreateNestedManyWithoutAcceptedAgentInput
+    acceptedBuyerInterests?: BuyerInterestUncheckedCreateNestedManyWithoutAcceptedAgentInput
+    buyerInterestAcceptances?: BuyerInterestAcceptanceUncheckedCreateNestedManyWithoutAgentInput
+    dealsAsBuyerAgent?: DealUncheckedCreateNestedManyWithoutBuyerAgentInput
+    dealsAsSellerAgent?: DealUncheckedCreateNestedManyWithoutSellerAgentInput
+    profitDistributions?: ProfitDistributionUncheckedCreateNestedManyWithoutAgentInput
+    payoutRequests?: PayoutRequestUncheckedCreateNestedManyWithoutAgentInput
+    dispatchNotifications?: DispatchNotificationUncheckedCreateNestedManyWithoutAgentInput
+    dispatchesAccepted?: DispatchRequestUncheckedCreateNestedManyWithoutAcceptedAgentInput
+    broadcastsPosted?: BroadcastUncheckedCreateNestedManyWithoutAgentInput
+    broadcastResponses?: BroadcastResponseUncheckedCreateNestedManyWithoutAgentInput
+    chatMessagesSent?: AgentChatMessageUncheckedCreateNestedManyWithoutFromAgentInput
+    chatMessagesReceived?: AgentChatMessageUncheckedCreateNestedManyWithoutToAgentInput
+    visitLogs?: PropertyVisitLogUncheckedCreateNestedManyWithoutAgentInput
+    ratings?: AgentRatingUncheckedCreateNestedManyWithoutAgentInput
+    warnings?: AgentWarningUncheckedCreateNestedManyWithoutAgentInput
+    customerBlocks?: CustomerAgentBlockUncheckedCreateNestedManyWithoutAgentInput
+    documentVaultItems?: DocumentVaultItemUncheckedCreateNestedManyWithoutAgentInput
+    visitAppointments?: VisitAppointmentUncheckedCreateNestedManyWithoutAgentInput
+    areaAssignments?: AreaAgentAssignmentUncheckedCreateNestedManyWithoutAgentInput
+    assignedUnlocks?: PropertyUnlockUncheckedCreateNestedManyWithoutAssignedAgentInput
+    shopUnlocks?: AgentShopUnlockUncheckedCreateNestedManyWithoutAgentInput
+    assignedProperties?: PropertyUncheckedCreateNestedManyWithoutAssignedAgentInput
+  }
+
+  export type AgentProfileCreateOrConnectWithoutBrochureRechargesInput = {
+    where: AgentProfileWhereUniqueInput
+    create: XOR<AgentProfileCreateWithoutBrochureRechargesInput, AgentProfileUncheckedCreateWithoutBrochureRechargesInput>
+  }
+
+  export type AgentProfileUpsertWithoutBrochureRechargesInput = {
+    update: XOR<AgentProfileUpdateWithoutBrochureRechargesInput, AgentProfileUncheckedUpdateWithoutBrochureRechargesInput>
+    create: XOR<AgentProfileCreateWithoutBrochureRechargesInput, AgentProfileUncheckedCreateWithoutBrochureRechargesInput>
+    where?: AgentProfileWhereInput
+  }
+
+  export type AgentProfileUpdateToOneWithWhereWithoutBrochureRechargesInput = {
+    where?: AgentProfileWhereInput
+    data: XOR<AgentProfileUpdateWithoutBrochureRechargesInput, AgentProfileUncheckedUpdateWithoutBrochureRechargesInput>
+  }
+
+  export type AgentProfileUpdateWithoutBrochureRechargesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    manualCommissionTypes?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    referringAgent?: AgentProfileUpdateOneWithoutReferredAgentsNestedInput
+    referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUpdateManyWithoutAgentNestedInput
+    acceptedListingRequests?: ListingRequestUpdateManyWithoutAcceptedAgentNestedInput
+    acceptedBuyerInterests?: BuyerInterestUpdateManyWithoutAcceptedAgentNestedInput
+    buyerInterestAcceptances?: BuyerInterestAcceptanceUpdateManyWithoutAgentNestedInput
+    dealsAsBuyerAgent?: DealUpdateManyWithoutBuyerAgentNestedInput
+    dealsAsSellerAgent?: DealUpdateManyWithoutSellerAgentNestedInput
+    profitDistributions?: ProfitDistributionUpdateManyWithoutAgentNestedInput
+    payoutRequests?: PayoutRequestUpdateManyWithoutAgentNestedInput
+    dispatchNotifications?: DispatchNotificationUpdateManyWithoutAgentNestedInput
+    dispatchesAccepted?: DispatchRequestUpdateManyWithoutAcceptedAgentNestedInput
+    broadcastsPosted?: BroadcastUpdateManyWithoutAgentNestedInput
+    broadcastResponses?: BroadcastResponseUpdateManyWithoutAgentNestedInput
+    chatMessagesSent?: AgentChatMessageUpdateManyWithoutFromAgentNestedInput
+    chatMessagesReceived?: AgentChatMessageUpdateManyWithoutToAgentNestedInput
+    visitLogs?: PropertyVisitLogUpdateManyWithoutAgentNestedInput
+    ratings?: AgentRatingUpdateManyWithoutAgentNestedInput
+    warnings?: AgentWarningUpdateManyWithoutAgentNestedInput
+    customerBlocks?: CustomerAgentBlockUpdateManyWithoutAgentNestedInput
+    documentVaultItems?: DocumentVaultItemUpdateManyWithoutAgentNestedInput
+    visitAppointments?: VisitAppointmentUpdateManyWithoutAgentNestedInput
+    areaAssignments?: AreaAgentAssignmentUpdateManyWithoutAgentNestedInput
+    assignedUnlocks?: PropertyUnlockUpdateManyWithoutAssignedAgentNestedInput
+    shopUnlocks?: AgentShopUnlockUpdateManyWithoutAgentNestedInput
+    assignedProperties?: PropertyUpdateManyWithoutAssignedAgentNestedInput
+  }
+
+  export type AgentProfileUncheckedUpdateWithoutBrochureRechargesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    agentCode?: NullableStringFieldUpdateOperationsInput | string | null
+    manualCommissionTypes?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    shopName?: NullableStringFieldUpdateOperationsInput | string | null
+    shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    reraNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    gstNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    planTier?: EnumAgentPlanTierFieldUpdateOperationsInput | $Enums.AgentPlanTier
+    primeStatus?: BoolFieldUpdateOperationsInput | boolean
+    buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
+    listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
+    visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
+    autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
+    autoPayActive?: BoolFieldUpdateOperationsInput | boolean
+    renewalAlertSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walletBalance?: IntFieldUpdateOperationsInput | number
+    warningCount?: IntFieldUpdateOperationsInput | number
+    ratingAvg?: NullableFloatFieldUpdateOperationsInput | number | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleStartDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleEndDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cycleDaysTarget?: IntFieldUpdateOperationsInput | number
+    customTargetEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cycleListingsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDealsTarget?: IntFieldUpdateOperationsInput | number
+    cycleVisitsTarget?: IntFieldUpdateOperationsInput | number
+    cycleDirectAgentsTarget?: IntFieldUpdateOperationsInput | number
+    cycleCustomerPropertiesTarget?: IntFieldUpdateOperationsInput | number
+    cycleInvestorsTarget?: IntFieldUpdateOperationsInput | number
+    targetStatus?: StringFieldUpdateOperationsInput | string
+    carryForwardScore?: IntFieldUpdateOperationsInput | number
+    cycleCompletedCount?: IntFieldUpdateOperationsInput | number
+    activeDiscountCoupon?: NullableStringFieldUpdateOperationsInput | string | null
+    couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    referringAgentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
+    investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
+    commissionEntries?: CommissionLedgerEntryUncheckedUpdateManyWithoutAgentNestedInput
+    listings?: AgentListingUncheckedUpdateManyWithoutAgentNestedInput
+    acceptedListingRequests?: ListingRequestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    acceptedBuyerInterests?: BuyerInterestUncheckedUpdateManyWithoutAcceptedAgentNestedInput
+    buyerInterestAcceptances?: BuyerInterestAcceptanceUncheckedUpdateManyWithoutAgentNestedInput
     dealsAsBuyerAgent?: DealUncheckedUpdateManyWithoutBuyerAgentNestedInput
     dealsAsSellerAgent?: DealUncheckedUpdateManyWithoutSellerAgentNestedInput
     profitDistributions?: ProfitDistributionUncheckedUpdateManyWithoutAgentNestedInput
@@ -117786,6 +121752,26 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BrochureCreateManyAgentInput = {
+    id?: string
+    sourceType: string
+    sourceRef: string
+    title: string
+    data: string
+    createdAt?: Date | string
+  }
+
+  export type BrochureRechargeCreateManyAgentInput = {
+    id?: string
+    amount: number
+    credits: number
+    source?: string
+    razorpayOrderId?: string | null
+    razorpayPaymentId?: string | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
   export type AgentProfileCreateManyReferringAgentInput = {
     id?: string
     userId: string
@@ -117807,6 +121793,7 @@ export namespace Prisma {
     primeStatus?: boolean
     buzzerAlerts?: boolean
     listingAlerts?: boolean
+    brochureCredits?: number
     visibilityDeprioritized?: boolean
     autoPayMandate?: string | null
     autoPayActive?: boolean
@@ -118261,6 +122248,66 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type BrochureUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sourceType?: StringFieldUpdateOperationsInput | string
+    sourceRef?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    data?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureUncheckedUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sourceType?: StringFieldUpdateOperationsInput | string
+    sourceRef?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    data?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureUncheckedUpdateManyWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sourceType?: StringFieldUpdateOperationsInput | string
+    sourceRef?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    data?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureRechargeUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    credits?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureRechargeUncheckedUpdateWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    credits?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BrochureRechargeUncheckedUpdateManyWithoutAgentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    credits?: IntFieldUpdateOperationsInput | number
+    source?: StringFieldUpdateOperationsInput | string
+    razorpayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AgentProfileUpdateWithoutReferringAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
     agentCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -118281,6 +122328,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -118307,6 +122355,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAgentProfileNestedInput
+    brochures?: BrochureUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUpdateManyWithoutReferringAgentNestedInput
@@ -118358,6 +122408,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean
@@ -118383,6 +122434,8 @@ export namespace Prisma {
     couponExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    brochures?: BrochureUncheckedUpdateManyWithoutAgentNestedInput
+    brochureRecharges?: BrochureRechargeUncheckedUpdateManyWithoutAgentNestedInput
     referredAgents?: AgentProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
     documents?: AgentDocumentUncheckedUpdateManyWithoutAgentProfileNestedInput
     investors?: InvestorProfileUncheckedUpdateManyWithoutReferringAgentNestedInput
@@ -118434,6 +122487,7 @@ export namespace Prisma {
     primeStatus?: BoolFieldUpdateOperationsInput | boolean
     buzzerAlerts?: BoolFieldUpdateOperationsInput | boolean
     listingAlerts?: BoolFieldUpdateOperationsInput | boolean
+    brochureCredits?: IntFieldUpdateOperationsInput | number
     visibilityDeprioritized?: BoolFieldUpdateOperationsInput | boolean
     autoPayMandate?: NullableStringFieldUpdateOperationsInput | string | null
     autoPayActive?: BoolFieldUpdateOperationsInput | boolean

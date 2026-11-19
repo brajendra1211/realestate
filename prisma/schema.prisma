@@ -577,6 +577,9 @@ model AgentProfile {
   primeStatus             Boolean        @default(false)
   buzzerAlerts            Boolean        @default(true)
   listingAlerts           Boolean        @default(true)
+  brochureCredits         Int            @default(0)
+  brochures               Brochure[]
+  brochureRecharges       BrochureRecharge[]
   visibilityDeprioritized Boolean        @default(false)
   autoPayMandate          String?
   autoPayActive           Boolean        @default(false)
@@ -1565,4 +1568,35 @@ model SupportTicket {
 
   @@index([status, dueAt])
   @@index([userId])
+}
+
+// Agent-made property brochures. Each pack of credits (default Rs 100 = 10
+// brochures) is bought via BrochureRecharge; one credit is spent per Brochure.
+// `data` is a JSON snapshot so re-opening a brochure is free and never changes.
+model Brochure {
+  id         String       @id @default(cuid())
+  agentId    String
+  agent      AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  sourceType String
+  sourceRef  String
+  title      String
+  data       String       @db.LongText
+  createdAt  DateTime     @default(now())
+
+  @@index([agentId, createdAt])
+}
+
+model BrochureRecharge {
+  id                String       @id @default(cuid())
+  agentId           String
+  agent             AgentProfile @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  amount            Int
+  credits           Int
+  source            String       @default("PAID")
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  note              String?
+  createdAt         DateTime     @default(now())
+
+  @@index([agentId, createdAt])
 }

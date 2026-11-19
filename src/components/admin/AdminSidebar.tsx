@@ -39,6 +39,7 @@ import {
   Menu,
   Presentation,
   X,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 
@@ -59,6 +60,7 @@ const ADMIN_GROUPS: NavGroup[] = [
     items: [
       { href: "/admin/buzzer-control", label: "Buzzer & direct leads", icon: BellRing, badge: "New" },
       { href: "/admin/demo", label: "Agent demo", icon: Presentation, badge: "New" },
+      { href: "/admin/brochures", label: "Brochure credits", icon: FileText, badge: "New" },
       { href: "/admin/area-routing", label: "Area routing", icon: Route },
       { href: "/admin/buyer-leads", label: "Buyer leads", icon: UserSearch },
       { href: "/admin/listing-requests", label: "Owner requests", icon: BellRing },

@@ -460,6 +460,7 @@ exports.Prisma.AgentProfileScalarFieldEnum = {
   primeStatus: 'primeStatus',
   buzzerAlerts: 'buzzerAlerts',
   listingAlerts: 'listingAlerts',
+  brochureCredits: 'brochureCredits',
   visibilityDeprioritized: 'visibilityDeprioritized',
   autoPayMandate: 'autoPayMandate',
   autoPayActive: 'autoPayActive',
@@ -985,6 +986,28 @@ exports.Prisma.SupportTicketScalarFieldEnum = {
   resolution: 'resolution',
   dueAt: 'dueAt',
   resolvedAt: 'resolvedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BrochureScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  sourceType: 'sourceType',
+  sourceRef: 'sourceRef',
+  title: 'title',
+  data: 'data',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BrochureRechargeScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  amount: 'amount',
+  credits: 'credits',
+  source: 'source',
+  razorpayOrderId: 'razorpayOrderId',
+  razorpayPaymentId: 'razorpayPaymentId',
+  note: 'note',
   createdAt: 'createdAt'
 };
 
@@ -1541,6 +1564,24 @@ exports.Prisma.SupportTicketOrderByRelevanceFieldEnum = {
   message: 'message',
   resolution: 'resolution'
 };
+
+exports.Prisma.BrochureOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  sourceType: 'sourceType',
+  sourceRef: 'sourceRef',
+  title: 'title',
+  data: 'data'
+};
+
+exports.Prisma.BrochureRechargeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  source: 'source',
+  razorpayOrderId: 'razorpayOrderId',
+  razorpayPaymentId: 'razorpayPaymentId',
+  note: 'note'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SUBADMIN: 'SUBADMIN',
@@ -1823,7 +1864,9 @@ exports.Prisma.ModelName = {
   ListingRequest: 'ListingRequest',
   BuyerInterest: 'BuyerInterest',
   BuyerInterestAcceptance: 'BuyerInterestAcceptance',
-  SupportTicket: 'SupportTicket'
+  SupportTicket: 'SupportTicket',
+  Brochure: 'Brochure',
+  BrochureRecharge: 'BrochureRecharge'
 };
 
 /**

@@ -12,10 +12,12 @@ import { createRazorpayOrder, isRazorpayConfigured, verifyPaidOrder } from "@/li
 import type { ListingPlanTier, ListingRequest, ListingRequestStatus } from "@/generated/prisma";
 
 /**
- * Assisted owner listing — the only way an owner can get a rent listing live:
- *   owner pays for a plan -> nearest partners get a buzzer -> first to accept calls
+ * Assisted owner listing:
+ *   RENT: owner pays for a plan -> nearest partners get a buzzer -> first to accept calls
  *   the owner and sends a one-time link -> owner fills the details there -> the
  *   listing is created under that partner's ID (plan fee split 50-50).
+ *   SELL: same plans and prices, but the request goes ONLY to the admin team (status
+ *   ADMIN_DESK). No partner is ever alerted, can see it or accept it.
  */
 export class ListingRequestError extends Error {}
 
@@ -26,6 +28,7 @@ export const REQUEST_STATUS_LABEL: Record<ListingRequestStatus, string> = {
   LINK_SENT: "Details link sent",
   SUBMITTED: "Listing created",
   CANCELLED: "Cancelled",
+  ADMIN_DESK: "With our team",
 };
 
 const token = () => randomBytes(18).toString("base64url");
@@ -38,6 +41,7 @@ export const ESCALATE_AFTER_MS = 2 * 60 * 1000;
 export function visibleToAgentWhere(agentProfileId: string) {
   return {
     status: "SEARCHING" as const,
+    purpose: "RENT" as const, // sell requests never reach a partner
     OR: [
       { alertedAgentIds: { contains: agentProfileId } },
       { paidAt: { lt: new Date(Date.now() - ESCALATE_AFTER_MS) } },
@@ -71,6 +75,7 @@ export type CreateRequestInput = {
   city: string;
   locality?: string | null;
   plan: ListingPlanTier;
+  purpose?: "RENT" | "SELL";
   referredByAgentCode?: string | null;
 };
 
@@ -100,6 +105,7 @@ export async function createListingRequest(input: CreateRequestInput) {
       latitude: coords?.latitude ?? null,
       longitude: coords?.longitude ?? null,
       plan,
+      purpose: input.purpose === "SELL" ? "SELL" : "RENT",
       amount: f.fee,
       agentSplit: f.agent,
       companySplit: f.company,
@@ -136,19 +142,32 @@ export async function confirmRequestPaymentRazorpay(requestId: string, orderId: 
 }
 
 async function markPaid(requestId: string) {
+  const before = await prisma.listingRequest.findUniqueOrThrow({ where: { id: requestId }, select: { purpose: true } });
+  const sell = before.purpose === "SELL";
   const claim = await prisma.listingRequest.updateMany({
     where: { id: requestId, status: "PENDING_PAYMENT" },
-    data: { status: "SEARCHING", paidAt: new Date() },
+    // Sell requests skip the partner search completely and land on the admin desk.
+    data: { status: sell ? "ADMIN_DESK" : "SEARCHING", paidAt: new Date() },
   });
   const request = await prisma.listingRequest.findUniqueOrThrow({ where: { id: requestId } });
-  if (claim.count === 1) await alertAgents(request.id);
+  if (claim.count === 1) {
+    if (sell) await notifyAdminsOfSellRequest(request);
+    else await alertAgents(request.id);
+  }
   return request;
+}
+
+async function notifyAdminsOfSellRequest(request: Pick<ListingRequest, "ownerName" | "ownerPhone" | "city" | "locality">) {
+  const admins = await prisma.user.findMany({ where: { role: "ADMIN" }, select: { phone: true, email: true }, take: 5 });
+  const where = [request.locality, request.city].filter(Boolean).join(", ");
+  const text = `New SELL request from ${request.ownerName} (${request.ownerPhone}) in ${where}. Open Admin > Owner requests > Sell desk.`;
+  await Promise.all(admins.map((a) => notifyUser(a, text, "New sell request").catch(() => {})));
 }
 
 /** Buzzer: every Prime partner near the owner (widening until someone is found). */
 export async function alertAgents(requestId: string, extraAgentIds: string[] = [], opts: { everyone?: boolean } = {}) {
   const request = await prisma.listingRequest.findUniqueOrThrow({ where: { id: requestId } });
-  if (request.status !== "SEARCHING") return 0;
+  if (request.status !== "SEARCHING" || request.purpose === "SELL") return 0;
 
   let ids: string[] = [];
   if (!opts.everyone && request.latitude != null && request.longitude != null) {
@@ -208,6 +227,7 @@ export async function rebuzzRequest(requestId: string) {
 export async function acceptListingRequest(requestId: string, agentProfileId: string) {
   const request = await prisma.listingRequest.findUnique({ where: { id: requestId } });
   if (!request) throw new ListingRequestError("Request not found.");
+  if (request.purpose === "SELL") throw new ListingRequestError("This request is handled by the admin team.");
   const escalated = request.paidAt != null && request.paidAt.getTime() < Date.now() - ESCALATE_AFTER_MS;
   if (!alertedIds(request).includes(agentProfileId) && !escalated) {
     throw new ListingRequestError("This request was not sent to you.");
@@ -248,7 +268,7 @@ export type OwnerListingInput = Omit<
   "city" | "locality" | "latitude" | "longitude" | "listingType" | "listingPlan" | "masterPropertyId"
 > & { locality?: string | null };
 
-/** The owner submits the details from the link the partner sent. Rent only. */
+/** The owner submits the details from the link the partner sent (rent requests only; sell requests are admin-handled). */
 export async function submitOwnerListing(formToken: string, input: OwnerListingInput) {
   const request = await prisma.listingRequest.findUnique({ where: { formToken } });
   if (!request || !request.acceptedByAgentId) throw new ListingRequestError("This link is not active.");
@@ -274,7 +294,7 @@ export async function submitOwnerListing(formToken: string, input: OwnerListingI
       locality: input.locality?.trim() || request.locality,
       latitude: coords.latitude,
       longitude: coords.longitude,
-      listingType: "RENT",
+      listingType: request.purpose === "SELL" ? "SALE" : "RENT",
       listingPlan: request.plan,
     });
     await prisma.listingRequest.update({ where: { id: request.id }, data: { agentListingId: listing.id } });
@@ -303,6 +323,10 @@ export async function adminAssignRequest(requestId: string, agentProfileId: stri
   if (request.status === "SUBMITTED" || request.status === "CANCELLED" || request.status === "PENDING_PAYMENT") {
     throw new ListingRequestError("This request can't be reassigned.");
   }
+  // A sell request stays with the admin team: never hand it to a partner or open a search.
+  if (request.purpose === "SELL") {
+    throw new ListingRequestError("Sell requests are handled by the admin team only.");
+  }
   if (agentProfileId) {
     await prisma.listingRequest.update({
       where: { id: requestId },
@@ -323,4 +347,13 @@ export async function adminAssignRequest(requestId: string, agentProfileId: stri
 
 export async function cancelRequest(requestId: string, note?: string) {
   await prisma.listingRequest.update({ where: { id: requestId }, data: { status: "CANCELLED", adminNote: note ?? null } });
+}
+
+/** Admin: a sell request has been dealt with (listing created or owner served). */
+export async function adminCompleteRequest(requestId: string, note?: string) {
+  const done = await prisma.listingRequest.updateMany({
+    where: { id: requestId, status: "ADMIN_DESK" },
+    data: { status: "SUBMITTED", adminNote: note ?? null },
+  });
+  if (done.count === 0) throw new ListingRequestError("This request is not on the sell desk.");
 }

@@ -923,6 +923,7 @@ exports.Prisma.ListingRequestScalarFieldEnum = {
   latitude: 'latitude',
   longitude: 'longitude',
   plan: 'plan',
+  purpose: 'purpose',
   amount: 'amount',
   agentSplit: 'agentSplit',
   companySplit: 'companySplit',
@@ -1783,13 +1784,19 @@ exports.AppointmentStatus = exports.$Enums.AppointmentStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.ListingPurpose = exports.$Enums.ListingPurpose = {
+  RENT: 'RENT',
+  SELL: 'SELL'
+};
+
 exports.ListingRequestStatus = exports.$Enums.ListingRequestStatus = {
   PENDING_PAYMENT: 'PENDING_PAYMENT',
   SEARCHING: 'SEARCHING',
   ACCEPTED: 'ACCEPTED',
   LINK_SENT: 'LINK_SENT',
   SUBMITTED: 'SUBMITTED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  ADMIN_DESK: 'ADMIN_DESK'
 };
 
 exports.BuyerInterestStatus = exports.$Enums.BuyerInterestStatus = {

@@ -7,12 +7,13 @@ import { formatINR } from "@/lib/format";
 import { REQUEST_STATUS_LABEL, formLink } from "@/lib/listingRequest";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { AdminPage, StatCard, Pill, EmptyState, btnGhost, btnPrimary, btnDanger, inputCls } from "@/components/admin/ui";
-import { assignRequestAction, realertRequestAction, cancelRequestAction } from "./actions";
+import { assignRequestAction, realertRequestAction, cancelRequestAction, completeRequestAction } from "./actions";
 
 type SearchParams = Promise<{ status?: string }>;
 
 const FILTERS = [
   { key: "ALL", label: "All" },
+  { key: "ADMIN_DESK", label: "Sell desk (admin only)" },
   { key: "SEARCHING", label: "Waiting for partner" },
   { key: "ACCEPTED", label: "Partner assigned" },
   { key: "LINK_SENT", label: "Link sent" },
@@ -27,6 +28,7 @@ const tone = {
   LINK_SENT: "violet",
   SUBMITTED: "green",
   CANCELLED: "red",
+  ADMIN_DESK: "violet",
 } as const;
 
 const dt = (d: Date | null | undefined) => (d ? d.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "—");
@@ -65,7 +67,8 @@ export default async function AdminListingRequestsPage({ searchParams }: { searc
       description="Owners pay for a plan, the nearest partners are buzzed, the first to accept calls the owner and sends the details link."
     >
       <AutoRefresh seconds={15} />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+        <StatCard label="Sell desk (admin only)" value={n("ADMIN_DESK")} hint={n("ADMIN_DESK") ? "Owners who want to SELL" : "No sell requests waiting"} icon={BellRing} tone="rose" />
         <StatCard label="Waiting for partner" value={n("SEARCHING")} hint={n("SEARCHING") ? "Needs attention" : "All picked up"} icon={BellRing} tone="amber" />
         <StatCard label="In progress" value={n("ACCEPTED") + n("LINK_SENT")} hint="Partner is on it" icon={Clock} tone="violet" />
         <StatCard label="Listed" value={n("SUBMITTED")} hint="Owner filled the details" icon={CheckCircle2} tone="green" />
@@ -105,6 +108,7 @@ export default async function AdminListingRequestsPage({ searchParams }: { searc
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
+                  <Pill tone={r.purpose === "SELL" ? "red" : "green"}>{r.purpose === "SELL" ? "SELL · admin only" : "RENT"}</Pill>
                   <Pill tone={r.plan === "GOLD" ? "violet" : "blue"}>{r.plan === "GOLD" ? "Gold" : "Basic"} · {formatINR(r.amount)}</Pill>
                   <Pill tone={tone[r.status]}>{REQUEST_STATUS_LABEL[r.status]}</Pill>
                 </div>
@@ -118,7 +122,7 @@ export default async function AdminListingRequestsPage({ searchParams }: { searc
                 <div>
                   <dt className="text-xs font-semibold uppercase tracking-wider text-slate-400">Partner</dt>
                   <dd className="font-semibold">
-                    {r.acceptedAgent ? `${r.acceptedAgent.user.name} (${r.acceptedAgent.agentCode})` : "Not accepted yet"}
+                    {r.purpose === "SELL" ? "None (admin team only)" : r.acceptedAgent ? `${r.acceptedAgent.user.name} (${r.acceptedAgent.agentCode})` : "Not accepted yet"}
                   </dd>
                 </div>
                 <div>
@@ -143,6 +147,15 @@ export default async function AdminListingRequestsPage({ searchParams }: { searc
 
               {r.status !== "SUBMITTED" && r.status !== "CANCELLED" && r.status !== "PENDING_PAYMENT" && (
                 <div className="mt-4 flex flex-wrap items-end gap-3 border-t border-slate-100 pt-4">
+                  {r.status === "ADMIN_DESK" && (
+                    <form action={completeRequestAction} className="flex flex-wrap items-center gap-2">
+                      <input type="hidden" name="id" value={r.id} />
+                      <input name="note" placeholder="Note (e.g. listing created)" className={`${inputCls} !w-56`} />
+                      <button type="submit" className={btnPrimary}>Mark as handled</button>
+                      <Link href="/admin/properties/new" className={btnGhost}>Add the property</Link>
+                    </form>
+                  )}
+                  {r.purpose !== "SELL" && (
                   <form action={assignRequestAction} className="flex flex-wrap items-center gap-2">
                     <input type="hidden" name="id" value={r.id} />
                     <select name="agentId" required defaultValue="" className={`${inputCls} !w-72`}>
@@ -155,6 +168,7 @@ export default async function AdminListingRequestsPage({ searchParams }: { searc
                     </select>
                     <button type="submit" className={btnPrimary}>Assign</button>
                   </form>
+                  )}
                   {r.status === "SEARCHING" && (
                     <form action={realertRequestAction}>
                       <input type="hidden" name="id" value={r.id} />
@@ -163,7 +177,7 @@ export default async function AdminListingRequestsPage({ searchParams }: { searc
                       </button>
                     </form>
                   )}
-                  {r.status !== "SEARCHING" && (
+                  {r.status !== "SEARCHING" && r.purpose !== "SELL" && (
                     <form action={assignRequestAction}>
                       <input type="hidden" name="id" value={r.id} />
                       <button type="submit" className={btnGhost}>Reopen search</button>

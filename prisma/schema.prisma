@@ -498,8 +498,8 @@ model SiteSettings {
   unlockAgentSplitPercent    Int @default(50)
   goldListingAmount          Int @default(500)    // §3.4
   goldAgentSplitPercent      Int @default(50)
-  agentBasicPlanPrice        Int @default(1000)   // PDF 1 P.1 — Basic Agent Plan ₹1,000
-  agentPrimePlanPrice        Int @default(2000)   // PDF 1 P.1 — Prime Agent Plan ₹2,000
+  agentBasicPlanPrice        Int @default(999)    // Basic Agent Plan ₹999/month
+  agentPrimePlanPrice        Int @default(1999)   // Prime Agent Plan ₹1,999/month
   agentPlanSplitPercent      Int @default(50)     // PDF 1 P.1 — 50% referral split to agent wallet
   basicListingFee            Int @default(300)    // PDF 1 P.1 — Basic Property Listing ₹300 (1 Month)
   goldListingFee             Int @default(500)    // PDF 1 P.1 — Gold Property Listing ₹500 (3 Months)
@@ -1442,6 +1442,12 @@ enum ListingRequestStatus {
   LINK_SENT
   SUBMITTED
   CANCELLED
+  ADMIN_DESK // a SELL request: handled by the admin team only, never shown to any partner
+}
+
+enum ListingPurpose {
+  RENT
+  SELL
 }
 
 model ListingRequest {
@@ -1455,6 +1461,7 @@ model ListingRequest {
   latitude            Float?
   longitude           Float?
   plan                ListingPlanTier      @default(BASIC)
+  purpose             ListingPurpose       @default(RENT)
   amount              Int
   agentSplit          Int
   companySplit        Int

@@ -17,6 +17,7 @@ export type RequestFormInput = {
   city: string;
   locality?: string;
   plan: "BASIC" | "GOLD";
+  purpose?: "RENT" | "SELL";
   referredByAgentCode?: string;
 };
 

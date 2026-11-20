@@ -39,6 +39,7 @@ export function RequestForm({
 }) {
   const router = useRouter();
   const [plan, setPlan] = useState<"BASIC" | "GOLD">("BASIC");
+  const [purpose, setPurpose] = useState<"RENT" | "SELL">("RENT");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -57,6 +58,7 @@ export function RequestForm({
         city: String(d.get("city") ?? ""),
         locality: String(d.get("locality") ?? ""),
         plan,
+        purpose,
         referredByAgentCode: String(d.get("referredByAgentCode") ?? ""),
       });
       if (!result) throw new Error("Something went wrong. Please try again.");
@@ -93,7 +95,27 @@ export function RequestForm({
       {error && <p className="rounded-xl bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">{error}</p>}
 
       <div>
-        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">1 · Choose a plan</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">1 · What do you want to do?</p>
+        <div className="mt-2 grid grid-cols-2 gap-3">
+          {(["RENT", "SELL"] as const).map((x) => (
+            <button
+              type="button"
+              key={x}
+              onClick={() => setPurpose(x)}
+              aria-pressed={purpose === x}
+              className={`cursor-pointer rounded-2xl border-2 px-4 py-3 text-left transition ${
+                purpose === x ? "border-brand-600 bg-brand-50 shadow-soft" : "border-slate-200 bg-white hover:border-brand-300"
+              }`}
+            >
+              <p className="text-sm font-bold text-ink">{x === "RENT" ? "Rent out my property" : "Sell my property"}</p>
+              <p className="mt-0.5 text-xs text-slate-500">{x === "RENT" ? "A nearby partner helps you" : "Handled by our team directly"}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">2 · Choose a plan</p>
         <div className="mt-2 grid gap-3 sm:grid-cols-2">
           {(["BASIC", "GOLD"] as const).map((p) => {
             const active = plan === p;
@@ -121,7 +143,7 @@ export function RequestForm({
       </div>
 
       <div>
-        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">2 · Your details</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">3 · Your details</p>
         <div className="mt-2 grid gap-4 sm:grid-cols-2">
           <label className="text-sm font-semibold text-slate-700">
             Your name
@@ -153,8 +175,9 @@ export function RequestForm({
       <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
         <p className="flex items-start gap-2">
           <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-          After payment, a verified channel partner near you gets an alert, calls you and sends a link where you fill in
-          your property details. Rent listings only.
+          {purpose === "RENT"
+            ? "After payment, a verified channel partner near you gets an alert, calls you and sends a link where you fill in your property details."
+            : "Sell requests are handled directly by our team. After payment our team calls you and takes your property details and documents. Your request is not shared with any channel partner."}
         </p>
       </div>
 
@@ -164,7 +187,7 @@ export function RequestForm({
         className="shine inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-600 to-brand-500 px-6 py-4 text-base font-bold text-white shadow-lg shadow-brand-600/25 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <BadgeCheck className="h-5 w-5" />}
-        {busy ? "Please wait…" : `Pay ₹${price.toLocaleString("en-IN")} & find a partner`}
+        {busy ? "Please wait…" : purpose === "SELL" ? `Pay ₹${price.toLocaleString("en-IN")} & send to our team` : `Pay ₹${price.toLocaleString("en-IN")} & find a partner`}
       </button>
     </form>
   );

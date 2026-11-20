@@ -28,7 +28,15 @@ export default async function RequestStatusPage({ params, searchParams }: { para
   const live = !cancelled && request.status !== "SUBMITTED";
   const agentName = request.acceptedAgent?.shopName ?? request.acceptedAgent?.user.name;
 
-  const steps = [
+  const sell = request.purpose === "SELL";
+  const paidDone = request.status !== "PENDING_PAYMENT";
+  const sellSteps = [
+    { key: "paid", label: "Payment received", done: paidDone, text: `₹${request.amount.toLocaleString("en-IN")} · ${request.plan === "GOLD" ? "Gold" : "Basic"} plan` },
+    { key: "team", label: "Our team will call you", done: request.status === "SUBMITTED", text: request.status === "ADMIN_DESK" ? "Your sell request is with our team. Keep your phone nearby: we will call you and take your property details and documents." : undefined },
+    { key: "live", label: "Your property is listed", done: request.status === "SUBMITTED" },
+  ];
+
+  const steps = sell ? sellSteps : [
     { key: "paid", label: "Payment received", done: idx >= 1, text: `₹${request.amount.toLocaleString("en-IN")} · ${request.plan === "GOLD" ? "Gold" : "Basic"} plan` },
     { key: "search", label: "A partner is accepting your request", done: idx >= 2, text: idx === 1 ? "Nearby partners have been alerted. This usually takes a few minutes." : undefined },
     {

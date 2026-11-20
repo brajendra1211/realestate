@@ -591,10 +591,19 @@ export const ListingRequestStatus: {
   ACCEPTED: 'ACCEPTED',
   LINK_SENT: 'LINK_SENT',
   SUBMITTED: 'SUBMITTED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  ADMIN_DESK: 'ADMIN_DESK'
 };
 
 export type ListingRequestStatus = (typeof ListingRequestStatus)[keyof typeof ListingRequestStatus]
+
+
+export const ListingPurpose: {
+  RENT: 'RENT',
+  SELL: 'SELL'
+};
+
+export type ListingPurpose = (typeof ListingPurpose)[keyof typeof ListingPurpose]
 
 
 export const BuyerInterestStatus: {
@@ -732,6 +741,10 @@ export const AppointmentStatus: typeof $Enums.AppointmentStatus
 export type ListingRequestStatus = $Enums.ListingRequestStatus
 
 export const ListingRequestStatus: typeof $Enums.ListingRequestStatus
+
+export type ListingPurpose = $Enums.ListingPurpose
+
+export const ListingPurpose: typeof $Enums.ListingPurpose
 
 export type BuyerInterestStatus = $Enums.BuyerInterestStatus
 
@@ -63890,6 +63903,7 @@ export namespace Prisma {
     latitude: number | null
     longitude: number | null
     plan: $Enums.ListingPlanTier | null
+    purpose: $Enums.ListingPurpose | null
     amount: number | null
     agentSplit: number | null
     companySplit: number | null
@@ -63922,6 +63936,7 @@ export namespace Prisma {
     latitude: number | null
     longitude: number | null
     plan: $Enums.ListingPlanTier | null
+    purpose: $Enums.ListingPurpose | null
     amount: number | null
     agentSplit: number | null
     companySplit: number | null
@@ -63954,6 +63969,7 @@ export namespace Prisma {
     latitude: number
     longitude: number
     plan: number
+    purpose: number
     amount: number
     agentSplit: number
     companySplit: number
@@ -64006,6 +64022,7 @@ export namespace Prisma {
     latitude?: true
     longitude?: true
     plan?: true
+    purpose?: true
     amount?: true
     agentSplit?: true
     companySplit?: true
@@ -64038,6 +64055,7 @@ export namespace Prisma {
     latitude?: true
     longitude?: true
     plan?: true
+    purpose?: true
     amount?: true
     agentSplit?: true
     companySplit?: true
@@ -64070,6 +64088,7 @@ export namespace Prisma {
     latitude?: true
     longitude?: true
     plan?: true
+    purpose?: true
     amount?: true
     agentSplit?: true
     companySplit?: true
@@ -64189,6 +64208,7 @@ export namespace Prisma {
     latitude: number | null
     longitude: number | null
     plan: $Enums.ListingPlanTier
+    purpose: $Enums.ListingPurpose
     amount: number
     agentSplit: number
     companySplit: number
@@ -64240,6 +64260,7 @@ export namespace Prisma {
     latitude?: boolean
     longitude?: boolean
     plan?: boolean
+    purpose?: boolean
     amount?: boolean
     agentSplit?: boolean
     companySplit?: boolean
@@ -64276,6 +64297,7 @@ export namespace Prisma {
     latitude?: boolean
     longitude?: boolean
     plan?: boolean
+    purpose?: boolean
     amount?: boolean
     agentSplit?: boolean
     companySplit?: boolean
@@ -64297,7 +64319,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ListingRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "ownerName" | "ownerPhone" | "ownerEmail" | "city" | "locality" | "latitude" | "longitude" | "plan" | "amount" | "agentSplit" | "companySplit" | "referredByAgentCode" | "razorpayOrderId" | "status" | "statusToken" | "formToken" | "alertedAgentIds" | "buzzCount" | "lastBuzzAt" | "acceptedByAgentId" | "acceptedAt" | "linkSentAt" | "paidAt" | "agentListingId" | "adminNote" | "createdAt" | "updatedAt", ExtArgs["result"]["listingRequest"]>
+  export type ListingRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "ownerName" | "ownerPhone" | "ownerEmail" | "city" | "locality" | "latitude" | "longitude" | "plan" | "purpose" | "amount" | "agentSplit" | "companySplit" | "referredByAgentCode" | "razorpayOrderId" | "status" | "statusToken" | "formToken" | "alertedAgentIds" | "buzzCount" | "lastBuzzAt" | "acceptedByAgentId" | "acceptedAt" | "linkSentAt" | "paidAt" | "agentListingId" | "adminNote" | "createdAt" | "updatedAt", ExtArgs["result"]["listingRequest"]>
   export type ListingRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     acceptedAgent?: boolean | ListingRequest$acceptedAgentArgs<ExtArgs>
     agentListing?: boolean | ListingRequest$agentListingArgs<ExtArgs>
@@ -64320,6 +64342,7 @@ export namespace Prisma {
       latitude: number | null
       longitude: number | null
       plan: $Enums.ListingPlanTier
+      purpose: $Enums.ListingPurpose
       amount: number
       agentSplit: number
       companySplit: number
@@ -64720,6 +64743,7 @@ export namespace Prisma {
     readonly latitude: FieldRef<"ListingRequest", 'Float'>
     readonly longitude: FieldRef<"ListingRequest", 'Float'>
     readonly plan: FieldRef<"ListingRequest", 'ListingPlanTier'>
+    readonly purpose: FieldRef<"ListingRequest", 'ListingPurpose'>
     readonly amount: FieldRef<"ListingRequest", 'Int'>
     readonly agentSplit: FieldRef<"ListingRequest", 'Int'>
     readonly companySplit: FieldRef<"ListingRequest", 'Int'>
@@ -71192,6 +71216,7 @@ export namespace Prisma {
     latitude: 'latitude',
     longitude: 'longitude',
     plan: 'plan',
+    purpose: 'purpose',
     amount: 'amount',
     agentSplit: 'agentSplit',
     companySplit: 'companySplit',
@@ -72271,6 +72296,13 @@ export namespace Prisma {
    * Reference to a field of type 'AppointmentStatus'
    */
   export type EnumAppointmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AppointmentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ListingPurpose'
+   */
+  export type EnumListingPurposeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingPurpose'>
     
 
 
@@ -77498,6 +77530,7 @@ export namespace Prisma {
     latitude?: FloatNullableFilter<"ListingRequest"> | number | null
     longitude?: FloatNullableFilter<"ListingRequest"> | number | null
     plan?: EnumListingPlanTierFilter<"ListingRequest"> | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFilter<"ListingRequest"> | $Enums.ListingPurpose
     amount?: IntFilter<"ListingRequest"> | number
     agentSplit?: IntFilter<"ListingRequest"> | number
     companySplit?: IntFilter<"ListingRequest"> | number
@@ -77532,6 +77565,7 @@ export namespace Prisma {
     latitude?: SortOrderInput | SortOrder
     longitude?: SortOrderInput | SortOrder
     plan?: SortOrder
+    purpose?: SortOrder
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
@@ -77573,6 +77607,7 @@ export namespace Prisma {
     latitude?: FloatNullableFilter<"ListingRequest"> | number | null
     longitude?: FloatNullableFilter<"ListingRequest"> | number | null
     plan?: EnumListingPlanTierFilter<"ListingRequest"> | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFilter<"ListingRequest"> | $Enums.ListingPurpose
     amount?: IntFilter<"ListingRequest"> | number
     agentSplit?: IntFilter<"ListingRequest"> | number
     companySplit?: IntFilter<"ListingRequest"> | number
@@ -77604,6 +77639,7 @@ export namespace Prisma {
     latitude?: SortOrderInput | SortOrder
     longitude?: SortOrderInput | SortOrder
     plan?: SortOrder
+    purpose?: SortOrder
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
@@ -77644,6 +77680,7 @@ export namespace Prisma {
     latitude?: FloatNullableWithAggregatesFilter<"ListingRequest"> | number | null
     longitude?: FloatNullableWithAggregatesFilter<"ListingRequest"> | number | null
     plan?: EnumListingPlanTierWithAggregatesFilter<"ListingRequest"> | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeWithAggregatesFilter<"ListingRequest"> | $Enums.ListingPurpose
     amount?: IntWithAggregatesFilter<"ListingRequest"> | number
     agentSplit?: IntWithAggregatesFilter<"ListingRequest"> | number
     companySplit?: IntWithAggregatesFilter<"ListingRequest"> | number
@@ -83904,6 +83941,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     plan?: $Enums.ListingPlanTier
+    purpose?: $Enums.ListingPurpose
     amount: number
     agentSplit: number
     companySplit: number
@@ -83936,6 +83974,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     plan?: $Enums.ListingPlanTier
+    purpose?: $Enums.ListingPurpose
     amount: number
     agentSplit: number
     companySplit: number
@@ -83968,6 +84007,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     plan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFieldUpdateOperationsInput | $Enums.ListingPurpose
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
@@ -84000,6 +84040,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     plan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFieldUpdateOperationsInput | $Enums.ListingPurpose
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
@@ -84032,6 +84073,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     plan?: $Enums.ListingPlanTier
+    purpose?: $Enums.ListingPurpose
     amount: number
     agentSplit: number
     companySplit: number
@@ -84064,6 +84106,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     plan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFieldUpdateOperationsInput | $Enums.ListingPurpose
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
@@ -84094,6 +84137,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     plan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFieldUpdateOperationsInput | $Enums.ListingPurpose
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
@@ -89092,6 +89136,13 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumListingPurposeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ListingPurpose | EnumListingPurposeFieldRefInput<$PrismaModel>
+    in?: $Enums.ListingPurpose[]
+    notIn?: $Enums.ListingPurpose[]
+    not?: NestedEnumListingPurposeFilter<$PrismaModel> | $Enums.ListingPurpose
+  }
+
   export type EnumListingRequestStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ListingRequestStatus | EnumListingRequestStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ListingRequestStatus[]
@@ -89121,6 +89172,7 @@ export namespace Prisma {
     latitude?: SortOrder
     longitude?: SortOrder
     plan?: SortOrder
+    purpose?: SortOrder
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
@@ -89162,6 +89214,7 @@ export namespace Prisma {
     latitude?: SortOrder
     longitude?: SortOrder
     plan?: SortOrder
+    purpose?: SortOrder
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
@@ -89194,6 +89247,7 @@ export namespace Prisma {
     latitude?: SortOrder
     longitude?: SortOrder
     plan?: SortOrder
+    purpose?: SortOrder
     amount?: SortOrder
     agentSplit?: SortOrder
     companySplit?: SortOrder
@@ -89222,6 +89276,16 @@ export namespace Prisma {
     agentSplit?: SortOrder
     companySplit?: SortOrder
     buzzCount?: SortOrder
+  }
+
+  export type EnumListingPurposeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ListingPurpose | EnumListingPurposeFieldRefInput<$PrismaModel>
+    in?: $Enums.ListingPurpose[]
+    notIn?: $Enums.ListingPurpose[]
+    not?: NestedEnumListingPurposeWithAggregatesFilter<$PrismaModel> | $Enums.ListingPurpose
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumListingPurposeFilter<$PrismaModel>
+    _max?: NestedEnumListingPurposeFilter<$PrismaModel>
   }
 
   export type EnumListingRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -94210,6 +94274,10 @@ export namespace Prisma {
     connect?: AgentListingWhereUniqueInput
   }
 
+  export type EnumListingPurposeFieldUpdateOperationsInput = {
+    set?: $Enums.ListingPurpose
+  }
+
   export type EnumListingRequestStatusFieldUpdateOperationsInput = {
     set?: $Enums.ListingRequestStatus
   }
@@ -95070,11 +95138,28 @@ export namespace Prisma {
     _max?: NestedEnumAppointmentStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumListingPurposeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ListingPurpose | EnumListingPurposeFieldRefInput<$PrismaModel>
+    in?: $Enums.ListingPurpose[]
+    notIn?: $Enums.ListingPurpose[]
+    not?: NestedEnumListingPurposeFilter<$PrismaModel> | $Enums.ListingPurpose
+  }
+
   export type NestedEnumListingRequestStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ListingRequestStatus | EnumListingRequestStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ListingRequestStatus[]
     notIn?: $Enums.ListingRequestStatus[]
     not?: NestedEnumListingRequestStatusFilter<$PrismaModel> | $Enums.ListingRequestStatus
+  }
+
+  export type NestedEnumListingPurposeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ListingPurpose | EnumListingPurposeFieldRefInput<$PrismaModel>
+    in?: $Enums.ListingPurpose[]
+    notIn?: $Enums.ListingPurpose[]
+    not?: NestedEnumListingPurposeWithAggregatesFilter<$PrismaModel> | $Enums.ListingPurpose
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumListingPurposeFilter<$PrismaModel>
+    _max?: NestedEnumListingPurposeFilter<$PrismaModel>
   }
 
   export type NestedEnumListingRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -101536,6 +101621,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     plan?: $Enums.ListingPlanTier
+    purpose?: $Enums.ListingPurpose
     amount: number
     agentSplit: number
     companySplit: number
@@ -101567,6 +101653,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     plan?: $Enums.ListingPlanTier
+    purpose?: $Enums.ListingPurpose
     amount: number
     agentSplit: number
     companySplit: number
@@ -103080,6 +103167,7 @@ export namespace Prisma {
     latitude?: FloatNullableFilter<"ListingRequest"> | number | null
     longitude?: FloatNullableFilter<"ListingRequest"> | number | null
     plan?: EnumListingPlanTierFilter<"ListingRequest"> | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFilter<"ListingRequest"> | $Enums.ListingPurpose
     amount?: IntFilter<"ListingRequest"> | number
     agentSplit?: IntFilter<"ListingRequest"> | number
     companySplit?: IntFilter<"ListingRequest"> | number
@@ -105992,6 +106080,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     plan?: $Enums.ListingPlanTier
+    purpose?: $Enums.ListingPurpose
     amount: number
     agentSplit: number
     companySplit: number
@@ -106023,6 +106112,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     plan?: $Enums.ListingPlanTier
+    purpose?: $Enums.ListingPurpose
     amount: number
     agentSplit: number
     companySplit: number
@@ -106501,6 +106591,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     plan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFieldUpdateOperationsInput | $Enums.ListingPurpose
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
@@ -106532,6 +106623,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     plan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFieldUpdateOperationsInput | $Enums.ListingPurpose
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
@@ -121951,6 +122043,7 @@ export namespace Prisma {
     latitude?: number | null
     longitude?: number | null
     plan?: $Enums.ListingPlanTier
+    purpose?: $Enums.ListingPurpose
     amount: number
     agentSplit: number
     companySplit: number
@@ -122825,6 +122918,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     plan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFieldUpdateOperationsInput | $Enums.ListingPurpose
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
@@ -122856,6 +122950,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     plan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFieldUpdateOperationsInput | $Enums.ListingPurpose
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number
@@ -122887,6 +122982,7 @@ export namespace Prisma {
     latitude?: NullableFloatFieldUpdateOperationsInput | number | null
     longitude?: NullableFloatFieldUpdateOperationsInput | number | null
     plan?: EnumListingPlanTierFieldUpdateOperationsInput | $Enums.ListingPlanTier
+    purpose?: EnumListingPurposeFieldUpdateOperationsInput | $Enums.ListingPurpose
     amount?: IntFieldUpdateOperationsInput | number
     agentSplit?: IntFieldUpdateOperationsInput | number
     companySplit?: IntFieldUpdateOperationsInput | number

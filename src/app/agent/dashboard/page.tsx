@@ -13,6 +13,8 @@ import { DispatchNotifications } from "@/components/agent/DispatchNotifications"
 import { requestPayoutAction, setAutoPayMandateAction } from "./actions";
 import { getAgentPlans } from "@/lib/agentPlans";
 import { AgentPlanCheckout } from "@/components/agent/AgentPlanCheckout";
+import { PlanConvertCard } from "@/components/agent/PlanConvertCard";
+import { previewPlanConversion } from "@/lib/planConversion";
 import { Tabs } from "@/components/ui/Tabs";
 import {
   AlertTriangle, ArrowRight, Bell, Building2, CalendarCheck, Crown, FileText, PlusCircle, Phone, Radio,
@@ -102,6 +104,10 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
 
   const { siteName } = siteSettings;
   const payPlans = await getAgentPlans();
+  // Basic -> Prime without paying again: the unused days convert into (fewer) Prime days.
+  const primeMonthly = payPlans.find((pl) => pl.tier === "PRIME" && pl.months === 1);
+  const conversion =
+    subStatus?.planTier === "BASIC" && primeMonthly ? await previewPlanConversion(agent.id, primeMonthly.id) : null;
   const pickerPlans = payPlans.map(({ id, name, tier, price, durationDays, months, listingLimit }) => ({ id, name, tier, price, durationDays, months, listingLimit }));
   const originUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const { getAgentShopUrl } = await import("@/lib/qr");
@@ -250,7 +256,18 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
             </p>
           </div>
           {subStatus?.planTier === "BASIC" || (agent.agentCode && !agent.primeStatus) ? (
-            <div className="mt-5">
+            <div className="mt-5 space-y-4">
+              {conversion && (
+                <PlanConvertCard
+                  toPlanId={conversion.toPlanId}
+                  fromPlanName={conversion.fromPlanName}
+                  toPlanName={conversion.toPlanName}
+                  remainingDays={conversion.remainingDays}
+                  remainingValue={conversion.remainingValue}
+                  newDays={conversion.newDays}
+                  newEndDate={conversion.newEndDate.toISOString()}
+                />
+              )}
               <AgentPlanCheckout plans={pickerPlans} mode="upgrade" />
             </div>
           ) : (

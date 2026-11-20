@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { getAgentByUserId, AgentServiceError } from "@/lib/agent";
 import { createPlanOrder, confirmPlanPayment, type PlanPaymentMode } from "@/lib/agentRegistrationPayment";
+import { convertPlan, PlanConversionError } from "@/lib/planConversion";
 import { requestAgentPayout, PayoutServiceError } from "@/lib/payout";
 
 export async function requestPayoutAction(formData: FormData) {
@@ -83,6 +84,22 @@ export async function confirmPlanPaymentAction(
     return { ok: true as const };
   } catch (error) {
     if (error instanceof AgentServiceError) return { ok: false as const, error: error.message };
+    throw error;
+  }
+}
+
+/** Upgrade by converting the remaining days of the current plan; no payment is taken. */
+export async function convertPlanAction(planId: string) {
+  try {
+    const agent = await requireAgentForPlan();
+    await convertPlan(agent.id, planId);
+    revalidatePath("/agent/dashboard");
+    revalidatePath("/agent/listings");
+    return { ok: true as const };
+  } catch (error) {
+    if (error instanceof AgentServiceError || error instanceof PlanConversionError) {
+      return { ok: false as const, error: error.message };
+    }
     throw error;
   }
 }

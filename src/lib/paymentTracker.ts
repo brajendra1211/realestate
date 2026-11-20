@@ -219,7 +219,7 @@ export async function getPaymentTracker(opts: { userId?: string } = {}): Promise
       status: paid ? "PAID" : "UNPAID",
       method: paid ? razorpay(r.razorpayOrderId) ?? "Confirmed" : "Awaiting payment",
       ref: r.razorpayOrderId,
-      detail: `${r.plan} plan · ${r.city}`,
+      detail: `${r.purpose === "SELL" ? "SELL" : "RENT"} · ${r.plan} plan · ${r.city}`,
     });
   }
 

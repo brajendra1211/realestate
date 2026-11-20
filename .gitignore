@@ -48,3 +48,6 @@ next-env.d.ts
 # mobile binaries
 *.apk
 bayaestate-release.apk
+
+# local logs
+*.log

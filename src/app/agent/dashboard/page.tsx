@@ -10,7 +10,9 @@ import { formatINR } from "@/lib/format";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getRingAlertsForAgent } from "@/lib/ringAlerts";
 import { DispatchNotifications } from "@/components/agent/DispatchNotifications";
-import { requestPayoutAction, setAutoPayMandateAction, upgradeAgentPlanAction } from "./actions";
+import { requestPayoutAction, setAutoPayMandateAction } from "./actions";
+import { getAgentPlans } from "@/lib/agentPlans";
+import { AgentPlanCheckout } from "@/components/agent/AgentPlanCheckout";
 import { Tabs } from "@/components/ui/Tabs";
 import {
   AlertTriangle, ArrowRight, Bell, Building2, CalendarCheck, Crown, FileText, PlusCircle, Phone, Radio,
@@ -99,6 +101,8 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
   ]);
 
   const { siteName } = siteSettings;
+  const payPlans = await getAgentPlans();
+  const pickerPlans = payPlans.map(({ id, name, tier, price, durationDays, months, listingLimit }) => ({ id, name, tier, price, durationDays, months, listingLimit }));
   const originUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const { getAgentShopUrl } = await import("@/lib/qr");
   const shopUrl = agent.agentCode ? getAgentShopUrl(agent.agentCode, originUrl) : `${originUrl}/listings`;
@@ -245,13 +249,10 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
                 : "Unlimited listings · priority feed ranking"}
             </p>
           </div>
-          {subStatus?.planTier === "BASIC" ? (
-            <form action={upgradeAgentPlanAction} className="mt-5">
-              <input type="hidden" name="tier" value="PRIME" />
-              <button type="submit" className="shine w-full cursor-pointer rounded-xl bg-gradient-to-r from-violet-600 to-brand-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-brand-600/25 transition hover:brightness-110">
-                Upgrade to Prime
-              </button>
-            </form>
+          {subStatus?.planTier === "BASIC" || (agent.agentCode && !agent.primeStatus) ? (
+            <div className="mt-5">
+              <AgentPlanCheckout plans={pickerPlans} mode="upgrade" />
+            </div>
           ) : (
             <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-violet-700">
               <Crown className="h-4 w-4" /> Top-priority Prime is active
@@ -446,6 +447,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
         city={agent.city}
         qrDataUrl={qrDataUrl}
         originUrl={originUrl}
+        unlockFee={siteSettings.unlockPassAmount}
       />
       <AgentAssetCards
         agentCode={agent.agentCode}
@@ -526,6 +528,12 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
           <p className="font-bold">{STATUS_COPY[agent.status].title}</p>
           <p className="mt-0.5">{STATUS_COPY[agent.status].body}</p>
           {agent.status === "REJECTED" && agent.rejectionReason && <p className="mt-1 font-semibold">Reason: {agent.rejectionReason}</p>}
+          {agent.status === "PENDING" && !agent.agentCode && pickerPlans.length > 0 && (
+            <div className="mt-4 rounded-2xl bg-white p-4 text-slate-800 shadow-xs">
+              <p className="mb-3 text-sm font-bold">Pay now to get approved instantly — no admin wait.</p>
+              <AgentPlanCheckout plans={pickerPlans} mode="register" />
+            </div>
+          )}
         </div>
       )}
 

@@ -46,11 +46,15 @@ export async function getSalesStats(days: number): Promise<SalesStats> {
   const index = new Map(labels.map((l, i) => [l, i]));
   const zeros = () => labels.map(() => 0);
 
-  const [unlocks, dispatches, listingReqs, subs, golds, investors, deals, enquiries, partners, dealGroups, ledger] = await Promise.all([
+  const [unlocks, dispatches, listingReqs, subs, golds, investors, deals, enquiries, partners, dealGroups, ledger, shopUnlocks] = await Promise.all([
     prisma.propertyUnlock.findMany({ where: { createdAt: { gte: prevStart } }, select: { createdAt: true, amount: true } }),
     prisma.dispatchRequest.findMany({ where: { createdAt: { gte: prevStart }, amount: { gt: 0 } }, select: { createdAt: true, amount: true } }),
     prisma.listingRequest.findMany({ where: { paidAt: { gte: prevStart } }, select: { paidAt: true, amount: true } }),
-    prisma.subscription.findMany({ where: { createdAt: { gte: prevStart }, amount: { not: null } }, select: { createdAt: true, amount: true } }),
+    // PENDING = a plan the user only requested (no payment yet), so it isn't revenue.
+    prisma.subscription.findMany({
+      where: { createdAt: { gte: prevStart }, amount: { not: null }, status: { not: "PENDING" } },
+      select: { createdAt: true, amount: true, user: { select: { role: true } } },
+    }),
     prisma.goldListingPurchase.findMany({ where: { createdAt: { gte: prevStart } }, select: { createdAt: true, amount: true } }),
     prisma.investorProfile.findMany({ where: { createdAt: { gte: prevStart }, feeStatus: "PAID" }, select: { createdAt: true, registrationFee: true } }),
     prisma.deal.findMany({
@@ -67,6 +71,7 @@ export async function getSalesStats(days: number): Promise<SalesStats> {
       orderBy: { _sum: { amount: "desc" } },
       take: 5,
     }),
+    prisma.agentShopUnlock.findMany({ where: { createdAt: { gte: prevStart } }, select: { createdAt: true, amount: true } }),
   ]);
 
   const revenue: Record<StreamKey, number[]> = {
@@ -89,8 +94,10 @@ export async function getSalesStats(days: number): Promise<SalesStats> {
   };
   unlocks.forEach((r) => addMoney("unlocks", r.createdAt, r.amount));
   dispatches.forEach((r) => addMoney("unlocks", r.createdAt, r.amount));
+  shopUnlocks.forEach((r) => addMoney("unlocks", r.createdAt, r.amount));
   listingReqs.forEach((r) => addMoney("owner", r.paidAt, r.amount));
-  subs.forEach((r) => addMoney("partner", r.createdAt, r.amount));
+  // Channel-partner memberships vs owner/dealer plans go to their own streams.
+  subs.forEach((r) => addMoney(r.user.role === "AGENT" ? "partner" : "owner", r.createdAt, r.amount));
   golds.forEach((r) => addMoney("gold", r.createdAt, r.amount));
   investors.forEach((r) => addMoney("investor", r.createdAt, r.registrationFee));
   deals.forEach((r) => addMoney("deals", r.dealDate, r.platformCommission));

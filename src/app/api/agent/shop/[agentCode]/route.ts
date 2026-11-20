@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getAgentByCode } from "@/lib/agent";
-import { isAgentShopUnlocked, AGENT_SHOP_UNLOCK_FEE } from "@/lib/agentShopUnlock";
+import { isAgentShopUnlocked, getAgentShopUnlockFee } from "@/lib/agentShopUnlock";
 import { getRazorpayKeyId } from "@/lib/razorpay";
 
 export async function GET(
@@ -24,7 +24,7 @@ export async function GET(
 
   const payload = {
     isUnlocked,
-    unlockAmount: AGENT_SHOP_UNLOCK_FEE,
+    unlockAmount: await getAgentShopUnlockFee(),
     razorpayKeyId: getRazorpayKeyId(),
     agent: {
       agentCode: agent.agentCode,

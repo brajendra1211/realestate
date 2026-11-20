@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { createDispatchOrder, startDispatchSimulated, DispatchServiceError, BUZZER_ERROR_TEXT } from "@/lib/dispatch";
-import { isRazorpayConfigured } from "@/lib/razorpay";
+import { createDispatchOrder, DispatchServiceError, BUZZER_ERROR_TEXT } from "@/lib/dispatch";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -27,16 +26,11 @@ export async function POST(request: Request) {
   };
 
   try {
-    if (!isRazorpayConfigured()) {
-      const dispatch = await startDispatchSimulated({ buyerId: session.user.id, latitude, longitude, ...form });
-      return NextResponse.json({ simulated: true, dispatchRequestId: dispatch.id }, { status: 201 });
-    }
-
     const { order, keyId } = await createDispatchOrder({ buyerId: session.user.id, latitude, longitude, ...form });
     if (!order || !keyId) {
       return NextResponse.json({ error: "paymentUnavailable" }, { status: 503 });
     }
-    return NextResponse.json({ simulated: false, order, keyId }, { status: 201 });
+    return NextResponse.json({ order, keyId }, { status: 201 });
   } catch (error) {
     if (error instanceof DispatchServiceError) {
       return NextResponse.json({ error: error.message, message: BUZZER_ERROR_TEXT[error.message] ?? error.message }, { status: error.message.startsWith("buzzer") ? 429 : 400 });

@@ -1,13 +1,22 @@
 import { prisma } from "@/lib/prisma";
+import { canAutoCredit } from "@/lib/commissionMode";
+import { computeSplit } from "@/lib/commission";
+import { notifyUser } from "@/lib/notify";
+import { getSiteSettings } from "@/lib/site-settings";
 import {
   createRazorpayOrder,
   isRazorpayConfigured,
   getRazorpayKeyId,
-  verifyRazorpayPaymentSignature,
+  verifyPaidOrder,
   type RazorpayOrder,
 } from "@/lib/razorpay";
 
-export const AGENT_SHOP_UNLOCK_FEE = 50; // ₹50 access fee to view agent's verified inventory
+// The QR "shop unlock" costs the same as the unlock pass (admin setting, default ₹100) and is
+// split with the channel partner the same way (default 50/50): half to the partner's wallet,
+// half stays with the company.
+export async function getAgentShopUnlockFee() {
+  return (await getSiteSettings()).unlockPassAmount;
+}
 
 export class AgentShopUnlockError extends Error {}
 
@@ -65,7 +74,7 @@ export async function isAgentShopUnlocked(
 }
 
 /**
- * Creates a ₹50 Razorpay order for unlocking an Agent's shop & inventory.
+ * Creates the Razorpay order for unlocking an Agent's shop & inventory.
  */
 export async function createAgentShopUnlockOrder(
   agentCode: string,
@@ -75,7 +84,6 @@ export async function createAgentShopUnlockOrder(
   alreadyUnlocked: boolean;
   order: RazorpayOrder | null;
   keyId: string | null;
-  simulated: boolean;
   amount: number;
   agentCode: string;
 }> {
@@ -89,47 +97,37 @@ export async function createAgentShopUnlockOrder(
     throw new AgentShopUnlockError("Channel Partner not found");
   }
 
+  const fee = await getAgentShopUnlockFee();
   const alreadyUnlocked = await isAgentShopUnlocked(agent.id, buyerId, customerPhone);
   if (alreadyUnlocked) {
     return {
       alreadyUnlocked: true,
       order: null,
       keyId: null,
-      simulated: false,
-      amount: AGENT_SHOP_UNLOCK_FEE,
+      amount: fee,
       agentCode: code,
     };
   }
 
+  if (!isRazorpayConfigured()) {
+    throw new AgentShopUnlockError("Online payment is not set up yet. Please try again later.");
+  }
   const keyId = getRazorpayKeyId();
-  const simulated = !isRazorpayConfigured();
-
-  if (simulated) {
-    return {
-      alreadyUnlocked: false,
-      order: null,
-      keyId: null,
-      simulated: true,
-      amount: AGENT_SHOP_UNLOCK_FEE,
-      agentCode: code,
-    };
-  }
 
   const receipt = `shop_${code}_${Date.now()}`;
-  const order = await createRazorpayOrder(AGENT_SHOP_UNLOCK_FEE, receipt);
+  const order = await createRazorpayOrder(fee, receipt);
 
   return {
     alreadyUnlocked: false,
     order,
     keyId,
-    simulated: false,
-    amount: AGENT_SHOP_UNLOCK_FEE,
+    amount: fee,
     agentCode: code,
   };
 }
 
 /**
- * Verifies Razorpay payment signature and records the ₹50 unlock in database.
+ * Verifies the Razorpay payment, records the unlock and credits the partner's share.
  */
 export async function verifyAndUnlockAgentShop(input: {
   agentCode: string;
@@ -142,43 +140,75 @@ export async function verifyAndUnlockAgentShop(input: {
   const code = input.agentCode.trim().toUpperCase();
   const agent = await prisma.agentProfile.findFirst({
     where: { agentCode: code },
-    select: { id: true, agentCode: true },
+    select: { id: true, agentCode: true, user: { select: { phone: true, email: true } } },
   });
 
   if (!agent) {
     throw new AgentShopUnlockError("Channel Partner not found");
   }
 
-  // If Razorpay is live, verify the payment signature
-  if (isRazorpayConfigured()) {
-    if (!input.razorpayOrderId || !input.razorpayPaymentId || !input.razorpaySignature) {
-      throw new AgentShopUnlockError("Missing payment credentials");
-    }
+  const settings = await getSiteSettings();
+  const fee = settings.unlockPassAmount;
 
-    const isValid = verifyRazorpayPaymentSignature(
-      input.razorpayOrderId,
-      input.razorpayPaymentId,
-      input.razorpaySignature
-    );
-
-    if (!isValid) {
-      throw new AgentShopUnlockError("Invalid payment signature");
-    }
+  // Always verify the payment: there is no unpaid path.
+  if (!input.razorpayOrderId || !input.razorpayPaymentId || !input.razorpaySignature) {
+    throw new AgentShopUnlockError("Missing payment credentials");
   }
+  const isValid = await verifyPaidOrder({
+    orderId: input.razorpayOrderId,
+    paymentId: input.razorpayPaymentId,
+    signature: input.razorpaySignature,
+    amountRupees: fee,
+    receiptPrefix: `shop_${code}_`,
+  });
+  if (!isValid) {
+    throw new AgentShopUnlockError("Invalid payment signature");
+  }
+  // One payment unlocks once, however often this is replayed.
+  const dup = await prisma.agentShopUnlock.findFirst({ where: { razorpayPaymentId: input.razorpayPaymentId } });
+  if (dup) return dup;
 
   const cleanPhone = input.customerPhone
     ? input.customerPhone.replace(/[^0-9]/g, "").slice(-10)
     : null;
 
-  // Record unlock
-  return prisma.agentShopUnlock.create({
+  // Record the unlock and, in one transaction, credit the partner's share to their wallet.
+  const { agentSplit } = computeSplit(fee, settings.unlockAgentSplitPercent);
+  const autoCredit = await canAutoCredit("UNLOCK_SPLIT", agent.id);
+
+  const unlock = await prisma.agentShopUnlock.create({
     data: {
       agentId: agent.id,
       buyerId: input.buyerId || null,
       customerPhone: cleanPhone,
-      amount: AGENT_SHOP_UNLOCK_FEE,
+      amount: fee,
       razorpayOrderId: input.razorpayOrderId || null,
       razorpayPaymentId: input.razorpayPaymentId || null,
     },
   });
+
+  if (autoCredit && agentSplit > 0) {
+    await prisma.$transaction([
+      prisma.commissionLedgerEntry.create({
+        data: {
+          agentId: agent.id,
+          type: "UNLOCK_SPLIT",
+          amount: agentSplit,
+          refId: unlock.id,
+          note: `${settings.unlockAgentSplitPercent}% of ₹${fee} shop QR unlock`,
+        },
+      }),
+      prisma.agentProfile.update({
+        where: { id: agent.id },
+        data: { walletBalance: { increment: agentSplit } },
+      }),
+    ]);
+    await notifyUser(
+      agent.user,
+      `A customer unlocked your shop with your QR code. ₹${agentSplit} has been credited to your wallet.`,
+      "Shop unlocked — wallet credited"
+    );
+  }
+
+  return unlock;
 }

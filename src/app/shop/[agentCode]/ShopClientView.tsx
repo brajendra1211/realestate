@@ -45,6 +45,7 @@ type ShopClientViewProps = {
   listings: ListingItem[];
   initialUnlocked?: boolean;
   siteName: string;
+  unlockFee: number;
 };
 
 declare global {
@@ -88,6 +89,7 @@ export function ShopClientView({
   listings,
   initialUnlocked = false,
   siteName,
+  unlockFee,
 }: ShopClientViewProps) {
   const [isUnlocked, setIsUnlocked] = useState(initialUnlocked);
   const [isPaying, setIsPaying] = useState(false);
@@ -122,7 +124,7 @@ export function ShopClientView({
 
   const effectiveWhatsapp = (whatsappNumber || phone).replace(/[^0-9]/g, "");
   const whatsappLink = `https://wa.me/91${effectiveWhatsapp.slice(-10)}?text=${encodeURIComponent(
-    `Hello ${name}, I scanned your QR code on ${siteName} and paid ₹50 to unlock your properties.`
+    `Hello ${name}, I scanned your QR code on ${siteName} and paid ₹${unlockFee} to unlock your properties.`
   )}`;
 
   const maskedPhone = phone ? `${phone.slice(0, 3)}****${phone.slice(-3)}` : "Contact Channel Partner";
@@ -189,22 +191,8 @@ export function ShopClientView({
         return;
       }
 
-      // If simulated mode (no live Razorpay API keys configured)
-      if (orderData.simulated || !orderData.order) {
-        const verifyRes = await fetch(`/api/agent/shop/${encodeURIComponent(agentCode)}/unlock/verify`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            razorpayOrderId: "sim_order_" + Date.now(),
-            razorpayPaymentId: "sim_pay_" + Date.now(),
-            razorpaySignature: "sim_sig",
-          }),
-        });
-        if (!verifyRes.ok) throw new Error("Verification failed");
-        setIsUnlocked(true);
-        setPaymentMessage("✅ Payment of ₹50 verified! Channel Partner details & properties are now unlocked.");
-        setIsPaying(false);
-        return;
+      if (!orderData.order || !orderData.keyId) {
+        throw new Error("Online payment is not set up yet. Please try again later.");
       }
 
       // 2. Load Razorpay script & open checkout
@@ -216,7 +204,7 @@ export function ShopClientView({
         amount: orderData.order.amount,
         currency: orderData.order.currency,
         name: shopName || name,
-        description: `₹50 — Unlock Verified Properties & Direct Channel Partner Access`,
+        description: `₹${unlockFee} — Unlock Verified Properties & Direct Channel Partner Access`,
         order_id: orderData.order.id,
         prefill: {
           name: "Customer",
@@ -243,7 +231,7 @@ export function ShopClientView({
             if (!verifyRes.ok) throw new Error("Payment signature verification failed");
 
             setIsUnlocked(true);
-            setPaymentMessage("✅ Payment of ₹50 successful! Properties and channel partner contact unlocked.");
+            setPaymentMessage(`✅ Payment of ₹${unlockFee} successful! Properties and channel partner contact unlocked.`);
           } catch (err: unknown) {
             setPaymentMessage(err instanceof Error ? err.message : "Payment verification failed");
           } finally {
@@ -292,13 +280,13 @@ export function ShopClientView({
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2 max-w-xl">
               <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/20 px-3 py-1 text-xs font-extrabold text-amber-900">
-                <span>🔒</span> ₹50 One-Time Access Fee
+                <span>🔒</span> ₹{unlockFee} One-Time Access Fee
               </div>
               <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
-                Scan QR → Pay ₹50 to Unlock {name}&apos;s Verified Portfolio
+                Scan QR → Pay ₹{unlockFee} to Unlock {name}&apos;s Verified Portfolio
               </h2>
               <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                Scan this agent&apos;s QR code with your mobile app and complete a ₹50 Razorpay payment to view direct phone numbers, WhatsApp contact, and unlock all available properties.
+                Scan this agent&apos;s QR code with your mobile app and complete a ₹{unlockFee} Razorpay payment to view direct phone numbers, WhatsApp contact, and unlock all available properties.
               </p>
             </div>
 
@@ -316,7 +304,7 @@ export function ShopClientView({
                     <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-amber-400">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span>Pay ₹50 with Razorpay</span>
+                    <span>Pay ₹{unlockFee} with Razorpay</span>
                   </>
                 )}
               </button>
@@ -362,7 +350,7 @@ export function ShopClientView({
                 </span>
                 {isUnlocked && (
                   <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">
-                    ✓ Access Unlocked (₹50 Paid)
+                    ✓ Access Unlocked (₹{unlockFee} Paid)
                   </span>
                 )}
               </div>
@@ -465,7 +453,7 @@ export function ShopClientView({
               disabled={isPaying}
               className="flex-1 min-w-[200px] inline-flex items-center justify-center gap-2 rounded-2xl bg-amber-500 hover:bg-amber-600 px-5 py-3 text-sm font-extrabold text-slate-900 shadow-sm transition active:scale-[0.98]"
             >
-              <span>🔒</span> Pay ₹50 to Call or WhatsApp Agent ({maskedPhone})
+              <span>🔒</span> Pay ₹{unlockFee} to Call or WhatsApp Agent ({maskedPhone})
             </button>
           )}
 
@@ -492,7 +480,7 @@ export function ShopClientView({
             <p className="text-xs text-slate-500 mt-0.5">
               {isUnlocked
                 ? "All properties are fully unlocked with exact addresses and direct contact options."
-                : "Browse available inventory. Complete ₹50 payment to unlock exact location and direct deal."}
+                : `Browse available inventory. Complete ₹${unlockFee} payment to unlock exact location and direct deal.`}
             </p>
           </div>
 
@@ -676,9 +664,9 @@ export function ShopClientView({
                           type="button"
                           onClick={handlePayUnlock}
                           className="rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-900 transition hover:bg-amber-100 flex items-center gap-1"
-                          title="Pay ₹50 to unlock"
+                          title={`Pay ₹${unlockFee} to unlock`}
                         >
-                          <span>🔒</span> Unlock ₹50
+                          <span>🔒</span> Unlock ₹{unlockFee}
                         </button>
                       )}
                     </div>
@@ -719,7 +707,7 @@ export function ShopClientView({
             </div>
 
             <p className="mt-3 text-[11px] text-slate-600 font-medium">
-              Scan with mobile app to open payment gateway (₹50) and unlock all properties.
+              Scan with mobile app to open payment gateway (₹{unlockFee}) and unlock all properties.
             </p>
 
             <div className="mt-5 flex gap-2">

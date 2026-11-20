@@ -179,6 +179,7 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   amount: 'amount',
   startDate: 'startDate',
   endDate: 'endDate',
+  razorpayPaymentId: 'razorpayPaymentId',
   createdAt: 'createdAt'
 };
 
@@ -1061,7 +1062,8 @@ exports.Prisma.PlanOrderByRelevanceFieldEnum = {
 exports.Prisma.SubscriptionOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
-  planId: 'planId'
+  planId: 'planId',
+  razorpayPaymentId: 'razorpayPaymentId'
 };
 
 exports.Prisma.LeadViewOrderByRelevanceFieldEnum = {

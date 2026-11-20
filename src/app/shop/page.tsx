@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { lookupAgentShop } from "./actions";
+import { getSiteSettings } from "@/lib/site-settings";
 
 
 export default async function ShopPortalPage() {
+  const { unlockPassAmount: fee } = await getSiteSettings();
   return (
     <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 text-white">
       <div className="mx-auto max-w-xl">
@@ -16,7 +18,7 @@ export default async function ShopPortalPage() {
           </h1>
           <p className="mt-3 text-sm text-slate-300 leading-relaxed">
             Have you scanned an Agent&apos;s shop standee QR or been given an Agent Code?
-            Enter it below to pay the ₹50 one-time access fee and unlock their verified properties & direct contact numbers.
+            Enter it below to pay the ₹{fee} one-time access fee and unlock their verified properties & direct contact numbers.
           </p>
         </div>
 
@@ -48,7 +50,7 @@ export default async function ShopPortalPage() {
               type="submit"
               className="w-full rounded-2xl bg-amber-500 py-3.5 text-sm font-black text-slate-950 shadow-lg transition hover:bg-amber-400 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
             >
-              <span>💳</span> Open Agent Storefront & Unlock (₹50)
+              <span>💳</span> Open Agent Storefront & Unlock (₹{fee})
             </button>
           </form>
 
@@ -70,7 +72,7 @@ export default async function ShopPortalPage() {
             <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/20 text-blue-400">
               ⚡
             </div>
-            <h3 className="mt-2 text-xs font-bold text-white">Instant ₹50 Unlock</h3>
+            <h3 className="mt-2 text-xs font-bold text-white">Instant ₹{fee} Unlock</h3>
             <p className="mt-1 text-[11px] text-slate-400 leading-normal">
               Razorpay secure checkout. 1-click unlock for the entire shop.
             </p>

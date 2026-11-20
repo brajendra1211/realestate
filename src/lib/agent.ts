@@ -7,6 +7,7 @@ import { generateAgentCode } from "@/lib/codes";
 import { geocodeWithFallback } from "@/lib/geocode";
 import { indexAgentLocation } from "@/lib/agentGeo";
 import { getSiteSettings } from "@/lib/site-settings";
+import { ageFromDob, upper, validateKycFields } from "@/lib/validators";
 import type { AgentDocumentType, AgentProfile, Prisma } from "@/generated/prisma";
 
 export class AgentServiceError extends Error {}
@@ -77,6 +78,15 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
     throw new AgentServiceError("duplicate");
   }
 
+  const kycError = await validateKycFields({
+    name,
+    phone: input.phone ?? "",
+    dateOfBirth: input.dateOfBirth ?? null,
+    bankAccountName: input.bankAccountName,
+    bankAccountNumber: input.bankAccountNumber,
+  });
+  if (kycError) throw new AgentServiceError(kycError);
+
   const shopCoords = await geocodeWithFallback([input.shopAddress, input.city]);
 
   let referringAgentId: string | null = null;
@@ -96,9 +106,10 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
       phone: input.phone?.trim() || null,
       secondaryPhone: input.alternatePhone?.trim() || null,
       whatsappNumber: input.whatsappNumber?.trim() || input.phone?.trim() || null,
-      age: input.age ?? null,
+      // Age is always derived from the date of birth, never typed in.
+      age: input.dateOfBirth ? ageFromDob(input.dateOfBirth) : input.age ?? null,
       dateOfBirth: input.dateOfBirth ?? null,
-      panNumber: input.panNumber?.trim() || null,
+      panNumber: upper(input.panNumber) || null,
       panCardUrl: input.panCardUrl?.trim() || null,
       aadhaarNumber: input.aadhaarNumber?.trim() || null,
       aadhaarFrontUrl: input.aadhaarFrontUrl?.trim() || null,
@@ -106,7 +117,7 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
       website: input.website?.trim() || null,
       bankAccountName: input.bankAccountName?.trim() || null,
       bankAccountNumber: input.bankAccountNumber?.trim() || null,
-      bankIfsc: input.bankIfsc?.trim() || null,
+      bankIfsc: upper(input.bankIfsc) || null,
       bankName: input.bankName?.trim() || null,
       bankBranch: input.bankBranch?.trim() || null,
       cancelledChequeUrl: input.cancelledChequeUrl?.trim() || null,
@@ -123,8 +134,8 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
           alternatePhone: input.alternatePhone?.trim() || null,
           yearsExperience: input.yearsExperience ?? null,
           staffCount: input.staffCount ?? null,
-          reraNumber: input.reraNumber?.trim() || null,
-          gstNumber: input.gstNumber?.trim() || null,
+          reraNumber: upper(input.reraNumber) || null,
+          gstNumber: upper(input.gstNumber) || null,
           referringAgentId,
           documents: input.documents?.length
             ? { create: input.documents.map((doc) => ({ type: doc.type, url: doc.url })) }
@@ -167,7 +178,11 @@ export async function rejectAgent(agentProfileId: string, reason: string) {
 // commission from the new agent's code"), the direct parallel to
 // §3.11's investor-referral credit. Rate is admin-editable
 // (SiteSettings.agentReferralPercent), fetched below.
-export async function activateAgentPrime(agentProfileId: string, planId: string) {
+export async function activateAgentPrime(
+  agentProfileId: string,
+  planId: string,
+  razorpayPaymentId: string | null = null
+) {
   const [agent, plan, settings] = await Promise.all([
     prisma.agentProfile.findUnique({
       where: { id: agentProfileId },
@@ -190,7 +205,9 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
   // Renewals (agent.agentCode already set) never re-trigger it.
   const isFirstActivation = !agent.agentCode;
   const agentCode = agent.agentCode ?? (await generateAgentCode(agent.city));
-  const planTier = plan.price <= 1000 ? "BASIC" : "PRIME";
+  // Tier comes from the plan itself (10-listing plans are Basic), not its price,
+  // because the 3-month Basic plan costs more than the 1-month Prime threshold.
+  const planTier = plan.listingLimit < 100 || /basic/i.test(plan.name) ? "BASIC" : "PRIME";
   const splitPercent = settings.agentPlanSplitPercent ?? 50;
   const referralAmount =
     isFirstActivation && agent.referringAgent
@@ -218,6 +235,7 @@ export async function activateAgentPrime(agentProfileId: string, planId: string)
         planId,
         status: "ACTIVE",
         amount: plan.price,
+        razorpayPaymentId,
         endDate: plan.durationDays
           ? new Date(Date.now() + plan.durationDays * 24 * 60 * 60 * 1000)
           : null,

@@ -19,7 +19,7 @@ export default async function ConfirmListingPage({ searchParams }: { searchParam
 
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) redirect("/register/agent");
-  if (agent.status !== "APPROVED" || !agent.primeStatus) redirect("/agent/listings/new");
+  if (agent.status !== "APPROVED") redirect("/agent/listings/new");
 
   const activeSub = await prisma.subscription.findFirst({
     where: {

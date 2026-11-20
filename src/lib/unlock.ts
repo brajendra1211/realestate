@@ -1,7 +1,7 @@
 import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
-import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
+import { createRazorpayOrder, isRazorpayConfigured, verifyPaidOrder } from "@/lib/razorpay";
 import { computeSplit } from "@/lib/commission";
 import { getSiteSettings } from "@/lib/site-settings";
 import { createBuyerInterest } from "@/lib/buyerInterest";
@@ -13,7 +13,7 @@ export class UnlockServiceError extends Error {}
 // creates a real order and the caller (Server Action) opens Razorpay Checkout
 // client-side; verifyAndUnlockListing below checks the signature before
 // crediting anything. Without keys configured, returns order: null and the
-// caller falls back to the pre-existing simulated/instant unlockAgentListing.
+// caller shows "payment unavailable" — nothing unlocks without a payment.
 export async function createUnlockOrder(buyerId: string, agentListingId: string) {
   const existing = await prisma.propertyUnlock.findUnique({
     where: { agentListingId_buyerId: { agentListingId, buyerId } },
@@ -37,15 +37,21 @@ export async function verifyAndUnlockListing(
   razorpayPaymentId: string,
   razorpaySignature: string
 ) {
-  const valid = verifyRazorpayPaymentSignature(razorpayOrderId, razorpayPaymentId, razorpaySignature);
+  const settings = await getSiteSettings();
+  const valid = await verifyPaidOrder({
+    orderId: razorpayOrderId,
+    paymentId: razorpayPaymentId,
+    signature: razorpaySignature,
+    amountRupees: settings.unlockPassAmount,
+    receiptPrefix: `unlock_${agentListingId}_${buyerId}`,
+  });
   if (!valid) throw new UnlockServiceError("invalidSignature");
 
   return unlockAgentListing(buyerId, agentListingId);
 }
 
 // Idempotent unlock: records the payment split and reveals the listing.
-// Called either directly (simulated flow, no Razorpay keys configured) or
-// via verifyAndUnlockListing above once a real payment's signature checks out.
+// Only called via verifyAndUnlockListing above, once a real payment checks out.
 //
 // A Gold self-listing (§3.4) with no referring agent has `agentId: null` —
 // there's no agent to credit or notify in that case, so the split is

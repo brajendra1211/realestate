@@ -86,11 +86,6 @@ export function GoldListingForm() {
     try {
       const result = await submitGoldListingAction(formInput);
 
-      if (result.simulated) {
-        router.push(`/list-property/gold/submitted?slug=${result.slug}`);
-        return;
-      }
-
       await loadCheckoutScript();
       const razorpay = new window.Razorpay!({
         key: result.keyId,

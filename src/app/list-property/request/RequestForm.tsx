@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { BadgeCheck, Crown, Loader2, ShieldCheck } from "lucide-react";
 import {
   startListingRequestAction,
-  confirmSimulatedPaymentAction,
   verifyRequestPaymentAction,
 } from "./actions";
 
@@ -33,11 +32,9 @@ type Fees = { BASIC: { fee: number; agent: number }; GOLD: { fee: number; agent:
 
 export function RequestForm({
   fees,
-  testMode,
   defaults,
 }: {
   fees: Fees;
-  testMode: boolean;
   defaults: { name?: string; phone?: string; email?: string };
 }) {
   const router = useRouter();
@@ -63,12 +60,6 @@ export function RequestForm({
         referredByAgentCode: String(d.get("referredByAgentCode") ?? ""),
       });
       if (!result) throw new Error("Something went wrong. Please try again.");
-
-      if (result.simulated) {
-        await confirmSimulatedPaymentAction(result.requestId, result.statusToken);
-        go(result.requestId, result.statusToken);
-        return;
-      }
 
       await loadCheckoutScript();
       new window.Razorpay!({
@@ -166,12 +157,6 @@ export function RequestForm({
           your property details. Rent listings only.
         </p>
       </div>
-
-      {testMode && (
-        <p className="rounded-xl bg-amber-50 px-4 py-2.5 text-xs font-semibold text-amber-800">
-          Test mode: online payments are not switched on, so clicking the button below skips payment.
-        </p>
-      )}
 
       <button
         type="submit"

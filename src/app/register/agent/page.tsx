@@ -1,17 +1,27 @@
 import { RegisterAgentForm } from "./RegisterAgentForm";
+import { getAgentPlans } from "@/lib/agentPlans";
 
 type PageProps = { searchParams: Promise<{ ref?: string }> };
 
 export default async function AgentRegisterPage({ searchParams }: PageProps) {
   const { ref } = await searchParams;
   const referredByCode = ref ? decodeURIComponent(ref) : "";
+  const plans = (await getAgentPlans()).map(({ id, name, tier, price, durationDays, months, listingLimit }) => ({
+    id,
+    name,
+    tier,
+    price,
+    durationDays,
+    months,
+    listingLimit,
+  }));
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-xl flex-col justify-center px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
       <h1 className="text-2xl font-bold text-slate-900">Register as a Channel Partner</h1>
       <p className="mt-1 text-sm text-slate-500">
-        Submit your profile and compliance documents for admin verification. Once verified,
-        admin will activate your Prime plan and issue your Unique Channel Partner Code.
+        Submit your profile and compliance documents, then pay for your plan. On successful
+        payment you are approved automatically and your Unique Channel Partner Code is issued.
       </p>
 
       {referredByCode && (
@@ -34,7 +44,7 @@ export default async function AgentRegisterPage({ searchParams }: PageProps) {
         </div>
       )}
 
-      <RegisterAgentForm referredByCode={referredByCode} />
+      <RegisterAgentForm referredByCode={referredByCode} plans={plans} />
 
       <p className="mt-6 text-center text-sm text-slate-500">
         Already registered?{" "}

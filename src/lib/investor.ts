@@ -5,6 +5,7 @@ import { notifyUser } from "@/lib/notify";
 import { generateInvestorCode } from "@/lib/codes";
 import { computeProfitSplit } from "@/lib/commission";
 import { getSiteSettings } from "@/lib/site-settings";
+import { ageFromDob, upper, validateKycFields } from "@/lib/validators";
 import type { PaymentMode } from "@/generated/prisma";
 
 export class InvestorServiceError extends Error {}
@@ -62,6 +63,15 @@ export async function registerInvestor(agentProfileId: string, input: InvestorRe
     throw new InvestorServiceError("duplicate");
   }
 
+  const kycError = await validateKycFields({
+    name,
+    phone,
+    dateOfBirth: input.dateOfBirth ?? null,
+    bankAccountName: input.bankAccountName,
+    bankAccountNumber: input.bankAccountNumber,
+  });
+  if (kycError) throw new InvestorServiceError(kycError);
+
   const settings = await getSiteSettings();
 
   const user = await prisma.user.create({
@@ -71,9 +81,9 @@ export async function registerInvestor(agentProfileId: string, input: InvestorRe
       phone,
       secondaryPhone: input.secondaryPhone?.trim() || null,
       whatsappNumber: input.whatsappNumber?.trim() || phone,
-      age: input.age ?? null,
+      age: input.dateOfBirth ? ageFromDob(input.dateOfBirth) : input.age ?? null,
       dateOfBirth: input.dateOfBirth ?? null,
-      panNumber: input.panNumber?.trim() || null,
+      panNumber: upper(input.panNumber) || null,
       panCardUrl: input.panCardUrl?.trim() || null,
       aadhaarNumber: input.aadhaarNumber?.trim() || null,
       aadhaarFrontUrl: input.aadhaarFrontUrl?.trim() || null,
@@ -82,7 +92,7 @@ export async function registerInvestor(agentProfileId: string, input: InvestorRe
       website: input.website?.trim() || null,
       bankAccountName: input.bankAccountName?.trim() || null,
       bankAccountNumber: input.bankAccountNumber?.trim() || null,
-      bankIfsc: input.bankIfsc?.trim() || null,
+      bankIfsc: upper(input.bankIfsc) || null,
       bankName: input.bankName?.trim() || null,
       bankBranch: input.bankBranch?.trim() || null,
       cancelledChequeUrl: input.cancelledChequeUrl?.trim() || null,

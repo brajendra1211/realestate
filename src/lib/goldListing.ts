@@ -6,7 +6,7 @@ import { getOrCreateMasterProperty } from "@/lib/masterProperty";
 import { findNearbyAgents } from "@/lib/agentGeo";
 import { emitToAgent } from "@/lib/socket";
 import { filterAgentsByAlert } from "@/lib/agentAlerts";
-import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
+import { createRazorpayOrder, isRazorpayConfigured, verifyPaidOrder } from "@/lib/razorpay";
 import { getNearbyAmenities, formatAmenitiesNote } from "@/lib/amenityLookup";
 import { computeSplit } from "@/lib/commission";
 import { getSiteSettings } from "@/lib/site-settings";
@@ -64,21 +64,15 @@ function validate(input: CreateGoldListingInput) {
 }
 
 // Same real-payment seam as unlock.ts/dispatch.ts: creates a Razorpay order
-// when configured, or signals the caller to fall back to the simulated
-// instant flow. Validated up front so a bad submission fails before payment,
+// (and throws when Razorpay is not configured; there is no free path). Validated up front so a bad submission fails before payment,
 // not after.
 export async function createGoldListingOrder(input: CreateGoldListingInput) {
   validate(input);
-  if (!isRazorpayConfigured()) return { order: null, keyId: null };
+  if (!isRazorpayConfigured()) throw new GoldListingServiceError("paymentUnavailable");
 
   const settings = await getSiteSettings();
   const order = await createRazorpayOrder(settings.goldListingAmount, `gold_${input.buyerId}_${Date.now()}`);
   return { order, keyId: order ? process.env.RAZORPAY_KEY_ID ?? null : null };
-}
-
-export async function startGoldListingSimulated(input: CreateGoldListingInput) {
-  validate(input);
-  return createGoldListingRecord(input, null);
 }
 
 export async function verifyAndCreateGoldListing(
@@ -88,8 +82,21 @@ export async function verifyAndCreateGoldListing(
   razorpaySignature: string
 ) {
   validate(input);
-  const valid = verifyRazorpayPaymentSignature(razorpayOrderId, razorpayPaymentId, razorpaySignature);
+  const settings = await getSiteSettings();
+  const valid = await verifyPaidOrder({
+    orderId: razorpayOrderId,
+    paymentId: razorpayPaymentId,
+    signature: razorpaySignature,
+    amountRupees: settings.goldListingAmount,
+    receiptPrefix: `gold_${input.buyerId}_`,
+  });
   if (!valid) throw new GoldListingServiceError("invalidSignature");
+  // One paid order creates one listing, however often this is replayed.
+  const purchase = await prisma.goldListingPurchase.findFirst({
+    where: { razorpayOrderId },
+    include: { agentListing: { include: { images: true, masterProperty: true } } },
+  });
+  if (purchase) return purchase.agentListing;
   return createGoldListingRecord(input, razorpayOrderId);
 }
 

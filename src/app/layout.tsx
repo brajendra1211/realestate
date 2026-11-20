@@ -33,6 +33,7 @@ const geistMono = Geist_Mono({
 import { SiteShell } from "@/components/SiteShell";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { TermsGate } from "@/components/TermsGate";
+import { LiveRefresh } from "@/components/LiveRefresh";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -147,6 +148,7 @@ export default async function RootLayout({
         </SiteShell>
         {needsTerms && <TermsGate />}
         <ScrollToTop />
+        <LiveRefresh enabled={!!session} />
       </body>
     </html>
   );

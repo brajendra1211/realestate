@@ -1,0 +1,398 @@
+/* Neon-on-light theme for the admin panel: a clean white / pale-blue canvas whose accents
+   (borders, glows, buttons, chips, focus rings) are neon. Scoped to .admin-neon so the public
+   site and other panels are untouched. Rules are UNLAYERED so they beat Tailwind utilities
+   without editing every admin page. */
+.admin-neon {
+  --n-bg: #f3f7ff;
+  --n-surface: #ffffff;
+  --n-surface-2: #eef4ff;
+  --n-line: rgba(0, 153, 255, 0.2);
+  --n-line-strong: rgba(0, 153, 255, 0.5);
+  --n-cyan: #00c8ff;
+  --n-blue: #0a6cff;
+  --n-magenta: #ff2bd6;
+  --n-green: #00e676;
+  --n-yellow: #ffd400;
+  --n-violet: #8b5cff;
+  --n-red: #ff3d71;
+  color-scheme: light;
+  background-color: var(--n-bg);
+  background-image:
+    radial-gradient(900px 420px at 10% -8%, rgba(0, 200, 255, 0.16), transparent 60%),
+    radial-gradient(760px 380px at 100% 0%, rgba(255, 43, 214, 0.10), transparent 60%),
+    radial-gradient(700px 500px at 55% 120%, rgba(139, 92, 255, 0.10), transparent 60%);
+  background-attachment: fixed;
+}
+.admin-neon ::selection { background: rgba(0, 200, 255, 0.3); }
+
+/* ---- lines & glows ---- */
+.admin-neon [class*="border-slate-"], .admin-neon [class*="border-gray-"] { border-color: var(--n-line); }
+.admin-neon [class*="divide-slate-"] > :not(:last-child), .admin-neon [class*="divide-gray-"] > :not(:last-child) { border-color: var(--n-line); }
+.admin-neon .border-dashed { border-color: var(--n-line-strong); }
+.admin-neon .shadow-soft, .admin-neon .shadow-xs, .admin-neon .shadow-sm, .admin-neon .shadow-md,
+.admin-neon .shadow-lg, .admin-neon .shadow-xl, .admin-neon .shadow-lift {
+  box-shadow: 0 0 0 1px var(--n-line), 0 12px 32px -16px rgba(0, 153, 255, 0.45);
+}
+.admin-neon section.rounded-3xl, .admin-neon .rounded-3xl.border, .admin-neon .rounded-2xl.border {
+  box-shadow: 0 0 0 1px var(--n-line), 0 10px 30px -18px rgba(0, 153, 255, 0.5);
+}
+.admin-neon .rounded-3xl.border:hover, .admin-neon .rounded-2xl.border:hover { border-color: var(--n-line-strong); }
+.admin-neon h1 { text-shadow: 0 0 24px rgba(0, 200, 255, 0.25); }
+
+/* ---- form controls ---- */
+.admin-neon input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+.admin-neon select, .admin-neon textarea { border-color: var(--n-line); }
+.admin-neon input:focus, .admin-neon select:focus, .admin-neon textarea:focus {
+  border-color: var(--n-cyan);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 200, 255, 0.2), 0 0 16px rgba(0, 200, 255, 0.35);
+}
+.admin-neon input[type="checkbox"], .admin-neon input[type="radio"] { accent-color: var(--n-blue); }
+.admin-neon tbody tr:hover { background-color: rgba(0, 200, 255, 0.06); }
+
+/* ---- neon colour families: glowing borders/rings, vivid solid buttons, saturated text ---- */
+
+.admin-neon .bg-emerald-50,
+.admin-neon .bg-emerald-100,
+.admin-neon .bg-green-50,
+.admin-neon .bg-green-100,
+.admin-neon .bg-teal-50,
+.admin-neon .bg-teal-100,
+.admin-neon .bg-lime-50,
+.admin-neon .bg-lime-100 { background-color: rgba(0,230,118, 0.13); }
+.admin-neon .bg-emerald-200,
+.admin-neon .bg-green-200,
+.admin-neon .bg-teal-200,
+.admin-neon .bg-lime-200 { background-color: rgba(0,230,118, 0.24); }
+.admin-neon .bg-emerald-500,
+.admin-neon .bg-emerald-600,
+.admin-neon .bg-emerald-700,
+.admin-neon .bg-green-500,
+.admin-neon .bg-green-600,
+.admin-neon .bg-green-700,
+.admin-neon .bg-teal-500,
+.admin-neon .bg-teal-600,
+.admin-neon .bg-teal-700,
+.admin-neon .bg-lime-500,
+.admin-neon .bg-lime-600,
+.admin-neon .bg-lime-700 { background-image: linear-gradient(135deg,#00c46a,#00e676); background-color: transparent; color: #fff; box-shadow: 0 0 18px rgba(0,230,118, 0.45); }
+.admin-neon .text-emerald-500,
+.admin-neon .text-emerald-600,
+.admin-neon .text-emerald-700,
+.admin-neon .text-emerald-800,
+.admin-neon .text-green-500,
+.admin-neon .text-green-600,
+.admin-neon .text-green-700,
+.admin-neon .text-green-800,
+.admin-neon .text-teal-500,
+.admin-neon .text-teal-600,
+.admin-neon .text-teal-700,
+.admin-neon .text-teal-800,
+.admin-neon .text-lime-500,
+.admin-neon .text-lime-600,
+.admin-neon .text-lime-700,
+.admin-neon .text-lime-800 { color: #00a85a; }
+.admin-neon .border-emerald-100,
+.admin-neon .border-emerald-200,
+.admin-neon .border-emerald-300,
+.admin-neon .border-green-100,
+.admin-neon .border-green-200,
+.admin-neon .border-green-300,
+.admin-neon .border-teal-100,
+.admin-neon .border-teal-200,
+.admin-neon .border-teal-300,
+.admin-neon .border-lime-100,
+.admin-neon .border-lime-200,
+.admin-neon .border-lime-300 { border-color: rgba(0,230,118, 0.55); }
+.admin-neon .ring-emerald-100,
+.admin-neon .ring-emerald-200,
+.admin-neon .ring-emerald-300,
+.admin-neon .ring-green-100,
+.admin-neon .ring-green-200,
+.admin-neon .ring-green-300,
+.admin-neon .ring-teal-100,
+.admin-neon .ring-teal-200,
+.admin-neon .ring-teal-300,
+.admin-neon .ring-lime-100,
+.admin-neon .ring-lime-200,
+.admin-neon .ring-lime-300 { --tw-ring-color: rgba(0,230,118, 0.55); }
+
+.admin-neon .bg-rose-50,
+.admin-neon .bg-rose-100,
+.admin-neon .bg-red-50,
+.admin-neon .bg-red-100,
+.admin-neon .bg-pink-50,
+.admin-neon .bg-pink-100 { background-color: rgba(255,61,113, 0.13); }
+.admin-neon .bg-rose-200,
+.admin-neon .bg-red-200,
+.admin-neon .bg-pink-200 { background-color: rgba(255,61,113, 0.24); }
+.admin-neon .bg-rose-500,
+.admin-neon .bg-rose-600,
+.admin-neon .bg-rose-700,
+.admin-neon .bg-red-500,
+.admin-neon .bg-red-600,
+.admin-neon .bg-red-700,
+.admin-neon .bg-pink-500,
+.admin-neon .bg-pink-600,
+.admin-neon .bg-pink-700 { background-image: linear-gradient(135deg,#ff2b6e,#ff2bd6); background-color: transparent; color: #fff; box-shadow: 0 0 18px rgba(255,61,113, 0.45); }
+.admin-neon .text-rose-500,
+.admin-neon .text-rose-600,
+.admin-neon .text-rose-700,
+.admin-neon .text-rose-800,
+.admin-neon .text-red-500,
+.admin-neon .text-red-600,
+.admin-neon .text-red-700,
+.admin-neon .text-red-800,
+.admin-neon .text-pink-500,
+.admin-neon .text-pink-600,
+.admin-neon .text-pink-700,
+.admin-neon .text-pink-800 { color: #e0115f; }
+.admin-neon .border-rose-100,
+.admin-neon .border-rose-200,
+.admin-neon .border-rose-300,
+.admin-neon .border-red-100,
+.admin-neon .border-red-200,
+.admin-neon .border-red-300,
+.admin-neon .border-pink-100,
+.admin-neon .border-pink-200,
+.admin-neon .border-pink-300 { border-color: rgba(255,61,113, 0.55); }
+.admin-neon .ring-rose-100,
+.admin-neon .ring-rose-200,
+.admin-neon .ring-rose-300,
+.admin-neon .ring-red-100,
+.admin-neon .ring-red-200,
+.admin-neon .ring-red-300,
+.admin-neon .ring-pink-100,
+.admin-neon .ring-pink-200,
+.admin-neon .ring-pink-300 { --tw-ring-color: rgba(255,61,113, 0.55); }
+
+.admin-neon .bg-amber-50,
+.admin-neon .bg-amber-100,
+.admin-neon .bg-yellow-50,
+.admin-neon .bg-yellow-100,
+.admin-neon .bg-orange-50,
+.admin-neon .bg-orange-100 { background-color: rgba(255,212,0, 0.13); }
+.admin-neon .bg-amber-200,
+.admin-neon .bg-yellow-200,
+.admin-neon .bg-orange-200 { background-color: rgba(255,212,0, 0.24); }
+.admin-neon .bg-amber-500,
+.admin-neon .bg-amber-600,
+.admin-neon .bg-amber-700,
+.admin-neon .bg-yellow-500,
+.admin-neon .bg-yellow-600,
+.admin-neon .bg-yellow-700,
+.admin-neon .bg-orange-500,
+.admin-neon .bg-orange-600,
+.admin-neon .bg-orange-700 { background-image: linear-gradient(135deg,#ffb300,#ffd400); background-color: transparent; color: #fff; box-shadow: 0 0 18px rgba(255,212,0, 0.45); }
+.admin-neon .text-amber-500,
+.admin-neon .text-amber-600,
+.admin-neon .text-amber-700,
+.admin-neon .text-amber-800,
+.admin-neon .text-yellow-500,
+.admin-neon .text-yellow-600,
+.admin-neon .text-yellow-700,
+.admin-neon .text-yellow-800,
+.admin-neon .text-orange-500,
+.admin-neon .text-orange-600,
+.admin-neon .text-orange-700,
+.admin-neon .text-orange-800 { color: #b97f00; }
+.admin-neon .border-amber-100,
+.admin-neon .border-amber-200,
+.admin-neon .border-amber-300,
+.admin-neon .border-yellow-100,
+.admin-neon .border-yellow-200,
+.admin-neon .border-yellow-300,
+.admin-neon .border-orange-100,
+.admin-neon .border-orange-200,
+.admin-neon .border-orange-300 { border-color: rgba(255,212,0, 0.55); }
+.admin-neon .ring-amber-100,
+.admin-neon .ring-amber-200,
+.admin-neon .ring-amber-300,
+.admin-neon .ring-yellow-100,
+.admin-neon .ring-yellow-200,
+.admin-neon .ring-yellow-300,
+.admin-neon .ring-orange-100,
+.admin-neon .ring-orange-200,
+.admin-neon .ring-orange-300 { --tw-ring-color: rgba(255,212,0, 0.55); }
+
+.admin-neon .bg-blue-50,
+.admin-neon .bg-blue-100,
+.admin-neon .bg-sky-50,
+.admin-neon .bg-sky-100,
+.admin-neon .bg-indigo-50,
+.admin-neon .bg-indigo-100,
+.admin-neon .bg-cyan-50,
+.admin-neon .bg-cyan-100,
+.admin-neon .bg-brand-50,
+.admin-neon .bg-brand-100 { background-color: rgba(0,153,255, 0.13); }
+.admin-neon .bg-blue-200,
+.admin-neon .bg-sky-200,
+.admin-neon .bg-indigo-200,
+.admin-neon .bg-cyan-200,
+.admin-neon .bg-brand-200 { background-color: rgba(0,153,255, 0.24); }
+.admin-neon .bg-blue-500,
+.admin-neon .bg-blue-600,
+.admin-neon .bg-blue-700,
+.admin-neon .bg-sky-500,
+.admin-neon .bg-sky-600,
+.admin-neon .bg-sky-700,
+.admin-neon .bg-indigo-500,
+.admin-neon .bg-indigo-600,
+.admin-neon .bg-indigo-700,
+.admin-neon .bg-cyan-500,
+.admin-neon .bg-cyan-600,
+.admin-neon .bg-cyan-700,
+.admin-neon .bg-brand-500,
+.admin-neon .bg-brand-600,
+.admin-neon .bg-brand-700 { background-image: linear-gradient(135deg,#0a6cff,#00c8ff); background-color: transparent; color: #fff; box-shadow: 0 0 18px rgba(0,153,255, 0.45); }
+.admin-neon .text-blue-500,
+.admin-neon .text-blue-600,
+.admin-neon .text-blue-700,
+.admin-neon .text-blue-800,
+.admin-neon .text-sky-500,
+.admin-neon .text-sky-600,
+.admin-neon .text-sky-700,
+.admin-neon .text-sky-800,
+.admin-neon .text-indigo-500,
+.admin-neon .text-indigo-600,
+.admin-neon .text-indigo-700,
+.admin-neon .text-indigo-800,
+.admin-neon .text-cyan-500,
+.admin-neon .text-cyan-600,
+.admin-neon .text-cyan-700,
+.admin-neon .text-cyan-800,
+.admin-neon .text-brand-500,
+.admin-neon .text-brand-600,
+.admin-neon .text-brand-700,
+.admin-neon .text-brand-800 { color: #0a6cff; }
+.admin-neon .border-blue-100,
+.admin-neon .border-blue-200,
+.admin-neon .border-blue-300,
+.admin-neon .border-sky-100,
+.admin-neon .border-sky-200,
+.admin-neon .border-sky-300,
+.admin-neon .border-indigo-100,
+.admin-neon .border-indigo-200,
+.admin-neon .border-indigo-300,
+.admin-neon .border-cyan-100,
+.admin-neon .border-cyan-200,
+.admin-neon .border-cyan-300,
+.admin-neon .border-brand-100,
+.admin-neon .border-brand-200,
+.admin-neon .border-brand-300 { border-color: rgba(0,153,255, 0.55); }
+.admin-neon .ring-blue-100,
+.admin-neon .ring-blue-200,
+.admin-neon .ring-blue-300,
+.admin-neon .ring-sky-100,
+.admin-neon .ring-sky-200,
+.admin-neon .ring-sky-300,
+.admin-neon .ring-indigo-100,
+.admin-neon .ring-indigo-200,
+.admin-neon .ring-indigo-300,
+.admin-neon .ring-cyan-100,
+.admin-neon .ring-cyan-200,
+.admin-neon .ring-cyan-300,
+.admin-neon .ring-brand-100,
+.admin-neon .ring-brand-200,
+.admin-neon .ring-brand-300 { --tw-ring-color: rgba(0,153,255, 0.55); }
+
+.admin-neon .bg-violet-50,
+.admin-neon .bg-violet-100,
+.admin-neon .bg-purple-50,
+.admin-neon .bg-purple-100,
+.admin-neon .bg-fuchsia-50,
+.admin-neon .bg-fuchsia-100 { background-color: rgba(139,92,255, 0.13); }
+.admin-neon .bg-violet-200,
+.admin-neon .bg-purple-200,
+.admin-neon .bg-fuchsia-200 { background-color: rgba(139,92,255, 0.24); }
+.admin-neon .bg-violet-500,
+.admin-neon .bg-violet-600,
+.admin-neon .bg-violet-700,
+.admin-neon .bg-purple-500,
+.admin-neon .bg-purple-600,
+.admin-neon .bg-purple-700,
+.admin-neon .bg-fuchsia-500,
+.admin-neon .bg-fuchsia-600,
+.admin-neon .bg-fuchsia-700 { background-image: linear-gradient(135deg,#7c3aed,#ff2bd6); background-color: transparent; color: #fff; box-shadow: 0 0 18px rgba(139,92,255, 0.45); }
+.admin-neon .text-violet-500,
+.admin-neon .text-violet-600,
+.admin-neon .text-violet-700,
+.admin-neon .text-violet-800,
+.admin-neon .text-purple-500,
+.admin-neon .text-purple-600,
+.admin-neon .text-purple-700,
+.admin-neon .text-purple-800,
+.admin-neon .text-fuchsia-500,
+.admin-neon .text-fuchsia-600,
+.admin-neon .text-fuchsia-700,
+.admin-neon .text-fuchsia-800 { color: #7c3aed; }
+.admin-neon .border-violet-100,
+.admin-neon .border-violet-200,
+.admin-neon .border-violet-300,
+.admin-neon .border-purple-100,
+.admin-neon .border-purple-200,
+.admin-neon .border-purple-300,
+.admin-neon .border-fuchsia-100,
+.admin-neon .border-fuchsia-200,
+.admin-neon .border-fuchsia-300 { border-color: rgba(139,92,255, 0.55); }
+.admin-neon .ring-violet-100,
+.admin-neon .ring-violet-200,
+.admin-neon .ring-violet-300,
+.admin-neon .ring-purple-100,
+.admin-neon .ring-purple-200,
+.admin-neon .ring-purple-300,
+.admin-neon .ring-fuchsia-100,
+.admin-neon .ring-fuchsia-200,
+.admin-neon .ring-fuchsia-300 { --tw-ring-color: rgba(139,92,255, 0.55); }
+
+.admin-neon .bg-gold-50,
+.admin-neon .bg-gold-100 { background-color: rgba(255,212,0, 0.13); }
+.admin-neon .bg-gold-200 { background-color: rgba(255,212,0, 0.24); }
+.admin-neon .bg-gold-500,
+.admin-neon .bg-gold-600,
+.admin-neon .bg-gold-700 { background-image: linear-gradient(135deg,#ffb300,#ffd400); background-color: transparent; color: #fff; box-shadow: 0 0 18px rgba(255,212,0, 0.45); }
+.admin-neon .text-gold-500,
+.admin-neon .text-gold-600,
+.admin-neon .text-gold-700,
+.admin-neon .text-gold-800 { color: #b97f00; }
+.admin-neon .border-gold-100,
+.admin-neon .border-gold-200,
+.admin-neon .border-gold-300 { border-color: rgba(255,212,0, 0.55); }
+.admin-neon .ring-gold-100,
+.admin-neon .ring-gold-200,
+.admin-neon .ring-gold-300 { --tw-ring-color: rgba(255,212,0, 0.55); }
+
+.admin-neon [class*="hover:bg-"]:hover { filter: brightness(1.08); }
+.admin-neon .from-brand-600, .admin-neon .from-brand-500 { --tw-gradient-from: #0a6cff; }
+.admin-neon .to-brand-500, .admin-neon .to-brand-700 { --tw-gradient-to: #00c8ff; }
+
+/* ---- reusable neon helpers ---- */
+.admin-neon .neon-card {
+  background: #fff;
+  border: 1px solid var(--n-line);
+  border-radius: 1.25rem;
+  box-shadow: 0 0 0 1px rgba(0, 200, 255, 0.06), 0 16px 44px -26px rgba(0, 153, 255, 0.55);
+}
+.admin-neon .neon-text-cyan { color: #0a6cff; text-shadow: 0 0 12px rgba(0, 200, 255, 0.45); }
+.admin-neon .neon-text-magenta { color: #e0115f; text-shadow: 0 0 12px rgba(255, 43, 214, 0.35); }
+.admin-neon .neon-text-green { color: #00a85a; text-shadow: 0 0 12px rgba(0, 230, 118, 0.4); }
+.admin-neon .neon-chip {
+  display: inline-flex; align-items: center; gap: 0.35rem; border-radius: 999px; padding: 0.2rem 0.65rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.02em; border: 1px solid currentColor;
+  background: color-mix(in srgb, currentColor 10%, #fff);
+  box-shadow: 0 0 12px -2px color-mix(in srgb, currentColor 45%, transparent);
+}
+.admin-neon .neon-chip.is-green { color: #00a85a; }
+.admin-neon .neon-chip.is-red { color: #e0115f; }
+.admin-neon .neon-chip.is-yellow { color: #b97f00; }
+.admin-neon .neon-chip.is-cyan { color: #0a6cff; }
+.admin-neon .neon-chip.is-violet { color: #7c3aed; }
+.admin-neon .neon-chip.is-muted { color: #64748b; box-shadow: none; }
+.admin-neon .neon-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; cursor: pointer;
+  border-radius: 0.8rem; padding: 0.55rem 1rem; font-size: 0.8rem; font-weight: 800; color: #fff;
+  background: linear-gradient(135deg, #0a6cff, #00c8ff 55%, #8b5cff);
+  box-shadow: 0 0 20px rgba(0, 153, 255, 0.45);
+  transition: filter 0.15s, transform 0.15s;
+}
+.admin-neon .neon-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }

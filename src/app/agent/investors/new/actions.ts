@@ -17,12 +17,13 @@ export async function createInvestor(
 
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) redirect("/register/agent");
-  if (agent.status !== "APPROVED" || !agent.primeStatus) {
+  if (agent.status !== "APPROVED") {
     return { error: "notPrime" };
   }
 
   const dobStr = String(formData.get("dateOfBirth") ?? "").trim();
   const dateOfBirth = dobStr ? new Date(dobStr) : null;
+  if (!dateOfBirth) return { error: "dobRequired" };
 
   try {
     await registerInvestor(agent.id, {
@@ -31,7 +32,6 @@ export async function createInvestor(
       phone: String(formData.get("phone") ?? ""),
       secondaryPhone: String(formData.get("secondaryPhone") ?? ""),
       whatsappNumber: String(formData.get("whatsappNumber") ?? ""),
-      age: formData.get("age") ? Number(formData.get("age")) : null,
       dateOfBirth,
       panNumber: String(formData.get("panNumber") ?? ""),
       panCardUrl: String(formData.get("panCardUrl") ?? "") || null,

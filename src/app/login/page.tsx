@@ -1,21 +1,22 @@
 import { UnifiedLoginCard } from "./UnifiedLoginCard";
 import { AuthShell } from "@/components/ui/AuthShell";
 
-type SearchParams = Promise<{ error?: string; callbackUrl?: string }>;
+type SearchParams = Promise<{ error?: string; callbackUrl?: string; as?: string }>;
 
 export default async function LoginPage({
   searchParams,
 }: {
   searchParams: SearchParams;
 }) {
-  const { callbackUrl } = await searchParams;
+  const { callbackUrl, as } = await searchParams;
+  const initialRole = as === "agent" || as === "investor" || as === "admin" ? as : "buyer";
 
   return (
     <AuthShell
       title="Welcome back"
-      subtitle="Instant OTP sign-in for buyers and partners. Admins sign in with a password."
+      subtitle="Choose who you are and sign in: buyer, owner, channel partner, referral partner or admin."
     >
-      <UnifiedLoginCard callbackUrl={callbackUrl ?? "/"} />
+      <UnifiedLoginCard callbackUrl={callbackUrl ?? "/"} initialRole={initialRole} />
     </AuthShell>
   );
 }

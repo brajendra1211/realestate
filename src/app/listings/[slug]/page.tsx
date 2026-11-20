@@ -6,7 +6,6 @@ import { prisma } from "@/lib/prisma";
 import { getListingBySlug } from "@/lib/listing";
 import { getAgreementUrgency } from "@/lib/listingDelist";
 import { getUnlockForBuyer } from "@/lib/unlock";
-import { isRazorpayConfigured } from "@/lib/razorpay";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getAgentListingRingsRemainingToday } from "@/lib/agentListingRing";
 import { formatINR, parseVideoUrls, getVideoEmbed, PROPERTY_TYPE_LABELS } from "@/lib/format";
@@ -14,7 +13,6 @@ import { UnlockButton } from "@/components/UnlockButton";
 import { SwitchAgentButton } from "@/components/SwitchAgentButton";
 import { DirectVisitVerification } from "@/components/DirectVisitVerification";
 import { toggleSavedAgentListing, ringAgentListingAction } from "@/app/buyer/actions";
-import { unlockListing } from "./actions";
 
 type Params = Promise<{ slug: string }>;
 type SearchParams = Promise<{ unlocked?: string }>;
@@ -378,26 +376,13 @@ export default async function ListingDetailPage({
               Exact address, agent name, phone, and shop location are hidden. Unlock this listing for
               ₹{siteSettings.unlockPassAmount} to reveal them instantly.
             </p>
-            {isRazorpayConfigured() ? (
-              <div className="mt-3">
-                <UnlockButton
-                  agentListingId={listing.id}
-                  slug={listing.slug}
-                  amount={siteSettings.unlockPassAmount}
-                />
-              </div>
-            ) : (
-              <form action={unlockListing} className="mt-3">
-                <input type="hidden" name="agentListingId" value={listing.id} />
-                <input type="hidden" name="slug" value={listing.slug} />
-                <button
-                  type="submit"
-                  className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-                >
-                  Pay ₹{siteSettings.unlockPassAmount} &amp; Unlock
-                </button>
-              </form>
-            )}
+            <div className="mt-3">
+              <UnlockButton
+                agentListingId={listing.id}
+                slug={listing.slug}
+                amount={siteSettings.unlockPassAmount}
+              />
+            </div>
           </>
         )}
       </div>

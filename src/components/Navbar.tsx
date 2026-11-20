@@ -12,6 +12,9 @@ import {
   UserRound,
   ArrowRight,
   LogIn,
+  TrendingUp,
+  Handshake,
+  ShieldCheck,
 } from "lucide-react";
 import { auth } from "@/auth";
 import { LogoutButton } from "@/components/LogoutButton";
@@ -217,6 +220,7 @@ export async function Navbar({
                   {role === "AGENT" && <MenuLink href="/agent/dashboard" icon={<LayoutDashboard className="h-4 w-4" />}>Partner hub</MenuLink>}
                   {(role === "OWNER" || role === "DEALER") && <MenuLink href="/dashboard" icon={<Home className="h-4 w-4" />}>My listings</MenuLink>}
                   {role === "BUYER" && <MenuLink href="/buyer/dashboard" icon={<UserRound className="h-4 w-4" />}>My activity</MenuLink>}
+                  {role === "INVESTOR" && <MenuLink href="/investor/dashboard" icon={<TrendingUp className="h-4 w-4" />}>Referral partner portal</MenuLink>}
                   <div className="mt-1 border-t border-slate-100 pt-1">
                     <LogoutButton className="w-full cursor-pointer rounded-xl px-3 py-2 text-left text-sm font-semibold text-rose-600 hover:bg-rose-50" />
                   </div>
@@ -224,12 +228,23 @@ export async function Navbar({
               </div>
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-1.5 rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
-            >
-              <LogIn className="h-4 w-4" /> Sign in
-            </Link>
+            <div className="group relative">
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-1.5 rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+              >
+                <LogIn className="h-4 w-4" /> Sign in <ChevronDown className="h-3.5 w-3.5 opacity-70" />
+              </Link>
+              <div className="invisible absolute right-0 top-full z-50 w-64 translate-y-2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                <div className="rounded-2xl border border-slate-200/80 bg-white p-2 shadow-[0_30px_80px_-20px_rgba(10,18,48,0.25)]">
+                  <p className="px-3 pb-1 pt-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">Sign in as</p>
+                  <MenuLink href="/login" icon={<UserRound className="h-4 w-4" />}>Buyer / Owner</MenuLink>
+                  <MenuLink href="/login?as=agent" icon={<Handshake className="h-4 w-4" />}>Channel partner</MenuLink>
+                  <MenuLink href="/login?as=investor" icon={<TrendingUp className="h-4 w-4" />}>Referral partner</MenuLink>
+                  <MenuLink href="/login?as=admin" icon={<ShieldCheck className="h-4 w-4" />}>Admin</MenuLink>
+                </div>
+              </div>
+            </div>
           )}
 
           <NavbarMobileMenu>
@@ -249,9 +264,19 @@ export async function Navbar({
                 {session ? (
                   <LogoutButton className="w-full px-3 py-2 text-left font-bold text-rose-600" />
                 ) : (
-                  <Link href="/login" className="block px-3 py-2 font-bold text-brand-700">
-                    Sign in
-                  </Link>
+                  <div className="space-y-0.5">
+                    <p className="px-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">Sign in as</p>
+                    {[
+                      { href: "/login", l: "Buyer / Owner" },
+                      { href: "/login?as=agent", l: "Channel partner" },
+                      { href: "/login?as=investor", l: "Referral partner" },
+                      { href: "/login?as=admin", l: "Admin" },
+                    ].map((x) => (
+                      <Link key={x.href} href={x.href} className="block px-3 py-2 font-bold text-brand-700">
+                        {x.l}
+                      </Link>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>

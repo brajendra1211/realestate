@@ -3,11 +3,9 @@ import { auth } from "@/auth";
 import { geocodeLocation } from "@/lib/geocode";
 import {
   createGoldListingOrder,
-  startGoldListingSimulated,
   GoldListingServiceError,
   type CreateGoldListingInput,
 } from "@/lib/goldListing";
-import { isRazorpayConfigured } from "@/lib/razorpay";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -45,16 +43,11 @@ export async function POST(request: Request) {
   };
 
   try {
-    if (!isRazorpayConfigured()) {
-      const listing = await startGoldListingSimulated(input);
-      return NextResponse.json({ simulated: true, slug: listing.slug }, { status: 201 });
-    }
-
     const { order, keyId } = await createGoldListingOrder(input);
     if (!order || !keyId) {
       return NextResponse.json({ error: "paymentUnavailable" }, { status: 503 });
     }
-    return NextResponse.json({ simulated: false, order, keyId, input }, { status: 201 });
+    return NextResponse.json({ order, keyId, input }, { status: 201 });
   } catch (error) {
     if (error instanceof GoldListingServiceError) {
       return NextResponse.json({ error: error.message }, { status: 400 });

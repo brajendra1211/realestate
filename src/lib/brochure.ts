@@ -3,7 +3,7 @@ import {
   createRazorpayOrder,
   getRazorpayKeyId,
   isRazorpayConfigured,
-  verifyRazorpayPaymentSignature,
+  verifyPaidOrder,
 } from "@/lib/razorpay";
 
 // Rs 100 buys 10 brochures; when the pack is used up the partner recharges again.
@@ -167,14 +167,10 @@ export async function createBrochure(agentId: string, input: string) {
 }
 
 export async function createBrochureRechargeOrder(agentId: string) {
-  const simulated = !isRazorpayConfigured();
-  if (simulated) {
-    return { simulated: true as const, order: null, keyId: null, amount: BROCHURE_PACK_PRICE, credits: BROCHURE_PACK_CREDITS };
-  }
+  if (!isRazorpayConfigured()) throw new BrochureError("Online payment abhi set up nahi hai. Thodi der baad try kijiye.");
   const order = await createRazorpayOrder(BROCHURE_PACK_PRICE, `brochure_${agentId}_${Date.now()}`);
   if (!order) throw new BrochureError("Payment abhi available nahi hai. Thodi der baad try kijiye.");
   return {
-    simulated: false as const,
     order,
     keyId: getRazorpayKeyId(),
     amount: BROCHURE_PACK_PRICE,
@@ -186,22 +182,25 @@ export async function confirmBrochureRecharge(
   agentId: string,
   p: { razorpayOrderId?: string | null; razorpayPaymentId?: string | null; razorpaySignature?: string | null }
 ) {
-  if (isRazorpayConfigured()) {
-    if (!p.razorpayOrderId || !p.razorpayPaymentId || !p.razorpaySignature) {
-      throw new BrochureError("Payment details missing.");
-    }
-    if (!verifyRazorpayPaymentSignature(p.razorpayOrderId, p.razorpayPaymentId, p.razorpaySignature)) {
-      throw new BrochureError("Payment verify nahi hui.");
-    }
-    const dup = await prisma.brochureRecharge.findFirst({ where: { razorpayPaymentId: p.razorpayPaymentId } });
-    if (dup) return dup; // same payment can never credit twice
+  if (!p.razorpayOrderId || !p.razorpayPaymentId || !p.razorpaySignature) {
+    throw new BrochureError("Payment details missing.");
   }
+  const ok = await verifyPaidOrder({
+    orderId: p.razorpayOrderId,
+    paymentId: p.razorpayPaymentId,
+    signature: p.razorpaySignature,
+    amountRupees: BROCHURE_PACK_PRICE,
+    receiptPrefix: `brochure_${agentId}_`,
+  });
+  if (!ok) throw new BrochureError("Payment verify nahi hui.");
+  const dup = await prisma.brochureRecharge.findFirst({ where: { razorpayPaymentId: p.razorpayPaymentId } });
+  if (dup) return dup; // same payment can never credit twice
   return grantBrochureCredits(agentId, {
     amount: BROCHURE_PACK_PRICE,
     credits: BROCHURE_PACK_CREDITS,
     source: "PAID",
-    razorpayOrderId: p.razorpayOrderId ?? null,
-    razorpayPaymentId: p.razorpayPaymentId ?? null,
+    razorpayOrderId: p.razorpayOrderId,
+    razorpayPaymentId: p.razorpayPaymentId,
   });
 }
 

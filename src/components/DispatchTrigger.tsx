@@ -118,11 +118,6 @@ export function DispatchTrigger() {
             return;
           }
 
-          if (result.simulated) {
-            router.push(`/dispatch/${result.dispatchRequestId}`);
-            return;
-          }
-
           await loadCheckoutScript();
           const razorpay = new window.Razorpay!({
             key: result.keyId,

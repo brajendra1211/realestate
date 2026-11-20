@@ -18,21 +18,21 @@ export default async function NewListingPage({ searchParams }: { searchParams: S
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) redirect("/register/agent");
 
-  if (agent.status !== "APPROVED" || !agent.primeStatus) {
+  if (agent.status !== "APPROVED") {
     return (
       <div className="mx-auto max-w-lg px-4 py-8 sm:px-6">
         <h1 className="text-2xl font-bold text-slate-900">List a Property</h1>
         <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-6">
-          <h2 className="font-semibold text-amber-900">Active Membership Plan Required</h2>
+          <h2 className="font-semibold text-amber-900">Profile verification required</h2>
           <p className="mt-1 text-sm text-amber-800">
-            Free listings are disabled. You must have an active Channel Partner plan to list properties.
+            You can list properties as soon as your Channel Partner profile is approved by admin. Listing keeps earning you commission even if your plan has lapsed.
           </p>
           <div className="mt-4 flex gap-3">
             <Link
               href="/agent/dashboard"
               className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
             >
-              View Plans &amp; Activate
+              Go to dashboard
             </Link>
           </div>
         </div>

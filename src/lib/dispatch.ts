@@ -10,7 +10,7 @@ import {
   cancelPendingBatchTimeout,
   isDispatchQueueConfigured,
 } from "@/lib/queues/dispatchQueue";
-import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
+import { createRazorpayOrder, isRazorpayConfigured, verifyPaidOrder } from "@/lib/razorpay";
 import { computeSplit } from "@/lib/commission";
 import { haversineDistanceKm } from "@/lib/geo";
 import { getSiteSettings } from "@/lib/site-settings";
@@ -93,15 +93,11 @@ export async function createDispatchOrder(input: CreateDispatchInput) {
     throw new DispatchServiceError("dispatchNotConfigured");
   }
   await assertBuzzerAllowed(input.buyerId, input.latitude, input.longitude);
-  if (!isRazorpayConfigured()) return { order: null, keyId: null };
+  if (!isRazorpayConfigured()) throw new DispatchServiceError("paymentUnavailable");
 
   const settings = await getSiteSettings();
   const order = await createRazorpayOrder(settings.unlockPassAmount, `dispatch_${input.buyerId}_${Date.now()}`);
   return { order, keyId: order ? process.env.RAZORPAY_KEY_ID ?? null : null };
-}
-
-export async function startDispatchSimulated(input: CreateDispatchInput) {
-  return createDispatchRecordAndCascade(input, null);
 }
 
 export async function verifyAndStartDispatch(
@@ -110,8 +106,18 @@ export async function verifyAndStartDispatch(
   razorpayPaymentId: string,
   razorpaySignature: string
 ) {
-  const valid = verifyRazorpayPaymentSignature(razorpayOrderId, razorpayPaymentId, razorpaySignature);
+  const settings = await getSiteSettings();
+  const valid = await verifyPaidOrder({
+    orderId: razorpayOrderId,
+    paymentId: razorpayPaymentId,
+    signature: razorpaySignature,
+    amountRupees: settings.unlockPassAmount,
+    receiptPrefix: `dispatch_${input.buyerId}_`,
+  });
   if (!valid) throw new DispatchServiceError("invalidSignature");
+  // One paid order starts exactly one dispatch, however often this is replayed.
+  const already = await prisma.dispatchRequest.findFirst({ where: { razorpayOrderId } });
+  if (already) return already;
   return createDispatchRecordAndCascade(input, razorpayOrderId);
 }
 

@@ -80,7 +80,7 @@ export default async function AgentShopPage({ params }: Props) {
   const originUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const shopUrl = getAgentShopUrl(agent.agentCode, originUrl);
   const qrDataUrl = await generateQrDataUrl(shopUrl, { width: 360, margin: 2 });
-  const { siteName } = await getSiteSettings();
+  const { siteName, unlockPassAmount } = await getSiteSettings();
 
   const { auth } = await import("@/auth");
   const { isAgentShopUnlocked } = await import("@/lib/agentShopUnlock");
@@ -138,6 +138,7 @@ export default async function AgentShopPage({ params }: Props) {
           listings={agent.listings}
           initialUnlocked={initialUnlocked}
           siteName={siteName}
+          unlockFee={unlockPassAmount}
         />
       </main>
     </div>

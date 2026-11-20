@@ -3,7 +3,6 @@ import { Headphones, Link2, PhoneCall, Wallet } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { getPlanFees } from "@/lib/listingRequest";
-import { isRazorpayConfigured } from "@/lib/razorpay";
 import { PageBanner } from "@/components/ui/PageBanner";
 import { RequestForm } from "./RequestForm";
 
@@ -49,7 +48,6 @@ export default async function ListPropertyRequestPage() {
       <div className="mt-8 rounded-[28px] border border-slate-200/80 bg-white p-6 shadow-soft sm:p-8">
         <RequestForm
           fees={{ BASIC: fees.BASIC, GOLD: fees.GOLD }}
-          testMode={!isRazorpayConfigured()}
           defaults={{ name: prefill?.name, phone: prefill?.phone ?? undefined, email: prefill?.email ?? undefined }}
         />
       </div>

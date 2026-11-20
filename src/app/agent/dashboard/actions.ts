@@ -3,7 +3,8 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
-import { getAgentByUserId } from "@/lib/agent";
+import { getAgentByUserId, AgentServiceError } from "@/lib/agent";
+import { createPlanOrder, confirmPlanPayment, type PlanPaymentMode } from "@/lib/agentRegistrationPayment";
 import { requestAgentPayout, PayoutServiceError } from "@/lib/payout";
 
 export async function requestPayoutAction(formData: FormData) {
@@ -48,53 +49,40 @@ export async function setAutoPayMandateAction(formData: FormData) {
   redirect("/agent/dashboard?saved=mandate");
 }
 
-export async function upgradeAgentPlanAction(formData: FormData) {
+// Plan upgrades/first-time activation now go through a real payment — see
+// AgentPlanPayButton. (The old free "upgrade" action created a paid-looking
+// subscription without any payment and was removed.)
+async function requireAgentForPlan() {
   const session = await auth();
-  if (!session) redirect("/login");
-
+  if (!session || session.user.role !== "AGENT") throw new AgentServiceError("unauthorized");
   const agent = await getAgentByUserId(session.user.id);
-  if (!agent) redirect("/register/agent");
-
-  const tier = String(formData.get("tier") ?? "PRIME") as "BASIC" | "PRIME";
-  const { getSiteSettings } = await import("@/lib/site-settings");
-  const { prisma } = await import("@/lib/prisma");
-  const settings = await getSiteSettings();
-  const price = tier === "PRIME" ? settings.agentPrimePlanPrice : settings.agentBasicPlanPrice;
-
-  const targetPlan = await prisma.plan.findFirst({
-    where: { role: "AGENT", listingLimit: tier === "PRIME" ? 999999 : 10 },
-  });
-
-  if (!targetPlan) {
-    redirect("/agent/dashboard?error=planNotFound");
-  }
-
-  await prisma.subscription.updateMany({
-    where: { userId: session.user.id, status: "ACTIVE" },
-    data: { status: "EXPIRED" },
-  });
-
-  await prisma.subscription.create({
-    data: {
-      userId: session.user.id,
-      planId: targetPlan.id,
-      status: "ACTIVE",
-      amount: price,
-      endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-    },
-  });
-
-  await prisma.agentProfile.update({
-    where: { id: agent.id },
-    data: {
-      planTier: tier,
-      primeStatus: true,
-      visibilityDeprioritized: false,
-    },
-  });
-
-  revalidatePath("/agent/dashboard");
-  revalidatePath("/agent/listings");
-  redirect("/agent/dashboard?saved=plan");
+  if (!agent) throw new AgentServiceError("notFound");
+  return agent;
 }
 
+export async function createPlanOrderAction(planId: string, mode: PlanPaymentMode) {
+  try {
+    const agent = await requireAgentForPlan();
+    return { ok: true as const, ...(await createPlanOrder(agent.id, planId, mode)) };
+  } catch (error) {
+    if (error instanceof AgentServiceError) return { ok: false as const, error: error.message };
+    throw error;
+  }
+}
+
+export async function confirmPlanPaymentAction(
+  planId: string,
+  mode: PlanPaymentMode,
+  p: { razorpayOrderId?: string; razorpayPaymentId?: string; razorpaySignature?: string }
+) {
+  try {
+    const agent = await requireAgentForPlan();
+    await confirmPlanPayment(agent.id, planId, mode, p);
+    revalidatePath("/agent/dashboard");
+    revalidatePath("/agent/listings");
+    return { ok: true as const };
+  } catch (error) {
+    if (error instanceof AgentServiceError) return { ok: false as const, error: error.message };
+    throw error;
+  }
+}

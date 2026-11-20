@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import {
   createDispatchOrder,
-  startDispatchSimulated,
   verifyAndStartDispatch,
   acceptDispatch,
   cancelDispatch,
@@ -14,7 +13,6 @@ import {
   type CreateDispatchInput,
 } from "@/lib/dispatch";
 import { getAgentByUserId } from "@/lib/agent";
-import { isRazorpayConfigured } from "@/lib/razorpay";
 
 async function requireBuyer() {
   const session = await auth();
@@ -26,8 +24,8 @@ async function requireBuyer() {
 
 // Called from the client DispatchTrigger component. Branches the same way
 // UnlockButton/createUnlockOrderAction does: Razorpay configured → return an
-// order for Checkout to open; not configured → start the simulated flow and
-// return the new dispatch's id directly.
+// order for Checkout to open. Without Razorpay keys it returns an error; there is
+// no unpaid way to start a dispatch.
 export type DispatchFormInput = Pick<
   CreateDispatchInput,
   "purpose" | "radiusKm" | "societyName" | "bhk" | "budgetMin" | "budgetMax" | "budgetLabel"
@@ -38,18 +36,16 @@ export async function requestDispatchAction(latitude: number, longitude: number,
   const input = { buyerId: session.user.id, latitude, longitude, ...form };
 
   try {
-    if (!isRazorpayConfigured()) {
-      const dispatch = await startDispatchSimulated(input);
-      return { ok: true as const, simulated: true as const, dispatchRequestId: dispatch.id };
-    }
-
     const { order, keyId } = await createDispatchOrder(input);
     if (!order || !keyId) {
       return { ok: false as const, error: "Payment isn't available right now. Please try again shortly." };
     }
-    return { ok: true as const, simulated: false as const, order, keyId };
+    return { ok: true as const, order, keyId };
   } catch (error) {
     if (error instanceof DispatchServiceError) {
+      if (error.message === "paymentUnavailable") {
+        return { ok: false as const, error: "Online payment is not set up yet. Please try again later." };
+      }
       return { ok: false as const, error: BUZZER_ERROR_TEXT[error.message] ?? "Could not start. Please try again." };
     }
     throw error;

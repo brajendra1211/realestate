@@ -3,70 +3,102 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
-import { Sparkles, ArrowRight, ArrowLeft, Users } from "lucide-react";
+import { ArrowRight, Users, UserRound, Handshake, ShieldCheck, TrendingUp } from "lucide-react";
 import { LoginForm } from "./LoginForm";
 import { BuyerLoginForm } from "../buyer/login/BuyerLoginForm";
+import { InvestorLoginForm } from "../investor/login/InvestorLoginForm";
 
-export function UnifiedLoginCard({ callbackUrl }: { callbackUrl: string }) {
-  const [usePassword, setUsePassword] = useState(false);
+type LoginRole = "buyer" | "agent" | "investor" | "admin";
+
+const ROLES: { key: LoginRole; label: string; sub: string; icon: typeof Users }[] = [
+  { key: "buyer", label: "Buyer / Owner", sub: "OTP on WhatsApp", icon: UserRound },
+  { key: "agent", label: "Channel partner", sub: "Password", icon: Handshake },
+  { key: "investor", label: "Referral partner", sub: "OTP on WhatsApp", icon: TrendingUp },
+  { key: "admin", label: "Admin", sub: "Password", icon: ShieldCheck },
+];
+
+const HELP: Record<LoginRole, string> = {
+  buyer: "Buyers, property owners and dealers: enter your mobile number or email and we will send a one-time code.",
+  agent: "Channel partners: sign in with the email and password you registered with.",
+  investor:
+    "Referral partners: use the mobile number or email your channel partner registered you with. We will send a one-time code on WhatsApp or email.",
+  admin: "Admin and team members: sign in with your email and password.",
+};
+
+export function UnifiedLoginCard({
+  callbackUrl,
+  initialRole = "buyer",
+}: {
+  callbackUrl: string;
+  initialRole?: LoginRole;
+}) {
+  const [role, setRole] = useState<LoginRole>(initialRole);
   const hasExplicitTarget = callbackUrl !== "/";
-
-  const linkBtn =
-    "inline-flex cursor-pointer items-center gap-1.5 text-sm font-semibold text-slate-500 transition hover:text-brand-700";
 
   return (
     <div className="rounded-[28px] border border-slate-200/80 bg-white p-6 shadow-soft sm:p-8">
-      <div className="mb-6 flex items-start gap-3 rounded-2xl bg-brand-50 p-4 text-sm">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-600 text-white">
-          <Sparkles className="h-4 w-4" />
-        </span>
-        <div>
-          <p className="font-bold text-ink">One sign-in for everyone</p>
-          <p className="mt-0.5 text-xs leading-relaxed text-slate-600">
-            Buyer, channel partner or referral partner — enter your number or email and we&apos;ll take you
-            straight to your own dashboard.
-          </p>
-        </div>
+      <p className="text-xs font-bold uppercase tracking-wider text-slate-400">I am a</p>
+      <div className="mt-2 grid grid-cols-2 gap-2">
+        {ROLES.map((r) => {
+          const active = role === r.key;
+          const Icon = r.icon;
+          return (
+            <button
+              key={r.key}
+              type="button"
+              onClick={() => setRole(r.key)}
+              aria-pressed={active}
+              className={`flex cursor-pointer items-center gap-2.5 rounded-2xl border-2 px-3 py-2.5 text-left transition ${
+                active ? "border-brand-600 bg-brand-50" : "border-slate-200 bg-white hover:border-brand-300"
+              }`}
+            >
+              <span
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
+                  active ? "bg-brand-600 text-white" : "bg-slate-100 text-slate-500"
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block truncate text-[13px] font-bold text-ink">{r.label}</span>
+                <span className="block truncate text-[11px] text-slate-500">{r.sub}</span>
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      <AnimatePresence mode="wait" initial={false}>
-        {!usePassword ? (
+      <p className="mt-4 rounded-xl bg-slate-50 px-3.5 py-2.5 text-xs leading-relaxed text-slate-600">{HELP[role]}</p>
+
+      <div className="mt-5">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key="otp"
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 16 }}
-            transition={{ duration: 0.25 }}
+            key={role}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
             className="space-y-4"
           >
-            <BuyerLoginForm next={hasExplicitTarget ? callbackUrl : undefined} />
-            <p className="text-center text-xs font-medium text-slate-400">
-              Zero spam · Instant WhatsApp OTP verification
-            </p>
-            <div className="text-center">
-              <button type="button" onClick={() => setUsePassword(true)} className={linkBtn}>
-                Channel partner or admin? Use a password instead
-              </button>
-            </div>
+            {role === "buyer" && (
+              <>
+                <BuyerLoginForm next={hasExplicitTarget ? callbackUrl : undefined} />
+                <p className="text-center text-xs font-medium text-slate-400">
+                  Zero spam · Instant WhatsApp OTP verification
+                </p>
+              </>
+            )}
+            {(role === "agent" || role === "admin") && <LoginForm callbackUrl={callbackUrl} />}
+            {role === "investor" && <InvestorLoginForm />}
           </motion.div>
-        ) : (
-          <motion.div
-            key="pw"
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -16 }}
-            transition={{ duration: 0.25 }}
-            className="space-y-4"
-          >
-            <LoginForm callbackUrl={callbackUrl} />
-            <div className="text-center">
-              <button type="button" onClick={() => setUsePassword(false)} className={linkBtn}>
-                <ArrowLeft className="h-4 w-4" /> Back to OTP sign-in
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
+
+      {role === "investor" && (
+        <p className="mt-4 text-center text-xs text-slate-500">
+          Not registered yet? Ask your channel partner to add you as a referral partner.
+        </p>
+      )}
 
       <div className="mt-7 flex flex-col gap-3 rounded-2xl border border-dashed border-emerald-300 bg-emerald-50/60 p-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">

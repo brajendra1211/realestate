@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { getInvestorByUserId, getInvestorLedger } from "@/lib/investor";
 import { LogoutButton } from "@/components/LogoutButton";
 import { formatINR, PAYMENT_MODE_LABELS } from "@/lib/format";
+import { InvestorFeePayButton } from "@/components/InvestorFeePayButton";
 
 export default async function InvestorDashboardPage() {
   const session = await auth();
@@ -22,8 +23,13 @@ export default async function InvestorDashboardPage() {
           <p className="mt-1 text-sm text-slate-500">
             {investor.investorCode
               ? `Referral Partner Code ${investor.investorCode}`
-              : "Registration fee pending — contact your channel partner."}
+              : "Registration fee pending — pay online to activate your code instantly."}
           </p>
+          {investor.feeStatus === "PENDING" && (
+            <div className="mt-3">
+              <InvestorFeePayButton investorProfileId={investor.id} fee={investor.registrationFee} />
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-3">
           <a

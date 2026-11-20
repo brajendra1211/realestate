@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getAgentByUserId } from "@/lib/agent";
 import { getInvestorsForAgent } from "@/lib/investor";
+import { InvestorFeePayButton } from "@/components/InvestorFeePayButton";
 
 export default async function AgentInvestorsPage() {
   const session = await auth();
@@ -54,6 +55,11 @@ export default async function AgentInvestorsPage() {
                 >
                   {investor.feeStatus === "PAID" ? "Active" : "Fee pending"}
                 </span>
+                {investor.feeStatus !== "PAID" && (
+                  <div className="mt-2 flex justify-end">
+                    <InvestorFeePayButton investorProfileId={investor.id} fee={investor.registrationFee} />
+                  </div>
+                )}
                 <p className="mt-1 text-xs text-slate-400">
                   {investor._count.profitDistributions === 0 || !investor.profitDistributions?.[0]
                     ? "No deal cycles yet"

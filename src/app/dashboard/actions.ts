@@ -10,7 +10,7 @@ import { getListingUsage, getActiveSubscription } from "@/lib/listing-quota";
 import { getLeadUsage } from "@/lib/lead-quota";
 import { findOrCreateLocality } from "@/lib/locality";
 import { addListingDuration } from "@/lib/propertyVisibility";
-import { activateOwnerPlan } from "@/lib/ownerPlans";
+import { createPlanPurchaseOrder, confirmPlanPurchase, PlanPurchaseError } from "@/lib/planPurchase";
 import { geocodeWithFallback } from "@/lib/geocode";
 import { getNearbyAmenities, formatAmenitiesNote } from "@/lib/amenityLookup";
 import type { PropertyImageCategory } from "@/generated/prisma/client";
@@ -308,29 +308,32 @@ export async function renewProperty(formData: FormData) {
   revalidatePath("/dashboard");
 }
 
-export async function requestSubscription(formData: FormData) {
+// Owner / dealer plans are bought through Razorpay and activate the moment the
+// payment is verified — there is no "request" that waits for admin approval.
+export async function createOwnerPlanOrderAction(planId: string) {
   const session = await requireListerOrAdmin();
-  if (session.user.role !== "OWNER" && session.user.role !== "DEALER") {
-    redirect("/dashboard");
+  try {
+    return { ok: true as const, ...(await createPlanPurchaseOrder(session.user, planId)) };
+  } catch (error) {
+    if (error instanceof PlanPurchaseError) return { ok: false as const, error: error.message };
+    throw error;
   }
+}
 
-  const planId = String(formData.get("planId") ?? "");
-  const plan = await prisma.plan.findUnique({ where: { id: planId } });
-  if (!plan || !plan.active || (plan.role !== "BOTH" && plan.role !== session.user.role)) {
-    redirect("/dashboard?error=plan");
+export async function confirmOwnerPlanPaymentAction(
+  planId: string,
+  p: { razorpayOrderId?: string; razorpayPaymentId?: string; razorpaySignature?: string }
+) {
+  const session = await requireListerOrAdmin();
+  try {
+    await confirmPlanPurchase(session.user, planId, p);
+  } catch (error) {
+    if (error instanceof PlanPurchaseError) return { ok: false as const, error: error.message };
+    throw error;
   }
-
-  await prisma.$transaction([
-    prisma.subscription.updateMany({
-      where: { userId: session.user.id, status: "PENDING" },
-      data: { status: "CANCELLED" },
-    }),
-    prisma.subscription.create({
-      data: { userId: session.user.id, planId, status: "PENDING", amount: plan!.price },
-    }),
-  ]);
-
   revalidatePath("/dashboard");
+  revalidatePath("/dashboard/properties/new");
+  return { ok: true as const };
 }
 
 export async function cancelSubscriptionRequest(formData: FormData) {
@@ -371,15 +374,6 @@ export async function revealLead(formData: FormData) {
   }
 
   revalidatePath("/dashboard/enquiries");
-}
-
-export async function chooseOwnerPlanAction(formData: FormData) {
-  const session = await requireListerOrAdmin();
-  const planTier = String(formData.get("planTier") ?? "BASIC") as "BASIC" | "GOLD";
-  await activateOwnerPlan(session.user.id, planTier);
-  revalidatePath("/dashboard");
-  revalidatePath("/dashboard/properties/new");
-  redirect("/dashboard/properties/new?planActivated=1");
 }
 
 export async function markRentalDealAction(formData: FormData) {

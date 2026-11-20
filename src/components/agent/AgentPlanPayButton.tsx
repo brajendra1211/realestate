@@ -1,0 +1,87 @@
+"use client";
+
+import { useState } from "react";
+import { createPlanOrderAction, confirmPlanPaymentAction } from "@/app/agent/dashboard/actions";
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: Record<string, unknown>) => { open: () => void };
+  }
+}
+
+function loadCheckout(): Promise<void> {
+  if (window.Razorpay) return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = "https://checkout.razorpay.com/v1/checkout.js";
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error("Payment checkout could not load."));
+    document.body.appendChild(s);
+  });
+}
+
+export function AgentPlanPayButton({
+  planId,
+  mode,
+  label,
+  className,
+}: {
+  planId: string;
+  mode: "register" | "upgrade";
+  label: string;
+  className?: string;
+}) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const done = () => window.location.reload();
+
+  async function pay() {
+    setBusy(true);
+    setError(null);
+    try {
+      const o = await createPlanOrderAction(planId, mode);
+      if (!o.ok) throw new Error("Payment is unavailable right now.");
+      if (!o.order || !o.keyId) throw new Error("Payment is unavailable right now.");
+      await loadCheckout();
+      new window.Razorpay!({
+        key: o.keyId,
+        amount: o.order.amount,
+        currency: o.order.currency,
+        order_id: o.order.id,
+        name: "Pronesto",
+        description: o.planName,
+        handler: async (resp: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) => {
+          const r = await confirmPlanPaymentAction(planId, mode, {
+            razorpayOrderId: resp.razorpay_order_id,
+            razorpayPaymentId: resp.razorpay_payment_id,
+            razorpaySignature: resp.razorpay_signature,
+          });
+          if (!r.ok) {
+            setError("Payment received but activation failed - please contact support.");
+            setBusy(false);
+            return;
+          }
+          done();
+        },
+        modal: { ondismiss: () => setBusy(false) },
+      }).open();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Payment failed.");
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div>
+      <button type="button" onClick={pay} disabled={busy} className={className}>
+        {busy ? "Please wait…" : label}
+      </button>
+      {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
+    </div>
+  );
+}

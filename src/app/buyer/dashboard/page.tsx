@@ -401,7 +401,7 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
                 Channel Partner Shop Unlocks ({shopUnlocks.length})
               </h2>
               <p className="text-xs text-slate-500">
-                ₹50 scan fee paid to access verified partner profile & direct listings.
+                Scan fee paid to access verified partner profile & direct listings.
               </p>
             </div>
             <div className="mt-3 space-y-3">
@@ -423,7 +423,7 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
                     </div>
                     <div className="text-right">
                       <span className="rounded-full bg-purple-50 px-2.5 py-0.5 text-xs font-semibold text-purple-700">
-                        ✓ ₹50 Paid
+                        ✓ ₹{s.amount} Paid
                       </span>
                       <p className="mt-1 text-[11px] text-slate-400">
                         {s.createdAt.toLocaleDateString("en-IN")}

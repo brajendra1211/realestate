@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { chooseOwnerPlanAction } from "@/app/dashboard/actions";
+import { OwnerPlanPayButton } from "@/components/OwnerPlanPayButton";
 
 interface OwnerPlanSelectionProps {
   basicFee: number;
@@ -13,8 +12,6 @@ export function OwnerPlanSelection({
   basicFee,
   goldFee,
 }: OwnerPlanSelectionProps) {
-  const [loadingTier, setLoadingTier] = useState<"BASIC" | "GOLD" | null>(null);
-
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs">
       <div className="text-center sm:text-left">
@@ -67,20 +64,14 @@ export function OwnerPlanSelection({
             </ul>
           </div>
 
-          <form
-            action={chooseOwnerPlanAction}
-            onSubmit={() => setLoadingTier("BASIC")}
-            className="mt-8"
-          >
-            <input type="hidden" name="planTier" value="BASIC" />
-            <button
-              type="submit"
-              disabled={loadingTier !== null}
+          <div className="mt-8">
+            <OwnerPlanPayButton
+              planId="plan-owner-basic"
+              label={`Pay ₹${basicFee} · 1 Month Plan`}
+              redirectTo="/dashboard/properties/new?planActivated=1"
               className="w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-bold text-white transition hover:bg-slate-800 disabled:opacity-60 cursor-pointer shadow-sm"
-            >
-              {loadingTier === "BASIC" ? "Activating Plan..." : `Select 1 Month Plan (₹${basicFee})`}
-            </button>
-          </form>
+            />
+          </div>
         </div>
 
         {/* Gold Plan */}
@@ -128,20 +119,14 @@ export function OwnerPlanSelection({
             </ul>
           </div>
 
-          <form
-            action={chooseOwnerPlanAction}
-            onSubmit={() => setLoadingTier("GOLD")}
-            className="mt-8"
-          >
-            <input type="hidden" name="planTier" value="GOLD" />
-            <button
-              type="submit"
-              disabled={loadingTier !== null}
+          <div className="mt-8">
+            <OwnerPlanPayButton
+              planId="plan-owner-gold"
+              label={`Pay ₹${goldFee} · 3 Months Plan`}
+              redirectTo="/dashboard/properties/new?planActivated=1"
               className="w-full rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-4 py-3 text-sm font-bold text-white transition hover:from-amber-600 hover:to-amber-700 disabled:opacity-60 cursor-pointer shadow-md"
-            >
-              {loadingTier === "GOLD" ? "Activating Plan..." : `Select 3 Months Plan (₹${goldFee})`}
-            </button>
-          </form>
+            />
+          </div>
         </div>
       </div>
     </div>

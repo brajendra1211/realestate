@@ -11,6 +11,7 @@ type AgentQrHeroCardProps = {
   city: string | null;
   qrDataUrl: string;
   originUrl: string;
+  unlockFee?: number;
 };
 
 export function AgentQrHeroCard({
@@ -21,6 +22,7 @@ export function AgentQrHeroCard({
   city,
   qrDataUrl,
   originUrl,
+  unlockFee = 100,
 }: AgentQrHeroCardProps) {
   const [copied, setCopied] = useState(false);
   const shopUrl = `${originUrl}/shop/${encodeURIComponent(agentCode)}`;
@@ -82,7 +84,7 @@ export function AgentQrHeroCard({
 
           <div className="mt-3 rounded-xl bg-white/10 p-3 text-xs text-slate-200 backdrop-blur-xs border border-white/10">
             <p className="leading-relaxed">
-              <strong className="text-amber-300">How it works:</strong> Print or download this QR code and place it at your shop/office desk. When any buyer scans it with their phone camera or mobile app, they pay a <strong className="text-white">₹50 unlock fee via Razorpay</strong> and immediately see your verified contact info & all your property listings!
+              <strong className="text-amber-300">How it works:</strong> Print or download this QR code and place it at your shop/office desk. When any buyer scans it with their phone camera or mobile app, they pay a <strong className="text-white">₹{unlockFee} unlock fee via Razorpay</strong> and immediately see your verified contact info & all your property listings! <strong className="text-emerald-300">Half of every unlock fee (₹{Math.round(unlockFee / 2)}) is credited straight to your wallet.</strong>
             </p>
           </div>
 

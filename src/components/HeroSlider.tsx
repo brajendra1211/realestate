@@ -29,10 +29,10 @@ const SLIDES = [
     titleHighlight: "Zero Broker Spam",
     highlightGradient: "from-blue-600 via-indigo-600 to-purple-600",
     subtitle:
-      "Scan an agent's QR standee with ₹50 instant unlock to view complete property inventory and direct WhatsApp numbers.",
+      "Scan an agent's QR standee with instant unlock to view complete property inventory and direct WhatsApp numbers.",
     tags: [
       { label: "📱 QR Code Standees", href: "/shop" },
-      { label: "🔒 Instant ₹50 Unlock", href: "/shop" },
+      { label: "🔒 Instant QR Unlock", href: "/shop" },
       { label: "🚀 Uber-Style Cascade Dispatch", href: "/properties" },
     ],
   },

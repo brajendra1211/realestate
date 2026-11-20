@@ -8,7 +8,7 @@ import { findNearbyAgents } from "@/lib/agentGeo";
 import { geocodeLocation } from "@/lib/geocode";
 import { getSiteSettings } from "@/lib/site-settings";
 import { createAgentListing, type CreateAgentListingInput } from "@/lib/listing";
-import { createRazorpayOrder, isRazorpayConfigured, verifyRazorpayPaymentSignature } from "@/lib/razorpay";
+import { createRazorpayOrder, isRazorpayConfigured, verifyPaidOrder } from "@/lib/razorpay";
 import type { ListingPlanTier, ListingRequest, ListingRequestStatus } from "@/generated/prisma";
 
 /**
@@ -110,11 +110,11 @@ export async function createListingRequest(input: CreateRequestInput) {
   });
 }
 
-/** Razorpay order when configured; otherwise the caller falls back to the simulated pay button. */
+/** Creates the Razorpay order for this request. Payment is always online: there is no skip/test path. */
 export async function createRequestPaymentOrder(requestId: string) {
   const request = await prisma.listingRequest.findUnique({ where: { id: requestId } });
   if (!request || request.status !== "PENDING_PAYMENT") throw new ListingRequestError("This request can't be paid.");
-  if (!isRazorpayConfigured()) return { request, order: null, keyId: null };
+  if (!isRazorpayConfigured()) throw new ListingRequestError("Online payment is not set up yet. Please try again later.");
   const order = await createRazorpayOrder(request.amount, `lreq_${request.id}`);
   if (!order) throw new ListingRequestError("Payment isn't available right now. Please try again shortly.");
   await prisma.listingRequest.update({ where: { id: request.id }, data: { razorpayOrderId: order.id } });
@@ -124,14 +124,15 @@ export async function createRequestPaymentOrder(requestId: string) {
 export async function confirmRequestPaymentRazorpay(requestId: string, orderId: string, paymentId: string, signature: string) {
   const request = await prisma.listingRequest.findUnique({ where: { id: requestId } });
   if (!request || request.razorpayOrderId !== orderId) throw new ListingRequestError("Payment verification failed.");
-  if (!verifyRazorpayPaymentSignature(orderId, paymentId, signature)) throw new ListingRequestError("Payment verification failed.");
+  const ok = await verifyPaidOrder({
+    orderId,
+    paymentId,
+    signature,
+    amountRupees: request.amount,
+    receiptPrefix: `lreq_${request.id}`,
+  });
+  if (!ok) throw new ListingRequestError("Payment verification failed.");
   return markPaid(request.id);
-}
-
-/** Test-mode payment, only when Razorpay keys are not configured. */
-export async function confirmRequestPaymentSimulated(requestId: string) {
-  if (isRazorpayConfigured()) throw new ListingRequestError("Simulated payment is disabled.");
-  return markPaid(requestId);
 }
 
 async function markPaid(requestId: string) {

@@ -171,6 +171,9 @@ model Subscription {
   amount    Int?
   startDate DateTime           @default(now())
   endDate   DateTime?
+  // Razorpay payment that bought this subscription; unique so one payment can
+  // never be replayed to activate/extend a plan twice.
+  razorpayPaymentId String?    @unique
   createdAt DateTime           @default(now())
 
   @@index([userId])

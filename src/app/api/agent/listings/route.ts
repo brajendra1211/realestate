@@ -25,7 +25,7 @@ export async function GET() {
 export async function POST(request: Request) {
   const agent = await requireAgent();
   if (!agent) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  if (agent.status !== "APPROVED" || !agent.primeStatus) {
+  if (agent.status !== "APPROVED") {
     return NextResponse.json({ error: "notPrime" }, { status: 403 });
   }
 

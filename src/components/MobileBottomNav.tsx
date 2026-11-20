@@ -21,6 +21,11 @@ export async function MobileBottomNav() {
   } else if (session?.user.role === "ADMIN") {
     middle = { href: "/admin", label: "Admin", icon: "grid" };
     account = { href: "/admin/users", label: "Users", icon: "user" };
+  } else if (session?.user.role === "AGENT") {
+    middle = { href: "/agent/listings/new", label: "List", icon: "plus" };
+    account = { href: "/agent/dashboard", label: "Partner", icon: "user" };
+  } else if (session?.user.role === "INVESTOR") {
+    account = { href: "/investor/dashboard", label: "Portal", icon: "user" };
   } else if (session?.user.role === "BUYER") {
     middle = { href: "/buyer/dashboard#saved", label: "Saved", icon: "heart" };
     account = { href: "/buyer/dashboard#profile", label: "Account", icon: "user" };

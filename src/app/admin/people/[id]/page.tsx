@@ -17,9 +17,10 @@ import {
 } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { formatINR } from "@/lib/format";
+import { formatINR, PAYMENT_MODE_LABELS } from "@/lib/format";
 import { verifyUser, unverifyUser } from "../../actions";
 import { AdminPage, StatCard, Pill, EmptyState, btnGhost, btnSuccess, btnDanger } from "@/components/admin/ui";
+import { getPaymentTracker, STREAMS, summarize, type PayRow } from "@/lib/paymentTracker";
 
 type Params = Promise<{ id: string }>;
 
@@ -34,13 +35,13 @@ const ROLE_LABEL: Record<string, string> = {
 };
 
 const BACK: Record<string, { href: string; label: string }> = {
-  OWNER: { href: "/admin/users", label: "Owners & dealers" },
-  DEALER: { href: "/admin/users", label: "Owners & dealers" },
-  BUYER: { href: "/admin/buyers", label: "Buyers" },
-  INVESTOR: { href: "/admin/investors", label: "Referral Partners" },
-  AGENT: { href: "/admin/partners", label: "Channel partners" },
-  SUBADMIN: { href: "/admin/subadmins", label: "Sub-admins" },
-  ADMIN: { href: "/admin", label: "Overview" },
+  OWNER: { href: "/admin/people?role=OWNER", label: "All people" },
+  DEALER: { href: "/admin/people?role=DEALER", label: "All people" },
+  BUYER: { href: "/admin/people?role=BUYER", label: "All people" },
+  INVESTOR: { href: "/admin/people?role=INVESTOR", label: "All people" },
+  AGENT: { href: "/admin/people?role=AGENT", label: "All people" },
+  SUBADMIN: { href: "/admin/people?role=TEAM", label: "All people" },
+  ADMIN: { href: "/admin/people?role=TEAM", label: "All people" },
 };
 
 const date = (d: Date | null | undefined) => (d ? d.toLocaleDateString("en-IN", { dateStyle: "medium" }) : "—");
@@ -80,7 +81,7 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
     where: { id },
     include: {
       agentProfile: true,
-      investorProfile: { include: { referringAgent: { include: { user: { select: { name: true } } } } } },
+      investorProfile: { include: { referringAgent: { include: { user: { select: { id: true, name: true, phone: true } } } } } },
       subscriptions: { include: { plan: true }, orderBy: { createdAt: "desc" }, take: 10 },
       _count: { select: { properties: true, savedProperties: true, enquiries: true, propertyUnlocks: true, dispatchRequests: true, visitAppointments: true, directVisits: true } },
     },
@@ -90,7 +91,7 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
   const isBuyer = user.role === "BUYER";
   const isLister = user.role === "OWNER" || user.role === "DEALER" || user.role === "SUBADMIN";
 
-  const [referrer, properties, enquiriesMade, saved, visits, unlocks, dispatches, ledger, investorLedger] = await Promise.all([
+  const [referrer, properties, enquiriesMade, saved, visits, unlocks, dispatches, ledger, investorLedger, investorExtra] = await Promise.all([
     user.referredByAgentId
       ? prisma.agentProfile.findUnique({ where: { id: user.referredByAgentId }, include: { user: { select: { name: true } } } })
       : null,
@@ -123,9 +124,24 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
     user.investorProfile
       ? prisma.investorLedgerEntry.findMany({ where: { investorProfileId: user.investorProfile.id }, orderBy: { createdAt: "desc" }, take: 15 })
       : [],
+    user.investorProfile
+      ? Promise.all([
+          prisma.profitDistribution.findMany({ where: { investorProfileId: user.investorProfile.id }, orderBy: { distributedAt: "desc" }, take: 10 }),
+          prisma.customerInvestorAgreement.findMany({ where: { investorId: user.investorProfile.id }, orderBy: { agreementDate: "desc" }, take: 10 }),
+          prisma.documentVaultItem.findMany({ where: { investorId: user.investorProfile.id }, orderBy: { createdAt: "desc" }, take: 20 }),
+          prisma.investorLedgerEntry.aggregate({ where: { investorProfileId: user.investorProfile.id }, _sum: { amount: true } }),
+        ])
+      : null,
   ]);
 
   const back = BACK[user.role] ?? BACK.ADMIN;
+
+  // Every payment this person has made (or still owes), across all payment types.
+  const tracker = await getPaymentTracker({ userId: user.id });
+  const paymentRows: (PayRow & { stream: string })[] = STREAMS.flatMap((s) =>
+    tracker[s.key].map((r) => ({ ...r, stream: s.label }))
+  ).sort((a, b) => b.at.getTime() - a.at.getTime());
+  const paySummary = summarize(paymentRows);
   const hasKyc = user.panNumber || user.aadhaarNumber || user.bankAccountNumber || user.panCardUrl || user.aadhaarFrontUrl || user.cancelledChequeUrl;
 
   return (
@@ -155,12 +171,61 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
         {user.investorProfile?.investorCode && <Pill tone="violet">{user.investorProfile.investorCode}</Pill>}
       </div>
 
+      <Card title="Payment check" icon={Banknote} count={paymentRows.length}>
+        <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
+          <span className="neon-chip is-green">✓ Paid {formatINR(paySummary.paidAmount)} ({paySummary.paid})</span>
+          {paySummary.unpaid > 0 ? (
+            <span className="neon-chip is-red">✕ Not paid {formatINR(paySummary.unpaidAmount)} ({paySummary.unpaid})</span>
+          ) : (
+            <span className="neon-chip is-muted">Nothing pending</span>
+          )}
+        </div>
+        {paymentRows.length === 0 ? (
+          <p className="text-sm text-slate-400">No payments recorded for this person yet.</p>
+        ) : (
+          <div className="overflow-x-auto rounded-2xl border border-cyan-400/15">
+            <table className="w-full min-w-[640px] text-left text-sm">
+              <thead>
+                <tr className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  <th className="px-4 py-2.5">Status</th>
+                  <th className="px-4 py-2.5">For</th>
+                  <th className="px-4 py-2.5 text-right">Amount</th>
+                  <th className="px-4 py-2.5">How</th>
+                  <th className="px-4 py-2.5">When</th>
+                  <th className="px-4 py-2.5">Reference</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-cyan-400/10">
+                {paymentRows.map((r) => (
+                  <tr key={`${r.stream}-${r.id}`}>
+                    <td className="px-4 py-2.5">
+                      <span className={`neon-chip ${r.status === "PAID" ? "is-green" : r.status === "UNPAID" ? "is-red" : "is-violet"}`}>
+                        {r.status === "PAID" ? "✓ Paid" : r.status === "UNPAID" ? "✕ Not paid" : "Free credit"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2.5">
+                      <span className="font-semibold text-ink">{r.stream}</span>
+                      {r.detail && <span className="block text-xs text-slate-400">{r.detail}</span>}
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-bold text-ink">{formatINR(r.amount)}</td>
+                    <td className="px-4 py-2.5 text-slate-600">{r.method}</td>
+                    <td className="whitespace-nowrap px-4 py-2.5 text-xs text-slate-400">{dateTime(r.at)}</td>
+                    <td className="px-4 py-2.5 font-mono text-[11px] text-slate-400">{r.ref ?? "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-1">
           <Card title="Contact" icon={Phone}>
             <dl className="divide-y divide-slate-100">
               <Row k="Phone" v={user.phone && <a className="text-brand-600 hover:underline" href={`tel:${user.phone}`}>{user.phone}</a>} />
               <Row k="Alt. phone" v={user.secondaryPhone} />
+              <Row k="Date of birth" v={user.dateOfBirth ? `${date(user.dateOfBirth)}${user.age != null ? ` (${user.age} yrs)` : ""}` : user.age != null ? `${user.age} yrs` : null} />
               <Row k="WhatsApp" v={user.whatsappNumber} />
               <Row k="Email" v={user.email && <a className="text-brand-600 hover:underline" href={`mailto:${user.email}`}>{user.email}</a>} />
               <Row k="Company" v={user.company} />
@@ -180,14 +245,26 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
             </dl>
           </Card>
 
-          {hasKyc && (
+          {(hasKyc || user.role === "INVESTOR" || user.role === "AGENT") && (
             <Card title="KYC & bank" icon={IdCard}>
+              <div className="mb-3 flex flex-wrap gap-2">
+                {[
+                  ["PAN card", user.panCardUrl],
+                  ["Aadhaar front", user.aadhaarFrontUrl],
+                  ["Aadhaar back", user.aadhaarBackUrl],
+                  ["Cancelled cheque", user.cancelledChequeUrl],
+                ].map(([label, url]) => (
+                  <span key={label} className={`neon-chip ${url ? "is-green" : "is-red"}`}>
+                    {url ? "✓" : "✕"} {label}
+                  </span>
+                ))}
+              </div>
               <dl className="divide-y divide-slate-100">
                 <Row k="PAN" v={user.panNumber} />
-                <Row k="Aadhaar" v={mask(user.aadhaarNumber)} />
+                <Row k="Aadhaar" v={user.aadhaarNumber} />
                 <Row k="Bank" v={user.bankName} />
                 <Row k="Account holder" v={user.bankAccountName} />
-                <Row k="Account no." v={mask(user.bankAccountNumber)} />
+                <Row k="Account no." v={user.bankAccountNumber} />
                 <Row k="IFSC" v={user.bankIfsc} />
                 <Row k="Branch" v={user.bankBranch} />
               </dl>
@@ -405,16 +482,97 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
                 <StatCard label="Invested" value={formatINR(user.investorProfile.totalInvested)} icon={Wallet} tone="green" />
                 <StatCard label="Valid until" value={date(user.investorProfile.expiresAt)} icon={CalendarCheck} tone="violet" />
               </div>
-              <Card title="Referral partner details" icon={IdCard}>
+              <Card title="Referral partner profile" icon={IdCard}>
                 <dl className="divide-y divide-slate-100">
-                  <Row k="Referral Partner code" v={user.investorProfile.investorCode} />
+                  <Row k="Referral Partner code" v={user.investorProfile.investorCode ?? "Not issued yet (fee unpaid)"} />
+                  <Row
+                    k="Registration fee"
+                    v={`${formatINR(user.investorProfile.registrationFee)} · ${user.investorProfile.feeStatus === "PAID" ? "Paid" : "Not paid"}${
+                      user.investorProfile.feePaymentMode ? ` via ${PAYMENT_MODE_LABELS[user.investorProfile.feePaymentMode]}` : ""
+                    }`}
+                  />
+                  <Row k="Registered on" v={date(user.investorProfile.registeredAt)} />
+                  <Row k="Valid until" v={date(user.investorProfile.expiresAt)} />
                   <Row
                     k="Referred by partner"
-                    v={`${user.investorProfile.referringAgent.user.name} (${user.investorProfile.referringAgent.agentCode ?? "—"})`}
+                    v={
+                      <Link href={`/admin/people/${user.investorProfile.referringAgent.user.id}`} className="text-brand-600 hover:underline">
+                        {user.investorProfile.referringAgent.user.name} ({user.investorProfile.referringAgent.agentCode ?? "—"})
+                        {user.investorProfile.referringAgent.user.phone ? ` · ${user.investorProfile.referringAgent.user.phone}` : ""}
+                      </Link>
+                    }
                   />
-                  <Row k="Registered" v={date(user.investorProfile.registeredAt)} />
+                  <Row k="Active capital" v={formatINR(user.investorProfile.totalInvested)} />
+                  <Row k="Profit credited (total)" v={formatINR(investorExtra?.[3]._sum.amount ?? 0)} />
                 </dl>
               </Card>
+
+              {investorExtra && (
+                <>
+                  <Card title="Profit distributions" icon={Banknote} count={investorExtra[0].length}>
+                    {investorExtra[0].length === 0 ? (
+                      <p className="text-sm text-slate-500">No deal profit has been shared with this partner yet.</p>
+                    ) : (
+                      <ul className="divide-y divide-slate-100 text-sm">
+                        {investorExtra[0].map((d) => (
+                          <li key={d.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
+                            <span>
+                              Deal profit {formatINR(d.totalProfit)} · partner share <b>{formatINR(d.investorShare)}</b>
+                              <span className="block text-xs text-slate-400">via {PAYMENT_MODE_LABELS[d.paymentMode]}{d.note ? ` · ${d.note}` : ""}</span>
+                            </span>
+                            <span className="text-xs text-slate-400">{date(d.distributedAt)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Card>
+
+                  <Card title="Customer agreements" icon={FileText} count={investorExtra[1].length}>
+                    {investorExtra[1].length === 0 ? (
+                      <p className="text-sm text-slate-500">No customer agreements recorded.</p>
+                    ) : (
+                      <ul className="divide-y divide-slate-100 text-sm">
+                        {investorExtra[1].map((g) => (
+                          <li key={g.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
+                            <span>
+                              <b>{g.customerName}</b> · {g.customerPhone}
+                              <span className="block text-xs text-slate-400">
+                                {date(g.agreementDate)}
+                                {g.flatUnitNumber ? ` · Unit ${g.flatUnitNumber}` : ""}
+                                {g.lockInPeriodMonths ? ` · ${g.lockInPeriodMonths} mo lock-in` : ""}
+                                {g.paymentAmount ? ` · ${formatINR(g.paymentAmount)}` : ""}
+                              </span>
+                            </span>
+                            <a href={g.signedCopyUrl} target="_blank" rel="noopener noreferrer" className={btnGhost}>
+                              <FileText className="h-4 w-4" /> Signed copy
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Card>
+
+                  <Card title="Document vault" icon={FileText} count={investorExtra[2].length}>
+                    {investorExtra[2].length === 0 ? (
+                      <p className="text-sm text-slate-500">No documents uploaded.</p>
+                    ) : (
+                      <ul className="divide-y divide-slate-100 text-sm">
+                        {investorExtra[2].map((v) => (
+                          <li key={v.id} className="flex items-center justify-between gap-2 py-2.5">
+                            <span>
+                              <b>{v.title}</b>
+                              <span className="block text-xs text-slate-400">{v.type} · {date(v.createdAt)}</span>
+                            </span>
+                            <a href={v.url} target="_blank" rel="noopener noreferrer" className={btnGhost}>
+                              Open
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Card>
+                </>
+              )}
               <Card title="Referral Partner ledger" icon={Wallet} count={investorLedger.length}>
                 {investorLedger.length === 0 ? (
                   <p className="text-sm text-slate-500">No profit credited yet.</p>

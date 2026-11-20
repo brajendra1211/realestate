@@ -1,23 +1,9 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
-import { unlockAgentListing, createUnlockOrder, verifyAndUnlockListing } from "@/lib/unlock";
+import { createUnlockOrder, verifyAndUnlockListing } from "@/lib/unlock";
 import { getRazorpayKeyId } from "@/lib/razorpay";
-
-export async function unlockListing(formData: FormData) {
-  const agentListingId = String(formData.get("agentListingId") ?? "");
-  const slug = String(formData.get("slug") ?? "");
-
-  const session = await auth();
-  if (!session || session.user.role !== "BUYER") {
-    redirect(`/buyer/login?next=${encodeURIComponent(`/listings/${slug}`)}`);
-  }
-
-  await unlockAgentListing(session.user.id, agentListingId);
-  revalidatePath(`/listings/${slug}`);
-}
 
 // Called from the client-side UnlockButton when Razorpay is configured —
 // creates a real order for Checkout to open against. Returns null (rather

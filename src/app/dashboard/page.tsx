@@ -7,11 +7,11 @@ import { REQUEST_STATUS_LABEL } from "@/lib/listingRequest";
 import { formatPrice } from "@/lib/format";
 import { getListingUsage, getActiveSubscription } from "@/lib/listing-quota";
 import { getSiteSettings } from "@/lib/site-settings";
+import { OwnerPlanPayButton } from "@/components/OwnerPlanPayButton";
 import { isPropertyExpired, daysUntil } from "@/lib/propertyVisibility";
 import {
   deleteProperty,
   renewProperty,
-  requestSubscription,
   cancelSubscriptionRequest,
   relistPropertyAction,
 } from "./actions";
@@ -232,15 +232,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                       {plan.leadLimit === null ? "Unlimited" : plan.leadLimit} leads
                       {plan.durationDays ? ` · ${plan.durationDays} days` : " · No expiry"}
                     </p>
-                    <form action={requestSubscription} className="mt-3">
-                      <input type="hidden" name="planId" value={plan.id} />
-                      <button
-                        type="submit"
-                        className="w-full rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-700"
-                      >
-                        Choose this plan
-                      </button>
-                    </form>
+                    <div className="mt-3">
+                      <OwnerPlanPayButton
+                        planId={plan.id}
+                        label={`Pay ₹${plan.price.toLocaleString("en-IN")} & activate`}
+                        className="w-full rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>

@@ -16,7 +16,7 @@ export async function searchMasterProperty(
 
   const agent = await getAgentByUserId(session.user.id);
   if (!agent) redirect("/register/agent");
-  if (agent.status !== "APPROVED" || !agent.primeStatus) {
+  if (agent.status !== "APPROVED") {
     return { error: "notPrime" };
   }
 

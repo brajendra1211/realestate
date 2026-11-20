@@ -14,7 +14,7 @@ type SearchParams = Promise<{
 }>;
 
 const COMMISSION_LABELS: Record<string, string> = {
-  UNLOCK_SPLIT: "Property Unlock Split (₹50)",
+  UNLOCK_SPLIT: "Unlock split (listing / shop QR)",
   GOLD_SPLIT: "Gold Direct Listing Split",
   DEAL_PROFIT_SHARE: "5-Stage Deal Profit Split",
   BROKERAGE: "Property Brokerage",

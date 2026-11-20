@@ -155,6 +155,7 @@ export function Footer({
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
             <Link href="/properties" className="hover:text-white">All properties</Link>
             <Link href="/login" className="hover:text-white">Portal login</Link>
+            <Link href="/login?as=investor" className="hover:text-white">Referral partner login</Link>
             <Link href="/support" className="hover:text-white">Support</Link>
             <Link href="/terms" className="hover:text-white">Terms</Link>
             <Link href="/commission-policy" className="hover:text-white">Commission Policy</Link>

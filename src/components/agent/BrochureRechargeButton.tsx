@@ -31,12 +31,6 @@ export function BrochureRechargeButton({ price, credits }: { price: number; cred
     setError(null);
     try {
       const r = await createRechargeOrderAction();
-      if (r.simulated) {
-        await confirmRechargeAction({});
-        router.refresh();
-        setBusy(false);
-        return;
-      }
       if (!r.order || !r.keyId) throw new Error("Payment abhi available nahi hai.");
       await loadCheckout();
       new window.Razorpay!({

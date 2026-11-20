@@ -8,11 +8,19 @@ export interface AgentPlanDefinition {
   tier: AgentPlanTier;
   price: number;
   durationDays: number;
+  months: number;
   splitPercent: number;
   referralAmount: number;
   companyAmount: number;
   listingLimit: number;
 }
+
+// Multi-month variants, billed up front at a discount (admin can edit the price
+// in /admin/plans — it is only seeded here, never overwritten).
+export const AGENT_QUARTER_PLANS = [
+  { id: "plan-agent-basic-3m", name: "Channel Partner Basic Plan (3 months)", price: 2500, durationDays: 90, listingLimit: 10 },
+  { id: "plan-agent-prime-3m", name: "Channel Partner Prime Plan (3 months)", price: 5500, durationDays: 90, listingLimit: 999999 },
+];
 
 export const DEFAULT_AGENT_PLANS = [
   {
@@ -74,6 +82,15 @@ export async function ensureDefaultAgentPlans() {
       });
     })
   );
+
+  for (const q of AGENT_QUARTER_PLANS) {
+    const exists = await prisma.plan.findUnique({ where: { id: q.id } });
+    if (!exists) {
+      await prisma.plan.create({
+        data: { ...q, role: "AGENT", active: true },
+      });
+    }
+  }
   return plans;
 }
 
@@ -89,14 +106,13 @@ export async function getAgentPlans(): Promise<AgentPlanDefinition[]> {
 
   const dbPlans = await prisma.plan.findMany({
     where: { role: { in: ["AGENT", "BOTH"] }, active: true },
-    orderBy: { price: "asc" },
+    orderBy: [{ durationDays: "asc" }, { price: "asc" }],
   });
 
-  const basicThreshold = settings.agentBasicPlanPrice ?? 1000;
   const splitPercent = settings.agentPlanSplitPercent ?? 50;
 
   return dbPlans.map((p) => {
-    const isBasic = p.name.toLowerCase().includes("basic") || p.price <= basicThreshold;
+    const isBasic = p.name.toLowerCase().includes("basic") || p.listingLimit < 100;
     const tier: AgentPlanTier = isBasic ? "BASIC" : "PRIME";
     const referralAmount = Math.round(p.price * (splitPercent / 100));
     const companyAmount = p.price - referralAmount;
@@ -107,6 +123,7 @@ export async function getAgentPlans(): Promise<AgentPlanDefinition[]> {
       tier,
       price: p.price,
       durationDays: p.durationDays ?? 30,
+      months: Math.max(1, Math.round((p.durationDays ?? 30) / 30)),
       splitPercent,
       referralAmount,
       companyAmount,

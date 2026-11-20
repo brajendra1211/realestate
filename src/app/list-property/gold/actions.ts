@@ -5,7 +5,6 @@ import { auth } from "@/auth";
 import { geocodeLocation } from "@/lib/geocode";
 import {
   createGoldListingOrder,
-  startGoldListingSimulated,
   verifyAndCreateGoldListing,
   GoldListingServiceError,
   type CreateGoldListingInput,
@@ -58,16 +57,11 @@ export async function submitGoldListingAction(form: GoldListingFormInput) {
     images: form.images,
   };
 
-  if (!process.env.RAZORPAY_KEY_ID) {
-    const listing = await startGoldListingSimulated(input);
-    return { simulated: true as const, slug: listing.slug, input };
-  }
-
   const { order, keyId } = await createGoldListingOrder(input);
   if (!order || !keyId) {
     throw new Error("Payment isn't available right now. Please try again shortly.");
   }
-  return { simulated: false as const, order, keyId, input };
+  return { order, keyId, input };
 }
 
 export async function verifyGoldListingPaymentAction(

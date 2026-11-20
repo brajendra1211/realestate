@@ -1,8 +1,14 @@
 "use server";
 
 import { AuthError } from "next-auth";
-import { signIn } from "@/auth";
-import { submitAgentApplication, AgentServiceError, type AgentDocumentInput } from "@/lib/agent";
+import { auth, signIn } from "@/auth";
+import {
+  submitAgentApplication,
+  getAgentByUserId,
+  AgentServiceError,
+  type AgentDocumentInput,
+} from "@/lib/agent";
+import { createRegistrationOrder, confirmRegistrationPayment } from "@/lib/agentRegistrationPayment";
 
 function readDoc(
   formData: FormData,
@@ -13,7 +19,39 @@ function readDoc(
   return url ? { type, url } : null;
 }
 
-export type RegisterAgentState = { error?: string; redirectTo?: string };
+export type RegisterAgentState = { error?: string; redirectTo?: string; payNow?: boolean };
+
+async function requireAgentProfile() {
+  const session = await auth();
+  if (!session || session.user.role !== "AGENT") throw new AgentServiceError("unauthorized");
+  const agent = await getAgentByUserId(session.user.id);
+  if (!agent) throw new AgentServiceError("notFound");
+  return agent;
+}
+
+export async function createRegistrationOrderAction(planId: string) {
+  try {
+    const agent = await requireAgentProfile();
+    return { ok: true as const, ...(await createRegistrationOrder(agent.id, planId)) };
+  } catch (error) {
+    if (error instanceof AgentServiceError) return { ok: false as const, error: error.message };
+    throw error;
+  }
+}
+
+export async function confirmRegistrationPaymentAction(
+  planId: string,
+  p: { razorpayOrderId?: string; razorpayPaymentId?: string; razorpaySignature?: string }
+) {
+  try {
+    const agent = await requireAgentProfile();
+    await confirmRegistrationPayment(agent.id, planId, p);
+    return { ok: true as const };
+  } catch (error) {
+    if (error instanceof AgentServiceError) return { ok: false as const, error: error.message };
+    throw error;
+  }
+}
 
 export async function registerAgent(
   _prevState: RegisterAgentState,
@@ -34,8 +72,23 @@ export async function registerAgent(
     readDoc(formData, "cancelledChequeUrl", "CANCELLED_CHEQUE"),
   ].filter((doc): doc is AgentDocumentInput => doc !== null);
 
+  // Identity + bank documents are mandatory; business certificates are
+  // mandatory whenever the matching number was entered.
+  const has = (field: string) => Boolean(String(formData.get(field) ?? "").trim());
+  const missingDoc =
+    !has("panCardUrl") ||
+    !has("aadhaarFrontUrl") ||
+    !has("aadhaarBackUrl") ||
+    !has("cancelledChequeUrl") ||
+    (has("reraNumber") && !has("reraDocUrl")) ||
+    (has("gstNumber") && !has("gstDocUrl"));
+  if (missingDoc) return { error: "documentsRequired" };
+  const payNow = String(formData.get("intent") ?? "pay") !== "later";
+  if (payNow && !has("planId")) return { error: "planRequired" };
+
   const dobStr = String(formData.get("dateOfBirth") ?? "").trim();
   const dateOfBirth = dobStr ? new Date(dobStr) : null;
+  if (!dateOfBirth) return { error: "dobRequired" };
 
   try {
     await submitAgentApplication({
@@ -44,7 +97,6 @@ export async function registerAgent(
       phone: String(formData.get("phone") ?? ""),
       alternatePhone: String(formData.get("alternatePhone") ?? ""),
       whatsappNumber: String(formData.get("whatsappNumber") ?? ""),
-      age: formData.get("age") ? Number(formData.get("age")) : null,
       dateOfBirth,
       panNumber: String(formData.get("panNumber") ?? ""),
       panCardUrl: String(formData.get("panCardUrl") ?? "") || null,
@@ -85,7 +137,12 @@ export async function registerAgent(
       redirect: false,
       redirectTo: "/agent/dashboard",
     });
-    return { redirectTo: typeof redirectTo === "string" ? redirectTo : "/agent/dashboard" };
+    // Account + documents are saved (status PENDING). The client now opens
+    // payment; a successful payment auto-approves, otherwise admin reviews.
+    return {
+      payNow,
+      redirectTo: typeof redirectTo === "string" ? redirectTo : "/agent/dashboard",
+    };
   } catch (error) {
     if (error instanceof AuthError) {
       return { redirectTo: "/login" };

@@ -6,7 +6,6 @@ import {
   createListingRequest,
   createRequestPaymentOrder,
   confirmRequestPaymentRazorpay,
-  confirmRequestPaymentSimulated,
   rebuzzRequest,
   ListingRequestError,
 } from "@/lib/listingRequest";
@@ -26,7 +25,7 @@ function friendly(error: unknown): never {
   throw error;
 }
 
-/** Step 1: save the owner's request, then either open Razorpay or fall back to the test-mode pay button. */
+/** Step 1: save the owner's request, then open Razorpay. There is no unpaid path. */
 export async function startListingRequestAction(form: RequestFormInput) {
   const session = await auth();
   const userId = session && (session.user.role === "OWNER" || session.user.role === "DEALER") ? session.user.id : null;
@@ -34,8 +33,8 @@ export async function startListingRequestAction(form: RequestFormInput) {
     const request = await createListingRequest({ ...form, userId });
     const { order, keyId } = await createRequestPaymentOrder(request.id);
     const base = { requestId: request.id, statusToken: request.statusToken, amount: request.amount };
-    if (!order || !keyId) return { simulated: true as const, ...base };
-    return { simulated: false as const, ...base, order, keyId };
+    if (!order || !keyId) throw new ListingRequestError("Online payment is not set up yet. Please try again later.");
+    return { ...base, order, keyId };
   } catch (error) {
     friendly(error);
   }
@@ -44,16 +43,6 @@ export async function startListingRequestAction(form: RequestFormInput) {
 async function assertToken(requestId: string, statusToken: string) {
   const r = await prisma.listingRequest.findUnique({ where: { id: requestId }, select: { statusToken: true } });
   if (!r || r.statusToken !== statusToken) throw new Error("Request not found.");
-}
-
-export async function confirmSimulatedPaymentAction(requestId: string, statusToken: string) {
-  await assertToken(requestId, statusToken);
-  try {
-    await confirmRequestPaymentSimulated(requestId);
-    return { ok: true as const };
-  } catch (error) {
-    friendly(error);
-  }
 }
 
 export async function verifyRequestPaymentAction(

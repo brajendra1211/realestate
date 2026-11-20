@@ -10012,6 +10012,7 @@ export namespace Prisma {
     amount: number | null
     startDate: Date | null
     endDate: Date | null
+    razorpayPaymentId: string | null
     createdAt: Date | null
   }
 
@@ -10023,6 +10024,7 @@ export namespace Prisma {
     amount: number | null
     startDate: Date | null
     endDate: Date | null
+    razorpayPaymentId: string | null
     createdAt: Date | null
   }
 
@@ -10034,6 +10036,7 @@ export namespace Prisma {
     amount: number
     startDate: number
     endDate: number
+    razorpayPaymentId: number
     createdAt: number
     _all: number
   }
@@ -10055,6 +10058,7 @@ export namespace Prisma {
     amount?: true
     startDate?: true
     endDate?: true
+    razorpayPaymentId?: true
     createdAt?: true
   }
 
@@ -10066,6 +10070,7 @@ export namespace Prisma {
     amount?: true
     startDate?: true
     endDate?: true
+    razorpayPaymentId?: true
     createdAt?: true
   }
 
@@ -10077,6 +10082,7 @@ export namespace Prisma {
     amount?: true
     startDate?: true
     endDate?: true
+    razorpayPaymentId?: true
     createdAt?: true
     _all?: true
   }
@@ -10175,6 +10181,7 @@ export namespace Prisma {
     amount: number | null
     startDate: Date
     endDate: Date | null
+    razorpayPaymentId: string | null
     createdAt: Date
     _count: SubscriptionCountAggregateOutputType | null
     _avg: SubscriptionAvgAggregateOutputType | null
@@ -10205,6 +10212,7 @@ export namespace Prisma {
     amount?: boolean
     startDate?: boolean
     endDate?: boolean
+    razorpayPaymentId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     plan?: boolean | PlanDefaultArgs<ExtArgs>
@@ -10220,10 +10228,11 @@ export namespace Prisma {
     amount?: boolean
     startDate?: boolean
     endDate?: boolean
+    razorpayPaymentId?: boolean
     createdAt?: boolean
   }
 
-  export type SubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "planId" | "status" | "amount" | "startDate" | "endDate" | "createdAt", ExtArgs["result"]["subscription"]>
+  export type SubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "planId" | "status" | "amount" | "startDate" | "endDate" | "razorpayPaymentId" | "createdAt", ExtArgs["result"]["subscription"]>
   export type SubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     plan?: boolean | PlanDefaultArgs<ExtArgs>
@@ -10243,6 +10252,7 @@ export namespace Prisma {
       amount: number | null
       startDate: Date
       endDate: Date | null
+      razorpayPaymentId: string | null
       createdAt: Date
     }, ExtArgs["result"]["subscription"]>
     composites: {}
@@ -10622,6 +10632,7 @@ export namespace Prisma {
     readonly amount: FieldRef<"Subscription", 'Int'>
     readonly startDate: FieldRef<"Subscription", 'DateTime'>
     readonly endDate: FieldRef<"Subscription", 'DateTime'>
+    readonly razorpayPaymentId: FieldRef<"Subscription", 'String'>
     readonly createdAt: FieldRef<"Subscription", 'DateTime'>
   }
     
@@ -70287,6 +70298,7 @@ export namespace Prisma {
     amount: 'amount',
     startDate: 'startDate',
     endDate: 'endDate',
+    razorpayPaymentId: 'razorpayPaymentId',
     createdAt: 'createdAt'
   };
 
@@ -71349,7 +71361,8 @@ export namespace Prisma {
   export const SubscriptionOrderByRelevanceFieldEnum: {
     id: 'id',
     userId: 'userId',
-    planId: 'planId'
+    planId: 'planId',
+    razorpayPaymentId: 'razorpayPaymentId'
   };
 
   export type SubscriptionOrderByRelevanceFieldEnum = (typeof SubscriptionOrderByRelevanceFieldEnum)[keyof typeof SubscriptionOrderByRelevanceFieldEnum]
@@ -72645,6 +72658,7 @@ export namespace Prisma {
     amount?: IntNullableFilter<"Subscription"> | number | null
     startDate?: DateTimeFilter<"Subscription"> | Date | string
     endDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    razorpayPaymentId?: StringNullableFilter<"Subscription"> | string | null
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     plan?: XOR<PlanScalarRelationFilter, PlanWhereInput>
@@ -72658,6 +72672,7 @@ export namespace Prisma {
     amount?: SortOrderInput | SortOrder
     startDate?: SortOrder
     endDate?: SortOrderInput | SortOrder
+    razorpayPaymentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     plan?: PlanOrderByWithRelationInput
@@ -72666,6 +72681,7 @@ export namespace Prisma {
 
   export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    razorpayPaymentId?: string
     AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
     OR?: SubscriptionWhereInput[]
     NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
@@ -72678,7 +72694,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     plan?: XOR<PlanScalarRelationFilter, PlanWhereInput>
-  }, "id">
+  }, "id" | "razorpayPaymentId">
 
   export type SubscriptionOrderByWithAggregationInput = {
     id?: SortOrder
@@ -72688,6 +72704,7 @@ export namespace Prisma {
     amount?: SortOrderInput | SortOrder
     startDate?: SortOrder
     endDate?: SortOrderInput | SortOrder
+    razorpayPaymentId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: SubscriptionCountOrderByAggregateInput
     _avg?: SubscriptionAvgOrderByAggregateInput
@@ -72707,6 +72724,7 @@ export namespace Prisma {
     amount?: IntNullableWithAggregatesFilter<"Subscription"> | number | null
     startDate?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     endDate?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    razorpayPaymentId?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
   }
 
@@ -78517,6 +78535,7 @@ export namespace Prisma {
     amount?: number | null
     startDate?: Date | string
     endDate?: Date | string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutSubscriptionsInput
     plan: PlanCreateNestedOneWithoutSubscriptionsInput
@@ -78530,6 +78549,7 @@ export namespace Prisma {
     amount?: number | null
     startDate?: Date | string
     endDate?: Date | string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
   }
 
@@ -78539,6 +78559,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
     plan?: PlanUpdateOneRequiredWithoutSubscriptionsNestedInput
@@ -78552,6 +78573,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -78563,6 +78585,7 @@ export namespace Prisma {
     amount?: number | null
     startDate?: Date | string
     endDate?: Date | string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
   }
 
@@ -78572,6 +78595,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -78583,6 +78607,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -85174,6 +85199,7 @@ export namespace Prisma {
     amount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    razorpayPaymentId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -85189,6 +85215,7 @@ export namespace Prisma {
     amount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    razorpayPaymentId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -85200,6 +85227,7 @@ export namespace Prisma {
     amount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    razorpayPaymentId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -95242,6 +95270,7 @@ export namespace Prisma {
     amount?: number | null
     startDate?: Date | string
     endDate?: Date | string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     plan: PlanCreateNestedOneWithoutSubscriptionsInput
   }
@@ -95253,6 +95282,7 @@ export namespace Prisma {
     amount?: number | null
     startDate?: Date | string
     endDate?: Date | string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
   }
 
@@ -96029,6 +96059,7 @@ export namespace Prisma {
     amount?: IntNullableFilter<"Subscription"> | number | null
     startDate?: DateTimeFilter<"Subscription"> | Date | string
     endDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    razorpayPaymentId?: StringNullableFilter<"Subscription"> | string | null
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
   }
 
@@ -96688,6 +96719,7 @@ export namespace Prisma {
     amount?: number | null
     startDate?: Date | string
     endDate?: Date | string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutSubscriptionsInput
   }
@@ -96699,6 +96731,7 @@ export namespace Prisma {
     amount?: number | null
     startDate?: Date | string
     endDate?: Date | string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
   }
 
@@ -120251,6 +120284,7 @@ export namespace Prisma {
     amount?: number | null
     startDate?: Date | string
     endDate?: Date | string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
   }
 
@@ -120586,6 +120620,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plan?: PlanUpdateOneRequiredWithoutSubscriptionsNestedInput
   }
@@ -120597,6 +120632,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -120607,6 +120643,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -121093,6 +121130,7 @@ export namespace Prisma {
     amount?: number | null
     startDate?: Date | string
     endDate?: Date | string | null
+    razorpayPaymentId?: string | null
     createdAt?: Date | string
   }
 
@@ -121102,6 +121140,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
   }
@@ -121113,6 +121152,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -121123,6 +121163,7 @@ export namespace Prisma {
     amount?: NullableIntFieldUpdateOperationsInput | number | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    razorpayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

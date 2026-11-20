@@ -162,16 +162,19 @@ model Plan {
 }
 
 model Subscription {
-  id        String             @id @default(cuid())
-  userId    String
-  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  planId    String
-  plan      Plan               @relation(fields: [planId], references: [id], onDelete: Cascade)
-  status    SubscriptionStatus @default(ACTIVE)
-  amount    Int?
-  startDate DateTime           @default(now())
-  endDate   DateTime?
-  createdAt DateTime           @default(now())
+  id                String             @id @default(cuid())
+  userId            String
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId            String
+  plan              Plan               @relation(fields: [planId], references: [id], onDelete: Cascade)
+  status            SubscriptionStatus @default(ACTIVE)
+  amount            Int?
+  startDate         DateTime           @default(now())
+  endDate           DateTime?
+  // Razorpay payment that bought this subscription; unique so one payment can
+  // never be replayed to activate/extend a plan twice.
+  razorpayPaymentId String?            @unique
+  createdAt         DateTime           @default(now())
 
   @@index([userId])
   @@index([planId])

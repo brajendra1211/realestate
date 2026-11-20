@@ -20,8 +20,8 @@ function loadCheckoutScript(): Promise<void> {
   });
 }
 
-// Only rendered when Razorpay is configured (src/app/listings/[slug]/page.tsx
-// checks isRazorpayConfigured() and falls back to the plain simulated form
+// Always rendered: unlocking requires a verified Razorpay payment (there is no
+// free/simulated unlock).
 export function UnlockButton({
   agentListingId,
   slug,

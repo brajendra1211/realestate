@@ -94,16 +94,31 @@ export async function saveAgentListingImage(file: File) {
   };
 }
 
-export async function saveUploadedDocument(file: File) {
-  if (file.type !== "application/pdf") {
-    throw new UploadValidationError("Only PDF files are allowed");
+// KYC/business documents can be a PDF or a photo/scan. The type is decided from
+// the file's own bytes, not the browser-supplied MIME type or filename.
+function sniffDocumentType(b: Buffer): { ext: string } | null {
+  if (b.length > 4 && b.subarray(0, 4).toString("latin1") === "%PDF") return { ext: "pdf" };
+  if (b.length > 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return { ext: "jpg" };
+  if (b.length > 8 && b.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) {
+    return { ext: "png" };
   }
+  if (b.length > 12 && b.subarray(0, 4).toString("latin1") === "RIFF" && b.subarray(8, 12).toString("latin1") === "WEBP") {
+    return { ext: "webp" };
+  }
+  return null;
+}
+
+export async function saveUploadedDocument(file: File) {
   if (file.size > MAX_DOCUMENT_SIZE_BYTES) {
     throw new UploadValidationError("File must be smaller than 15MB");
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = `${randomUUID()}.pdf`;
+  const kind = sniffDocumentType(buffer);
+  if (!kind) {
+    throw new UploadValidationError("Only PDF, JPG, PNG or WEBP files are allowed");
+  }
+  const filename = `${randomUUID()}.${kind.ext}`;
   const uploadsDir = path.resolve(process.cwd(), UPLOADS_DIR);
   await mkdir(uploadsDir, { recursive: true });
 

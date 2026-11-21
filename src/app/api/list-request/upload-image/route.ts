@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   const file = formData.get("file");
 
   const req = token ? await prisma.listingRequest.findUnique({ where: { formToken: token }, select: { status: true } }) : null;
-  if (!req || (req.status !== "ACCEPTED" && req.status !== "LINK_SENT")) {
+  if (!req || (req.status !== "DETAILS_PENDING" && req.status !== "ACCEPTED" && req.status !== "LINK_SENT")) {
     return NextResponse.json({ error: "This link is not active." }, { status: 401 });
   }
   if (!(file instanceof File)) {

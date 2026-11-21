@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 };
 
 const STEPS = [
-  { icon: Wallet, title: "Pay for a plan", text: "Choose Basic or Gold and pay online." },
-  { icon: Headphones, title: "A partner is alerted", text: "The nearest verified channel partner gets a buzzer." },
-  { icon: PhoneCall, title: "They call you", text: "The partner calls to confirm your property." },
-  { icon: Link2, title: "Fill details on a link", text: "They send you a link; your listing goes live under their ID." },
+  { icon: Wallet, title: "Register and pay", text: "Pick Basic or Pro, verify your WhatsApp number and pay online." },
+  { icon: Link2, title: "Add property details", text: "Fill in the details and photos with your location ON." },
+  { icon: Headphones, title: "A partner is alerted", text: "Verified partners within 5 km get a buzzer; the first to accept takes it." },
+  { icon: PhoneCall, title: "On-site verification", text: "The partner visits within 48 hours and verifies with your OTP. Then you are live." },
 ];
 
 export default async function ListPropertyRequestPage() {
@@ -28,8 +28,8 @@ export default async function ListPropertyRequestPage() {
       <PageBanner
         art="rent"
         eyebrow="For property owners"
-        title={<>List your rental <span className="text-gradient-gold italic">through a partner</span></>}
-        subtitle="Owners don't have to fill long forms. A verified channel partner near you handles the listing with you."
+        title={<>List your property <span className="text-gradient-gold italic">through a partner</span></>}
+        subtitle="A verified channel partner near you visits your property, verifies it and makes your listing live."
       />
 
       <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -48,6 +48,7 @@ export default async function ListPropertyRequestPage() {
       <div className="mt-8 rounded-[28px] border border-slate-200/80 bg-white p-6 shadow-soft sm:p-8">
         <RequestForm
           fees={{ BASIC: fees.BASIC, GOLD: fees.GOLD }}
+          loggedIn={Boolean(prefill)}
           defaults={{ name: prefill?.name, phone: prefill?.phone ?? undefined, email: prefill?.email ?? undefined }}
         />
       </div>

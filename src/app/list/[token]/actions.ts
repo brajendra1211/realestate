@@ -18,6 +18,8 @@ export type OwnerListingForm = {
   locality: string | null;
   exactAddress: string;
   amenities: string | null;
+  latitude: number;
+  longitude: number;
   videoUrl: string | null;
   bachelorFriendly: boolean;
   images: string[];
@@ -26,7 +28,7 @@ export type OwnerListingForm = {
 export async function submitOwnerListingAction(token: string, form: OwnerListingForm) {
   if (form.images.length === 0) throw new Error("Please add at least one photo of the property.");
   try {
-    const listing = await submitOwnerListing(token, {
+    const result = await submitOwnerListing(token, {
       title: form.title,
       description: form.description,
       propertyType: form.propertyType,
@@ -43,9 +45,11 @@ export async function submitOwnerListingAction(token: string, form: OwnerListing
       amenities: form.amenities,
       videoUrl: form.videoUrl,
       bachelorFriendly: form.bachelorFriendly,
+      latitude: form.latitude,
+      longitude: form.longitude,
       images: form.images,
     });
-    return { slug: listing.slug };
+    return { id: result.id, statusToken: result.statusToken };
   } catch (error) {
     if (error instanceof ListingRequestError) throw new Error(error.message);
     if (error instanceof ListingServiceError) {

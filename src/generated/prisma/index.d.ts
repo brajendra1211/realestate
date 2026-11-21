@@ -587,6 +587,7 @@ export type AppointmentStatus = (typeof AppointmentStatus)[keyof typeof Appointm
 
 export const ListingRequestStatus: {
   PENDING_PAYMENT: 'PENDING_PAYMENT',
+  DETAILS_PENDING: 'DETAILS_PENDING',
   SEARCHING: 'SEARCHING',
   ACCEPTED: 'ACCEPTED',
   LINK_SENT: 'LINK_SENT',
@@ -63881,6 +63882,7 @@ export namespace Prisma {
     agentSplit: number | null
     companySplit: number | null
     buzzCount: number | null
+    buzzRadiusKm: number | null
   }
 
   export type ListingRequestSumAggregateOutputType = {
@@ -63890,6 +63892,7 @@ export namespace Prisma {
     agentSplit: number | null
     companySplit: number | null
     buzzCount: number | null
+    buzzRadiusKm: number | null
   }
 
   export type ListingRequestMinAggregateOutputType = {
@@ -63921,6 +63924,11 @@ export namespace Prisma {
     paidAt: Date | null
     agentListingId: string | null
     adminNote: string | null
+    detailsJson: string | null
+    detailsAt: Date | null
+    buzzRadiusKm: number | null
+    searchStartedAt: Date | null
+    skippedAgentIds: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -63954,6 +63962,11 @@ export namespace Prisma {
     paidAt: Date | null
     agentListingId: string | null
     adminNote: string | null
+    detailsJson: string | null
+    detailsAt: Date | null
+    buzzRadiusKm: number | null
+    searchStartedAt: Date | null
+    skippedAgentIds: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -63987,6 +64000,11 @@ export namespace Prisma {
     paidAt: number
     agentListingId: number
     adminNote: number
+    detailsJson: number
+    detailsAt: number
+    buzzRadiusKm: number
+    searchStartedAt: number
+    skippedAgentIds: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -64000,6 +64018,7 @@ export namespace Prisma {
     agentSplit?: true
     companySplit?: true
     buzzCount?: true
+    buzzRadiusKm?: true
   }
 
   export type ListingRequestSumAggregateInputType = {
@@ -64009,6 +64028,7 @@ export namespace Prisma {
     agentSplit?: true
     companySplit?: true
     buzzCount?: true
+    buzzRadiusKm?: true
   }
 
   export type ListingRequestMinAggregateInputType = {
@@ -64040,6 +64060,11 @@ export namespace Prisma {
     paidAt?: true
     agentListingId?: true
     adminNote?: true
+    detailsJson?: true
+    detailsAt?: true
+    buzzRadiusKm?: true
+    searchStartedAt?: true
+    skippedAgentIds?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -64073,6 +64098,11 @@ export namespace Prisma {
     paidAt?: true
     agentListingId?: true
     adminNote?: true
+    detailsJson?: true
+    detailsAt?: true
+    buzzRadiusKm?: true
+    searchStartedAt?: true
+    skippedAgentIds?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -64106,6 +64136,11 @@ export namespace Prisma {
     paidAt?: true
     agentListingId?: true
     adminNote?: true
+    detailsJson?: true
+    detailsAt?: true
+    buzzRadiusKm?: true
+    searchStartedAt?: true
+    skippedAgentIds?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -64226,6 +64261,11 @@ export namespace Prisma {
     paidAt: Date | null
     agentListingId: string | null
     adminNote: string | null
+    detailsJson: string | null
+    detailsAt: Date | null
+    buzzRadiusKm: number
+    searchStartedAt: Date | null
+    skippedAgentIds: string | null
     createdAt: Date
     updatedAt: Date
     _count: ListingRequestCountAggregateOutputType | null
@@ -64278,6 +64318,11 @@ export namespace Prisma {
     paidAt?: boolean
     agentListingId?: boolean
     adminNote?: boolean
+    detailsJson?: boolean
+    detailsAt?: boolean
+    buzzRadiusKm?: boolean
+    searchStartedAt?: boolean
+    skippedAgentIds?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     acceptedAgent?: boolean | ListingRequest$acceptedAgentArgs<ExtArgs>
@@ -64315,11 +64360,16 @@ export namespace Prisma {
     paidAt?: boolean
     agentListingId?: boolean
     adminNote?: boolean
+    detailsJson?: boolean
+    detailsAt?: boolean
+    buzzRadiusKm?: boolean
+    searchStartedAt?: boolean
+    skippedAgentIds?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ListingRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "ownerName" | "ownerPhone" | "ownerEmail" | "city" | "locality" | "latitude" | "longitude" | "plan" | "purpose" | "amount" | "agentSplit" | "companySplit" | "referredByAgentCode" | "razorpayOrderId" | "status" | "statusToken" | "formToken" | "alertedAgentIds" | "buzzCount" | "lastBuzzAt" | "acceptedByAgentId" | "acceptedAt" | "linkSentAt" | "paidAt" | "agentListingId" | "adminNote" | "createdAt" | "updatedAt", ExtArgs["result"]["listingRequest"]>
+  export type ListingRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "ownerName" | "ownerPhone" | "ownerEmail" | "city" | "locality" | "latitude" | "longitude" | "plan" | "purpose" | "amount" | "agentSplit" | "companySplit" | "referredByAgentCode" | "razorpayOrderId" | "status" | "statusToken" | "formToken" | "alertedAgentIds" | "buzzCount" | "lastBuzzAt" | "acceptedByAgentId" | "acceptedAt" | "linkSentAt" | "paidAt" | "agentListingId" | "adminNote" | "detailsJson" | "detailsAt" | "buzzRadiusKm" | "searchStartedAt" | "skippedAgentIds" | "createdAt" | "updatedAt", ExtArgs["result"]["listingRequest"]>
   export type ListingRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     acceptedAgent?: boolean | ListingRequest$acceptedAgentArgs<ExtArgs>
     agentListing?: boolean | ListingRequest$agentListingArgs<ExtArgs>
@@ -64360,6 +64410,11 @@ export namespace Prisma {
       paidAt: Date | null
       agentListingId: string | null
       adminNote: string | null
+      detailsJson: string | null
+      detailsAt: Date | null
+      buzzRadiusKm: number
+      searchStartedAt: Date | null
+      skippedAgentIds: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["listingRequest"]>
@@ -64761,6 +64816,11 @@ export namespace Prisma {
     readonly paidAt: FieldRef<"ListingRequest", 'DateTime'>
     readonly agentListingId: FieldRef<"ListingRequest", 'String'>
     readonly adminNote: FieldRef<"ListingRequest", 'String'>
+    readonly detailsJson: FieldRef<"ListingRequest", 'String'>
+    readonly detailsAt: FieldRef<"ListingRequest", 'DateTime'>
+    readonly buzzRadiusKm: FieldRef<"ListingRequest", 'Int'>
+    readonly searchStartedAt: FieldRef<"ListingRequest", 'DateTime'>
+    readonly skippedAgentIds: FieldRef<"ListingRequest", 'String'>
     readonly createdAt: FieldRef<"ListingRequest", 'DateTime'>
     readonly updatedAt: FieldRef<"ListingRequest", 'DateTime'>
   }
@@ -71234,6 +71294,11 @@ export namespace Prisma {
     paidAt: 'paidAt',
     agentListingId: 'agentListingId',
     adminNote: 'adminNote',
+    detailsJson: 'detailsJson',
+    detailsAt: 'detailsAt',
+    buzzRadiusKm: 'buzzRadiusKm',
+    searchStartedAt: 'searchStartedAt',
+    skippedAgentIds: 'skippedAgentIds',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -72007,7 +72072,9 @@ export namespace Prisma {
     alertedAgentIds: 'alertedAgentIds',
     acceptedByAgentId: 'acceptedByAgentId',
     agentListingId: 'agentListingId',
-    adminNote: 'adminNote'
+    adminNote: 'adminNote',
+    detailsJson: 'detailsJson',
+    skippedAgentIds: 'skippedAgentIds'
   };
 
   export type ListingRequestOrderByRelevanceFieldEnum = (typeof ListingRequestOrderByRelevanceFieldEnum)[keyof typeof ListingRequestOrderByRelevanceFieldEnum]
@@ -77548,6 +77615,11 @@ export namespace Prisma {
     paidAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
     agentListingId?: StringNullableFilter<"ListingRequest"> | string | null
     adminNote?: StringNullableFilter<"ListingRequest"> | string | null
+    detailsJson?: StringNullableFilter<"ListingRequest"> | string | null
+    detailsAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
+    buzzRadiusKm?: IntFilter<"ListingRequest"> | number
+    searchStartedAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
+    skippedAgentIds?: StringNullableFilter<"ListingRequest"> | string | null
     createdAt?: DateTimeFilter<"ListingRequest"> | Date | string
     updatedAt?: DateTimeFilter<"ListingRequest"> | Date | string
     acceptedAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
@@ -77583,6 +77655,11 @@ export namespace Prisma {
     paidAt?: SortOrderInput | SortOrder
     agentListingId?: SortOrderInput | SortOrder
     adminNote?: SortOrderInput | SortOrder
+    detailsJson?: SortOrderInput | SortOrder
+    detailsAt?: SortOrderInput | SortOrder
+    buzzRadiusKm?: SortOrder
+    searchStartedAt?: SortOrderInput | SortOrder
+    skippedAgentIds?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     acceptedAgent?: AgentProfileOrderByWithRelationInput
@@ -77622,6 +77699,11 @@ export namespace Prisma {
     linkSentAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
     paidAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
     adminNote?: StringNullableFilter<"ListingRequest"> | string | null
+    detailsJson?: StringNullableFilter<"ListingRequest"> | string | null
+    detailsAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
+    buzzRadiusKm?: IntFilter<"ListingRequest"> | number
+    searchStartedAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
+    skippedAgentIds?: StringNullableFilter<"ListingRequest"> | string | null
     createdAt?: DateTimeFilter<"ListingRequest"> | Date | string
     updatedAt?: DateTimeFilter<"ListingRequest"> | Date | string
     acceptedAgent?: XOR<AgentProfileNullableScalarRelationFilter, AgentProfileWhereInput> | null
@@ -77657,6 +77739,11 @@ export namespace Prisma {
     paidAt?: SortOrderInput | SortOrder
     agentListingId?: SortOrderInput | SortOrder
     adminNote?: SortOrderInput | SortOrder
+    detailsJson?: SortOrderInput | SortOrder
+    detailsAt?: SortOrderInput | SortOrder
+    buzzRadiusKm?: SortOrder
+    searchStartedAt?: SortOrderInput | SortOrder
+    skippedAgentIds?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ListingRequestCountOrderByAggregateInput
@@ -77698,6 +77785,11 @@ export namespace Prisma {
     paidAt?: DateTimeNullableWithAggregatesFilter<"ListingRequest"> | Date | string | null
     agentListingId?: StringNullableWithAggregatesFilter<"ListingRequest"> | string | null
     adminNote?: StringNullableWithAggregatesFilter<"ListingRequest"> | string | null
+    detailsJson?: StringNullableWithAggregatesFilter<"ListingRequest"> | string | null
+    detailsAt?: DateTimeNullableWithAggregatesFilter<"ListingRequest"> | Date | string | null
+    buzzRadiusKm?: IntWithAggregatesFilter<"ListingRequest"> | number
+    searchStartedAt?: DateTimeNullableWithAggregatesFilter<"ListingRequest"> | Date | string | null
+    skippedAgentIds?: StringNullableWithAggregatesFilter<"ListingRequest"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ListingRequest"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ListingRequest"> | Date | string
   }
@@ -83957,6 +84049,11 @@ export namespace Prisma {
     linkSentAt?: Date | string | null
     paidAt?: Date | string | null
     adminNote?: string | null
+    detailsJson?: string | null
+    detailsAt?: Date | string | null
+    buzzRadiusKm?: number
+    searchStartedAt?: Date | string | null
+    skippedAgentIds?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     acceptedAgent?: AgentProfileCreateNestedOneWithoutAcceptedListingRequestsInput
@@ -83992,6 +84089,11 @@ export namespace Prisma {
     paidAt?: Date | string | null
     agentListingId?: string | null
     adminNote?: string | null
+    detailsJson?: string | null
+    detailsAt?: Date | string | null
+    buzzRadiusKm?: number
+    searchStartedAt?: Date | string | null
+    skippedAgentIds?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -84023,6 +84125,11 @@ export namespace Prisma {
     linkSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buzzRadiusKm?: IntFieldUpdateOperationsInput | number
+    searchStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skippedAgentIds?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     acceptedAgent?: AgentProfileUpdateOneWithoutAcceptedListingRequestsNestedInput
@@ -84058,6 +84165,11 @@ export namespace Prisma {
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agentListingId?: NullableStringFieldUpdateOperationsInput | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buzzRadiusKm?: IntFieldUpdateOperationsInput | number
+    searchStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skippedAgentIds?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -84091,6 +84203,11 @@ export namespace Prisma {
     paidAt?: Date | string | null
     agentListingId?: string | null
     adminNote?: string | null
+    detailsJson?: string | null
+    detailsAt?: Date | string | null
+    buzzRadiusKm?: number
+    searchStartedAt?: Date | string | null
+    skippedAgentIds?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -84122,6 +84239,11 @@ export namespace Prisma {
     linkSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buzzRadiusKm?: IntFieldUpdateOperationsInput | number
+    searchStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skippedAgentIds?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -84155,6 +84277,11 @@ export namespace Prisma {
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agentListingId?: NullableStringFieldUpdateOperationsInput | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buzzRadiusKm?: IntFieldUpdateOperationsInput | number
+    searchStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skippedAgentIds?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -89190,6 +89317,11 @@ export namespace Prisma {
     paidAt?: SortOrder
     agentListingId?: SortOrder
     adminNote?: SortOrder
+    detailsJson?: SortOrder
+    detailsAt?: SortOrder
+    buzzRadiusKm?: SortOrder
+    searchStartedAt?: SortOrder
+    skippedAgentIds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -89201,6 +89333,7 @@ export namespace Prisma {
     agentSplit?: SortOrder
     companySplit?: SortOrder
     buzzCount?: SortOrder
+    buzzRadiusKm?: SortOrder
   }
 
   export type ListingRequestMaxOrderByAggregateInput = {
@@ -89232,6 +89365,11 @@ export namespace Prisma {
     paidAt?: SortOrder
     agentListingId?: SortOrder
     adminNote?: SortOrder
+    detailsJson?: SortOrder
+    detailsAt?: SortOrder
+    buzzRadiusKm?: SortOrder
+    searchStartedAt?: SortOrder
+    skippedAgentIds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -89265,6 +89403,11 @@ export namespace Prisma {
     paidAt?: SortOrder
     agentListingId?: SortOrder
     adminNote?: SortOrder
+    detailsJson?: SortOrder
+    detailsAt?: SortOrder
+    buzzRadiusKm?: SortOrder
+    searchStartedAt?: SortOrder
+    skippedAgentIds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -89276,6 +89419,7 @@ export namespace Prisma {
     agentSplit?: SortOrder
     companySplit?: SortOrder
     buzzCount?: SortOrder
+    buzzRadiusKm?: SortOrder
   }
 
   export type EnumListingPurposeWithAggregatesFilter<$PrismaModel = never> = {
@@ -101637,6 +101781,11 @@ export namespace Prisma {
     linkSentAt?: Date | string | null
     paidAt?: Date | string | null
     adminNote?: string | null
+    detailsJson?: string | null
+    detailsAt?: Date | string | null
+    buzzRadiusKm?: number
+    searchStartedAt?: Date | string | null
+    skippedAgentIds?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     agentListing?: AgentListingCreateNestedOneWithoutListingRequestInput
@@ -101670,6 +101819,11 @@ export namespace Prisma {
     paidAt?: Date | string | null
     agentListingId?: string | null
     adminNote?: string | null
+    detailsJson?: string | null
+    detailsAt?: Date | string | null
+    buzzRadiusKm?: number
+    searchStartedAt?: Date | string | null
+    skippedAgentIds?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -103185,6 +103339,11 @@ export namespace Prisma {
     paidAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
     agentListingId?: StringNullableFilter<"ListingRequest"> | string | null
     adminNote?: StringNullableFilter<"ListingRequest"> | string | null
+    detailsJson?: StringNullableFilter<"ListingRequest"> | string | null
+    detailsAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
+    buzzRadiusKm?: IntFilter<"ListingRequest"> | number
+    searchStartedAt?: DateTimeNullableFilter<"ListingRequest"> | Date | string | null
+    skippedAgentIds?: StringNullableFilter<"ListingRequest"> | string | null
     createdAt?: DateTimeFilter<"ListingRequest"> | Date | string
     updatedAt?: DateTimeFilter<"ListingRequest"> | Date | string
   }
@@ -106096,6 +106255,11 @@ export namespace Prisma {
     linkSentAt?: Date | string | null
     paidAt?: Date | string | null
     adminNote?: string | null
+    detailsJson?: string | null
+    detailsAt?: Date | string | null
+    buzzRadiusKm?: number
+    searchStartedAt?: Date | string | null
+    skippedAgentIds?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     acceptedAgent?: AgentProfileCreateNestedOneWithoutAcceptedListingRequestsInput
@@ -106129,6 +106293,11 @@ export namespace Prisma {
     linkSentAt?: Date | string | null
     paidAt?: Date | string | null
     adminNote?: string | null
+    detailsJson?: string | null
+    detailsAt?: Date | string | null
+    buzzRadiusKm?: number
+    searchStartedAt?: Date | string | null
+    skippedAgentIds?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -106607,6 +106776,11 @@ export namespace Prisma {
     linkSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buzzRadiusKm?: IntFieldUpdateOperationsInput | number
+    searchStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skippedAgentIds?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     acceptedAgent?: AgentProfileUpdateOneWithoutAcceptedListingRequestsNestedInput
@@ -106640,6 +106814,11 @@ export namespace Prisma {
     linkSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buzzRadiusKm?: IntFieldUpdateOperationsInput | number
+    searchStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skippedAgentIds?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -122060,6 +122239,11 @@ export namespace Prisma {
     paidAt?: Date | string | null
     agentListingId?: string | null
     adminNote?: string | null
+    detailsJson?: string | null
+    detailsAt?: Date | string | null
+    buzzRadiusKm?: number
+    searchStartedAt?: Date | string | null
+    skippedAgentIds?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -122934,6 +123118,11 @@ export namespace Prisma {
     linkSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buzzRadiusKm?: IntFieldUpdateOperationsInput | number
+    searchStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skippedAgentIds?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agentListing?: AgentListingUpdateOneWithoutListingRequestNestedInput
@@ -122967,6 +123156,11 @@ export namespace Prisma {
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agentListingId?: NullableStringFieldUpdateOperationsInput | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buzzRadiusKm?: IntFieldUpdateOperationsInput | number
+    searchStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skippedAgentIds?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -122999,6 +123193,11 @@ export namespace Prisma {
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     agentListingId?: NullableStringFieldUpdateOperationsInput | string | null
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    detailsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buzzRadiusKm?: IntFieldUpdateOperationsInput | number
+    searchStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skippedAgentIds?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

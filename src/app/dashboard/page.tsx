@@ -101,7 +101,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
             {listingRequests.map((r) => (
               <li key={r.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
                 <span className="font-semibold text-slate-800">
-                  {[r.locality, r.city].filter(Boolean).join(", ")} · {r.plan === "GOLD" ? "Gold" : "Basic"}
+                  {[r.locality, r.city].filter(Boolean).join(", ")} · {r.plan === "GOLD" ? "Pro" : "Basic"}
                 </span>
                 <span className="flex items-center gap-3">
                   <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">{REQUEST_STATUS_LABEL[r.status]}</span>

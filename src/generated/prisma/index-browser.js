@@ -941,6 +941,11 @@ exports.Prisma.ListingRequestScalarFieldEnum = {
   paidAt: 'paidAt',
   agentListingId: 'agentListingId',
   adminNote: 'adminNote',
+  detailsJson: 'detailsJson',
+  detailsAt: 'detailsAt',
+  buzzRadiusKm: 'buzzRadiusKm',
+  searchStartedAt: 'searchStartedAt',
+  skippedAgentIds: 'skippedAgentIds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1534,7 +1539,9 @@ exports.Prisma.ListingRequestOrderByRelevanceFieldEnum = {
   alertedAgentIds: 'alertedAgentIds',
   acceptedByAgentId: 'acceptedByAgentId',
   agentListingId: 'agentListingId',
-  adminNote: 'adminNote'
+  adminNote: 'adminNote',
+  detailsJson: 'detailsJson',
+  skippedAgentIds: 'skippedAgentIds'
 };
 
 exports.Prisma.BuyerInterestOrderByRelevanceFieldEnum = {
@@ -1791,6 +1798,7 @@ exports.ListingPurpose = exports.$Enums.ListingPurpose = {
 
 exports.ListingRequestStatus = exports.$Enums.ListingRequestStatus = {
   PENDING_PAYMENT: 'PENDING_PAYMENT',
+  DETAILS_PENDING: 'DETAILS_PENDING',
   SEARCHING: 'SEARCHING',
   ACCEPTED: 'ACCEPTED',
   LINK_SENT: 'LINK_SENT',

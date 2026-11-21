@@ -501,8 +501,8 @@ model SiteSettings {
   agentBasicPlanPrice        Int @default(999) // Basic Agent Plan ₹999/month
   agentPrimePlanPrice        Int @default(1999) // Prime Agent Plan ₹1,999/month
   agentPlanSplitPercent      Int @default(50) // PDF 1 P.1 — 50% referral split to agent wallet
-  basicListingFee            Int @default(300) // PDF 1 P.1 — Basic Property Listing ₹300 (1 Month)
-  goldListingFee             Int @default(500) // PDF 1 P.1 — Gold Property Listing ₹500 (3 Months)
+  basicListingFee            Int @default(299) // PDF 1 P.1 — Basic Property Listing ₹300 (1 Month)
+  goldListingFee             Int @default(499) // PDF 1 P.1 — Gold Property Listing ₹500 (3 Months)
   listingSplitPercent        Int @default(50) // PDF 1 P.1 — 50% split to agent wallet
 
   // Global Channel Partner Targets (Admin Default: 30 days, 20 properties, 10 sub-partners, 3 investors)
@@ -1436,6 +1436,7 @@ model PushToken {
 // is created under that partner's ID (50-50 split of the plan fee).
 enum ListingRequestStatus {
   PENDING_PAYMENT
+  DETAILS_PENDING // paid; the owner is filling in the property details (then the buzzer rings)
   SEARCHING
   ACCEPTED
   LINK_SENT
@@ -1481,6 +1482,13 @@ model ListingRequest {
   agentListingId      String?              @unique
   agentListing        AgentListing?        @relation(fields: [agentListingId], references: [id], onDelete: SetNull)
   adminNote           String?              @db.Text
+  // Owner-submitted property details (JSON). The AgentListing is only created after the partner verifies on site with the owner's OTP.
+  detailsJson         String?              @db.LongText
+  detailsAt           DateTime?
+  // Buzzer cycle: 5 km -> 10 km -> 15 km. Restarts (skipping skippedAgentIds) if nobody verifies within 48 hours.
+  buzzRadiusKm        Int                  @default(0)
+  searchStartedAt     DateTime?
+  skippedAgentIds     String?              @db.Text
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
 

@@ -3,10 +3,11 @@ import { redirect } from "next/navigation";
 import { BellRing, CheckCircle2, Phone } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { formLink, REQUEST_STATUS_LABEL, visibleToAgentWhere } from "@/lib/listingRequest";
+import { formLink, REQUEST_STATUS_LABEL, visibleToAgentWhere, parseOwnerDetails, advanceListingRequests } from "@/lib/listingRequest";
 import { formatINR } from "@/lib/format";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { ShareLinkButtons } from "./ShareLinkButtons";
+import { VerifyPanel } from "./VerifyPanel";
 
 const tone: Record<string, string> = {
   ACCEPTED: "bg-amber-50 text-amber-700 ring-amber-200",
@@ -21,6 +22,7 @@ export default async function OwnerRequestsPage() {
   const agent = await prisma.agentProfile.findUnique({ where: { userId: session.user.id }, select: { id: true } });
   if (!agent) redirect("/login");
 
+  await advanceListingRequests().catch(() => 0);
   const [waiting, mine] = await Promise.all([
     prisma.listingRequest.findMany({
       where: visibleToAgentWhere(agent.id),
@@ -42,8 +44,8 @@ export default async function OwnerRequestsPage() {
       <div>
         <h1 className="font-display text-3xl font-semibold text-ink">Owner requests</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Owners who paid to list a rental. Accept first, call them, send your link, and the listing goes live under your ID.
-          You earn the partner share of the plan fee when they submit their details.
+          Owners who paid to list a rental and filled in their details. Accept first, visit the property, check the details and photos, and verify with the owner&apos;s OTP.
+          The listing then goes live under your ID and you earn the partner share of the plan fee.
         </p>
       </div>
 
@@ -61,7 +63,7 @@ export default async function OwnerRequestsPage() {
               <div>
                 <p className="font-bold text-ink">New owner in {[r.locality, r.city].filter(Boolean).join(", ")}</p>
                 <p className="text-xs text-slate-500">
-                  {r.plan === "GOLD" ? "Gold" : "Basic"} plan · you earn {formatINR(r.agentSplit)}
+                  {r.plan === "GOLD" ? "Pro" : "Basic"} plan · you earn {formatINR(r.agentSplit)} after verification
                 </p>
               </div>
               <p className="text-xs font-semibold text-slate-500">Use the buzzer on screen to accept</p>
@@ -81,7 +83,7 @@ export default async function OwnerRequestsPage() {
                 <div>
                   <p className="text-lg font-bold text-ink">{r.ownerName}</p>
                   <p className="text-sm text-slate-500">
-                    {[r.locality, r.city].filter(Boolean).join(", ")} · {r.plan === "GOLD" ? "Gold" : "Basic"} · you earn {formatINR(r.agentSplit)}
+                    {[r.locality, r.city].filter(Boolean).join(", ")} · {r.plan === "GOLD" ? "Pro" : "Basic"} · you earn {formatINR(r.agentSplit)}
                   </p>
                 </div>
                 <span className={`rounded-full px-3 py-1 text-[11px] font-bold ring-1 ring-inset ${tone[r.status]}`}>{REQUEST_STATUS_LABEL[r.status]}</span>
@@ -91,13 +93,33 @@ export default async function OwnerRequestsPage() {
                 <a href={`tel:${r.ownerPhone}`} className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-5 py-3 text-sm font-bold text-white hover:bg-brand-700">
                   <Phone className="h-4 w-4" /> Call {r.ownerPhone}
                 </a>
-                <ShareLinkButtons requestId={r.id} link={formLink(r)} ownerName={r.ownerName} phone={r.ownerPhone} />
+                {!r.detailsJson && <ShareLinkButtons requestId={r.id} link={formLink(r)} ownerName={r.ownerName} phone={r.ownerPhone} />}
               </div>
-              <p className="mt-3 text-xs text-slate-500">
-                {r.status === "LINK_SENT"
-                  ? "Link sent. We will notify you as soon as the owner submits the details."
-                  : "Call the owner first, then send the link so they can fill in the property details."}
-              </p>
+              {(() => {
+                const d = parseOwnerDetails(r);
+                if (!d) {
+                  return <p className="mt-3 text-xs text-slate-500">Waiting for the owner to submit the property details. Send them the link above.</p>;
+                }
+                return (
+                  <>
+                    <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm">
+                      <p className="font-bold text-ink">{d.title}</p>
+                      <p className="mt-1 text-xs text-slate-600">
+                        {d.propertyType.replace(/_/g, " ")} · {d.bedrooms ?? "-"} BHK · {d.areaSqft ?? "-"} sqft · rent {formatINR(d.price)}
+                        {d.securityDeposit ? ` · deposit ${formatINR(d.securityDeposit)}` : ""}
+                      </p>
+                      <p className="mt-1 text-xs text-slate-600">Address: {d.exactAddress}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {d.images.slice(0, 6).map((src) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img key={src} src={src} alt="Owner photo" className="h-16 w-24 rounded-lg object-cover" />
+                        ))}
+                      </div>
+                    </div>
+                    <VerifyPanel requestId={r.id} />
+                  </>
+                );
+              })()}
             </div>
           ))
         )}

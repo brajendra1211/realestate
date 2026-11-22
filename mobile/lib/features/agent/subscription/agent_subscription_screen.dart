@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/network/api_client.dart';
 import '../../../core/network/api_exception.dart';
+import '../../../core/payments/razorpay_checkout.dart';
+import '../../../services/agent_work_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/error_messages.dart';
@@ -27,6 +29,29 @@ class _AgentSubscriptionScreenState extends State<AgentSubscriptionScreen> {
   late Future<List<AgentPlanDefinition>> _plansFuture;
   final _vpaController = TextEditingController();
   bool _savingMandate = false;
+  bool _buying = false;
+
+  Future<void> _buy(AgentPlanDefinition plan) async {
+    setState(() => _buying = true);
+    final work = AgentWorkService(ApiClient.instance.dio);
+    try {
+      final status = await _service.getStatus();
+      final upgrade = status.agentCode != null;
+      final order = await work.planOrder(plan.id, upgrade: upgrade);
+      final paid = await openRazorpayCheckout(keyId: order.keyId, orderId: order.orderId, amountPaise: order.amountPaise, description: plan.name);
+      if (paid != null) {
+        await work.planVerify(plan.id, upgrade: upgrade, orderId: paid.orderId, paymentId: paid.paymentId, signature: paid.signature);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Plan activated.')));
+          setState(_reload);
+        }
+      }
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(workError(e))));
+    } finally {
+      if (mounted) setState(() => _buying = false);
+    }
+  }
 
   @override
   void initState() {
@@ -120,7 +145,7 @@ class _AgentSubscriptionScreenState extends State<AgentSubscriptionScreen> {
                   children: plans
                       .map((p) => Padding(
                             padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                            child: _PlanCard(plan: p),
+                            child: _PlanCard(plan: p, busy: _buying, onBuy: () => _buy(p)),
                           ))
                       .toList(),
                 );
@@ -258,9 +283,11 @@ class _StatTile extends StatelessWidget {
 }
 
 class _PlanCard extends StatelessWidget {
-  const _PlanCard({required this.plan});
+  const _PlanCard({required this.plan, required this.onBuy, required this.busy});
 
   final AgentPlanDefinition plan;
+  final VoidCallback onBuy;
+  final bool busy;
 
   @override
   Widget build(BuildContext context) {
@@ -290,10 +317,17 @@ class _PlanCard extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            '₹${plan.price}',
-            style: const TextStyle(
-                color: AppColors.gold, fontWeight: FontWeight.w700, fontSize: 18),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '₹${plan.price}',
+                style: const TextStyle(
+                    color: AppColors.gold, fontWeight: FontWeight.w700, fontSize: 18),
+              ),
+              const SizedBox(height: 6),
+              ElevatedButton(onPressed: busy ? null : onBuy, child: const Text('Buy')),
+            ],
           ),
         ],
       ),

@@ -22,7 +22,7 @@ class AccountScreen extends StatelessWidget {
     // ever true — show that one role's card, or a single sign-in entry
     // point when logged out, rather than making the person guess which of
     // three screens their account lives behind.
-    final signedIn = agentAuth.isLoggedIn || customerAuth.isBuyer || customerAuth.isInvestor;
+    final signedIn = agentAuth.isLoggedIn || customerAuth.isBuyer || customerAuth.isInvestor || customerAuth.isOwner;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Account')),
@@ -63,6 +63,14 @@ class AccountScreen extends StatelessWidget {
                 signedIn: true,
                 onTap: () => context.push(RoutePaths.investorDashboard),
               )
+            else if (customerAuth.isOwner)
+              _AccountOption(
+                icon: Icons.home_work_outlined,
+                title: 'Property Owner',
+                subtitle: 'Signed in as ${customerAuth.name ?? customerAuth.email ?? 'owner'}',
+                signedIn: true,
+                onTap: () => context.push(RoutePaths.ownerStatus),
+              )
             else if (customerAuth.isBuyer)
               _AccountOption(
                 icon: Icons.person_outline,
@@ -80,6 +88,23 @@ class AccountScreen extends StatelessWidget {
                 signedIn: false,
                 onTap: () => context.push(RoutePaths.buyerLogin),
               ),
+            const SizedBox(height: AppSpacing.md),
+            if (!signedIn)
+              _AccountOption(
+                icon: Icons.add_home_work_outlined,
+                title: 'List your property',
+                subtitle: 'Owners: plans from ₹299. Already listed? Log in.',
+                signedIn: false,
+                onTap: () => context.push(RoutePaths.ownerStart),
+              ),
+            if (!signedIn) const SizedBox(height: AppSpacing.md),
+            _AccountOption(
+              icon: Icons.support_agent_outlined,
+              title: 'Help & support',
+              subtitle: 'Raise a ticket. We reply within 2 hours.',
+              signedIn: false,
+              onTap: () => context.push(RoutePaths.support),
+            ),
           ],
         ),
       ),

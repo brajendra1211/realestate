@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/route_paths.dart';
 import '../../../core/widgets/nav_dock.dart';
+import '../buzzer/agent_buzzer_overlay.dart';
 
 const _items = [
   NavDockItem(icon: Icons.dashboard_rounded, label: 'Dashboard'),
@@ -37,7 +38,7 @@ class AgentShell extends StatelessWidget {
     final location = GoRouterState.of(context).uri.toString();
 
     return Scaffold(
-      body: child,
+      body: AgentBuzzerOverlay(child: child),
       bottomNavigationBar: NavDock(
         items: _items,
         currentIndex: _indexForLocation(location),

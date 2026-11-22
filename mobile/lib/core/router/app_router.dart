@@ -47,7 +47,11 @@ import '../../features/investor/auth/investor_login_screen.dart';
 import '../../features/investor/auth/investor_verify_screen.dart';
 import '../../features/investor/dashboard/investor_dashboard_screen.dart';
 import '../../features/investor/documents/investor_documents_screen.dart';
+import '../../features/agent/brochures/agent_brochures_screen.dart';
+import '../../features/agent/buyer_leads/agent_buyer_leads_screen.dart';
+import '../../features/agent/owner_requests/agent_owner_requests_screen.dart';
 import '../../features/owner/owner_details_screen.dart';
+import '../../features/support/support_screen.dart';
 import '../../features/owner/owner_login_screen.dart';
 import '../../features/owner/owner_start_screen.dart';
 import '../../features/owner/owner_status_screen.dart';
@@ -80,6 +84,9 @@ const _agentAuthRequiredPrefixes = [
   RoutePaths.agentDeals,
   RoutePaths.agentShopQr,
   RoutePaths.incomingRing,
+  RoutePaths.agentOwnerRequests,
+  RoutePaths.agentBuyerLeads,
+  RoutePaths.agentBrochures,
 ];
 
 /// Routes needing an authenticated buyer session, gated the same way as
@@ -152,6 +159,7 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
           propertyTitle: state.uri.queryParameters['title'],
         ),
       ),
+      GoRoute(path: RoutePaths.support, builder: (context, state) => const SupportScreen()),
       GoRoute(path: RoutePaths.ownerStart, builder: (context, state) => const OwnerStartScreen()),
       GoRoute(path: RoutePaths.ownerLogin, builder: (context, state) => const OwnerLoginScreen()),
       GoRoute(path: RoutePaths.ownerStatus, builder: (context, state) => const OwnerStatusScreen()),
@@ -328,6 +336,9 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
             path: RoutePaths.agentDashboard,
             builder: (context, state) => const AgentDashboardScreen(),
           ),
+          GoRoute(path: RoutePaths.agentOwnerRequests, builder: (context, state) => const AgentOwnerRequestsScreen()),
+          GoRoute(path: RoutePaths.agentBuyerLeads, builder: (context, state) => const AgentBuyerLeadsScreen()),
+          GoRoute(path: RoutePaths.agentBrochures, builder: (context, state) => const AgentBrochuresScreen()),
           GoRoute(
             path: RoutePaths.agentListings,
             builder: (context, state) => const AgentListingsScreen(),

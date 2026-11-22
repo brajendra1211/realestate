@@ -21,6 +21,26 @@ class AgentMoreScreen extends StatelessWidget {
         childAspectRatio: 1.6,
         children: [
           _MoreTile(
+            icon: Icons.support_agent_rounded,
+            label: 'Help & Support',
+            onTap: () => context.push(RoutePaths.support),
+          ),
+          _MoreTile(
+            icon: Icons.notifications_active_rounded,
+            label: 'Owner Requests',
+            onTap: () => context.push(RoutePaths.agentOwnerRequests),
+          ),
+          _MoreTile(
+            icon: Icons.person_search_rounded,
+            label: 'Buyer Leads',
+            onTap: () => context.push(RoutePaths.agentBuyerLeads),
+          ),
+          _MoreTile(
+            icon: Icons.description_rounded,
+            label: 'Brochures',
+            onTap: () => context.push(RoutePaths.agentBrochures),
+          ),
+          _MoreTile(
             icon: Icons.person_outline,
             label: 'My Profile',
             onTap: () => context.push(RoutePaths.agentProfile),

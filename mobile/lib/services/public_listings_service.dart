@@ -1,3 +1,4 @@
+import '../core/payments/razorpay_checkout.dart';
 import 'package:dio/dio.dart';
 
 import '../core/network/api_exception.dart';
@@ -77,9 +78,36 @@ class PublicListingsService {
   /// already-unlocked listing just returns the existing unlock.
   Future<void> unlockListing(String slug) async {
     try {
-      await _dio.post(Endpoints.listingUnlock(slug));
+      final res = await _dio.post(
+        Endpoints.listingUnlock(slug),
+        data: <String, dynamic>{},
+        options: Options(validateStatus: (s) => s != null && s < 500),
+      );
+      final data = res.data is Map ? res.data as Map : const {};
+      if (res.statusCode == 402) {
+        // Real payment: open Razorpay, then confirm with the signed payment.
+        final order = data['order'] as Map;
+        final paid = await openRazorpayCheckout(
+          keyId: data['keyId'] as String,
+          orderId: order['id'] as String,
+          amountPaise: (order['amount'] as num).toInt(),
+          description: 'Unlock property details',
+        );
+        if (paid == null) throw const ApiException('Payment cancelled.', null);
+        await _dio.post(Endpoints.listingUnlock(slug), data: {
+          'razorpayOrderId': paid.orderId,
+          'razorpayPaymentId': paid.paymentId,
+          'razorpaySignature': paid.signature,
+        });
+        return;
+      }
+      if (res.statusCode != null && res.statusCode! >= 400) {
+        throw ApiException(data['error']?.toString() ?? 'unknown_error', res.statusCode);
+      }
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
+    } on String catch (message) {
+      throw ApiException(message, null);
     }
   }
 

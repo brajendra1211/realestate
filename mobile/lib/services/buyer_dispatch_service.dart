@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../core/network/api_exception.dart';
 import '../core/network/endpoints.dart';
+import '../core/payments/razorpay_checkout.dart';
 import '../models/dispatch_status.dart';
 
 /// Uber-style cascade dispatch: a buyer requests the nearest available
@@ -20,19 +21,29 @@ class BuyerDispatchService {
   /// with the real-payment (non-simulated) branch.
   Future<String> requestDispatch(double latitude, double longitude) async {
     try {
-      final res = await _dio.post(
-        Endpoints.dispatchCreate,
-        data: {'latitude': latitude, 'longitude': longitude},
-      );
+      final body = {'latitude': latitude, 'longitude': longitude};
+      final res = await _dio.post(Endpoints.dispatchCreate, data: body);
       final data = res.data as Map<String, dynamic>;
-      final simulated = data['simulated'] as bool? ?? false;
-      final id = data['dispatchRequestId'] as String?;
-      if (!simulated || id == null) {
-        throw const ApiException('payment_unavailable', null);
-      }
-      return id;
+      final order = data['order'] as Map?;
+      if (order == null) throw const ApiException('payment_unavailable', null);
+      final paid = await openRazorpayCheckout(
+        keyId: data['keyId'] as String,
+        orderId: order['id'] as String,
+        amountPaise: (order['amount'] as num).toInt(),
+        description: 'Nearest partner request',
+      );
+      if (paid == null) throw const ApiException('Payment cancelled.', null);
+      final done = await _dio.post('/api/dispatch/verify', data: {
+        ...body,
+        'razorpayOrderId': paid.orderId,
+        'razorpayPaymentId': paid.paymentId,
+        'razorpaySignature': paid.signature,
+      });
+      return (done.data as Map)['dispatchRequestId'] as String;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
+    } on String catch (message) {
+      throw ApiException(message, null);
     }
   }
 

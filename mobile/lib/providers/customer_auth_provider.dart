@@ -24,6 +24,8 @@ class CustomerAuthProvider extends ChangeNotifier {
 
   bool get isBuyer =>
       status == CustomerAuthStatus.loggedIn && role == 'BUYER';
+  bool get isOwner =>
+      status == CustomerAuthStatus.loggedIn && (role == 'OWNER' || role == 'DEALER');
   bool get isInvestor =>
       status == CustomerAuthStatus.loggedIn && role == 'INVESTOR';
 
@@ -57,6 +59,14 @@ class CustomerAuthProvider extends ChangeNotifier {
       identifier: identifier,
       otp: otp,
     );
+    final session = await _authService.currentSession();
+    _applySession(session);
+    notifyListeners();
+  }
+
+  /// Owner email + password login (owners are created by the list-property flow).
+  Future<void> loginWithPassword({required String email, required String password}) async {
+    await _authService.login(email: email, password: password);
     final session = await _authService.currentSession();
     _applySession(session);
     notifyListeners();

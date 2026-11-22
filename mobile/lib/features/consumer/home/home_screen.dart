@@ -806,7 +806,7 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             const SizedBox(height: 4),
             Text(
-              'Sell or rent your property directly with zero brokerage. Connect with genuine verified buyers.',
+              'List your property from ₹299. A verified partner checks it on site and your listing goes live with a Verified badge.',
               style: GoogleFonts.inter(
                 fontSize: 12,
                 color: const Color(0xFF94A3B8),
@@ -815,9 +815,9 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             const SizedBox(height: 14),
             ElevatedButton.icon(
-              onPressed: () => context.push(RoutePaths.buyerGoldListing),
+              onPressed: () => context.push(RoutePaths.ownerStart),
               icon: const Icon(Icons.add_home_work_rounded, size: 16),
-              label: const Text('Post Property Free'),
+              label: const Text('List your property'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.gold,
                 foregroundColor: const Color(0xFF0F172A),

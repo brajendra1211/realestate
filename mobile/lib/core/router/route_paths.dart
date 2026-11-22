@@ -20,6 +20,11 @@ class RoutePaths {
   static const buyerGoldListing = '/buyer/gold-listing';
   static const buyerDispatch = '/buyer/dispatch';
 
+  static const ownerStart = '/owner/start';
+  static const ownerLogin = '/owner/login';
+  static const ownerStatus = '/owner/status';
+  static const ownerDetails = '/owner/details/:token';
+
   static const investorLogin = '/investor/login';
   static const investorVerify = '/investor/verify';
   static const investorDashboard = '/investor/dashboard';
@@ -52,6 +57,7 @@ class RoutePaths {
   static const agentShopQr = '/agent/shop-qr';
   static const incomingRing = '/agent/incoming-ring';
 
+  static String ownerDetailsPath(String token) => '/owner/details/$token';
   static String listingDetailPath(String slug) => '/listing/$slug';
   static String rateAgentPath(String agentCode) => '/rate/$agentCode';
   static String agentShopPath(String agentCode) => '/shop/$agentCode';

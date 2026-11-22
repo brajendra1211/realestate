@@ -11,12 +11,12 @@ class ApiClient {
 
   static final ApiClient instance = ApiClient._();
 
-  /// Points at the live BayaEstate backend by default. Overridable per run
+  /// Points at the live Pronesto backend by default. Overridable per run
   /// target, e.g. for local dev:
   /// `flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000`
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://noidaprimeproperty.com',
+    defaultValue: 'https://pronesto.in',
   );
 
   late final Dio dio;

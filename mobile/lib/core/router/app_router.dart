@@ -47,6 +47,10 @@ import '../../features/investor/auth/investor_login_screen.dart';
 import '../../features/investor/auth/investor_verify_screen.dart';
 import '../../features/investor/dashboard/investor_dashboard_screen.dart';
 import '../../features/investor/documents/investor_documents_screen.dart';
+import '../../features/owner/owner_details_screen.dart';
+import '../../features/owner/owner_login_screen.dart';
+import '../../features/owner/owner_start_screen.dart';
+import '../../features/owner/owner_status_screen.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../providers/agent_auth_provider.dart';
 import '../../providers/customer_auth_provider.dart';
@@ -105,6 +109,9 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
       if (needsBuyerAuth && !customerAuth.isBuyer) {
         return '${RoutePaths.buyerLogin}?from=$location';
       }
+      if (location.startsWith(RoutePaths.ownerStatus) && !customerAuth.isOwner) {
+        return RoutePaths.ownerLogin;
+      }
       if ((location.startsWith(RoutePaths.investorDashboard) ||
               location.startsWith(RoutePaths.investorDocuments)) &&
           !customerAuth.isInvestor) {
@@ -144,6 +151,13 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
           agentListingId: state.uri.queryParameters['agentListingId'] ?? '',
           propertyTitle: state.uri.queryParameters['title'],
         ),
+      ),
+      GoRoute(path: RoutePaths.ownerStart, builder: (context, state) => const OwnerStartScreen()),
+      GoRoute(path: RoutePaths.ownerLogin, builder: (context, state) => const OwnerLoginScreen()),
+      GoRoute(path: RoutePaths.ownerStatus, builder: (context, state) => const OwnerStatusScreen()),
+      GoRoute(
+        path: RoutePaths.ownerDetails,
+        builder: (context, state) => OwnerDetailsScreen(token: state.pathParameters['token'] ?? ''),
       ),
       GoRoute(
         path: RoutePaths.buyerGoldListing,

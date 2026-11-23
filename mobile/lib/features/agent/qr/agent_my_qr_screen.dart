@@ -158,7 +158,7 @@ Scan QR or click below to view all my available verified properties:
                             const SizedBox(width: 6),
                             Text(
                               'Verified Partner Standee',
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.plusJakartaSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF1D4ED8),
@@ -184,7 +184,7 @@ Scan QR or click below to view all my available verified properties:
                       Text(
                         profile.shopAddress ?? profile.city ?? 'Authorized Real Estate Office',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.plusJakartaSans(
                           fontSize: 12,
                           color: Colors.grey.shade600,
                         ),
@@ -246,11 +246,11 @@ Scan QR or click below to view all my available verified properties:
                           children: [
                             Text(
                               'Code: ',
-                              style: GoogleFonts.inter(fontSize: 12, color: Colors.grey.shade600),
+                              style: GoogleFonts.plusJakartaSans(fontSize: 12, color: Colors.grey.shade600),
                             ),
                             Text(
                               agentCode,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.plusJakartaSans(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF1E3A8A),
@@ -284,7 +284,7 @@ Scan QR or click below to view all my available verified properties:
                             Expanded(
                               child: Text(
                                 'Customers scan this QR code with any mobile camera or the ${AppBrand.name} app, pay ₹50 via Razorpay, and immediately see your verified contact & all properties.',
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.plusJakartaSans(
                                   fontSize: 11,
                                   color: const Color(0xFF92400E),
                                   height: 1.4,
@@ -314,7 +314,7 @@ Scan QR or click below to view all my available verified properties:
                     icon: const Icon(Icons.storefront_rounded),
                     label: Text(
                       'Preview My Public Storefront',
-                      style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.plusJakartaSans(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () => context.push(RoutePaths.agentShopPath(agentCode)),
                   ),

@@ -55,7 +55,8 @@ class _AgentDigestScreenState extends State<AgentDigestScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryNavy,
+                  gradient: AppColors.heroGradient,
+                  boxShadow: AppColors.heroGlow,
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
                 child: Column(

@@ -19,7 +19,6 @@ import '../../features/agent/gold_listings/agent_gold_listings_screen.dart';
 import '../../features/agent/investors/agent_investors_screen.dart';
 import '../../features/agent/listings/agent_listing_form_screen.dart';
 import '../../features/agent/listings/agent_listings_screen.dart';
-import '../../features/agent/more/agent_more_screen.dart';
 import '../../features/agent/payouts/agent_payouts_screen.dart';
 import '../../features/agent/profile/agent_profile_screen.dart';
 import '../../features/agent/qr/agent_my_qr_screen.dart';
@@ -215,72 +214,8 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
         builder: (context, state) => const AgentRegisterScreen(),
       ),
       GoRoute(
-        path: RoutePaths.agentProfile,
-        builder: (context, state) => const AgentProfileScreen(),
-      ),
-      GoRoute(
         path: RoutePaths.agentListingNew,
         builder: (context, state) => const AgentListingFormScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentCommissions,
-        builder: (context, state) => const AgentCommissionsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentInvestors,
-        builder: (context, state) => const AgentInvestorsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentDocuments,
-        builder: (context, state) => const AgentDocumentsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentAppointments,
-        builder: (context, state) => const AgentAppointmentsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentBroadcast,
-        builder: (context, state) => const AgentBroadcastListScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentVisits,
-        builder: (context, state) => const AgentVisitsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentSettings,
-        builder: (context, state) => const AgentSettingsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentPayouts,
-        builder: (context, state) => const AgentPayoutsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentRatings,
-        builder: (context, state) => const AgentRatingsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentDigest,
-        builder: (context, state) => const AgentDigestScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentGoldListings,
-        builder: (context, state) => const AgentGoldListingsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentSubscription,
-        builder: (context, state) => const AgentSubscriptionScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentCycle,
-        builder: (context, state) => const AgentCycleScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentDeals,
-        builder: (context, state) => const AgentDealsListScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentShopQr,
-        builder: (context, state) => const AgentMyQrScreen(),
       ),
       GoRoute(
         path: RoutePaths.incomingRing,
@@ -348,8 +283,68 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
             builder: (context, state) => const AgentDispatchListScreen(),
           ),
           GoRoute(
-            path: RoutePaths.agentMore,
-            builder: (context, state) => const AgentMoreScreen(),
+            path: RoutePaths.agentProfile,
+            builder: (context, state) => const AgentProfileScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentCommissions,
+            builder: (context, state) => const AgentCommissionsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentInvestors,
+            builder: (context, state) => const AgentInvestorsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentDocuments,
+            builder: (context, state) => const AgentDocumentsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentAppointments,
+            builder: (context, state) => const AgentAppointmentsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentBroadcast,
+            builder: (context, state) => const AgentBroadcastListScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentVisits,
+            builder: (context, state) => const AgentVisitsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentSettings,
+            builder: (context, state) => const AgentSettingsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentPayouts,
+            builder: (context, state) => const AgentPayoutsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentRatings,
+            builder: (context, state) => const AgentRatingsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentDigest,
+            builder: (context, state) => const AgentDigestScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentGoldListings,
+            builder: (context, state) => const AgentGoldListingsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentSubscription,
+            builder: (context, state) => const AgentSubscriptionScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentCycle,
+            builder: (context, state) => const AgentCycleScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentDeals,
+            builder: (context, state) => const AgentDealsListScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentShopQr,
+            builder: (context, state) => const AgentMyQrScreen(),
           ),
         ],
       ),

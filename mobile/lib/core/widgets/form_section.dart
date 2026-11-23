@@ -35,11 +35,11 @@ class FormSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(color: AppColors.divider),
+        border: Border.all(color: AppColors.neonLine),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryNavy.withValues(alpha: 0.06),
-            blurRadius: 24,
+            color: AppColors.neonBlue.withValues(alpha: 0.14),
+            blurRadius: 26,
             offset: const Offset(0, 10),
           ),
         ],
@@ -56,13 +56,13 @@ class FormSection extends StatelessWidget {
                   height: 26,
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
-                    color: AppColors.primaryNavy,
+                    gradient: LinearGradient(colors: [AppColors.gold, AppColors.neonCyan]),
                     shape: BoxShape.circle,
                   ),
                   child: Text(
                     '$stepNumber',
                     style: const TextStyle(
-                      color: AppColors.goldLight,
+                      color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                     ),

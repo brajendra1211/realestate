@@ -122,7 +122,7 @@ class _IncomingRingScreenState extends State<IncomingRingScreen> {
                 const Spacer(flex: 2),
                 Text(
                   'INCOMING RING',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.plusJakartaSans(
                     color: AppColors.goldLight,
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -158,7 +158,7 @@ class _IncomingRingScreenState extends State<IncomingRingScreen> {
                       ? 'wants to talk about "${widget.propertyTitle}"'
                       : 'wants to talk to you',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.plusJakartaSans(
                     color: AppColors.goldLight.withValues(alpha: 0.85),
                     fontSize: 15,
                   ),
@@ -223,7 +223,7 @@ class _RingButton extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           label,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.plusJakartaSans(
             color: Colors.white,
             fontSize: 13,
             fontWeight: FontWeight.w600,

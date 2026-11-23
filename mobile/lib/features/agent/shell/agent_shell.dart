@@ -54,7 +54,7 @@ class AgentShell extends StatelessWidget {
                       child: const SizedBox(
                         width: 42,
                         height: 42,
-                        child: Icon(Icons.menu_rounded, color: AppColors.gold),
+                        child: Icon(Icons.menu_rounded, color: AppColors.gold, semanticLabel: 'Open menu'),
                       ),
                     ),
                   ),

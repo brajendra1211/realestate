@@ -35,14 +35,37 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         color: Colors.white,
-        elevation: 1.5,
-        shadowColor: AppColors.primaryNavy.withValues(alpha: 0.10),
+        elevation: 4,
+        shadowColor: AppColors.neonBlue.withValues(alpha: 0.22),
         surfaceTintColor: Colors.transparent,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          side: const BorderSide(color: AppColors.divider),
+          side: const BorderSide(color: AppColors.neonLine),
         ),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: const WidgetStatePropertyAll(Colors.white),
+        trackColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected) ? AppColors.gold : AppColors.divider,
+        ),
+        trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected) ? AppColors.gold : Colors.transparent,
+        ),
+        side: const BorderSide(color: AppColors.gold, width: 1.6),
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: AppColors.gold,
+        titleTextStyle: AppTextStyles.textTheme.bodyMedium?.copyWith(
+          fontWeight: FontWeight.w800,
+          color: AppColors.textPrimary,
+        ),
+        subtitleTextStyle: AppTextStyles.textTheme.bodySmall,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 4),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -62,8 +85,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primaryNavy,
-          side: const BorderSide(color: AppColors.primaryNavy),
+          foregroundColor: AppColors.gold,
+          side: const BorderSide(color: AppColors.gold, width: 1.4),
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
             vertical: AppSpacing.md,
@@ -97,7 +120,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.sm),
-          borderSide: const BorderSide(color: AppColors.gold, width: 1.5),
+          borderSide: const BorderSide(color: AppColors.neonCyan, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.sm),

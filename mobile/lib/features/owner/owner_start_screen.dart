@@ -186,12 +186,15 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
                 stepNumber: 1,
                 title: 'What do you want to do?',
                 children: [
-                  Row(
-                    children: [
+                  IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
                       Expanded(child: _choice('RENT', 'Rent out', 'A nearby partner verifies it', _purpose, (v) => setState(() => _purpose = v))),
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(child: _choice('SELL', 'Sell', 'Handled by our team', _purpose, (v) => setState(() => _purpose = v))),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

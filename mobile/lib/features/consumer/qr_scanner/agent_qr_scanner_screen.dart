@@ -108,7 +108,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
   Future<void> _handleCodeScanned(String rawInput) async {
     final code = _extractAgentCode(rawInput);
     if (code == null || code.isEmpty) {
-      setState(() => _errorMessage = 'Invalid QR code. Please scan a valid Channel Partner QR.');
+      setState(() { _errorMessage = 'Invalid QR code. Please scan a valid Channel Partner QR.'; });
       return;
     }
 
@@ -136,14 +136,14 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
       _showPaymentSheet(code, shopData.agent.name, shopData.agent.shopName);
     } on ApiException catch (e) {
       if (!mounted) return;
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
       _resumeScanning();
     } catch (e) {
       if (!mounted) return;
-      setState(() => _errorMessage = 'Failed to process QR code: $e');
+      setState(() { _errorMessage = 'Failed to process QR code: $e'; });
       _resumeScanning();
     } finally {
-      if (mounted) setState(() => _isProcessing = false);
+      if (mounted) setState(() { _isProcessing = false; });
     }
   }
 

@@ -48,12 +48,12 @@ class _OwnerLoginScreenState extends State<OwnerLoginScreen> {
         context.go(RoutePaths.ownerStatus);
       } else {
         await auth.logout();
-        setState(() => _error = 'This login is for property owners. Use the agent, buyer or investor login for other accounts.');
+        setState(() { _error = 'This login is for property owners. Use the agent, buyer or investor login for other accounts.'; });
       }
     } on ApiException catch (e) {
-      setState(() => _error = errorMessageFor(e));
+      setState(() { _error = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (mounted) setState(() { _busy = false; });
     }
   }
 

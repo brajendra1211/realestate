@@ -82,7 +82,7 @@ Scan QR or click below to view all my available verified properties:
             return Center(
               child: ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.me()),
+                onRetry: () => setState(() { _future = _service.me(); }),
               ),
             );
           }

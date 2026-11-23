@@ -32,7 +32,7 @@ class _AgentSubscriptionScreenState extends State<AgentSubscriptionScreen> {
   bool _buying = false;
 
   Future<void> _buy(AgentPlanDefinition plan) async {
-    setState(() => _buying = true);
+    setState(() { _buying = true; });
     final work = AgentWorkService(ApiClient.instance.dio);
     try {
       final status = await _service.getStatus();
@@ -49,7 +49,7 @@ class _AgentSubscriptionScreenState extends State<AgentSubscriptionScreen> {
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(workError(e))));
     } finally {
-      if (mounted) setState(() => _buying = false);
+      if (mounted) setState(() { _buying = false; });
     }
   }
 
@@ -79,7 +79,7 @@ class _AgentSubscriptionScreenState extends State<AgentSubscriptionScreen> {
       );
       return;
     }
-    setState(() => _savingMandate = true);
+    setState(() { _savingMandate = true; });
     try {
       await _service.setAutopayMandate(vpa);
       if (!mounted) return;
@@ -91,7 +91,7 @@ class _AgentSubscriptionScreenState extends State<AgentSubscriptionScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _savingMandate = false);
+      if (mounted) setState(() { _savingMandate = false; });
     }
   }
 

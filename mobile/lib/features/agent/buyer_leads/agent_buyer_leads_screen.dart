@@ -23,7 +23,7 @@ class _AgentBuyerLeadsScreenState extends State<AgentBuyerLeadsScreen> {
   late Future<BuyerLeadsData> _future = _service.buyerLeads();
 
   Future<void> _reload() async {
-    setState(() => _future = _service.buyerLeads());
+    setState(() { _future = _service.buyerLeads(); });
     await _future;
   }
 

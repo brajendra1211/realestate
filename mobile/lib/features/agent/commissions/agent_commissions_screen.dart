@@ -50,7 +50,7 @@ class _AgentCommissionsScreenState extends State<AgentCommissionsScreen> {
                 : 'Something went wrong.';
             return ErrorView(
               message: message,
-              onRetry: () => setState(() => _future = _service.getCommissions()),
+              onRetry: () => setState(() { _future = _service.getCommissions(); }),
             );
           }
 

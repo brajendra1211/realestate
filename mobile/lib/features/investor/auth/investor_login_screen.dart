@@ -50,9 +50,9 @@ class _InvestorLoginScreenState extends State<InvestorLoginScreen> {
         '&channel=${result.channel}',
       );
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 

@@ -61,11 +61,11 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
         _channel = result.channel;
       });
     } on ApiException catch (e) {
-      setState(() => _errorMessage = e.code == 'notFound'
+      setState(() { _errorMessage = e.code == 'notFound'
           ? 'No channel partner account found for this phone or email.'
-          : errorMessageFor(e));
+          : errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
@@ -87,11 +87,11 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
       );
       context.pop();
     } on ApiException catch (e) {
-      setState(() => _errorMessage = e.code == 'invalid_otp'
+      setState(() { _errorMessage = e.code == 'invalid_otp'
           ? "That code isn't right or has expired."
-          : errorMessageFor(e));
+          : errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
@@ -166,7 +166,7 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined),
                             onPressed: () =>
-                                setState(() => _obscurePassword = !_obscurePassword),
+                                setState(() { _obscurePassword = !_obscurePassword; }),
                           ),
                         ),
                         validator: Validators.password,

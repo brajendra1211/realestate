@@ -113,9 +113,9 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
         _step = 1;
       });
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _searchingDuplicates = false);
+      if (mounted) setState(() { _searchingDuplicates = false; });
     }
   }
 
@@ -139,7 +139,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
       for (final image in _pickedImages) {
         imageUrls.add(await _listingsService.uploadImage(image.path));
       }
-      setState(() => _uploadingImages = false);
+      setState(() { _uploadingImages = false; });
 
       await _listingsService.createListing(
         masterPropertyId: _selectedMasterId,
@@ -177,7 +177,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
       if (!mounted) return;
       Navigator.of(context).pop(true);
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
       if (mounted) {
         setState(() {
@@ -201,7 +201,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
           if (snapshot.hasError) {
             return ErrorView(
               message: 'Could not verify your account status.',
-              onRetry: () => setState(() => _profileFuture = _agentService.me()),
+              onRetry: () => setState(() { _profileFuture = _agentService.me(); }),
             );
           }
           final profile = snapshot.data!;
@@ -264,7 +264,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
                 geoService: _geoService,
                 cityId: _selectedCity?.id,
                 initialValue: _selectedLocality,
-                onChanged: (locality) => setState(() => _selectedLocality = locality),
+                onChanged: (locality) => setState(() { _selectedLocality = locality; }),
               ),
               TextFormField(
                 controller: _addressController,
@@ -312,7 +312,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
                   const SizedBox(height: AppSpacing.sm),
                   RadioGroup<String?>(
                     groupValue: _selectedMasterId,
-                    onChanged: (v) => setState(() => _selectedMasterId = v),
+                    onChanged: (v) => setState(() { _selectedMasterId = v; }),
                     child: Column(
                       children: [
                         ...candidates.map((c) => RadioListTile<String?>(
@@ -361,7 +361,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
                         DropdownMenuItem(value: 'SALE', child: Text('For Sale')),
                         DropdownMenuItem(value: 'RENT', child: Text('For Rent')),
                       ],
-                      onChanged: (v) => setState(() => _listingType = v!),
+                      onChanged: (v) => setState(() { _listingType = v!; }),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.sm),
@@ -372,7 +372,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
                       items: _propertyTypes
                           .map((t) => DropdownMenuItem(value: t, child: Text(t)))
                           .toList(),
-                      onChanged: (v) => setState(() => _propertyType = v!),
+                      onChanged: (v) => setState(() { _propertyType = v!; }),
                     ),
                   ),
                 ],

@@ -64,11 +64,11 @@ class _AgentDealDetailScreenState extends State<AgentDealDetailScreen> {
       tokenAmount = int.tryParse(entered);
     }
 
-    setState(() => _advancing = true);
+    setState(() { _advancing = true; });
     try {
       final updated = await _service.advanceStage(_deal.id, status, tokenAmount: tokenAmount);
       if (!mounted) return;
-      setState(() => _deal = updated);
+      setState(() { _deal = updated; });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Deal moved to ${status.replaceAll('_', ' ')}.')),
       );
@@ -77,7 +77,7 @@ class _AgentDealDetailScreenState extends State<AgentDealDetailScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _advancing = false);
+      if (mounted) setState(() { _advancing = false; });
     }
   }
 

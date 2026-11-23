@@ -240,7 +240,7 @@ class _GeoListSheetState extends State<_GeoListSheet> {
                 hintText: 'Search...',
                 prefixIcon: Icon(Icons.search),
               ),
-              onChanged: (v) => setState(() => _query = v.trim().toLowerCase()),
+              onChanged: (v) => setState(() { _query = v.trim().toLowerCase(); }),
             ),
             const SizedBox(height: AppSpacing.sm),
             Expanded(
@@ -258,7 +258,7 @@ class _GeoListSheetState extends State<_GeoListSheet> {
                         : 'Something went wrong.';
                     return ErrorView(
                       message: message,
-                      onRetry: () => setState(() => _future = widget.fetcher()),
+                      onRetry: () => setState(() { _future = widget.fetcher(); }),
                     );
                   }
                   final options = (snapshot.data ?? [])

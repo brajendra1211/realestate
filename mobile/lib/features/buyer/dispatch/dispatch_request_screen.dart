@@ -56,13 +56,13 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
       }
       final id = await _service.requestDispatch(position.latitude, position.longitude);
       if (!mounted) return;
-      setState(() => _dispatchId = id);
+      setState(() { _dispatchId = id; });
       _pollStatus();
       _pollTimer = Timer.periodic(const Duration(seconds: 4), (_) => _pollStatus());
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _requesting = false);
+      if (mounted) setState(() { _requesting = false; });
     }
   }
 
@@ -71,7 +71,7 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
     try {
       final status = await _service.getStatus(_dispatchId!);
       if (!mounted) return;
-      setState(() => _status = status);
+      setState(() { _status = status; });
       if (status.status != 'SEARCHING') _pollTimer?.cancel();
     } catch (_) {
       // Silently retried on the next tick.

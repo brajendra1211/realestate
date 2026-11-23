@@ -45,7 +45,7 @@ class _AgentListingsScreenState extends State<AgentListingsScreen> {
     try {
       await _service.renew(listing.id, planTier: listing.listingPlan);
       if (!mounted) return;
-      setState(() => _future = _service.getListings());
+      setState(() { _future = _service.getListings(); });
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Listing renewed.')));
     } on ApiException catch (e) {
@@ -65,13 +65,13 @@ class _AgentListingsScreenState extends State<AgentListingsScreen> {
         onPressed: () async {
           final created = await context.push<bool>(RoutePaths.agentListingNew);
           if (created == true) {
-            setState(() => _future = _service.getListings());
+            setState(() { _future = _service.getListings(); });
           }
         },
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getListings()),
+        onRefresh: () async => setState(() { _future = _service.getListings(); }),
         child: FutureBuilder<List<AgentOwnedListing>>(
           future: _future,
           builder: (context, snapshot) {
@@ -84,7 +84,7 @@ class _AgentListingsScreenState extends State<AgentListingsScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getListings()),
+                onRetry: () => setState(() { _future = _service.getListings(); }),
               );
             }
             final listings = snapshot.data ?? [];

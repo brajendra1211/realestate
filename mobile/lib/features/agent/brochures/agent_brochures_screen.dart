@@ -32,7 +32,7 @@ class _AgentBrochuresScreenState extends State<AgentBrochuresScreen> {
   }
 
   Future<void> _reload() async {
-    setState(() => _future = _service.brochures());
+    setState(() { _future = _service.brochures(); });
     await _future;
   }
 
@@ -48,9 +48,9 @@ class _AgentBrochuresScreenState extends State<AgentBrochuresScreen> {
       await launchUrl(Uri.parse(b.url), mode: LaunchMode.externalApplication);
       await _reload();
     } catch (e) {
-      setState(() => _error = workError(e));
+      setState(() { _error = workError(e); });
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (mounted) setState(() { _busy = false; });
     }
   }
 
@@ -67,9 +67,9 @@ class _AgentBrochuresScreenState extends State<AgentBrochuresScreen> {
         await _reload();
       }
     } catch (e) {
-      setState(() => _error = workError(e));
+      setState(() { _error = workError(e); });
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (mounted) setState(() { _busy = false; });
     }
   }
 

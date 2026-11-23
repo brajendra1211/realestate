@@ -59,12 +59,12 @@ class _InvestorVerifyScreenState extends State<InvestorVerifyScreen> {
       setState(() => _errorMessage =
           'That code isn\'t right, or this phone/email isn\'t registered as a referral partner yet — check with your referring channel partner.');
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
   Future<void> _resend() async {
-    setState(() => _resending = true);
+    setState(() { _resending = true; });
     try {
       final customerAuth = context.read<CustomerAuthProvider>();
       await customerAuth.requestOtp(forInvestor: true, identifier: widget.identifier);
@@ -76,7 +76,7 @@ class _InvestorVerifyScreenState extends State<InvestorVerifyScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _resending = false);
+      if (mounted) setState(() { _resending = false; });
     }
   }
 

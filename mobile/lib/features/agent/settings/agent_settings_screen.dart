@@ -78,7 +78,7 @@ class _AgentSettingsScreenState extends State<AgentSettingsScreen> {
         SnackBar(content: Text(errorMessageFor(ApiException.fromDioError(e)))),
       );
     } finally {
-      if (mounted) setState(() => _saving = false);
+      if (mounted) setState(() { _saving = false; });
     }
   }
 

@@ -51,7 +51,7 @@ class _BroadcastDetailChatScreenState extends State<BroadcastDetailChatScreen> {
     super.initState();
     _service = AgentBroadcastService(ApiClient.instance.dio);
     AgentService(ApiClient.instance.dio).me().then((profile) {
-      if (mounted) setState(() => _myAgentProfileId = profile.id);
+      if (mounted) setState(() { _myAgentProfileId = profile.id; });
     });
     _loadMessages();
     _pollTimer = Timer.periodic(const Duration(seconds: 4), (_) => _loadMessages(silent: true));
@@ -74,7 +74,7 @@ class _BroadcastDetailChatScreenState extends State<BroadcastDetailChatScreen> {
         _loading = false;
       });
     } catch (_) {
-      if (!silent && mounted) setState(() => _loading = false);
+      if (!silent && mounted) setState(() { _loading = false; });
     }
   }
 
@@ -140,7 +140,7 @@ class _BroadcastDetailChatScreenState extends State<BroadcastDetailChatScreen> {
   Future<void> _send() async {
     final text = _messageController.text.trim();
     if (text.isEmpty) return;
-    setState(() => _sending = true);
+    setState(() { _sending = true; });
     try {
       await _service.sendChatMessage(widget.broadcastId, widget.otherAgentId, text);
       _messageController.clear();
@@ -148,7 +148,7 @@ class _BroadcastDetailChatScreenState extends State<BroadcastDetailChatScreen> {
     } catch (_) {
       // Silently retried by the poll loop; the send box keeps the typed text.
     } finally {
-      if (mounted) setState(() => _sending = false);
+      if (mounted) setState(() { _sending = false; });
     }
   }
 

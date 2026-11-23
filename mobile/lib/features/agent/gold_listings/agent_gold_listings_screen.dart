@@ -36,7 +36,7 @@ class _AgentGoldListingsScreenState extends State<AgentGoldListingsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Gold Feed')),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getGoldListings()),
+        onRefresh: () async => setState(() { _future = _service.getGoldListings(); }),
         child: FutureBuilder<List<GoldListing>>(
           future: _future,
           builder: (context, snapshot) {
@@ -49,7 +49,7 @@ class _AgentGoldListingsScreenState extends State<AgentGoldListingsScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getGoldListings()),
+                onRetry: () => setState(() { _future = _service.getGoldListings(); }),
               );
             }
             final listings = snapshot.data ?? [];

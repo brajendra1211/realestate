@@ -48,7 +48,7 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
   // old FutureBuilder-per-call approach blanked the whole dashboard to a
   // spinner after every save/unsave/no-show tap, which read as broken.
   Future<void> _load() async {
-    if (_me == null) setState(() => _loading = true);
+    if (_me == null) setState(() { _loading = true; });
     try {
       final meFuture = _service.getMe();
       final appointmentsFuture = _service.getAppointments();
@@ -63,9 +63,9 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
       });
     } on ApiException catch (e) {
       if (!mounted) return;
-      setState(() => _loading = false);
+      setState(() { _loading = false; });
       if (_me == null) {
-        setState(() => _loadError = errorMessageFor(e));
+        setState(() { _loadError = errorMessageFor(e); });
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
@@ -595,13 +595,13 @@ class _ProfileCardState extends State<_ProfileCard> {
   }
 
   Future<void> _save() async {
-    setState(() => _saving = true);
+    setState(() { _saving = true; });
     await widget.onSave(
       _nameController.text.trim(),
       _emailController.text.trim().isEmpty ? null : _emailController.text.trim(),
       _phoneController.text.trim().isEmpty ? null : _phoneController.text.trim(),
     );
-    if (mounted) setState(() => _saving = false);
+    if (mounted) setState(() { _saving = false; });
   }
 
   @override
@@ -750,12 +750,12 @@ class _SwitchAgentSheetState extends State<_SwitchAgentSheet> {
               items: _switchReasons
                   .map((r) => DropdownMenuItem(value: r, child: Text(r)))
                   .toList(),
-              onChanged: (v) => setState(() => _reason = v),
+              onChanged: (v) => setState(() { _reason = v; }),
             ),
             const SizedBox(height: AppSpacing.sm),
             CheckboxListTile(
               value: _isComplaint,
-              onChanged: (v) => setState(() => _isComplaint = v ?? false),
+              onChanged: (v) => setState(() { _isComplaint = v ?? false; }),
               controlAffinity: ListTileControlAffinity.leading,
               contentPadding: EdgeInsets.zero,
               title: const Text(

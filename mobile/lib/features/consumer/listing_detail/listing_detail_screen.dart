@@ -69,11 +69,11 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
       return;
     }
 
-    setState(() => _unlocking = true);
+    setState(() { _unlocking = true; });
     try {
       await _service.unlockListing(widget.slug);
       if (!mounted) return;
-      setState(() => _future = _service.getListingDetail(widget.slug));
+      setState(() { _future = _service.getListingDetail(widget.slug); });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Unlocked — contact details below.')),
       );
@@ -82,12 +82,12 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _unlocking = false);
+      if (mounted) setState(() { _unlocking = false; });
     }
   }
 
   Future<void> _handleRing() async {
-    setState(() => _ringing = true);
+    setState(() { _ringing = true; });
     try {
       final ringsRemaining = await _service.ringListing(widget.slug);
       if (!mounted) return;
@@ -99,7 +99,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _ringing = false);
+      if (mounted) setState(() { _ringing = false; });
     }
   }
 
@@ -138,7 +138,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                     child: listing.images.isNotEmpty
                         ? PageView(
                             controller: _pageController,
-                            onPageChanged: (i) => setState(() => _imageIndex = i),
+                            onPageChanged: (i) => setState(() { _imageIndex = i; }),
                             children: listing.images
                                 .map((img) => CachedNetworkImage(
                                       imageUrl: resolveMediaUrl(img.url),

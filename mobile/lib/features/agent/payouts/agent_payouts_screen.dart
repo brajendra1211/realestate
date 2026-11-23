@@ -109,7 +109,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
       return;
     }
 
-    setState(() => _requesting = true);
+    setState(() { _requesting = true; });
     try {
       await _service.requestPayout(parsed);
       if (!mounted) return;
@@ -119,13 +119,13 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
           backgroundColor: Colors.green,
         ),
       );
-      setState(() => _future = _service.getPaymentHistory());
+      setState(() { _future = _service.getPaymentHistory(); });
     } on ApiException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _requesting = false);
+      if (mounted) setState(() { _requesting = false; });
     }
   }
 
@@ -142,7 +142,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
       ),
       body: RefreshIndicator(
         color: AppColors.gold,
-        onRefresh: () async => setState(() => _future = _service.getPaymentHistory()),
+        onRefresh: () async => setState(() { _future = _service.getPaymentHistory(); }),
         child: FutureBuilder<AgentPaymentHistory>(
           future: _future,
           builder: (context, snapshot) {
@@ -155,7 +155,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getPaymentHistory()),
+                onRetry: () => setState(() { _future = _service.getPaymentHistory(); }),
               );
             }
 

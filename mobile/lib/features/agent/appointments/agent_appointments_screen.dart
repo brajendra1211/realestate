@@ -39,7 +39,7 @@ class _AgentAppointmentsScreenState extends State<AgentAppointmentsScreen> {
     try {
       await _service.markAction(id, action);
       if (!mounted) return;
-      setState(() => _future = _service.getAppointments());
+      setState(() { _future = _service.getAppointments(); });
     } on ApiException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
@@ -52,7 +52,7 @@ class _AgentAppointmentsScreenState extends State<AgentAppointmentsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Appointments')),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getAppointments()),
+        onRefresh: () async => setState(() { _future = _service.getAppointments(); }),
         child: FutureBuilder<List<Appointment>>(
           future: _future,
           builder: (context, snapshot) {
@@ -65,7 +65,7 @@ class _AgentAppointmentsScreenState extends State<AgentAppointmentsScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getAppointments()),
+                onRetry: () => setState(() { _future = _service.getAppointments(); }),
               );
             }
             final appointments = snapshot.data ?? [];

@@ -82,7 +82,7 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
     try {
       await _service.acceptOwner(o.id);
       if (!mounted) return;
-      setState(() => _owners = _owners.where((x) => x.id != o.id).toList());
+      setState(() { _owners = _owners.where((x) => x.id != o.id).toList(); });
       context.go(RoutePaths.agentOwnerRequests);
     } catch (e) {
       if (mounted) {
@@ -92,7 +92,7 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
         });
       }
     } finally {
-      if (mounted) setState(() => _busyId = null);
+      if (mounted) setState(() { _busyId = null; });
     }
   }
 
@@ -104,7 +104,7 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
     try {
       await _service.acceptBuyer(b.id);
       if (!mounted) return;
-      setState(() => _buyers = _buyers.where((x) => x.id != b.id).toList());
+      setState(() { _buyers = _buyers.where((x) => x.id != b.id).toList(); });
       context.go(RoutePaths.agentBuyerLeads);
     } catch (e) {
       if (mounted) {
@@ -114,7 +114,7 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
         });
       }
     } finally {
-      if (mounted) setState(() => _busyId = null);
+      if (mounted) setState(() { _busyId = null; });
     }
   }
 
@@ -144,7 +144,7 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
                         child: Row(
                           children: [
                             Expanded(child: Text(_message!, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600))),
-                            InkWell(onTap: () => setState(() => _message = null), child: const Icon(Icons.close, color: Colors.white, size: 18)),
+                            InkWell(onTap: () => setState(() { _message = null; }), child: const Icon(Icons.close, color: Colors.white, size: 18)),
                           ],
                         ),
                       ),

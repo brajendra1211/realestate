@@ -65,11 +65,11 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
         );
       }
     } on ApiException catch (e) {
-      setState(() => _errorMessage = e.code == 'notFound'
+      setState(() { _errorMessage = e.code == 'notFound'
           ? 'No channel partner account found for this phone or email. New channel partner? Register first.'
-          : errorMessageFor(e));
+          : errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
@@ -140,7 +140,7 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined),
                             onPressed: () =>
-                                setState(() => _obscurePassword = !_obscurePassword),
+                                setState(() { _obscurePassword = !_obscurePassword; }),
                           ),
                         ),
                         validator: (v) => Validators.required(v, label: 'Password'),

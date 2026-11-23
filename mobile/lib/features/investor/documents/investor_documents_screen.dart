@@ -45,7 +45,7 @@ class _InvestorDocumentsScreenState extends State<InvestorDocumentsScreen> {
                 : 'Something went wrong.';
             return ErrorView(
               message: message,
-              onRetry: () => setState(() => _future = _service.getDocuments()),
+              onRetry: () => setState(() { _future = _service.getDocuments(); }),
             );
           }
 

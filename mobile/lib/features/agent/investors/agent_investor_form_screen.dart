@@ -40,7 +40,7 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _submitting = true);
+    setState(() { _submitting = true; });
     try {
       await _service.addInvestor(
         name: _name.text.trim(),
@@ -54,7 +54,7 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 

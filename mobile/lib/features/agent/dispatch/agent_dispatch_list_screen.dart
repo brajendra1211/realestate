@@ -32,19 +32,19 @@ class _AgentDispatchListScreenState extends State<AgentDispatchListScreen> {
   }
 
   Future<void> _accept(String id) async {
-    setState(() => _acceptingId = id);
+    setState(() { _acceptingId = id; });
     try {
       await _service.accept(id);
       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Lead accepted!')));
-      setState(() => _future = _service.getActiveDispatches());
+      setState(() { _future = _service.getActiveDispatches(); });
     } on ApiException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _acceptingId = null);
+      if (mounted) setState(() { _acceptingId = null; });
     }
   }
 
@@ -53,7 +53,7 @@ class _AgentDispatchListScreenState extends State<AgentDispatchListScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Nearby Leads')),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getActiveDispatches()),
+        onRefresh: () async => setState(() { _future = _service.getActiveDispatches(); }),
         child: FutureBuilder<List<DispatchRequest>>(
           future: _future,
           builder: (context, snapshot) {
@@ -66,7 +66,7 @@ class _AgentDispatchListScreenState extends State<AgentDispatchListScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getActiveDispatches()),
+                onRetry: () => setState(() { _future = _service.getActiveDispatches(); }),
               );
             }
             final dispatches = snapshot.data ?? [];

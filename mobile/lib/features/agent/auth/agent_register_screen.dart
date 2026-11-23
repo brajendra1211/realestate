@@ -70,7 +70,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _submitting = true);
+    setState(() { _submitting = true; });
     try {
       final result = await _service.register(
         name: _name.text.trim(),
@@ -114,7 +114,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
@@ -179,7 +179,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                             ? Icons.visibility_outlined
                             : Icons.visibility_off_outlined),
                         onPressed: () =>
-                            setState(() => _obscurePassword = !_obscurePassword),
+                            setState(() { _obscurePassword = !_obscurePassword; }),
                       ),
                     ),
                     validator: Validators.password,

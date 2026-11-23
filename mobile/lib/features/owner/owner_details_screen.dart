@@ -79,7 +79,7 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
   }
 
   Future<void> _askLocation() async {
-    setState(() => _locating = true);
+    setState(() { _locating = true; });
     final pos = await getCurrentLocation();
     if (!mounted) return;
     setState(() {
@@ -106,7 +106,7 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
     } catch (e) {
       _error = ownerErrorMessage(e);
     } finally {
-      if (mounted) setState(() => _uploading = false);
+      if (mounted) setState(() { _uploading = false; });
     }
   }
 
@@ -116,11 +116,11 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     if (_lat == null || _lng == null) {
-      setState(() => _error = 'Please turn on your location and stand at the property. We need it so a nearby partner can verify.');
+      setState(() { _error = 'Please turn on your location and stand at the property. We need it so a nearby partner can verify.'; });
       return;
     }
     if (_photos.isEmpty) {
-      setState(() => _error = 'Please add at least one photo of the property.');
+      setState(() { _error = 'Please add at least one photo of the property.'; });
       return;
     }
     setState(() {
@@ -185,7 +185,7 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
                     initialValue: _type,
                     decoration: const InputDecoration(labelText: 'Property type'),
                     items: [for (final t in _types) DropdownMenuItem(value: t, child: Text(t.replaceAll('_', ' ')))],
-                    onChanged: (v) => setState(() => _type = v!),
+                    onChanged: (v) => setState(() { _type = v!; }),
                   ),
                   Row(
                     children: [
@@ -194,7 +194,7 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
                           initialValue: _bedrooms,
                           decoration: const InputDecoration(labelText: 'Bedrooms'),
                           items: [for (var i = 0; i <= 8; i++) DropdownMenuItem(value: i, child: Text('$i'))],
-                          onChanged: (v) => setState(() => _bedrooms = v),
+                          onChanged: (v) => setState(() { _bedrooms = v; }),
                         ),
                       ),
                       const SizedBox(width: AppSpacing.sm),
@@ -203,7 +203,7 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
                           initialValue: _bathrooms,
                           decoration: const InputDecoration(labelText: 'Bathrooms'),
                           items: [for (var i = 0; i <= 8; i++) DropdownMenuItem(value: i, child: Text('$i'))],
-                          onChanged: (v) => setState(() => _bathrooms = v),
+                          onChanged: (v) => setState(() { _bathrooms = v; }),
                         ),
                       ),
                     ],
@@ -221,7 +221,7 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
                       DropdownMenuItem(value: 'SEMI_FURNISHED', child: Text('Semi furnished')),
                       DropdownMenuItem(value: 'FURNISHED', child: Text('Furnished')),
                     ],
-                    onChanged: (v) => setState(() => _furnishing = v),
+                    onChanged: (v) => setState(() { _furnishing = v; }),
                   ),
                   TextFormField(
                     controller: _desc,
@@ -233,7 +233,7 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
                     contentPadding: EdgeInsets.zero,
                     title: const Text('Bachelor friendly'),
                     value: _bachelor,
-                    onChanged: (v) => setState(() => _bachelor = v),
+                    onChanged: (v) => setState(() { _bachelor = v; }),
                   ),
                 ],
               ),

@@ -76,7 +76,7 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
       _email.text = auth.email ?? '';
     }
     _service.plans().then((p) {
-      if (mounted && p.isNotEmpty) setState(() => _plans = p);
+      if (mounted && p.isNotEmpty) setState(() { _plans = p; });
     }).catchError((_) {});
   }
 
@@ -97,11 +97,11 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
     });
     try {
       await _service.sendOtp(_phone.text.trim());
-      setState(() => _otpSent = true);
+      setState(() { _otpSent = true; });
     } catch (e) {
-      setState(() => _error = ownerErrorMessage(e));
+      setState(() { _error = ownerErrorMessage(e); });
     } finally {
-      if (mounted) setState(() => _otpBusy = false);
+      if (mounted) setState(() { _otpBusy = false; });
     }
   }
 
@@ -127,7 +127,7 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
       });
       // The account now exists and the server signed the owner in.
       await auth.restoreSession();
-      if (mounted) setState(() => _account = true);
+      if (mounted) setState(() { _account = true; });
 
       final paid = await openRazorpayCheckout(
         keyId: result.keyId,
@@ -139,7 +139,7 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
         email: _email.text.trim(),
       );
       if (paid == null) {
-        if (mounted) setState(() => _busy = false);
+        if (mounted) setState(() { _busy = false; });
         return;
       }
       final formToken = await _service.verifyPayment(
@@ -190,9 +190,9 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                      Expanded(child: _choice('RENT', 'Rent out', 'A nearby partner verifies it', _purpose, (v) => setState(() => _purpose = v))),
+                      Expanded(child: _choice('RENT', 'Rent out', 'A nearby partner verifies it', _purpose, (v) => setState(() { _purpose = v; }))),
                       const SizedBox(width: AppSpacing.sm),
-                      Expanded(child: _choice('SELL', 'Sell', 'Handled by our team', _purpose, (v) => setState(() => _purpose = v))),
+                      Expanded(child: _choice('SELL', 'Sell', 'Handled by our team', _purpose, (v) => setState(() { _purpose = v; }))),
                       ],
                     ),
                   ),
@@ -339,7 +339,7 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
     final pro = p.id == 'GOLD';
     return InkWell(
       borderRadius: BorderRadius.circular(AppRadius.md),
-      onTap: () => setState(() => _plan = p.id),
+      onTap: () => setState(() { _plan = p.id; }),
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(

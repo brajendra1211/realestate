@@ -82,14 +82,14 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
   Future<void> _verifyReferral() async {
     final code = _referralController.text.trim();
     if (code.isEmpty) return;
-    setState(() => _referralStatus = 'Checking…');
+    setState(() { _referralStatus = 'Checking…'; });
     try {
       final agent = await _agentService.lookupByCode(code);
       if (!mounted) return;
-      setState(() => _referralStatus = 'Found: ${agent.name}${agent.shopName != null ? ' · ${agent.shopName}' : ''}');
+      setState(() { _referralStatus = 'Found: ${agent.name}${agent.shopName != null ? ' · ${agent.shopName}' : ''}'; });
     } on ApiException {
       if (!mounted) return;
-      setState(() => _referralStatus = 'No channel partner found with that code.');
+      setState(() { _referralStatus = 'No channel partner found with that code.'; });
     }
   }
 
@@ -112,7 +112,7 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
 
   void _continueToDetails() {
     if (!_addressFormKey.currentState!.validate()) return;
-    setState(() => _step = 1);
+    setState(() { _step = 1; });
   }
 
   Future<void> _pickImages() async {
@@ -134,7 +134,7 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
       for (final image in _pickedImages) {
         imageUrls.add(await _service.uploadImage(image.path));
       }
-      setState(() => _uploadingImages = false);
+      setState(() { _uploadingImages = false; });
 
       final referral = _referralController.text.trim();
       final slug = await _service.submit(
@@ -174,7 +174,7 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
         _step = 2;
       });
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
       if (mounted) {
         setState(() {
@@ -231,7 +231,7 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
                 geoService: _geoService,
                 cityId: _selectedCity?.id,
                 initialValue: _selectedLocality,
-                onChanged: (locality) => setState(() => _selectedLocality = locality),
+                onChanged: (locality) => setState(() { _selectedLocality = locality; }),
               ),
               TextFormField(
                 controller: _addressController,
@@ -279,7 +279,7 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
                         DropdownMenuItem(value: 'SALE', child: Text('For Sale')),
                         DropdownMenuItem(value: 'RENT', child: Text('For Rent')),
                       ],
-                      onChanged: (v) => setState(() => _listingType = v!),
+                      onChanged: (v) => setState(() { _listingType = v!; }),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.sm),
@@ -290,7 +290,7 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
                       items: _propertyTypes
                           .map((t) => DropdownMenuItem(value: t, child: Text(t)))
                           .toList(),
-                      onChanged: (v) => setState(() => _propertyType = v!),
+                      onChanged: (v) => setState(() { _propertyType = v!; }),
                     ),
                   ),
                 ],

@@ -44,7 +44,7 @@ class _AgentRatingsScreenState extends State<AgentRatingsScreen> {
                 : 'Something went wrong.';
             return ErrorView(
               message: message,
-              onRetry: () => setState(() => _future = _service.getRatings()),
+              onRetry: () => setState(() { _future = _service.getRatings(); }),
             );
           }
           final data = snapshot.data!;

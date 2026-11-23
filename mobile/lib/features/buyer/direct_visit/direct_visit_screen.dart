@@ -77,9 +77,9 @@ class _DirectVisitScreenState extends State<DirectVisitScreen> {
         _step = 1;
       });
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
@@ -97,9 +97,9 @@ class _DirectVisitScreenState extends State<DirectVisitScreen> {
         _step = 2;
       });
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
@@ -111,13 +111,13 @@ class _DirectVisitScreenState extends State<DirectVisitScreen> {
     try {
       final updated = await _service.signAgreement(_agreement!.id);
       if (!mounted) return;
-      setState(() => _agreement = updated);
+      setState(() { _agreement = updated; });
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Agreement signed.')));
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 

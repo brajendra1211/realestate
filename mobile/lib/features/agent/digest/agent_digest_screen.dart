@@ -44,7 +44,7 @@ class _AgentDigestScreenState extends State<AgentDigestScreen> {
                 : 'Something went wrong.';
             return ErrorView(
               message: message,
-              onRetry: () => setState(() => _future = _service.getDigest()),
+              onRetry: () => setState(() { _future = _service.getDigest(); }),
             );
           }
           final digest = snapshot.data!;

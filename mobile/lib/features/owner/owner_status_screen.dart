@@ -24,7 +24,7 @@ class _OwnerStatusScreenState extends State<OwnerStatusScreen> {
   late Future<List<OwnerRequest>> _future = _service.myRequests();
 
   Future<void> _refresh() async {
-    setState(() => _future = _service.myRequests());
+    setState(() { _future = _service.myRequests(); });
     await _future;
   }
 

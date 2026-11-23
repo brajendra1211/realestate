@@ -59,12 +59,12 @@ class _AgentVerifyScreenState extends State<AgentVerifyScreen> {
       setState(() => _errorMessage =
           "That code isn't right, or this phone/email isn't registered as a channel partner.");
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
   Future<void> _resend() async {
-    setState(() => _resending = true);
+    setState(() { _resending = true; });
     try {
       await context.read<AgentAuthProvider>().requestOtp(widget.identifier);
       if (!mounted) return;
@@ -75,7 +75,7 @@ class _AgentVerifyScreenState extends State<AgentVerifyScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _resending = false);
+      if (mounted) setState(() { _resending = false; });
     }
   }
 

@@ -50,7 +50,7 @@ class _RateAgentScreenState extends State<RateAgentScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _submitting = true);
+    setState(() { _submitting = true; });
     try {
       await _service.submitRating(
         agentCode: widget.agentCode,
@@ -68,7 +68,7 @@ class _RateAgentScreenState extends State<RateAgentScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
@@ -103,7 +103,7 @@ class _RateAgentScreenState extends State<RateAgentScreen> {
                         children: List.generate(5, (index) {
                           final starValue = index + 1;
                           return IconButton(
-                            onPressed: () => setState(() => _stars = starValue),
+                            onPressed: () => setState(() { _stars = starValue; }),
                             icon: Icon(
                               starValue <= _stars ? Icons.star_rounded : Icons.star_outline_rounded,
                               color: AppColors.gold,

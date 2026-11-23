@@ -56,13 +56,13 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
   }
 
   void _startCooldown() {
-    setState(() => _secondsLeft = _resendCooldown.inSeconds);
+    setState(() { _secondsLeft = _resendCooldown.inSeconds; });
     _cooldownTimer?.cancel();
     _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted) return;
       if (_secondsLeft <= 1) {
         timer.cancel();
-        setState(() => _secondsLeft = 0);
+        setState(() { _secondsLeft = 0; });
       } else {
         setState(() => _secondsLeft -= 1);
       }
@@ -111,15 +111,15 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
           context.go(widget.from ?? RoutePaths.buyerDashboard);
       }
     } on ApiException catch (_) {
-      setState(() => _errorMessage = 'That code isn\'t right — check and try again.');
+      setState(() { _errorMessage = 'That code isn\'t right — check and try again.'; });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
   Future<void> _resend() async {
     if (_secondsLeft > 0) return;
-    setState(() => _resending = true);
+    setState(() { _resending = true; });
     try {
       final customerAuth = context.read<CustomerAuthProvider>();
       await customerAuth.requestOtp(forInvestor: false, identifier: widget.identifier);
@@ -132,7 +132,7 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _resending = false);
+      if (mounted) setState(() { _resending = false; });
     }
   }
 

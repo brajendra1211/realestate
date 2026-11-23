@@ -25,7 +25,7 @@ class _AgentOwnerRequestsScreenState extends State<AgentOwnerRequestsScreen> {
   late Future<List<AcceptedOwnerRequest>> _future = _service.ownerRequests();
 
   Future<void> _reload() async {
-    setState(() => _future = _service.ownerRequests());
+    setState(() { _future = _service.ownerRequests(); });
     await _future;
   }
 
@@ -92,11 +92,11 @@ class _RequestCardState extends State<_RequestCard> {
     });
     try {
       await widget.service.sendVerifyOtp(widget.request.id);
-      setState(() => _otpSent = true);
+      setState(() { _otpSent = true; });
     } catch (e) {
-      setState(() => _error = workError(e));
+      setState(() { _error = workError(e); });
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (mounted) setState(() { _busy = false; });
     }
   }
 
@@ -110,10 +110,11 @@ class _RequestCardState extends State<_RequestCard> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Verified. The listing is live and your share is credited.')));
       await widget.onChanged();
-    } catch (e) {
-      if (mounted) setState(() => _error = workError(e));
+    } catch (e, st) {
+      debugPrint('verify failed: $e $st');
+      if (mounted) setState(() { _error = workError(e); });
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (mounted) setState(() { _busy = false; });
     }
   }
 

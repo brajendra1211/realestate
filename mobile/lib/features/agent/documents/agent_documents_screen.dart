@@ -99,7 +99,7 @@ class _AgentDocumentsScreenState extends State<AgentDocumentsScreen> {
         type: selectedType,
       );
       if (!mounted) return;
-      setState(() => _future = _service.getDocuments());
+      setState(() { _future = _service.getDocuments(); });
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Document uploaded')));
     } on ApiException catch (e) {
@@ -120,7 +120,7 @@ class _AgentDocumentsScreenState extends State<AgentDocumentsScreen> {
         child: const Icon(Icons.upload_file_outlined),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getDocuments()),
+        onRefresh: () async => setState(() { _future = _service.getDocuments(); }),
         child: FutureBuilder<List<AgentDocument>>(
           future: _future,
           builder: (context, snapshot) {
@@ -133,7 +133,7 @@ class _AgentDocumentsScreenState extends State<AgentDocumentsScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getDocuments()),
+                onRetry: () => setState(() { _future = _service.getDocuments(); }),
               );
             }
             final documents = snapshot.data ?? [];

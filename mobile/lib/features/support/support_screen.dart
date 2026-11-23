@@ -58,12 +58,12 @@ class _SupportScreenState extends State<SupportScreen> {
       await _dio.post('/api/support', data: {'category': _category, 'subject': _subject.text, 'message': _message.text});
       _subject.clear();
       _message.clear();
-      setState(() => _future = _load());
+      setState(() { _future = _load(); });
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sent. We will reply within 2 hours.')));
     } on DioException catch (e) {
-      setState(() => _error = ownerErrorMessage(ApiException.fromDioError(e)));
+      setState(() { _error = ownerErrorMessage(ApiException.fromDioError(e)); });
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (mounted) setState(() { _busy = false; });
     }
   }
 
@@ -82,7 +82,7 @@ class _SupportScreenState extends State<SupportScreen> {
             initialValue: _category,
             decoration: const InputDecoration(labelText: 'Topic'),
             items: [for (final e in _categories.entries) DropdownMenuItem(value: e.key, child: Text(e.value))],
-            onChanged: (v) => setState(() => _category = v!),
+            onChanged: (v) => setState(() { _category = v!; }),
           ),
           const SizedBox(height: AppSpacing.sm),
           TextField(controller: _subject, decoration: const InputDecoration(labelText: 'Subject')),

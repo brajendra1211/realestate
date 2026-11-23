@@ -31,11 +31,11 @@ class _AgentCycleScreenState extends State<AgentCycleScreen> {
   }
 
   Future<void> _claimCoupon() async {
-    setState(() => _claiming = true);
+    setState(() { _claiming = true; });
     try {
       await _service.claimCoupon();
       if (!mounted) return;
-      setState(() => _future = _service.getProgress());
+      setState(() { _future = _service.getProgress(); });
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Coupon claimed!')));
     } on ApiException catch (e) {
@@ -43,7 +43,7 @@ class _AgentCycleScreenState extends State<AgentCycleScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _claiming = false);
+      if (mounted) setState(() { _claiming = false; });
     }
   }
 
@@ -53,7 +53,7 @@ class _AgentCycleScreenState extends State<AgentCycleScreen> {
       appBar: AppBar(title: const Text('60-Day Review Cycle')),
       body: RefreshIndicator(
         color: AppColors.gold,
-        onRefresh: () async => setState(() => _future = _service.getProgress()),
+        onRefresh: () async => setState(() { _future = _service.getProgress(); }),
         child: FutureBuilder<AgentCycleProgress>(
           future: _future,
           builder: (context, snapshot) {
@@ -66,7 +66,7 @@ class _AgentCycleScreenState extends State<AgentCycleScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getProgress()),
+                onRetry: () => setState(() { _future = _service.getProgress(); }),
               );
             }
             final progress = snapshot.data!;

@@ -31,7 +31,7 @@ class _AgentDealsListScreenState extends State<AgentDealsListScreen> {
     _future = _service.getDeals();
   }
 
-  void _reload() => setState(() => _future = _service.getDeals());
+  void _reload() => setState(() { _future = _service.getDeals(); });
 
   BadgeKind _statusKind(String status) => switch (status) {
         'CLOSED' || 'REGISTRY_COMPLETED' => BadgeKind.success,

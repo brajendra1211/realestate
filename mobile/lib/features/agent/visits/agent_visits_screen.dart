@@ -117,7 +117,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
         otp: otpController.text.trim(),
       );
       if (!mounted) return;
-      setState(() => _future = _service.getVisits());
+      setState(() { _future = _service.getVisits(); });
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Visit logged')));
     } on ApiException catch (e) {
@@ -138,7 +138,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getVisits()),
+        onRefresh: () async => setState(() { _future = _service.getVisits(); }),
         child: FutureBuilder<List<VisitLog>>(
           future: _future,
           builder: (context, snapshot) {
@@ -151,7 +151,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getVisits()),
+                onRetry: () => setState(() { _future = _service.getVisits(); }),
               );
             }
             final visits = snapshot.data ?? [];

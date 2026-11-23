@@ -52,9 +52,9 @@ class _BuyerLoginScreenState extends State<BuyerLoginScreen> {
         '${from != null ? '&from=${Uri.encodeComponent(from)}' : ''}',
       );
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 

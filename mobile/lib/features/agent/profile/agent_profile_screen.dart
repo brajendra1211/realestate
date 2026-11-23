@@ -44,7 +44,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
                 : 'Something went wrong.';
             return ErrorView(
               message: message,
-              onRetry: () => setState(() => _future = _service.me()),
+              onRetry: () => setState(() { _future = _service.me(); }),
             );
           }
 

@@ -176,19 +176,19 @@ class _AgentShopScreenState extends State<AgentShopScreen> {
                       _FilterChip(
                         label: 'All',
                         selected: _filterType == 'ALL',
-                        onSelected: () => setState(() => _filterType = 'ALL'),
+                        onSelected: () => setState(() { _filterType = 'ALL'; }),
                       ),
                       const SizedBox(width: 6),
                       _FilterChip(
                         label: 'Rent',
                         selected: _filterType == 'RENT',
-                        onSelected: () => setState(() => _filterType = 'RENT'),
+                        onSelected: () => setState(() { _filterType = 'RENT'; }),
                       ),
                       const SizedBox(width: 6),
                       _FilterChip(
                         label: 'Sale',
                         selected: _filterType == 'SALE',
-                        onSelected: () => setState(() => _filterType = 'SALE'),
+                        onSelected: () => setState(() { _filterType = 'SALE'; }),
                       ),
                     ],
                   ),

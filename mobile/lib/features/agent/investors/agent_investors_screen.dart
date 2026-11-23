@@ -43,13 +43,13 @@ class _AgentInvestorsScreenState extends State<AgentInvestorsScreen> {
             MaterialPageRoute(builder: (_) => const AgentInvestorFormScreen()),
           );
           if (added == true) {
-            setState(() => _future = _service.getInvestors());
+            setState(() { _future = _service.getInvestors(); });
           }
         },
         child: const Icon(Icons.person_add_outlined),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getInvestors()),
+        onRefresh: () async => setState(() { _future = _service.getInvestors(); }),
         child: FutureBuilder<List<InvestorProfile>>(
           future: _future,
           builder: (context, snapshot) {
@@ -62,7 +62,7 @@ class _AgentInvestorsScreenState extends State<AgentInvestorsScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getInvestors()),
+                onRetry: () => setState(() { _future = _service.getInvestors(); }),
               );
             }
             final investors = snapshot.data ?? [];

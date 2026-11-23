@@ -14,6 +14,24 @@ String errorMessageFor(ApiException e) {
       return 'Please check your name, email, and password (min 8 characters).';
     case 'shopDetails':
       return 'Please fill in your shop name, address, and city.';
+    case 'invalidPhone':
+      return 'Enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).';
+    case 'phoneInUse':
+      return 'This mobile number is already registered with another account.';
+    case 'invalidName':
+      return 'Name can only contain letters (A-Z).';
+    case 'underAge':
+      return 'You must be at least 18 years old to register.';
+    case 'dobRequired':
+      return 'Please enter your date of birth.';
+    case 'invalidBankName':
+      return 'Account holder name can only contain letters (A-Z).';
+    case 'invalidAccountNumber':
+      return 'Bank account number must be digits only (9 to 18 digits).';
+    case 'otpInvalid':
+      return 'The WhatsApp OTP is not correct or has expired. Please request a new one.';
+    case 'otpSendFailed':
+      return "We couldn't send the OTP right now. Please try again in a minute.";
     case 'duplicate':
       return 'An account with this email already exists.';
     case 'referrerNotFound':

@@ -40,6 +40,7 @@ class Endpoints {
 
   // --- Agent ---
   static const agentRegister = '/api/agent/register';
+  static const agentRegisterOtp = '/api/agent/register/otp';
   static const agentOtpRequest = '/api/agent/otp';
   static const agentResetPassword = '/api/agent/reset-password';
   static const agentMe = '/api/agent/me';

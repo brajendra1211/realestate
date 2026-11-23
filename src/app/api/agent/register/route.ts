@@ -23,6 +23,8 @@ export async function POST(request: Request) {
       gstNumber: body.gstNumber ? String(body.gstNumber) : null,
       documents: Array.isArray(body.documents) ? (body.documents as AgentDocumentInput[]) : [],
       referredByAgentCode: body.referredByAgentCode ? String(body.referredByAgentCode) : null,
+      whatsappNumber: body.whatsappNumber ? String(body.whatsappNumber) : null,
+      otp: body.otp ? String(body.otp) : null,
     });
 
     return NextResponse.json(

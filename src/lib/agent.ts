@@ -7,7 +7,8 @@ import { generateAgentCode } from "@/lib/codes";
 import { geocodeWithFallback } from "@/lib/geocode";
 import { indexAgentLocation } from "@/lib/agentGeo";
 import { getSiteSettings } from "@/lib/site-settings";
-import { ageFromDob, upper, validateKycFields } from "@/lib/validators";
+import { ageFromDob, upper, validateKycFields, isValidMobile, isPhoneInUse, normalizePhone } from "@/lib/validators";
+import { requestOtp, verifyOtp, normalizeIdentifier } from "@/lib/otp";
 import type { AgentDocumentType, AgentProfile, Prisma } from "@/generated/prisma";
 
 export class AgentServiceError extends Error {}
@@ -60,7 +61,21 @@ export type AgentApplicationInput = {
   gstNumber?: string | null;
   documents?: AgentDocumentInput[];
   referredByAgentCode?: string | null;
+  /** WhatsApp OTP for the mobile number (required). */
+  otp?: string | null;
 };
+
+/** The OTP identifier for a registering partner: the last 10 digits of the mobile. */
+export const registrationOtpId = (phone: string) => normalizeIdentifier(normalizePhone(phone));
+
+/** Sends the WhatsApp OTP that proves the mobile number before the partner account is created. */
+export async function sendAgentRegistrationOtp(phone: string) {
+  if (!isValidMobile(phone)) throw new AgentServiceError("invalidPhone");
+  if (await isPhoneInUse(phone)) throw new AgentServiceError("phoneInUse");
+  const result = await requestOtp(registrationOtpId(phone));
+  if (!result.sent) throw new AgentServiceError("otpSendFailed");
+  return { channel: result.channel };
+}
 
 export async function submitAgentApplication(input: AgentApplicationInput) {
   const email = input.email.trim().toLowerCase();
@@ -86,6 +101,10 @@ export async function submitAgentApplication(input: AgentApplicationInput) {
     bankAccountNumber: input.bankAccountNumber,
   });
   if (kycError) throw new AgentServiceError(kycError);
+
+  if (!(await verifyOtp(registrationOtpId(input.phone ?? ""), (input.otp ?? "").trim()))) {
+    throw new AgentServiceError("otpInvalid");
+  }
 
   const shopCoords = await geocodeWithFallback([input.shopAddress, input.city]);
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/network/api_client.dart';
@@ -27,6 +28,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
   final _email = TextEditingController();
   final _phone = TextEditingController();
   final _alternatePhone = TextEditingController();
+  final _otp = TextEditingController();
   final _password = TextEditingController();
   final _shopName = TextEditingController();
   final _shopAddress = TextEditingController();
@@ -39,6 +41,8 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
 
   bool _submitting = false;
   bool _obscurePassword = true;
+  bool _otpSent = false;
+  bool _otpBusy = false;
 
   @override
   void initState() {
@@ -53,6 +57,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
       _email,
       _phone,
       _alternatePhone,
+      _otp,
       _password,
       _shopName,
       _shopAddress,
@@ -68,6 +73,25 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
     super.dispose();
   }
 
+  Future<void> _sendOtp() async {
+    final bad = Validators.mobile10(_phone.text);
+    if (bad != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(bad)));
+      return;
+    }
+    setState(() { _otpBusy = true; });
+    try {
+      await _service.sendRegistrationOtp(_phone.text.trim());
+      if (!mounted) return;
+      setState(() { _otpSent = true; });
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('OTP sent on WhatsApp.')));
+    } on ApiException catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+    } finally {
+      if (mounted) setState(() { _otpBusy = false; });
+    }
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() { _submitting = true; });
@@ -76,7 +100,8 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
         name: _name.text.trim(),
         email: _email.text.trim(),
         password: _password.text,
-        phone: _phone.text.trim().isEmpty ? null : _phone.text.trim(),
+        phone: _phone.text.trim(),
+        otp: _otp.text.trim(),
         alternatePhone:
             _alternatePhone.text.trim().isEmpty ? null : _alternatePhone.text.trim(),
         shopName: _shopName.text.trim(),
@@ -140,11 +165,13 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                 children: [
                   TextFormField(
                     controller: _name,
+                    textCapitalization: TextCapitalization.words,
+                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r"[A-Za-z .'-]"))],
                     decoration: const InputDecoration(
                       labelText: 'Full name',
                       prefixIcon: Icon(Icons.person_outline),
                     ),
-                    validator: (v) => Validators.required(v, label: 'Name'),
+                    validator: Validators.personName,
                   ),
                   TextFormField(
                     controller: _email,
@@ -157,16 +184,48 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                   ),
                   TextFormField(
                     controller: _phone,
-                    keyboardType: TextInputType.phone,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                    onChanged: (_) {
+                      if (_otpSent) setState(() { _otpSent = false; });
+                    },
                     decoration: const InputDecoration(
-                      labelText: 'Phone (optional)',
+                      labelText: 'Mobile number (WhatsApp)',
+                      hintText: '10 digits',
+                      helperText: 'One mobile number can only be used for one account.',
                       prefixIcon: Icon(Icons.call_outlined),
+                      counterText: '',
+                    ),
+                    validator: Validators.mobile10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: AppButton(
+                      label: _otpSent ? 'Resend WhatsApp OTP' : 'Send WhatsApp OTP',
+                      icon: Icons.chat_outlined,
+                      variant: AppButtonVariant.secondary,
+                      loading: _otpBusy,
+                      onPressed: _otpBusy ? null : _sendOtp,
                     ),
                   ),
                   TextFormField(
+                    controller: _otp,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(6)],
+                    decoration: InputDecoration(
+                      labelText: 'WhatsApp OTP',
+                      hintText: _otpSent ? '6-digit OTP' : 'Send the OTP first',
+                      prefixIcon: const Icon(Icons.sms_outlined),
+                      counterText: '',
+                    ),
+                    validator: (v) => (v == null || v.trim().length != 6) ? 'Enter the 6-digit OTP' : null,
+                  ),
+                  TextFormField(
                     controller: _alternatePhone,
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(labelText: 'Alternate phone (optional)'),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                    decoration: const InputDecoration(labelText: 'Alternate mobile (optional)', counterText: ''),
+                    validator: Validators.optionalMobile10,
                   ),
                   TextFormField(
                     controller: _password,

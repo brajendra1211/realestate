@@ -18,7 +18,7 @@ echo "[3/5] Syncing database schema (safe mode)..."
 npx prisma db push
 
 echo "[4/5] Building..."
-NODE_OPTIONS="--dns-result-order=ipv4first" npx next build --webpack 2>&1 | tail -25
+NODE_OPTIONS="--dns-result-order=ipv4first --max-old-space-size=3072" npx next build --webpack 2>&1 | tail -25
 
 echo "[5/5] Restarting app..."
 mkdir -p tmp

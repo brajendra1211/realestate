@@ -107,6 +107,11 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
         case 'INVESTOR':
           context.go(RoutePaths.investorDashboard);
           break;
+        case 'OWNER':
+          // Owners have their own screen; the buyer dashboard is gated to
+          // buyers only and would bounce them straight back to sign-in.
+          context.go(RoutePaths.ownerStatus);
+          break;
         default:
           context.go(widget.from ?? RoutePaths.buyerDashboard);
       }

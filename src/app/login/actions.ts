@@ -48,7 +48,7 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
       targetUrl = "/agent/dashboard";
     } else if (user?.role === "INVESTOR") {
       targetUrl = "/investor/dashboard";
-    } else if (user?.role === "OWNER" || user?.role === "DEALER") {
+    } else if (user?.role === "OWNER") {
       targetUrl = "/dashboard";
     } else if (user?.role === "BUYER") {
       targetUrl = "/buyer/dashboard";

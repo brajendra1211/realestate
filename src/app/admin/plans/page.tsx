@@ -10,8 +10,7 @@ type SearchParams = Promise<{ saved?: string; error?: string }>;
 const ROLE_OPTIONS = [
   { value: "OWNER", label: "Owners only" },
   { value: "AGENT", label: "Channel Partners (Agents)" },
-  { value: "DEALER", label: "Dealers only" },
-  { value: "BOTH", label: "Owners & Dealers" },
+  { value: "BOTH", label: "Owners" },
 ];
 
 const inputClass =
@@ -32,7 +31,7 @@ export default async function AdminPlansPage({ searchParams }: { searchParams: S
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Listing plans</h1>
         <p className="mt-1 max-w-2xl text-sm text-slate-500">
-          Free listings are completely disabled across the platform (0 free listings allowed). All owners, dealers, and channel partners must have an active paid plan to list properties. Manage and customize plan limits, durations, and pricing below.
+          Free listings are completely disabled across the platform (0 free listings allowed). All owners and channel partners must have an active paid plan to list properties. Manage and customize plan limits, durations, and pricing below.
         </p>
       </div>
 

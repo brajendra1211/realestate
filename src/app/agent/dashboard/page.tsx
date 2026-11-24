@@ -9,6 +9,7 @@ import { haversineDistanceKm } from "@/lib/geo";
 import { formatINR } from "@/lib/format";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getRingAlertsForAgent } from "@/lib/ringAlerts";
+import { getOfficeVisitSummary } from "@/lib/officeVisit";
 import { DispatchNotifications } from "@/components/agent/DispatchNotifications";
 import { requestPayoutAction, setAutoPayMandateAction } from "./actions";
 import { getAgentPlans } from "@/lib/agentPlans";
@@ -90,6 +91,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
     networkData,
     siteSettings,
     ringAlerts,
+    officeVisit,
   ] = await Promise.all([
     getAgentCommissionSummary(agent.id),
     getPayoutsForAgent(agent.id),
@@ -100,6 +102,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
     getDirectNetworkAndRenewals(agent.id).catch(() => ({ agents: [], listings: [] })),
     getSiteSettings(),
     getRingAlertsForAgent(agent.id),
+    getOfficeVisitSummary(agent.id).catch(() => ({ last: null, total: 0 })),
   ]);
 
   const { siteName } = siteSettings;
@@ -553,6 +556,18 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
           )}
         </div>
       )}
+
+      {/* Last office visit */}
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm shadow-soft">
+        <Building2 className="h-4 w-4 text-brand-600" />
+        <span className="font-semibold text-ink">Last office visit:</span>
+        <span className="text-slate-600">
+          {officeVisit.last
+            ? officeVisit.last.visitedAt.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
+            : "No visit recorded yet"}
+        </span>
+        {officeVisit.total > 0 && <span className="text-xs text-slate-400">· {officeVisit.total} total visits</span>}
+      </div>
 
       {/* Wallet + key numbers */}
       <div className="grid gap-4 lg:grid-cols-3">

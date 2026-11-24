@@ -71,7 +71,7 @@ async function main() {
     create: {
       id: "plan-dealer-pro",
       name: "Dealer Growth Pro",
-      role: "DEALER",
+      role: "OWNER",
       listingLimit: 30,
       leadLimit: 150,
       price: 2999,
@@ -86,7 +86,7 @@ async function main() {
     create: {
       id: "plan-dealer-enterprise",
       name: "Dealer Enterprise Unlimited",
-      role: "DEALER",
+      role: "OWNER",
       listingLimit: 100,
       leadLimit: 500,
       price: 6999,
@@ -341,7 +341,7 @@ async function main() {
       slug: "bayaestate-realty",
       about: "Leading RERA-registered real estate brokerage across Bengaluru East & South.",
       passwordHash: dealerPass,
-      role: "DEALER",
+      role: "OWNER",
       verified: true,
     },
   });
@@ -358,7 +358,7 @@ async function main() {
       slug: "apex-prime-realty",
       about: "Specialists in IT park office leasing and commercial retail space.",
       passwordHash: dealerPass,
-      role: "DEALER",
+      role: "OWNER",
       verified: false,
     },
   });

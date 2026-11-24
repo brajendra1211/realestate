@@ -233,7 +233,7 @@ export function PropertyForm({
             ))}
           </select>
           <p className="mt-1 text-xs text-blue-700">
-            Choose a dealer or owner account to list this property on their behalf. Leave as
+            Choose an owner account to list this property on their behalf. Leave as
             &quot;Myself&quot; to list it under your own account.
           </p>
         </div>

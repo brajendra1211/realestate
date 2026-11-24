@@ -22,7 +22,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
   const [users, plans] = await Promise.all([
     prisma.user.findMany({
       where: {
-        role: role === "DEALER" || role === "OWNER" ? role : { in: ["DEALER", "OWNER"] },
+        role: "OWNER",
         ...(status === "verified" ? { verified: true } : {}),
         ...(status === "pending" ? { verified: false } : {}),
       },
@@ -50,7 +50,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Dealers &amp; Owners</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Owners</h1>
         <p className="mt-1 max-w-2xl text-sm text-slate-500">
           Verify a profile to make it (and its listings) publicly visible on the site.
         </p>
@@ -64,8 +64,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
 
       <div className="mt-6 flex flex-wrap gap-2 text-sm">
         {[
-          { label: "All (Owners & Dealers)", href: filterLink({ status }) },
-          { label: "Dealers", href: filterLink({ role: "DEALER", status }) },
+          { label: "All owners", href: filterLink({ status }) },
           { label: "Owners", href: filterLink({ role: "OWNER", status }) },
           { label: "Buyers & Customers ➔", href: "/admin/buyers" },
           { label: "Referral Partners ➔", href: "/admin/investors" },
@@ -74,7 +73,6 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
             key={item.label}
             href={item.href}
             className={`rounded-full border px-3 py-1.5 font-medium ${
-              (item.label === "Dealers" && role === "DEALER") ||
               (item.label === "Owners" && role === "OWNER") ||
               (item.label === "All" && !role)
                 ? "border-blue-600 bg-blue-50 text-blue-700"
@@ -140,7 +138,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: S
                   <p className="text-xs text-slate-400">
                     {user._count.properties} listing(s)
                     {user.slug &&
-                      ` · ${user.role === "DEALER" ? "/dealers/" : "/owners/"}${user.slug}`}
+                      ` · /owners/${user.slug}`}
                   </p>
                   <p className="mt-1 text-xs font-medium text-slate-600">
                     Plan: {activeSub ? activeSub.plan.name : freeLimit > 0 ? `Free (${freeLimit} listings)` : "No Active Plan (0 listings)"}

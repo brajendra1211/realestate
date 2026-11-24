@@ -54,7 +54,7 @@ async function main() {
 
   // 3. Find or create an owner user to attach the properties to
   let owner = await prisma.user.findFirst({
-    where: { role: { in: ["OWNER", "DEALER", "ADMIN"] }, verified: true },
+    where: { role: { in: ["OWNER", "ADMIN"] }, verified: true },
   });
 
   if (!owner) {

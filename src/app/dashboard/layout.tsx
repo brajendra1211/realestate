@@ -5,7 +5,6 @@ import { LogoutButton } from "@/components/LogoutButton";
 
 const ROLE_LABELS: Record<string, string> = {
   OWNER: "Owner",
-  DEALER: "Dealer",
   ADMIN: "Admin",
   SUBADMIN: "Sub-admin",
 };
@@ -13,7 +12,7 @@ const ROLE_LABELS: Record<string, string> = {
 const LISTER_ONLY_HREFS = new Set(["/dashboard/properties/new", "/dashboard/enquiries"]);
 const BILLING_ONLY_HREFS = new Set(["/dashboard/billing"]);
 
-const ALLOWED_ROLES = new Set(["OWNER", "DEALER", "SUBADMIN", "ADMIN"]);
+const ALLOWED_ROLES = new Set(["OWNER", "SUBADMIN", "ADMIN"]);
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -26,8 +25,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!ALLOWED_ROLES.has(session.user.role)) redirect("/");
 
   const isLister =
-    session.user.role === "OWNER" || session.user.role === "DEALER" || session.user.role === "SUBADMIN";
-  const isPlanHolder = session.user.role === "OWNER" || session.user.role === "DEALER";
+    session.user.role === "OWNER" || session.user.role === "SUBADMIN";
+  const isPlanHolder = session.user.role === "OWNER";
   const navItems = DASHBOARD_NAV_ITEMS.filter((item) => {
     if (LISTER_ONLY_HREFS.has(item.href)) return isLister;
     if (BILLING_ONLY_HREFS.has(item.href)) return isPlanHolder;

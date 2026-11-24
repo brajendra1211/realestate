@@ -12,7 +12,7 @@ export default async function DashboardEnquiriesPage({ searchParams }: { searchP
   if (!session) redirect("/login");
 
   const { error } = await searchParams;
-  const isLister = session.user.role === "OWNER" || session.user.role === "DEALER";
+  const isLister = session.user.role === "OWNER";
 
   const [enquiries, usage, leadViews] = await Promise.all([
     prisma.enquiry.findMany({

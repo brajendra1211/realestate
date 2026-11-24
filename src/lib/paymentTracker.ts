@@ -21,7 +21,7 @@ export type PayRow = {
 export const STREAMS = [
   { key: "partner", label: "Channel partner plans", hint: "Basic / Prime membership" },
   { key: "referral", label: "Referral partner fee", hint: "Yearly registration fee" },
-  { key: "owner", label: "Owner & dealer plans", hint: "Listing plans bought from the dashboard" },
+  { key: "owner", label: "Owner plans", hint: "Listing plans bought from the dashboard" },
   { key: "requests", label: "Owner requests", hint: "Plans bought on the list-property page" },
   { key: "unlock", label: "Buyer unlocks", hint: "Pay to reveal a listing's contact" },
   { key: "dispatch", label: "Buzzer / dispatch", hint: "Pay to alert nearby partners" },

@@ -25,7 +25,7 @@ class CustomerAuthProvider extends ChangeNotifier {
   bool get isBuyer =>
       status == CustomerAuthStatus.loggedIn && role == 'BUYER';
   bool get isOwner =>
-      status == CustomerAuthStatus.loggedIn && (role == 'OWNER' || role == 'DEALER');
+      status == CustomerAuthStatus.loggedIn && role == 'OWNER';
   bool get isInvestor =>
       status == CustomerAuthStatus.loggedIn && role == 'INVESTOR';
 

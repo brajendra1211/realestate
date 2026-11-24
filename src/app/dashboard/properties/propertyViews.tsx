@@ -194,12 +194,12 @@ export async function NewPropertyView({
   const listAsOptions = isAdminLister
     ? (
         await prisma.user.findMany({
-          where: { role: { in: ["DEALER", "OWNER"] } },
+          where: { role: "OWNER" },
           orderBy: [{ role: "asc" }, { name: "asc" }],
         })
       ).map((user) => ({
         id: user.id,
-        label: `${user.company ?? user.name} (${user.role === "DEALER" ? "Dealer" : "Owner"})`,
+        label: `${user.company ?? user.name} (${"Owner"})`,
       }))
     : undefined;
 

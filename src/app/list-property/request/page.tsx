@@ -21,7 +21,7 @@ const STEPS = [
 export default async function ListPropertyRequestPage() {
   const [session, fees] = await Promise.all([auth(), getPlanFees()]);
   const user = session ? await prisma.user.findUnique({ where: { id: session.user.id }, select: { name: true, phone: true, email: true, role: true } }) : null;
-  const prefill = user && (user.role === "OWNER" || user.role === "DEALER") ? user : null;
+  const prefill = user && user.role === "OWNER" ? user : null;
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">

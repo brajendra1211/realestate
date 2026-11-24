@@ -18,7 +18,7 @@ const ROLES: { key: LoginRole; label: string; sub: string; icon: typeof Users }[
 ];
 
 const HELP: Record<LoginRole, string> = {
-  buyer: "Buyers, property owners and dealers: enter your mobile number or email and we will send a one-time code.",
+  buyer: "Buyers and property owners: enter your mobile number or email and we will send a one-time code.",
   agent: "Channel partners: sign in with the email and password you registered with.",
   investor:
     "Referral partners: use the mobile number or email your channel partner registered you with. We will send a one-time code on WhatsApp or email.",

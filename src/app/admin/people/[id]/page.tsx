@@ -28,7 +28,6 @@ const ROLE_LABEL: Record<string, string> = {
   ADMIN: "Admin",
   SUBADMIN: "Sub-admin",
   OWNER: "Owner",
-  DEALER: "Dealer",
   BUYER: "Buyer",
   AGENT: "Channel partner",
   INVESTOR: "Referral partner (investor)",
@@ -36,7 +35,6 @@ const ROLE_LABEL: Record<string, string> = {
 
 const BACK: Record<string, { href: string; label: string }> = {
   OWNER: { href: "/admin/people?role=OWNER", label: "All people" },
-  DEALER: { href: "/admin/people?role=DEALER", label: "All people" },
   BUYER: { href: "/admin/people?role=BUYER", label: "All people" },
   INVESTOR: { href: "/admin/people?role=INVESTOR", label: "All people" },
   AGENT: { href: "/admin/people?role=AGENT", label: "All people" },
@@ -89,7 +87,7 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
   if (!user) notFound();
 
   const isBuyer = user.role === "BUYER";
-  const isLister = user.role === "OWNER" || user.role === "DEALER" || user.role === "SUBADMIN";
+  const isLister = user.role === "OWNER" || user.role === "SUBADMIN";
 
   const [referrer, properties, enquiriesMade, saved, visits, unlocks, dispatches, ledger, investorLedger, investorExtra] = await Promise.all([
     user.referredByAgentId

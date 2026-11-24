@@ -85,7 +85,7 @@ async function main() {
     },
   });
 
-  // 5. Create OWNER / DEALER Account
+  // 5. Create OWNER Account
   const owner = await prisma.user.create({
     data: {
       email: "owner@noidaprimeproperty.com",

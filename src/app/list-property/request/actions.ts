@@ -67,7 +67,7 @@ type StartResult =
  */
 export async function startListingRequestAction(form: RequestFormInput): Promise<StartResult> {
   const session = await auth();
-  let userId = session && (session.user.role === "OWNER" || session.user.role === "DEALER") ? session.user.id : null;
+  let userId = session && session.user.role === "OWNER" ? session.user.id : null;
   let registered = false;
 
   try {

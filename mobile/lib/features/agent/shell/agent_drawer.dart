@@ -32,6 +32,8 @@ const _groups = [
     _Item(Icons.place_outlined, 'Site Visits', RoutePaths.agentVisits),
     _Item(Icons.cell_tower_outlined, 'B2B Broadcast', RoutePaths.agentBroadcast),
     _Item(Icons.article_outlined, 'Daily Digest', RoutePaths.agentDigest),
+    _Item(Icons.travel_explore_outlined, 'Customer Requirements', RoutePaths.agentRequirements),
+    _Item(Icons.apartment_outlined, 'Office Visits', RoutePaths.agentOfficeVisits),
     _Item(Icons.description_outlined, 'Brochure Maker', RoutePaths.agentBrochures),
   ]),
   _Group('Money', [

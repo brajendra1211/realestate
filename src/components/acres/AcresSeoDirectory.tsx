@@ -42,7 +42,7 @@ const SECTIONS = [
       { label: "Office Spaces for Sale", href: "/properties?propertyType=OFFICE" },
       { label: "Commercial Shops for Sale", href: "/properties?propertyType=COMMERCIAL" },
       { label: "Pre-Leased Commercial Units", href: "/properties?propertyType=COMMERCIAL" },
-      { label: "Certified Channel Partners", href: "/dealers" },
+      { label: "Certified Channel Partners", href: "/leaderboard" },
     ],
   },
 ];

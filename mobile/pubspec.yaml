@@ -67,3 +67,4 @@ flutter:
     # audioplayers (used to loop the tone on the incoming-ring screen) needs
     # its own copy bundled as a regular Flutter asset.
     - assets/sounds/ring_alert.wav
+    - shorebird.yaml

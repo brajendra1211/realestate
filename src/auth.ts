@@ -209,7 +209,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           | "ADMIN"
           | "SUBADMIN"
           | "OWNER"
-          | "DEALER"
           | "BUYER"
           | "AGENT"
           | "INVESTOR";

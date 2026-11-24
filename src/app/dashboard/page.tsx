@@ -38,7 +38,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
   if (session.user.role === "ADMIN") redirect("/admin/properties");
 
   const { requested, renewed, relisted, error } = await searchParams;
-  const isLister = session.user.role === "OWNER" || session.user.role === "DEALER";
+  const isLister = session.user.role === "OWNER";
   // Owners and dealers cannot list on their own: they request a channel partner instead.
   const newHref = isLister ? "/list-property/request" : "/dashboard/properties/new";
 
@@ -62,7 +62,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
       : null,
     isLister
       ? prisma.plan.findMany({
-          where: { active: true, OR: [{ role: session.user.role as "OWNER" | "DEALER" }, { role: "BOTH" }] },
+          where: { active: true, OR: [{ role: "OWNER" }, { role: "BOTH" }] },
           orderBy: { price: "asc" },
         })
       : [],

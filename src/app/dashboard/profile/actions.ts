@@ -57,7 +57,6 @@ export async function updateProfile(formData: FormData) {
   const user = await prisma.user.findUnique({ where: { id: session.user.id } });
   if (!user) redirect("/login");
 
-  const isDealer = session.user.role === "DEALER";
   const displayName = company || name;
   const slug = user!.slug ?? (await uniqueUserSlug(displayName, session.user.id));
 
@@ -73,8 +72,7 @@ export async function updateProfile(formData: FormData) {
       company: company || null,
       about: about || null,
       logoUrl: logoUrl || null,
-      licenseNumber: isDealer ? licenseNumber || null : null,
-      address: address || null,
+            address: address || null,
       website: website || null,
       instagramUrl: instagramUrl || null,
       facebookUrl: facebookUrl || null,

@@ -50,6 +50,9 @@ class RoutePaths {
   static const agentPayouts = '/agent/payouts';
   static const agentRatings = '/agent/ratings';
   static const agentDigest = '/agent/digest';
+  static const agentOfficeVisits = '/agent/office-visits';
+  static const agentRequirements = '/agent/requirements';
+  static const buyerCart = '/buyer/cart';
   static const agentGoldListings = '/agent/gold-listings';
   static const agentMore = '/agent/more';
   static const agentSubscription = '/agent/subscription';

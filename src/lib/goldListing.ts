@@ -1,3 +1,4 @@
+import { matchListingToWatches } from "@/lib/watchlist";
 import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
@@ -231,6 +232,7 @@ export async function approveGoldListing(agentListingId: string) {
   }
 
   await injectToNearbyAgents(listing.id, listing.masterProperty.latitude, listing.masterProperty.longitude);
+  void matchListingToWatches(listing.id).catch(() => {});
   return listing;
 }
 

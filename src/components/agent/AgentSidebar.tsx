@@ -45,6 +45,7 @@ const GROUPS: NavGroup[] = [
       { href: "/agent/visits", label: "Site Visits", icon: MapPin },
       { href: "/agent/broadcast", label: "B2B Broadcast", icon: Radio },
       { href: "/agent/digest", label: "Daily Digest", icon: Newspaper },
+      { href: "/agent/requirements", label: "Customer requirements", icon: Newspaper },
       { href: "/agent/brochures", label: "Brochure Maker", icon: FileText },
     ],
   },

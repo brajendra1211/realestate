@@ -67,6 +67,8 @@ const GROUPS: NavGroup[] = [
       { href: "/admin/buyer-leads", label: "Buyer leads", icon: UserSearch },
       { href: "/admin/listing-requests", label: "Owner requests", icon: BellRing },
       { href: "/admin/buy-leads", label: "Buy leads desk", icon: ShoppingBag },
+      { href: "/admin/office-visits", label: "Office visits & reception", icon: Building2 },
+      { href: "/admin/watchlist", label: "Requirement watch-list", icon: UserSearch },
       { href: "/admin/enquiries", label: "Lead inquiries", icon: Mail },
       { href: "/admin/buzzer-control", label: "Buzzer & direct leads", icon: BellRing },
       { href: "/admin/area-routing", label: "Area routing", icon: Route },

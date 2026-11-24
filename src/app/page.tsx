@@ -355,7 +355,7 @@ export default async function Home() {
             <div className="relative h-full overflow-hidden rounded-[28px] border border-brand-100 bg-gradient-to-br from-brand-50 via-white to-white p-8 shadow-soft sm:p-10">
               <span className="inline-flex rounded-full bg-brand-600 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">Rent</span>
               <h3 className="font-display mt-4 text-3xl font-semibold text-ink">Open to every owner</h3>
-              <p className="mt-2 text-slate-600">Anyone can register and list a rental in minutes — owners, dealers and channel partners alike.</p>
+              <p className="mt-2 text-slate-600">Anyone can register and list a rental in minutes — owners and channel partners alike.</p>
               <ul className="mt-6 space-y-2.5 text-sm font-medium text-slate-700">
                 {["Flats, PGs, commercial & villas", "Photo, amenity and pricing details", "Reviewed and approved before going live"].map((t) => (
                   <li key={t} className="flex items-center gap-2.5"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700"><Check className="h-3 w-3" /></span>{t}</li>

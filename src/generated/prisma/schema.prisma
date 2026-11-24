@@ -12,7 +12,6 @@ enum Role {
   ADMIN
   SUBADMIN
   OWNER
-  DEALER
   BUYER
   AGENT
   INVESTOR
@@ -135,7 +134,6 @@ model User {
 
 enum PlanRole {
   OWNER
-  DEALER
   BOTH
   AGENT
 }
@@ -1614,4 +1612,89 @@ model BrochureRecharge {
   createdAt         DateTime     @default(now())
 
   @@index([agentId, createdAt])
+}
+
+// --- Office visits & reception desk ---
+// One row per reception check-in (or manual "No" mark) of a partner at the office.
+model AgentOfficeVisit {
+  id           String   @id @default(cuid())
+  agentId      String
+  visited      Boolean  @default(true)
+  visitedAt    DateTime @default(now())
+  notes        String?  @db.Text
+  markedById   String?
+  markedByName String?
+  createdAt    DateTime @default(now())
+
+  visitors OfficeVisitor[]
+
+  @@index([agentId, visitedAt])
+}
+
+// People who came to the office with the partner (client / investor / friend / relative).
+model OfficeVisitor {
+  id        String           @id @default(cuid())
+  visitId   String
+  visit     AgentOfficeVisit @relation(fields: [visitId], references: [id], onDelete: Cascade)
+  agentId   String
+  name      String
+  mobile    String
+  relation  String           @default("CLIENT") // CLIENT | INVESTOR | FRIEND | RELATIVE
+  interest  String           @default("GENERAL") // BUY | INVESTMENT | GENERAL
+  visitedAt DateTime         @default(now())
+
+  @@index([visitId])
+  @@index([agentId])
+  @@index([mobile])
+}
+
+// --- Property cart ---
+model CartItem {
+  id             String   @id @default(cuid())
+  userId         String
+  propertyId     String?
+  agentListingId String?
+  createdAt      DateTime @default(now())
+
+  @@unique([userId, propertyId])
+  @@unique([userId, agentListingId])
+  @@index([userId])
+}
+
+// A shared / sent-to-agent snapshot of a cart. `token` is the public share link.
+model CartShare {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  userId    String
+  agentId   String?
+  itemsJson String    @db.LongText
+  note      String?   @db.Text
+  sentAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([agentId])
+}
+
+// --- Requirement watch-list ---
+// Saved when no property exists within radius; triggered when a matching listing appears.
+model WatchRequirement {
+  id               String    @id @default(cuid())
+  buyerId          String
+  purpose          String    @default("RENT") // RENT | BUY
+  bhk              Int?
+  budgetMin        Int?
+  budgetMax        Int?
+  societyName      String?
+  latitude         Float
+  longitude        Float
+  radiusKm         Int       @default(5)
+  status           String    @default("ACTIVE") // ACTIVE | MATCHED | CANCELLED
+  matchedListingId String?
+  matchedAgentId   String?
+  matchedAt        DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([buyerId])
+  @@index([status])
 }

@@ -22,14 +22,13 @@ export default async function AdminSitemapPage() {
     }),
     Promise.all([
       prisma.property.count({ where: { approvalStatus: "APPROVED", owner: PUBLIC_LISTER_FILTER } }),
-      prisma.user.count({ where: { role: "DEALER", slug: { not: null }, verified: true } }),
       prisma.user.count({ where: { role: "OWNER", slug: { not: null }, verified: true } }),
       prisma.developer.count(),
       prisma.project.count(),
     ]),
   ]);
 
-  const [propertyRoutes, dealerRoutes, ownerRoutes, developerRoutes, projectRoutes] = routeCounts;
+  const [propertyRoutes, ownerRoutes, developerRoutes, projectRoutes] = routeCounts;
 
   // Property counts per city/locality name, matching what actually gets indexed (sitemap.ts logic).
   const cityCounts = new Map<string, number>();
@@ -68,7 +67,7 @@ export default async function AdminSitemapPage() {
   }
 
   const totalRoutes =
-    4 + propertyRoutes + dealerRoutes + ownerRoutes + developerRoutes + projectRoutes + totalLocationRoutes;
+    4 + propertyRoutes + ownerRoutes + developerRoutes + projectRoutes + totalLocationRoutes;
 
   return (
     <div className="px-4 py-8 sm:px-8 lg:px-10">
@@ -77,7 +76,7 @@ export default async function AdminSitemapPage() {
           <h1 className="text-2xl font-bold text-slate-900">Sitemap</h1>
           <p className="mt-1 max-w-2xl text-sm text-slate-500">
             <code className="rounded bg-slate-100 px-1 py-0.5 text-xs">sitemap.xml</code> regenerates
-            automatically on every request — new cities, localities, dealers, and listings appear
+            automatically on every request — new cities, localities, and listings appear
             without any manual step. Use the toggles below to control which location pages get
             indexed.
           </p>
@@ -97,7 +96,6 @@ export default async function AdminSitemapPage() {
           { label: "Total URLs", value: totalRoutes },
           { label: "Properties", value: propertyRoutes },
           { label: "Location pages indexed", value: totalLocationRoutes },
-          { label: "Dealers", value: dealerRoutes },
           { label: "Owners", value: ownerRoutes },
           { label: "Developers / Projects", value: developerRoutes + projectRoutes },
         ].map((stat) => (

@@ -16,7 +16,6 @@ const TABS = [
   { key: "AGENT", label: "Channel partners" },
   { key: "INVESTOR", label: "Referral partners" },
   { key: "OWNER", label: "Owners" },
-  { key: "DEALER", label: "Dealers" },
   { key: "BUYER", label: "Buyers" },
   { key: "TEAM", label: "Team" },
 ] as const;
@@ -25,7 +24,6 @@ const ROLE_CHIP: Record<string, { label: string; cls: string }> = {
   AGENT: { label: "Channel partner", cls: "is-cyan" },
   INVESTOR: { label: "Referral partner", cls: "is-violet" },
   OWNER: { label: "Owner", cls: "is-green" },
-  DEALER: { label: "Dealer", cls: "is-yellow" },
   BUYER: { label: "Buyer", cls: "is-muted" },
   ADMIN: { label: "Admin", cls: "is-red" },
   SUBADMIN: { label: "Sub-admin", cls: "is-red" },
@@ -213,7 +211,7 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
                       u.investorProfile?.feeStatus === "PAID"
                         ? { cls: "is-green", label: "✓ Fee paid" }
                         : { cls: "is-red", label: "✕ Fee pending" };
-                  } else if (u.role === "OWNER" || u.role === "DEALER") {
+                  } else if (u.role === "OWNER") {
                     pay = planLive ? { cls: "is-green", label: `✓ ${sub?.plan.name ?? "Plan active"}` } : { cls: "is-muted", label: "No plan" };
                   }
 
@@ -226,7 +224,7 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
                         : st === "REJECTED"
                           ? { cls: "is-red", label: "Rejected" }
                           : { cls: "is-yellow", label: "Pending" };
-                  } else if (u.role === "OWNER" || u.role === "DEALER") {
+                  } else if (u.role === "OWNER") {
                     verify = u.verified ? { cls: "is-green", label: "Verified" } : { cls: "is-yellow", label: "Not verified" };
                   } else if (u.role === "INVESTOR") {
                     verify = u.investorProfile?.feeStatus === "PAID" ? { cls: "is-green", label: "Active" } : { cls: "is-yellow", label: "Awaiting fee" };

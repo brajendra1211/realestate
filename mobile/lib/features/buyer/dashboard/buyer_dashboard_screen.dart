@@ -178,6 +178,7 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
       appBar: AppBar(
         title: const Text('My Account'),
         actions: [
+          IconButton(icon: const Icon(Icons.shopping_cart_outlined), onPressed: () => context.push(RoutePaths.buyerCart)),
           IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
         ],
       ),

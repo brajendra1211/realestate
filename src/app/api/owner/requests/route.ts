@@ -6,7 +6,7 @@ import { advanceListingRequests, REQUEST_STATUS_LABEL } from "@/lib/listingReque
 // The signed-in owner's listing requests, for the app's "My property" screen.
 export async function GET() {
   const session = await auth();
-  if (!session || (session.user.role !== "OWNER" && session.user.role !== "DEALER")) {
+  if (!session || session.user.role !== "OWNER") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   await advanceListingRequests().catch(() => 0);

@@ -1,3 +1,4 @@
+import { createWatchRequirement } from "@/lib/watchlist";
 import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
@@ -316,9 +317,20 @@ async function expireDispatch(dispatchRequestId: string) {
   emitToDispatch(dispatchRequestId, "dispatch:expired", {});
   await notifyUser(
     dispatch.buyer,
-    "No nearby channel partners were available right now. Please try again shortly.",
-    "No channel partners found"
+    "No property or channel partner was available nearby right now. Your requirement is saved on our watch-list and we will message you as soon as a match is listed.",
+    "Requirement saved"
   );
+  await createWatchRequirement({
+    buyerId: dispatch.buyerId,
+    purpose: dispatch.purpose === "BUY" ? "BUY" : "RENT",
+    bhk: dispatch.bhk,
+    budgetMin: dispatch.budgetMin,
+    budgetMax: dispatch.budgetMax,
+    societyName: dispatch.societyName,
+    latitude: dispatch.latitude,
+    longitude: dispatch.longitude,
+    radiusKm: dispatch.selectedRadiusKm,
+  }).catch(() => {});
 }
 
 // First agent to accept wins — §3.5's core fairness rule. The status-guarded

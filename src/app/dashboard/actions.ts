@@ -148,7 +148,7 @@ async function readPropertyFields(formData: FormData) {
   };
 }
 
-// ADMIN/SUBADMIN can list a property under an existing DEALER/OWNER account instead of their own.
+// ADMIN/SUBADMIN can list a property under an existing OWNER account instead of their own.
 async function resolveOwnerId(session: { user: { id: string; role: string } }, formData: FormData) {
   if (session.user.role !== "ADMIN" && session.user.role !== "SUBADMIN") {
     return { ownerId: session.user.id, ownerRole: session.user.role };
@@ -160,7 +160,7 @@ async function resolveOwnerId(session: { user: { id: string; role: string } }, f
   }
 
   const target = await prisma.user.findUnique({ where: { id: onBehalfOfUserId } });
-  if (!target || (target.role !== "DEALER" && target.role !== "OWNER")) {
+  if (!target || target.role !== "OWNER") {
     return { ownerId: session.user.id, ownerRole: session.user.role };
   }
 
@@ -171,7 +171,7 @@ export async function createProperty(formData: FormData): Promise<{ redirectTo?:
   const session = await requireListerOrAdmin();
   // Owners and dealers cannot publish listings themselves any more — a channel
   // partner creates them through the paid owner-request flow.
-  if (session.user.role === "OWNER" || session.user.role === "DEALER") {
+  if (session.user.role === "OWNER") {
     return { redirectTo: "/list-property/request" };
   }
   const { ownerId, ownerRole } = await resolveOwnerId(session, formData);

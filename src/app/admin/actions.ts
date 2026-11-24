@@ -1,5 +1,6 @@
 "use server";
 
+import { matchPropertyToWatches } from "@/lib/watchlist";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
@@ -467,6 +468,7 @@ export async function approveProperty(formData: FormData) {
     `Your listing "${property.title}" has been approved and is now live on ${siteName}.`,
     "Listing approved"
   );
+  void matchPropertyToWatches(property.id).catch(() => {});
   revalidatePath("/admin");
   revalidatePath("/admin/properties");
   revalidatePath("/dashboard");
@@ -739,7 +741,7 @@ export async function createPlan(formData: FormData) {
   await prisma.plan.create({
     data: {
       name,
-      role: String(formData.get("role") ?? "BOTH") as "OWNER" | "DEALER" | "BOTH",
+      role: String(formData.get("role") ?? "BOTH") as "OWNER" | "BOTH",
       listingLimit,
       leadLimit: formData.get("leadLimit") ? Number(formData.get("leadLimit")) : null,
       price: Number(formData.get("price") ?? 0),
@@ -762,7 +764,7 @@ export async function updatePlan(formData: FormData) {
     where: { id },
     data: {
       name,
-      role: String(formData.get("role") ?? "BOTH") as "OWNER" | "DEALER" | "BOTH",
+      role: String(formData.get("role") ?? "BOTH") as "OWNER" | "BOTH",
       listingLimit,
       leadLimit: formData.get("leadLimit") ? Number(formData.get("leadLimit")) : null,
       price: Number(formData.get("price") ?? 0),

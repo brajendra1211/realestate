@@ -13,6 +13,9 @@ import '../../features/agent/cycle/agent_cycle_screen.dart';
 import '../../features/agent/deals/agent_deals_list_screen.dart';
 import '../../features/agent/dashboard/agent_dashboard_screen.dart';
 import '../../features/agent/digest/agent_digest_screen.dart';
+import '../../features/agent/office_visits/agent_office_visits_screen.dart';
+import '../../features/agent/requirements/agent_requirements_screen.dart';
+import '../../features/buyer/cart/buyer_cart_screen.dart';
 import '../../features/agent/dispatch/agent_dispatch_list_screen.dart';
 import '../../features/agent/documents/agent_documents_screen.dart';
 import '../../features/agent/gold_listings/agent_gold_listings_screen.dart';
@@ -76,6 +79,8 @@ const _agentAuthRequiredPrefixes = [
   RoutePaths.agentPayouts,
   RoutePaths.agentRatings,
   RoutePaths.agentDigest,
+  RoutePaths.agentOfficeVisits,
+  RoutePaths.agentRequirements,
   RoutePaths.agentGoldListings,
   RoutePaths.agentMore,
   RoutePaths.agentSubscription,
@@ -95,6 +100,7 @@ const _buyerAuthRequiredPrefixes = [
   RoutePaths.buyerDirectVisit,
   RoutePaths.buyerGoldListing,
   RoutePaths.buyerDispatch,
+  RoutePaths.buyerCart,
 ];
 
 GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider customerAuth) {
@@ -146,6 +152,10 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
           channel: state.uri.queryParameters['channel'] ?? 'EMAIL',
           from: state.uri.queryParameters['from'],
         ),
+      ),
+      GoRoute(
+        path: RoutePaths.buyerCart,
+        builder: (context, state) => const BuyerCartScreen(),
       ),
       GoRoute(
         path: RoutePaths.buyerDashboard,
@@ -322,6 +332,8 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
             path: RoutePaths.agentRatings,
             builder: (context, state) => const AgentRatingsScreen(),
           ),
+          GoRoute(path: RoutePaths.agentOfficeVisits, builder: (context, state) => const AgentOfficeVisitsScreen()),
+          GoRoute(path: RoutePaths.agentRequirements, builder: (context, state) => const AgentRequirementsScreen()),
           GoRoute(
             path: RoutePaths.agentDigest,
             builder: (context, state) => const AgentDigestScreen(),

@@ -17,6 +17,7 @@ import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/status_badge.dart';
 import '../../../models/listing_detail.dart';
 import '../../../providers/customer_auth_provider.dart';
+import '../../../services/cart_watch_service.dart';
 import '../../../services/public_listings_service.dart';
 
 class ListingDetailScreen extends StatefulWidget {
@@ -103,10 +104,40 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
     }
   }
 
+  Future<void> _addToCart() async {
+    final customerAuth = context.read<CustomerAuthProvider>();
+    if (!customerAuth.isBuyer) {
+      context.push('${RoutePaths.buyerLogin}?from=${Uri.encodeComponent(RoutePaths.listingDetailPath(widget.slug))}');
+      return;
+    }
+    try {
+      final detail = await _future;
+      final inCart = await CartWatchService(ApiClient.instance.dio).toggleCart(agentListingId: detail.id);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(inCart ? 'Added to cart' : 'Removed from cart')));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e is ApiException ? errorMessageFor(e) : 'Something went wrong.')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Listing details')),
+      appBar: AppBar(title: const Text('Listing details'), actions: [
+        IconButton(
+          icon: const Icon(Icons.add_shopping_cart_outlined),
+          tooltip: 'Add to cart',
+          onPressed: _addToCart,
+        ),
+        IconButton(
+          icon: const Icon(Icons.shopping_cart_outlined),
+          tooltip: 'Open cart',
+          onPressed: () => context.push(RoutePaths.buyerCart),
+        ),
+      ]),
       body: FutureBuilder<ListingDetail>(
         future: _future,
         builder: (context, snapshot) {

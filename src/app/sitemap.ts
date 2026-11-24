@@ -4,14 +4,10 @@ import { SITE_URL } from "@/lib/seo";
 import { PUBLIC_LISTER_FILTER, notExpiredFilter } from "@/lib/propertyVisibility";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [properties, dealers, owners, developers, projects, cities] = await Promise.all([
+  const [properties, owners, developers, projects, cities] = await Promise.all([
     prisma.property.findMany({
       where: { approvalStatus: "APPROVED", owner: PUBLIC_LISTER_FILTER, ...notExpiredFilter() },
       select: { slug: true, updatedAt: true },
-    }),
-    prisma.user.findMany({
-      where: { role: "DEALER", slug: { not: null }, verified: true },
-      select: { slug: true },
     }),
     prisma.user.findMany({
       where: { role: "OWNER", slug: { not: null }, verified: true },
@@ -76,7 +72,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "daily", priority: 1 },
     { url: `${SITE_URL}/properties`, changeFrequency: "hourly", priority: 0.9 },
-    { url: `${SITE_URL}/dealers`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE_URL}/owners`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE_URL}/developers`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.5 },
@@ -94,14 +89,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "weekly",
     priority: 0.8,
   }));
-
-  const dealerRoutes: MetadataRoute.Sitemap = dealers
-    .filter((dealer) => dealer.slug)
-    .map((dealer) => ({
-      url: `${SITE_URL}/dealers/${dealer.slug}`,
-      changeFrequency: "weekly",
-      priority: 0.6,
-    }));
 
   const ownerRoutes: MetadataRoute.Sitemap = owners
     .filter((owner) => owner.slug)
@@ -128,7 +115,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticRoutes,
     ...propertyRoutes,
-    ...dealerRoutes,
     ...ownerRoutes,
     ...developerRoutes,
     ...projectRoutes,

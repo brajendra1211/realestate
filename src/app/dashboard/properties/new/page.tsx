@@ -15,7 +15,7 @@ export default async function NewPropertyPage({ searchParams }: { searchParams: 
   }
 
   // Owners and dealers can no longer list on their own; it happens through a channel partner.
-  if (session.user.role === "OWNER" || session.user.role === "DEALER") {
+  if (session.user.role === "OWNER") {
     redirect("/list-property/request");
   }
 

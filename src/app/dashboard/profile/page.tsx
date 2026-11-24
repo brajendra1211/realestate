@@ -15,10 +15,9 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
   const user = await prisma.user.findUnique({ where: { id: session.user.id } });
   if (!user) redirect("/login");
 
-  const isDealer = session.user.role === "DEALER";
   const isOwner = session.user.role === "OWNER";
-  const isLister = isDealer || isOwner;
-  const publicPath = isDealer ? "dealers" : "owners";
+  const isLister = isOwner;
+  const publicPath = "owners";
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
@@ -73,17 +72,6 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
-        {isDealer && (
-          <div>
-            <label className="text-sm font-medium text-slate-700">Company / Agency name</label>
-            <input
-              type="text"
-              name="company"
-              defaultValue={user.company ?? undefined}
-              className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            />
-          </div>
-        )}
 
         {isLister && (
           <>
@@ -99,20 +87,9 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
             </div>
             <SingleImageField
               name="logoUrl"
-              label={isDealer ? "Logo" : "Profile photo"}
+              label="Profile photo"
               defaultValue={user.logoUrl}
             />
-            {isDealer && (
-              <div>
-                <label className="text-sm font-medium text-slate-700">RERA / License number</label>
-                <input
-                  type="text"
-                  name="licenseNumber"
-                  defaultValue={user.licenseNumber ?? undefined}
-                  className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-                />
-              </div>
-            )}
             <div>
               <label className="text-sm font-medium text-slate-700">
                 Address / area you serve

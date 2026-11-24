@@ -1,3 +1,4 @@
+import { matchListingToWatches } from "@/lib/watchlist";
 import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
@@ -191,6 +192,7 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
       : []),
   ]);
 
+  void matchListingToWatches(listing.id).catch(() => {});
   return listing;
 }
 

@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
     // collisions between concurrently running dev servers. Pin it here.
     root: __dirname,
   },
+  // The live server kills `next build` (SIGKILL) when it uses too much memory, so keep the
+  // production build lean: webpack memory optimizations on, and no source maps generated.
+  productionBrowserSourceMaps: false,
+  experimental: {
+    webpackMemoryOptimizations: true,
+    serverSourceMaps: false,
+  },
   images: {
     // User-uploaded images are already resized/compressed to webp at upload
     // time (see src/lib/upload.ts). Next's own optimizer additionally fails

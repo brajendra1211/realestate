@@ -28,6 +28,8 @@ export async function GET() {
       formToken: r.formToken,
       statusToken: r.statusToken,
       buzzRadiusKm: r.buzzRadiusKm,
+      buzzCount: r.buzzCount,
+      lastBuzzAt: r.lastBuzzAt?.toISOString() ?? null,
       detailsAt: r.detailsAt?.toISOString() ?? null,
       acceptedAt: r.acceptedAt?.toISOString() ?? null,
       paidAt: r.paidAt?.toISOString() ?? null,

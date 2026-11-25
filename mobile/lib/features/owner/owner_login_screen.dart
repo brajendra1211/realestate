@@ -6,13 +6,15 @@ import '../../core/network/api_exception.dart';
 import '../../core/router/route_paths.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/utils/error_messages.dart';
+import '../../core/utils/input_formats.dart';
 import '../../core/utils/validators.dart';
 import '../../core/widgets/app_button.dart';
 import '../../core/widgets/auth_header.dart';
 import '../../core/widgets/form_error_banner.dart';
+import '../../core/widgets/login_method_toggle.dart';
 import '../../providers/customer_auth_provider.dart';
 
-/// Owner login with the email and password chosen when listing the property.
+/// Owner login: a one-time code on WhatsApp, or email / mobile and the password chosen when listing.
 class OwnerLoginScreen extends StatefulWidget {
   const OwnerLoginScreen({super.key});
 
@@ -22,14 +24,16 @@ class OwnerLoginScreen extends StatefulWidget {
 
 class _OwnerLoginScreenState extends State<OwnerLoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _email = TextEditingController();
+  final _identifier = TextEditingController();
   final _password = TextEditingController();
+  bool _usePassword = false;
+  bool _obscure = true;
   bool _busy = false;
   String? _error;
 
   @override
   void dispose() {
-    _email.dispose();
+    _identifier.dispose();
     _password.dispose();
     super.dispose();
   }
@@ -40,15 +44,18 @@ class _OwnerLoginScreenState extends State<OwnerLoginScreen> {
       _busy = true;
       _error = null;
     });
+    final auth = context.read<CustomerAuthProvider>();
     try {
-      final auth = context.read<CustomerAuthProvider>();
-      await auth.loginWithPassword(email: _email.text.trim(), password: _password.text);
-      if (!mounted) return;
-      if (auth.isOwner) {
+      if (_usePassword) {
+        await auth.loginWithPassword(email: _identifier.text.trim(), password: _password.text, expectedRole: 'OWNER');
+        if (!mounted) return;
         context.go(RoutePaths.ownerStatus);
       } else {
-        await auth.logout();
-        setState(() { _error = 'This login is for property owners. Use the agent, buyer or investor login for other accounts.'; });
+        final r = await auth.requestOtpFor('owner', _identifier.text.trim());
+        if (!mounted) return;
+        context.push(
+          '${RoutePaths.buyerVerify}?identifier=${Uri.encodeComponent(r.identifier)}&channel=${r.channel}&panel=owner',
+        );
       }
     } on ApiException catch (e) {
       setState(() { _error = errorMessageFor(e); });
@@ -69,22 +76,40 @@ class _OwnerLoginScreenState extends State<OwnerLoginScreen> {
             children: [
               const AuthHeader(title: 'Owner login', subtitle: 'Track your property and its verification.'),
               const SizedBox(height: AppSpacing.lg),
-              if (_error != null) ...[FormErrorBanner(message: _error!), const SizedBox(height: AppSpacing.md)],
-              TextFormField(
-                controller: _email,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: Validators.email,
+              LoginMethodToggle(
+                usePassword: _usePassword,
+                onChanged: (v) => setState(() {
+                  _usePassword = v;
+                  _error = null;
+                }),
               ),
               const SizedBox(height: AppSpacing.md),
+              if (_error != null) ...[FormErrorBanner(message: _error!), const SizedBox(height: AppSpacing.md)],
               TextFormField(
-                controller: _password,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: 'Password'),
-                validator: (v) => Validators.required(v, label: 'Password'),
+                controller: _identifier,
+                keyboardType: TextInputType.emailAddress,
+                inputFormatters: const [PhoneOrEmailFormatter()],
+                decoration: const InputDecoration(labelText: 'Mobile number or email', prefixIcon: Icon(Icons.person_outline)),
+                validator: Validators.phoneOrEmail,
               ),
+              if (_usePassword) ...[
+                const SizedBox(height: AppSpacing.md),
+                TextFormField(
+                  controller: _password,
+                  obscureText: _obscure,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                      onPressed: () => setState(() { _obscure = !_obscure; }),
+                    ),
+                  ),
+                  validator: (v) => Validators.required(v, label: 'Password'),
+                ),
+              ],
               const SizedBox(height: AppSpacing.lg),
-              AppButton(label: 'Log in', loading: _busy, expand: true, onPressed: _busy ? null : _submit),
+              AppButton(label: _usePassword ? 'Log in' : 'Send code', loading: _busy, expand: true, onPressed: _busy ? null : _submit),
               const SizedBox(height: AppSpacing.sm),
               TextButton(
                 onPressed: () => context.push(RoutePaths.ownerStart),

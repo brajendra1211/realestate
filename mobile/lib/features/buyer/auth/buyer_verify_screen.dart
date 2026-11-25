@@ -30,11 +30,15 @@ class BuyerVerifyScreen extends StatefulWidget {
     required this.identifier,
     required this.channel,
     this.from,
+    this.panel = 'buyer',
   });
 
   final String identifier;
   final String channel;
   final String? from;
+
+  /// 'buyer' or 'owner': which panel's one-time code is being checked.
+  final String panel;
 
   @override
   State<BuyerVerifyScreen> createState() => _BuyerVerifyScreenState();
@@ -84,8 +88,8 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
     });
     try {
       final customerAuth = context.read<CustomerAuthProvider>();
-      await customerAuth.verifyOtp(
-        forInvestor: false,
+      await customerAuth.verifyOtpFor(
+        panel: widget.panel,
         identifier: widget.identifier,
         otp: _otpController.text.trim(),
       );
@@ -127,7 +131,7 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
     setState(() { _resending = true; });
     try {
       final customerAuth = context.read<CustomerAuthProvider>();
-      await customerAuth.requestOtp(forInvestor: false, identifier: widget.identifier);
+      await customerAuth.requestOtpFor(widget.panel, widget.identifier);
       if (!mounted) return;
       _startCooldown();
       ScaffoldMessenger.of(context)

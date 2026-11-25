@@ -195,7 +195,7 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
         if (mounted) setState(() { _busy = false; });
         return;
       }
-      final formToken = await _service.verifyPayment(
+      await _service.verifyPayment(
         requestId: result.requestId,
         statusToken: result.statusToken,
         orderId: paid.orderId,
@@ -203,11 +203,8 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
         signature: paid.signature,
       );
       if (!mounted) return;
-      if (formToken != null) {
-        context.go(RoutePaths.ownerDetailsPath(formToken));
-      } else {
-        context.go(RoutePaths.ownerStatus);
-      }
+      // Payment done: land on "My property". Adding the details and the manual buzzer both live there.
+      context.go(RoutePaths.ownerStatus);
     } catch (e) {
       if (mounted) {
         setState(() {

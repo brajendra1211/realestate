@@ -40,6 +40,8 @@ class OwnerRequest {
         formToken = j['formToken'] as String,
         statusToken = j['statusToken'] as String,
         buzzRadiusKm = (j['buzzRadiusKm'] as num?)?.toInt() ?? 0,
+        buzzCount = (j['buzzCount'] as num?)?.toInt() ?? 0,
+        lastBuzzAt = j['lastBuzzAt'] == null ? null : DateTime.tryParse(j['lastBuzzAt'] as String),
         partnerName = j['partnerName'] as String?,
         listingSlug = j['listingSlug'] as String?,
         listingTitle = j['listingTitle'] as String?;
@@ -55,6 +57,8 @@ class OwnerRequest {
   final String formToken;
   final String statusToken;
   final int buzzRadiusKm;
+  final int buzzCount;
+  final DateTime? lastBuzzAt;
   final String? partnerName;
   final String? listingSlug;
   final String? listingTitle;
@@ -129,6 +133,16 @@ class OwnerService {
       });
       final d = res.data as Map;
       return d['next'] == 'details' ? d['formToken'] as String? : null;
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    }
+  }
+
+  /// Owner buzzes the partners in range again. Returns how many were reached.
+  Future<int> rebuzz(String requestId) async {
+    try {
+      final res = await _dio.post('/api/owner/rebuzz', data: {'requestId': requestId});
+      return ((res.data as Map)['reached'] as num?)?.toInt() ?? 0;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     }

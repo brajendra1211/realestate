@@ -151,6 +151,7 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
           identifier: state.uri.queryParameters['identifier'] ?? '',
           channel: state.uri.queryParameters['channel'] ?? 'EMAIL',
           from: state.uri.queryParameters['from'],
+          panel: state.uri.queryParameters['panel'] ?? 'buyer',
         ),
       ),
       GoRoute(

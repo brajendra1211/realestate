@@ -13,7 +13,7 @@ class AuthService {
 
   final Dio _dio;
 
-  Future<void> login({required String email, required String password}) async {
+  Future<void> login({required String email, required String password, String? expectedRole}) async {
     try {
       final csrfRes = await _dio.get(Endpoints.authCsrf);
       final csrfToken = (csrfRes.data as Map)['csrfToken'] as String;
@@ -23,6 +23,7 @@ class AuthService {
         data: {
           'email': email,
           'password': password,
+          if (expectedRole != null) 'expectedRole': expectedRole,
           'csrfToken': csrfToken,
           'redirect': 'false',
           'json': 'true',

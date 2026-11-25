@@ -20,6 +20,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        expectedRole: { label: "Panel", type: "text" },
       },
       authorize: async (credentials) => {
         const identifier = credentials?.email;
@@ -83,6 +84,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
         }
         if (!valid) return null;
+
+        // Strict panels: when the caller names a panel, only that role may sign in through it.
+        const expected = credentials?.expectedRole;
+        if (typeof expected === "string" && expected) {
+          const staff = user.role === "ADMIN" || user.role === "SUBADMIN";
+          if (expected === "ADMIN" ? !staff : user.role !== expected) return null;
+        }
 
         return {
           id: user.id,
@@ -169,6 +177,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           email: user.email,
           role: user.role,
         };
+      },
+    }),
+    Credentials({
+      id: "owner-otp",
+      name: "Owner OTP",
+      credentials: {
+        identifier: { label: "Phone or email", type: "text" },
+        otp: { label: "OTP", type: "text" },
+      },
+      authorize: async (credentials) => {
+        const identifier = credentials?.identifier;
+        const otp = credentials?.otp;
+        if (typeof identifier !== "string" || typeof otp !== "string") return null;
+        if (!(await verifyOtp(identifier, otp))) return null;
+
+        // Owners are created by the list-property flow, never by the login itself.
+        const user = looksLikeEmail(identifier)
+          ? await prisma.user.findUnique({ where: { email: identifier } })
+          : await findUserByPhone(identifier, "OWNER");
+        if (!user || user.role !== "OWNER") return null;
+
+        return { id: user.id, name: user.name, email: user.email, role: user.role };
       },
     }),
     Credentials({

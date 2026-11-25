@@ -30,6 +30,10 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
   List<OwnerBuzz> _owners = [];
   List<BuyerBuzz> _buyers = [];
   Set<String>? _seen;
+  // Pop-ups are real-time: ones already waiting when the app opened, ones the partner closed and ones older than
+  // 45 s stay out of the way (everything is still listed in Owner requests / Buyer leads).
+  final Set<String> _hidden = {};
+  final Map<String, DateTime> _shownAt = {};
   String? _busyId;
   String? _message;
 
@@ -54,9 +58,13 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
       final keys = {...r.owners.map((o) => o.key), ...r.buyers.map((b) => b.key)};
       if (_seen == null) {
         _seen = keys; // first load: do not ring for what was already waiting
+        _hidden.addAll(keys);
       } else if (keys.difference(_seen!).isNotEmpty) {
         _ring();
         _seen = {..._seen!, ...keys};
+      }
+      for (final k in keys) {
+        _shownAt.putIfAbsent(k, DateTime.now);
       }
       setState(() {
         _owners = r.owners;
@@ -118,9 +126,26 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
     }
   }
 
+  bool _visible(String key) {
+    if (_hidden.contains(key)) return false;
+    final at = _shownAt[key];
+    return at == null || DateTime.now().difference(at) < const Duration(seconds: 45);
+  }
+
+  Widget _closeButton(String key) => InkWell(
+        onTap: () => setState(() { _hidden.add(key); }),
+        borderRadius: BorderRadius.circular(20),
+        child: const Padding(
+          padding: EdgeInsets.all(4),
+          child: Icon(Icons.close, size: 20, color: AppColors.textMuted),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
-    final hasCards = _owners.isNotEmpty || _buyers.isNotEmpty || _message != null;
+    final owners = _owners.where((o) => _visible(o.key)).toList();
+    final buyers = _buyers.where((b) => _visible(b.key)).toList();
+    final hasCards = owners.isNotEmpty || buyers.isNotEmpty || _message != null;
     return Stack(
       children: [
         widget.child,
@@ -148,8 +173,8 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
                           ],
                         ),
                       ),
-                    for (final b in _buyers) _buyerCard(b),
-                    for (final o in _owners) _ownerCard(o),
+                    for (final b in buyers) _buyerCard(b),
+                    for (final o in owners) _ownerCard(o),
                   ],
                 ),
               ),
@@ -192,6 +217,7 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
                   ],
                 ),
               ),
+              _closeButton(o.key),
             ],
           ),
           if (p != null) ...[
@@ -276,6 +302,7 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
                   style: t.titleMedium,
                 ),
               ),
+              _closeButton(b.key),
             ],
           ),
           const SizedBox(height: 4),

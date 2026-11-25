@@ -113,8 +113,8 @@ export function RequestForm({
         handler: async (r: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
           try {
             const paid = await verifyRequestPaymentAction(result.requestId, result.statusToken, r.razorpay_order_id, r.razorpay_payment_id, r.razorpay_signature);
-            if (paid?.next === "details") router.push(`/list/${paid.formToken}`);
-            else router.push(`/list-property/request/${result.requestId}?k=${result.statusToken}`);
+            // Payment done: land on the request page. Add property details and the manual buzzer both live there.
+            router.push(`/list-property/request/${result.requestId}?k=${result.statusToken}`);
           } catch (err) {
             setError(err instanceof Error ? err.message : "Payment verification failed.");
             setBusy(false);

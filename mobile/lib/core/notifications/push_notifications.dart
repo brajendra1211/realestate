@@ -87,6 +87,12 @@ Future<void> _showLocalNotification(RemoteMessage message) async {
 
   final isRing = data['type'] == 'property-ring';
 
+  // Buzzer-type alerts are real-time only: one that arrives late (phone was off / offline) is dropped,
+  // and a shown one clears itself after a minute.
+  final realtime = isRing || data['type'] == 'listing-request' || data['type'] == 'buyer-interest';
+  final sent = message.sentTime;
+  if (realtime && sent != null && DateTime.now().difference(sent) > const Duration(minutes: 2)) return;
+
   // fullScreenIntent only escalates to an actual takeover when the app
   // *isn't* already the foregrounded, focused activity — if the agent is
   // already looking at the app when a ring arrives, Android has nowhere
@@ -109,6 +115,7 @@ Future<void> _showLocalNotification(RemoteMessage message) async {
         priority: Priority.high,
         sound: const RawResourceAndroidNotificationSound('ring_alert'),
         enableVibration: true,
+        timeoutAfter: realtime ? 60000 : null,
         // Only a channel-partner "ring" takes over the screen like a call —
         // a QR-scan "buyer nearby" alert stays a normal notification. Also
         // the fallback path whenever USE_FULL_SCREEN_INTENT isn't granted

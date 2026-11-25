@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +24,44 @@ class OwnerStatusScreen extends StatefulWidget {
 class _OwnerStatusScreenState extends State<OwnerStatusScreen> {
   late final OwnerService _service = OwnerService(ApiClient.instance.dio);
   late Future<List<OwnerRequest>> _future = _service.myRequests();
+  Timer? _ticker;
+  String? _buzzing;
+
+  @override
+  void initState() {
+    super.initState();
+    // Drives the "buzz again in Ns" countdown.
+    _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _ticker?.cancel();
+    super.dispose();
+  }
+
+  int _buzzWait(OwnerRequest r) {
+    final at = r.lastBuzzAt;
+    if (at == null) return 0;
+    final left = at.add(const Duration(seconds: 60)).difference(DateTime.now()).inSeconds + 1;
+    return left < 0 ? 0 : left;
+  }
+
+  Future<void> _buzz(OwnerRequest r) async {
+    setState(() { _buzzing = r.id; });
+    try {
+      final n = await _service.rebuzz(r.id);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(n > 0 ? 'Buzzer sent to $n partner${n == 1 ? '' : 's'} near you.' : 'Buzzer sent. No partner is in range yet; we will keep widening the search.')));
+      await _refresh();
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ownerErrorMessage(e))));
+    } finally {
+      if (mounted) setState(() { _buzzing = null; });
+    }
+  }
 
   Future<void> _refresh() async {
     setState(() { _future = _service.myRequests(); });
@@ -171,6 +211,21 @@ class _OwnerStatusScreenState extends State<OwnerStatusScreen> {
                 ],
               ),
             ),
+          ],
+          if (!sell && r.status == 'SEARCHING') ...[
+            const SizedBox(height: AppSpacing.md),
+            AppButton(
+              label: _buzzWait(r) > 0 ? 'Buzz again in ${_buzzWait(r)}s' : 'Buzz nearby partners now',
+              icon: Icons.notifications_active_outlined,
+              expand: true,
+              loading: _buzzing == r.id,
+              onPressed: (_buzzing != null || _buzzWait(r) > 0) ? null : () => _buzz(r),
+            ),
+            if (r.buzzCount > 0)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text('Buzzed ${r.buzzCount} time${r.buzzCount == 1 ? '' : 's'} so far. Free until a partner accepts.', style: t.bodySmall),
+              ),
           ],
           if (!sell && r.status != 'PENDING_PAYMENT') ...[
             const SizedBox(height: AppSpacing.md),

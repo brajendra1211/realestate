@@ -5,7 +5,7 @@ import { login, type LoginState } from "./actions";
 
 const initialState: LoginState = {};
 
-export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
+export function LoginForm({ callbackUrl, expectedRole }: { callbackUrl: string; expectedRole?: string }) {
   const [state, formAction, pending] = useActionState(login, initialState);
 
   useEffect(() => {
@@ -17,6 +17,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
   return (
     <form action={formAction} className="mt-5 space-y-4">
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
+      {expectedRole && <input type="hidden" name="expectedRole" value={expectedRole} />}
 
       {state.error && (
         <div className="flex items-center gap-2 rounded-2xl bg-red-50 p-3.5 text-xs font-semibold text-red-700 border border-red-200/80 animate-fadeIn">

@@ -25,7 +25,7 @@ export function InvestorLoginForm({ defaultIdentifier }: { defaultIdentifier?: s
     <form action={formAction} className="mt-6 space-y-4">
       {state.error && (
         <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-          {ERROR_MESSAGES[state.error] ?? "Something went wrong. Try again."}
+          {ERROR_MESSAGES[state.error] ?? (state.error.includes(" ") ? state.error : "Something went wrong. Try again.")}
         </p>
       )}
       <div>

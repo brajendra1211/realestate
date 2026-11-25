@@ -21,6 +21,7 @@ import '../../../models/buyer_profile.dart';
 import '../../../models/property.dart';
 import '../../../providers/customer_auth_provider.dart';
 import '../../../services/buyer_service.dart';
+import '../../../core/utils/input_formats.dart';
 
 const _switchReasons = ['Unresponsive', 'No-show', 'Unprofessional', 'Other'];
 
@@ -635,6 +636,7 @@ class _ProfileCardState extends State<_ProfileCard> {
           TextFormField(
             controller: _phoneController,
             keyboardType: TextInputType.phone,
+            inputFormatters: phoneFormatters,
             validator: (v) => (v == null || v.trim().isEmpty) ? null : Validators.phone(v),
             decoration: const InputDecoration(
               labelText: 'Phone',

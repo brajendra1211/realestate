@@ -114,6 +114,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           ? await prisma.user.findUnique({ where: { email: identifier } })
           : await findUserByPhone(identifier);
 
+        // Strict panels: a number/email that belongs to another role cannot enter through the buyer panel.
+        if (existing && existing.role !== "BUYER") return null;
+
         const user =
           existing ??
           (await prisma.user.create({

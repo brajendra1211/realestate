@@ -5,7 +5,8 @@ import { auth, signIn } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
 import { slugify } from "@/lib/slug";
-import { requestOtp, verifyOtp, looksLikeEmail } from "@/lib/otp";
+import { requestOtp, looksLikeEmail, otpWaitMessage, findAccountByPhone } from "@/lib/otp";
+import { phoneIsProven } from "@/lib/phoneProof";
 import {
   createListingRequest,
   createRequestPaymentOrder,
@@ -21,6 +22,7 @@ export type RequestFormInput = {
   ownerEmail?: string;
   password?: string;
   otp?: string;
+  phoneProof?: string;
   city: string;
   locality?: string;
   plan: "BASIC" | "GOLD";
@@ -50,10 +52,16 @@ async function uniqueUserSlug(name: string) {
 export async function sendRequestOtpAction(phone: string) {
   const digits = last10(phone);
   if (digits.length !== 10) throw new Error("Please enter a valid 10-digit mobile number.");
-  const taken = await prisma.user.findFirst({ where: { phone: { contains: digits } }, select: { id: true } });
-  if (taken) throw new Error("This number is already registered. Please log in, then list your property.");
+  const taken = await findAccountByPhone(digits);
+  if (taken) {
+    throw new Error(
+      taken.role === "OWNER"
+        ? "This number is already registered as an Owner. Please log in, then list your property."
+        : "This number is already registered with another account type (buyer, partner or staff). Use a different number for your owner account.",
+    );
+  }
   const result = await requestOtp(otpIdentifierFor(digits));
-  if (!result.sent) throw new Error("We couldn't send the OTP. Please try again in a minute.");
+  if (!result.sent) throw new Error(result.retryAfter ? otpWaitMessage(result.retryAfter) : "We couldn't send the OTP. Please try again in a minute.");
   return { ok: true as const };
 }
 
@@ -81,10 +89,10 @@ export async function startListingRequestAction(form: RequestFormInput): Promise
       if (await prisma.user.findUnique({ where: { email } })) {
         throw new ListingRequestError("This email is already registered. Please log in, then list your property.");
       }
-      if (await prisma.user.findFirst({ where: { phone: { contains: last10(form.ownerPhone) } }, select: { id: true } })) {
-        throw new ListingRequestError("This number is already registered. Please log in, then list your property.");
+      if (await findAccountByPhone(last10(form.ownerPhone))) {
+        throw new ListingRequestError("This number is already registered. Please log in, or use a different number for your owner account.");
       }
-      if (!(await verifyOtp(otpIdentifierFor(form.ownerPhone), (form.otp ?? "").trim()))) {
+      if (!(await phoneIsProven(otpIdentifierFor(form.ownerPhone), last10(form.ownerPhone), form.otp, form.phoneProof))) {
         throw new ListingRequestError("The WhatsApp OTP is not correct or has expired.");
       }
 

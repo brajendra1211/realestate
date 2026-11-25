@@ -11,6 +11,7 @@ import '../../../core/widgets/auth_header.dart';
 import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/agent_auth_provider.dart';
+import '../../../core/utils/input_formats.dart';
 
 /// Two steps on one screen: request a code for the agent's phone/email, then
 /// enter the code with a new password.
@@ -125,6 +126,7 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
                       TextFormField(
                         controller: _identifierController,
                         keyboardType: TextInputType.emailAddress,
+                        inputFormatters: const [PhoneOrEmailFormatter()],
                         decoration: const InputDecoration(
                           labelText: 'Phone or email',
                           prefixIcon: Icon(Icons.person_outline),

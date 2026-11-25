@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -78,9 +79,9 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
     super.dispose();
   }
 
-  Future<void> _askLocation() async {
+  Future<void> _askLocation({bool openSettings = false}) async {
     setState(() { _locating = true; });
-    final pos = await getCurrentLocation();
+    final pos = openSettings ? await getCurrentLocationOrSettings() : await getCurrentLocation();
     if (!mounted) return;
     setState(() {
       _locating = false;
@@ -115,10 +116,6 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    if (_lat == null || _lng == null) {
-      setState(() { _error = 'Please turn on your location and stand at the property. We need it so a nearby partner can verify.'; });
-      return;
-    }
     if (_photos.isEmpty) {
       setState(() { _error = 'Please add at least one photo of the property.'; });
       return;
@@ -211,6 +208,7 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
                   TextFormField(
                     controller: _area,
                     keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                     decoration: const InputDecoration(labelText: 'Area (sqft)'),
                   ),
                   DropdownButtonFormField<String>(
@@ -244,17 +242,20 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
                   TextFormField(
                     controller: _rent,
                     keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                     decoration: const InputDecoration(labelText: 'Monthly rent (₹)'),
                     validator: (v) => (_int(_rent) ?? 0) > 0 ? null : 'Enter the monthly rent',
                   ),
                   TextFormField(
                     controller: _deposit,
                     keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                     decoration: const InputDecoration(labelText: 'Security deposit (₹)'),
                   ),
                   TextFormField(
                     controller: _maintenance,
                     keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                     decoration: const InputDecoration(labelText: 'Maintenance (₹ / month)'),
                   ),
                 ],
@@ -346,11 +347,11 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
                   ? 'Getting your location…'
                   : ok
                       ? 'Location captured. A partner within 5 km will be alerted.'
-                      : 'Location is OFF. Turn it on and stand at the property so we can find a partner near you.',
+                      : 'Location is OFF. Turn it on and stand at the property for the best partner match. You can also continue: we will find the spot from your address.',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
-          if (!ok && !_locating) TextButton(onPressed: _askLocation, child: const Text('Turn on')),
+          if (!ok && !_locating) TextButton(onPressed: () => _askLocation(openSettings: true), child: const Text('Turn on')),
         ],
       ),
     );

@@ -10,6 +10,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/visit_log.dart';
 import '../../../services/agent_visits_service.dart';
+import '../../../core/utils/input_formats.dart';
 
 class AgentVisitsScreen extends StatefulWidget {
   const AgentVisitsScreen({super.key});
@@ -38,6 +39,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
         content: TextField(
           controller: phoneController,
           keyboardType: TextInputType.phone,
+          inputFormatters: phoneFormatters,
           decoration: const InputDecoration(labelText: "Customer's phone number"),
         ),
         actions: [

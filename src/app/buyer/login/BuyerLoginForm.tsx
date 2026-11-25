@@ -32,7 +32,7 @@ export function BuyerLoginForm({
       {state.error && (
         <div className="flex items-center gap-2 rounded-2xl bg-red-50 p-3.5 text-xs font-semibold text-red-700 border border-red-200/80 animate-fadeIn">
           <span>⚠️</span>
-          <span>{ERROR_MESSAGES[state.error] ?? "Something went wrong. Try again."}</span>
+          <span>{ERROR_MESSAGES[state.error] ?? (state.error.includes(" ") ? state.error : "Something went wrong. Try again.")}</span>
         </div>
       )}
 

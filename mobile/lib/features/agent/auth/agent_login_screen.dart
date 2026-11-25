@@ -12,6 +12,7 @@ import '../../../core/widgets/auth_header.dart';
 import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/agent_auth_provider.dart';
+import '../../../core/utils/input_formats.dart';
 
 enum _LoginMode { password, otp }
 
@@ -121,6 +122,7 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
                     TextFormField(
                       controller: _identifierController,
                       keyboardType: TextInputType.emailAddress,
+                      inputFormatters: const [PhoneOrEmailFormatter()],
                       decoration: const InputDecoration(
                         labelText: 'Login ID (email or phone)',
                         prefixIcon: Icon(Icons.person_outline),

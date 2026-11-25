@@ -12,6 +12,7 @@ import '../../../core/widgets/auth_header.dart';
 import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/customer_auth_provider.dart';
+import '../../../core/utils/input_formats.dart';
 
 class BuyerLoginScreen extends StatefulWidget {
   const BuyerLoginScreen({super.key});
@@ -91,6 +92,7 @@ class _BuyerLoginScreenState extends State<BuyerLoginScreen> {
                             TextFormField(
                               controller: _identifierController,
                               keyboardType: TextInputType.emailAddress,
+                              inputFormatters: const [PhoneOrEmailFormatter()],
                               decoration: const InputDecoration(
                                 labelText: 'Phone or email',
                                 prefixIcon: Icon(Icons.person_outline),

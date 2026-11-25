@@ -50,9 +50,69 @@ export function resolveOtpChannel(identifier: string): OtpChannel {
 // WhatsApp/SMTP credentials.
 const isDev = process.env.NODE_ENV !== "production";
 
-export async function requestOtp(rawIdentifier: string) {
+// One OTP per identifier per minute (the WhatsApp provider enforces the same window). Kept in memory:
+// good enough to stop button-mashing, and a restart simply resets it.
+export const OTP_COOLDOWN_SECONDS = 60;
+const lastSentAt = new Map<string, number>();
+
+export function otpCooldownLeft(identifier: string) {
+  const at = lastSentAt.get(normalizeIdentifier(identifier));
+  if (!at) return 0;
+  return Math.max(0, Math.ceil((at + OTP_COOLDOWN_SECONDS * 1000 - Date.now()) / 1000));
+}
+
+export type RequestOtpResult = { sent: boolean; channel: OtpChannel; identifier: string; retryAfter?: number };
+
+export async function requestOtp(rawIdentifier: string): Promise<RequestOtpResult> {
   const identifier = normalizeIdentifier(rawIdentifier);
   const channel = resolveOtpChannel(identifier);
+  const wait = otpCooldownLeft(identifier);
+  if (wait > 0) return { sent: false, channel, identifier, retryAfter: wait };
+  const result = await sendOtpNow(identifier, channel);
+  if (result.sent) lastSentAt.set(identifier, Date.now());
+  return result;
+}
+
+export function otpWaitMessage(seconds: number) {
+  return `Please wait ${seconds} seconds before asking for another OTP.`;
+}
+
+const ROLE_LABEL: Record<string, string> = {
+  BUYER: "Buyer",
+  OWNER: "Owner",
+  AGENT: "Channel Partner",
+  INVESTOR: "Referral Partner",
+  ADMIN: "staff",
+  SUBADMIN: "staff",
+};
+
+/** Finds the account that owns a phone number (matching on the last 10 digits, whatever format it was saved in). */
+export async function findAccountByPhone(digits10: string) {
+  const rows = await prisma.$queryRaw<{ id: string; role: string }[]>`
+    SELECT id, role FROM User
+    WHERE phone IS NOT NULL
+      AND RIGHT(REGEXP_REPLACE(phone, '[^0-9]', ''), 10) = ${digits10}
+    LIMIT 1`;
+  return rows[0] ?? null;
+}
+
+/**
+ * Strict panels: a number or email belongs to exactly one role. Returns a readable message when the
+ * identifier is already registered under a different role, otherwise null.
+ */
+export async function otpRoleConflict(rawIdentifier: string, expected: string): Promise<string | null> {
+  const identifier = normalizeIdentifier(rawIdentifier);
+  const isEmail = looksLikeEmail(identifier);
+  const account = isEmail
+    ? await prisma.user.findUnique({ where: { email: identifier }, select: { id: true, role: true } })
+    : await findAccountByPhone(identifier.slice(-10));
+  if (!account || account.role === expected) return null;
+  const has = ROLE_LABEL[account.role] ?? account.role;
+  const want = ROLE_LABEL[expected] ?? expected;
+  return `This ${isEmail ? "email" : "number"} is already registered as ${has}. Please use the ${has} login, or use a different ${isEmail ? "email" : "number"} for ${want}.`;
+}
+
+async function sendOtpNow(identifier: string, channel: OtpChannel): Promise<RequestOtpResult> {
 
   // abwpl (src/lib/abwpl.ts) owns code generation, delivery, and
   // verification end-to-end for phone OTPs — no local OtpCode row is

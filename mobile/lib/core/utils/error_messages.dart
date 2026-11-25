@@ -55,6 +55,8 @@ String errorMessageFor(ApiException e) {
     case 'notSaved':
       return 'Save or unlock this property first, then you can ring its channel partner.';
     default:
+      // The server sends readable sentences for role/OTP-wait conflicts: show them as they are.
+      if (e.code.contains(' ') && e.code.length > 12) return e.code;
       return 'Something went wrong. Please try again.';
   }
 }

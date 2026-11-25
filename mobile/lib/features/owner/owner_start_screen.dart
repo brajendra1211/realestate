@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +14,9 @@ import '../../core/widgets/app_button.dart';
 import '../../core/widgets/form_error_banner.dart';
 import '../../core/widgets/form_section.dart';
 import '../../providers/customer_auth_provider.dart';
+import '../../services/otp_service.dart';
 import '../../services/owner_service.dart';
+import '../../core/utils/input_formats.dart';
 
 const _fallbackPlans = [
   OwnerPlan(id: 'BASIC', name: 'Basic', price: 299, months: 1),
@@ -61,6 +65,11 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
   String _purpose = 'RENT';
   bool _otpSent = false;
   bool _otpBusy = false;
+  bool _verifying = false;
+  bool _verified = false;
+  String? _proof;
+  final _cooldown = OtpCooldown();
+  Timer? _ticker;
   bool _busy = false;
   bool _account = false; // signed in already: no OTP / password needed
   String? _error;
@@ -82,6 +91,7 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
 
   @override
   void dispose() {
+    _ticker?.cancel();
     for (final c in [_name, _phone, _otp, _email, _password, _city, _locality, _partnerCode]) {
       c.dispose();
     }
@@ -91,21 +101,64 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
   OwnerPlan get _selected => _plans.firstWhere((p) => p.id == _plan, orElse: () => _plans.first);
 
   Future<void> _sendOtp() async {
+    final bad = Validators.mobile10(_phone.text);
+    if (bad != null) {
+      setState(() { _error = bad; });
+      return;
+    }
+    if (_cooldown.active || _verified) return;
     setState(() {
       _error = null;
       _otpBusy = true;
     });
     try {
       await _service.sendOtp(_phone.text.trim());
+      if (!mounted) return;
+      _cooldown.start();
+      _ticker?.cancel();
+      _ticker = Timer.periodic(const Duration(seconds: 1), (t) {
+        if (!mounted) return t.cancel();
+        setState(() {});
+        if (!_cooldown.active) t.cancel();
+      });
       setState(() { _otpSent = true; });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP sent on WhatsApp to ${_phone.text.trim()}.')));
     } catch (e) {
-      setState(() { _error = ownerErrorMessage(e); });
+      if (mounted) setState(() { _error = ownerErrorMessage(e); });
     } finally {
       if (mounted) setState(() { _otpBusy = false; });
     }
   }
 
+  Future<void> _verifyOtp() async {
+    final code = _otp.text.trim();
+    if (code.length != 6) {
+      setState(() { _error = 'Enter the 6-digit OTP.'; });
+      return;
+    }
+    setState(() {
+      _verifying = true;
+      _error = null;
+    });
+    try {
+      final proof = await OtpService(ApiClient.instance.dio).verifyPhone(_phone.text.trim(), code);
+      if (!mounted) return;
+      setState(() {
+        _verified = true;
+        _proof = proof;
+      });
+    } catch (e) {
+      if (mounted) setState(() { _error = ownerErrorMessage(e); });
+    } finally {
+      if (mounted) setState(() { _verifying = false; });
+    }
+  }
+
   Future<void> _submit() async {
+    if (!_account && !_verified) {
+      setState(() { _error = 'Verify your mobile number with the OTP first.'; });
+      return;
+    }
     if (!_formKey.currentState!.validate()) return;
     setState(() {
       _busy = true;
@@ -118,7 +171,7 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
         'ownerPhone': _phone.text.trim(),
         'ownerEmail': _email.text.trim(),
         'password': _password.text,
-        'otp': _otp.text.trim(),
+        'phoneProof': _proof,
         'city': _city.text.trim(),
         'locality': _locality.text.trim(),
         'plan': _plan,
@@ -217,33 +270,65 @@ class _OwnerStartScreenState extends State<OwnerStartScreen> {
                   ),
                   TextFormField(
                     controller: _phone,
-                    readOnly: _account,
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(labelText: 'Mobile number (WhatsApp)'),
-                    validator: Validators.phone,
+                    readOnly: _account || _verified,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: phoneFormatters,
+                    onChanged: (_) {
+                      if (_otpSent || _verified) {
+                        setState(() {
+                          _otpSent = false;
+                          _verified = false;
+                          _proof = null;
+                          _otp.clear();
+                        });
+                      }
+                    },
+                    decoration: const InputDecoration(labelText: 'Mobile number (WhatsApp)', hintText: '10 digits', counterText: ''),
+                    validator: Validators.mobile10,
                   ),
-                  if (!_account) ...[
+                  if (!_account && _verified)
+                    const Row(children: [
+                      Icon(Icons.verified, color: AppColors.success, size: 18),
+                      SizedBox(width: 6),
+                      Text('Mobile number verified', style: TextStyle(color: AppColors.success, fontWeight: FontWeight.w700)),
+                    ]),
+                  if (!_account && !_verified) ...[
                     Align(
                       alignment: Alignment.centerLeft,
                       child: AppButton(
-                        label: _otpSent ? 'Resend WhatsApp OTP' : 'Send WhatsApp OTP',
+                        label: _cooldown.active
+                            ? 'Resend OTP in ${_cooldown.left}s'
+                            : (_otpSent ? 'Resend WhatsApp OTP' : 'Send WhatsApp OTP'),
                         icon: Icons.chat_outlined,
                         loading: _otpBusy,
                         variant: AppButtonVariant.secondary,
-                        onPressed: _phone.text.replaceAll(RegExp(r'\D'), '').length < 10 ? null : _sendOtp,
+                        onPressed: (_otpBusy || _cooldown.active) ? null : _sendOtp,
                       ),
                     ),
+                    if (_otpSent)
+                      Text('OTP sent on WhatsApp to ${_phone.text.trim()}. Enter it below and tap Verify.',
+                          style: Theme.of(context).textTheme.bodySmall),
                     TextFormField(
                       controller: _otp,
                       keyboardType: TextInputType.number,
-                      maxLength: 6,
+                      inputFormatters: otpFormatters,
                       decoration: InputDecoration(
                         labelText: 'WhatsApp OTP',
                         hintText: _otpSent ? '6-digit OTP' : 'Send the OTP first',
                         counterText: '',
                       ),
-                      validator: (v) => Validators.required(v, label: 'OTP'),
                     ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: AppButton(
+                        label: 'Verify OTP',
+                        icon: Icons.check_circle_outline,
+                        loading: _verifying,
+                        onPressed: (!_otpSent || _verifying) ? null : _verifyOtp,
+                      ),
+                    ),
+                  ],
+                  if (!_account && _verified) ...[
                     TextFormField(
                       controller: _email,
                       keyboardType: TextInputType.emailAddress,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +13,9 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/auth_header.dart';
 import '../../../core/widgets/form_section.dart';
+import '../../../core/utils/input_formats.dart';
 import '../../../services/agent_service.dart';
+import '../../../services/otp_service.dart';
 
 class AgentRegisterScreen extends StatefulWidget {
   const AgentRegisterScreen({super.key});
@@ -43,6 +47,11 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
   bool _obscurePassword = true;
   bool _otpSent = false;
   bool _otpBusy = false;
+  bool _verifying = false;
+  bool _verified = false;
+  String? _proof;
+  final _cooldown = OtpCooldown();
+  Timer? _ticker;
 
   @override
   void initState() {
@@ -52,6 +61,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
 
   @override
   void dispose() {
+    _ticker?.cancel();
     for (final c in [
       _name,
       _email,
@@ -79,12 +89,20 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(bad)));
       return;
     }
+    if (_cooldown.active || _verified) return;
     setState(() { _otpBusy = true; });
     try {
       await _service.sendRegistrationOtp(_phone.text.trim());
       if (!mounted) return;
+      _cooldown.start();
+      _ticker?.cancel();
+      _ticker = Timer.periodic(const Duration(seconds: 1), (t) {
+        if (!mounted) return t.cancel();
+        setState(() {});
+        if (!_cooldown.active) t.cancel();
+      });
       setState(() { _otpSent = true; });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('OTP sent on WhatsApp.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP sent on WhatsApp to ${_phone.text.trim()}.')));
     } on ApiException catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
@@ -92,7 +110,33 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
     }
   }
 
+  Future<void> _verifyOtp() async {
+    final code = _otp.text.trim();
+    if (code.length != 6) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter the 6-digit OTP.')));
+      return;
+    }
+    setState(() { _verifying = true; });
+    try {
+      final proof = await OtpService(ApiClient.instance.dio).verifyPhone(_phone.text.trim(), code);
+      if (!mounted) return;
+      setState(() {
+        _verified = true;
+        _proof = proof;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Mobile number verified.')));
+    } on ApiException catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+    } finally {
+      if (mounted) setState(() { _verifying = false; });
+    }
+  }
+
   Future<void> _submit() async {
+    if (!_verified) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Verify your mobile number with the OTP first.')));
+      return;
+    }
     if (!_formKey.currentState!.validate()) return;
     setState(() { _submitting = true; });
     try {
@@ -101,7 +145,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
         email: _email.text.trim(),
         password: _password.text,
         phone: _phone.text.trim(),
-        otp: _otp.text.trim(),
+        phoneProof: _proof,
         alternatePhone:
             _alternatePhone.text.trim().isEmpty ? null : _alternatePhone.text.trim(),
         shopName: _shopName.text.trim(),
@@ -185,9 +229,17 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                   TextFormField(
                     controller: _phone,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                    inputFormatters: phoneFormatters,
+                    readOnly: _verified,
                     onChanged: (_) {
-                      if (_otpSent) setState(() { _otpSent = false; });
+                      if (_otpSent || _verified) {
+                        setState(() {
+                          _otpSent = false;
+                          _verified = false;
+                          _proof = null;
+                          _otp.clear();
+                        });
+                      }
                     },
                     decoration: const InputDecoration(
                       labelText: 'Mobile number (WhatsApp)',
@@ -198,32 +250,53 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                     ),
                     validator: Validators.mobile10,
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: AppButton(
-                      label: _otpSent ? 'Resend WhatsApp OTP' : 'Send WhatsApp OTP',
-                      icon: Icons.chat_outlined,
-                      variant: AppButtonVariant.secondary,
-                      loading: _otpBusy,
-                      onPressed: _otpBusy ? null : _sendOtp,
+                  if (_verified)
+                    const Row(children: [
+                      Icon(Icons.verified, color: Colors.green, size: 18),
+                      SizedBox(width: 6),
+                      Text('Mobile number verified', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w700)),
+                    ])
+                  else ...[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: AppButton(
+                        label: _cooldown.active
+                            ? 'Resend OTP in ${_cooldown.left}s'
+                            : (_otpSent ? 'Resend WhatsApp OTP' : 'Send WhatsApp OTP'),
+                        icon: Icons.chat_outlined,
+                        variant: AppButtonVariant.secondary,
+                        loading: _otpBusy,
+                        onPressed: (_otpBusy || _cooldown.active) ? null : _sendOtp,
+                      ),
                     ),
-                  ),
-                  TextFormField(
-                    controller: _otp,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(6)],
-                    decoration: InputDecoration(
-                      labelText: 'WhatsApp OTP',
-                      hintText: _otpSent ? '6-digit OTP' : 'Send the OTP first',
-                      prefixIcon: const Icon(Icons.sms_outlined),
-                      counterText: '',
+                    if (_otpSent)
+                      Text('OTP sent on WhatsApp to ${_phone.text.trim()}. Enter it below and tap Verify.',
+                          style: Theme.of(context).textTheme.bodySmall),
+                    TextFormField(
+                      controller: _otp,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: otpFormatters,
+                      decoration: InputDecoration(
+                        labelText: 'WhatsApp OTP',
+                        hintText: _otpSent ? '6-digit OTP' : 'Send the OTP first',
+                        prefixIcon: const Icon(Icons.sms_outlined),
+                        counterText: '',
+                      ),
                     ),
-                    validator: (v) => (v == null || v.trim().length != 6) ? 'Enter the 6-digit OTP' : null,
-                  ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: AppButton(
+                        label: 'Verify OTP',
+                        icon: Icons.check_circle_outline,
+                        loading: _verifying,
+                        onPressed: (!_otpSent || _verifying) ? null : _verifyOtp,
+                      ),
+                    ),
+                  ],
                   TextFormField(
                     controller: _alternatePhone,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                    inputFormatters: phoneFormatters,
                     decoration: const InputDecoration(labelText: 'Alternate mobile (optional)', counterText: ''),
                     validator: Validators.optionalMobile10,
                   ),
@@ -246,6 +319,12 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
+              if (!_verified)
+                const Text(
+                  'Verify your mobile number to continue with your shop details.',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                )
+              else ...[
               FormSection(
                 title: 'Shop details',
                 stepNumber: 2,
@@ -313,6 +392,7 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                 loading: _submitting,
                 onPressed: _submit,
               ),
+              ],
               const SizedBox(height: AppSpacing.md),
               Center(
                 child: TextButton(

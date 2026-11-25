@@ -8,6 +8,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../services/agent_investors_service.dart';
+import '../../../core/utils/input_formats.dart';
 
 class AgentInvestorFormScreen extends StatefulWidget {
   const AgentInvestorFormScreen({super.key});
@@ -93,6 +94,7 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
                     TextFormField(
                       controller: _phone,
                       keyboardType: TextInputType.phone,
+                      inputFormatters: phoneFormatters,
                       decoration: const InputDecoration(
                         labelText: 'Phone',
                         prefixIcon: Icon(Icons.call_outlined),

@@ -9,6 +9,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../services/rating_service.dart';
+import '../../../core/utils/input_formats.dart';
 
 const _ratingLabels = {
   1: 'Not great',
@@ -127,6 +128,7 @@ class _RateAgentScreenState extends State<RateAgentScreen> {
                     TextFormField(
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
+                      inputFormatters: phoneFormatters,
                       decoration: const InputDecoration(
                         labelText: 'Your phone number',
                         prefixIcon: Icon(Icons.call_outlined),

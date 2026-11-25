@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requestOtp } from "@/lib/otp";
+import { requestOtp, otpRoleConflict, otpWaitMessage } from "@/lib/otp";
 
 // Public — this *is* the login step, no session exists yet. REST
 // equivalent of src/app/investor/login/actions.ts's requestInvestorOtp,
@@ -12,7 +12,11 @@ export async function POST(request: Request) {
   const identifier = String(body?.identifier ?? "").trim();
   if (!identifier) return NextResponse.json({ error: "validation" }, { status: 400 });
 
+  const conflict = await otpRoleConflict(identifier, "INVESTOR");
+  if (conflict) return NextResponse.json({ error: conflict }, { status: 409 });
+
   const result = await requestOtp(identifier);
+  if (result.retryAfter) return NextResponse.json({ error: otpWaitMessage(result.retryAfter) }, { status: 429 });
   if (!result.sent) return NextResponse.json({ error: "send" }, { status: 502 });
 
   return NextResponse.json({ identifier: result.identifier, channel: result.channel });

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { submitRatingAction } from "./actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
 type Params = Promise<{ agentCode: string }>;
 type SearchParams = Promise<{ saved?: string; error?: string }>;
@@ -48,8 +49,7 @@ export default async function RateAgentPage({
             <input type="hidden" name="agentCode" value={agentCode} />
             <div>
               <label className="text-sm font-medium text-slate-700">Your phone number</label>
-              <input
-                type="tel"
+              <SmartInput kind="mobile"
                 name="customerPhone"
                 required
                 className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"

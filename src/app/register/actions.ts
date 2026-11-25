@@ -1,5 +1,6 @@
 "use server";
 
+import { isValidMobile } from "@/lib/validators";
 import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
@@ -27,6 +28,7 @@ export async function register(_prevState: RegisterState, formData: FormData): P
     .trim()
     .toLowerCase();
   const phone = String(formData.get("phone") ?? "").trim();
+  if (phone && !isValidMobile(phone)) return { error: "invalidPhone" };
   const company = String(formData.get("company") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const role = "OWNER" as const;

@@ -8,6 +8,7 @@ import {
   startListingRequestAction,
   verifyRequestPaymentAction,
 } from "./actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
 declare global {
   interface Window {
@@ -200,7 +201,7 @@ export function RequestForm({
           <div className="text-sm font-semibold text-slate-700">
             <label>
               Mobile number (WhatsApp)
-              <input
+              <SmartInput kind="mobile"
                 name="ownerPhone"
                 required
                 inputMode="tel"

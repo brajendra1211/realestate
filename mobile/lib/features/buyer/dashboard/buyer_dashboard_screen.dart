@@ -11,6 +11,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/error_messages.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/utils/validators.dart';
 import '../../../core/utils/media.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/empty_state.dart';
@@ -80,6 +81,12 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
   }
 
   Future<void> _saveProfile(String name, String? email, String? phone) async {
+    if (phone != null && Validators.phone(phone) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).')),
+      );
+      return;
+    }
     try {
       await _service.updateProfile(name: name, email: email, phone: phone);
       if (!mounted) return;
@@ -628,6 +635,7 @@ class _ProfileCardState extends State<_ProfileCard> {
           TextFormField(
             controller: _phoneController,
             keyboardType: TextInputType.phone,
+            validator: (v) => (v == null || v.trim().isEmpty) ? null : Validators.phone(v),
             decoration: const InputDecoration(
               labelText: 'Phone',
               prefixIcon: Icon(Icons.call_outlined),

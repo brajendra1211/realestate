@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { CheckCircle2, AlertCircle, Send } from "lucide-react";
 import { submitEnquiry, type SubmitEnquiryState } from "./actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
 const initialState: SubmitEnquiryState = {};
 
@@ -41,7 +42,7 @@ export function EnquiryForm({
         <input type="hidden" name="propertyId" value={propertyId} />
         <input type="hidden" name="slug" value={slug} />
         <input type="text" name="name" required defaultValue={defaultName} placeholder="Your name" className={inputCls} />
-        <input type="tel" name="phone" required defaultValue={defaultPhone} placeholder="Phone number" className={inputCls} />
+        <SmartInput kind="mobile" name="phone" required defaultValue={defaultPhone} placeholder="Phone number" className={inputCls} />
         <input
           type="email"
           name="email"

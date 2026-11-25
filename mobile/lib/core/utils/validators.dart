@@ -15,11 +15,18 @@ class Validators {
     return null;
   }
 
+  /// Digits only, dropping a leading +91 / 91 / 0 so "+91 98765 43210" counts as 10 digits.
+  static String _tenDigits(String raw) {
+    var d = raw.replaceAll(RegExp(r'\D'), '');
+    if (d.length == 12 && d.startsWith('91')) d = d.substring(2);
+    if (d.length == 11 && d.startsWith('0')) d = d.substring(1);
+    return d;
+  }
+
+  /// Phone number: exactly 10 digits, starting 6-9.
   static String? phone(String? value) {
     if (value == null || value.trim().isEmpty) return 'Phone is required';
-    final digits = value.replaceAll(RegExp(r'\D'), '');
-    if (digits.length < 10) return 'Enter a valid phone number';
-    return null;
+    return mobile10(_tenDigits(value));
   }
 
   /// For OTP-login identifier fields (buyer/investor/channel partner) that
@@ -30,8 +37,10 @@ class Validators {
     final trimmed = value.trim();
     if (trimmed.contains('@')) return email(trimmed);
 
-    final digits = trimmed.replaceAll(RegExp(r'\D'), '');
-    if (digits.length < 10) return 'Enter a valid 10-digit phone number';
+    final digits = _tenDigits(trimmed);
+    if (digits.length != 10 || !RegExp(r'^[6-9]').hasMatch(digits)) {
+      return 'Enter a valid 10-digit mobile number';
+    }
     return null;
   }
 

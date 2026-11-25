@@ -5,8 +5,9 @@ import { getInvestorByUserId } from "@/lib/investor";
 import { SingleImageField } from "@/components/SingleImageField";
 import { formatINR } from "@/lib/format";
 import { updateInvestorProfileAction } from "./actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
-type SearchParams = Promise<{ saved?: string }>;
+type SearchParams = Promise<{ saved?: string; error?: string }>;
 
 export default async function InvestorProfilePage({ searchParams }: { searchParams: SearchParams }) {
   const session = await auth();
@@ -14,7 +15,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
     redirect("/login");
   }
 
-  const { saved } = await searchParams;
+  const { saved, error } = await searchParams;
   const investor = await getInvestorByUserId(session.user.id);
   if (!investor) redirect("/investor/login");
 
@@ -47,6 +48,11 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
         )}
       </div>
 
+      {error === "invalidPhone" && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">
+          Enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).
+        </div>
+      )}
       {saved === "1" && (
         <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-800 shadow-2xs flex items-center gap-2">
           <span>✓</span>
@@ -146,8 +152,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
 
             <div>
               <label className="text-xs font-bold text-slate-700">Primary Mobile Number *</label>
-              <input
-                type="tel"
+              <SmartInput kind="mobile"
                 name="phone"
                 required
                 placeholder="10-digit mobile number"
@@ -158,8 +163,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
 
             <div>
               <label className="text-xs font-bold text-slate-700">Secondary Mobile Number</label>
-              <input
-                type="tel"
+              <SmartInput kind="mobile"
                 name="secondaryPhone"
                 placeholder="Any alternate contact number"
                 defaultValue={user.secondaryPhone ?? ""}
@@ -169,8 +173,7 @@ export default async function InvestorProfilePage({ searchParams }: { searchPara
 
             <div>
               <label className="text-xs font-bold text-slate-700">WhatsApp Mobile Number</label>
-              <input
-                type="tel"
+              <SmartInput kind="mobile"
                 name="whatsappNumber"
                 placeholder="For deal alerts and updates"
                 defaultValue={user.whatsappNumber ?? ""}

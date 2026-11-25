@@ -52,7 +52,13 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
         ],
       ),
     );
-    if (phone == null || Validators.phone(phone) != null || !mounted) return;
+    if (phone == null || !mounted) return;
+    if (Validators.phone(phone) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).')),
+      );
+      return;
+    }
 
     try {
       await _service.requestOtp(phone);

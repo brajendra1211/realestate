@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { DocumentUploadField } from "@/components/DocumentUploadField";
 import { PAYMENT_MODES, PAYMENT_MODE_LABELS } from "@/lib/format";
 import { uploadDocumentAction, createAgreementAction } from "./actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
 type SearchParams = Promise<{ saved?: string; error?: string }>;
 
@@ -114,7 +115,7 @@ export default async function AdminDocumentsPage({ searchParams }: { searchParam
             </div>
             <div>
               <label className="text-sm font-medium text-slate-700">Customer phone</label>
-              <input type="tel" name="customerPhone" required className={inputClass} />
+              <SmartInput kind="mobile" name="customerPhone" required className={inputClass} />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-700">Agreement date</label>

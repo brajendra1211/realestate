@@ -17,6 +17,7 @@ import {
   ringPropertyAction,
   ringAgentListingAction,
 } from "../actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
 type SearchParams = Promise<{
   saved?: string;
@@ -195,6 +196,11 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
         {saved === "1" && (
           <p className="mt-2 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">Saved.</p>
         )}
+        {error === "invalidPhone" && (
+          <p className="mt-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+            Enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).
+          </p>
+        )}
         {error === "email" && (
           <p className="mt-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
             That email is already used by another account.
@@ -212,8 +218,7 @@ export default async function BuyerDashboardPage({ searchParams }: { searchParam
           </div>
           <div>
             <label className="text-xs font-medium text-slate-500">Phone</label>
-            <input
-              type="tel"
+            <SmartInput kind="mobile"
               name="phone"
               defaultValue={user.phone ?? undefined}
               className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"

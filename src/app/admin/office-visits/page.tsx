@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { AdminPage, StatCard, Pill, EmptyState, Notice, btnPrimary, inputCls } from "@/components/admin/ui";
 import { logOfficeVisitAction } from "./actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
 type SearchParams = Promise<{ error?: string; saved?: string; q?: string }>;
 
@@ -73,7 +74,7 @@ export default async function OfficeVisitsPage({ searchParams }: { searchParams:
         {[0, 1, 2, 3, 4].map((i) => (
           <div key={i} className="grid gap-2 md:grid-cols-4">
             <input name={`vName${i}`} placeholder="Full name" className={inputCls} />
-            <input name={`vMobile${i}`} placeholder="Mobile number" inputMode="numeric" className={inputCls} />
+            <SmartInput kind="mobile" name={`vMobile${i}`} placeholder="Mobile number" inputMode="numeric" className={inputCls} />
             <select name={`vRelation${i}`} className={inputCls}>
               {RELATIONS.map(([v, l]) => (
                 <option key={v} value={v}>

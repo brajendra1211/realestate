@@ -1,5 +1,7 @@
 "use server";
 
+import { isValidMobile } from "@/lib/validators";
+
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
@@ -36,6 +38,7 @@ export async function updateProfile(formData: FormData) {
 
   const secondaryPhone = String(formData.get("secondaryPhone") ?? "").trim();
   const whatsappNumber = String(formData.get("whatsappNumber") ?? "").trim();
+  if ([phone, secondaryPhone, whatsappNumber].some((v) => v && !isValidMobile(v))) redirect("/dashboard/profile?error=invalidPhone");
   const ageStr = String(formData.get("age") ?? "").trim();
   const dobStr = String(formData.get("dateOfBirth") ?? "").trim();
   const panNumber = String(formData.get("panNumber") ?? "").trim().toUpperCase();

@@ -2,12 +2,14 @@
 
 import { useActionState, useEffect } from "react";
 import { register, type RegisterState } from "./actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
 const initialState: RegisterState = {};
 
 const ERROR_MESSAGES: Record<string, string> = {
   validation: "Please fill in your name, email, and an 8+ character password.",
   duplicate: "An account with this email already exists.",
+  invalidPhone: "Enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).",
 };
 
 // Forced hard navigation via window.location instead of relying on the
@@ -48,8 +50,7 @@ export function RegisterForm({ accountType }: { accountType: "OWNER" }) {
       </div>
       <div>
         <label className="text-sm font-medium text-slate-700">Phone</label>
-        <input
-          type="tel"
+        <SmartInput kind="mobile"
           name="phone"
           className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
         />

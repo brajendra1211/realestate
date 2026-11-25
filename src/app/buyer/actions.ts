@@ -1,5 +1,6 @@
 "use server";
 
+import { isValidMobile } from "@/lib/validators";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
@@ -137,6 +138,8 @@ export async function updateBuyerProfile(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
   const phone = String(formData.get("phone") ?? "").trim();
+
+  if (phone && !isValidMobile(phone)) redirect("/buyer/dashboard?error=invalidPhone");
 
   if (email) {
     const existing = await prisma.user.findUnique({ where: { email } });

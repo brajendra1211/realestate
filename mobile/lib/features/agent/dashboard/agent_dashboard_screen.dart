@@ -197,11 +197,41 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
                       color: AppColors.goldLight.withValues(alpha: 0.35),
                       borderRadius: BorderRadius.circular(AppRadius.md),
                     ),
-                    child: Text(
-                      profile.status != 'APPROVED'
-                          ? 'Your application is pending admin approval. Some features unlock after approval.'
-                          : 'Activate Prime to create listings and add referral partners.',
-                      style: Theme.of(context).textTheme.bodySmall,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Complete your setup',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          profile.status != 'APPROVED'
+                              ? 'Upload your documents and choose a plan. Pay to get approved instantly, or wait for admin approval (24-48 hours).'
+                              : 'Choose a plan and pay to activate your Channel Partner code and create listings.',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: () => context.push(RoutePaths.agentDocuments),
+                            icon: const Icon(Icons.upload_file_outlined),
+                            label: Text(profile.documents.isEmpty
+                                ? 'Upload documents (KYC)'
+                                : 'Documents (${profile.documents.length} uploaded)'),
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton.icon(
+                            onPressed: () => context.push(RoutePaths.agentSubscription),
+                            icon: const Icon(Icons.workspace_premium_outlined),
+                            label: const Text('Choose plan & pay'),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

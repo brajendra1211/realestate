@@ -5,6 +5,7 @@ import { IMAGE_CATEGORIES, IMAGE_CATEGORY_LABELS, parseVideoUrls } from "@/lib/f
 import { parseAmenitiesString } from "@/lib/amenities";
 import { amenityIcon } from "@/lib/amenityIcons";
 import { LocationFields } from "@/components/LocationFields";
+import { SmartInput } from "@/components/forms/FormKit";
 
 type PropertyFormActionResult = { redirectTo?: string } | void;
 
@@ -808,7 +809,7 @@ export function PropertyForm({
 
         <div>
           <label className="text-sm font-medium text-slate-700">Contact phone</label>
-          <input
+          <SmartInput kind="mobile"
             type="text"
             name="contactPhone"
             defaultValue={defaultValues?.contactPhone ?? undefined}

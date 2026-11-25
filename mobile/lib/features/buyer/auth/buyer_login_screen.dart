@@ -78,7 +78,7 @@ class _BuyerLoginScreenState extends State<BuyerLoginScreen> {
                         const AuthHeader(
                           title: 'Sign in',
                           subtitle:
-                              'One code gets you in — as a buyer, channel partner, or referral partner, whichever this number or email belongs to.',
+                              'Buyer sign-in. Enter your phone or email and we will send a one-time code.',
                         ),
                         const SizedBox(height: AppSpacing.xl),
                         if (_errorMessage != null) ...[
@@ -108,10 +108,11 @@ class _BuyerLoginScreenState extends State<BuyerLoginScreen> {
                           onPressed: _submit,
                         ),
                         const SizedBox(height: AppSpacing.md),
-                        Center(
-                          child: TextButton(
-                            onPressed: () => context.push(RoutePaths.agentLogin),
-                            child: const Text('Channel partner? Sign in with a password instead'),
+                        const Center(
+                          child: Text(
+                            'New here? Just enter your number — your account is created automatically after the code.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 13, color: Colors.black54),
                           ),
                         ),
                       ],

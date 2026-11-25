@@ -94,34 +94,43 @@ export function UnifiedLoginCard({
         </AnimatePresence>
       </div>
 
+      {role === "buyer" && (
+        <>
+          <p className="mt-4 text-center text-xs text-slate-500">
+            New here? Just enter your mobile number. Your account is created automatically after the one-time code.
+          </p>
+          <p className="mt-6 border-t border-slate-100 pt-5 text-center text-sm text-slate-500">
+            Property owner?{" "}
+            <Link href="/register" className="font-bold text-brand-600 hover:underline">
+              List a property →
+            </Link>
+          </p>
+        </>
+      )}
+
+      {role === "agent" && (
+        <div className="mt-7 flex flex-col gap-3 rounded-2xl border border-dashed border-emerald-300 bg-emerald-50/60 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <Users className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
+            <div>
+              <p className="text-sm font-bold text-emerald-950">New channel partner?</p>
+              <p className="text-xs text-emerald-800">Earn a commission split and get exclusive QR badges.</p>
+            </div>
+          </div>
+          <Link
+            href="/register/agent"
+            className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-emerald-700 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-800"
+          >
+            Register <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      )}
+
       {role === "investor" && (
         <p className="mt-4 text-center text-xs text-slate-500">
           Not registered yet? Ask your channel partner to add you as a referral partner.
         </p>
       )}
-
-      <div className="mt-7 flex flex-col gap-3 rounded-2xl border border-dashed border-emerald-300 bg-emerald-50/60 p-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-start gap-3">
-          <Users className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
-          <div>
-            <p className="text-sm font-bold text-emerald-950">New channel partner?</p>
-            <p className="text-xs text-emerald-800">Earn a commission split and get exclusive QR badges.</p>
-          </div>
-        </div>
-        <Link
-          href="/register/agent"
-          className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-emerald-700 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-800"
-        >
-          Register <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
-      </div>
-
-      <p className="mt-6 border-t border-slate-100 pt-5 text-center text-sm text-slate-500">
-        Property owner?{" "}
-        <Link href="/register" className="font-bold text-brand-600 hover:underline">
-          List a property →
-        </Link>
-      </p>
     </div>
   );
 }

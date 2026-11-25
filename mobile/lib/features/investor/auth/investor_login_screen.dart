@@ -98,6 +98,14 @@ class _InvestorLoginScreenState extends State<InvestorLoginScreen> {
                   loading: _submitting,
                   onPressed: _submit,
                 ),
+                const SizedBox(height: AppSpacing.md),
+                const Center(
+                  child: Text(
+                    'Not registered yet? Ask your channel partner to add you as a referral partner.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 13, color: Colors.black54),
+                  ),
+                ),
               ],
             ),
           ),

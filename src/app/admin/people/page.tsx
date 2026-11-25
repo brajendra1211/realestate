@@ -116,6 +116,18 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
     prisma.user.groupBy({ by: ["role"], _count: { _all: true } }),
   ]);
 
+  // Owners pay through a listing request (not a subscription): paid = a request with a payment date.
+  const ownerIds = users.filter((u) => u.role === "OWNER").map((u) => u.id);
+  const ownerRequests = ownerIds.length
+    ? await prisma.listingRequest.findMany({
+        where: { userId: { in: ownerIds }, paidAt: { not: null } },
+        orderBy: { paidAt: "desc" },
+        select: { userId: true, plan: true, status: true },
+      })
+    : [];
+  const paidByOwner = new Map<string, { plan: string; status: string }>();
+  for (const r of ownerRequests) if (r.userId && !paidByOwner.has(r.userId)) paidByOwner.set(r.userId, r);
+
   const countOf = (key: string) =>
     key === "all"
       ? counts.reduce((s, c) => s + c._count._all, 0)
@@ -217,7 +229,12 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
                         ? { cls: "is-green", label: "✓ Fee paid" }
                         : { cls: "is-red", label: "✕ Fee pending" };
                   } else if (u.role === "OWNER") {
-                    pay = planLive ? { cls: "is-green", label: `✓ ${sub?.plan.name ?? "Plan active"}` } : { cls: "is-muted", label: "No plan" };
+                    const paid = paidByOwner.get(u.id);
+                    pay = paid
+                      ? { cls: "is-green", label: `✓ ${paid.plan === "GOLD" ? "Pro" : "Basic"} listing paid` }
+                      : planLive
+                        ? { cls: "is-green", label: `✓ ${sub?.plan.name ?? "Plan active"}` }
+                        : { cls: "is-muted", label: "No plan" };
                   }
 
                   let verify: { cls: string; label: string } = { cls: "is-muted", label: "—" };
@@ -230,7 +247,7 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
                           ? { cls: "is-red", label: "Rejected" }
                           : { cls: "is-yellow", label: "Pending" };
                   } else if (u.role === "OWNER") {
-                    verify = u.verified ? { cls: "is-green", label: "Verified" } : { cls: "is-yellow", label: "Not verified" };
+                    verify = u.verified || paidByOwner.has(u.id) ? { cls: "is-green", label: "Verified" } : { cls: "is-yellow", label: "Not verified" };
                   } else if (u.role === "INVESTOR") {
                     verify = u.investorProfile?.feeStatus === "PAID" ? { cls: "is-green", label: "Active" } : { cls: "is-yellow", label: "Awaiting fee" };
                   }

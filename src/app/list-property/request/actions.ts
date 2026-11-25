@@ -104,6 +104,7 @@ export async function startListingRequestAction(form: RequestFormInput): Promise
           slug: await uniqueUserSlug(name),
           passwordHash: await hashPassword(password),
           role: "OWNER",
+          verified: true, // the mobile number was OTP-verified above
         },
       });
       userId = user.id;

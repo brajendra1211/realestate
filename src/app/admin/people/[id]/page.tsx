@@ -1,3 +1,4 @@
+import { EditUserCard } from "../ManageUser";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import {
@@ -70,10 +71,11 @@ function Row({ k, v }: { k: string; v: React.ReactNode }) {
   );
 }
 
-export default async function AdminPersonPage({ params }: { params: Params }) {
+export default async function AdminPersonPage({ params, searchParams }: { params: Params; searchParams: Promise<{ saved?: string; error?: string }> }) {
   const session = await auth();
   if (!session || session.user.role !== "ADMIN") redirect("/login");
   const { id } = await params;
+  const { saved: editSaved, error: editError } = await searchParams;
 
   const user = await prisma.user.findUnique({
     where: { id },
@@ -162,12 +164,16 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
         </>
       }
     >
+      {editError && <p className="rounded-xl bg-red-50 p-3 text-sm font-semibold text-red-700">{editError}</p>}
+      {editSaved && <p className="rounded-xl bg-green-50 p-3 text-sm font-semibold text-green-700">Saved.</p>}
       <div className="flex flex-wrap items-center gap-2">
         <Pill tone="blue">{ROLE_LABEL[user.role] ?? user.role}</Pill>
         <Pill tone={user.verified ? "green" : "amber"}>{user.verified ? "Verified" : "Not verified"}</Pill>
         {user.agentProfile && <Pill tone="violet">{user.agentProfile.agentCode ?? "No partner code yet"}</Pill>}
         {user.investorProfile?.investorCode && <Pill tone="violet">{user.investorProfile.investorCode}</Pill>}
       </div>
+
+      <EditUserCard user={user} isSelf={user.id === session.user.id} />
 
       <Card title="Payment check" icon={Banknote} count={paymentRows.length}>
         <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">

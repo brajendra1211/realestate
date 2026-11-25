@@ -1,3 +1,4 @@
+import { CreateUserCard } from "./ManageUser";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChevronRight, Contact, Search } from "lucide-react";
@@ -6,7 +7,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { AdminPage, EmptyState, inputCls } from "@/components/admin/ui";
 
-type SearchParams = Promise<{ role?: string; f?: string; q?: string; page?: string }>;
+type SearchParams = Promise<{ role?: string; f?: string; q?: string; page?: string; error?: string; deleted?: string }>;
 
 const PAGE_SIZE = 40;
 
@@ -129,6 +130,10 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
       title="All people"
       description="Every account on the platform in one list. Click anyone to see their full details, documents, wallet and payments."
     >
+      {sp.error && <p className="rounded-xl bg-red-50 p-3 text-sm font-semibold text-red-700">{sp.error}</p>}
+      {sp.deleted && <p className="rounded-xl bg-green-50 p-3 text-sm font-semibold text-green-700">User deleted.</p>}
+      <CreateUserCard />
+
       {/* Role tabs */}
       <div className="flex flex-wrap gap-2">
         {TABS.map((t) => {

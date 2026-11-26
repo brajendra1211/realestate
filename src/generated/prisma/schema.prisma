@@ -90,6 +90,10 @@ model User {
   passwordHash    String?
   role            Role            @default(OWNER)
   verified        Boolean         @default(false)
+  // Live location (browser / app GPS), refreshed while the person is online. Mandatory for every role except admin.
+  liveLatitude    Float?
+  liveLongitude   Float?
+  liveLocationAt  DateTime?
   properties      Property[]
   subscriptions   Subscription[]
   leadViews       LeadView[]

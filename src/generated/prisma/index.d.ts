@@ -7604,10 +7604,14 @@ export namespace Prisma {
   }
 
   export type UserAvgAggregateOutputType = {
+    liveLatitude: number | null
+    liveLongitude: number | null
     age: number | null
   }
 
   export type UserSumAggregateOutputType = {
+    liveLatitude: number | null
+    liveLongitude: number | null
     age: number | null
   }
 
@@ -7630,6 +7634,9 @@ export namespace Prisma {
     passwordHash: string | null
     role: $Enums.Role | null
     verified: boolean | null
+    liveLatitude: number | null
+    liveLongitude: number | null
+    liveLocationAt: Date | null
     createdAt: Date | null
     referredByAgentId: string | null
     secondaryPhone: string | null
@@ -7668,6 +7675,9 @@ export namespace Prisma {
     passwordHash: string | null
     role: $Enums.Role | null
     verified: boolean | null
+    liveLatitude: number | null
+    liveLongitude: number | null
+    liveLocationAt: Date | null
     createdAt: Date | null
     referredByAgentId: string | null
     secondaryPhone: string | null
@@ -7706,6 +7716,9 @@ export namespace Prisma {
     passwordHash: number
     role: number
     verified: number
+    liveLatitude: number
+    liveLongitude: number
+    liveLocationAt: number
     createdAt: number
     referredByAgentId: number
     secondaryPhone: number
@@ -7728,10 +7741,14 @@ export namespace Prisma {
 
 
   export type UserAvgAggregateInputType = {
+    liveLatitude?: true
+    liveLongitude?: true
     age?: true
   }
 
   export type UserSumAggregateInputType = {
+    liveLatitude?: true
+    liveLongitude?: true
     age?: true
   }
 
@@ -7754,6 +7771,9 @@ export namespace Prisma {
     passwordHash?: true
     role?: true
     verified?: true
+    liveLatitude?: true
+    liveLongitude?: true
+    liveLocationAt?: true
     createdAt?: true
     referredByAgentId?: true
     secondaryPhone?: true
@@ -7792,6 +7812,9 @@ export namespace Prisma {
     passwordHash?: true
     role?: true
     verified?: true
+    liveLatitude?: true
+    liveLongitude?: true
+    liveLocationAt?: true
     createdAt?: true
     referredByAgentId?: true
     secondaryPhone?: true
@@ -7830,6 +7853,9 @@ export namespace Prisma {
     passwordHash?: true
     role?: true
     verified?: true
+    liveLatitude?: true
+    liveLongitude?: true
+    liveLocationAt?: true
     createdAt?: true
     referredByAgentId?: true
     secondaryPhone?: true
@@ -7955,6 +7981,9 @@ export namespace Prisma {
     passwordHash: string | null
     role: $Enums.Role
     verified: boolean
+    liveLatitude: number | null
+    liveLongitude: number | null
+    liveLocationAt: Date | null
     createdAt: Date
     referredByAgentId: string | null
     secondaryPhone: string | null
@@ -8012,6 +8041,9 @@ export namespace Prisma {
     passwordHash?: boolean
     role?: boolean
     verified?: boolean
+    liveLatitude?: boolean
+    liveLongitude?: boolean
+    liveLocationAt?: boolean
     createdAt?: boolean
     referredByAgentId?: boolean
     secondaryPhone?: boolean
@@ -8071,6 +8103,9 @@ export namespace Prisma {
     passwordHash?: boolean
     role?: boolean
     verified?: boolean
+    liveLatitude?: boolean
+    liveLongitude?: boolean
+    liveLocationAt?: boolean
     createdAt?: boolean
     referredByAgentId?: boolean
     secondaryPhone?: boolean
@@ -8090,7 +8125,7 @@ export namespace Prisma {
     cancelledChequeUrl?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "company" | "slug" | "about" | "logoUrl" | "licenseNumber" | "address" | "website" | "metaChannelUrl" | "termsAcceptedAt" | "instagramUrl" | "facebookUrl" | "passwordHash" | "role" | "verified" | "createdAt" | "referredByAgentId" | "secondaryPhone" | "whatsappNumber" | "age" | "dateOfBirth" | "panNumber" | "panCardUrl" | "aadhaarNumber" | "aadhaarFrontUrl" | "aadhaarBackUrl" | "bankAccountName" | "bankAccountNumber" | "bankIfsc" | "bankName" | "bankBranch" | "cancelledChequeUrl", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "company" | "slug" | "about" | "logoUrl" | "licenseNumber" | "address" | "website" | "metaChannelUrl" | "termsAcceptedAt" | "instagramUrl" | "facebookUrl" | "passwordHash" | "role" | "verified" | "liveLatitude" | "liveLongitude" | "liveLocationAt" | "createdAt" | "referredByAgentId" | "secondaryPhone" | "whatsappNumber" | "age" | "dateOfBirth" | "panNumber" | "panCardUrl" | "aadhaarNumber" | "aadhaarFrontUrl" | "aadhaarBackUrl" | "bankAccountName" | "bankAccountNumber" | "bankIfsc" | "bankName" | "bankBranch" | "cancelledChequeUrl", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     properties?: boolean | User$propertiesArgs<ExtArgs>
     subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
@@ -8154,6 +8189,9 @@ export namespace Prisma {
       passwordHash: string | null
       role: $Enums.Role
       verified: boolean
+      liveLatitude: number | null
+      liveLongitude: number | null
+      liveLocationAt: Date | null
       createdAt: Date
       referredByAgentId: string | null
       secondaryPhone: string | null
@@ -8576,6 +8614,9 @@ export namespace Prisma {
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly verified: FieldRef<"User", 'Boolean'>
+    readonly liveLatitude: FieldRef<"User", 'Float'>
+    readonly liveLongitude: FieldRef<"User", 'Float'>
+    readonly liveLocationAt: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly referredByAgentId: FieldRef<"User", 'String'>
     readonly secondaryPhone: FieldRef<"User", 'String'>
@@ -75598,6 +75639,9 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     role: 'role',
     verified: 'verified',
+    liveLatitude: 'liveLatitude',
+    liveLongitude: 'liveLongitude',
+    liveLocationAt: 'liveLocationAt',
     createdAt: 'createdAt',
     referredByAgentId: 'referredByAgentId',
     secondaryPhone: 'secondaryPhone',
@@ -77573,6 +77617,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -77597,13 +77648,6 @@ export namespace Prisma {
    * Reference to a field of type 'ProjectStatus'
    */
   export type EnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
@@ -77821,6 +77865,9 @@ export namespace Prisma {
     passwordHash?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     verified?: BoolFilter<"User"> | boolean
+    liveLatitude?: FloatNullableFilter<"User"> | number | null
+    liveLongitude?: FloatNullableFilter<"User"> | number | null
+    liveLocationAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     referredByAgentId?: StringNullableFilter<"User"> | string | null
     secondaryPhone?: StringNullableFilter<"User"> | string | null
@@ -77877,6 +77924,9 @@ export namespace Prisma {
     passwordHash?: SortOrderInput | SortOrder
     role?: SortOrder
     verified?: SortOrder
+    liveLatitude?: SortOrderInput | SortOrder
+    liveLongitude?: SortOrderInput | SortOrder
+    liveLocationAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     referredByAgentId?: SortOrderInput | SortOrder
     secondaryPhone?: SortOrderInput | SortOrder
@@ -77937,6 +77987,9 @@ export namespace Prisma {
     passwordHash?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     verified?: BoolFilter<"User"> | boolean
+    liveLatitude?: FloatNullableFilter<"User"> | number | null
+    liveLongitude?: FloatNullableFilter<"User"> | number | null
+    liveLocationAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     referredByAgentId?: StringNullableFilter<"User"> | string | null
     secondaryPhone?: StringNullableFilter<"User"> | string | null
@@ -77993,6 +78046,9 @@ export namespace Prisma {
     passwordHash?: SortOrderInput | SortOrder
     role?: SortOrder
     verified?: SortOrder
+    liveLatitude?: SortOrderInput | SortOrder
+    liveLongitude?: SortOrderInput | SortOrder
+    liveLocationAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     referredByAgentId?: SortOrderInput | SortOrder
     secondaryPhone?: SortOrderInput | SortOrder
@@ -78039,6 +78095,9 @@ export namespace Prisma {
     passwordHash?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     verified?: BoolWithAggregatesFilter<"User"> | boolean
+    liveLatitude?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    liveLongitude?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    liveLocationAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     referredByAgentId?: StringNullableWithAggregatesFilter<"User"> | string | null
     secondaryPhone?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -84009,6 +84068,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -84065,6 +84127,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -84121,6 +84186,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84177,6 +84245,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84233,6 +84304,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -84271,6 +84345,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -84309,6 +84386,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -90994,6 +91074,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -91216,6 +91307,9 @@ export namespace Prisma {
     passwordHash?: SortOrder
     role?: SortOrder
     verified?: SortOrder
+    liveLatitude?: SortOrder
+    liveLongitude?: SortOrder
+    liveLocationAt?: SortOrder
     createdAt?: SortOrder
     referredByAgentId?: SortOrder
     secondaryPhone?: SortOrder
@@ -91236,6 +91330,8 @@ export namespace Prisma {
   }
 
   export type UserAvgOrderByAggregateInput = {
+    liveLatitude?: SortOrder
+    liveLongitude?: SortOrder
     age?: SortOrder
   }
 
@@ -91258,6 +91354,9 @@ export namespace Prisma {
     passwordHash?: SortOrder
     role?: SortOrder
     verified?: SortOrder
+    liveLatitude?: SortOrder
+    liveLongitude?: SortOrder
+    liveLocationAt?: SortOrder
     createdAt?: SortOrder
     referredByAgentId?: SortOrder
     secondaryPhone?: SortOrder
@@ -91296,6 +91395,9 @@ export namespace Prisma {
     passwordHash?: SortOrder
     role?: SortOrder
     verified?: SortOrder
+    liveLatitude?: SortOrder
+    liveLongitude?: SortOrder
+    liveLocationAt?: SortOrder
     createdAt?: SortOrder
     referredByAgentId?: SortOrder
     secondaryPhone?: SortOrder
@@ -91316,6 +91418,8 @@ export namespace Prisma {
   }
 
   export type UserSumOrderByAggregateInput = {
+    liveLatitude?: SortOrder
+    liveLongitude?: SortOrder
     age?: SortOrder
   }
 
@@ -91385,6 +91489,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -91942,17 +92062,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type StateScalarRelationFilter = {
     is?: StateWhereInput
     isNot?: StateWhereInput
@@ -92030,22 +92139,6 @@ export namespace Prisma {
   export type CitySumOrderByAggregateInput = {
     latitude?: SortOrder
     longitude?: SortOrder
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type CityScalarRelationFilter = {
@@ -96467,6 +96560,14 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -97355,14 +97456,6 @@ export namespace Prisma {
     connectOrCreate?: LocalityCreateOrConnectWithoutCityInput | LocalityCreateOrConnectWithoutCityInput[]
     createMany?: LocalityCreateManyCityInputEnvelope
     connect?: LocalityWhereUniqueInput | LocalityWhereUniqueInput[]
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type StateUpdateOneRequiredWithoutCitiesNestedInput = {
@@ -101126,6 +101219,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -101227,6 +101331,22 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -101255,17 +101375,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumPlanRoleFilter<$PrismaModel = never> = {
@@ -101344,22 +101453,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumProjectStatusFilter<$PrismaModel>
     _max?: NestedEnumProjectStatusFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumListingTypeFilter<$PrismaModel = never> = {
@@ -103496,6 +103589,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -103551,6 +103647,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -103653,6 +103752,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -103708,6 +103810,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -103800,6 +103905,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -103855,6 +103963,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -103953,6 +104064,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -104008,6 +104122,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -104949,6 +105066,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -105004,6 +105124,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -105387,6 +105510,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -105442,6 +105568,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106165,6 +106294,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -106220,6 +106352,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -106440,6 +106575,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106495,6 +106633,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106566,6 +106707,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -106621,6 +106765,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -106813,6 +106960,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106868,6 +107018,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -107050,6 +107203,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -107105,6 +107261,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -107297,6 +107456,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -107352,6 +107514,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -107534,6 +107699,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -107589,6 +107757,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -109231,6 +109402,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109286,6 +109460,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111096,6 +111273,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -111151,6 +111331,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -111523,6 +111706,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -111578,6 +111764,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113440,6 +113629,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -113495,6 +113687,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -113685,6 +113880,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113740,6 +113938,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113920,6 +114121,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -113975,6 +114179,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -114165,6 +114372,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -114220,6 +114430,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -114763,6 +114976,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -114818,6 +115034,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -115232,6 +115451,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -115287,6 +115509,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -115691,6 +115916,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -115746,6 +115974,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -115942,6 +116173,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -115997,6 +116231,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -117632,6 +117869,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -117687,6 +117927,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -117945,6 +118188,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -118000,6 +118246,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -122324,6 +122573,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -122379,6 +122631,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -122644,6 +122899,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -122699,6 +122957,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123079,6 +123340,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -123134,6 +123398,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -123380,6 +123647,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123435,6 +123705,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -123660,6 +123933,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -123715,6 +123991,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -123952,6 +124231,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -124007,6 +124289,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -124225,6 +124510,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -124280,6 +124568,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -124520,6 +124811,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -124575,6 +124869,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -124630,6 +124927,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -124685,6 +124985,9 @@ export namespace Prisma {
     passwordHash?: string | null
     role?: $Enums.Role
     verified?: boolean
+    liveLatitude?: number | null
+    liveLongitude?: number | null
+    liveLocationAt?: Date | string | null
     createdAt?: Date | string
     referredByAgentId?: string | null
     secondaryPhone?: string | null
@@ -124756,6 +125059,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null
@@ -124811,6 +125117,9 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    liveLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    liveLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     referredByAgentId?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryPhone?: NullableStringFieldUpdateOperationsInput | string | null

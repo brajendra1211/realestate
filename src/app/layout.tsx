@@ -33,6 +33,7 @@ const geistMono = Geist_Mono({
 import { SiteShell } from "@/components/SiteShell";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { TermsGate } from "@/components/TermsGate";
+import { LiveLocationGate } from "@/components/LiveLocationGate";
 import { LiveRefresh } from "@/components/LiveRefresh";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -147,6 +148,7 @@ export default async function RootLayout({
           {children}
         </SiteShell>
         {needsTerms && <TermsGate />}
+        {session && session.user.role !== "ADMIN" && session.user.role !== "SUBADMIN" && <LiveLocationGate />}
         <ScrollToTop />
         <LiveRefresh enabled={!!session} />
       </body>

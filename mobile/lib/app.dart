@@ -10,6 +10,7 @@ import 'core/notifications/push_notifications.dart';
 import 'core/router/app_router.dart';
 import 'core/router/back_dispatcher.dart';
 import 'core/theme/app_theme.dart';
+import 'core/widgets/live_location_gate.dart';
 import 'providers/agent_auth_provider.dart';
 import 'providers/customer_auth_provider.dart';
 import 'services/auth_service.dart';
@@ -71,6 +72,13 @@ class _BayaEstateAppState extends State<BayaEstateApp> {
         routeInformationParser: _router.routeInformationParser,
         routerDelegate: _router.routerDelegate,
         backButtonDispatcher: _backDispatcher,
+        builder: (context, child) => AnimatedBuilder(
+          animation: Listenable.merge([_agentAuth, _customerAuth]),
+          builder: (context, _) => LiveLocationGate(
+            signedIn: _agentAuth.isLoggedIn || _customerAuth.status == CustomerAuthStatus.loggedIn,
+            child: child ?? const SizedBox.shrink(),
+          ),
+        ),
       ),
     );
   }

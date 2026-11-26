@@ -539,7 +539,7 @@ export default async function AdminPersonPage({ params, searchParams }: { params
                           <li key={r.id} className="space-y-1 py-3">
                             <div className="flex flex-wrap items-center justify-between gap-2">
                               <span className="font-semibold text-ink">
-                                {l ? <Link href={`/listings/${l.slug}`} className="text-brand-600 hover:underline">{l.title}</Link> : "Details not added yet"}
+                                {l ? <Link href={`/listings/${l.slug}`} className="text-brand-600 hover:underline">{l.title}</Link> : (r.detailsAt ? "Details submitted — waiting for on-site verification" : "Owner has not added property details yet")}
                               </span>
                               <span className="flex items-center gap-2">
                                 <Pill tone={r.status === "SUBMITTED" ? "green" : r.status === "CANCELLED" ? "red" : "amber"}>{r.status.replace(/_/g, " ")}</Pill>

@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notifyUser } from "@/lib/notify";
 import { sendPushToUser } from "@/lib/push";
 import { emitToAgent } from "@/lib/socket";
-import { findNearbyAgents } from "@/lib/agentGeo";
+import { findNearbyAgents, agentPoint } from "@/lib/agentGeo";
 import { filterAgentIdsByAlert } from "@/lib/agentAlerts";
 import { haversineDistanceKm } from "@/lib/geo";
 import { absoluteUrl } from "@/lib/seo";
@@ -167,7 +167,7 @@ export type VisibleInterest = {
 export async function visibleInterestsForAgent(agentProfileId: string): Promise<VisibleInterest[]> {
   const agent = await prisma.agentProfile.findUnique({
     where: { id: agentProfileId },
-    select: { status: true, primeStatus: true, shopLatitude: true, shopLongitude: true },
+    select: { status: true, primeStatus: true, shopLatitude: true, shopLongitude: true, user: { select: { liveLatitude: true, liveLongitude: true, liveLocationAt: true } } },
   });
   if (!agent || agent.status !== "APPROVED" || !agent.primeStatus) return [];
 
@@ -188,9 +188,10 @@ export async function visibleInterestsForAgent(agentProfileId: string): Promise<
   return Promise.all(
     visible.map(async (i) => {
       const brief = await listingBriefFor(i.agentListingId, agentProfileId);
+      const here = agentPoint(agent);
       const distanceKm =
-        i.latitude != null && i.longitude != null && agent.shopLatitude != null && agent.shopLongitude != null
-          ? Math.round(haversineDistanceKm({ latitude: agent.shopLatitude, longitude: agent.shopLongitude }, { latitude: i.latitude, longitude: i.longitude }) * 10) / 10
+        i.latitude != null && i.longitude != null && here
+          ? Math.round(haversineDistanceKm(here, { latitude: i.latitude, longitude: i.longitude }) * 10) / 10
           : null;
       const phase = PHASES[phaseIndex(now - i.createdAt.getTime())];
       return {
@@ -215,7 +216,7 @@ export async function visibleInterestsForAgent(agentProfileId: string): Promise<
 function canSee(
   i: BuyerInterest,
   agentProfileId: string,
-  agent: { shopLatitude: number | null; shopLongitude: number | null },
+  agent: Parameters<typeof agentPoint>[0],
   now = Date.now(),
 ) {
   if (i.primaryAgentId === agentProfileId) return true;
@@ -226,13 +227,9 @@ function canSee(
   const radius = PHASES[phase].radiusKm;
   if (radius === Infinity) return true;
   if (i.latitude == null || i.longitude == null) return true; // listing has no location: open to all after 10s
-  if (agent.shopLatitude == null || agent.shopLongitude == null) return false;
-  return (
-    haversineDistanceKm(
-      { latitude: agent.shopLatitude, longitude: agent.shopLongitude },
-      { latitude: i.latitude, longitude: i.longitude },
-    ) <= radius
-  );
+  const here = agentPoint(agent);
+  if (!here) return false;
+  return haversineDistanceKm(here, { latitude: i.latitude, longitude: i.longitude }) <= radius;
 }
 
 /** Any eligible partner can accept, up to MAX_ACCEPTORS of them; each gets the buyer's number. */
@@ -242,7 +239,7 @@ export async function acceptBuyerInterest(interestId: string, agentProfileId: st
   if (interest.status === "CLOSED") throw new BuyerInterestError("This request has been closed.");
   const agent = await prisma.agentProfile.findUnique({
     where: { id: agentProfileId },
-    select: { status: true, primeStatus: true, shopLatitude: true, shopLongitude: true },
+    select: { status: true, primeStatus: true, shopLatitude: true, shopLongitude: true, user: { select: { liveLatitude: true, liveLongitude: true, liveLocationAt: true } } },
   });
   if (!agent || agent.status !== "APPROVED" || !agent.primeStatus) {
     throw new BuyerInterestError("Only active Prime partners can accept buyer requests.");

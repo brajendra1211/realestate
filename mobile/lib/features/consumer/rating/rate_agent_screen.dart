@@ -10,6 +10,7 @@ import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../services/rating_service.dart';
 import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 const _ratingLabels = {
   1: 'Not great',
@@ -76,7 +77,7 @@ class _RateAgentScreenState extends State<RateAgentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Rate ${widget.agentCode}')),
+      appBar: BackAppBar(title: Text('Rate ${widget.agentCode}')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),

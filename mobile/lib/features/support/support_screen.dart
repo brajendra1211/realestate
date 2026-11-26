@@ -9,6 +9,7 @@ import '../../core/widgets/app_button.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/form_error_banner.dart';
 import '../../services/owner_service.dart';
+import '../../core/widgets/back_app_bar.dart';
 
 const _categories = {
   'COMMISSION_CONFLICT': 'Commission conflict',
@@ -71,7 +72,7 @@ class _SupportScreenState extends State<SupportScreen> {
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: const Text('Help & support')),
+      appBar: BackAppBar(title: const Text('Help & support')),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.md),
         children: [

@@ -17,6 +17,7 @@ import '../../../models/geo_option.dart';
 import '../../../services/agent_service.dart';
 import '../../../services/geo_service.dart';
 import '../../../services/gold_listing_submission_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Customer self-service "Gold" listing: a buyer lists their own property
 /// (₹500 pass, 90-day validity, admin anti-fake moderation before it goes
@@ -188,7 +189,7 @@ class _GoldListingScreenState extends State<GoldListingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('List your property — Gold')),
+      appBar: BackAppBar(title: const Text('List your property — Gold')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(AppSpacing.lg),

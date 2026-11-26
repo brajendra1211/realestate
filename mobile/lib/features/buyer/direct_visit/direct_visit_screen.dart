@@ -13,6 +13,7 @@ import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../models/anti_bypass_agreement.dart';
 import '../../../services/buyer_direct_visit_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// GPS-tagged (well — OTP-tagged; the app doesn't capture location yet, see
 /// the API parity plan) physical visit flow: request an OTP for the owner
@@ -124,7 +125,7 @@ class _DirectVisitScreenState extends State<DirectVisitScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Verify site visit')),
+      appBar: BackAppBar(title: const Text('Verify site visit')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(AppSpacing.lg),

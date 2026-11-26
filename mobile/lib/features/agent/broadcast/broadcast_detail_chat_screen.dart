@@ -12,6 +12,7 @@ import '../../../services/agent_broadcast_service.dart';
 import '../../../services/agent_deals_service.dart';
 import '../../../services/agent_service.dart';
 import '../deals/agent_deal_detail_screen.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Polls the chat thread every 4s while open — a lightweight REST-only
 /// stand-in for the backend's Socket.io realtime chat, which isn't wired
@@ -155,7 +156,7 @@ class _BroadcastDetailChatScreenState extends State<BroadcastDetailChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: Text('Chat · ${widget.otherAgentLabel}'),
         actions: [
           IconButton(

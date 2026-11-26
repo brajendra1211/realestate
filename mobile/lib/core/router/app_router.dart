@@ -37,6 +37,7 @@ import '../../features/buyer/dashboard/buyer_dashboard_screen.dart';
 import '../../features/buyer/direct_visit/direct_visit_screen.dart';
 import '../../features/buyer/dispatch/dispatch_request_screen.dart';
 import '../../features/buyer/gold_listing/gold_listing_screen.dart';
+import '../../features/buyer/payments/buyer_payments_screen.dart';
 import '../../features/consumer/home/home_screen.dart';
 import '../../features/consumer/leaderboard/leaderboard_screen.dart';
 import '../../features/consumer/listing_detail/listing_detail_screen.dart';
@@ -101,6 +102,7 @@ const _buyerAuthRequiredPrefixes = [
   RoutePaths.buyerGoldListing,
   RoutePaths.buyerDispatch,
   RoutePaths.buyerCart,
+  RoutePaths.buyerPayments,
 ];
 
 GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider customerAuth) {
@@ -157,6 +159,10 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
       GoRoute(
         path: RoutePaths.buyerCart,
         builder: (context, state) => const BuyerCartScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.buyerPayments,
+        builder: (context, state) => const BuyerPaymentsScreen(),
       ),
       GoRoute(
         path: RoutePaths.buyerDashboard,
@@ -234,6 +240,10 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
           propertyTitle: state.uri.queryParameters['propertyTitle'] ?? '',
           buyerName: state.uri.queryParameters['buyerName'] ?? '',
           buyerPhone: state.uri.queryParameters['buyerPhone'] ?? '',
+          propertyWhere: state.uri.queryParameters['propertyWhere'] ?? '',
+          propertyPrice: state.uri.queryParameters['propertyPrice'] ?? '',
+          propertyKind: state.uri.queryParameters['propertyKind'] ?? '',
+          listedBy: state.uri.queryParameters['listedBy'] ?? '',
         ),
       ),
       GoRoute(

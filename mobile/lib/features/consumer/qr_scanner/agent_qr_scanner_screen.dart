@@ -14,6 +14,7 @@ import '../../../core/utils/error_messages.dart';
 import '../../../core/utils/location_helper.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../services/agent_shop_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentQrScannerScreen extends StatefulWidget {
   const AgentQrScannerScreen({super.key});
@@ -343,7 +344,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryNavy,
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('Scan Channel Partner QR Code'),
         backgroundColor: AppColors.primaryNavy,
         foregroundColor: Colors.white,

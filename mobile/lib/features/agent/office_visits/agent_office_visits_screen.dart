@@ -8,6 +8,7 @@ import '../../../core/utils/error_messages.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../services/cart_watch_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 String _fmt(dynamic iso) {
   final d = DateTime.tryParse('$iso')?.toLocal();
@@ -39,7 +40,7 @@ class _AgentOfficeVisitsScreenState extends State<AgentOfficeVisitsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Office Visits')),
+      appBar: BackAppBar(title: const Text('Office Visits')),
       body: FutureBuilder<Map<String, dynamic>>(
         future: _future,
         builder: (context, snap) {

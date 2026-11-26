@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/router/route_paths.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/back_app_bar.dart';
 import '../buzzer/agent_buzzer_overlay.dart';
 import 'agent_drawer.dart';
 
@@ -18,13 +20,14 @@ class AgentShell extends StatelessWidget {
     final location = GoRouterState.of(context).uri.toString();
     final path = location.split('?').first;
     final topLevel = agentSidebarPaths.contains(path);
+    final showBack = topLevel && path != RoutePaths.agentDashboard;
 
     // Top-level screens have no back arrow, so the menu button takes that slot and the
     // title moves right to make room for it.
     final themed = topLevel
         ? Theme(
             data: Theme.of(context).copyWith(
-              appBarTheme: Theme.of(context).appBarTheme.copyWith(titleSpacing: 64),
+              appBarTheme: Theme.of(context).appBarTheme.copyWith(titleSpacing: showBack ? 112 : 64),
             ),
             child: child,
           )
@@ -36,6 +39,28 @@ class AgentShell extends StatelessWidget {
         child: Stack(
           children: [
             themed,
+            if (showBack)
+              Positioned(
+                left: 58,
+                top: MediaQuery.of(context).padding.top + 6,
+                child: Material(
+                  color: Colors.white,
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    side: BorderSide(color: AppColors.gold.withValues(alpha: 0.35)),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(14),
+                    onTap: () => goOneStepBack(context),
+                    child: const SizedBox(
+                      width: 42,
+                      height: 42,
+                      child: Icon(Icons.arrow_back_rounded, color: AppColors.gold, semanticLabel: 'Back'),
+                    ),
+                  ),
+                ),
+              ),
             if (topLevel)
               Positioned(
                 left: 10,

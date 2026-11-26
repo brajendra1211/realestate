@@ -15,6 +15,7 @@ import '../../../core/widgets/status_badge.dart';
 import '../../../models/agent_profile.dart';
 import '../../../providers/agent_auth_provider.dart';
 import '../../../services/agent_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDashboardScreen extends StatefulWidget {
   const AgentDashboardScreen({super.key});
@@ -45,7 +46,7 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
     final agentAuth = context.watch<AgentAuthProvider>();
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('Dashboard'),
       ),
       body: RefreshIndicator(

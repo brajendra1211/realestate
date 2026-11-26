@@ -9,6 +9,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/error_messages.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../services/cart_watch_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Property cart (share / send to agent) and the saved-requirement watch-list.
 class BuyerCartScreen extends StatefulWidget {
@@ -115,7 +116,7 @@ class _BuyerCartScreenState extends State<BuyerCartScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: BackAppBar(
           title: const Text('Property Cart'),
           bottom: const TabBar(tabs: [Tab(text: 'Cart'), Tab(text: 'My requirements')]),
         ),

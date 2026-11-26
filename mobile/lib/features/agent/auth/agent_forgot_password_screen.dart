@@ -12,6 +12,7 @@ import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/agent_auth_provider.dart';
 import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Two steps on one screen: request a code for the agent's phone/email, then
 /// enter the code with a new password.
@@ -19,7 +20,8 @@ class AgentForgotPasswordScreen extends StatefulWidget {
   const AgentForgotPasswordScreen({super.key});
 
   @override
-  State<AgentForgotPasswordScreen> createState() => _AgentForgotPasswordScreenState();
+  State<AgentForgotPasswordScreen> createState() =>
+      _AgentForgotPasswordScreenState();
 }
 
 class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
@@ -52,9 +54,9 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
       _errorMessage = null;
     });
     try {
-      final result = await context
-          .read<AgentAuthProvider>()
-          .requestOtp(_identifierController.text.trim());
+      final result = await context.read<AgentAuthProvider>().requestOtp(
+        _identifierController.text.trim(),
+      );
       if (!mounted) return;
       setState(() {
         _codeSent = true;
@@ -62,11 +64,16 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
         _channel = result.channel;
       });
     } on ApiException catch (e) {
-      setState(() { _errorMessage = e.code == 'notFound'
-          ? 'No channel partner account found for this phone or email.'
-          : errorMessageFor(e); });
+      setState(() {
+        _errorMessage = e.code == 'notFound'
+            ? 'No channel partner account found for this phone or email.'
+            : errorMessageFor(e);
+      });
     } finally {
-      if (mounted) setState(() { _submitting = false; });
+      if (mounted)
+        setState(() {
+          _submitting = false;
+        });
     }
   }
 
@@ -78,21 +85,30 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
     });
     try {
       await context.read<AgentAuthProvider>().resetPassword(
-            identifier: _identifier,
-            otp: _otpController.text.trim(),
-            password: _passwordController.text,
-          );
+        identifier: _identifier,
+        otp: _otpController.text.trim(),
+        password: _passwordController.text,
+      );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password updated. Please log in with your new password.')),
+        const SnackBar(
+          content: Text(
+            'Password updated. Please log in with your new password.',
+          ),
+        ),
       );
       context.pop();
     } on ApiException catch (e) {
-      setState(() { _errorMessage = e.code == 'invalid_otp'
-          ? "That code isn't right or has expired."
-          : errorMessageFor(e); });
+      setState(() {
+        _errorMessage = e.code == 'invalid_otp'
+            ? "That code isn't right or has expired."
+            : errorMessageFor(e);
+      });
     } finally {
-      if (mounted) setState(() { _submitting = false; });
+      if (mounted)
+        setState(() {
+          _submitting = false;
+        });
     }
   }
 
@@ -100,7 +116,7 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
   Widget build(BuildContext context) {
     final via = _channel == 'EMAIL' ? 'email' : 'WhatsApp';
     return Scaffold(
-      appBar: AppBar(),
+      appBar: BackAppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -131,7 +147,8 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
                           labelText: 'Phone or email',
                           prefixIcon: Icon(Icons.person_outline),
                         ),
-                        validator: (v) => Validators.required(v, label: 'Phone or email'),
+                        validator: (v) =>
+                            Validators.required(v, label: 'Phone or email'),
                         onFieldSubmitted: (_) => _sendCode(),
                       ),
                     ],
@@ -164,11 +181,14 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
                           labelText: 'New password',
                           prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
-                            icon: Icon(_obscurePassword
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined),
-                            onPressed: () =>
-                                setState(() { _obscurePassword = !_obscurePassword; }),
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                            ),
+                            onPressed: () => setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            }),
                           ),
                         ),
                         validator: Validators.password,
@@ -180,8 +200,9 @@ class _AgentForgotPasswordScreenState extends State<AgentForgotPasswordScreen> {
                           labelText: 'Confirm new password',
                           prefixIcon: Icon(Icons.lock_outline),
                         ),
-                        validator: (v) =>
-                            v != _passwordController.text ? 'Passwords do not match' : null,
+                        validator: (v) => v != _passwordController.text
+                            ? 'Passwords do not match'
+                            : null,
                         onFieldSubmitted: (_) => _resetPassword(),
                       ),
                     ],

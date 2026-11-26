@@ -11,6 +11,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/dispatch_request.dart';
 import '../../../services/agent_dispatch_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDispatchListScreen extends StatefulWidget {
   const AgentDispatchListScreen({super.key});
@@ -51,7 +52,7 @@ class _AgentDispatchListScreenState extends State<AgentDispatchListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Nearby Leads')),
+      appBar: BackAppBar(title: const Text('Nearby Leads')),
       body: RefreshIndicator(
         onRefresh: () async => setState(() { _future = _service.getActiveDispatches(); }),
         child: FutureBuilder<List<DispatchRequest>>(

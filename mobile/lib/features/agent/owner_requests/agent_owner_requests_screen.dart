@@ -9,6 +9,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../services/agent_work_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Owners this partner accepted. The partner visits, checks the details and photos,
 /// asks the owner for the WhatsApp OTP and verifies, which publishes the listing
@@ -32,7 +33,7 @@ class _AgentOwnerRequestsScreenState extends State<AgentOwnerRequestsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Owner requests')),
+      appBar: BackAppBar(title: const Text('Owner requests')),
       body: RefreshIndicator(
         onRefresh: _reload,
         child: FutureBuilder<List<AcceptedOwnerRequest>>(
@@ -190,7 +191,13 @@ class _RequestCardState extends State<_RequestCard> {
                     style: t.bodySmall,
                   ),
                   const SizedBox(height: 4),
+                  if (d['bathrooms'] != null) Text('Bathrooms: ${d['bathrooms']}', style: t.bodySmall),
                   Text('Address: ${d['exactAddress']}', style: t.bodySmall),
+                  if ((d['description'] as String?)?.isNotEmpty ?? false) ...[
+                    const SizedBox(height: 4),
+                    Text('${d['description']}', style: t.bodySmall),
+                  ],
+                  Text('Owner: ${r.ownerName} · ${r.ownerPhone}', style: t.bodySmall?.copyWith(fontWeight: FontWeight.w700)),
                   const SizedBox(height: AppSpacing.sm),
                   SizedBox(
                     height: 70,

@@ -9,9 +9,9 @@ import '../../../core/utils/error_messages.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/auth_header.dart';
-import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/customer_auth_provider.dart';
+import '../../../core/widgets/blink_error.dart';
 
 class InvestorVerifyScreen extends StatefulWidget {
   const InvestorVerifyScreen({
@@ -33,6 +33,7 @@ class _InvestorVerifyScreenState extends State<InvestorVerifyScreen> {
   bool _submitting = false;
   bool _resending = false;
   String? _errorMessage;
+  int _tick = 0;
 
   @override
   void dispose() {
@@ -56,27 +57,43 @@ class _InvestorVerifyScreenState extends State<InvestorVerifyScreen> {
       if (!mounted) return;
       context.go(RoutePaths.investorDashboard);
     } on ApiException catch (_) {
-      setState(() => _errorMessage =
-          'That code isn\'t right, or this phone/email isn\'t registered as a referral partner yet — check with your referring channel partner.');
+      setState(() {
+        _tick++;
+        _errorMessage =
+            'That code isn\'t right, or this phone/email isn\'t registered as a referral partner yet — check with your referring channel partner.';
+      });
     } finally {
-      if (mounted) setState(() { _submitting = false; });
+      if (mounted)
+        setState(() {
+          _submitting = false;
+        });
     }
   }
 
   Future<void> _resend() async {
-    setState(() { _resending = true; });
+    setState(() {
+      _resending = true;
+    });
     try {
       final customerAuth = context.read<CustomerAuthProvider>();
-      await customerAuth.requestOtp(forInvestor: true, identifier: widget.identifier);
+      await customerAuth.requestOtp(
+        forInvestor: true,
+        identifier: widget.identifier,
+      );
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('New code sent.')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('New code sent.')));
     } on ApiException catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() { _resending = false; });
+      if (mounted)
+        setState(() {
+          _resending = false;
+        });
     }
   }
 
@@ -94,26 +111,27 @@ class _InvestorVerifyScreenState extends State<InvestorVerifyScreen> {
                 const SizedBox(height: AppSpacing.sm),
                 AuthHeader(
                   title: 'Enter your code',
-                  subtitle: 'We sent a 6-digit code via $via to ${widget.identifier}.',
+                  subtitle:
+                      'We sent a 6-digit code via $via to ${widget.identifier}.',
                 ),
                 const SizedBox(height: AppSpacing.xl),
-                if (_errorMessage != null) ...[
-                  FormErrorBanner(message: _errorMessage!),
-                  const SizedBox(height: AppSpacing.md),
-                ],
                 FormSection(
                   title: 'One-time code',
                   children: [
-                    TextFormField(
-                      controller: _otpController,
-                      keyboardType: TextInputType.number,
-                      autofocus: true,
-                      decoration: const InputDecoration(
-                        labelText: 'OTP',
-                        prefixIcon: Icon(Icons.password_outlined),
+                    BlinkError(
+                      trigger: _tick,
+                      child: TextFormField(
+                        forceErrorText: _errorMessage,
+                        controller: _otpController,
+                        keyboardType: TextInputType.number,
+                        autofocus: true,
+                        decoration: const InputDecoration(
+                          labelText: 'OTP',
+                          prefixIcon: Icon(Icons.password_outlined),
+                        ),
+                        validator: (v) => Validators.required(v, label: 'OTP'),
+                        onFieldSubmitted: (_) => _submit(),
                       ),
-                      validator: (v) => Validators.required(v, label: 'OTP'),
-                      onFieldSubmitted: (_) => _submit(),
                     ),
                   ],
                 ),

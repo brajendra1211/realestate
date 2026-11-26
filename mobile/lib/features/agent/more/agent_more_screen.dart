@@ -5,6 +5,7 @@ import '../../../core/router/route_paths.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentMoreScreen extends StatelessWidget {
   const AgentMoreScreen({super.key});
@@ -12,7 +13,7 @@ class AgentMoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('More')),
+      appBar: BackAppBar(title: const Text('More')),
       body: GridView.count(
         padding: const EdgeInsets.all(AppSpacing.lg),
         crossAxisCount: 2,

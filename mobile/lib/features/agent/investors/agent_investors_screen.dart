@@ -12,6 +12,7 @@ import '../../../core/widgets/status_badge.dart';
 import '../../../models/investor_profile.dart';
 import '../../../services/agent_investors_service.dart';
 import 'agent_investor_form_screen.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentInvestorsScreen extends StatefulWidget {
   const AgentInvestorsScreen({super.key});
@@ -34,7 +35,7 @@ class _AgentInvestorsScreenState extends State<AgentInvestorsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Referral Partners')),
+      appBar: BackAppBar(title: const Text('Referral Partners')),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.gold,
         foregroundColor: AppColors.textOnGold,

@@ -15,6 +15,7 @@ import '../../../core/widgets/search_pill_field.dart';
 import '../../../models/public_listing.dart';
 import '../../../services/public_listings_service.dart';
 import 'widgets/listing_card.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 const _propertyTypes = [
   'APARTMENT',
@@ -141,7 +142,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('Explore'),
         actions: [
           IconButton(

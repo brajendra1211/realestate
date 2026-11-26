@@ -16,6 +16,8 @@ import '../../../core/widgets/form_section.dart';
 import '../../../core/utils/input_formats.dart';
 import '../../../services/agent_service.dart';
 import '../../../services/otp_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
+import '../../../core/widgets/blink_error.dart';
 
 class AgentRegisterScreen extends StatefulWidget {
   const AgentRegisterScreen({super.key});
@@ -50,6 +52,10 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
   bool _verifying = false;
   bool _verified = false;
   String? _proof;
+  String? _phoneError;
+  String? _otpError;
+  int _phoneTick = 0;
+  int _otpTick = 0;
   final _cooldown = OtpCooldown();
   Timer? _ticker;
 
@@ -86,11 +92,17 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
   Future<void> _sendOtp() async {
     final bad = Validators.mobile10(_phone.text);
     if (bad != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(bad)));
+      setState(() {
+        _phoneError = bad;
+        _phoneTick++;
+      });
       return;
     }
     if (_cooldown.active || _verified) return;
-    setState(() { _otpBusy = true; });
+    setState(() {
+      _otpBusy = true;
+      _phoneError = null;
+    });
     try {
       await _service.sendRegistrationOtp(_phone.text.trim());
       if (!mounted) return;
@@ -101,44 +113,79 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
         setState(() {});
         if (!_cooldown.active) t.cancel();
       });
-      setState(() { _otpSent = true; });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP sent on WhatsApp to ${_phone.text.trim()}.')));
+      setState(() {
+        _otpSent = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('OTP sent on WhatsApp to ${_phone.text.trim()}.'),
+        ),
+      );
     } on ApiException catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+      if (mounted)
+        setState(() {
+          _phoneError = errorMessageFor(e);
+          _phoneTick++;
+        });
     } finally {
-      if (mounted) setState(() { _otpBusy = false; });
+      if (mounted)
+        setState(() {
+          _otpBusy = false;
+        });
     }
   }
 
   Future<void> _verifyOtp() async {
     final code = _otp.text.trim();
     if (code.length != 6) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter the 6-digit OTP.')));
+      setState(() {
+        _otpError = 'Enter the 6-digit OTP.';
+        _otpTick++;
+      });
       return;
     }
-    setState(() { _verifying = true; });
+    setState(() {
+      _verifying = true;
+      _otpError = null;
+    });
     try {
-      final proof = await OtpService(ApiClient.instance.dio).verifyPhone(_phone.text.trim(), code);
+      final proof = await OtpService(
+        ApiClient.instance.dio,
+      ).verifyPhone(_phone.text.trim(), code);
       if (!mounted) return;
       setState(() {
         _verified = true;
         _proof = proof;
       });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Mobile number verified.')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Mobile number verified.')));
     } on ApiException catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+      if (mounted)
+        setState(() {
+          _otpError = errorMessageFor(e);
+          _otpTick++;
+        });
     } finally {
-      if (mounted) setState(() { _verifying = false; });
+      if (mounted)
+        setState(() {
+          _verifying = false;
+        });
     }
   }
 
   Future<void> _submit() async {
     if (!_verified) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Verify your mobile number with the OTP first.')));
+      setState(() {
+        _phoneError = 'Verify your mobile number with the OTP first.';
+        _phoneTick++;
+      });
       return;
     }
     if (!_formKey.currentState!.validate()) return;
-    setState(() { _submitting = true; });
+    setState(() {
+      _submitting = true;
+    });
     try {
       final result = await _service.register(
         name: _name.text.trim(),
@@ -146,15 +193,20 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
         password: _password.text,
         phone: _phone.text.trim(),
         phoneProof: _proof,
-        alternatePhone:
-            _alternatePhone.text.trim().isEmpty ? null : _alternatePhone.text.trim(),
+        alternatePhone: _alternatePhone.text.trim().isEmpty
+            ? null
+            : _alternatePhone.text.trim(),
         shopName: _shopName.text.trim(),
         shopAddress: _shopAddress.text.trim(),
         city: _city.text.trim(),
         yearsExperience: int.tryParse(_yearsExperience.text.trim()),
         staffCount: int.tryParse(_staffCount.text.trim()),
-        reraNumber: _reraNumber.text.trim().isEmpty ? null : _reraNumber.text.trim(),
-        gstNumber: _gstNumber.text.trim().isEmpty ? null : _gstNumber.text.trim(),
+        reraNumber: _reraNumber.text.trim().isEmpty
+            ? null
+            : _reraNumber.text.trim(),
+        gstNumber: _gstNumber.text.trim().isEmpty
+            ? null
+            : _gstNumber.text.trim(),
         referredByAgentCode: _referredByAgentCode.text.trim().isEmpty
             ? null
             : _referredByAgentCode.text.trim(),
@@ -180,17 +232,21 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
       context.go(RoutePaths.agentLogin);
     } on ApiException catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() { _submitting = false; });
+      if (mounted)
+        setState(() {
+          _submitting = false;
+        });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Become a Channel Partner')),
+      appBar: BackAppBar(title: const Text('Become a Channel Partner')),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -210,7 +266,11 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                   TextFormField(
                     controller: _name,
                     textCapitalization: TextCapitalization.words,
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r"[A-Za-z .'-]"))],
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r"[A-Za-z .'-]"),
+                      ),
+                    ],
                     decoration: const InputDecoration(
                       labelText: 'Full name',
                       prefixIcon: Icon(Icons.person_outline),
@@ -226,61 +286,96 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                     ),
                     validator: Validators.email,
                   ),
-                  TextFormField(
-                    controller: _phone,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: phoneFormatters,
-                    readOnly: _verified,
-                    onChanged: (_) {
-                      if (_otpSent || _verified) {
-                        setState(() {
-                          _otpSent = false;
-                          _verified = false;
-                          _proof = null;
-                          _otp.clear();
-                        });
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Mobile number (WhatsApp)',
-                      hintText: '10 digits',
-                      helperText: 'One mobile number can only be used for one account.',
-                      prefixIcon: Icon(Icons.call_outlined),
-                      counterText: '',
+                  BlinkError(
+                    trigger: _phoneTick,
+                    child: TextFormField(
+                      forceErrorText: _phoneError,
+                      controller: _phone,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: phoneFormatters,
+                      readOnly: _verified,
+                      onChanged: (_) {
+                        if (_phoneError != null)
+                          setState(() {
+                            _phoneError = null;
+                          });
+                        if (_otpSent || _verified) {
+                          setState(() {
+                            _otpSent = false;
+                            _verified = false;
+                            _proof = null;
+                            _otp.clear();
+                          });
+                        }
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Mobile number (WhatsApp)',
+                        hintText: '10 digits',
+                        helperText:
+                            'One mobile number can only be used for one account.',
+                        prefixIcon: Icon(Icons.call_outlined),
+                        counterText: '',
+                      ),
+                      validator: Validators.mobile10,
                     ),
-                    validator: Validators.mobile10,
                   ),
                   if (_verified)
-                    const Row(children: [
-                      Icon(Icons.verified, color: Colors.green, size: 18),
-                      SizedBox(width: 6),
-                      Text('Mobile number verified', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w700)),
-                    ])
+                    const Row(
+                      children: [
+                        Icon(Icons.verified, color: Colors.green, size: 18),
+                        SizedBox(width: 6),
+                        Text(
+                          'Mobile number verified',
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    )
                   else ...[
                     Align(
                       alignment: Alignment.centerLeft,
                       child: AppButton(
                         label: _cooldown.active
                             ? 'Resend OTP in ${_cooldown.left}s'
-                            : (_otpSent ? 'Resend WhatsApp OTP' : 'Send WhatsApp OTP'),
+                            : (_otpSent
+                                  ? 'Resend WhatsApp OTP'
+                                  : 'Send WhatsApp OTP'),
                         icon: Icons.chat_outlined,
                         variant: AppButtonVariant.secondary,
                         loading: _otpBusy,
-                        onPressed: (_otpBusy || _cooldown.active) ? null : _sendOtp,
+                        onPressed: (_otpBusy || _cooldown.active)
+                            ? null
+                            : _sendOtp,
                       ),
                     ),
                     if (_otpSent)
-                      Text('OTP sent on WhatsApp to ${_phone.text.trim()}. Enter it below and tap Verify.',
-                          style: Theme.of(context).textTheme.bodySmall),
-                    TextFormField(
-                      controller: _otp,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: otpFormatters,
-                      decoration: InputDecoration(
-                        labelText: 'WhatsApp OTP',
-                        hintText: _otpSent ? '6-digit OTP' : 'Send the OTP first',
-                        prefixIcon: const Icon(Icons.sms_outlined),
-                        counterText: '',
+                      Text(
+                        'OTP sent on WhatsApp to ${_phone.text.trim()}. Enter it below and tap Verify.',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    BlinkError(
+                      trigger: _otpTick,
+                      child: TextFormField(
+                        forceErrorText: _otpError,
+                        controller: _otp,
+                        keyboardType: TextInputType.number,
+                        onChanged: (_) {
+                          if (_otpError != null)
+                            setState(() {
+                              _otpError = null;
+                            });
+                        },
+                        inputFormatters: otpFormatters,
+                        decoration: InputDecoration(
+                          labelText: 'WhatsApp OTP',
+                          hintText: _otpSent
+                              ? '6-digit OTP'
+                              : 'Send the OTP first',
+                          prefixIcon: const Icon(Icons.sms_outlined),
+                          counterText: '',
+                        ),
                       ),
                     ),
                     Align(
@@ -289,7 +384,9 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                         label: 'Verify OTP',
                         icon: Icons.check_circle_outline,
                         loading: _verifying,
-                        onPressed: (!_otpSent || _verifying) ? null : _verifyOtp,
+                        onPressed: (!_otpSent || _verifying)
+                            ? null
+                            : _verifyOtp,
                       ),
                     ),
                   ],
@@ -297,7 +394,10 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                     controller: _alternatePhone,
                     keyboardType: TextInputType.number,
                     inputFormatters: phoneFormatters,
-                    decoration: const InputDecoration(labelText: 'Alternate mobile (optional)', counterText: ''),
+                    decoration: const InputDecoration(
+                      labelText: 'Alternate mobile (optional)',
+                      counterText: '',
+                    ),
                     validator: Validators.optionalMobile10,
                   ),
                   TextFormField(
@@ -307,11 +407,14 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                       labelText: 'Password',
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
-                        icon: Icon(_obscurePassword
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined),
-                        onPressed: () =>
-                            setState(() { _obscurePassword = !_obscurePassword; }),
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
+                        onPressed: () => setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        }),
                       ),
                     ),
                     validator: Validators.password,
@@ -325,73 +428,86 @@ class _AgentRegisterScreenState extends State<AgentRegisterScreen> {
                   style: TextStyle(fontWeight: FontWeight.w600),
                 )
               else ...[
-              FormSection(
-                title: 'Shop details',
-                stepNumber: 2,
-                children: [
-                  TextFormField(
-                    controller: _shopName,
-                    decoration: const InputDecoration(
-                      labelText: 'Shop / business name',
-                      prefixIcon: Icon(Icons.storefront_outlined),
-                    ),
-                    validator: (v) => Validators.required(v, label: 'Shop name'),
-                  ),
-                  TextFormField(
-                    controller: _shopAddress,
-                    maxLines: 2,
-                    decoration: const InputDecoration(labelText: 'Shop address'),
-                    validator: (v) => Validators.required(v, label: 'Shop address'),
-                  ),
-                  TextFormField(
-                    controller: _city,
-                    decoration: const InputDecoration(
-                      labelText: 'City',
-                      prefixIcon: Icon(Icons.location_city_outlined),
-                    ),
-                    validator: (v) => Validators.required(v, label: 'City'),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: _yearsExperience,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(labelText: 'Years of experience'),
-                        ),
+                FormSection(
+                  title: 'Shop details',
+                  stepNumber: 2,
+                  children: [
+                    TextFormField(
+                      controller: _shopName,
+                      decoration: const InputDecoration(
+                        labelText: 'Shop / business name',
+                        prefixIcon: Icon(Icons.storefront_outlined),
                       ),
-                      const SizedBox(width: AppSpacing.sm),
-                      Expanded(
-                        child: TextFormField(
-                          controller: _staffCount,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(labelText: 'Staff count'),
-                        ),
+                      validator: (v) =>
+                          Validators.required(v, label: 'Shop name'),
+                    ),
+                    TextFormField(
+                      controller: _shopAddress,
+                      maxLines: 2,
+                      decoration: const InputDecoration(
+                        labelText: 'Shop address',
                       ),
-                    ],
-                  ),
-                  TextFormField(
-                    controller: _reraNumber,
-                    decoration: const InputDecoration(labelText: 'RERA number (optional)'),
-                  ),
-                  TextFormField(
-                    controller: _gstNumber,
-                    decoration: const InputDecoration(labelText: 'GST number (optional)'),
-                  ),
-                  TextFormField(
-                    controller: _referredByAgentCode,
-                    decoration:
-                        const InputDecoration(labelText: 'Referral channel partner code (optional)'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              AppButton(
-                label: 'Submit application',
-                expand: true,
-                loading: _submitting,
-                onPressed: _submit,
-              ),
+                      validator: (v) =>
+                          Validators.required(v, label: 'Shop address'),
+                    ),
+                    TextFormField(
+                      controller: _city,
+                      decoration: const InputDecoration(
+                        labelText: 'City',
+                        prefixIcon: Icon(Icons.location_city_outlined),
+                      ),
+                      validator: (v) => Validators.required(v, label: 'City'),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: _yearsExperience,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              labelText: 'Years of experience',
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _staffCount,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              labelText: 'Staff count',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TextFormField(
+                      controller: _reraNumber,
+                      decoration: const InputDecoration(
+                        labelText: 'RERA number (optional)',
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _gstNumber,
+                      decoration: const InputDecoration(
+                        labelText: 'GST number (optional)',
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _referredByAgentCode,
+                      decoration: const InputDecoration(
+                        labelText: 'Referral channel partner code (optional)',
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.xl),
+                AppButton(
+                  label: 'Submit application',
+                  expand: true,
+                  loading: _submitting,
+                  onPressed: _submit,
+                ),
               ],
               const SizedBox(height: AppSpacing.md),
               Center(

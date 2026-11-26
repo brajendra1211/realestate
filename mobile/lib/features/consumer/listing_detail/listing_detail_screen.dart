@@ -19,6 +19,7 @@ import '../../../models/listing_detail.dart';
 import '../../../providers/customer_auth_provider.dart';
 import '../../../services/cart_watch_service.dart';
 import '../../../services/public_listings_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class ListingDetailScreen extends StatefulWidget {
   const ListingDetailScreen({super.key, required this.slug});
@@ -48,17 +49,6 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
-  }
-
-  void _handleDirectVisit(ListingDetail listing) {
-    final customerAuth = context.read<CustomerAuthProvider>();
-    final target = '${RoutePaths.buyerDirectVisit}'
-        '?agentListingId=${listing.id}&title=${Uri.encodeComponent(listing.title)}';
-    if (!customerAuth.isBuyer) {
-      context.push('${RoutePaths.buyerLogin}?from=${Uri.encodeComponent(target)}');
-      return;
-    }
-    context.push(target);
   }
 
   Future<void> _handleUnlock() async {
@@ -126,7 +116,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Listing details'), actions: [
+      appBar: BackAppBar(title: const Text('Listing details'), actions: [
         IconButton(
           icon: const Icon(Icons.add_shopping_cart_outlined),
           tooltip: 'Add to cart',
@@ -387,7 +377,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                                 label: 'Phone',
                                 value: listing.agentPhone!,
                               ),
-                            if (listing.agentCode != null) ...[
+                            if (listing.agentCode != null && context.read<CustomerAuthProvider>().isBuyer) ...[
                               const SizedBox(height: AppSpacing.md),
                               AppButton(
                                 label: _ringing ? 'Ringing…' : 'Ring channel partner',
@@ -400,13 +390,6 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                           ],
                         ),
                       ),
-                    const SizedBox(height: AppSpacing.md),
-                    AppButton(
-                      label: "I'm at the property — verify visit",
-                      variant: AppButtonVariant.secondary,
-                      expand: true,
-                      onPressed: () => _handleDirectVisit(listing),
-                    ),
                     if (listing.agentCode != null) ...[
                       const SizedBox(height: AppSpacing.lg),
                       AppButton(

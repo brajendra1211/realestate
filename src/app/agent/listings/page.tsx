@@ -113,6 +113,38 @@ export default async function AgentListingsPage({ searchParams }: { searchParams
                     </div>
                   </div>
 
+                  <details className="mt-3 w-full rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
+                    <summary className="cursor-pointer font-semibold text-slate-700">All details of this property</summary>
+                    <dl className="mt-3 grid gap-x-6 gap-y-1.5 sm:grid-cols-2">
+                      {[
+                        ["Status", `${listing.approvalStatus}${listing.isDelisted ? " · delisted" : ""}`],
+                        ["Type", `${listing.listingType === "RENT" ? "Rent" : "Sale"} · ${listing.propertyType.replace(/_/g, " ").toLowerCase()}`],
+                        ["Price", `${formatINR(listing.price)}${listing.listingType === "RENT" ? "/mo" : ""}`],
+                        ["Security deposit", listing.securityDeposit != null ? formatINR(listing.securityDeposit) : null],
+                        ["Bedrooms / bathrooms", [listing.bedrooms, listing.bathrooms].every((x) => x == null) ? null : `${listing.bedrooms ?? "—"} / ${listing.bathrooms ?? "—"}`],
+                        ["Area", listing.areaSqft ? `${listing.areaSqft} sqft` : null],
+                        ["Furnishing", listing.furnishing],
+                        ["Floor", listing.floorNumber != null ? `${listing.floorNumber}${listing.totalFloors ? ` of ${listing.totalFloors}` : ""}` : null],
+                        ["Society", listing.societyName],
+                        ["Exact address", listing.exactAddress],
+                        ["Location", [listing.masterProperty.locality, listing.masterProperty.city].filter(Boolean).join(", ")],
+                        ["Amenities", listing.amenities],
+                        ["Plan / expires", `${listing.listingPlan}${listing.listingExpiresAt ? ` · until ${listing.listingExpiresAt.toLocaleDateString("en-IN")}` : ""}`],
+                        ["Owner", listing.listingRequest ? `${listing.listingRequest.ownerName} · ${listing.listingRequest.ownerPhone}` : null],
+                        ["Verified on site", listing.listingRequest?.status === "SUBMITTED" ? "Yes, with the owner's OTP" : listing.listingRequest ? listing.listingRequest.status : null],
+                        ["Owner plan", listing.listingRequest ? `${listing.listingRequest.plan === "GOLD" ? "Pro" : "Basic"} · ${formatINR(listing.listingRequest.amount)}${listing.listingRequest.paidAt ? " paid" : " not paid"}` : null],
+                      ]
+                        .filter(([, v]) => v)
+                        .map(([k, v]) => (
+                          <div key={k as string} className="flex gap-2">
+                            <dt className="w-32 shrink-0 text-slate-400">{k}</dt>
+                            <dd className="font-medium text-slate-700">{v}</dd>
+                          </div>
+                        ))}
+                    </dl>
+                    {listing.description && <p className="mt-3 whitespace-pre-line text-slate-600">{listing.description}</p>}
+                  </details>
+
                   <div className="flex items-center gap-2">
                     <a
                       href={`/listings/${listing.slug}`}

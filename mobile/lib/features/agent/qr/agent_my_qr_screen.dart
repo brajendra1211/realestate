@@ -14,6 +14,7 @@ import '../../../core/utils/error_messages.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/agent_profile.dart';
 import '../../../services/agent_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentMyQrScreen extends StatefulWidget {
   const AgentMyQrScreen({super.key});
@@ -63,7 +64,7 @@ Scan QR or click below to view all my available verified properties:
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0F172A), // Dark navy
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('My Shop QR Code'),
         backgroundColor: const Color(0xFF0F172A),
         foregroundColor: Colors.white,

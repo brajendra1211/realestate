@@ -6,6 +6,7 @@ import { findNearbyAgents } from "@/lib/agentGeo";
 import { filterAgentIdsByAlert } from "@/lib/agentAlerts";
 import { haversineDistanceKm } from "@/lib/geo";
 import { absoluteUrl } from "@/lib/seo";
+import { listingBriefFor } from "@/lib/listingBrief";
 import type { BuyerInterest } from "@/generated/prisma";
 
 /**
@@ -150,6 +151,13 @@ export type VisibleInterest = {
   id: string;
   title: string;
   summary: string;
+  where: string;
+  price: number;
+  kind: string;
+  listedBy: string;
+  listedByLabel: string;
+  distanceKm: number | null;
+  stage: string;
   primary: boolean;
   buzzCount: number;
   createdAt: Date;
@@ -176,16 +184,32 @@ export async function visibleInterestsForAgent(agentProfileId: string): Promise<
   });
 
   const now = Date.now();
-  return open
-    .filter((i) => i._count.acceptances < MAX_ACCEPTORS && canSee(i, agentProfileId, agent, now))
-    .map((i) => ({
-      id: i.id,
-      title: i.listingTitle,
-      summary: describe(i),
-      primary: i.primaryAgentId === agentProfileId,
-      buzzCount: i.buzzCount,
-      createdAt: i.createdAt,
-    }));
+  const visible = open.filter((i) => i._count.acceptances < MAX_ACCEPTORS && canSee(i, agentProfileId, agent, now));
+  return Promise.all(
+    visible.map(async (i) => {
+      const brief = await listingBriefFor(i.agentListingId, agentProfileId);
+      const distanceKm =
+        i.latitude != null && i.longitude != null && agent.shopLatitude != null && agent.shopLongitude != null
+          ? Math.round(haversineDistanceKm({ latitude: agent.shopLatitude, longitude: agent.shopLongitude }, { latitude: i.latitude, longitude: i.longitude }) * 10) / 10
+          : null;
+      const phase = PHASES[phaseIndex(now - i.createdAt.getTime())];
+      return {
+        id: i.id,
+        title: i.listingTitle,
+        summary: describe(i),
+        where: [i.listingLocality, i.listingCity].filter(Boolean).join(", "),
+        price: i.listingPrice,
+        kind: `${i.bedrooms ? `${i.bedrooms} BHK ` : ""}${i.propertyType.replace(/_/g, " ").toLowerCase()} for ${i.listingType === "RENT" ? "rent" : "sale"}`,
+        listedBy: brief?.listedBy ?? "ADMIN",
+        listedByLabel: brief?.listedByLabel ?? "Company (admin) listing",
+        distanceKm,
+        stage: phase.radiusKm === 0 ? "Listing partner" : phase.radiusKm === Infinity ? "All partners" : `Within ${phase.radiusKm} km`,
+        primary: i.primaryAgentId === agentProfileId,
+        buzzCount: i.buzzCount,
+        createdAt: i.createdAt,
+      };
+    }),
+  );
 }
 
 function canSee(

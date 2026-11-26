@@ -6,12 +6,13 @@ import { prisma } from "@/lib/prisma";
 import { getListingBySlug } from "@/lib/listing";
 import { getAgreementUrgency } from "@/lib/listingDelist";
 import { getUnlockForBuyer } from "@/lib/unlock";
+import { canSeeFullListing } from "@/lib/access";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getAgentListingRingsRemainingToday } from "@/lib/agentListingRing";
 import { formatINR, parseVideoUrls, getVideoEmbed, PROPERTY_TYPE_LABELS } from "@/lib/format";
 import { UnlockButton } from "@/components/UnlockButton";
 import { SwitchAgentButton } from "@/components/SwitchAgentButton";
-import { DirectVisitVerification } from "@/components/DirectVisitVerification";
+// import { DirectVisitVerification } from "@/components/DirectVisitVerification";
 import { toggleSavedAgentListing, ringAgentListingAction } from "@/app/buyer/actions";
 import { toggleCartAction } from "@/app/buyer/cart/actions";
 
@@ -46,7 +47,7 @@ export default async function ListingDetailPage({
       ? getAgentListingRingsRemainingToday(session!.user.id, listing.id)
       : 0,
   ]);
-  const isUnlocked = Boolean(unlock);
+  const isUnlocked = Boolean(unlock) || (await canSeeFullListing(session?.user, listing.id));
   const interest = unlock
     ? await prisma.buyerInterest.findUnique({
         where: { unlockId: unlock.id },
@@ -381,12 +382,6 @@ export default async function ListingDetailPage({
               />
             )}
 
-            {isUnlocked && (
-              <DirectVisitVerification
-                listingId={listing.id}
-                isUnlocked={isUnlocked}
-              />
-            )}
           </>
         ) : (
           <>

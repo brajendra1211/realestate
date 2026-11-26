@@ -10,6 +10,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/commission_entry.dart';
 import '../../../services/agent_commissions_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentCommissionsScreen extends StatefulWidget {
   const AgentCommissionsScreen({super.key});
@@ -37,7 +38,7 @@ class _AgentCommissionsScreenState extends State<AgentCommissionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Commissions')),
+      appBar: BackAppBar(title: const Text('Commissions')),
       body: FutureBuilder<CommissionsData>(
         future: _future,
         builder: (context, snapshot) {

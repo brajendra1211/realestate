@@ -9,6 +9,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/agent_rating.dart';
 import '../../../services/agent_ratings_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentRatingsScreen extends StatefulWidget {
   const AgentRatingsScreen({super.key});
@@ -31,7 +32,7 @@ class _AgentRatingsScreenState extends State<AgentRatingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Ratings & Reviews')),
+      appBar: BackAppBar(title: const Text('Ratings & Reviews')),
       body: FutureBuilder<AgentRatingsData>(
         future: _future,
         builder: (context, snapshot) {

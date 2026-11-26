@@ -8,6 +8,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../services/agent_broadcast_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class BroadcastCreateScreen extends StatefulWidget {
   const BroadcastCreateScreen({super.key});
@@ -69,7 +70,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('New B2B Requirement')),
+      appBar: BackAppBar(title: const Text('New B2B Requirement')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),

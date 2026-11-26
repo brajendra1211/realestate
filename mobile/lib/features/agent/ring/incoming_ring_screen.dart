@@ -24,11 +24,19 @@ class IncomingRingScreen extends StatefulWidget {
     required this.propertyTitle,
     required this.buyerName,
     required this.buyerPhone,
+    this.propertyWhere = '',
+    this.propertyPrice = '',
+    this.propertyKind = '',
+    this.listedBy = '',
   });
 
   final String propertyTitle;
   final String buyerName;
   final String buyerPhone;
+  final String propertyWhere;
+  final String propertyPrice;
+  final String propertyKind;
+  final String listedBy;
 
   @override
   State<IncomingRingScreen> createState() => _IncomingRingScreenState();
@@ -163,6 +171,22 @@ class _IncomingRingScreenState extends State<IncomingRingScreen> {
                     fontSize: 15,
                   ),
                 ),
+                const SizedBox(height: 16),
+                for (final line in [
+                  widget.propertyKind,
+                  widget.propertyWhere,
+                  if (widget.propertyPrice.isNotEmpty) '₹${widget.propertyPrice}',
+                  widget.listedBy,
+                ])
+                  if (line.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3),
+                      child: Text(
+                        line,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.plusJakartaSans(color: Colors.white70, fontSize: 13),
+                      ),
+                    ),
                 const Spacer(flex: 3),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

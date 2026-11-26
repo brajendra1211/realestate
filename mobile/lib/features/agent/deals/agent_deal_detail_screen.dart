@@ -10,6 +10,7 @@ import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/status_badge.dart';
 import '../../../models/deal.dart';
 import '../../../services/agent_deals_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDealDetailScreen extends StatefulWidget {
   const AgentDealDetailScreen({super.key, required this.dealId, required this.initial});
@@ -89,7 +90,7 @@ class _AgentDealDetailScreenState extends State<AgentDealDetailScreen> {
         nextStageIndex < Deal.stages.length ? Deal.stages[nextStageIndex] : null;
 
     return Scaffold(
-      appBar: AppBar(title: Text(deal.propertyTitle ?? 'Deal')),
+      appBar: BackAppBar(title: Text(deal.propertyTitle ?? 'Deal')),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [

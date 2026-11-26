@@ -9,10 +9,10 @@ import '../../../core/utils/error_messages.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/auth_header.dart';
-import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/agent_auth_provider.dart';
 import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/blink_error.dart';
 
 enum _LoginMode { password, otp }
 
@@ -31,6 +31,10 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
   bool _submitting = false;
   bool _obscurePassword = true;
   String? _errorMessage;
+  int _tick = 0;
+  bool _isPwErr(String? m) =>
+      m != null &&
+      RegExp(r'password|incorrect|wrong', caseSensitive: false).hasMatch(m);
 
   bool get _isPassword => _mode == _LoginMode.password;
 
@@ -53,7 +57,10 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
       final from = GoRouterState.of(context).uri.queryParameters['from'];
 
       if (_isPassword) {
-        await agentAuth.login(loginId: identifier, password: _passwordController.text);
+        await agentAuth.login(
+          loginId: identifier,
+          password: _passwordController.text,
+        );
         if (!mounted) return;
         context.go(from ?? RoutePaths.agentDashboard);
       } else {
@@ -66,11 +73,17 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
         );
       }
     } on ApiException catch (e) {
-      setState(() { _errorMessage = e.code == 'notFound'
-          ? 'No channel partner account found for this phone or email. New channel partner? Register first.'
-          : errorMessageFor(e); });
+      setState(() {
+        _errorMessage = e.code == 'notFound'
+            ? 'No channel partner account found for this phone or email. New channel partner? Register first.'
+            : errorMessageFor(e);
+        _tick++;
+      });
     } finally {
-      if (mounted) setState(() { _submitting = false; });
+      if (mounted)
+        setState(() {
+          _submitting = false;
+        });
     }
   }
 
@@ -112,41 +125,58 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
                   }),
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                if (_errorMessage != null) ...[
-                  FormErrorBanner(message: _errorMessage!),
-                  const SizedBox(height: AppSpacing.md),
-                ],
                 FormSection(
                   title: 'Sign in',
                   children: [
-                    TextFormField(
-                      controller: _identifierController,
-                      keyboardType: TextInputType.emailAddress,
-                      inputFormatters: const [PhoneOrEmailFormatter()],
-                      decoration: const InputDecoration(
-                        labelText: 'Login ID (email or phone)',
-                        prefixIcon: Icon(Icons.person_outline),
+                    BlinkError(
+                      trigger: _tick,
+                      child: TextFormField(
+                        forceErrorText:
+                            (_mode == _LoginMode.password &&
+                                _isPwErr(_errorMessage))
+                            ? null
+                            : _errorMessage,
+                        controller: _identifierController,
+                        keyboardType: TextInputType.emailAddress,
+                        inputFormatters: const [PhoneOrEmailFormatter()],
+                        decoration: const InputDecoration(
+                          labelText: 'Login ID (email or phone)',
+                          prefixIcon: Icon(Icons.person_outline),
+                        ),
+                        validator: (v) =>
+                            Validators.required(v, label: 'Login ID'),
+                        onFieldSubmitted: (_) => _isPassword ? null : _submit(),
                       ),
-                      validator: (v) => Validators.required(v, label: 'Login ID'),
-                      onFieldSubmitted: (_) => _isPassword ? null : _submit(),
                     ),
                     if (_isPassword)
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: _obscurePassword,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
-                            icon: Icon(_obscurePassword
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined),
-                            onPressed: () =>
-                                setState(() { _obscurePassword = !_obscurePassword; }),
+                      BlinkError(
+                        trigger: _tick,
+                        child: TextFormField(
+                          forceErrorText:
+                              (_mode == _LoginMode.password &&
+                                  _isPwErr(_errorMessage))
+                              ? _errorMessage
+                              : null,
+                          controller: _passwordController,
+                          obscureText: _obscurePassword,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                              ),
+                              onPressed: () => setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              }),
+                            ),
                           ),
+                          validator: (v) =>
+                              Validators.required(v, label: 'Password'),
+                          onFieldSubmitted: (_) => _submit(),
                         ),
-                        validator: (v) => Validators.required(v, label: 'Password'),
-                        onFieldSubmitted: (_) => _submit(),
                       ),
                   ],
                 ),
@@ -154,7 +184,8 @@ class _AgentLoginScreenState extends State<AgentLoginScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () => context.push(RoutePaths.agentForgotPassword),
+                      onPressed: () =>
+                          context.push(RoutePaths.agentForgotPassword),
                       child: const Text('Forgot password?'),
                     ),
                   ),

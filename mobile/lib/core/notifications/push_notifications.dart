@@ -50,6 +50,10 @@ String incomingRingLocation(Map<String, String> data) {
     'propertyTitle': data['propertyTitle'] ?? '',
     'buyerName': data['buyerName'] ?? '',
     'buyerPhone': data['buyerPhone'] ?? '',
+    'propertyWhere': data['propertyWhere'] ?? '',
+    'propertyPrice': data['propertyPrice'] ?? '',
+    'propertyKind': data['propertyKind'] ?? '',
+    'listedBy': data['listedBy'] ?? '',
   };
   final query = params.entries
       .map((e) => '${e.key}=${Uri.encodeComponent(e.value)}')

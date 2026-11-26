@@ -13,6 +13,7 @@ import '../../core/widgets/app_button.dart';
 import '../../core/widgets/form_error_banner.dart';
 import '../../core/widgets/form_section.dart';
 import '../../services/owner_service.dart';
+import '../../core/widgets/back_app_bar.dart';
 
 const _types = [
   'APARTMENT',
@@ -160,7 +161,7 @@ class _OwnerDetailsScreenState extends State<OwnerDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Property details')),
+      appBar: BackAppBar(title: const Text('Property details')),
       body: SafeArea(
         child: Form(
           key: _formKey,

@@ -9,11 +9,11 @@ import '../../../core/utils/error_messages.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/auth_header.dart';
-import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/customer_auth_provider.dart';
 import '../../../core/utils/input_formats.dart';
 import '../../../core/widgets/login_method_toggle.dart';
+import '../../../core/widgets/blink_error.dart';
 
 class InvestorLoginScreen extends StatefulWidget {
   const InvestorLoginScreen({super.key});
@@ -30,6 +30,10 @@ class _InvestorLoginScreenState extends State<InvestorLoginScreen> {
   bool _obscure = true;
   bool _submitting = false;
   String? _errorMessage;
+  int _tick = 0;
+  bool _isPwErr(String? m) =>
+      m != null &&
+      RegExp(r'password|incorrect|wrong', caseSensitive: false).hasMatch(m);
 
   @override
   void dispose() {
@@ -45,16 +49,22 @@ class _InvestorLoginScreenState extends State<InvestorLoginScreen> {
     });
     try {
       await context.read<CustomerAuthProvider>().loginWithPassword(
-            email: _identifierController.text.trim(),
-            password: _passwordController.text,
-            expectedRole: 'INVESTOR',
-          );
+        email: _identifierController.text.trim(),
+        password: _passwordController.text,
+        expectedRole: 'INVESTOR',
+      );
       if (!mounted) return;
       context.go(RoutePaths.investorDashboard);
     } on ApiException catch (e) {
-      setState(() { _errorMessage = errorMessageFor(e); });
+      setState(() {
+        _errorMessage = errorMessageFor(e);
+        _tick++;
+      });
     } finally {
-      if (mounted) setState(() { _submitting = false; });
+      if (mounted)
+        setState(() {
+          _submitting = false;
+        });
     }
   }
 
@@ -77,9 +87,15 @@ class _InvestorLoginScreenState extends State<InvestorLoginScreen> {
         '&channel=${result.channel}',
       );
     } on ApiException catch (e) {
-      setState(() { _errorMessage = errorMessageFor(e); });
+      setState(() {
+        _errorMessage = errorMessageFor(e);
+        _tick++;
+      });
     } finally {
-      if (mounted) setState(() { _submitting = false; });
+      if (mounted)
+        setState(() {
+          _submitting = false;
+        });
     }
   }
 
@@ -100,43 +116,65 @@ class _InvestorLoginScreenState extends State<InvestorLoginScreen> {
                       'Sign in with the phone or email your channel partner registered: a one-time code or your password.',
                 ),
                 const SizedBox(height: AppSpacing.xl),
-                if (_errorMessage != null) ...[
-                  FormErrorBanner(message: _errorMessage!),
-                  const SizedBox(height: AppSpacing.md),
-                ],
                 LoginMethodToggle(
                   usePassword: _usePassword,
-                  onChanged: (v) => setState(() { _usePassword = v; _errorMessage = null; }),
+                  onChanged: (v) => setState(() {
+                    _usePassword = v;
+                    _errorMessage = null;
+                  }),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 FormSection(
                   title: 'Sign in',
                   children: [
-                    TextFormField(
-                      controller: _identifierController,
-                      keyboardType: TextInputType.emailAddress,
-                      inputFormatters: const [PhoneOrEmailFormatter()],
-                      decoration: const InputDecoration(
-                        labelText: 'Phone or email',
-                        prefixIcon: Icon(Icons.person_outline),
+                    BlinkError(
+                      trigger: _tick,
+                      child: TextFormField(
+                        forceErrorText:
+                            (_usePassword && _isPwErr(_errorMessage))
+                            ? null
+                            : _errorMessage,
+                        controller: _identifierController,
+                        keyboardType: TextInputType.emailAddress,
+                        inputFormatters: const [PhoneOrEmailFormatter()],
+                        decoration: const InputDecoration(
+                          labelText: 'Phone or email',
+                          prefixIcon: Icon(Icons.person_outline),
+                        ),
+                        validator: (v) =>
+                            Validators.required(v, label: 'Phone or email'),
+                        onFieldSubmitted: (_) =>
+                            _usePassword ? null : _submit(),
                       ),
-                      validator: (v) => Validators.required(v, label: 'Phone or email'),
-                      onFieldSubmitted: (_) => _usePassword ? null : _submit(),
                     ),
                     if (_usePassword)
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: _obscure,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
-                            icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
-                            onPressed: () => setState(() { _obscure = !_obscure; }),
+                      BlinkError(
+                        trigger: _tick,
+                        child: TextFormField(
+                          forceErrorText:
+                              (_usePassword && _isPwErr(_errorMessage))
+                              ? _errorMessage
+                              : null,
+                          controller: _passwordController,
+                          obscureText: _obscure,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscure
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                              ),
+                              onPressed: () => setState(() {
+                                _obscure = !_obscure;
+                              }),
+                            ),
                           ),
+                          validator: (v) =>
+                              Validators.required(v, label: 'Password'),
+                          onFieldSubmitted: (_) => _submit(),
                         ),
-                        validator: (v) => Validators.required(v, label: 'Password'),
-                        onFieldSubmitted: (_) => _submit(),
                       ),
                   ],
                 ),

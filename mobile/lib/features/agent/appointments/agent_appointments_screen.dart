@@ -10,6 +10,7 @@ import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/status_badge.dart';
 import '../../../models/appointment.dart';
 import '../../../services/agent_appointments_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentAppointmentsScreen extends StatefulWidget {
   const AgentAppointmentsScreen({super.key});
@@ -50,7 +51,7 @@ class _AgentAppointmentsScreenState extends State<AgentAppointmentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Appointments')),
+      appBar: BackAppBar(title: const Text('Appointments')),
       body: RefreshIndicator(
         onRefresh: () async => setState(() { _future = _service.getAppointments(); }),
         child: FutureBuilder<List<Appointment>>(

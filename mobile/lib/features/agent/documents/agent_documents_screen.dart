@@ -11,6 +11,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/agent_document.dart';
 import '../../../services/agent_documents_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDocumentsScreen extends StatefulWidget {
   const AgentDocumentsScreen({super.key});
@@ -112,7 +113,7 @@ class _AgentDocumentsScreenState extends State<AgentDocumentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Documents')),
+      appBar: BackAppBar(title: const Text('Documents')),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.gold,
         foregroundColor: AppColors.textOnGold,

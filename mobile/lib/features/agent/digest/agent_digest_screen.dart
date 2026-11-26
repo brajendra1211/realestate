@@ -9,6 +9,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/agent_digest.dart';
 import '../../../services/agent_digest_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDigestScreen extends StatefulWidget {
   const AgentDigestScreen({super.key});
@@ -31,7 +32,7 @@ class _AgentDigestScreenState extends State<AgentDigestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Today's Digest")),
+      appBar: BackAppBar(title: const Text("Today's Digest")),
       body: FutureBuilder<AgentDigest>(
         future: _future,
         builder: (context, snapshot) {

@@ -22,6 +22,7 @@ import '../../../models/property.dart';
 import '../../../providers/customer_auth_provider.dart';
 import '../../../services/buyer_service.dart';
 import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 const _switchReasons = ['Unresponsive', 'No-show', 'Unprofessional', 'Other'];
 
@@ -183,7 +184,7 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('My Account'),
         actions: [
           IconButton(icon: const Icon(Icons.shopping_cart_outlined), onPressed: () => context.push(RoutePaths.buyerCart)),
@@ -250,12 +251,18 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
           ),
         ],
         const SizedBox(height: AppSpacing.xl),
-        _DispatchCard(
-          onTap: () => context.push(RoutePaths.buyerDispatch),
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.receipt_long_outlined, color: AppColors.gold),
+            title: const Text('My payments'),
+            subtitle: const Text('What you paid for, which property, and when'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(RoutePaths.buyerPayments),
+          ),
         ),
         const SizedBox(height: AppSpacing.md),
-        _GoldListingCard(
-          onTap: () => context.push(RoutePaths.buyerGoldListing),
+        _DispatchCard(
+          onTap: () => context.push(RoutePaths.buyerDispatch),
         ),
         const SizedBox(height: AppSpacing.xl),
         _SectionLabel('Scheduled visits'),
@@ -396,54 +403,6 @@ class _DispatchCard extends StatelessWidget {
               ),
             ),
             const Icon(Icons.chevron_right, color: AppColors.textSecondary),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _GoldListingCard extends StatelessWidget {
-  const _GoldListingCard({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.lg),
-      child: Container(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        decoration: BoxDecoration(
-          color: AppColors.primaryNavy,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.workspace_premium_outlined, color: AppColors.goldLight, size: 28),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'List your property — Gold',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Colors.white,
-                        ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '₹500 pass, 90-day listing, reviewed before it goes live.',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: const Color(0xFFC6CEDB),
-                        ),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_right, color: AppColors.goldLight),
           ],
         ),
       ),

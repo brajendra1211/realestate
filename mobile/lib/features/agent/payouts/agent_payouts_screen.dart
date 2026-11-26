@@ -12,6 +12,7 @@ import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/status_badge.dart';
 import '../../../models/agent_payment_history.dart';
 import '../../../services/agent_payouts_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentPayoutsScreen extends StatefulWidget {
   const AgentPayoutsScreen({super.key});
@@ -133,7 +134,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: Text(
           'Earnings & Payments',
           style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700),

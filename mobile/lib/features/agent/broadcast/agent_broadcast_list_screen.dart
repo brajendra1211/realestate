@@ -14,6 +14,7 @@ import '../../../models/broadcast.dart';
 import '../../../services/agent_broadcast_service.dart';
 import 'broadcast_create_screen.dart';
 import 'broadcast_detail_chat_screen.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentBroadcastListScreen extends StatefulWidget {
   const AgentBroadcastListScreen({super.key});
@@ -61,7 +62,7 @@ class _AgentBroadcastListScreenState extends State<AgentBroadcastListScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('B2B Broadcasts'),
         bottom: TabBar(
           controller: _tabController,

@@ -10,6 +10,7 @@ import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/status_badge.dart';
 import '../../../models/agent_cycle_progress.dart';
 import '../../../services/agent_cycle_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentCycleScreen extends StatefulWidget {
   const AgentCycleScreen({super.key});
@@ -50,7 +51,7 @@ class _AgentCycleScreenState extends State<AgentCycleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('60-Day Review Cycle')),
+      appBar: BackAppBar(title: const Text('60-Day Review Cycle')),
       body: RefreshIndicator(
         color: AppColors.gold,
         onRefresh: () async => setState(() { _future = _service.getProgress(); }),

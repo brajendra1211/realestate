@@ -9,6 +9,7 @@ import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../services/agent_investors_service.dart';
 import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentInvestorFormScreen extends StatefulWidget {
   const AgentInvestorFormScreen({super.key});
@@ -62,7 +63,7 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Referral Partner')),
+      appBar: BackAppBar(title: const Text('Add Referral Partner')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),

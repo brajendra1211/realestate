@@ -9,6 +9,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../providers/agent_auth_provider.dart';
 import '../../providers/customer_auth_provider.dart';
+import '../../core/widgets/back_app_bar.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -31,7 +32,7 @@ class AccountScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Account')),
+      appBar: BackAppBar(title: const Text('Account')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(AppSpacing.lg),

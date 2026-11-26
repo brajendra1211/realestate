@@ -9,6 +9,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../services/agent_work_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Brochure maker: one credit per brochure, 10 credits for Rs 100 (Razorpay).
 class AgentBrochuresScreen extends StatefulWidget {
@@ -77,7 +78,7 @@ class _AgentBrochuresScreenState extends State<AgentBrochuresScreen> {
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: const Text('Brochure maker')),
+      appBar: BackAppBar(title: const Text('Brochure maker')),
       body: RefreshIndicator(
         onRefresh: _reload,
         child: FutureBuilder<BrochuresData>(

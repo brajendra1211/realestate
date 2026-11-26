@@ -16,6 +16,7 @@ import '../../../models/investor_ledger.dart';
 import '../../../models/investor_me.dart';
 import '../../../providers/customer_auth_provider.dart';
 import '../../../services/investor_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class InvestorDashboardScreen extends StatefulWidget {
   const InvestorDashboardScreen({super.key});
@@ -50,7 +51,7 @@ class _InvestorDashboardScreenState extends State<InvestorDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('Referral Partner Portal'),
         actions: [
           IconButton(

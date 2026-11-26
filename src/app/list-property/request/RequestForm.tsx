@@ -9,6 +9,7 @@ import {
   verifyRequestPaymentAction,
 } from "./actions";
 import { SmartInput } from "@/components/forms/FormKit";
+import { blinkField } from "@/lib/blinkField";
 
 declare global {
   interface Window {
@@ -63,15 +64,24 @@ export function RequestForm({
   const [phone, setPhone] = useState(defaults.phone ?? "");
   const [otpSent, setOtpSent] = useState(false);
   const [otpBusy, setOtpBusy] = useState(false);
+  const [fieldError, setFieldError] = useState<{ name: "ownerPhone" | "otp"; text: string } | null>(null);
+
+  // A wrong phone number / code is shown on that input (red, blinking), not in a banner at the top.
+  function failField(name: "ownerPhone" | "otp", text: string) {
+    setFieldError({ name, text });
+    setTimeout(() => blinkField(document.querySelector<HTMLElement>(`[name="${name}"]`)), 0);
+  }
 
   async function sendOtp() {
     setError(null);
+    setFieldError(null);
+    if (phone.replace(/\D/g, "").length < 10) return failField("ownerPhone", "Enter your 10-digit mobile number.");
     setOtpBusy(true);
     try {
       await sendRequestOtpAction(phone);
       setOtpSent(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Couldn't send the OTP.");
+      failField("ownerPhone", err instanceof Error ? err.message : "Couldn't send the OTP.");
     } finally {
       setOtpBusy(false);
     }
@@ -81,6 +91,7 @@ export function RequestForm({
     event.preventDefault();
     setBusy(true);
     setError(null);
+    setFieldError(null);
     const d = new FormData(event.currentTarget);
 
     try {
@@ -123,7 +134,10 @@ export function RequestForm({
         modal: { ondismiss: () => setBusy(false) },
       }).open();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      const text = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      if (/otp|code/i.test(text)) failField("otp", text);
+      else if (/mobile|phone|number/i.test(text)) failField("ownerPhone", text);
+      else setError(text);
       setBusy(false);
     }
   }
@@ -212,11 +226,12 @@ export function RequestForm({
                 placeholder="10-digit number"
               />
             </label>
+            {fieldError?.name === "ownerPhone" && <p className="mt-1.5 text-xs font-semibold text-red-600">{fieldError.text}</p>}
             {!account && (
               <button
                 type="button"
                 onClick={sendOtp}
-                disabled={otpBusy || phone.replace(/\D/g, "").length < 10}
+                disabled={otpBusy}
                 className="mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {otpBusy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <MessageCircle className="h-3.5 w-3.5" />}
@@ -228,7 +243,8 @@ export function RequestForm({
             <>
               <label className="text-sm font-semibold text-slate-700">
                 WhatsApp OTP
-                <input name="otp" required inputMode="numeric" maxLength={6} className={input} placeholder={otpSent ? "6-digit OTP" : "Send the OTP first"} />
+                <input name="otp" required inputMode="numeric" maxLength={6} className={input} placeholder={otpSent ? "6-digit OTP" : "Send the OTP first"} onChange={(e) => e.currentTarget.classList.remove("field-error")} />
+                {fieldError?.name === "otp" && <span className="mt-1.5 block text-xs font-semibold text-red-600">{fieldError.text}</span>}
               </label>
               <label className="text-sm font-semibold text-slate-700">
                 Email

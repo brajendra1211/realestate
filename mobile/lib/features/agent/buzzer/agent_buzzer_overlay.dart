@@ -306,7 +306,17 @@ class _AgentBuzzerOverlayState extends State<AgentBuzzerOverlay> {
             ],
           ),
           const SizedBox(height: 4),
-          Text(b.primary ? b.title : b.summary, style: t.bodySmall),
+          Text(b.title.isNotEmpty ? b.title : b.summary, style: t.bodyMedium?.copyWith(fontWeight: FontWeight.w800)),
+          if (b.kind.isNotEmpty) Text(b.kind, style: t.bodySmall),
+          if (b.where.isNotEmpty)
+            Row(children: [
+              const Icon(Icons.place, size: 14, color: AppColors.danger),
+              const SizedBox(width: 3),
+              Expanded(child: Text(b.where + (b.distanceKm != null ? ' · ${b.distanceKm} km from you' : ''), style: t.bodySmall)),
+            ]),
+          if (b.price != null) Text('₹${b.price}', style: t.bodySmall?.copyWith(fontWeight: FontWeight.w700)),
+          if (b.listedByLabel.isNotEmpty) Text(b.listedByLabel, style: t.bodySmall?.copyWith(color: AppColors.gold, fontWeight: FontWeight.w700)),
+          if (b.stage.isNotEmpty) Text('Buzz stage: ${b.stage}', style: t.bodySmall?.copyWith(fontSize: 11)),
           const SizedBox(height: AppSpacing.sm),
           SizedBox(
             width: double.infinity,

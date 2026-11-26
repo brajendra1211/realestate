@@ -18,6 +18,7 @@ class RoutePaths {
   static const buyerDashboard = '/buyer/dashboard';
   static const buyerDirectVisit = '/buyer/direct-visit';
   static const buyerGoldListing = '/buyer/gold-listing';
+  static const buyerPayments = '/buyer/payments';
   static const buyerDispatch = '/buyer/dispatch';
 
   static const support = '/support';

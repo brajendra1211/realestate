@@ -8,6 +8,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../services/agent_work_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Buyers who paid to see a property. The buzzer offers them first; the partner
 /// calls the buyer and shares the shop link so the buyer sees all the partner's listings.
@@ -31,7 +32,7 @@ class _AgentBuyerLeadsScreenState extends State<AgentBuyerLeadsScreen> {
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: const Text('Buyer leads')),
+      appBar: BackAppBar(title: const Text('Buyer leads')),
       body: RefreshIndicator(
         onRefresh: _reload,
         child: FutureBuilder<BuyerLeadsData>(
@@ -94,7 +95,13 @@ class _AgentBuyerLeadsScreenState extends State<AgentBuyerLeadsScreen> {
                       child: ListTile(
                         leading: const Icon(Icons.person_search, color: AppColors.success),
                         title: Text(w.primary ? 'A buyer unlocked your listing: ${w.title}' : 'A buyer near you wants a property'),
-                        subtitle: Text(w.summary),
+                        isThreeLine: true,
+                        subtitle: Text([
+                          if (w.kind.isNotEmpty) w.kind else w.summary,
+                          if (w.where.isNotEmpty) w.where + (w.distanceKm != null ? ' · ${w.distanceKm} km away' : ''),
+                          if (w.price != null) '₹${w.price}',
+                          if (w.listedByLabel.isNotEmpty) w.listedByLabel,
+                        ].join('\n')),
                         trailing: TextButton(
                           onPressed: () async {
                             try {
@@ -120,7 +127,13 @@ class _AgentBuyerLeadsScreenState extends State<AgentBuyerLeadsScreen> {
                       child: ListTile(
                         leading: const Icon(Icons.person, color: AppColors.gold),
                         title: Text(b.buyerName),
-                        subtitle: Text(b.buyerPhone ?? ''),
+                        isThreeLine: b.propertyTitle.isNotEmpty,
+                        subtitle: Text([
+                          if (b.buyerPhone != null) b.buyerPhone!,
+                          if (b.propertyTitle.isNotEmpty) 'Wants: ${b.propertyTitle}',
+                          if (b.propertyWhere.isNotEmpty) b.propertyWhere,
+                          if (b.listedByLabel.isNotEmpty) b.listedByLabel,
+                        ].join('\n')),
                         trailing: b.buyerPhone == null
                             ? null
                             : IconButton(icon: const Icon(Icons.call, color: AppColors.success), onPressed: () => launchUrl(Uri.parse('tel:${b.buyerPhone}'))),

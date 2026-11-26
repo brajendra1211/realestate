@@ -19,6 +19,7 @@ import '../../../models/geo_option.dart';
 import '../../../services/agent_listings_service.dart';
 import '../../../services/agent_service.dart';
 import '../../../services/geo_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentListingFormScreen extends StatefulWidget {
   const AgentListingFormScreen({super.key});
@@ -191,7 +192,7 @@ class _AgentListingFormScreenState extends State<AgentListingFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('New Listing')),
+      appBar: BackAppBar(title: const Text('New Listing')),
       body: FutureBuilder<AgentProfile>(
         future: _profileFuture,
         builder: (context, snapshot) {

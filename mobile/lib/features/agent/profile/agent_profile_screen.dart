@@ -9,6 +9,7 @@ import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/status_badge.dart';
 import '../../../models/agent_profile.dart';
 import '../../../services/agent_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentProfileScreen extends StatefulWidget {
   const AgentProfileScreen({super.key});
@@ -31,7 +32,7 @@ class _AgentProfileScreenState extends State<AgentProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Profile')),
+      appBar: BackAppBar(title: const Text('My Profile')),
       body: FutureBuilder<AgentProfile>(
         future: _future,
         builder: (context, snapshot) {

@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useRef } from "react";
+import { blinkField } from "@/lib/blinkField";
 import { login, type LoginState } from "./actions";
 
 const initialState: LoginState = {};
@@ -8,23 +9,21 @@ const initialState: LoginState = {};
 export function LoginForm({ callbackUrl, expectedRole }: { callbackUrl: string; expectedRole?: string }) {
   const [state, formAction, pending] = useActionState(login, initialState);
 
+  const idRef = useRef<HTMLInputElement>(null);
+  const pwRef = useRef<HTMLInputElement>(null);
+  const pwError = Boolean(state.error && /password|incorrect|wrong/i.test(state.error));
+
   useEffect(() => {
     if (state.redirectTo) {
       window.location.href = state.redirectTo;
     }
-  }, [state]);
+    if (state.error) blinkField(pwError ? pwRef.current : idRef.current);
+  }, [state, pwError]);
 
   return (
     <form action={formAction} className="mt-5 space-y-4">
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       {expectedRole && <input type="hidden" name="expectedRole" value={expectedRole} />}
-
-      {state.error && (
-        <div className="flex items-center gap-2 rounded-2xl bg-red-50 p-3.5 text-xs font-semibold text-red-700 border border-red-200/80 animate-fadeIn">
-          <span>⚠️</span>
-          <span>{state.error}</span>
-        </div>
-      )}
 
       <div>
         <label className="block text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">
@@ -37,6 +36,8 @@ export function LoginForm({ callbackUrl, expectedRole }: { callbackUrl: string; 
             </svg>
           </span>
           <input
+            ref={idRef}
+            onChange={(e) => e.currentTarget.classList.remove("field-error")}
             type="text"
             name="email"
             required
@@ -45,6 +46,7 @@ export function LoginForm({ callbackUrl, expectedRole }: { callbackUrl: string; 
             className="w-full rounded-xl border border-slate-200 bg-slate-50/70 py-3.5 pl-10 pr-4 text-sm font-medium text-ink outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-100"
           />
         </div>
+        {state.error && !pwError && <p className="mt-1.5 text-xs font-semibold text-red-600">{state.error}</p>}
       </div>
 
       <div>
@@ -60,6 +62,8 @@ export function LoginForm({ callbackUrl, expectedRole }: { callbackUrl: string; 
             </svg>
           </span>
           <input
+            ref={pwRef}
+            onChange={(e) => e.currentTarget.classList.remove("field-error")}
             type="password"
             name="password"
             required
@@ -67,6 +71,7 @@ export function LoginForm({ callbackUrl, expectedRole }: { callbackUrl: string; 
             className="w-full rounded-xl border border-slate-200 bg-slate-50/70 py-3.5 pl-10 pr-4 text-sm font-medium text-ink outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-100"
           />
         </div>
+        {state.error && pwError && <p className="mt-1.5 text-xs font-semibold text-red-600">{state.error}</p>}
       </div>
 
       <button

@@ -12,6 +12,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/gold_listing.dart';
 import '../../../services/agent_gold_listings_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentGoldListingsScreen extends StatefulWidget {
   const AgentGoldListingsScreen({super.key});
@@ -34,7 +35,7 @@ class _AgentGoldListingsScreenState extends State<AgentGoldListingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Gold Feed')),
+      appBar: BackAppBar(title: const Text('Gold Feed')),
       body: RefreshIndicator(
         onRefresh: () async => setState(() { _future = _service.getGoldListings(); }),
         child: FutureBuilder<List<GoldListing>>(

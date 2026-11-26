@@ -7,6 +7,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/error_messages.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../services/cart_watch_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Open customer requirements ("I have a property") and carts customers sent to this agent.
 class AgentRequirementsScreen extends StatefulWidget {
@@ -66,7 +67,7 @@ class _AgentRequirementsScreenState extends State<AgentRequirementsScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: BackAppBar(
           title: const Text('Requirements'),
           bottom: const TabBar(tabs: [Tab(text: 'Open requirements'), Tab(text: 'Carts received')]),
         ),

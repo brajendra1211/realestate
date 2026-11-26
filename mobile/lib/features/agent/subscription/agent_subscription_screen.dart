@@ -15,6 +15,7 @@ import '../../../core/widgets/status_badge.dart';
 import '../../../models/agent_plan.dart';
 import '../../../models/agent_subscription_status.dart';
 import '../../../services/agent_subscription_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentSubscriptionScreen extends StatefulWidget {
   const AgentSubscriptionScreen({super.key});
@@ -98,7 +99,7 @@ class _AgentSubscriptionScreenState extends State<AgentSubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Subscription')),
+      appBar: BackAppBar(title: const Text('Subscription')),
       body: RefreshIndicator(
         color: AppColors.gold,
         onRefresh: () async => setState(_reload),

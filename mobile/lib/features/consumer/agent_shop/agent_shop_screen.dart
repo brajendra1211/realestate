@@ -13,6 +13,7 @@ import '../../../core/utils/media.dart';
 import '../../../models/agent_shop.dart';
 import '../../../models/public_listing.dart';
 import '../../../services/agent_shop_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentShopScreen extends StatefulWidget {
   const AgentShopScreen({super.key, required this.agentCode});
@@ -45,7 +46,7 @@ class _AgentShopScreenState extends State<AgentShopScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: Text(
           'Channel Partner Shop (${widget.agentCode})',
           style: GoogleFonts.inter(fontWeight: FontWeight.w700),

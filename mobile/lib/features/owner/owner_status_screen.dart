@@ -12,6 +12,7 @@ import '../../core/widgets/app_button.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../providers/customer_auth_provider.dart';
 import '../../services/owner_service.dart';
+import '../../core/widgets/back_app_bar.dart';
 
 /// "My property": the owner's requests and where each one stands.
 class OwnerStatusScreen extends StatefulWidget {
@@ -91,7 +92,7 @@ class _OwnerStatusScreenState extends State<OwnerStatusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('My property'),
         actions: [
           IconButton(

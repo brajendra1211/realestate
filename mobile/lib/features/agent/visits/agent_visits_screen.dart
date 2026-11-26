@@ -11,6 +11,7 @@ import '../../../core/widgets/error_view.dart';
 import '../../../models/visit_log.dart';
 import '../../../services/agent_visits_service.dart';
 import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentVisitsScreen extends StatefulWidget {
   const AgentVisitsScreen({super.key});
@@ -138,7 +139,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Visit Log')),
+      appBar: BackAppBar(title: const Text('Visit Log')),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.gold,
         foregroundColor: AppColors.textOnGold,

@@ -34,12 +34,24 @@ class BuyerBuzz {
         title = j['title'] as String? ?? '',
         summary = j['summary'] as String? ?? '',
         primary = j['primary'] as bool? ?? false,
+        where = j['where'] as String? ?? '',
+        kind = j['kind'] as String? ?? '',
+        price = (j['price'] as num?)?.toInt(),
+        listedByLabel = j['listedByLabel'] as String? ?? '',
+        distanceKm = (j['distanceKm'] as num?)?.toDouble(),
+        stage = j['stage'] as String? ?? '',
         buzzCount = (j['buzzCount'] as num?)?.toInt() ?? 0;
 
   final String id;
   final String title;
   final String summary;
   final bool primary;
+  final String where;
+  final String kind;
+  final int? price;
+  final String listedByLabel;
+  final double? distanceKm;
+  final String stage;
   final int buzzCount;
 
   String get key => 'b:$id:$buzzCount';
@@ -81,7 +93,13 @@ class BuyerLead {
   BuyerLead(Map<String, dynamic> j)
       : buyerName = j['buyerName'] as String? ?? 'Buyer',
         buyerPhone = j['buyerPhone'] as String?,
+        propertyTitle = j['propertyTitle'] as String? ?? '',
+        propertyWhere = j['propertyWhere'] as String? ?? '',
+        listedByLabel = j['listedByLabel'] as String? ?? '',
         acceptedAt = j['acceptedAt'] as String? ?? '';
+  final String propertyTitle;
+  final String propertyWhere;
+  final String listedByLabel;
   final String buyerName;
   final String? buyerPhone;
   final String acceptedAt;

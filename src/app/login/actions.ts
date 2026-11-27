@@ -9,6 +9,7 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
   const identifier = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const callbackUrl = String(formData.get("callbackUrl") ?? "/");
+  const expectedRole = String(formData.get("expectedRole") ?? "");
 
   const { prisma } = await import("@/lib/prisma");
   const { looksLikeEmail, phoneDigitsMatch } = await import("@/lib/otp");
@@ -39,6 +40,19 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
     }
   }
 
+  // Strict panels: a person can only sign in through the panel that matches their account.
+  if (user && expectedRole) {
+    const staff = user.role === "ADMIN" || user.role === "SUBADMIN";
+    const ok = expectedRole === "ADMIN" ? staff : user.role === expectedRole;
+    if (!ok) {
+      const names: Record<string, string> = { BUYER: "Buyer", OWNER: "Owner", AGENT: "Channel partner", INVESTOR: "Referral partner", ADMIN: "Admin", SUBADMIN: "Admin" };
+      return { error: `This account is registered as ${names[user.role] ?? user.role}. Please choose "${names[user.role] ?? user.role}" above to sign in.` };
+    }
+  }
+  if (user && !user.passwordHash) {
+    return { error: "This account has no password yet. Sign in with the one-time code instead." };
+  }
+
   // Determine smart redirect target based on user's role
   let targetUrl = callbackUrl;
   if (!targetUrl || targetUrl === "/" || targetUrl === "/login") {
@@ -48,7 +62,7 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
       targetUrl = "/agent/dashboard";
     } else if (user?.role === "INVESTOR") {
       targetUrl = "/investor/dashboard";
-    } else if (user?.role === "OWNER" || user?.role === "DEALER") {
+    } else if (user?.role === "OWNER") {
       targetUrl = "/dashboard";
     } else if (user?.role === "BUYER") {
       targetUrl = "/buyer/dashboard";
@@ -61,6 +75,7 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
     const redirectTo = await signIn("credentials", {
       email: identifier,
       password,
+      expectedRole,
       redirect: false,
       redirectTo: targetUrl,
     });

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { adminAssignRequest, alertAgents, cancelRequest } from "@/lib/listingRequest";
+import { adminAssignRequest, adminCompleteRequest, alertAgents, cancelRequest } from "@/lib/listingRequest";
 
 async function requireAdmin() {
   const session = await auth();
@@ -31,5 +31,13 @@ export async function cancelRequestAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const note = String(formData.get("note") ?? "").trim();
   if (id) await cancelRequest(id, note || undefined);
+  revalidatePath("/admin/listing-requests");
+}
+
+export async function completeRequestAction(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  const note = String(formData.get("note") ?? "").trim();
+  if (id) await adminCompleteRequest(id, note || undefined);
   revalidatePath("/admin/listing-requests");
 }

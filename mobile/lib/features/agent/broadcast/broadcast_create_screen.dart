@@ -8,6 +8,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../services/agent_broadcast_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class BroadcastCreateScreen extends StatefulWidget {
   const BroadcastCreateScreen({super.key});
@@ -45,7 +46,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _submitting = true);
+    setState(() { _submitting = true; });
     try {
       await _service.create(
         radiusKm: _radiusKm,
@@ -62,14 +63,14 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('New B2B Requirement')),
+      appBar: BackAppBar(title: const Text('New B2B Requirement')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -92,7 +93,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
                         DropdownMenuItem(value: 3, child: Text('3 km')),
                         DropdownMenuItem(value: 5, child: Text('5 km')),
                       ],
-                      onChanged: (v) => setState(() => _radiusKm = v!),
+                      onChanged: (v) => setState(() { _radiusKm = v!; }),
                     ),
                     TextFormField(
                       controller: _societyController,
@@ -112,7 +113,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
                         DropdownMenuItem(value: 'RENT', child: Text('Rent')),
                         DropdownMenuItem(value: 'LETOUT', child: Text('Let out')),
                       ],
-                      onChanged: (v) => setState(() => _txnType = v!),
+                      onChanged: (v) => setState(() { _txnType = v!; }),
                     ),
                     Row(
                       children: [

@@ -1,3 +1,4 @@
+import { matchListingToWatches } from "@/lib/watchlist";
 import { canAutoCredit } from "@/lib/commissionMode";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
@@ -191,13 +192,22 @@ export async function createAgentListing(agentProfileId: string, input: CreateAg
       : []),
   ]);
 
+  void matchListingToWatches(listing.id).catch(() => {});
   return listing;
 }
 
 export async function getListingsForAgent(agentProfileId: string) {
   return prisma.agentListing.findMany({
     where: { agentId: agentProfileId },
-    include: { images: true, masterProperty: true, _count: { select: { unlocks: true } } },
+    include: {
+      images: true,
+      masterProperty: true,
+      _count: { select: { unlocks: true } },
+      // The owner behind a listing the partner verified on site (name, phone, plan paid, verification date).
+      listingRequest: {
+        select: { ownerName: true, ownerPhone: true, ownerEmail: true, plan: true, purpose: true, amount: true, status: true, paidAt: true, acceptedAt: true, linkSentAt: true },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 }

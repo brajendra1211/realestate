@@ -39,6 +39,8 @@ async function getMessaging() {
 // Rings every device a user (so far, only channel partners) is logged in on.
 // Silently no-ops if push isn't configured — callers don't need to check
 // isPushConfigured() themselves, same convention as sendWhatsAppText/sendEmail.
+const REALTIME_TYPES = ["listing-request", "buyer-interest", "property-ring"];
+
 export async function sendPushToUser(
   userId: string,
   notification: { title: string; body: string },
@@ -63,7 +65,8 @@ export async function sendPushToUser(
   const response = await fcm.sendEachForMulticast({
     tokens: tokens.map((t) => t.token),
     data: { ...data, title: notification.title, body: notification.body },
-    android: { priority: "high" },
+    // Buzzer alerts are only useful live: FCM drops them if they cannot be delivered within a minute.
+    android: { priority: "high", ...(REALTIME_TYPES.includes(data?.type ?? "") ? { ttl: 60 * 1000 } : {}) },
   });
 
   // Prune tokens Firebase reports as dead (uninstalled app, expired token,

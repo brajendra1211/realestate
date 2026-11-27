@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { AdminPage, Pill, EmptyState, btnGhost, btnPrimary, inputCls } from "@/components/admin/ui";
 import { buzzSelectedAction, buzzAreaAction, sendDirectAction } from "./actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
 type SearchParams = Promise<{ ok?: string; err?: string; phone?: string }>;
 
@@ -115,7 +116,7 @@ export default async function BuzzerControlPage({ searchParams }: { searchParams
       <section className="space-y-4">
         <h2 className="text-lg font-bold text-ink">Customer visit history</h2>
         <form method="get" className="flex items-center gap-2">
-          <input name="phone" defaultValue={phone ?? ""} placeholder="Customer mobile number" className={`${inputCls} !w-64`} />
+          <SmartInput kind="mobile" name="phone" defaultValue={phone ?? ""} placeholder="Customer mobile number" className={`${inputCls} !w-64`} />
           <button type="submit" className={btnGhost}>
             <Eye className="h-4 w-4" /> Look up
           </button>

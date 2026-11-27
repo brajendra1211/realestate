@@ -167,7 +167,7 @@ export async function getMonitorStats(): Promise<MonitorStats> {
   const [pendingProperties, ownerRequestsWaiting, buyerLeadsWaiting, buyLeadsUncalled, supportOverdue, partnersLapsed, listingsExpiringWeek] =
     await Promise.all([
       prisma.property.count({ where: { approvalStatus: "PENDING" } }),
-      prisma.listingRequest.count({ where: { status: "SEARCHING" } }),
+      prisma.listingRequest.count({ where: { status: { in: ["SEARCHING", "ADMIN_DESK"] } } }),
       prisma.buyerInterest.count({ where: { status: "OPEN" } }),
       prisma.dispatchRequest.count({ where: { purpose: "BUY", contactedAt: null } }),
       prisma.supportTicket.count({ where: { status: { not: "RESOLVED" }, dueAt: { lt: now } } }),

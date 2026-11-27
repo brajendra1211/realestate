@@ -1,3 +1,4 @@
+import { EditUserCard } from "../ManageUser";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import {
@@ -28,7 +29,6 @@ const ROLE_LABEL: Record<string, string> = {
   ADMIN: "Admin",
   SUBADMIN: "Sub-admin",
   OWNER: "Owner",
-  DEALER: "Dealer",
   BUYER: "Buyer",
   AGENT: "Channel partner",
   INVESTOR: "Referral partner (investor)",
@@ -36,7 +36,6 @@ const ROLE_LABEL: Record<string, string> = {
 
 const BACK: Record<string, { href: string; label: string }> = {
   OWNER: { href: "/admin/people?role=OWNER", label: "All people" },
-  DEALER: { href: "/admin/people?role=DEALER", label: "All people" },
   BUYER: { href: "/admin/people?role=BUYER", label: "All people" },
   INVESTOR: { href: "/admin/people?role=INVESTOR", label: "All people" },
   AGENT: { href: "/admin/people?role=AGENT", label: "All people" },
@@ -72,10 +71,11 @@ function Row({ k, v }: { k: string; v: React.ReactNode }) {
   );
 }
 
-export default async function AdminPersonPage({ params }: { params: Params }) {
+export default async function AdminPersonPage({ params, searchParams }: { params: Params; searchParams: Promise<{ saved?: string; error?: string }> }) {
   const session = await auth();
   if (!session || session.user.role !== "ADMIN") redirect("/login");
   const { id } = await params;
+  const { saved: editSaved, error: editError } = await searchParams;
 
   const user = await prisma.user.findUnique({
     where: { id },
@@ -89,7 +89,7 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
   if (!user) notFound();
 
   const isBuyer = user.role === "BUYER";
-  const isLister = user.role === "OWNER" || user.role === "DEALER" || user.role === "SUBADMIN";
+  const isLister = user.role === "OWNER" || user.role === "SUBADMIN";
 
   const [referrer, properties, enquiriesMade, saved, visits, unlocks, dispatches, ledger, investorLedger, investorExtra] = await Promise.all([
     user.referredByAgentId
@@ -113,7 +113,28 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
       ? prisma.visitAppointment.findMany({ where: { buyerId: user.id }, orderBy: { scheduledAt: "desc" }, take: 20, include: { agent: { select: { agentCode: true, user: { select: { name: true } } } } } })
       : [],
     isBuyer
-      ? prisma.propertyUnlock.findMany({ where: { buyerId: user.id }, orderBy: { createdAt: "desc" }, take: 20, include: { assignedAgent: { select: { agentCode: true } } } })
+      ? prisma.propertyUnlock.findMany({
+          where: { buyerId: user.id },
+          orderBy: { createdAt: "desc" },
+          take: 30,
+          include: {
+            assignedAgent: { select: { agentCode: true, user: { select: { name: true, phone: true } } } },
+            agentListing: {
+              select: {
+                title: true,
+                slug: true,
+                price: true,
+                exactAddress: true,
+                listingType: true,
+                propertyType: true,
+                bedrooms: true,
+                masterProperty: { select: { city: true, locality: true } },
+                agent: { select: { agentCode: true, user: { select: { name: true, phone: true } } } },
+              },
+            },
+            buyerInterest: { include: { acceptances: { include: { agent: { select: { agentCode: true, user: { select: { name: true, phone: true } } } } } } } },
+          },
+        })
       : [],
     isBuyer
       ? prisma.dispatchRequest.findMany({ where: { buyerId: user.id }, orderBy: { createdAt: "desc" }, take: 20, include: { acceptedAgent: { select: { agentCode: true } } } })
@@ -135,6 +156,48 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
   ]);
 
   const back = BACK[user.role] ?? BACK.ADMIN;
+
+  // More of what this person did / has: partner shop unlocks and site visits (buyer), listing requests with the partner handling each (owner).
+  const [shopUnlocks, directVisits, listingRequests] = await Promise.all([
+    isBuyer
+      ? prisma.agentShopUnlock.findMany({
+          where: { buyerId: user.id },
+          orderBy: { createdAt: "desc" },
+          take: 20,
+          include: { agent: { select: { agentCode: true, shopName: true, user: { select: { name: true, phone: true } } } } },
+        })
+      : [],
+    isBuyer
+      ? prisma.directPropertyVisit.findMany({
+          where: { buyerId: user.id },
+          orderBy: { createdAt: "desc" },
+          take: 20,
+          include: { agentListing: { select: { title: true, slug: true } } },
+        })
+      : [],
+    user.role === "OWNER"
+      ? prisma.listingRequest.findMany({
+          where: { userId: user.id },
+          orderBy: { createdAt: "desc" },
+          take: 20,
+          include: {
+            acceptedAgent: { select: { agentCode: true, shopName: true, user: { select: { name: true, phone: true } } } },
+            agentListing: {
+              select: {
+                title: true,
+                slug: true,
+                price: true,
+                exactAddress: true,
+                listingExpiresAt: true,
+                isDelisted: true,
+                approvalStatus: true,
+                agent: { select: { agentCode: true, user: { select: { name: true, phone: true } } } },
+              },
+            },
+          },
+        })
+      : [],
+  ]);
 
   // Every payment this person has made (or still owes), across all payment types.
   const tracker = await getPaymentTracker({ userId: user.id });
@@ -164,12 +227,16 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
         </>
       }
     >
+      {editError && <p className="rounded-xl bg-red-50 p-3 text-sm font-semibold text-red-700">{editError}</p>}
+      {editSaved && <p className="rounded-xl bg-green-50 p-3 text-sm font-semibold text-green-700">Saved.</p>}
       <div className="flex flex-wrap items-center gap-2">
         <Pill tone="blue">{ROLE_LABEL[user.role] ?? user.role}</Pill>
         <Pill tone={user.verified ? "green" : "amber"}>{user.verified ? "Verified" : "Not verified"}</Pill>
         {user.agentProfile && <Pill tone="violet">{user.agentProfile.agentCode ?? "No partner code yet"}</Pill>}
         {user.investorProfile?.investorCode && <Pill tone="violet">{user.investorProfile.investorCode}</Pill>}
       </div>
+
+      <EditUserCard user={user} isSelf={user.id === session.user.id} />
 
       <Card title="Payment check" icon={Banknote} count={paymentRows.length}>
         <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
@@ -357,13 +424,72 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
                   <p className="text-sm text-slate-500">No unlocks.</p>
                 ) : (
                   <ul className="divide-y divide-slate-100 text-sm">
-                    {unlocks.map((u) => (
-                      <li key={u.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
+                    {unlocks.map((u) => {
+                      const l = u.agentListing;
+                      const where = [l.masterProperty?.locality, l.masterProperty?.city].filter(Boolean).join(", ");
+                      const owner = l.agent ? `${l.agent.user.name} (${l.agent.agentCode ?? "partner"})` : "Company / admin listing";
+                      const accepted = u.buyerInterest?.acceptances ?? [];
+                      return (
+                        <li key={u.id} className="space-y-1 py-3">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <Link href={`/listings/${l.slug}`} className="font-semibold text-brand-600 hover:underline">{l.title}</Link>
+                            <span className="text-xs text-slate-400">{dateTime(u.createdAt)}</span>
+                          </div>
+                          <p className="text-xs text-slate-500">
+                            {[l.bedrooms ? `${l.bedrooms} BHK` : null, l.propertyType.replace(/_/g, " ").toLowerCase(), l.listingType === "RENT" ? "for rent" : "for sale", where].filter(Boolean).join(" · ")} · {formatINR(l.price)}{l.listingType === "RENT" ? "/mo" : ""}
+                          </p>
+                          <p className="text-xs text-slate-500">Address: {l.exactAddress}</p>
+                          <p className="text-xs text-slate-500">
+                            Listed by: <b>{owner}</b>
+                            {u.assignedAgent ? <> · Assigned to: <b>{u.assignedAgent.user.name} ({u.assignedAgent.agentCode})</b></> : " · No partner assigned"}
+                          </p>
+                          <p className="text-xs font-semibold text-slate-600">
+                            Paid {formatINR(u.amount)} · partner share {formatINR(u.agentSplit)} · company {formatINR(u.companySplit)}
+                          </p>
+                          {u.buyerInterest && (
+                            <p className="text-xs text-slate-500">
+                              Buzzer: {u.buyerInterest.status}, buzzed {u.buyerInterest.buzzCount}×.{" "}
+                              {accepted.length > 0
+                                ? `Taken by ${accepted.map((x) => `${x.agent.user.name} (${x.agent.agentCode})`).join(", ")}`
+                                : "No partner has taken it yet."}
+                            </p>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </Card>
+
+              <Card title="Partner shop unlocks" icon={Unlock} count={shopUnlocks.length}>
+                {shopUnlocks.length === 0 ? (
+                  <p className="text-sm text-slate-500">None.</p>
+                ) : (
+                  <ul className="divide-y divide-slate-100 text-sm">
+                    {shopUnlocks.map((s2) => (
+                      <li key={s2.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
                         <span>
-                          {formatINR(u.amount)} · agent share {formatINR(u.agentSplit)}
-                          {u.assignedAgent ? ` → ${u.assignedAgent.agentCode}` : " (no agent)"}
+                          {formatINR(s2.amount)} · {s2.agent.user.name} ({s2.agent.agentCode}) {s2.agent.shopName ? `· ${s2.agent.shopName}` : ""}
                         </span>
-                        <span className="text-xs text-slate-400">{dateTime(u.createdAt)}</span>
+                        <span className="text-xs text-slate-400">{dateTime(s2.createdAt)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
+
+              <Card title="Direct site visits" icon={CalendarCheck} count={directVisits.length}>
+                {directVisits.length === 0 ? (
+                  <p className="text-sm text-slate-500">None.</p>
+                ) : (
+                  <ul className="divide-y divide-slate-100 text-sm">
+                    {directVisits.map((v) => (
+                      <li key={v.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
+                        <Link href={`/listings/${v.agentListing.slug}`} className="font-semibold text-brand-600 hover:underline">{v.agentListing.title}</Link>
+                        <span className="flex items-center gap-2">
+                          <Pill tone={v.otpVerified ? "green" : "amber"}>{v.otpVerified ? "Verified" : "Not verified"}</Pill>
+                          <span className="text-xs text-slate-400">{dateTime(v.createdAt)}</span>
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -399,6 +525,49 @@ export default async function AdminPersonPage({ params }: { params: Params }) {
                 <StatCard label="Live" value={properties.filter((p) => p.approvalStatus === "APPROVED").length} icon={Building2} tone="green" />
                 <StatCard label="Waiting review" value={properties.filter((p) => p.approvalStatus === "PENDING").length} icon={Building2} tone="amber" />
               </div>
+
+              {user.role === "OWNER" && (
+                <Card title="Property requests & verification" icon={Building2} count={listingRequests.length}>
+                  {listingRequests.length === 0 ? (
+                    <p className="text-sm text-slate-500">No property requests.</p>
+                  ) : (
+                    <ul className="divide-y divide-slate-100 text-sm">
+                      {listingRequests.map((r) => {
+                        const l = r.agentListing;
+                        const handler = r.acceptedAgent ?? l?.agent ?? null;
+                        return (
+                          <li key={r.id} className="space-y-1 py-3">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <span className="font-semibold text-ink">
+                                {l ? <Link href={`/listings/${l.slug}`} className="text-brand-600 hover:underline">{l.title}</Link> : (r.detailsAt ? "Details submitted — waiting for on-site verification" : "Owner has not added property details yet")}
+                              </span>
+                              <span className="flex items-center gap-2">
+                                <Pill tone={r.status === "SUBMITTED" ? "green" : r.status === "CANCELLED" ? "red" : "amber"}>{r.status.replace(/_/g, " ")}</Pill>
+                                <Pill tone={r.paidAt ? "green" : "red"}>{r.paidAt ? `Paid ${formatINR(r.amount)}` : "Not paid"}</Pill>
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-500">
+                              {r.purpose === "SELL" ? "Sell" : "Rent"} · {r.plan === "GOLD" ? "Pro" : "Basic"} plan · {[r.locality, r.city].filter(Boolean).join(", ")}
+                              {l ? ` · ${formatINR(l.price)}` : ""} · requested {dateTime(r.createdAt)}
+                            </p>
+                            {l && <p className="text-xs text-slate-500">Address: {l.exactAddress}</p>}
+                            <p className="text-xs text-slate-500">
+                              {handler
+                                ? <>Verifying / assigned partner: <b>{handler.user.name}{"agentCode" in handler && handler.agentCode ? ` (${handler.agentCode})` : ""}</b>{handler.user.phone ? ` · ${handler.user.phone}` : ""}</>
+                                : r.purpose === "SELL" ? "Handled by the admin team." : `No partner yet · buzzed ${r.buzzCount}× (radius ${r.buzzRadiusKm || 0} km)`}
+                            </p>
+                            {l && (
+                              <p className="text-xs text-slate-500">
+                                {l.isDelisted ? "Delisted" : l.listingExpiresAt ? `Live until ${date(l.listingExpiresAt)}` : "Live"} · {l.approvalStatus}
+                              </p>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </Card>
+              )}
 
               <Card title="Listings" icon={Building2} count={user._count.properties}>
                 {properties.length === 0 ? (

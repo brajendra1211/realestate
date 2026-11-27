@@ -11,6 +11,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/agent_document.dart';
 import '../../../services/agent_documents_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDocumentsScreen extends StatefulWidget {
   const AgentDocumentsScreen({super.key});
@@ -99,7 +100,7 @@ class _AgentDocumentsScreenState extends State<AgentDocumentsScreen> {
         type: selectedType,
       );
       if (!mounted) return;
-      setState(() => _future = _service.getDocuments());
+      setState(() { _future = _service.getDocuments(); });
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Document uploaded')));
     } on ApiException catch (e) {
@@ -112,7 +113,7 @@ class _AgentDocumentsScreenState extends State<AgentDocumentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Documents')),
+      appBar: BackAppBar(title: const Text('Documents')),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.gold,
         foregroundColor: AppColors.textOnGold,
@@ -120,7 +121,7 @@ class _AgentDocumentsScreenState extends State<AgentDocumentsScreen> {
         child: const Icon(Icons.upload_file_outlined),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getDocuments()),
+        onRefresh: () async => setState(() { _future = _service.getDocuments(); }),
         child: FutureBuilder<List<AgentDocument>>(
           future: _future,
           builder: (context, snapshot) {
@@ -133,7 +134,7 @@ class _AgentDocumentsScreenState extends State<AgentDocumentsScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getDocuments()),
+                onRetry: () => setState(() { _future = _service.getDocuments(); }),
               );
             }
             final documents = snapshot.data ?? [];

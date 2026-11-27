@@ -325,9 +325,9 @@ export default async function AdminPrimeExpiryPage({
                       <p className="font-mono font-black text-slate-900 text-sm">
                         ₹{partner.walletBalance.toLocaleString("en-IN")}
                       </p>
-                      {partner.walletBalance < (partner.planPrice ?? 2000) && (
+                      {partner.walletBalance < (partner.planPrice ?? 1999) && (
                         <p className="text-[10px] font-bold text-red-600 mt-0.5">
-                          Low for auto-debit (₹{partner.planPrice ?? 2000})
+                          Low for auto-debit (₹{partner.planPrice ?? 1999})
                         </p>
                       )}
                     </div>

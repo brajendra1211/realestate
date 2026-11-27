@@ -9,6 +9,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../providers/agent_auth_provider.dart';
 import '../../providers/customer_auth_provider.dart';
+import '../../core/widgets/back_app_bar.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -18,73 +19,147 @@ class AccountScreen extends StatelessWidget {
     final agentAuth = context.watch<AgentAuthProvider>();
     final customerAuth = context.watch<CustomerAuthProvider>();
 
-    // NextAuth holds one session per cookie jar, so at most one of these is
-    // ever true — show that one role's card, or a single sign-in entry
-    // point when logged out, rather than making the person guess which of
-    // three screens their account lives behind.
-    final signedIn = agentAuth.isLoggedIn || customerAuth.isBuyer || customerAuth.isInvestor;
+    // NextAuth holds one session per cookie jar, so at most one role is signed in.
+    final signedIn = agentAuth.isLoggedIn || customerAuth.isBuyer || customerAuth.isInvestor || customerAuth.isOwner;
+
+    Future<void> logout() async {
+      if (agentAuth.isLoggedIn) {
+        await agentAuth.logout();
+      } else {
+        await customerAuth.logout();
+      }
+      if (context.mounted) context.go(RoutePaths.home);
+    }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Account')),
+      appBar: BackAppBar(title: const Text('Account')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(AppSpacing.lg),
           children: [
             Text(
-              'Account',
-              style: GoogleFonts.fraunces(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
+              signedIn ? 'Your ${AppBrand.name} account' : 'Welcome to ${AppBrand.name}',
+              style: GoogleFonts.fraunces(fontSize: 22, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              signedIn
-                  ? 'Your ${AppBrand.name} account.'
-                  : 'Sign in to save properties, manage listings, or track referrals.',
+              signedIn ? 'Everything for your account is here.' : 'Choose how you want to continue.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: AppSpacing.lg),
-            if (agentAuth.isLoggedIn)
+            if (agentAuth.isLoggedIn) ...[
               _AccountOption(
                 icon: Icons.badge_outlined,
                 title: 'Channel Partner',
-                subtitle: 'Signed in as ${agentAuth.name ?? 'agent'}',
+                subtitle: 'Signed in as ${agentAuth.name ?? 'partner'}',
                 signedIn: true,
                 onTap: () => context.push(RoutePaths.agentDashboard),
-              )
-            else if (customerAuth.isInvestor)
+              ),
+            ] else if (customerAuth.isOwner) ...[
+              _AccountOption(
+                icon: Icons.home_work_outlined,
+                title: 'Property Owner',
+                subtitle: 'Signed in as ${customerAuth.name ?? customerAuth.email ?? 'owner'}',
+                signedIn: true,
+                onTap: () => context.push(RoutePaths.ownerStatus),
+              ),
+            ] else if (customerAuth.isInvestor) ...[
               _AccountOption(
                 icon: Icons.trending_up,
                 title: 'Referral Partner',
-                subtitle:
-                    'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'referral partner'}',
+                subtitle: 'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'referral partner'}',
                 signedIn: true,
                 onTap: () => context.push(RoutePaths.investorDashboard),
-              )
-            else if (customerAuth.isBuyer)
+              ),
+            ] else if (customerAuth.isBuyer) ...[
               _AccountOption(
                 icon: Icons.person_outline,
                 title: 'Buyer',
-                subtitle:
-                    'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'buyer'}',
+                subtitle: 'Signed in as ${customerAuth.name ?? customerAuth.email ?? customerAuth.phone ?? 'buyer'}',
                 signedIn: true,
                 onTap: () => context.push(RoutePaths.buyerDashboard),
-              )
-            else
+              ),
+            ] else ...[
+              _section(context, 'Log in as'),
               _AccountOption(
-                icon: Icons.login,
-                title: 'Sign in',
-                subtitle: 'One code — we\'ll take you to the right place.',
+                icon: Icons.person_outline,
+                title: 'Buyer',
+                subtitle: 'Find and unlock properties. Login with an OTP.',
                 signedIn: false,
                 onTap: () => context.push(RoutePaths.buyerLogin),
               ),
+              const SizedBox(height: AppSpacing.sm),
+              _AccountOption(
+                icon: Icons.home_work_outlined,
+                title: 'Property Owner',
+                subtitle: 'Track your listed property. Login with email and password.',
+                signedIn: false,
+                onTap: () => context.push(RoutePaths.ownerLogin),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              _AccountOption(
+                icon: Icons.badge_outlined,
+                title: 'Channel Partner',
+                subtitle: 'Buzzer, listings, commissions and your wallet.',
+                signedIn: false,
+                onTap: () => context.push(RoutePaths.agentLogin),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              _AccountOption(
+                icon: Icons.trending_up,
+                title: 'Referral Partner',
+                subtitle: 'Track your referrals and earnings.',
+                signedIn: false,
+                onTap: () => context.push(RoutePaths.investorLogin),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              _section(context, 'New here?'),
+              _AccountOption(
+                icon: Icons.add_home_work_outlined,
+                title: 'List your property',
+                subtitle: 'Owners: plans from ₹299, verified on site by a partner.',
+                signedIn: false,
+                onTap: () => context.push(RoutePaths.ownerStart),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              _AccountOption(
+                icon: Icons.handshake_outlined,
+                title: 'Become a Channel Partner',
+                subtitle: 'Register your shop and start getting buzzers.',
+                signedIn: false,
+                onTap: () => context.push(RoutePaths.agentRegister),
+              ),
+            ],
+            const SizedBox(height: AppSpacing.lg),
+            _section(context, 'Help'),
+            _AccountOption(
+              icon: Icons.support_agent_outlined,
+              title: 'Help & support',
+              subtitle: 'Raise a ticket. We reply within 2 hours.',
+              signedIn: false,
+              onTap: () => context.push(RoutePaths.support),
+            ),
+            if (signedIn) ...[
+              const SizedBox(height: AppSpacing.lg),
+              OutlinedButton.icon(
+                onPressed: logout,
+                icon: const Icon(Icons.logout),
+                label: const Text('Log out'),
+              ),
+            ],
           ],
         ),
       ),
     );
   }
+
+  Widget _section(BuildContext context, String title) => Padding(
+        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+        child: Text(
+          title.toUpperCase(),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w800, letterSpacing: 1.2, color: AppColors.textMuted),
+        ),
+      );
 }
 
 class _AccountOption extends StatelessWidget {

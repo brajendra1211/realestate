@@ -27,11 +27,11 @@ export default async function OwnerListingPage({ params }: { params: Params }) {
   const { token } = await params;
   const request = await getRequestByFormToken(token);
 
-  if (!request || !request.acceptedByAgentId) {
-    return <Notice title="This link is not active" text="Please use the link your channel partner sent you, or contact them for a new one." />;
+  if (!request || request.purpose === "SELL" || request.status === "PENDING_PAYMENT" || request.status === "ADMIN_DESK") {
+    return <Notice title="This link is not active" text="Please start again from List a Property, or contact support." />;
   }
-  if (request.status === "SUBMITTED") {
-    return <Notice title="Property already submitted" text="Your property details have been received. Your partner will take it from here." />;
+  if (request.status === "SUBMITTED" || request.detailsJson) {
+    return <Notice title="Property details received" text="Your property is in process. A verified partner will visit and verify it within 48 hours." />;
   }
   if (request.status === "CANCELLED") {
     return <Notice title="Request cancelled" text="This listing request was cancelled. Please contact support." />;
@@ -44,11 +44,9 @@ export default async function OwnerListingPage({ params }: { params: Params }) {
         <p className="text-xs font-bold uppercase tracking-wider text-brand-100">Hello {request.ownerName}</p>
         <h1 className="font-display mt-1 text-3xl font-semibold">Add your property details</h1>
         <p className="mt-2 text-sm text-brand-100">
-          Your listing will go live under{" "}
-          <b className="text-white">{agent?.shopName ?? agent?.user.name}</b>
-          {agent?.agentCode ? ` (${agent.agentCode})` : ""}, your channel partner.
+          Fill in your property details and photos. A verified partner near you will visit to verify them, and your listing goes live right after.
         </p>
-        {agent?.user.phone && (
+        {agent?.user.phone && request.status !== "DETAILS_PENDING" && (
           <a href={`tel:${agent.user.phone}`} className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-bold">
             <PhoneCall className="h-4 w-4" /> Call your partner
           </a>

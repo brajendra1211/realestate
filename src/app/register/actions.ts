@@ -1,5 +1,6 @@
 "use server";
 
+import { isValidMobile } from "@/lib/validators";
 import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
@@ -27,16 +28,13 @@ export async function register(_prevState: RegisterState, formData: FormData): P
     .trim()
     .toLowerCase();
   const phone = String(formData.get("phone") ?? "").trim();
+  if (phone && !isValidMobile(phone)) return { error: "invalidPhone" };
   const company = String(formData.get("company") ?? "").trim();
   const password = String(formData.get("password") ?? "");
-  const accountType = String(formData.get("accountType") ?? "OWNER");
-  const role = accountType === "DEALER" ? "DEALER" : "OWNER";
+  const role = "OWNER" as const;
 
   if (!name || !email || password.length < 8) {
     return { error: "validation" };
-  }
-  if (role === "DEALER" && !company) {
-    return { error: "company" };
   }
 
   const existing = await prisma.user.findUnique({ where: { email } });
@@ -50,7 +48,7 @@ export async function register(_prevState: RegisterState, formData: FormData): P
       email,
       phone: phone || null,
       company: company || null,
-      slug: await uniqueUserSlug(role === "DEALER" ? company || name : name),
+      slug: await uniqueUserSlug(name),
       passwordHash: await hashPassword(password),
       role,
     },

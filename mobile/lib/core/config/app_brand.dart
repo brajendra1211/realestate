@@ -7,14 +7,14 @@ class AppBrand {
 
   static const String name = String.fromEnvironment(
     'APP_BRAND_NAME',
-    defaultValue: 'BayaEstate',
+    defaultValue: 'Pronesto',
   );
 
   /// Character count of the wordmark's first (non-italic) half, e.g. 4 for
   /// "Baya" + "Estate" or 3 for "Pro" + "nesto".
   static const int splitAt = int.fromEnvironment(
     'APP_BRAND_SPLIT',
-    defaultValue: 4,
+    defaultValue: 3,
   );
 
   static String get wordmarkPrefix => name.substring(0, splitAt.clamp(0, name.length));
@@ -25,7 +25,7 @@ class AppBrand {
   /// offsets into the uppercased name, set via `--dart-define=APP_SPLASH_SPLIT1=n`
   /// and `=APP_SPLASH_SPLIT2=n`.
   static const int splashSplit1 = int.fromEnvironment('APP_SPLASH_SPLIT1', defaultValue: 3);
-  static const int splashSplit2 = int.fromEnvironment('APP_SPLASH_SPLIT2', defaultValue: 5);
+  static const int splashSplit2 = int.fromEnvironment('APP_SPLASH_SPLIT2', defaultValue: 7);
 
   static String get splashSegment1 =>
       name.toUpperCase().substring(0, splashSplit1.clamp(0, name.length));

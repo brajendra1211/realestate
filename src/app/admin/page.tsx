@@ -33,7 +33,7 @@ export default async function AdminPage() {
     Promise.all([
       prisma.property.count(),
       prisma.property.count({ where: { approvalStatus: "PENDING" } }),
-      prisma.user.count({ where: { role: { in: ["OWNER", "DEALER"] } } }),
+      prisma.user.count({ where: { role: "OWNER" } }),
       prisma.user.count({ where: { role: "AGENT" } }),
       prisma.agentListing.count({ where: { source: "CUSTOMER_GOLD", approvalStatus: "PENDING" } }).catch(() => 0),
       prisma.deal.count({ where: { status: { not: "CLOSED" } } }).catch(() => 0),
@@ -329,7 +329,7 @@ export default async function AdminPage() {
             <span className="text-blue-600 opacity-0 group-hover:opacity-100 transition">→</span>
           </div>
           <div className="mt-2 text-2xl font-black text-slate-900">{totalListers}</div>
-          <div className="mt-0.5 text-xs font-medium text-slate-500">Owners &amp; Dealers</div>
+          <div className="mt-0.5 text-xs font-medium text-slate-500">Owners</div>
         </Link>
 
         <Link

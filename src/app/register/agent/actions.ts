@@ -9,6 +9,7 @@ import {
   type AgentDocumentInput,
 } from "@/lib/agent";
 import { createRegistrationOrder, confirmRegistrationPayment } from "@/lib/agentRegistrationPayment";
+import { sendAgentRegistrationOtp } from "@/lib/agent";
 
 function readDoc(
   formData: FormData,
@@ -49,6 +50,17 @@ export async function confirmRegistrationPaymentAction(
     return { ok: true as const };
   } catch (error) {
     if (error instanceof AgentServiceError) return { ok: false as const, error: error.message };
+    throw error;
+  }
+}
+
+/** Sends the WhatsApp OTP that proves the mobile number before registering. */
+export async function sendRegisterOtpAction(phone: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    await sendAgentRegistrationOtp(phone);
+    return { ok: true };
+  } catch (error) {
+    if (error instanceof AgentServiceError) return { ok: false, error: error.message };
     throw error;
   }
 }
@@ -122,6 +134,7 @@ export async function registerAgent(
       gstNumber: String(formData.get("gstNumber") ?? ""),
       documents,
       referredByAgentCode: String(formData.get("referredByAgentCode") ?? ""),
+      otp: String(formData.get("otp") ?? ""),
     });
   } catch (error) {
     if (error instanceof AgentServiceError) {

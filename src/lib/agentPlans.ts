@@ -18,15 +18,15 @@ export interface AgentPlanDefinition {
 // Multi-month variants, billed up front at a discount (admin can edit the price
 // in /admin/plans — it is only seeded here, never overwritten).
 export const AGENT_QUARTER_PLANS = [
-  { id: "plan-agent-basic-3m", name: "Channel Partner Basic Plan (3 months)", price: 2500, durationDays: 90, listingLimit: 10 },
-  { id: "plan-agent-prime-3m", name: "Channel Partner Prime Plan (3 months)", price: 5500, durationDays: 90, listingLimit: 999999 },
+  { id: "plan-agent-basic-3m", name: "Channel Partner Basic Plan (3 months)", price: 2499, durationDays: 90, listingLimit: 10 },
+  { id: "plan-agent-prime-3m", name: "Channel Partner Prime Plan (3 months)", price: 4999, durationDays: 90, listingLimit: 999999 },
 ];
 
 export const DEFAULT_AGENT_PLANS = [
   {
     name: "Channel Partner Basic Plan",
     tier: "BASIC" as AgentPlanTier,
-    price: 1000,
+    price: 999,
     durationDays: 30,
     listingLimit: 10,
     description: "Basic monthly channel partner code membership with standard listing limits",
@@ -34,7 +34,7 @@ export const DEFAULT_AGENT_PLANS = [
   {
     name: "Channel Partner Prime Plan",
     tier: "PRIME" as AgentPlanTier,
-    price: 2000,
+    price: 1999,
     durationDays: 30,
     listingLimit: 999999, // Unlimited listings
     description: "Prime monthly channel partner membership with Unlimited property listings and high priority",
@@ -46,8 +46,8 @@ export const DEFAULT_AGENT_PLANS = [
  */
 export async function ensureDefaultAgentPlans() {
   const settings = await getSiteSettings();
-  const basicPrice = settings.agentBasicPlanPrice ?? 1000;
-  const primePrice = settings.agentPrimePlanPrice ?? 2000;
+  const basicPrice = settings.agentBasicPlanPrice ?? 999;
+  const primePrice = settings.agentPrimePlanPrice ?? 1999;
 
   const plans = await Promise.all(
     DEFAULT_AGENT_PLANS.map(async (def) => {
@@ -186,7 +186,7 @@ export async function getAgentSubscriptionStatus(agentProfileId: string) {
     const diffMs = currentSub.endDate.getTime() - now.getTime();
     daysRemaining = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
     // PDF 2 Page 1: 5 days pehle hi renewal alert show aa jayega
-    if (daysRemaining <= 5 && agent.walletBalance < (currentSub.plan.price ?? 2000)) {
+    if (daysRemaining <= 5 && agent.walletBalance < (currentSub.plan.price ?? 1999)) {
       renewalAlertActive = true;
     }
   }
@@ -310,7 +310,7 @@ export async function getAllAgentsPrimeExpiryStatus(options?: {
       daysRemaining,
       expiryDate,
       planName: currentSub?.plan.name ?? (agent.planTier === "PRIME" ? "Channel Partner Prime Plan" : "Basic Plan"),
-      planPrice: currentSub?.plan.price ?? (agent.planTier === "PRIME" ? 2000 : 1000),
+      planPrice: currentSub?.plan.price ?? (agent.planTier === "PRIME" ? 1999 : 999),
     };
   });
 

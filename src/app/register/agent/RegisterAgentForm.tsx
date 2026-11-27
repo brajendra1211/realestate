@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import {
   registerAgent,
+  sendRegisterOtpAction,
   createRegistrationOrderAction,
   confirmRegistrationPaymentAction,
   type RegisterAgentState,
@@ -44,6 +45,8 @@ const initialState: RegisterAgentState = {};
 const UPLOAD = "/api/upload/registration-document";
 
 const ERROR_MESSAGES: Record<string, string> = {
+  otpInvalid: "The WhatsApp OTP is not correct or has expired. Please request a new one.",
+  otpSendFailed: "We couldn't send the OTP right now. Please try again in a minute.",
   validation: "Please fill in your name, email, and an 8+ character password.",
   shopDetails: "Shop name, shop address, and city are required.",
   duplicate: "An account with this email already exists.",
@@ -58,6 +61,61 @@ const ERROR_MESSAGES: Record<string, string> = {
   planRequired: "Please choose a plan.",
   referrerNotFound: "That referring Channel Partner Code wasn't found — check it or leave it blank.",
 };
+
+// Mobile number + WhatsApp OTP: the number must be proven before the account is created.
+function PhoneOtpFields() {
+  const [phone, setPhone] = useState("");
+  const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [note, setNote] = useState<string | null>(null);
+  const valid = /^[6-9]\d{9}$/.test(phone);
+
+  async function send() {
+    setBusy(true);
+    setNote(null);
+    const r = await sendRegisterOtpAction(phone);
+    setBusy(false);
+    if (r.ok) {
+      setSent(true);
+      setNote("OTP sent on WhatsApp.");
+    } else {
+      setNote(ERROR_MESSAGES[r.error] ?? "Could not send the OTP.");
+    }
+  }
+
+  return (
+    <>
+      <Field label="Mobile number" required hint="10 digits. One mobile number can only be used for one account.">
+        <input
+          name="phone"
+          required
+          inputMode="numeric"
+          maxLength={10}
+          pattern="[6-9][0-9]{9}"
+          placeholder="9876543210"
+          value={phone}
+          onChange={(e) => {
+            setPhone(e.target.value.replace(/\D/g, "").slice(0, 10));
+            setSent(false);
+          }}
+          className={inputCls}
+        />
+        <button
+          type="button"
+          onClick={send}
+          disabled={!valid || busy}
+          className="mt-2 inline-flex cursor-pointer items-center rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {busy ? "Sending…" : sent ? "Resend WhatsApp OTP" : "Send WhatsApp OTP"}
+        </button>
+        {note && <p className="mt-1 text-xs font-semibold text-slate-600">{note}</p>}
+      </Field>
+      <Field label="WhatsApp OTP" required hint="Enter the 6-digit code we sent to your WhatsApp.">
+        <input name="otp" required inputMode="numeric" maxLength={6} placeholder={sent ? "6-digit OTP" : "Send the OTP first"} className={inputCls} />
+      </Field>
+    </>
+  );
+}
 
 // Forced hard navigation via window.location instead of relying on the
 // Server Action's built-in redirect() — see src/app/login/LoginForm.tsx.
@@ -149,9 +207,7 @@ export function RegisterAgentForm({
           <Field label="Email" required>
             <input type="email" name="email" required suppressHydrationWarning className={inputCls} />
           </Field>
-          <Field label="Mobile number" required hint="10 digits. One mobile number can only be used for one account.">
-            <SmartInput kind="mobile" name="phone" required placeholder="9876543210" />
-          </Field>
+          <PhoneOtpFields />
           <Field label="Alternate mobile number">
             <SmartInput kind="mobile" name="alternatePhone" placeholder="Optional" pattern="([6-9][0-9]{9})?" />
           </Field>

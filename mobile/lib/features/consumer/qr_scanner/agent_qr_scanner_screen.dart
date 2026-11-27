@@ -1,3 +1,4 @@
+import '../../../core/payments/razorpay_checkout.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import '../../../core/utils/error_messages.dart';
 import '../../../core/utils/location_helper.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../services/agent_shop_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentQrScannerScreen extends StatefulWidget {
   const AgentQrScannerScreen({super.key});
@@ -107,7 +109,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
   Future<void> _handleCodeScanned(String rawInput) async {
     final code = _extractAgentCode(rawInput);
     if (code == null || code.isEmpty) {
-      setState(() => _errorMessage = 'Invalid QR code. Please scan a valid Channel Partner QR.');
+      setState(() { _errorMessage = 'Invalid QR code. Please scan a valid Channel Partner QR.'; });
       return;
     }
 
@@ -135,14 +137,14 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
       _showPaymentSheet(code, shopData.agent.name, shopData.agent.shopName);
     } on ApiException catch (e) {
       if (!mounted) return;
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
       _resumeScanning();
     } catch (e) {
       if (!mounted) return;
-      setState(() => _errorMessage = 'Failed to process QR code: $e');
+      setState(() { _errorMessage = 'Failed to process QR code: $e'; });
       _resumeScanning();
     } finally {
-      if (mounted) setState(() => _isProcessing = false);
+      if (mounted) setState(() { _isProcessing = false; });
     }
   }
 
@@ -285,19 +287,27 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
                                 final orderRes = await _service.createUnlockOrder(agentCode);
 
                                 // If already unlocked or simulated test mode
-                                final isSimulated = orderRes['simulated'] == true ||
-                                    orderRes['order'] == null;
+                                final order = orderRes['order'] as Map?;
+                                if (order == null) {
+                                  throw const ApiException('payment_unavailable', null);
+                                }
 
-                                // 2. Verify payment on backend
+                                // 2. Pay with the real Razorpay checkout, then verify the signed payment
+                                final paid = await openRazorpayCheckout(
+                                  keyId: orderRes['keyId'] as String,
+                                  orderId: order['id'] as String,
+                                  amountPaise: (order['amount'] as num).toInt(),
+                                  description: 'Unlock partner shop',
+                                );
+                                if (paid == null) {
+                                  setSheetState(() => paying = false);
+                                  return;
+                                }
                                 await _service.verifyUnlock(
                                   agentCode,
-                                  orderId: isSimulated
-                                      ? 'mobile_sim_${DateTime.now().millisecondsSinceEpoch}'
-                                      : orderRes['order']['id'] as String?,
-                                  paymentId: isSimulated
-                                      ? 'pay_sim_${DateTime.now().millisecondsSinceEpoch}'
-                                      : 'pay_mobile_rzp',
-                                  signature: isSimulated ? 'sim_sig' : 'rzp_sig',
+                                  orderId: paid.orderId,
+                                  paymentId: paid.paymentId,
+                                  signature: paid.signature,
                                 );
 
                                 if (!sheetContext.mounted) return;
@@ -334,7 +344,7 @@ class _AgentQrScannerScreenState extends State<AgentQrScannerScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryNavy,
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('Scan Channel Partner QR Code'),
         backgroundColor: AppColors.primaryNavy,
         foregroundColor: Colors.white,

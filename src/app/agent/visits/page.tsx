@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getAgentByUserId } from "@/lib/agent";
 import { getVisitLogsForAgent, getCustomerVisitHistory } from "@/lib/visitLog";
+import { SmartInput } from "@/components/forms/FormKit";
 
 type SearchParams = Promise<{ saved?: string; conflict?: string; masterId?: string; originalAgent?: string; phone?: string; code?: string }>;
 
@@ -64,7 +65,7 @@ export default async function AgentVisitsPage({ searchParams }: { searchParams: 
       <section className="mt-6 rounded-xl border border-slate-200 bg-white p-4">
         <h2 className="text-sm font-bold text-slate-900">Customer ne ab tak kitni property dekhi?</h2>
         <form method="get" className="mt-2 flex gap-2">
-          <input
+          <SmartInput kind="mobile"
             name="phone"
             defaultValue={phone ?? ""}
             inputMode="numeric"

@@ -9,7 +9,6 @@ export async function MobileBottomNav() {
 
   if (
     session?.user.role === "OWNER" ||
-    session?.user.role === "DEALER" ||
     session?.user.role === "SUBADMIN"
   ) {
     middle = {

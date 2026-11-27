@@ -18,6 +18,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { PropertyGallery } from "@/components/PropertyGallery";
 import { isOwnerPublic, isPropertyExpired } from "@/lib/propertyVisibility";
 import { toggleSavedProperty } from "@/app/buyer/actions";
+import { toggleCartAction } from "@/app/buyer/cart/actions";
 import { EnquiryForm } from "./EnquiryForm";
 import { getSiteSettings } from "@/lib/site-settings";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Motion";
@@ -114,6 +115,9 @@ export default async function PropertyDetailPage({ params }: { params: Params })
 
   const session = await auth();
   const isBuyer = session?.user.role === "BUYER";
+  const inCart = isBuyer
+    ? Boolean(await prisma.cartItem.findFirst({ where: { userId: session!.user.id, propertyId: property.id } }))
+    : false;
   const [buyer, isSaved] = await Promise.all([
     isBuyer ? prisma.user.findUnique({ where: { id: session!.user.id } }) : null,
     isBuyer
@@ -320,6 +324,20 @@ export default async function PropertyDetailPage({ params }: { params: Params })
                 <PlayCircle className="h-4 w-4" /> Watch video tour
               </a>
             )}
+            {isBuyer ? (
+              <form action={toggleCartAction}>
+                <input type="hidden" name="propertyId" value={property.id} />
+                <input type="hidden" name="redirectTo" value={`/properties/${property.slug}`} />
+                <button
+                  type="submit"
+                  className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
+                    inCart ? "border-green-300 bg-green-50 text-green-700" : "border-slate-200 bg-white text-ink hover:border-brand-600"
+                  }`}
+                >
+                  {inCart ? "In cart ✓" : "Add to cart"}
+                </button>
+              </form>
+            ) : null}
             {isBuyer ? (
               <form action={toggleSavedProperty}>
                 <input type="hidden" name="propertyId" value={property.id} />

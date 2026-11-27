@@ -6,6 +6,7 @@ import '../../../core/network/api_exception.dart';
 import '../../../core/network/endpoints.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/error_messages.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Two notification switches for the partner:
 ///  - Buzzer alerts: ring when a buyer / owner / dispatch lead comes in.
@@ -78,14 +79,14 @@ class _AgentSettingsScreenState extends State<AgentSettingsScreen> {
         SnackBar(content: Text(errorMessageFor(ApiException.fromDioError(e)))),
       );
     } finally {
-      if (mounted) setState(() => _saving = false);
+      if (mounted) setState(() { _saving = false; });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: BackAppBar(title: const Text('Settings')),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _error != null

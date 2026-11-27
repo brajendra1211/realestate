@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getListingBySlug } from "@/lib/listing";
 import { getWebsiteListingDetail } from "@/lib/websiteListings";
-import { getUnlockForBuyer } from "@/lib/unlock";
+import { canSeeFullListing } from "@/lib/access";
 import { getSiteSettings } from "@/lib/site-settings";
 
 export async function GET(_request: Request, context: { params: Promise<{ slug: string }> }) {
@@ -15,8 +15,8 @@ export async function GET(_request: Request, context: { params: Promise<{ slug: 
   }
 
   const session = await auth();
-  const isUnlocked =
-    session?.user.role === "BUYER" ? Boolean(await getUnlockForBuyer(session.user.id, listing.id)) : false;
+  // Paid buyers see every listing in full; an owner sees their own listing without paying again.
+  const isUnlocked = await canSeeFullListing(session?.user, listing.id);
 
   const teaser = {
     id: listing.id,

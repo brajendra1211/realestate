@@ -20,6 +20,7 @@ class AgentOwnedListing {
     required this.listingPlan,
     required this.isDelisted,
     this.listingExpiresAt,
+    this.raw = const {},
   });
 
   final String id;
@@ -37,6 +38,9 @@ class AgentOwnedListing {
   final String listingPlan; // BASIC | GOLD
   final bool isDelisted;
   final DateTime? listingExpiresAt;
+
+  /// The full server row (description, address, rooms, owner, verification...) for the details sheet.
+  final Map<String, dynamic> raw;
 
   /// Mirrors the backend's own near-expiry window (it warns at 7d/2d) —
   /// used to decide when to surface the "Renew" action.
@@ -72,6 +76,7 @@ class AgentOwnedListing {
       listingExpiresAt: json['listingExpiresAt'] != null
           ? DateTime.parse(json['listingExpiresAt'] as String)
           : null,
+      raw: json,
     );
   }
 }

@@ -6,13 +6,15 @@ import { prisma } from "@/lib/prisma";
 import { getListingBySlug } from "@/lib/listing";
 import { getAgreementUrgency } from "@/lib/listingDelist";
 import { getUnlockForBuyer } from "@/lib/unlock";
+import { canSeeFullListing } from "@/lib/access";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getAgentListingRingsRemainingToday } from "@/lib/agentListingRing";
 import { formatINR, parseVideoUrls, getVideoEmbed, PROPERTY_TYPE_LABELS } from "@/lib/format";
 import { UnlockButton } from "@/components/UnlockButton";
 import { SwitchAgentButton } from "@/components/SwitchAgentButton";
-import { DirectVisitVerification } from "@/components/DirectVisitVerification";
+// import { DirectVisitVerification } from "@/components/DirectVisitVerification";
 import { toggleSavedAgentListing, ringAgentListingAction } from "@/app/buyer/actions";
+import { toggleCartAction } from "@/app/buyer/cart/actions";
 
 type Params = Promise<{ slug: string }>;
 type SearchParams = Promise<{ unlocked?: string }>;
@@ -45,7 +47,7 @@ export default async function ListingDetailPage({
       ? getAgentListingRingsRemainingToday(session!.user.id, listing.id)
       : 0,
   ]);
-  const isUnlocked = Boolean(unlock);
+  const isUnlocked = Boolean(unlock) || (await canSeeFullListing(session?.user, listing.id));
   const interest = unlock
     ? await prisma.buyerInterest.findUnique({
         where: { unlockId: unlock.id },
@@ -53,6 +55,9 @@ export default async function ListingDetailPage({
       })
     : null;
   const isSaved = Boolean(savedEntry);
+  const inCart = isBuyer
+    ? Boolean(await prisma.cartItem.findFirst({ where: { userId: session!.user.id, agentListingId: listing.id } }))
+    : false;
 
   let activeAgent = listing.agent;
   if (unlock?.assignedAgentId && unlock.assignedAgentId !== listing.agentId) {
@@ -93,6 +98,20 @@ export default async function ListingDetailPage({
             {listing.masterProperty.locality ?? listing.masterProperty.city}, {listing.masterProperty.city}
           </p>
         </div>
+        {isBuyer ? (
+          <form action={toggleCartAction}>
+            <input type="hidden" name="agentListingId" value={listing.id} />
+            <input type="hidden" name="redirectTo" value={`/listings/${listing.slug}`} />
+            <button
+              type="submit"
+              className={`h-9 shrink-0 rounded-full border px-3 text-sm font-semibold ${
+                inCart ? "border-green-300 bg-green-50 text-green-700" : "border-slate-200 text-slate-600 hover:border-brand-600"
+              }`}
+            >
+              {inCart ? "In cart ✓" : "Add to cart"}
+            </button>
+          </form>
+        ) : null}
         {isBuyer ? (
           <form action={toggleSavedAgentListing}>
             <input type="hidden" name="agentListingId" value={listing.id} />
@@ -363,12 +382,6 @@ export default async function ListingDetailPage({
               />
             )}
 
-            {isUnlocked && (
-              <DirectVisitVerification
-                listingId={listing.id}
-                isUnlocked={isUnlocked}
-              />
-            )}
           </>
         ) : (
           <>

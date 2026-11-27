@@ -10,6 +10,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/leaderboard_entry.dart';
 import '../../../services/leaderboard_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 const _rankColors = {
   1: Color(0xFFE3CAA0),
@@ -69,7 +70,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Leaderboard')),
+      appBar: BackAppBar(title: const Text('Leaderboard')),
       body: FutureBuilder<LeaderboardData>(
         future: _future,
         builder: (context, snapshot) {

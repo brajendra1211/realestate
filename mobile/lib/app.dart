@@ -8,7 +8,9 @@ import 'core/config/app_brand.dart';
 import 'core/network/api_client.dart';
 import 'core/notifications/push_notifications.dart';
 import 'core/router/app_router.dart';
+import 'core/router/back_dispatcher.dart';
 import 'core/theme/app_theme.dart';
+import 'core/widgets/live_location_gate.dart';
 import 'providers/agent_auth_provider.dart';
 import 'providers/customer_auth_provider.dart';
 import 'services/auth_service.dart';
@@ -25,6 +27,8 @@ class _BayaEstateAppState extends State<BayaEstateApp> {
   late final AgentAuthProvider _agentAuth;
   late final CustomerAuthProvider _customerAuth;
   late final GoRouter _router;
+  late final AppBackDispatcher _backDispatcher;
+  final _messengerKey = GlobalKey<ScaffoldMessengerState>();
   StreamSubscription<Map<String, String>>? _ringTapSubscription;
 
   @override
@@ -34,6 +38,7 @@ class _BayaEstateAppState extends State<BayaEstateApp> {
     _agentAuth = AgentAuthProvider(_authService);
     _customerAuth = CustomerAuthProvider(_authService);
     _router = buildAppRouter(_agentAuth, _customerAuth);
+    _backDispatcher = AppBackDispatcher(_router, _messengerKey);
 
     // Kept alive for the app's whole lifetime (unlike the splash screen's
     // one-shot cold-start check) — jumps straight to the incoming-ring
@@ -62,7 +67,18 @@ class _BayaEstateAppState extends State<BayaEstateApp> {
         title: AppBrand.name,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
-        routerConfig: _router,
+        scaffoldMessengerKey: _messengerKey,
+        routeInformationProvider: _router.routeInformationProvider,
+        routeInformationParser: _router.routeInformationParser,
+        routerDelegate: _router.routerDelegate,
+        backButtonDispatcher: _backDispatcher,
+        builder: (context, child) => AnimatedBuilder(
+          animation: Listenable.merge([_agentAuth, _customerAuth]),
+          builder: (context, _) => LiveLocationGate(
+            signedIn: _agentAuth.isLoggedIn || _customerAuth.status == CustomerAuthStatus.loggedIn,
+            child: child ?? const SizedBox.shrink(),
+          ),
+        ),
       ),
     );
   }

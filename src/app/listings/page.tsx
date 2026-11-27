@@ -36,15 +36,6 @@ export default async function ListingsPage({ searchParams }: { searchParams: Sea
             Find a nearby agent
           </Link>
           <Link
-            href="/list-property/gold"
-            className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
-          >
-            <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 2l2.6 6.5L21 9l-5 4.5L17.5 21 12 17.5 6.5 21 8 13.5 3 9l6.4-.5z" />
-            </svg>
-            List your property (₹500)
-          </Link>
-          <Link
             href="/leaderboard"
             className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
           >

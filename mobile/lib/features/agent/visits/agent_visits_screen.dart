@@ -10,6 +10,8 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/visit_log.dart';
 import '../../../services/agent_visits_service.dart';
+import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentVisitsScreen extends StatefulWidget {
   const AgentVisitsScreen({super.key});
@@ -38,6 +40,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
         content: TextField(
           controller: phoneController,
           keyboardType: TextInputType.phone,
+          inputFormatters: phoneFormatters,
           decoration: const InputDecoration(labelText: "Customer's phone number"),
         ),
         actions: [
@@ -52,7 +55,13 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
         ],
       ),
     );
-    if (phone == null || Validators.phone(phone) != null || !mounted) return;
+    if (phone == null || !mounted) return;
+    if (Validators.phone(phone) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).')),
+      );
+      return;
+    }
 
     try {
       await _service.requestOtp(phone);
@@ -117,7 +126,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
         otp: otpController.text.trim(),
       );
       if (!mounted) return;
-      setState(() => _future = _service.getVisits());
+      setState(() { _future = _service.getVisits(); });
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Visit logged')));
     } on ApiException catch (e) {
@@ -130,7 +139,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Visit Log')),
+      appBar: BackAppBar(title: const Text('Visit Log')),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.gold,
         foregroundColor: AppColors.textOnGold,
@@ -138,7 +147,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getVisits()),
+        onRefresh: () async => setState(() { _future = _service.getVisits(); }),
         child: FutureBuilder<List<VisitLog>>(
           future: _future,
           builder: (context, snapshot) {
@@ -151,7 +160,7 @@ class _AgentVisitsScreenState extends State<AgentVisitsScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getVisits()),
+                onRetry: () => setState(() { _future = _service.getVisits(); }),
               );
             }
             final visits = snapshot.data ?? [];

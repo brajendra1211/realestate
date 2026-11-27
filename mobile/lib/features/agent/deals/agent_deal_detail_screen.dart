@@ -10,6 +10,7 @@ import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/status_badge.dart';
 import '../../../models/deal.dart';
 import '../../../services/agent_deals_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDealDetailScreen extends StatefulWidget {
   const AgentDealDetailScreen({super.key, required this.dealId, required this.initial});
@@ -64,11 +65,11 @@ class _AgentDealDetailScreenState extends State<AgentDealDetailScreen> {
       tokenAmount = int.tryParse(entered);
     }
 
-    setState(() => _advancing = true);
+    setState(() { _advancing = true; });
     try {
       final updated = await _service.advanceStage(_deal.id, status, tokenAmount: tokenAmount);
       if (!mounted) return;
-      setState(() => _deal = updated);
+      setState(() { _deal = updated; });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Deal moved to ${status.replaceAll('_', ' ')}.')),
       );
@@ -77,7 +78,7 @@ class _AgentDealDetailScreenState extends State<AgentDealDetailScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _advancing = false);
+      if (mounted) setState(() { _advancing = false; });
     }
   }
 
@@ -89,7 +90,7 @@ class _AgentDealDetailScreenState extends State<AgentDealDetailScreen> {
         nextStageIndex < Deal.stages.length ? Deal.stages[nextStageIndex] : null;
 
     return Scaffold(
-      appBar: AppBar(title: Text(deal.propertyTitle ?? 'Deal')),
+      appBar: BackAppBar(title: Text(deal.propertyTitle ?? 'Deal')),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [

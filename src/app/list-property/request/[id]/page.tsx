@@ -2,18 +2,19 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CheckCircle2, Circle, Loader2, PhoneCall } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-import { REQUEST_STATUS_LABEL } from "@/lib/listingRequest";
+import { REQUEST_STATUS_LABEL, advanceListingRequests } from "@/lib/listingRequest";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { RebuzzButton } from "./RebuzzButton";
 
 type Params = Promise<{ id: string }>;
 type SearchParams = Promise<{ k?: string }>;
 
-const ORDER = ["PENDING_PAYMENT", "SEARCHING", "ACCEPTED", "LINK_SENT", "SUBMITTED"] as const;
+const ORDER = ["PENDING_PAYMENT", "DETAILS_PENDING", "SEARCHING", "ACCEPTED", "SUBMITTED"] as const;
 
 export default async function RequestStatusPage({ params, searchParams }: { params: Params; searchParams: SearchParams }) {
   const { id } = await params;
   const { k } = await searchParams;
+  await advanceListingRequests().catch(() => 0); // keeps the 5/10/15 km and 48 h timers moving
   const request = await prisma.listingRequest.findUnique({
     where: { id },
     include: {
@@ -24,21 +25,29 @@ export default async function RequestStatusPage({ params, searchParams }: { para
   if (!request || !k || request.statusToken !== k) notFound();
 
   const cancelled = request.status === "CANCELLED";
-  const idx = ORDER.indexOf(request.status as (typeof ORDER)[number]);
+  const idx = request.status === "LINK_SENT" ? 3 : ORDER.indexOf(request.status as (typeof ORDER)[number]);
   const live = !cancelled && request.status !== "SUBMITTED";
   const agentName = request.acceptedAgent?.shopName ?? request.acceptedAgent?.user.name;
 
-  const steps = [
-    { key: "paid", label: "Payment received", done: idx >= 1, text: `₹${request.amount.toLocaleString("en-IN")} · ${request.plan === "GOLD" ? "Gold" : "Basic"} plan` },
-    { key: "search", label: "A partner is accepting your request", done: idx >= 2, text: idx === 1 ? "Nearby partners have been alerted. This usually takes a few minutes." : undefined },
+  const sell = request.purpose === "SELL";
+  const paidDone = request.status !== "PENDING_PAYMENT";
+  const sellSteps = [
+    { key: "paid", label: "Payment received", done: paidDone, text: `₹${request.amount.toLocaleString("en-IN")} · ${request.plan === "GOLD" ? "Gold" : "Basic"} plan` },
+    { key: "team", label: "Our team will call you", done: request.status === "SUBMITTED", text: request.status === "ADMIN_DESK" ? "Your sell request is with our team. Keep your phone nearby: we will call you and take your property details and documents." : undefined },
+    { key: "live", label: "Your property is listed", done: request.status === "SUBMITTED" },
+  ];
+
+  const steps = sell ? sellSteps : [
+    { key: "paid", label: "Payment received", done: idx >= 1, text: `₹${request.amount.toLocaleString("en-IN")} · ${request.plan === "GOLD" ? "Pro" : "Basic"} plan` },
+    { key: "details", label: "Add your property details", done: idx >= 2, text: idx === 1 ? "Fill in the details and photos (keep your location ON)." : undefined },
+    { key: "search", label: "A nearby partner accepts your request", done: idx >= 3, text: idx === 2 ? "Partners within 5 km have been alerted. We widen to 10 km and 15 km if nobody accepts." : undefined },
     {
-      key: "call",
-      label: "Your partner will call you",
-      done: idx >= 3,
-      text: agentName ? `${agentName}${request.acceptedAgent?.agentCode ? ` (${request.acceptedAgent.agentCode})` : ""} is on it. Keep your phone nearby.` : undefined,
+      key: "verify",
+      label: "Your partner visits and verifies your property",
+      done: idx >= 4,
+      text: idx === 3 ? `${agentName ?? "Your partner"}${request.acceptedAgent?.agentCode ? ` (${request.acceptedAgent.agentCode})` : ""} will verify within 48 hours. Share the OTP you receive on WhatsApp with them at the property.` : undefined,
     },
-    { key: "link", label: "Fill your property details on the link they send", done: idx >= 4, text: idx === 3 ? "Open the link your partner sent you on WhatsApp or SMS." : undefined },
-    { key: "live", label: "Your listing is live", done: idx >= 4 && request.status === "SUBMITTED" },
+    { key: "live", label: "Your listing is live", done: request.status === "SUBMITTED" },
   ];
 
   return (
@@ -87,6 +96,21 @@ export default async function RequestStatusPage({ params, searchParams }: { para
               );
             })}
           </ol>
+        )}
+
+        {request.status === "DETAILS_PENDING" && (
+          <Link
+            href={`/list/${request.formToken}`}
+            className="mt-6 inline-flex rounded-xl bg-brand-600 px-5 py-3 text-sm font-bold text-white hover:bg-brand-700"
+          >
+            Add my property details
+          </Link>
+        )}
+
+        {(request.status === "SEARCHING" || request.status === "ACCEPTED") && request.detailsJson && (
+          <p className="mt-6 rounded-2xl bg-amber-50 p-4 text-sm font-semibold text-amber-800">
+            In process: an agent will verify your property within 48 hours.
+          </p>
         )}
 
         {request.status === "SEARCHING" && (

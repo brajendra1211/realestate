@@ -11,6 +11,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/error_messages.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/utils/validators.dart';
 import '../../../core/utils/media.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/empty_state.dart';
@@ -20,6 +21,8 @@ import '../../../models/buyer_profile.dart';
 import '../../../models/property.dart';
 import '../../../providers/customer_auth_provider.dart';
 import '../../../services/buyer_service.dart';
+import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 const _switchReasons = ['Unresponsive', 'No-show', 'Unprofessional', 'Other'];
 
@@ -48,7 +51,7 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
   // old FutureBuilder-per-call approach blanked the whole dashboard to a
   // spinner after every save/unsave/no-show tap, which read as broken.
   Future<void> _load() async {
-    if (_me == null) setState(() => _loading = true);
+    if (_me == null) setState(() { _loading = true; });
     try {
       final meFuture = _service.getMe();
       final appointmentsFuture = _service.getAppointments();
@@ -63,9 +66,9 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
       });
     } on ApiException catch (e) {
       if (!mounted) return;
-      setState(() => _loading = false);
+      setState(() { _loading = false; });
       if (_me == null) {
-        setState(() => _loadError = errorMessageFor(e));
+        setState(() { _loadError = errorMessageFor(e); });
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
@@ -80,6 +83,12 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
   }
 
   Future<void> _saveProfile(String name, String? email, String? phone) async {
+    if (phone != null && Validators.phone(phone) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).')),
+      );
+      return;
+    }
     try {
       await _service.updateProfile(name: name, email: email, phone: phone);
       if (!mounted) return;
@@ -175,9 +184,10 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('My Account'),
         actions: [
+          IconButton(icon: const Icon(Icons.shopping_cart_outlined), onPressed: () => context.push(RoutePaths.buyerCart)),
           IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
         ],
       ),
@@ -241,12 +251,18 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
           ),
         ],
         const SizedBox(height: AppSpacing.xl),
-        _DispatchCard(
-          onTap: () => context.push(RoutePaths.buyerDispatch),
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.receipt_long_outlined, color: AppColors.gold),
+            title: const Text('My payments'),
+            subtitle: const Text('What you paid for, which property, and when'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(RoutePaths.buyerPayments),
+          ),
         ),
         const SizedBox(height: AppSpacing.md),
-        _GoldListingCard(
-          onTap: () => context.push(RoutePaths.buyerGoldListing),
+        _DispatchCard(
+          onTap: () => context.push(RoutePaths.buyerDispatch),
         ),
         const SizedBox(height: AppSpacing.xl),
         _SectionLabel('Scheduled visits'),
@@ -387,54 +403,6 @@ class _DispatchCard extends StatelessWidget {
               ),
             ),
             const Icon(Icons.chevron_right, color: AppColors.textSecondary),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _GoldListingCard extends StatelessWidget {
-  const _GoldListingCard({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.lg),
-      child: Container(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        decoration: BoxDecoration(
-          color: AppColors.primaryNavy,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.workspace_premium_outlined, color: AppColors.goldLight, size: 28),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'List your property — Gold',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Colors.white,
-                        ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '₹500 pass, 90-day listing, reviewed before it goes live.',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: const Color(0xFFC6CEDB),
-                        ),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_right, color: AppColors.goldLight),
           ],
         ),
       ),
@@ -595,13 +563,13 @@ class _ProfileCardState extends State<_ProfileCard> {
   }
 
   Future<void> _save() async {
-    setState(() => _saving = true);
+    setState(() { _saving = true; });
     await widget.onSave(
       _nameController.text.trim(),
       _emailController.text.trim().isEmpty ? null : _emailController.text.trim(),
       _phoneController.text.trim().isEmpty ? null : _phoneController.text.trim(),
     );
-    if (mounted) setState(() => _saving = false);
+    if (mounted) setState(() { _saving = false; });
   }
 
   @override
@@ -627,6 +595,8 @@ class _ProfileCardState extends State<_ProfileCard> {
           TextFormField(
             controller: _phoneController,
             keyboardType: TextInputType.phone,
+            inputFormatters: phoneFormatters,
+            validator: (v) => (v == null || v.trim().isEmpty) ? null : Validators.phone(v),
             decoration: const InputDecoration(
               labelText: 'Phone',
               prefixIcon: Icon(Icons.call_outlined),
@@ -750,12 +720,12 @@ class _SwitchAgentSheetState extends State<_SwitchAgentSheet> {
               items: _switchReasons
                   .map((r) => DropdownMenuItem(value: r, child: Text(r)))
                   .toList(),
-              onChanged: (v) => setState(() => _reason = v),
+              onChanged: (v) => setState(() { _reason = v; }),
             ),
             const SizedBox(height: AppSpacing.sm),
             CheckboxListTile(
               value: _isComplaint,
-              onChanged: (v) => setState(() => _isComplaint = v ?? false),
+              onChanged: (v) => setState(() { _isComplaint = v ?? false; }),
               controlAffinity: ListTileControlAffinity.leading,
               contentPadding: EdgeInsets.zero,
               title: const Text(

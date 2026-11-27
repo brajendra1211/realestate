@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { emitToAgent } from "@/lib/socket";
 import { sendPushToUser } from "@/lib/push";
+import { buyerHasPaidAccess } from "@/lib/access";
+import { listingBriefFor, briefWhere } from "@/lib/listingBrief";
 
 export class AgentListingRingError extends Error {}
 
@@ -24,7 +26,15 @@ export async function ringAgentListing(buyerId: string, agentListingId: string) 
   const saved = await prisma.savedAgentListing.findUnique({
     where: { userId_agentListingId: { userId: buyerId, agentListingId } },
   });
-  if (!saved) throw new AgentListingRingError("notSaved");
+  if (!saved) {
+    // A buyer who has paid once has every listing open, so ringing does not need a separate "save".
+    if (!(await buyerHasPaidAccess(buyerId))) throw new AgentListingRingError("notSaved");
+    await prisma.savedAgentListing.upsert({
+      where: { userId_agentListingId: { userId: buyerId, agentListingId } },
+      create: { userId: buyerId, agentListingId },
+      update: {},
+    });
+  }
 
   const listing = await prisma.agentListing.findUnique({
     where: { id: agentListingId },
@@ -42,6 +52,7 @@ export async function ringAgentListing(buyerId: string, agentListingId: string) 
 
   await prisma.agentListingRingLog.create({ data: { buyerId, agentListingId } });
 
+  const brief = await listingBriefFor(agentListingId, listing.agent.id);
   const payload = { propertyId: agentListingId, propertyTitle: listing.title, buyerName: buyer.name };
   emitToAgent(listing.agent.id, "property-ring", payload);
   await sendPushToUser(
@@ -53,6 +64,10 @@ export async function ringAgentListing(buyerId: string, agentListingId: string) 
       propertyTitle: listing.title,
       buyerName: buyer.name,
       buyerPhone: buyer.phone ?? "",
+      propertyWhere: brief ? briefWhere(brief) : "",
+      propertyPrice: brief ? String(brief.price) : "",
+      propertyKind: brief ? `${brief.bedrooms ? `${brief.bedrooms} BHK ` : ""}${brief.propertyType.replace(/_/g, " ").toLowerCase()} for ${brief.listingType === "RENT" ? "rent" : "sale"}` : "",
+      listedBy: brief?.listedByLabel ?? "",
     }
   );
 

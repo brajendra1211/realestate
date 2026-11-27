@@ -23,6 +23,25 @@ export async function removeAgentFromIndex(agentProfileId: string) {
 
 export type NearbyAgent = { agentProfileId: string; distanceKm: number };
 
+// A live fix older than this is ignored and the saved shop location is used instead.
+export const LIVE_LOCATION_FRESH_MS = 12 * 60 * 60 * 1000;
+
+type PointSource = {
+  shopLatitude: number | null;
+  shopLongitude: number | null;
+  user?: { liveLatitude: number | null; liveLongitude: number | null; liveLocationAt: Date | null } | null;
+};
+
+/** Where a partner is right now: their live GPS when it is recent, otherwise the shop address they registered. */
+export function agentPoint(a: PointSource): { latitude: number; longitude: number } | null {
+  const u = a.user;
+  if (u?.liveLatitude != null && u.liveLongitude != null && u.liveLocationAt && Date.now() - u.liveLocationAt.getTime() < LIVE_LOCATION_FRESH_MS) {
+    return { latitude: u.liveLatitude, longitude: u.liveLongitude };
+  }
+  if (a.shopLatitude != null && a.shopLongitude != null) return { latitude: a.shopLatitude, longitude: a.shopLongitude };
+  return null;
+}
+
 // Ordered nearest-first, capped at `count` (dispatch needs "5-10 nearest").
 async function findNearbyAgentIdsViaRedis(
   latitude: number,
@@ -68,21 +87,20 @@ async function findNearbyAgentIdsViaMysql(
   const agents = await prisma.agentProfile.findMany({
     where: {
       primeStatus: true,
-      shopLatitude: { not: null },
-      shopLongitude: { not: null },
+      OR: [{ shopLatitude: { not: null }, shopLongitude: { not: null } }, { user: { liveLatitude: { not: null } } }],
       id: excludeAgentIds.length ? { notIn: excludeAgentIds } : undefined,
     },
-    select: { id: true, shopLatitude: true, shopLongitude: true },
+    select: { id: true, shopLatitude: true, shopLongitude: true, user: { select: { liveLatitude: true, liveLongitude: true, liveLocationAt: true } } },
   });
 
   return agents
-    .map((agent) => ({
-      agentProfileId: agent.id,
-      distanceKm: haversineDistanceKm(
-        { latitude, longitude },
-        { latitude: agent.shopLatitude!, longitude: agent.shopLongitude! }
-      ),
-    }))
+    .map((agent) => {
+      const point = agentPoint(agent);
+      return {
+        agentProfileId: agent.id,
+        distanceKm: point ? haversineDistanceKm({ latitude, longitude }, point) : Infinity,
+      };
+    })
     .filter((agent) => agent.distanceKm <= radiusKm)
     .sort((a, b) => a.distanceKm - b.distanceKm)
     .slice(0, count);

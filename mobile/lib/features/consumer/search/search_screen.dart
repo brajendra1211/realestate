@@ -15,6 +15,7 @@ import '../../../core/widgets/search_pill_field.dart';
 import '../../../models/public_listing.dart';
 import '../../../services/public_listings_service.dart';
 import 'widgets/listing_card.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 const _propertyTypes = [
   'APARTMENT',
@@ -141,7 +142,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('Explore'),
         actions: [
           IconButton(
@@ -304,7 +305,7 @@ class _FilterSheetState extends State<_FilterSheet> {
                   (t) => DropdownMenuItem(value: t, child: Text(EnumLabels.propertyType(t))),
                 ),
               ],
-              onChanged: (v) => setState(() => _propertyType = v),
+              onChanged: (v) => setState(() { _propertyType = v; }),
             ),
             const SizedBox(height: AppSpacing.sm),
             DropdownButtonFormField<int?>(
@@ -317,7 +318,7 @@ class _FilterSheetState extends State<_FilterSheet> {
                 DropdownMenuItem(value: 3, child: Text('3+')),
                 DropdownMenuItem(value: 4, child: Text('4+')),
               ],
-              onChanged: (v) => setState(() => _minBedrooms = v),
+              onChanged: (v) => setState(() { _minBedrooms = v; }),
             ),
             const SizedBox(height: AppSpacing.sm),
             Row(

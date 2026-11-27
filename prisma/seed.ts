@@ -37,7 +37,7 @@ async function main() {
       about:
         "BayaEstate Realty is a trusted property dealer in Bengaluru helping buyers, sellers, and tenants find the right home.",
       passwordHash: await hashPassword("Dealer123!"),
-      role: "DEALER",
+      role: "OWNER",
       verified: true,
     },
   });

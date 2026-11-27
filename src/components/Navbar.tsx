@@ -218,8 +218,9 @@ export async function Navbar({
                   </div>
                   {role === "ADMIN" && <MenuLink href="/admin" icon={<Crown className="h-4 w-4" />}>Admin console</MenuLink>}
                   {role === "AGENT" && <MenuLink href="/agent/dashboard" icon={<LayoutDashboard className="h-4 w-4" />}>Partner hub</MenuLink>}
-                  {(role === "OWNER" || role === "DEALER") && <MenuLink href="/dashboard" icon={<Home className="h-4 w-4" />}>My listings</MenuLink>}
+                  {role === "OWNER" && <MenuLink href="/dashboard" icon={<Home className="h-4 w-4" />}>My listings</MenuLink>}
                   {role === "BUYER" && <MenuLink href="/buyer/dashboard" icon={<UserRound className="h-4 w-4" />}>My activity</MenuLink>}
+                  {role === "BUYER" && <MenuLink href="/buyer/cart" icon={<Home className="h-4 w-4" />}>Property cart</MenuLink>}
                   {role === "INVESTOR" && <MenuLink href="/investor/dashboard" icon={<TrendingUp className="h-4 w-4" />}>Referral partner portal</MenuLink>}
                   <div className="mt-1 border-t border-slate-100 pt-1">
                     <LogoutButton className="w-full cursor-pointer rounded-xl px-3 py-2 text-left text-sm font-semibold text-rose-600 hover:bg-rose-50" />

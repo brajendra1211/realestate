@@ -15,6 +15,7 @@ import '../../../core/widgets/status_badge.dart';
 import '../../../models/agent_profile.dart';
 import '../../../providers/agent_auth_provider.dart';
 import '../../../services/agent_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDashboardScreen extends StatefulWidget {
   const AgentDashboardScreen({super.key});
@@ -45,17 +46,11 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
     final agentAuth = context.watch<AgentAuthProvider>();
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('Dashboard'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => agentAuth.logout(),
-          ),
-        ],
       ),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.me()),
+        onRefresh: () async => setState(() { _future = _service.me(); }),
         child: FutureBuilder<AgentProfile>(
           future: _future,
           builder: (context, snapshot) {
@@ -68,7 +63,7 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.me()),
+                onRetry: () => setState(() { _future = _service.me(); }),
               );
             }
 
@@ -203,56 +198,91 @@ class _AgentDashboardScreenState extends State<AgentDashboardScreen> {
                       color: AppColors.goldLight.withValues(alpha: 0.35),
                       borderRadius: BorderRadius.circular(AppRadius.md),
                     ),
-                    child: Text(
-                      profile.status != 'APPROVED'
-                          ? 'Your application is pending admin approval. Some features unlock after approval.'
-                          : 'Activate Prime to create listings and add referral partners.',
-                      style: Theme.of(context).textTheme.bodySmall,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Complete your setup',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          profile.status != 'APPROVED'
+                              ? 'Upload your documents and choose a plan. Pay to get approved instantly, or wait for admin approval (24-48 hours).'
+                              : 'Choose a plan and pay to activate your Channel Partner code and create listings.',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: () => context.push(RoutePaths.agentDocuments),
+                            icon: const Icon(Icons.upload_file_outlined),
+                            label: Text(profile.documents.isEmpty
+                                ? 'Upload documents (KYC)'
+                                : 'Documents (${profile.documents.length} uploaded)'),
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton.icon(
+                            onPressed: () => context.push(RoutePaths.agentSubscription),
+                            icon: const Icon(Icons.workspace_premium_outlined),
+                            label: const Text('Choose plan & pay'),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
                 const SizedBox(height: AppSpacing.lg),
-                Text('Quick links', style: Theme.of(context).textTheme.titleMedium),
+                Text('Today\'s work', style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: AppSpacing.sm),
-                GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  mainAxisSpacing: AppSpacing.sm,
-                  crossAxisSpacing: AppSpacing.sm,
-                  childAspectRatio: 1.6,
-                  children: [
-                    _QuickLink(
-                      icon: Icons.qr_code_2_rounded,
-                      label: 'Shop QR Code',
-                      onTap: () => context.push(RoutePaths.agentShopQr),
-                    ),
-                    _QuickLink(
-                      icon: Icons.home_work_outlined,
-                      label: 'My Listings',
-                      onTap: () => context.push(RoutePaths.agentListings),
-                    ),
-                    _QuickLink(
-                      icon: Icons.groups_outlined,
-                      label: 'Referral Partners',
-                      onTap: () => context.push(RoutePaths.agentInvestors),
-                    ),
-                    _QuickLink(
-                      icon: Icons.account_balance_wallet_outlined,
-                      label: 'Commissions',
-                      onTap: () => context.push(RoutePaths.agentCommissions),
-                    ),
-                    _QuickLink(
-                      icon: Icons.folder_outlined,
-                      label: 'Documents',
-                      onTap: () => context.push(RoutePaths.agentDocuments),
-                    ),
-                    _QuickLink(
-                      icon: Icons.person_outline,
-                      label: 'My Profile',
-                      onTap: () => context.push(RoutePaths.agentProfile),
-                    ),
-                  ],
+                _QuickLink(
+                  icon: Icons.notifications_active_outlined,
+                  label: 'Owner Requests',
+                  hint: 'Verify properties and earn your share',
+                  color: const Color(0xFF00C8FF),
+                  onTap: () => context.go(RoutePaths.agentOwnerRequests),
+                ),
+                _QuickLink(
+                  icon: Icons.person_search_outlined,
+                  label: 'Buyer Leads',
+                  hint: 'Buyers who paid to see a property',
+                  color: const Color(0xFF00C46A),
+                  onTap: () => context.go(RoutePaths.agentBuyerLeads),
+                ),
+                _QuickLink(
+                  icon: Icons.home_work_outlined,
+                  label: 'My Listings',
+                  hint: 'Properties live under your code',
+                  color: const Color(0xFF8B5CFF),
+                  onTap: () => context.go(RoutePaths.agentListings),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Text('Money & growth', style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: AppSpacing.sm),
+                _QuickLink(
+                  icon: Icons.account_balance_wallet_outlined,
+                  label: 'Commissions',
+                  hint: 'Your wallet and earnings',
+                  color: const Color(0xFFFFB300),
+                  onTap: () => context.go(RoutePaths.agentCommissions),
+                ),
+                _QuickLink(
+                  icon: Icons.groups_outlined,
+                  label: 'Referral Partners',
+                  hint: 'People you brought in',
+                  color: const Color(0xFFFF2BD6),
+                  onTap: () => context.go(RoutePaths.agentInvestors),
+                ),
+                _QuickLink(
+                  icon: Icons.qr_code_2_rounded,
+                  label: 'Shop QR Code',
+                  hint: 'Share your listings link',
+                  color: const Color(0xFF0A6CFF),
+                  onTap: () => context.go(RoutePaths.agentShopQr),
                 ),
               ],
             );
@@ -298,39 +328,67 @@ class _StatDivider extends StatelessWidget {
 }
 
 class _QuickLink extends StatelessWidget {
-  const _QuickLink({required this.icon, required this.label, required this.onTap});
+  const _QuickLink({
+    required this.icon,
+    required this.label,
+    required this.hint,
+    required this.color,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String label;
+  final String hint;
+  final Color color;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
-      onTap: onTap,
-      child: Row(
-        children: [
-          Container(
-            width: 34,
-            height: 34,
-            alignment: Alignment.center,
+    final t = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 14),
             decoration: BoxDecoration(
-              color: AppColors.primaryNavy,
-              borderRadius: BorderRadius.circular(AppRadius.sm),
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              border: Border.all(color: color.withValues(alpha: 0.35)),
+              boxShadow: [BoxShadow(color: color.withValues(alpha: 0.14), blurRadius: 14, offset: const Offset(0, 4))],
             ),
-            child: Icon(icon, color: AppColors.goldLight, size: 18),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Text(
-              label,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.w600),
+            child: Row(
+              children: [
+                Container(
+                  width: 42,
+                  height: 42,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(13),
+                    border: Border.all(color: color.withValues(alpha: 0.4)),
+                  ),
+                  child: Icon(icon, color: color, size: 22),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(label, style: t.bodyMedium?.copyWith(fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
+                      const SizedBox(height: 1),
+                      Text(hint, style: t.bodySmall),
+                    ],
+                  ),
+                ),
+                Icon(Icons.chevron_right_rounded, color: color),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

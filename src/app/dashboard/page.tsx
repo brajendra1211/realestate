@@ -38,7 +38,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
   if (session.user.role === "ADMIN") redirect("/admin/properties");
 
   const { requested, renewed, relisted, error } = await searchParams;
-  const isLister = session.user.role === "OWNER" || session.user.role === "DEALER";
+  const isLister = session.user.role === "OWNER";
   // Owners and dealers cannot list on their own: they request a channel partner instead.
   const newHref = isLister ? "/list-property/request" : "/dashboard/properties/new";
 
@@ -62,7 +62,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
       : null,
     isLister
       ? prisma.plan.findMany({
-          where: { active: true, OR: [{ role: session.user.role as "OWNER" | "DEALER" }, { role: "BOTH" }] },
+          where: { active: true, OR: [{ role: "OWNER" }, { role: "BOTH" }] },
           orderBy: { price: "asc" },
         })
       : [],
@@ -101,7 +101,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
             {listingRequests.map((r) => (
               <li key={r.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
                 <span className="font-semibold text-slate-800">
-                  {[r.locality, r.city].filter(Boolean).join(", ")} · {r.plan === "GOLD" ? "Gold" : "Basic"}
+                  {[r.locality, r.city].filter(Boolean).join(", ")} · {r.plan === "GOLD" ? "Pro" : "Basic"}
                 </span>
                 <span className="flex items-center gap-3">
                   <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">{REQUEST_STATUS_LABEL[r.status]}</span>

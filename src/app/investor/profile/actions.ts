@@ -1,5 +1,7 @@
 "use server";
 
+import { isValidMobile } from "@/lib/validators";
+
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
@@ -15,6 +17,7 @@ export async function updateInvestorProfileAction(formData: FormData) {
   const phone = String(formData.get("phone") ?? "").trim();
   const secondaryPhone = String(formData.get("secondaryPhone") ?? "").trim();
   const whatsappNumber = String(formData.get("whatsappNumber") ?? "").trim();
+  if ([phone, secondaryPhone, whatsappNumber].some((v) => v && !isValidMobile(v))) redirect("/investor/profile?error=invalidPhone");
   const email = String(formData.get("email") ?? "").trim();
   const ageStr = String(formData.get("age") ?? "").trim();
   const dobStr = String(formData.get("dateOfBirth") ?? "").trim();

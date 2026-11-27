@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/router/route_paths.dart';
 import '../../../core/widgets/nav_dock.dart';
-import '../../../providers/agent_auth_provider.dart';
 
 const _items = [
   NavDockItem(icon: Icons.home_rounded, label: 'Home'),
   NavDockItem(icon: Icons.search_rounded, label: 'Explore'),
   NavDockItem(icon: Icons.bar_chart_rounded, label: 'Ranking'),
-  NavDockItem(icon: Icons.badge_outlined, label: 'Channel Partner'),
 ];
 
 /// Bottom-nav shell for the public/consumer section: Home, Explore
@@ -35,11 +32,6 @@ class ConsumerShell extends StatelessWidget {
         context.go(RoutePaths.search);
       case 2:
         context.go(RoutePaths.leaderboard);
-      case 3:
-        final agentAuth = context.read<AgentAuthProvider>();
-        context.push(
-          agentAuth.isLoggedIn ? RoutePaths.agentDashboard : RoutePaths.buyerLogin,
-        );
     }
   }
 

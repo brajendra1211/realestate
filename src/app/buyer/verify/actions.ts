@@ -39,7 +39,6 @@ export async function verifyBuyerOtp(
         case "INVESTOR":
           redirectTarget = "/investor/dashboard";
           break;
-        case "DEALER":
         case "OWNER":
           redirectTarget = "/dashboard";
           break;

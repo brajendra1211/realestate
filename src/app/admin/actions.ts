@@ -1,5 +1,6 @@
 "use server";
 
+import { matchPropertyToWatches } from "@/lib/watchlist";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
@@ -467,6 +468,7 @@ export async function approveProperty(formData: FormData) {
     `Your listing "${property.title}" has been approved and is now live on ${siteName}.`,
     "Listing approved"
   );
+  void matchPropertyToWatches(property.id).catch(() => {});
   revalidatePath("/admin");
   revalidatePath("/admin/properties");
   revalidatePath("/dashboard");
@@ -587,8 +589,8 @@ function commissionSettingsFrom(formData: FormData) {
     unlockAgentSplitPercent: intFrom(formData, "unlockAgentSplitPercent", 50, 0, 100),
     goldListingAmount: intFrom(formData, "goldListingAmount", 500, 1, 100_000_000),
     goldAgentSplitPercent: intFrom(formData, "goldAgentSplitPercent", 50, 0, 100),
-    agentBasicPlanPrice: intFrom(formData, "agentBasicPlanPrice", 1000, 0, 100_000_000),
-    agentPrimePlanPrice: intFrom(formData, "agentPrimePlanPrice", 2000, 0, 100_000_000),
+    agentBasicPlanPrice: intFrom(formData, "agentBasicPlanPrice", 999, 0, 100_000_000),
+    agentPrimePlanPrice: intFrom(formData, "agentPrimePlanPrice", 1999, 0, 100_000_000),
     agentPlanSplitPercent: intFrom(formData, "agentPlanSplitPercent", 50, 0, 100),
     basicListingFee: intFrom(formData, "basicListingFee", 200, 0, 100_000_000),
     goldListingFee: intFrom(formData, "goldListingFee", 500, 0, 100_000_000),
@@ -739,7 +741,7 @@ export async function createPlan(formData: FormData) {
   await prisma.plan.create({
     data: {
       name,
-      role: String(formData.get("role") ?? "BOTH") as "OWNER" | "DEALER" | "BOTH",
+      role: String(formData.get("role") ?? "BOTH") as "OWNER" | "BOTH",
       listingLimit,
       leadLimit: formData.get("leadLimit") ? Number(formData.get("leadLimit")) : null,
       price: Number(formData.get("price") ?? 0),
@@ -762,7 +764,7 @@ export async function updatePlan(formData: FormData) {
     where: { id },
     data: {
       name,
-      role: String(formData.get("role") ?? "BOTH") as "OWNER" | "DEALER" | "BOTH",
+      role: String(formData.get("role") ?? "BOTH") as "OWNER" | "BOTH",
       listingLimit,
       leadLimit: formData.get("leadLimit") ? Number(formData.get("leadLimit")) : null,
       price: Number(formData.get("price") ?? 0),

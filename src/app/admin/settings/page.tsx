@@ -201,14 +201,14 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
             label="Basic Partner Plan price (₹) — 10 Listings Limit"
             name="agentBasicPlanPrice"
             type="number"
-            defaultValue={String(settings?.agentBasicPlanPrice ?? 1000)}
+            defaultValue={String(settings?.agentBasicPlanPrice ?? 999)}
             placeholder="Default ₹1,000 / month — 10 listings limit"
           />
           <Field
             label="Prime Partner Plan price (₹) — Unlimited Listings"
             name="agentPrimePlanPrice"
             type="number"
-            defaultValue={String(settings?.agentPrimePlanPrice ?? 2000)}
+            defaultValue={String(settings?.agentPrimePlanPrice ?? 1999)}
             placeholder="Default ₹2,000 / month — Unlimited listings"
           />
           <Field

@@ -9,12 +9,12 @@ export default async function LoginPage({
   searchParams: SearchParams;
 }) {
   const { callbackUrl, as } = await searchParams;
-  const initialRole = as === "agent" || as === "investor" || as === "admin" ? as : "buyer";
+  const initialRole = as === "agent" || as === "investor" || as === "admin" || as === "owner" ? as : "buyer";
 
   return (
     <AuthShell
       title="Welcome back"
-      subtitle="Choose who you are and sign in: buyer, owner, channel partner, referral partner or admin."
+      subtitle="Choose who you are, then sign in with a one-time code or your password."
     >
       <UnifiedLoginCard callbackUrl={callbackUrl ?? "/"} initialRole={initialRole} />
     </AuthShell>

@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import { requestVisitOtpAction, type VisitOtpState } from "../actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
 const initialState: VisitOtpState = {};
 
@@ -37,8 +38,7 @@ export function NewVisitForm({
       )}
       <div>
         <label className="text-sm font-medium text-slate-700">Customer phone number</label>
-        <input
-          type="tel"
+        <SmartInput kind="mobile"
           name="customerPhone"
           required
           defaultValue={defaultCustomerPhone}

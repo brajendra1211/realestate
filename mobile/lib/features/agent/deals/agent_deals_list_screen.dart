@@ -12,6 +12,7 @@ import '../../../core/widgets/status_badge.dart';
 import '../../../models/deal.dart';
 import '../../../services/agent_deals_service.dart';
 import 'agent_deal_detail_screen.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDealsListScreen extends StatefulWidget {
   const AgentDealsListScreen({super.key});
@@ -31,7 +32,7 @@ class _AgentDealsListScreenState extends State<AgentDealsListScreen> {
     _future = _service.getDeals();
   }
 
-  void _reload() => setState(() => _future = _service.getDeals());
+  void _reload() => setState(() { _future = _service.getDeals(); });
 
   BadgeKind _statusKind(String status) => switch (status) {
         'CLOSED' || 'REGISTRY_COMPLETED' => BadgeKind.success,
@@ -42,7 +43,7 @@ class _AgentDealsListScreenState extends State<AgentDealsListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('B2B Deals')),
+      appBar: BackAppBar(title: const Text('B2B Deals')),
       body: RefreshIndicator(
         color: AppColors.gold,
         onRefresh: () async => _reload(),

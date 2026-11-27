@@ -12,7 +12,6 @@ enum Role {
   ADMIN
   SUBADMIN
   OWNER
-  DEALER
   BUYER
   AGENT
   INVESTOR
@@ -91,6 +90,10 @@ model User {
   passwordHash    String?
   role            Role            @default(OWNER)
   verified        Boolean         @default(false)
+  // Live location (browser / app GPS), refreshed while the person is online. Mandatory for every role except admin.
+  liveLatitude    Float?
+  liveLongitude   Float?
+  liveLocationAt  DateTime?
   properties      Property[]
   subscriptions   Subscription[]
   leadViews       LeadView[]
@@ -135,7 +138,6 @@ model User {
 
 enum PlanRole {
   OWNER
-  DEALER
   BOTH
   AGENT
 }
@@ -498,11 +500,11 @@ model SiteSettings {
   unlockAgentSplitPercent    Int @default(50)
   goldListingAmount          Int @default(500)    // §3.4
   goldAgentSplitPercent      Int @default(50)
-  agentBasicPlanPrice        Int @default(1000)   // PDF 1 P.1 — Basic Agent Plan ₹1,000
-  agentPrimePlanPrice        Int @default(2000)   // PDF 1 P.1 — Prime Agent Plan ₹2,000
+  agentBasicPlanPrice        Int @default(999)    // Basic Agent Plan ₹999/month
+  agentPrimePlanPrice        Int @default(1999)   // Prime Agent Plan ₹1,999/month
   agentPlanSplitPercent      Int @default(50)     // PDF 1 P.1 — 50% referral split to agent wallet
-  basicListingFee            Int @default(300)    // PDF 1 P.1 — Basic Property Listing ₹300 (1 Month)
-  goldListingFee             Int @default(500)    // PDF 1 P.1 — Gold Property Listing ₹500 (3 Months)
+  basicListingFee            Int @default(299)    // PDF 1 P.1 — Basic Property Listing ₹300 (1 Month)
+  goldListingFee             Int @default(499)    // PDF 1 P.1 — Gold Property Listing ₹500 (3 Months)
   listingSplitPercent        Int @default(50)     // PDF 1 P.1 — 50% split to agent wallet
 
   // Global Channel Partner Targets (Admin Default: 30 days, 20 properties, 10 sub-partners, 3 investors)
@@ -569,13 +571,6 @@ model AgentProfile {
   shopAddress             String?        @db.Text
   shopLatitude            Float?
   shopLongitude           Float?
-  // Most recent GPS ping from the agent app (src/app/api/agent/location) —
-  // powers the admin live map. Written via raw SQL, not prisma.update, so a
-  // ping every couple minutes doesn't trip liveVersion's refresh-everyone
-  // signal (see that route for why).
-  lastLatitude            Float?
-  lastLongitude           Float?
-  lastLocationAt          DateTime?
   alternatePhone          String?
   yearsExperience         Int?
   staffCount              Int?
@@ -1444,11 +1439,18 @@ model PushToken {
 // is created under that partner's ID (50-50 split of the plan fee).
 enum ListingRequestStatus {
   PENDING_PAYMENT
+  DETAILS_PENDING // paid; the owner is filling in the property details (then the buzzer rings)
   SEARCHING
   ACCEPTED
   LINK_SENT
   SUBMITTED
   CANCELLED
+  ADMIN_DESK // a SELL request: handled by the admin team only, never shown to any partner
+}
+
+enum ListingPurpose {
+  RENT
+  SELL
 }
 
 model ListingRequest {
@@ -1462,6 +1464,7 @@ model ListingRequest {
   latitude            Float?
   longitude           Float?
   plan                ListingPlanTier      @default(BASIC)
+  purpose             ListingPurpose       @default(RENT)
   amount              Int
   agentSplit          Int
   companySplit        Int
@@ -1482,6 +1485,13 @@ model ListingRequest {
   agentListingId      String?              @unique
   agentListing        AgentListing?        @relation(fields: [agentListingId], references: [id], onDelete: SetNull)
   adminNote           String?              @db.Text
+  // Owner-submitted property details (JSON). The AgentListing is only created after the partner verifies on site with the owner's OTP.
+  detailsJson         String?              @db.LongText
+  detailsAt           DateTime?
+  // Buzzer cycle: 5 km -> 10 km -> 15 km. Restarts (skipping skippedAgentIds) if nobody verifies within 48 hours.
+  buzzRadiusKm        Int                  @default(0)
+  searchStartedAt     DateTime?
+  skippedAgentIds     String?              @db.Text
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
 
@@ -1609,4 +1619,89 @@ model BrochureRecharge {
   createdAt         DateTime     @default(now())
 
   @@index([agentId, createdAt])
+}
+
+// --- Office visits & reception desk ---
+// One row per reception check-in (or manual "No" mark) of a partner at the office.
+model AgentOfficeVisit {
+  id           String   @id @default(cuid())
+  agentId      String
+  visited      Boolean  @default(true)
+  visitedAt    DateTime @default(now())
+  notes        String?  @db.Text
+  markedById   String?
+  markedByName String?
+  createdAt    DateTime @default(now())
+
+  visitors OfficeVisitor[]
+
+  @@index([agentId, visitedAt])
+}
+
+// People who came to the office with the partner (client / investor / friend / relative).
+model OfficeVisitor {
+  id         String           @id @default(cuid())
+  visitId    String
+  visit      AgentOfficeVisit @relation(fields: [visitId], references: [id], onDelete: Cascade)
+  agentId    String
+  name       String
+  mobile     String
+  relation   String           @default("CLIENT") // CLIENT | INVESTOR | FRIEND | RELATIVE
+  interest   String           @default("GENERAL") // BUY | INVESTMENT | GENERAL
+  visitedAt  DateTime         @default(now())
+
+  @@index([visitId])
+  @@index([agentId])
+  @@index([mobile])
+}
+
+// --- Property cart ---
+model CartItem {
+  id             String   @id @default(cuid())
+  userId         String
+  propertyId     String?
+  agentListingId String?
+  createdAt      DateTime @default(now())
+
+  @@unique([userId, propertyId])
+  @@unique([userId, agentListingId])
+  @@index([userId])
+}
+
+// A shared / sent-to-agent snapshot of a cart. `token` is the public share link.
+model CartShare {
+  id         String    @id @default(cuid())
+  token      String    @unique
+  userId     String
+  agentId    String?
+  itemsJson  String    @db.LongText
+  note       String?   @db.Text
+  sentAt     DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
+  @@index([agentId])
+}
+
+// --- Requirement watch-list ---
+// Saved when no property exists within radius; triggered when a matching listing appears.
+model WatchRequirement {
+  id               String    @id @default(cuid())
+  buyerId          String
+  purpose          String    @default("RENT") // RENT | BUY
+  bhk              Int?
+  budgetMin        Int?
+  budgetMax        Int?
+  societyName      String?
+  latitude         Float
+  longitude        Float
+  radiusKm         Int       @default(5)
+  status           String    @default("ACTIVE") // ACTIVE | MATCHED | CANCELLED
+  matchedListingId String?
+  matchedAgentId   String?
+  matchedAt        DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([buyerId])
+  @@index([status])
 }

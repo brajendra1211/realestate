@@ -5,6 +5,7 @@ import { createRazorpayOrder, isRazorpayConfigured, verifyPaidOrder } from "@/li
 import { computeSplit } from "@/lib/commission";
 import { getSiteSettings } from "@/lib/site-settings";
 import { createBuyerInterest } from "@/lib/buyerInterest";
+import { buyerHasPaidAccess } from "@/lib/access";
 import type { Prisma } from "@/generated/prisma";
 
 export class UnlockServiceError extends Error {}
@@ -19,6 +20,8 @@ export async function createUnlockOrder(buyerId: string, agentListingId: string)
     where: { agentListingId_buyerId: { agentListingId, buyerId } },
   });
   if (existing) return { alreadyUnlocked: true as const };
+  // One payment opens every listing: no second charge for a buyer who has already paid.
+  if (await buyerHasPaidAccess(buyerId)) return { alreadyUnlocked: true as const };
 
   if (!isRazorpayConfigured()) return { alreadyUnlocked: false as const, order: null };
 

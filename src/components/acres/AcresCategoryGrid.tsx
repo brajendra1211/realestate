@@ -84,7 +84,7 @@ const CATEGORIES = [
   {
     title: "Channel Partners",
     subtitle: "Prime Agents & QR Standees",
-    href: "/dealers",
+    href: "/leaderboard",
     badge: "100% Vetted",
     bgColor: "bg-purple-50/70 border-purple-200/80 hover:border-purple-400",
     iconBg: "bg-purple-600 text-white",

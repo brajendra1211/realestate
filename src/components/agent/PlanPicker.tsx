@@ -15,6 +15,10 @@ export type PickerPlan = {
 const inr = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`;
 const periodLabel = (months: number) => `${months} ${months === 1 ? "month" : "months"}`;
 
+// Struck-through "list price" per month shown beside the offer price. Basic is on offer.
+const LIST_PER_MONTH: Partial<Record<"BASIC" | "PRIME", number>> = { BASIC: 2000 };
+const perDay = (price: number, days: number) => `₹${Math.round(price / Math.max(1, days)).toLocaleString("en-IN")}/day`;
+
 const TIER_COPY = {
   BASIC: {
     title: "Basic",
@@ -50,11 +54,19 @@ export function PlanPicker({
   );
   const monthly = (t: "BASIC" | "PRIME") => plans.find((p) => p.tier === t && p.months === 1);
 
-  const saving = (p: PickerPlan) => {
+  // What the buyer would "normally" pay: the list price when there is one, otherwise the
+  // monthly price times the number of months. Null when there is nothing to compare with.
+  const strikeFor = (p: PickerPlan): number | null => {
+    const list = LIST_PER_MONTH[p.tier];
     const m = monthly(p.tier);
-    if (!m || p.months === 1) return { amount: 0, percent: 0 };
-    const amount = m.price * p.months - p.price;
-    return { amount, percent: Math.round((amount / (m.price * p.months)) * 100) };
+    const basis = list ? list * p.months : m && p.months > 1 ? m.price * p.months : null;
+    return basis && basis > p.price ? basis : null;
+  };
+  const saving = (p: PickerPlan) => {
+    const basis = strikeFor(p);
+    if (!basis) return { amount: 0, percent: 0 };
+    const amount = basis - p.price;
+    return { amount, percent: Math.round((amount / basis) * 100) };
   };
   const bestValueId = useMemo(() => {
     let best: PickerPlan | null = null;
@@ -99,8 +111,10 @@ export function PlanPicker({
   };
 
   const sv = saving(selected);
+  const bestPlan = tierPlans.find((p) => p.id === bestValueId) ?? null;
+  const bestSaving = bestPlan ? (monthly(bestPlan.tier)?.price ?? 0) * bestPlan.months - bestPlan.price : 0;
   const perMonth = selected.price / selected.months;
-  const fullPrice = (monthly(selected.tier)?.price ?? selected.price) * selected.months;
+  const fullPrice = strikeFor(selected) ?? selected.price;
 
   return (
     <div className="space-y-5">
@@ -138,7 +152,9 @@ export function PlanPicker({
               </div>
               {m && (
                 <p className="mt-1 text-sm text-slate-500">
+                  {LIST_PER_MONTH[t] && <span className="mr-1.5 text-slate-400 line-through">{inr(LIST_PER_MONTH[t]!)}</span>}
                   from <span className="text-xl font-bold text-brand-700">{inr(m.price)}</span>/month
+                  <span className="ml-1.5 text-xs text-slate-400">· {perDay(m.price, m.durationDays)}</span>
                 </p>
               )}
               <ul className="mt-3 space-y-1.5 text-sm text-slate-600">
@@ -171,6 +187,9 @@ export function PlanPicker({
               {periodLabel(selected.months)}
               {selected.id === bestValueId && (
                 <span className="rounded-md bg-violet-100 px-2 py-0.5 text-[11px] font-bold text-violet-700">Best value</span>
+              )}
+              {selected.months === 1 && (
+                <span className="rounded-md bg-sky-100 px-2 py-0.5 text-[11px] font-bold text-sky-700">Flexible</span>
               )}
             </span>
             <svg
@@ -210,9 +229,14 @@ export function PlanPicker({
                       <span>
                         {periodLabel(p.months)}
                         <span className="ml-2 text-slate-500">{inr(p.price)}</span>
+                        <span className="ml-1 text-xs text-slate-400">({perDay(p.price, p.durationDays)})</span>
                       </span>
                       {p.id === bestValueId ? (
                         <span className="rounded-md bg-violet-100 px-2 py-0.5 text-[11px] font-bold text-violet-700">Best value</span>
+                      ) : p.months === 1 ? (
+                        <span className="rounded-md bg-sky-100 px-2 py-0.5 text-[11px] font-bold text-sky-700">
+                          {s.percent > 0 ? `Offer · save ${s.percent}%` : "Flexible"}
+                        </span>
                       ) : s.percent > 0 ? (
                         <span className="text-xs font-semibold text-emerald-600">Save {s.percent}%</span>
                       ) : null}
@@ -234,18 +258,42 @@ export function PlanPicker({
               <span className="font-display text-3xl font-bold text-ink">{inr(selected.price)}</span>
               {sv.amount > 0 && <span className="text-sm text-slate-400 line-through">{inr(fullPrice)}</span>}
             </p>
-            {selected.months > 1 && (
-              <p className="text-xs text-slate-500">
-                that is only {inr(perMonth)}/month
+            <p className="text-xs text-slate-500">
+              {selected.months > 1
+                ? `that is only ${inr(perMonth)}/month · `
+                : `for ${selected.durationDays} days · `}
+              <span className="font-semibold text-slate-700">{perDay(selected.price, selected.durationDays)}</span>
+            </p>
+            {selected.months === 1 && (
+              <p className="mt-1 text-xs text-slate-500">
+                Pay month by month. Renew whenever you like, with no long-term commitment.
               </p>
             )}
           </div>
-          {sv.amount > 0 && (
+          {sv.amount > 0 ? (
             <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">
-              You save {inr(sv.amount)} ({sv.percent}%)
+              {selected.months === 1 ? "Offer price · " : ""}You save {inr(sv.amount)} ({sv.percent}%)
             </span>
-          )}
+          ) : selected.months === 1 ? (
+            <span className="rounded-full bg-sky-100 px-3 py-1 text-xs font-bold text-sky-700">Flexible · pay monthly</span>
+          ) : null}
         </div>
+
+        {/* On the 1-month plan, point out what the longer plan would save. */}
+        {selected.months === 1 && bestPlan && bestSaving > 0 && (
+          <button
+            type="button"
+            onClick={() => onChange(bestPlan.id)}
+            className="mt-3 flex w-full cursor-pointer items-center justify-between gap-3 rounded-xl border border-violet-200 bg-violet-50 px-4 py-2.5 text-left text-sm transition hover:border-violet-400"
+          >
+            <span className="text-violet-900">
+              <span className="font-bold">Pay for {periodLabel(bestPlan.months)} instead</span> and it is just{" "}
+              {inr(bestPlan.price / bestPlan.months)}/month ({perDay(bestPlan.price, bestPlan.durationDays)}), so you save{" "}
+              {inr(bestSaving)}.
+            </span>
+            <span className="shrink-0 rounded-md bg-violet-600 px-2 py-0.5 text-[11px] font-bold text-white">Switch</span>
+          </button>
+        )}
       </div>
     </div>
   );

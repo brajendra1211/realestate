@@ -1,10 +1,8 @@
 import { prisma } from "@/lib/prisma";
+import { agentPoint, LIVE_LOCATION_FRESH_MS } from "@/lib/agentGeo";
 import { haversineDistanceKm } from "@/lib/geo";
 
-// How fresh a GPS ping has to be to count as the agent's "live" position on
-// the map. Older than this (or never reported) falls back to the agent's
-// fixed shop location, which every approved agent already has.
-const LIVE_FRESH_MS = 15 * 60 * 1000;
+export type AgentPresence = "online" | "recent" | "offline";
 
 export type LiveMapAgent = {
   id: string;
@@ -14,7 +12,7 @@ export type LiveMapAgent = {
   shopName: string | null;
   latitude: number | null;
   longitude: number | null;
-  isLive: boolean;
+  presence: AgentPresence;
   lastSeenAt: string | null;
 };
 
@@ -38,24 +36,26 @@ export type LiveMapData = {
   generatedAt: string;
 };
 
-function bestAgentPosition(agent: {
-  lastLatitude: number | null;
-  lastLongitude: number | null;
-  lastLocationAt: Date | null;
+type AgentPointSource = {
   shopLatitude: number | null;
   shopLongitude: number | null;
-}) {
-  const isLive =
-    agent.lastLatitude != null &&
-    agent.lastLongitude != null &&
-    agent.lastLocationAt != null &&
-    Date.now() - agent.lastLocationAt.getTime() <= LIVE_FRESH_MS;
+  user: { liveLatitude: number | null; liveLongitude: number | null; liveLocationAt: Date | null };
+};
 
-  if (isLive) return { latitude: agent.lastLatitude!, longitude: agent.lastLongitude!, isLive: true };
-  if (agent.shopLatitude != null && agent.shopLongitude != null) {
-    return { latitude: agent.shopLatitude, longitude: agent.shopLongitude, isLive: false };
-  }
-  return { latitude: null, longitude: null, isLive: false };
+// The web/app gate pings every ~60s while a person is actually on the site
+// or app (src/components/LiveLocationGate.tsx), so "online" is tight — a gap
+// this small only happens while the tab/app is genuinely open right now.
+// LIVE_LOCATION_FRESH_MS (12h) is agentGeo's separate "trust this over the
+// shop address" threshold for dispatch, not a claim that they're online.
+const ONLINE_FRESH_MS = 3 * 60 * 1000;
+
+function presenceFor(a: AgentPointSource): AgentPresence {
+  const at = a.user.liveLocationAt;
+  if (!at || a.user.liveLatitude == null || a.user.liveLongitude == null) return "offline";
+  const age = Date.now() - at.getTime();
+  if (age < ONLINE_FRESH_MS) return "online";
+  if (age < LIVE_LOCATION_FRESH_MS) return "recent";
+  return "offline";
 }
 
 export async function getLiveMapData(): Promise<LiveMapData> {
@@ -68,10 +68,7 @@ export async function getLiveMapData(): Promise<LiveMapData> {
         shopName: true,
         shopLatitude: true,
         shopLongitude: true,
-        lastLatitude: true,
-        lastLongitude: true,
-        lastLocationAt: true,
-        user: { select: { name: true, phone: true } },
+        user: { select: { name: true, phone: true, liveLatitude: true, liveLongitude: true, liveLocationAt: true } },
       },
       orderBy: { agentCode: "asc" },
     }),
@@ -87,10 +84,7 @@ export async function getLiveMapData(): Promise<LiveMapData> {
             id: true,
             shopLatitude: true,
             shopLongitude: true,
-            lastLatitude: true,
-            lastLongitude: true,
-            lastLocationAt: true,
-            user: { select: { name: true } },
+            user: { select: { name: true, liveLatitude: true, liveLongitude: true, liveLocationAt: true } },
           },
         },
         masterProperty: { select: { city: true, locality: true, latitude: true, longitude: true } },
@@ -100,31 +94,27 @@ export async function getLiveMapData(): Promise<LiveMapData> {
   ]);
 
   const mappedAgents: LiveMapAgent[] = agents.map((a) => {
-    const pos = bestAgentPosition(a);
+    const point = agentPoint(a);
     return {
       id: a.id,
       agentCode: a.agentCode,
       name: a.user.name,
       phone: a.user.phone,
       shopName: a.shopName,
-      latitude: pos.latitude,
-      longitude: pos.longitude,
-      isLive: pos.isLive,
-      lastSeenAt: a.lastLocationAt ? a.lastLocationAt.toISOString() : null,
+      latitude: point?.latitude ?? null,
+      longitude: point?.longitude ?? null,
+      presence: presenceFor(a),
+      lastSeenAt: a.user.liveLocationAt ? a.user.liveLocationAt.toISOString() : null,
     };
   });
 
   const mappedVisits: LiveMapVisit[] = visits
     .filter((v) => v.masterProperty)
     .map((v) => {
-      const pos = bestAgentPosition(v.agent);
-      const distanceKm =
-        pos.latitude != null && pos.longitude != null
-          ? haversineDistanceKm(
-              { latitude: pos.latitude, longitude: pos.longitude },
-              { latitude: v.masterProperty!.latitude, longitude: v.masterProperty!.longitude }
-            )
-          : null;
+      const point = agentPoint(v.agent);
+      const distanceKm = point
+        ? haversineDistanceKm(point, { latitude: v.masterProperty!.latitude, longitude: v.masterProperty!.longitude })
+        : null;
 
       return {
         id: v.id,

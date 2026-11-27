@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../core/network/api_exception.dart';
 import '../core/network/endpoints.dart';
+import '../core/payments/razorpay_checkout.dart';
 
 /// Customer self-service "Gold" listing submission — distinct from
 /// [AgentGoldListingsService], which is the agent's incoming CRM feed of
@@ -68,14 +69,26 @@ class GoldListingSubmissionService {
         },
       );
       final data = res.data as Map<String, dynamic>;
-      final slug = data['slug'] as String?;
-      final simulated = data['simulated'] as bool? ?? false;
-      if (!simulated || slug == null) {
-        throw const ApiException('payment_unavailable', null);
-      }
-      return slug;
+      final order = data['order'] as Map?;
+      if (order == null) throw const ApiException('payment_unavailable', null);
+      final paid = await openRazorpayCheckout(
+        keyId: data['keyId'] as String,
+        orderId: order['id'] as String,
+        amountPaise: (order['amount'] as num).toInt(),
+        description: 'Gold property listing',
+      );
+      if (paid == null) throw const ApiException('Payment cancelled.', null);
+      final done = await _dio.post(Endpoints.goldListingsVerify, data: {
+        'input': data['input'],
+        'razorpayOrderId': paid.orderId,
+        'razorpayPaymentId': paid.paymentId,
+        'razorpaySignature': paid.signature,
+      });
+      return (done.data as Map)['slug'] as String;
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
+    } on String catch (message) {
+      throw ApiException(message, null);
     }
   }
 }

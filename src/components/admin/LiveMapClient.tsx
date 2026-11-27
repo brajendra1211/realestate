@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import type { LiveMapData } from "@/lib/liveMap";
+import type { AgentPresence, LiveMapData } from "@/lib/liveMap";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const POLL_MS = 20000;
@@ -20,14 +20,25 @@ function relativeTime(iso: string | null) {
   return `${Math.round(hours / 24)}d ago`;
 }
 
-function agentMarkerEl(isLive: boolean) {
+const PRESENCE_COLOR: Record<AgentPresence, string> = {
+  online: "#16a34a",
+  recent: "#d97706",
+  offline: "#94a3b8",
+};
+const PRESENCE_LABEL: Record<AgentPresence, string> = {
+  online: "Online now",
+  recent: "Recently online",
+  offline: "Shop location",
+};
+
+function agentMarkerEl(presence: AgentPresence) {
   const el = document.createElement("div");
   el.style.width = "16px";
   el.style.height = "16px";
   el.style.borderRadius = "50%";
   el.style.border = "2px solid white";
   el.style.boxShadow = "0 0 0 1px rgba(0,0,0,0.25)";
-  el.style.background = isLive ? "#16a34a" : "#94a3b8";
+  el.style.background = PRESENCE_COLOR[presence];
   return el;
 }
 
@@ -50,9 +61,10 @@ export function LiveMapClient({ initialData }: { initialData: LiveMapData }) {
   const [data, setData] = useState(initialData);
   const [ready, setReady] = useState(false);
 
-  // Poll for fresh positions — agent pings deliberately don't trigger the
-  // app-wide LiveRefresh signal (src/app/api/agent/location/route.ts), so
-  // this page keeps its own short interval instead.
+  // Poll for fresh positions — the live-location pings (src/app/api/location,
+  // every ~60s per person) bump the User model's live-refresh counter, which
+  // would make LiveRefresh reload the whole page on every single person's
+  // ping across the platform. A dedicated short poll avoids that entirely.
   useEffect(() => {
     let stopped = false;
     const tick = async () => {
@@ -121,17 +133,17 @@ export function LiveMapClient({ initialData }: { initialData: LiveMapData }) {
           ${agent.shopName ? `<div>${agent.shopName}</div>` : ""}
           ${agent.agentCode ? `<div style="color:#64748b">Code: ${agent.agentCode}</div>` : ""}
           ${agent.phone ? `<div style="color:#64748b">${agent.phone}</div>` : ""}
-          <div style="margin-top:4px;color:${agent.isLive ? "#16a34a" : "#64748b"}">
-            ${agent.isLive ? "Live · " : "Shop location · "}${relativeTime(agent.lastSeenAt)}
+          <div style="margin-top:4px;color:${PRESENCE_COLOR[agent.presence]}">
+            ${PRESENCE_LABEL[agent.presence]} · ${relativeTime(agent.lastSeenAt)}
           </div>
         </div>`;
 
       if (existing) {
         existing.setLngLat(lngLat);
         existing.getPopup()?.setHTML(popupHtml);
-        existing.getElement().style.background = agent.isLive ? "#16a34a" : "#94a3b8";
+        existing.getElement().style.background = PRESENCE_COLOR[agent.presence];
       } else {
-        const marker = new mapboxgl.Marker({ element: agentMarkerEl(agent.isLive) })
+        const marker = new mapboxgl.Marker({ element: agentMarkerEl(agent.presence) })
           .setLngLat(lngLat)
           .setPopup(new mapboxgl.Popup({ offset: 12 }).setHTML(popupHtml))
           .addTo(map);
@@ -231,7 +243,8 @@ export function LiveMapClient({ initialData }: { initialData: LiveMapData }) {
     <div className="relative h-full w-full">
       <div ref={containerRef} className="h-full w-full" />
       <div className="absolute bottom-3 left-3 rounded-lg bg-white/90 px-3 py-2 text-xs text-slate-600 shadow">
-        <div className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-green-600" /> Agent — live</div>
+        <div className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-green-600" /> Agent — online now</div>
+        <div className="mt-1 flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-amber-600" /> Agent — recently online</div>
         <div className="mt-1 flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-slate-400" /> Agent — shop location</div>
         <div className="mt-1 flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-blue-600" /> Scheduled visit</div>
       </div>

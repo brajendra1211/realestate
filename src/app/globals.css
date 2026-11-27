@@ -288,3 +288,15 @@ body {
   --viz-5: #d55181;
   --viz-6: #0ca30c;
 }
+
+/* A wrong input: red border that blinks three times, so the mistake is easy to find. */
+@keyframes field-blink {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+  25%, 75% { box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.55); }
+  50% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+.field-error {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+  animation: field-blink 0.6s ease-in-out 3;
+}

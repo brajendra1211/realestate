@@ -13,10 +13,10 @@ import '../../../core/utils/error_messages.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/auth_header.dart';
-import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../providers/agent_auth_provider.dart';
 import '../../../providers/customer_auth_provider.dart';
+import '../../../core/widgets/blink_error.dart';
 
 // Matches the OTP provider's own per-number resend window — resending
 // sooner than this fails server-side (502), which read as "login is
@@ -30,11 +30,15 @@ class BuyerVerifyScreen extends StatefulWidget {
     required this.identifier,
     required this.channel,
     this.from,
+    this.panel = 'buyer',
   });
 
   final String identifier;
   final String channel;
   final String? from;
+
+  /// 'buyer' or 'owner': which panel's one-time code is being checked.
+  final String panel;
 
   @override
   State<BuyerVerifyScreen> createState() => _BuyerVerifyScreenState();
@@ -46,6 +50,7 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
   bool _submitting = false;
   bool _resending = false;
   String? _errorMessage;
+  int _tick = 0;
   Timer? _cooldownTimer;
   int _secondsLeft = _resendCooldown.inSeconds;
 
@@ -56,13 +61,17 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
   }
 
   void _startCooldown() {
-    setState(() => _secondsLeft = _resendCooldown.inSeconds);
+    setState(() {
+      _secondsLeft = _resendCooldown.inSeconds;
+    });
     _cooldownTimer?.cancel();
     _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted) return;
       if (_secondsLeft <= 1) {
         timer.cancel();
-        setState(() => _secondsLeft = 0);
+        setState(() {
+          _secondsLeft = 0;
+        });
       } else {
         setState(() => _secondsLeft -= 1);
       }
@@ -84,8 +93,8 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
     });
     try {
       final customerAuth = context.read<CustomerAuthProvider>();
-      await customerAuth.verifyOtp(
-        forInvestor: false,
+      await customerAuth.verifyOtpFor(
+        panel: widget.panel,
         identifier: widget.identifier,
         otp: _otpController.text.trim(),
       );
@@ -107,32 +116,50 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
         case 'INVESTOR':
           context.go(RoutePaths.investorDashboard);
           break;
+        case 'OWNER':
+          // Owners have their own screen; the buyer dashboard is gated to
+          // buyers only and would bounce them straight back to sign-in.
+          context.go(RoutePaths.ownerStatus);
+          break;
         default:
           context.go(widget.from ?? RoutePaths.buyerDashboard);
       }
     } on ApiException catch (_) {
-      setState(() => _errorMessage = 'That code isn\'t right — check and try again.');
+      setState(() {
+        _errorMessage = 'That code isn\'t right — check and try again.';
+        _tick++;
+      });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted)
+        setState(() {
+          _submitting = false;
+        });
     }
   }
 
   Future<void> _resend() async {
     if (_secondsLeft > 0) return;
-    setState(() => _resending = true);
+    setState(() {
+      _resending = true;
+    });
     try {
       final customerAuth = context.read<CustomerAuthProvider>();
-      await customerAuth.requestOtp(forInvestor: false, identifier: widget.identifier);
+      await customerAuth.requestOtpFor(widget.panel, widget.identifier);
       if (!mounted) return;
       _startCooldown();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('New code sent.')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('New code sent.')));
     } on ApiException catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _resending = false);
+      if (mounted)
+        setState(() {
+          _resending = false;
+        });
     }
   }
 
@@ -157,33 +184,35 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
                       children: [
                         AuthHeader(
                           title: 'Enter your code',
-                          subtitle: 'We sent a 6-digit code via $via to ${widget.identifier}.',
+                          subtitle:
+                              'We sent a 6-digit code via $via to ${widget.identifier}.',
                         ),
                         const SizedBox(height: AppSpacing.xl),
-                        if (_errorMessage != null) ...[
-                          FormErrorBanner(message: _errorMessage!),
-                          const SizedBox(height: AppSpacing.md),
-                        ],
                         FormSection(
                           title: 'One-time code',
                           children: [
-                            TextFormField(
-                              controller: _otpController,
-                              keyboardType: TextInputType.number,
-                              autofocus: true,
-                              style: GoogleFonts.inter(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 6,
+                            BlinkError(
+                              trigger: _tick,
+                              child: TextFormField(
+                                forceErrorText: _errorMessage,
+                                controller: _otpController,
+                                keyboardType: TextInputType.number,
+                                autofocus: true,
+                                style: GoogleFonts.inter(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 6,
+                                ),
+                                decoration: const InputDecoration(
+                                  labelText: 'OTP',
+                                  prefixIcon: Icon(Icons.password_outlined),
+                                  counterText: '',
+                                ),
+                                maxLength: 6,
+                                validator: (v) =>
+                                    Validators.required(v, label: 'OTP'),
+                                onFieldSubmitted: (_) => _submit(),
                               ),
-                              decoration: const InputDecoration(
-                                labelText: 'OTP',
-                                prefixIcon: Icon(Icons.password_outlined),
-                                counterText: '',
-                              ),
-                              maxLength: 6,
-                              validator: (v) => Validators.required(v, label: 'OTP'),
-                              onFieldSubmitted: (_) => _submit(),
                             ),
                           ],
                         ),
@@ -198,20 +227,28 @@ class _BuyerVerifyScreenState extends State<BuyerVerifyScreen> {
                         Center(
                           child: _resending
                               ? const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: AppSpacing.sm,
+                                  ),
                                   child: SizedBox(
                                     height: 16,
                                     width: 16,
                                     child: CircularProgressIndicator(
-                                        strokeWidth: 2, color: AppColors.gold),
+                                      strokeWidth: 2,
+                                      color: AppColors.gold,
+                                    ),
                                   ),
                                 )
                               : TextButton(
                                   onPressed: canResend ? _resend : null,
                                   child: Text(
-                                    canResend ? 'Resend code' : 'Resend code in ${_secondsLeft}s',
+                                    canResend
+                                        ? 'Resend code'
+                                        : 'Resend code in ${_secondsLeft}s',
                                     style: TextStyle(
-                                      color: canResend ? AppColors.gold : AppColors.textMuted,
+                                      color: canResend
+                                          ? AppColors.gold
+                                          : AppColors.textMuted,
                                     ),
                                   ),
                                 ),

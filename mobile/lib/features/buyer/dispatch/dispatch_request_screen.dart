@@ -11,6 +11,7 @@ import '../../../core/utils/location_helper.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../models/dispatch_status.dart';
 import '../../../services/buyer_dispatch_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// Uber-style "get me an agent now" flow. Polls the dispatch's status every
 /// 4s while searching — the same lightweight REST-polling stand-in for
@@ -56,13 +57,13 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
       }
       final id = await _service.requestDispatch(position.latitude, position.longitude);
       if (!mounted) return;
-      setState(() => _dispatchId = id);
+      setState(() { _dispatchId = id; });
       _pollStatus();
       _pollTimer = Timer.periodic(const Duration(seconds: 4), (_) => _pollStatus());
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _requesting = false);
+      if (mounted) setState(() { _requesting = false; });
     }
   }
 
@@ -71,7 +72,7 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
     try {
       final status = await _service.getStatus(_dispatchId!);
       if (!mounted) return;
-      setState(() => _status = status);
+      setState(() { _status = status; });
       if (status.status != 'SEARCHING') _pollTimer?.cancel();
     } catch (_) {
       // Silently retried on the next tick.
@@ -98,7 +99,7 @@ class _DispatchRequestScreenState extends State<DispatchRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Find a channel partner now')),
+      appBar: BackAppBar(title: const Text('Find a channel partner now')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),

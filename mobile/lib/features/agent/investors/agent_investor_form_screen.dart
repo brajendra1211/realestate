@@ -8,6 +8,8 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../services/agent_investors_service.dart';
+import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentInvestorFormScreen extends StatefulWidget {
   const AgentInvestorFormScreen({super.key});
@@ -40,7 +42,7 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _submitting = true);
+    setState(() { _submitting = true; });
     try {
       await _service.addInvestor(
         name: _name.text.trim(),
@@ -54,14 +56,14 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Referral Partner')),
+      appBar: BackAppBar(title: const Text('Add Referral Partner')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -93,6 +95,7 @@ class _AgentInvestorFormScreenState extends State<AgentInvestorFormScreen> {
                     TextFormField(
                       controller: _phone,
                       keyboardType: TextInputType.phone,
+                      inputFormatters: phoneFormatters,
                       decoration: const InputDecoration(
                         labelText: 'Phone',
                         prefixIcon: Icon(Icons.call_outlined),

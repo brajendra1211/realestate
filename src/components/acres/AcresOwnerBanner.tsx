@@ -15,7 +15,7 @@ export function AcresOwnerBanner() {
             </div>
 
             <h2 className="mt-2 text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              Are you a Property Owner or Dealer? Sell or Rent with{" "}
+              Are you a Property Owner? Sell or Rent with{" "}
               <span className="text-[#0054a6] underline decoration-amber-400 decoration-3 underline-offset-4">
                 Zero Brokerage
               </span>

@@ -18,7 +18,14 @@ class RoutePaths {
   static const buyerDashboard = '/buyer/dashboard';
   static const buyerDirectVisit = '/buyer/direct-visit';
   static const buyerGoldListing = '/buyer/gold-listing';
+  static const buyerPayments = '/buyer/payments';
   static const buyerDispatch = '/buyer/dispatch';
+
+  static const support = '/support';
+  static const ownerStart = '/owner/start';
+  static const ownerLogin = '/owner/login';
+  static const ownerStatus = '/owner/status';
+  static const ownerDetails = '/owner/details/:token';
 
   static const investorLogin = '/investor/login';
   static const investorVerify = '/investor/verify';
@@ -44,6 +51,9 @@ class RoutePaths {
   static const agentPayouts = '/agent/payouts';
   static const agentRatings = '/agent/ratings';
   static const agentDigest = '/agent/digest';
+  static const agentOfficeVisits = '/agent/office-visits';
+  static const agentRequirements = '/agent/requirements';
+  static const buyerCart = '/buyer/cart';
   static const agentGoldListings = '/agent/gold-listings';
   static const agentMore = '/agent/more';
   static const agentSubscription = '/agent/subscription';
@@ -51,7 +61,11 @@ class RoutePaths {
   static const agentDeals = '/agent/deals';
   static const agentShopQr = '/agent/shop-qr';
   static const incomingRing = '/agent/incoming-ring';
+  static const agentOwnerRequests = '/agent/owner-requests';
+  static const agentBuyerLeads = '/agent/buyer-leads';
+  static const agentBrochures = '/agent/brochures';
 
+  static String ownerDetailsPath(String token) => '/owner/details/$token';
   static String listingDetailPath(String slug) => '/listing/$slug';
   static String rateAgentPath(String agentCode) => '/rate/$agentCode';
   static String agentShopPath(String agentCode) => '/shop/$agentCode';

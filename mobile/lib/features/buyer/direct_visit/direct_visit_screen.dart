@@ -13,6 +13,7 @@ import '../../../core/widgets/form_error_banner.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../models/anti_bypass_agreement.dart';
 import '../../../services/buyer_direct_visit_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 /// GPS-tagged (well — OTP-tagged; the app doesn't capture location yet, see
 /// the API parity plan) physical visit flow: request an OTP for the owner
@@ -77,9 +78,9 @@ class _DirectVisitScreenState extends State<DirectVisitScreen> {
         _step = 1;
       });
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
@@ -97,9 +98,9 @@ class _DirectVisitScreenState extends State<DirectVisitScreen> {
         _step = 2;
       });
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
@@ -111,20 +112,20 @@ class _DirectVisitScreenState extends State<DirectVisitScreen> {
     try {
       final updated = await _service.signAgreement(_agreement!.id);
       if (!mounted) return;
-      setState(() => _agreement = updated);
+      setState(() { _agreement = updated; });
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Agreement signed.')));
     } on ApiException catch (e) {
-      setState(() => _errorMessage = errorMessageFor(e));
+      setState(() { _errorMessage = errorMessageFor(e); });
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Verify site visit')),
+      appBar: BackAppBar(title: const Text('Verify site visit')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(AppSpacing.lg),

@@ -13,13 +13,15 @@ import '../../features/agent/cycle/agent_cycle_screen.dart';
 import '../../features/agent/deals/agent_deals_list_screen.dart';
 import '../../features/agent/dashboard/agent_dashboard_screen.dart';
 import '../../features/agent/digest/agent_digest_screen.dart';
+import '../../features/agent/office_visits/agent_office_visits_screen.dart';
+import '../../features/agent/requirements/agent_requirements_screen.dart';
+import '../../features/buyer/cart/buyer_cart_screen.dart';
 import '../../features/agent/dispatch/agent_dispatch_list_screen.dart';
 import '../../features/agent/documents/agent_documents_screen.dart';
 import '../../features/agent/gold_listings/agent_gold_listings_screen.dart';
 import '../../features/agent/investors/agent_investors_screen.dart';
 import '../../features/agent/listings/agent_listing_form_screen.dart';
 import '../../features/agent/listings/agent_listings_screen.dart';
-import '../../features/agent/more/agent_more_screen.dart';
 import '../../features/agent/payouts/agent_payouts_screen.dart';
 import '../../features/agent/profile/agent_profile_screen.dart';
 import '../../features/agent/qr/agent_my_qr_screen.dart';
@@ -35,6 +37,7 @@ import '../../features/buyer/dashboard/buyer_dashboard_screen.dart';
 import '../../features/buyer/direct_visit/direct_visit_screen.dart';
 import '../../features/buyer/dispatch/dispatch_request_screen.dart';
 import '../../features/buyer/gold_listing/gold_listing_screen.dart';
+import '../../features/buyer/payments/buyer_payments_screen.dart';
 import '../../features/consumer/home/home_screen.dart';
 import '../../features/consumer/leaderboard/leaderboard_screen.dart';
 import '../../features/consumer/listing_detail/listing_detail_screen.dart';
@@ -47,6 +50,14 @@ import '../../features/investor/auth/investor_login_screen.dart';
 import '../../features/investor/auth/investor_verify_screen.dart';
 import '../../features/investor/dashboard/investor_dashboard_screen.dart';
 import '../../features/investor/documents/investor_documents_screen.dart';
+import '../../features/agent/brochures/agent_brochures_screen.dart';
+import '../../features/agent/buyer_leads/agent_buyer_leads_screen.dart';
+import '../../features/agent/owner_requests/agent_owner_requests_screen.dart';
+import '../../features/owner/owner_details_screen.dart';
+import '../../features/support/support_screen.dart';
+import '../../features/owner/owner_login_screen.dart';
+import '../../features/owner/owner_start_screen.dart';
+import '../../features/owner/owner_status_screen.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../providers/agent_auth_provider.dart';
 import '../../providers/customer_auth_provider.dart';
@@ -69,6 +80,8 @@ const _agentAuthRequiredPrefixes = [
   RoutePaths.agentPayouts,
   RoutePaths.agentRatings,
   RoutePaths.agentDigest,
+  RoutePaths.agentOfficeVisits,
+  RoutePaths.agentRequirements,
   RoutePaths.agentGoldListings,
   RoutePaths.agentMore,
   RoutePaths.agentSubscription,
@@ -76,6 +89,9 @@ const _agentAuthRequiredPrefixes = [
   RoutePaths.agentDeals,
   RoutePaths.agentShopQr,
   RoutePaths.incomingRing,
+  RoutePaths.agentOwnerRequests,
+  RoutePaths.agentBuyerLeads,
+  RoutePaths.agentBrochures,
 ];
 
 /// Routes needing an authenticated buyer session, gated the same way as
@@ -85,6 +101,8 @@ const _buyerAuthRequiredPrefixes = [
   RoutePaths.buyerDirectVisit,
   RoutePaths.buyerGoldListing,
   RoutePaths.buyerDispatch,
+  RoutePaths.buyerCart,
+  RoutePaths.buyerPayments,
 ];
 
 GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider customerAuth) {
@@ -104,6 +122,9 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
           _buyerAuthRequiredPrefixes.any((prefix) => location.startsWith(prefix));
       if (needsBuyerAuth && !customerAuth.isBuyer) {
         return '${RoutePaths.buyerLogin}?from=$location';
+      }
+      if (location.startsWith(RoutePaths.ownerStatus) && !customerAuth.isOwner) {
+        return RoutePaths.ownerLogin;
       }
       if ((location.startsWith(RoutePaths.investorDashboard) ||
               location.startsWith(RoutePaths.investorDocuments)) &&
@@ -132,7 +153,16 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
           identifier: state.uri.queryParameters['identifier'] ?? '',
           channel: state.uri.queryParameters['channel'] ?? 'EMAIL',
           from: state.uri.queryParameters['from'],
+          panel: state.uri.queryParameters['panel'] ?? 'buyer',
         ),
+      ),
+      GoRoute(
+        path: RoutePaths.buyerCart,
+        builder: (context, state) => const BuyerCartScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.buyerPayments,
+        builder: (context, state) => const BuyerPaymentsScreen(),
       ),
       GoRoute(
         path: RoutePaths.buyerDashboard,
@@ -144,6 +174,14 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
           agentListingId: state.uri.queryParameters['agentListingId'] ?? '',
           propertyTitle: state.uri.queryParameters['title'],
         ),
+      ),
+      GoRoute(path: RoutePaths.support, builder: (context, state) => const SupportScreen()),
+      GoRoute(path: RoutePaths.ownerStart, builder: (context, state) => const OwnerStartScreen()),
+      GoRoute(path: RoutePaths.ownerLogin, builder: (context, state) => const OwnerLoginScreen()),
+      GoRoute(path: RoutePaths.ownerStatus, builder: (context, state) => const OwnerStatusScreen()),
+      GoRoute(
+        path: RoutePaths.ownerDetails,
+        builder: (context, state) => OwnerDetailsScreen(token: state.pathParameters['token'] ?? ''),
       ),
       GoRoute(
         path: RoutePaths.buyerGoldListing,
@@ -193,72 +231,8 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
         builder: (context, state) => const AgentRegisterScreen(),
       ),
       GoRoute(
-        path: RoutePaths.agentProfile,
-        builder: (context, state) => const AgentProfileScreen(),
-      ),
-      GoRoute(
         path: RoutePaths.agentListingNew,
         builder: (context, state) => const AgentListingFormScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentCommissions,
-        builder: (context, state) => const AgentCommissionsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentInvestors,
-        builder: (context, state) => const AgentInvestorsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentDocuments,
-        builder: (context, state) => const AgentDocumentsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentAppointments,
-        builder: (context, state) => const AgentAppointmentsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentBroadcast,
-        builder: (context, state) => const AgentBroadcastListScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentVisits,
-        builder: (context, state) => const AgentVisitsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentSettings,
-        builder: (context, state) => const AgentSettingsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentPayouts,
-        builder: (context, state) => const AgentPayoutsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentRatings,
-        builder: (context, state) => const AgentRatingsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentDigest,
-        builder: (context, state) => const AgentDigestScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentGoldListings,
-        builder: (context, state) => const AgentGoldListingsScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentSubscription,
-        builder: (context, state) => const AgentSubscriptionScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentCycle,
-        builder: (context, state) => const AgentCycleScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentDeals,
-        builder: (context, state) => const AgentDealsListScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.agentShopQr,
-        builder: (context, state) => const AgentMyQrScreen(),
       ),
       GoRoute(
         path: RoutePaths.incomingRing,
@@ -266,6 +240,10 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
           propertyTitle: state.uri.queryParameters['propertyTitle'] ?? '',
           buyerName: state.uri.queryParameters['buyerName'] ?? '',
           buyerPhone: state.uri.queryParameters['buyerPhone'] ?? '',
+          propertyWhere: state.uri.queryParameters['propertyWhere'] ?? '',
+          propertyPrice: state.uri.queryParameters['propertyPrice'] ?? '',
+          propertyKind: state.uri.queryParameters['propertyKind'] ?? '',
+          listedBy: state.uri.queryParameters['listedBy'] ?? '',
         ),
       ),
       GoRoute(
@@ -314,6 +292,9 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
             path: RoutePaths.agentDashboard,
             builder: (context, state) => const AgentDashboardScreen(),
           ),
+          GoRoute(path: RoutePaths.agentOwnerRequests, builder: (context, state) => const AgentOwnerRequestsScreen()),
+          GoRoute(path: RoutePaths.agentBuyerLeads, builder: (context, state) => const AgentBuyerLeadsScreen()),
+          GoRoute(path: RoutePaths.agentBrochures, builder: (context, state) => const AgentBrochuresScreen()),
           GoRoute(
             path: RoutePaths.agentListings,
             builder: (context, state) => const AgentListingsScreen(),
@@ -323,8 +304,70 @@ GoRouter buildAppRouter(AgentAuthProvider agentAuth, CustomerAuthProvider custom
             builder: (context, state) => const AgentDispatchListScreen(),
           ),
           GoRoute(
-            path: RoutePaths.agentMore,
-            builder: (context, state) => const AgentMoreScreen(),
+            path: RoutePaths.agentProfile,
+            builder: (context, state) => const AgentProfileScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentCommissions,
+            builder: (context, state) => const AgentCommissionsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentInvestors,
+            builder: (context, state) => const AgentInvestorsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentDocuments,
+            builder: (context, state) => const AgentDocumentsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentAppointments,
+            builder: (context, state) => const AgentAppointmentsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentBroadcast,
+            builder: (context, state) => const AgentBroadcastListScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentVisits,
+            builder: (context, state) => const AgentVisitsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentSettings,
+            builder: (context, state) => const AgentSettingsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentPayouts,
+            builder: (context, state) => const AgentPayoutsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentRatings,
+            builder: (context, state) => const AgentRatingsScreen(),
+          ),
+          GoRoute(path: RoutePaths.agentOfficeVisits, builder: (context, state) => const AgentOfficeVisitsScreen()),
+          GoRoute(path: RoutePaths.agentRequirements, builder: (context, state) => const AgentRequirementsScreen()),
+          GoRoute(
+            path: RoutePaths.agentDigest,
+            builder: (context, state) => const AgentDigestScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentGoldListings,
+            builder: (context, state) => const AgentGoldListingsScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentSubscription,
+            builder: (context, state) => const AgentSubscriptionScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentCycle,
+            builder: (context, state) => const AgentCycleScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentDeals,
+            builder: (context, state) => const AgentDealsListScreen(),
+          ),
+          GoRoute(
+            path: RoutePaths.agentShopQr,
+            builder: (context, state) => const AgentMyQrScreen(),
           ),
         ],
       ),

@@ -26,6 +26,8 @@ class AgentService {
     required String password,
     String? phone,
     String? alternatePhone,
+    String? otp,
+    String? phoneProof,
     required String shopName,
     required String shopAddress,
     required String city,
@@ -44,6 +46,8 @@ class AgentService {
           'password': password,
           'phone': ?phone,
           'alternatePhone': ?alternatePhone,
+          'otp': ?otp,
+          'phoneProof': ?phoneProof,
           'shopName': shopName,
           'shopAddress': shopAddress,
           'city': city,
@@ -56,6 +60,15 @@ class AgentService {
         },
       );
       return AgentRegistrationResult.fromJson(res.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    }
+  }
+
+  /// Sends the WhatsApp OTP that proves the mobile number before registering.
+  Future<void> sendRegistrationOtp(String phone) async {
+    try {
+      await _dio.post(Endpoints.agentRegisterOtp, data: {'phone': phone});
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     }

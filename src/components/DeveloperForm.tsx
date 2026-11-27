@@ -1,4 +1,5 @@
 import { SingleImageField } from "@/components/SingleImageField";
+import { SmartInput } from "@/components/forms/FormKit";
 
 type DeveloperFormValues = {
   id?: string;
@@ -85,7 +86,7 @@ export function DeveloperForm({
 
         <div>
           <label className="text-sm font-medium text-slate-700">Contact phone</label>
-          <input
+          <SmartInput kind="mobile"
             type="text"
             name="contactPhone"
             defaultValue={defaultValues?.contactPhone ?? undefined}

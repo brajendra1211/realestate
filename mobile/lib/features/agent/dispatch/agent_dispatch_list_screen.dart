@@ -11,6 +11,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/dispatch_request.dart';
 import '../../../services/agent_dispatch_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDispatchListScreen extends StatefulWidget {
   const AgentDispatchListScreen({super.key});
@@ -32,28 +33,28 @@ class _AgentDispatchListScreenState extends State<AgentDispatchListScreen> {
   }
 
   Future<void> _accept(String id) async {
-    setState(() => _acceptingId = id);
+    setState(() { _acceptingId = id; });
     try {
       await _service.accept(id);
       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Lead accepted!')));
-      setState(() => _future = _service.getActiveDispatches());
+      setState(() { _future = _service.getActiveDispatches(); });
     } on ApiException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _acceptingId = null);
+      if (mounted) setState(() { _acceptingId = null; });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Nearby Leads')),
+      appBar: BackAppBar(title: const Text('Nearby Leads')),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() => _future = _service.getActiveDispatches()),
+        onRefresh: () async => setState(() { _future = _service.getActiveDispatches(); }),
         child: FutureBuilder<List<DispatchRequest>>(
           future: _future,
           builder: (context, snapshot) {
@@ -66,7 +67,7 @@ class _AgentDispatchListScreenState extends State<AgentDispatchListScreen> {
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getActiveDispatches()),
+                onRetry: () => setState(() { _future = _service.getActiveDispatches(); }),
               );
             }
             final dispatches = snapshot.data ?? [];

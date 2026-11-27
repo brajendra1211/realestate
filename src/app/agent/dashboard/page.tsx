@@ -9,10 +9,13 @@ import { haversineDistanceKm } from "@/lib/geo";
 import { formatINR } from "@/lib/format";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getRingAlertsForAgent } from "@/lib/ringAlerts";
+import { getOfficeVisitSummary } from "@/lib/officeVisit";
 import { DispatchNotifications } from "@/components/agent/DispatchNotifications";
 import { requestPayoutAction, setAutoPayMandateAction } from "./actions";
 import { getAgentPlans } from "@/lib/agentPlans";
 import { AgentPlanCheckout } from "@/components/agent/AgentPlanCheckout";
+import { PlanConvertCard } from "@/components/agent/PlanConvertCard";
+import { previewPlanConversion } from "@/lib/planConversion";
 import { Tabs } from "@/components/ui/Tabs";
 import {
   AlertTriangle, ArrowRight, Bell, Building2, CalendarCheck, Crown, FileText, PlusCircle, Phone, Radio,
@@ -88,6 +91,7 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
     networkData,
     siteSettings,
     ringAlerts,
+    officeVisit,
   ] = await Promise.all([
     getAgentCommissionSummary(agent.id),
     getPayoutsForAgent(agent.id),
@@ -98,10 +102,15 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
     getDirectNetworkAndRenewals(agent.id).catch(() => ({ agents: [], listings: [] })),
     getSiteSettings(),
     getRingAlertsForAgent(agent.id),
+    getOfficeVisitSummary(agent.id).catch(() => ({ last: null, total: 0 })),
   ]);
 
   const { siteName } = siteSettings;
   const payPlans = await getAgentPlans();
+  // Basic -> Prime without paying again: the unused days convert into (fewer) Prime days.
+  const primeMonthly = payPlans.find((pl) => pl.tier === "PRIME" && pl.months === 1);
+  const conversion =
+    subStatus?.planTier === "BASIC" && primeMonthly ? await previewPlanConversion(agent.id, primeMonthly.id) : null;
   const pickerPlans = payPlans.map(({ id, name, tier, price, durationDays, months, listingLimit }) => ({ id, name, tier, price, durationDays, months, listingLimit }));
   const originUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const { getAgentShopUrl } = await import("@/lib/qr");
@@ -250,7 +259,18 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
             </p>
           </div>
           {subStatus?.planTier === "BASIC" || (agent.agentCode && !agent.primeStatus) ? (
-            <div className="mt-5">
+            <div className="mt-5 space-y-4">
+              {conversion && (
+                <PlanConvertCard
+                  toPlanId={conversion.toPlanId}
+                  fromPlanName={conversion.fromPlanName}
+                  toPlanName={conversion.toPlanName}
+                  remainingDays={conversion.remainingDays}
+                  remainingValue={conversion.remainingValue}
+                  newDays={conversion.newDays}
+                  newEndDate={conversion.newEndDate.toISOString()}
+                />
+              )}
               <AgentPlanCheckout plans={pickerPlans} mode="upgrade" />
             </div>
           ) : (
@@ -536,6 +556,18 @@ export default async function AgentDashboardPage({ searchParams }: { searchParam
           )}
         </div>
       )}
+
+      {/* Last office visit */}
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm shadow-soft">
+        <Building2 className="h-4 w-4 text-brand-600" />
+        <span className="font-semibold text-ink">Last office visit:</span>
+        <span className="text-slate-600">
+          {officeVisit.last
+            ? officeVisit.last.visitedAt.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
+            : "No visit recorded yet"}
+        </span>
+        {officeVisit.total > 0 && <span className="text-xs text-slate-400">· {officeVisit.total} total visits</span>}
+      </div>
 
       {/* Wallet + key numbers */}
       <div className="grid gap-4 lg:grid-cols-3">

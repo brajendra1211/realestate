@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requestOtp, looksLikeEmail, normalizeIdentifier, phoneDigitsMatch } from "@/lib/otp";
+import { requestOtp, looksLikeEmail, normalizeIdentifier, phoneDigitsMatch, otpRoleConflict, otpWaitMessage } from "@/lib/otp";
 
 async function agentExists(identifier: string) {
   if (looksLikeEmail(identifier)) {
@@ -23,10 +23,13 @@ export async function POST(request: Request) {
   if (!identifier) return NextResponse.json({ error: "validation" }, { status: 400 });
 
   if (!(await agentExists(identifier))) {
+    const conflict = await otpRoleConflict(identifier, "AGENT");
+    if (conflict) return NextResponse.json({ error: conflict }, { status: 409 });
     return NextResponse.json({ error: "notFound" }, { status: 404 });
   }
 
   const result = await requestOtp(identifier);
+  if (result.retryAfter) return NextResponse.json({ error: otpWaitMessage(result.retryAfter) }, { status: 429 });
   if (!result.sent) return NextResponse.json({ error: "send" }, { status: 502 });
 
   return NextResponse.json({ identifier: result.identifier, channel: result.channel });

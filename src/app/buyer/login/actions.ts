@@ -1,6 +1,6 @@
 "use server";
 
-import { requestOtp } from "@/lib/otp";
+import { requestOtp, otpRoleConflict, otpWaitMessage } from "@/lib/otp";
 
 export type BuyerLoginState = { error?: string; redirectTo?: string };
 
@@ -14,7 +14,11 @@ export async function requestBuyerOtp(
 
   if (!raw) return { error: "required" };
 
+  const conflict = await otpRoleConflict(raw, "BUYER");
+  if (conflict) return { error: conflict };
+
   const result = await requestOtp(raw);
+  if (result.retryAfter) return { error: otpWaitMessage(result.retryAfter) };
   if (!result.sent) return { error: "send" };
 
   return {

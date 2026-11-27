@@ -139,6 +139,9 @@ exports.Prisma.UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   role: 'role',
   verified: 'verified',
+  liveLatitude: 'liveLatitude',
+  liveLongitude: 'liveLongitude',
+  liveLocationAt: 'liveLocationAt',
   createdAt: 'createdAt',
   referredByAgentId: 'referredByAgentId',
   secondaryPhone: 'secondaryPhone',
@@ -926,6 +929,7 @@ exports.Prisma.ListingRequestScalarFieldEnum = {
   latitude: 'latitude',
   longitude: 'longitude',
   plan: 'plan',
+  purpose: 'purpose',
   amount: 'amount',
   agentSplit: 'agentSplit',
   companySplit: 'companySplit',
@@ -943,6 +947,11 @@ exports.Prisma.ListingRequestScalarFieldEnum = {
   paidAt: 'paidAt',
   agentListingId: 'agentListingId',
   adminNote: 'adminNote',
+  detailsJson: 'detailsJson',
+  detailsAt: 'detailsAt',
+  buzzRadiusKm: 'buzzRadiusKm',
+  searchStartedAt: 'searchStartedAt',
+  skippedAgentIds: 'skippedAgentIds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1012,6 +1021,65 @@ exports.Prisma.BrochureRechargeScalarFieldEnum = {
   razorpayOrderId: 'razorpayOrderId',
   razorpayPaymentId: 'razorpayPaymentId',
   note: 'note',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AgentOfficeVisitScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  visited: 'visited',
+  visitedAt: 'visitedAt',
+  notes: 'notes',
+  markedById: 'markedById',
+  markedByName: 'markedByName',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OfficeVisitorScalarFieldEnum = {
+  id: 'id',
+  visitId: 'visitId',
+  agentId: 'agentId',
+  name: 'name',
+  mobile: 'mobile',
+  relation: 'relation',
+  interest: 'interest',
+  visitedAt: 'visitedAt'
+};
+
+exports.Prisma.CartItemScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  propertyId: 'propertyId',
+  agentListingId: 'agentListingId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CartShareScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  userId: 'userId',
+  agentId: 'agentId',
+  itemsJson: 'itemsJson',
+  note: 'note',
+  sentAt: 'sentAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WatchRequirementScalarFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  purpose: 'purpose',
+  bhk: 'bhk',
+  budgetMin: 'budgetMin',
+  budgetMax: 'budgetMax',
+  societyName: 'societyName',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  radiusKm: 'radiusKm',
+  status: 'status',
+  matchedListingId: 'matchedListingId',
+  matchedAgentId: 'matchedAgentId',
+  matchedAt: 'matchedAt',
   createdAt: 'createdAt'
 };
 
@@ -1536,7 +1604,9 @@ exports.Prisma.ListingRequestOrderByRelevanceFieldEnum = {
   alertedAgentIds: 'alertedAgentIds',
   acceptedByAgentId: 'acceptedByAgentId',
   agentListingId: 'agentListingId',
-  adminNote: 'adminNote'
+  adminNote: 'adminNote',
+  detailsJson: 'detailsJson',
+  skippedAgentIds: 'skippedAgentIds'
 };
 
 exports.Prisma.BuyerInterestOrderByRelevanceFieldEnum = {
@@ -1587,11 +1657,54 @@ exports.Prisma.BrochureRechargeOrderByRelevanceFieldEnum = {
   razorpayPaymentId: 'razorpayPaymentId',
   note: 'note'
 };
+
+exports.Prisma.AgentOfficeVisitOrderByRelevanceFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  notes: 'notes',
+  markedById: 'markedById',
+  markedByName: 'markedByName'
+};
+
+exports.Prisma.OfficeVisitorOrderByRelevanceFieldEnum = {
+  id: 'id',
+  visitId: 'visitId',
+  agentId: 'agentId',
+  name: 'name',
+  mobile: 'mobile',
+  relation: 'relation',
+  interest: 'interest'
+};
+
+exports.Prisma.CartItemOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  propertyId: 'propertyId',
+  agentListingId: 'agentListingId'
+};
+
+exports.Prisma.CartShareOrderByRelevanceFieldEnum = {
+  id: 'id',
+  token: 'token',
+  userId: 'userId',
+  agentId: 'agentId',
+  itemsJson: 'itemsJson',
+  note: 'note'
+};
+
+exports.Prisma.WatchRequirementOrderByRelevanceFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  purpose: 'purpose',
+  societyName: 'societyName',
+  status: 'status',
+  matchedListingId: 'matchedListingId',
+  matchedAgentId: 'matchedAgentId'
+};
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   SUBADMIN: 'SUBADMIN',
   OWNER: 'OWNER',
-  DEALER: 'DEALER',
   BUYER: 'BUYER',
   AGENT: 'AGENT',
   INVESTOR: 'INVESTOR'
@@ -1599,7 +1712,6 @@ exports.Role = exports.$Enums.Role = {
 
 exports.PlanRole = exports.$Enums.PlanRole = {
   OWNER: 'OWNER',
-  DEALER: 'DEALER',
   BOTH: 'BOTH',
   AGENT: 'AGENT'
 };
@@ -1786,13 +1898,20 @@ exports.AppointmentStatus = exports.$Enums.AppointmentStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.ListingPurpose = exports.$Enums.ListingPurpose = {
+  RENT: 'RENT',
+  SELL: 'SELL'
+};
+
 exports.ListingRequestStatus = exports.$Enums.ListingRequestStatus = {
   PENDING_PAYMENT: 'PENDING_PAYMENT',
+  DETAILS_PENDING: 'DETAILS_PENDING',
   SEARCHING: 'SEARCHING',
   ACCEPTED: 'ACCEPTED',
   LINK_SENT: 'LINK_SENT',
   SUBMITTED: 'SUBMITTED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  ADMIN_DESK: 'ADMIN_DESK'
 };
 
 exports.BuyerInterestStatus = exports.$Enums.BuyerInterestStatus = {
@@ -1871,7 +1990,12 @@ exports.Prisma.ModelName = {
   BuyerInterestAcceptance: 'BuyerInterestAcceptance',
   SupportTicket: 'SupportTicket',
   Brochure: 'Brochure',
-  BrochureRecharge: 'BrochureRecharge'
+  BrochureRecharge: 'BrochureRecharge',
+  AgentOfficeVisit: 'AgentOfficeVisit',
+  OfficeVisitor: 'OfficeVisitor',
+  CartItem: 'CartItem',
+  CartShare: 'CartShare',
+  WatchRequirement: 'WatchRequirement'
 };
 
 /**

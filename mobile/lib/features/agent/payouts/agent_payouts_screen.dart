@@ -12,6 +12,7 @@ import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/status_badge.dart';
 import '../../../models/agent_payment_history.dart';
 import '../../../services/agent_payouts_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentPayoutsScreen extends StatefulWidget {
   const AgentPayoutsScreen({super.key});
@@ -59,7 +60,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
           children: [
             Text(
               'Available balance: ${Formatters.price(maxBalance)}',
-              style: GoogleFonts.inter(
+              style: GoogleFonts.plusJakartaSans(
                 fontSize: 12,
                 color: Colors.grey.shade600,
               ),
@@ -78,7 +79,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
             const SizedBox(height: 8),
             Text(
               'TDS will be deducted automatically before admin transfer.',
-              style: GoogleFonts.inter(fontSize: 11, color: Colors.grey.shade500),
+              style: GoogleFonts.plusJakartaSans(fontSize: 11, color: Colors.grey.shade500),
             ),
           ],
         ),
@@ -109,7 +110,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
       return;
     }
 
-    setState(() => _requesting = true);
+    setState(() { _requesting = true; });
     try {
       await _service.requestPayout(parsed);
       if (!mounted) return;
@@ -119,13 +120,13 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
           backgroundColor: Colors.green,
         ),
       );
-      setState(() => _future = _service.getPaymentHistory());
+      setState(() { _future = _service.getPaymentHistory(); });
     } on ApiException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _requesting = false);
+      if (mounted) setState(() { _requesting = false; });
     }
   }
 
@@ -133,16 +134,16 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: Text(
           'Earnings & Payments',
-          style: GoogleFonts.inter(fontWeight: FontWeight.w700),
+          style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700),
         ),
         elevation: 0,
       ),
       body: RefreshIndicator(
         color: AppColors.gold,
-        onRefresh: () async => setState(() => _future = _service.getPaymentHistory()),
+        onRefresh: () async => setState(() { _future = _service.getPaymentHistory(); }),
         child: FutureBuilder<AgentPaymentHistory>(
           future: _future,
           builder: (context, snapshot) {
@@ -155,7 +156,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                   : 'Something went wrong.';
               return ErrorView(
                 message: message,
-                onRetry: () => setState(() => _future = _service.getPaymentHistory()),
+                onRetry: () => setState(() { _future = _service.getPaymentHistory(); }),
               );
             }
 
@@ -178,7 +179,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                       unselectedLabelColor: Colors.grey.shade500,
                       indicatorColor: AppColors.gold,
                       indicatorWeight: 3,
-                      labelStyle: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 13),
+                      labelStyle: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold, fontSize: 13),
                       tabs: [
                         Tab(text: 'Earnings (${data.earnings.length})'),
                         Tab(text: 'Withdrawals (${data.payouts.length})'),
@@ -211,7 +212,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
             icon: const Icon(Icons.account_balance_wallet_outlined, size: 20),
             label: Text(
               'Withdraw',
-              style: GoogleFonts.inter(fontWeight: FontWeight.bold),
+              style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
             ),
           );
         },
@@ -223,17 +224,13 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: AppColors.heroGradient,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.12),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            color: const Color(0xFF1A4AD8).withValues(alpha: 0.35),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -245,7 +242,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
             children: [
               Text(
                 'Available Wallet Balance',
-                style: GoogleFonts.inter(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF94A3B8),
@@ -260,7 +257,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                 ),
                 child: Text(
                   'ACTIVE',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.plusJakartaSans(
                     fontSize: 10,
                     fontWeight: FontWeight.w800,
                     color: AppColors.goldLight,
@@ -289,12 +286,12 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                   children: [
                     Text(
                       'Lifetime Earned',
-                      style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF94A3B8)),
+                      style: GoogleFonts.plusJakartaSans(fontSize: 11, color: const Color(0xFF94A3B8)),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       Formatters.price(data.totalEarned),
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: AppColors.goldLight,
@@ -309,12 +306,12 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                   children: [
                     Text(
                       'Total Withdrawn',
-                      style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF94A3B8)),
+                      style: GoogleFonts.plusJakartaSans(fontSize: 11, color: const Color(0xFF94A3B8)),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       Formatters.price(data.totalWithdrawn),
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
@@ -380,7 +377,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                     children: [
                       Text(
                         item.displayTitle,
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.plusJakartaSans(
                           fontWeight: FontWeight.w700,
                           fontSize: 13.5,
                           color: AppColors.charcoal,
@@ -390,7 +387,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                         const SizedBox(height: 2),
                         Text(
                           item.note!,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 11.5,
                             color: Colors.grey.shade600,
                           ),
@@ -401,7 +398,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                       const SizedBox(height: 4),
                       Text(
                         '${item.createdAt.day}/${item.createdAt.month}/${item.createdAt.year}',
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.plusJakartaSans(
                           fontSize: 10.5,
                           color: Colors.grey.shade400,
                         ),
@@ -411,7 +408,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                 ),
                 Text(
                   '+${Formatters.price(item.amount)}',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.plusJakartaSans(
                     fontWeight: FontWeight.w800,
                     fontSize: 15,
                     color: const Color(0xFF16A34A),
@@ -437,12 +434,12 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
               const SizedBox(height: 12),
               Text(
                 'No withdrawal requests yet.',
-                style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade600),
+                style: GoogleFonts.plusJakartaSans(fontSize: 14, color: Colors.grey.shade600),
               ),
               const SizedBox(height: 4),
               Text(
                 'Wallet balance: ${Formatters.price(walletBalance)}',
-                style: GoogleFonts.inter(fontSize: 12, color: Colors.grey.shade500),
+                style: GoogleFonts.plusJakartaSans(fontSize: 12, color: Colors.grey.shade500),
               ),
             ],
           ),
@@ -474,7 +471,7 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                         children: [
                           Text(
                             Formatters.price(payout.netAmount),
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.plusJakartaSans(
                               fontWeight: FontWeight.w800,
                               fontSize: 16,
                               color: AppColors.charcoal,
@@ -490,12 +487,12 @@ class _AgentPayoutsScreenState extends State<AgentPayoutsScreen>
                       const SizedBox(height: 3),
                       Text(
                         'Gross ${Formatters.price(payout.grossAmount)} · TDS ${Formatters.price(payout.tdsAmount)}',
-                        style: GoogleFonts.inter(fontSize: 11.5, color: Colors.grey.shade600),
+                        style: GoogleFonts.plusJakartaSans(fontSize: 11.5, color: Colors.grey.shade600),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         'Requested: ${payout.requestedAt.day}/${payout.requestedAt.month}/${payout.requestedAt.year}',
-                        style: GoogleFonts.inter(fontSize: 10.5, color: Colors.grey.shade400),
+                        style: GoogleFonts.plusJakartaSans(fontSize: 10.5, color: Colors.grey.shade400),
                       ),
                     ],
                   ),

@@ -10,6 +10,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/commission_entry.dart';
 import '../../../services/agent_commissions_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentCommissionsScreen extends StatefulWidget {
   const AgentCommissionsScreen({super.key});
@@ -37,7 +38,7 @@ class _AgentCommissionsScreenState extends State<AgentCommissionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Commissions')),
+      appBar: BackAppBar(title: const Text('Commissions')),
       body: FutureBuilder<CommissionsData>(
         future: _future,
         builder: (context, snapshot) {
@@ -50,7 +51,7 @@ class _AgentCommissionsScreenState extends State<AgentCommissionsScreen> {
                 : 'Something went wrong.';
             return ErrorView(
               message: message,
-              onRetry: () => setState(() => _future = _service.getCommissions()),
+              onRetry: () => setState(() { _future = _service.getCommissions(); }),
             );
           }
 
@@ -62,7 +63,8 @@ class _AgentCommissionsScreenState extends State<AgentCommissionsScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryNavy,
+                  gradient: AppColors.heroGradient,
+                  boxShadow: AppColors.heroGlow,
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
                 child: Column(

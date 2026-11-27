@@ -2,46 +2,91 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/route_paths.dart';
-import '../../../core/widgets/nav_dock.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/back_app_bar.dart';
+import '../buzzer/agent_buzzer_overlay.dart';
+import 'agent_drawer.dart';
 
-const _items = [
-  NavDockItem(icon: Icons.dashboard_rounded, label: 'Dashboard'),
-  NavDockItem(icon: Icons.home_work_rounded, label: 'Listings'),
-  NavDockItem(icon: Icons.radar_rounded, label: 'Dispatch'),
-  NavDockItem(icon: Icons.grid_view_rounded, label: 'More'),
-];
-
-/// Bottom-nav shell for the authenticated agent section: Dashboard,
-/// Listings, Dispatch, and a More grid housing the rest.
+/// Shell for the authenticated partner section: a sidebar (drawer) lists every module,
+/// opened with the menu button on each top-level screen. The buzzer is mounted here so it
+/// rings on any screen.
 class AgentShell extends StatelessWidget {
   const AgentShell({super.key, required this.child});
 
   final Widget child;
 
-  int _indexForLocation(String location) {
-    if (location.startsWith(RoutePaths.agentListings)) return 1;
-    if (location.startsWith(RoutePaths.agentDispatch)) return 2;
-    if (location.startsWith(RoutePaths.agentMore)) return 3;
-    return 0;
-  }
-
-  void _onTap(BuildContext context, int index) => switch (index) {
-        0 => context.go(RoutePaths.agentDashboard),
-        1 => context.go(RoutePaths.agentListings),
-        2 => context.go(RoutePaths.agentDispatch),
-        _ => context.go(RoutePaths.agentMore),
-      };
-
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
+    final path = location.split('?').first;
+    final topLevel = agentSidebarPaths.contains(path);
+    final showBack = topLevel && path != RoutePaths.agentDashboard;
+
+    // Top-level screens have no back arrow, so the menu button takes that slot and the
+    // title moves right to make room for it.
+    final themed = topLevel
+        ? Theme(
+            data: Theme.of(context).copyWith(
+              appBarTheme: Theme.of(context).appBarTheme.copyWith(titleSpacing: showBack ? 112 : 64),
+            ),
+            child: child,
+          )
+        : child;
 
     return Scaffold(
-      body: child,
-      bottomNavigationBar: NavDock(
-        items: _items,
-        currentIndex: _indexForLocation(location),
-        onTap: (index) => _onTap(context, index),
+      drawer: AgentDrawer(location: location),
+      body: AgentBuzzerOverlay(
+        child: Stack(
+          children: [
+            themed,
+            if (showBack)
+              Positioned(
+                left: 58,
+                top: MediaQuery.of(context).padding.top + 6,
+                child: Material(
+                  color: Colors.white,
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    side: BorderSide(color: AppColors.gold.withValues(alpha: 0.35)),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(14),
+                    onTap: () => goOneStepBack(context),
+                    child: const SizedBox(
+                      width: 42,
+                      height: 42,
+                      child: Icon(Icons.arrow_back_rounded, color: AppColors.gold, semanticLabel: 'Back'),
+                    ),
+                  ),
+                ),
+              ),
+            if (topLevel)
+              Positioned(
+                left: 10,
+                top: MediaQuery.of(context).padding.top + 6,
+                child: Builder(
+                  builder: (ctx) => Material(
+                    color: Colors.white,
+                    elevation: 1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      side: BorderSide(color: AppColors.gold.withValues(alpha: 0.35)),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(14),
+                      onTap: () => Scaffold.of(ctx).openDrawer(),
+                      child: const SizedBox(
+                        width: 42,
+                        height: 42,
+                        child: Icon(Icons.menu_rounded, color: AppColors.gold, semanticLabel: 'Open menu'),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

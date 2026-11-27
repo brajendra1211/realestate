@@ -238,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen>
       backgroundColor: AppColors.background,
       body: RefreshIndicator(
         color: AppColors.gold,
-        onRefresh: () async => setState(() => _future = _load()),
+        onRefresh: () async => setState(() { _future = _load(); }),
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: _heroWithSearch(context)),
@@ -567,7 +567,7 @@ class _HomeScreenState extends State<HomeScreen>
                 final active = _heroTab == i;
                 return Expanded(
                   child: GestureDetector(
-                    onTap: () => setState(() => _heroTab = i),
+                    onTap: () => setState(() { _heroTab = i; }),
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       decoration: BoxDecoration(
@@ -806,7 +806,7 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             const SizedBox(height: 4),
             Text(
-              'Sell or rent your property directly with zero brokerage. Connect with genuine verified buyers.',
+              'List your property from ₹299. A verified partner checks it on site and your listing goes live with a Verified badge.',
               style: GoogleFonts.inter(
                 fontSize: 12,
                 color: const Color(0xFF94A3B8),
@@ -815,9 +815,9 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             const SizedBox(height: 14),
             ElevatedButton.icon(
-              onPressed: () => context.push(RoutePaths.buyerGoldListing),
+              onPressed: () => context.push(RoutePaths.ownerStart),
               icon: const Icon(Icons.add_home_work_rounded, size: 16),
-              label: const Text('Post Property Free'),
+              label: const Text('List your property'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.gold,
                 foregroundColor: const Color(0xFF0F172A),
@@ -1045,7 +1045,7 @@ class _HomeScreenState extends State<HomeScreen>
               : 'Something went wrong.';
           return ErrorView(
             message: message,
-            onRetry: () => setState(() => _future = _load()),
+            onRetry: () => setState(() { _future = _load(); }),
           );
         }
         final listings = snapshot.data ?? [];
@@ -1518,7 +1518,7 @@ class _HomeEmiCalculatorWidgetState extends State<_HomeEmiCalculatorWidget> {
               divisions: 59,
               activeColor: AppColors.primaryNavy,
               inactiveColor: const Color(0xFFE2E8F0),
-              onChanged: (val) => setState(() => _loanAmountLakhs = val),
+              onChanged: (val) => setState(() { _loanAmountLakhs = val; }),
             ),
             // Interest Rate Slider
             Row(
@@ -1541,7 +1541,7 @@ class _HomeEmiCalculatorWidgetState extends State<_HomeEmiCalculatorWidget> {
               divisions: 90,
               activeColor: AppColors.gold,
               inactiveColor: const Color(0xFFE2E8F0),
-              onChanged: (val) => setState(() => _interestRate = val),
+              onChanged: (val) => setState(() { _interestRate = val; }),
             ),
             // Tenure Slider
             Row(
@@ -1564,7 +1564,7 @@ class _HomeEmiCalculatorWidgetState extends State<_HomeEmiCalculatorWidget> {
               divisions: 29,
               activeColor: AppColors.primaryNavy,
               inactiveColor: const Color(0xFFE2E8F0),
-              onChanged: (val) => setState(() => _tenureYears = val),
+              onChanged: (val) => setState(() { _tenureYears = val; }),
             ),
             const SizedBox(height: 6),
             // Ratio Breakdown Bar

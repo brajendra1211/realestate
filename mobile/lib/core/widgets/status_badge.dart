@@ -40,6 +40,8 @@ class StatusBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: _background,
         borderRadius: BorderRadius.circular(AppRadius.pill),
+        border: Border.all(color: _foreground.withValues(alpha: 0.35)),
+        boxShadow: [BoxShadow(color: _foreground.withValues(alpha: 0.18), blurRadius: 8)],
       ),
       child: Text(
         label,

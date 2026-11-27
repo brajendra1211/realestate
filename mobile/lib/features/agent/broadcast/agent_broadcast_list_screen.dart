@@ -14,6 +14,7 @@ import '../../../models/broadcast.dart';
 import '../../../services/agent_broadcast_service.dart';
 import 'broadcast_create_screen.dart';
 import 'broadcast_detail_chat_screen.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentBroadcastListScreen extends StatefulWidget {
   const AgentBroadcastListScreen({super.key});
@@ -50,7 +51,7 @@ class _AgentBroadcastListScreenState extends State<AgentBroadcastListScreen>
       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Response sent to the requesting channel partner')));
-      setState(() => _nearbyFuture = _service.getNearby());
+      setState(() { _nearbyFuture = _service.getNearby(); });
     } on ApiException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
@@ -61,7 +62,7 @@ class _AgentBroadcastListScreenState extends State<AgentBroadcastListScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BackAppBar(
         title: const Text('B2B Broadcasts'),
         bottom: TabBar(
           controller: _tabController,
@@ -76,7 +77,7 @@ class _AgentBroadcastListScreenState extends State<AgentBroadcastListScreen>
             MaterialPageRoute(builder: (_) => const BroadcastCreateScreen()),
           );
           if (created == true) {
-            setState(() => _ownFuture = _service.getOwn());
+            setState(() { _ownFuture = _service.getOwn(); });
           }
         },
         child: const Icon(Icons.campaign_outlined),
@@ -102,7 +103,7 @@ class _AgentBroadcastListScreenState extends State<AgentBroadcastListScreen>
           final message = snapshot.error is ApiException
               ? errorMessageFor(snapshot.error as ApiException)
               : 'Something went wrong.';
-          return ErrorView(message: message, onRetry: () => setState(() => _ownFuture = _service.getOwn()));
+          return ErrorView(message: message, onRetry: () => setState(() { _ownFuture = _service.getOwn(); }));
         }
         final broadcasts = snapshot.data ?? [];
         if (broadcasts.isEmpty) {
@@ -131,7 +132,7 @@ class _AgentBroadcastListScreenState extends State<AgentBroadcastListScreen>
                         onPressed: () async {
                           await _service.close(b.id);
                           if (!mounted) return;
-                          setState(() => _ownFuture = _service.getOwn());
+                          setState(() { _ownFuture = _service.getOwn(); });
                         },
                       )
                     : const StatusBadge(label: 'Closed', kind: BadgeKind.neutral),
@@ -189,7 +190,7 @@ class _AgentBroadcastListScreenState extends State<AgentBroadcastListScreen>
                   ? errorMessageFor(snapshot.error as ApiException)
                   : 'Something went wrong.';
           return ErrorView(
-              message: message, onRetry: () => setState(() => _nearbyFuture = _service.getNearby()));
+              message: message, onRetry: () => setState(() { _nearbyFuture = _service.getNearby(); }));
         }
         final broadcasts = snapshot.data ?? [];
         if (broadcasts.isEmpty) {

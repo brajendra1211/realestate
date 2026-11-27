@@ -4,7 +4,6 @@ import { getActiveSubscription } from "@/lib/listing-quota";
 // Baseline free-tier lead-reveal caps — used whenever a lister has no active paid plan.
 export const FREE_LEAD_LIMITS: Record<string, number> = {
   OWNER: 5,
-  DEALER: 15,
 };
 
 export async function getLeadLimit(userId: string, role: string) {

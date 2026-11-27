@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../core/network/api_exception.dart';
 import '../core/network/endpoints.dart';
 import '../services/auth_service.dart';
 
@@ -24,6 +25,8 @@ class CustomerAuthProvider extends ChangeNotifier {
 
   bool get isBuyer =>
       status == CustomerAuthStatus.loggedIn && role == 'BUYER';
+  bool get isOwner =>
+      status == CustomerAuthStatus.loggedIn && role == 'OWNER';
   bool get isInvestor =>
       status == CustomerAuthStatus.loggedIn && role == 'INVESTOR';
 
@@ -47,6 +50,28 @@ class CustomerAuthProvider extends ChangeNotifier {
     );
   }
 
+  static String _requestEndpoint(String panel) => switch (panel) {
+        'investor' => Endpoints.investorOtpRequest,
+        'owner' => '/api/owner/login-otp',
+        _ => Endpoints.buyerOtpRequest,
+      };
+
+  static String _provider(String panel) => switch (panel) {
+        'investor' => 'investor-otp',
+        'owner' => 'owner-otp',
+        _ => 'buyer-otp',
+      };
+
+  /// OTP request for a named panel: 'buyer', 'owner' or 'investor'.
+  Future<({String identifier, String channel})> requestOtpFor(String panel, String identifier) =>
+      _authService.requestOtp(_requestEndpoint(panel), identifier);
+
+  Future<void> verifyOtpFor({required String panel, required String identifier, required String otp}) async {
+    await _authService.verifyOtp(provider: _provider(panel), identifier: identifier, otp: otp);
+    _applySession(await _authService.currentSession());
+    notifyListeners();
+  }
+
   Future<void> verifyOtp({
     required bool forInvestor,
     required String identifier,
@@ -57,6 +82,24 @@ class CustomerAuthProvider extends ChangeNotifier {
       identifier: identifier,
       otp: otp,
     );
+    final session = await _authService.currentSession();
+    _applySession(session);
+    notifyListeners();
+  }
+
+  /// Owner email + password login (owners are created by the list-property flow).
+  Future<void> loginWithPassword({required String email, required String password, String? expectedRole}) async {
+    try {
+      await _authService.login(email: email, password: password, expectedRole: expectedRole);
+    } on ApiException catch (e) {
+      if (expectedRole != null && e.code == 'invalid_credentials') {
+        throw const ApiException(
+          'Wrong ID or password, or this account belongs to a different login. Choose the login that matches your account.',
+          401,
+        );
+      }
+      rethrow;
+    }
     final session = await _authService.currentSession();
     _applySession(session);
     notifyListeners();

@@ -19,7 +19,18 @@ class ErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.error_outline, color: AppColors.danger, size: 40),
+            Container(
+              width: 76,
+              height: 76,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.danger.withValues(alpha: 0.08),
+                border: Border.all(color: AppColors.danger.withValues(alpha: 0.4), width: 1.5),
+                boxShadow: [BoxShadow(color: AppColors.danger.withValues(alpha: 0.2), blurRadius: 18)],
+              ),
+              child: const Icon(Icons.error_outline, color: AppColors.danger, size: 34),
+            ),
             const SizedBox(height: AppSpacing.md),
             Text(
               message,

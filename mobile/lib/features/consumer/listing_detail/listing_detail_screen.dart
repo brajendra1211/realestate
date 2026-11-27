@@ -17,7 +17,9 @@ import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/status_badge.dart';
 import '../../../models/listing_detail.dart';
 import '../../../providers/customer_auth_provider.dart';
+import '../../../services/cart_watch_service.dart';
 import '../../../services/public_listings_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class ListingDetailScreen extends StatefulWidget {
   const ListingDetailScreen({super.key, required this.slug});
@@ -49,17 +51,6 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
     super.dispose();
   }
 
-  void _handleDirectVisit(ListingDetail listing) {
-    final customerAuth = context.read<CustomerAuthProvider>();
-    final target = '${RoutePaths.buyerDirectVisit}'
-        '?agentListingId=${listing.id}&title=${Uri.encodeComponent(listing.title)}';
-    if (!customerAuth.isBuyer) {
-      context.push('${RoutePaths.buyerLogin}?from=${Uri.encodeComponent(target)}');
-      return;
-    }
-    context.push(target);
-  }
-
   Future<void> _handleUnlock() async {
     final customerAuth = context.read<CustomerAuthProvider>();
     if (!customerAuth.isBuyer) {
@@ -69,11 +60,11 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
       return;
     }
 
-    setState(() => _unlocking = true);
+    setState(() { _unlocking = true; });
     try {
       await _service.unlockListing(widget.slug);
       if (!mounted) return;
-      setState(() => _future = _service.getListingDetail(widget.slug));
+      setState(() { _future = _service.getListingDetail(widget.slug); });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Unlocked — contact details below.')),
       );
@@ -82,12 +73,12 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _unlocking = false);
+      if (mounted) setState(() { _unlocking = false; });
     }
   }
 
   Future<void> _handleRing() async {
-    setState(() => _ringing = true);
+    setState(() { _ringing = true; });
     try {
       final ringsRemaining = await _service.ringListing(widget.slug);
       if (!mounted) return;
@@ -99,14 +90,44 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _ringing = false);
+      if (mounted) setState(() { _ringing = false; });
+    }
+  }
+
+  Future<void> _addToCart() async {
+    final customerAuth = context.read<CustomerAuthProvider>();
+    if (!customerAuth.isBuyer) {
+      context.push('${RoutePaths.buyerLogin}?from=${Uri.encodeComponent(RoutePaths.listingDetailPath(widget.slug))}');
+      return;
+    }
+    try {
+      final detail = await _future;
+      final inCart = await CartWatchService(ApiClient.instance.dio).toggleCart(agentListingId: detail.id);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(inCart ? 'Added to cart' : 'Removed from cart')));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e is ApiException ? errorMessageFor(e) : 'Something went wrong.')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Listing details')),
+      appBar: BackAppBar(title: const Text('Listing details'), actions: [
+        IconButton(
+          icon: const Icon(Icons.add_shopping_cart_outlined),
+          tooltip: 'Add to cart',
+          onPressed: _addToCart,
+        ),
+        IconButton(
+          icon: const Icon(Icons.shopping_cart_outlined),
+          tooltip: 'Open cart',
+          onPressed: () => context.push(RoutePaths.buyerCart),
+        ),
+      ]),
       body: FutureBuilder<ListingDetail>(
         future: _future,
         builder: (context, snapshot) {
@@ -138,7 +159,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                     child: listing.images.isNotEmpty
                         ? PageView(
                             controller: _pageController,
-                            onPageChanged: (i) => setState(() => _imageIndex = i),
+                            onPageChanged: (i) => setState(() { _imageIndex = i; }),
                             children: listing.images
                                 .map((img) => CachedNetworkImage(
                                       imageUrl: resolveMediaUrl(img.url),
@@ -356,7 +377,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                                 label: 'Phone',
                                 value: listing.agentPhone!,
                               ),
-                            if (listing.agentCode != null) ...[
+                            if (listing.agentCode != null && context.read<CustomerAuthProvider>().isBuyer) ...[
                               const SizedBox(height: AppSpacing.md),
                               AppButton(
                                 label: _ringing ? 'Ringing…' : 'Ring channel partner',
@@ -369,13 +390,6 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                           ],
                         ),
                       ),
-                    const SizedBox(height: AppSpacing.md),
-                    AppButton(
-                      label: "I'm at the property — verify visit",
-                      variant: AppButtonVariant.secondary,
-                      expand: true,
-                      onPressed: () => _handleDirectVisit(listing),
-                    ),
                     if (listing.agentCode != null) ...[
                       const SizedBox(height: AppSpacing.lg),
                       AppButton(

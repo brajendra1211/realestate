@@ -24,11 +24,19 @@ class IncomingRingScreen extends StatefulWidget {
     required this.propertyTitle,
     required this.buyerName,
     required this.buyerPhone,
+    this.propertyWhere = '',
+    this.propertyPrice = '',
+    this.propertyKind = '',
+    this.listedBy = '',
   });
 
   final String propertyTitle;
   final String buyerName;
   final String buyerPhone;
+  final String propertyWhere;
+  final String propertyPrice;
+  final String propertyKind;
+  final String listedBy;
 
   @override
   State<IncomingRingScreen> createState() => _IncomingRingScreenState();
@@ -122,7 +130,7 @@ class _IncomingRingScreenState extends State<IncomingRingScreen> {
                 const Spacer(flex: 2),
                 Text(
                   'INCOMING RING',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.plusJakartaSans(
                     color: AppColors.goldLight,
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -158,11 +166,27 @@ class _IncomingRingScreenState extends State<IncomingRingScreen> {
                       ? 'wants to talk about "${widget.propertyTitle}"'
                       : 'wants to talk to you',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.plusJakartaSans(
                     color: AppColors.goldLight.withValues(alpha: 0.85),
                     fontSize: 15,
                   ),
                 ),
+                const SizedBox(height: 16),
+                for (final line in [
+                  widget.propertyKind,
+                  widget.propertyWhere,
+                  if (widget.propertyPrice.isNotEmpty) '₹${widget.propertyPrice}',
+                  widget.listedBy,
+                ])
+                  if (line.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3),
+                      child: Text(
+                        line,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.plusJakartaSans(color: Colors.white70, fontSize: 13),
+                      ),
+                    ),
                 const Spacer(flex: 3),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -223,7 +247,7 @@ class _RingButton extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           label,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.plusJakartaSans(
             color: Colors.white,
             fontSize: 13,
             fontWeight: FontWeight.w600,

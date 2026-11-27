@@ -9,6 +9,8 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/form_section.dart';
 import '../../../services/rating_service.dart';
+import '../../../core/utils/input_formats.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 const _ratingLabels = {
   1: 'Not great',
@@ -50,7 +52,7 @@ class _RateAgentScreenState extends State<RateAgentScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _submitting = true);
+    setState(() { _submitting = true; });
     try {
       await _service.submitRating(
         agentCode: widget.agentCode,
@@ -68,14 +70,14 @@ class _RateAgentScreenState extends State<RateAgentScreen> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) setState(() { _submitting = false; });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Rate ${widget.agentCode}')),
+      appBar: BackAppBar(title: Text('Rate ${widget.agentCode}')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),
@@ -103,7 +105,7 @@ class _RateAgentScreenState extends State<RateAgentScreen> {
                         children: List.generate(5, (index) {
                           final starValue = index + 1;
                           return IconButton(
-                            onPressed: () => setState(() => _stars = starValue),
+                            onPressed: () => setState(() { _stars = starValue; }),
                             icon: Icon(
                               starValue <= _stars ? Icons.star_rounded : Icons.star_outline_rounded,
                               color: AppColors.gold,
@@ -127,6 +129,7 @@ class _RateAgentScreenState extends State<RateAgentScreen> {
                     TextFormField(
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
+                      inputFormatters: phoneFormatters,
                       decoration: const InputDecoration(
                         labelText: 'Your phone number',
                         prefixIcon: Icon(Icons.call_outlined),

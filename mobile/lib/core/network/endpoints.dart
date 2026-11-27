@@ -40,11 +40,11 @@ class Endpoints {
 
   // --- Agent ---
   static const agentRegister = '/api/agent/register';
+  static const agentRegisterOtp = '/api/agent/register/otp';
   static const agentOtpRequest = '/api/agent/otp';
   static const agentResetPassword = '/api/agent/reset-password';
   static const agentMe = '/api/agent/me';
   static const agentSettings = '/api/agent/settings';
-  static const agentLocation = '/api/agent/location';
   static const agentCommissions = '/api/agent/commissions';
   static const agentInvestors = '/api/agent/investors';
   static const agentListingsDedupSearch = '/api/agent/listings/dedup-search';
@@ -127,4 +127,5 @@ class Endpoints {
 
   // --- Push notifications ---
   static const pushRegister = '/api/push/register';
+  static const liveLocation = '/api/location';
 }

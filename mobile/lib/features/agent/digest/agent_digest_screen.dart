@@ -9,6 +9,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/agent_digest.dart';
 import '../../../services/agent_digest_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentDigestScreen extends StatefulWidget {
   const AgentDigestScreen({super.key});
@@ -31,7 +32,7 @@ class _AgentDigestScreenState extends State<AgentDigestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Today's Digest")),
+      appBar: BackAppBar(title: const Text("Today's Digest")),
       body: FutureBuilder<AgentDigest>(
         future: _future,
         builder: (context, snapshot) {
@@ -44,7 +45,7 @@ class _AgentDigestScreenState extends State<AgentDigestScreen> {
                 : 'Something went wrong.';
             return ErrorView(
               message: message,
-              onRetry: () => setState(() => _future = _service.getDigest()),
+              onRetry: () => setState(() { _future = _service.getDigest(); }),
             );
           }
           final digest = snapshot.data!;
@@ -55,7 +56,8 @@ class _AgentDigestScreenState extends State<AgentDigestScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryNavy,
+                  gradient: AppColors.heroGradient,
+                  boxShadow: AppColors.heroGlow,
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
                 child: Column(

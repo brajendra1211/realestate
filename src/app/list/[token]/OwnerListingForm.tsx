@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, MapPin } from "lucide-react";
 import { AgentListingImagesField } from "@/components/agent/AgentListingImagesField";
 import { submitOwnerListingAction } from "./actions";
 
@@ -25,14 +25,41 @@ export function OwnerListingForm({ token, city }: { token: string; city: string 
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [locError, setLocError] = useState<string | null>(null);
+
+  // Location is mandatory: it is how we find the partners near the property.
+  function readPosition() {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setCoords({ latitude: pos.coords.latitude, longitude: pos.coords.longitude }),
+      () => setLocError("Location is OFF. Please allow location access (stand at your property) and try again."),
+      { enableHighAccuracy: true, timeout: 15000 },
+    );
+  }
+  function askLocation() {
+    setLocError(null);
+    if (!navigator.geolocation) {
+      setLocError("Your browser can't share its location. Please open this page in Chrome or Safari.");
+      return;
+    }
+    readPosition();
+  }
+  useEffect(() => {
+    if (typeof navigator !== "undefined" && navigator.geolocation) readPosition();
+  }, []);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!coords) {
+      setError("Please turn ON your location first. We use it to find a partner near your property.");
+      askLocation();
+      return;
+    }
     setBusy(true);
     setError(null);
     const d = new FormData(event.currentTarget);
     try {
-      const { slug } = await submitOwnerListingAction(token, {
+      const { id, statusToken } = await submitOwnerListingAction(token, {
         title: String(d.get("title") ?? ""),
         description: String(d.get("description") ?? ""),
         propertyType: String(d.get("propertyType") ?? "APARTMENT") as "APARTMENT",
@@ -47,11 +74,13 @@ export function OwnerListingForm({ token, city }: { token: string; city: string 
         locality: txt(d.get("locality")),
         exactAddress: String(d.get("exactAddress") ?? ""),
         amenities: txt(d.get("amenities")),
+        latitude: coords.latitude,
+        longitude: coords.longitude,
         videoUrl: txt(d.get("videoUrl")),
         bachelorFriendly: d.get("bachelorFriendly") === "on",
         images: d.getAll("imageUrls").map(String).filter(Boolean),
       });
-      router.push(`/list/${token}/done?slug=${encodeURIComponent(slug)}`);
+      router.push(`/list/${token}/done?id=${id}&k=${statusToken}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       setBusy(false);
@@ -61,6 +90,19 @@ export function OwnerListingForm({ token, city }: { token: string; city: string 
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       {error && <p className="rounded-xl bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">{error}</p>}
+
+      <div className={`flex items-start gap-3 rounded-xl p-3 text-sm font-semibold ${coords ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800"}`}>
+        <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
+        <div>
+          {coords ? "Location ON: your property location is captured." : "Location is required. Please allow location access."}
+          {locError && <p className="mt-1 text-xs font-medium">{locError}</p>}
+          {!coords && (
+            <button type="button" onClick={askLocation} className="mt-1 block cursor-pointer text-xs font-bold underline">
+              Turn on location
+            </button>
+          )}
+        </div>
+      </div>
 
       <label className="block text-sm font-semibold text-slate-700">
         Listing title

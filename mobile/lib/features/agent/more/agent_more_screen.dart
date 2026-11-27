@@ -5,6 +5,7 @@ import '../../../core/router/route_paths.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class AgentMoreScreen extends StatelessWidget {
   const AgentMoreScreen({super.key});
@@ -12,7 +13,7 @@ class AgentMoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('More')),
+      appBar: BackAppBar(title: const Text('More')),
       body: GridView.count(
         padding: const EdgeInsets.all(AppSpacing.lg),
         crossAxisCount: 2,
@@ -20,6 +21,26 @@ class AgentMoreScreen extends StatelessWidget {
         crossAxisSpacing: AppSpacing.sm,
         childAspectRatio: 1.6,
         children: [
+          _MoreTile(
+            icon: Icons.support_agent_rounded,
+            label: 'Help & Support',
+            onTap: () => context.push(RoutePaths.support),
+          ),
+          _MoreTile(
+            icon: Icons.notifications_active_rounded,
+            label: 'Owner Requests',
+            onTap: () => context.push(RoutePaths.agentOwnerRequests),
+          ),
+          _MoreTile(
+            icon: Icons.person_search_rounded,
+            label: 'Buyer Leads',
+            onTap: () => context.push(RoutePaths.agentBuyerLeads),
+          ),
+          _MoreTile(
+            icon: Icons.description_rounded,
+            label: 'Brochures',
+            onTap: () => context.push(RoutePaths.agentBrochures),
+          ),
           _MoreTile(
             icon: Icons.person_outline,
             label: 'My Profile',

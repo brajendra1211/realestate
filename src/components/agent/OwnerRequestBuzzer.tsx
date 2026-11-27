@@ -2,9 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { BellRing, UserSearch, X } from "lucide-react";
+import { BellRing, MapPin, UserSearch, X } from "lucide-react";
 
-type OwnerPending = { id: string; city: string; locality: string | null; plan: "BASIC" | "GOLD"; createdAt: string; buzzCount: number };
+type OwnerPending = {
+  id: string; city: string; locality: string | null; plan: "BASIC" | "GOLD"; createdAt: string; buzzCount: number;
+  distanceKm: number | null; mapUrl: string | null;
+  property: { title: string; type: string; bedrooms: number | null; areaSqft: number | null; rent: number; photo: string | null; photos: number } | null;
+};
 type BuyerPending = { id: string; title: string; summary: string; primary: boolean; buzzCount: number; createdAt: string };
 
 const POLL_MS = 5000;
@@ -172,8 +176,30 @@ export function OwnerRequestBuzzer() {
             <div className="min-w-0 flex-1">
               <p className="text-sm font-black text-ink">New owner wants to list a property</p>
               <p className="text-xs text-slate-500">
-                {[p.locality, p.city].filter(Boolean).join(", ")} · {p.plan === "GOLD" ? "Gold" : "Basic"} plan · paid
+                {[p.locality, p.city].filter(Boolean).join(", ")} · {p.plan === "GOLD" ? "Pro" : "Basic"} plan · paid
               </p>
+              {p.property && (
+                <div className="mt-2 flex gap-3 rounded-xl bg-slate-50 p-2">
+                  {p.property.photo && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={p.property.photo} alt="" className="h-16 w-20 shrink-0 rounded-lg object-cover" />
+                  )}
+                  <div className="min-w-0 text-xs text-slate-600">
+                    <p className="truncate font-bold text-ink">{p.property.title}</p>
+                    <p>
+                      {p.property.type.replace(/_/g, " ")}
+                      {p.property.bedrooms ? ` · ${p.property.bedrooms} BHK` : ""}
+                      {p.property.areaSqft ? ` · ${p.property.areaSqft} sqft` : ""}
+                    </p>
+                    <p className="font-semibold">Rent ₹{p.property.rent.toLocaleString("en-IN")} · {p.property.photos} photos</p>
+                  </div>
+                </div>
+              )}
+              <p className="mt-2 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-600">
+                {p.distanceKm != null && <span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-rose-500" /> {p.distanceKm} km from you</span>}
+                {p.mapUrl && <a href={p.mapUrl} target="_blank" rel="noreferrer" className="text-brand-600 underline">View on map</a>}
+              </p>
+              <p className="mt-1 text-[11px] text-slate-500">Accept, visit the property, check details and photos, then verify with the owner&apos;s OTP.</p>
               <button
                 onClick={() => accept("owner", p.id)}
                 disabled={busyId === p.id}

@@ -10,6 +10,7 @@ import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../models/investor_document.dart';
 import '../../../services/investor_service.dart';
+import '../../../core/widgets/back_app_bar.dart';
 
 class InvestorDocumentsScreen extends StatefulWidget {
   const InvestorDocumentsScreen({super.key});
@@ -32,7 +33,7 @@ class _InvestorDocumentsScreenState extends State<InvestorDocumentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Document Vault')),
+      appBar: BackAppBar(title: const Text('Document Vault')),
       body: FutureBuilder<InvestorDocuments>(
         future: _future,
         builder: (context, snapshot) {
@@ -45,7 +46,7 @@ class _InvestorDocumentsScreenState extends State<InvestorDocumentsScreen> {
                 : 'Something went wrong.';
             return ErrorView(
               message: message,
-              onRetry: () => setState(() => _future = _service.getDocuments()),
+              onRetry: () => setState(() { _future = _service.getDocuments(); }),
             );
           }
 

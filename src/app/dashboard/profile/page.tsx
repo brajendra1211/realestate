@@ -4,21 +4,21 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { SingleImageField } from "@/components/SingleImageField";
 import { updateProfile } from "./actions";
+import { SmartInput } from "@/components/forms/FormKit";
 
-type SearchParams = Promise<{ saved?: string }>;
+type SearchParams = Promise<{ saved?: string; error?: string }>;
 
 export default async function ProfilePage({ searchParams }: { searchParams: SearchParams }) {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const { saved } = await searchParams;
+  const { saved, error } = await searchParams;
   const user = await prisma.user.findUnique({ where: { id: session.user.id } });
   if (!user) redirect("/login");
 
-  const isDealer = session.user.role === "DEALER";
   const isOwner = session.user.role === "OWNER";
-  const isLister = isDealer || isOwner;
-  const publicPath = isDealer ? "dealers" : "owners";
+  const isLister = isOwner;
+  const publicPath = "owners";
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
@@ -49,6 +49,11 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
         </p>
       )}
 
+      {error === "invalidPhone" && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">
+          Enter a valid 10-digit mobile number (starting with 6, 7, 8 or 9).
+        </div>
+      )}
       {saved === "1" && (
         <p className="mt-4 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">Saved.</p>
       )}
@@ -66,24 +71,12 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
         </div>
         <div>
           <label className="text-sm font-medium text-slate-700">Phone</label>
-          <input
-            type="tel"
+          <SmartInput kind="mobile"
             name="phone"
             defaultValue={user.phone ?? undefined}
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
           />
         </div>
-        {isDealer && (
-          <div>
-            <label className="text-sm font-medium text-slate-700">Company / Agency name</label>
-            <input
-              type="text"
-              name="company"
-              defaultValue={user.company ?? undefined}
-              className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            />
-          </div>
-        )}
 
         {isLister && (
           <>
@@ -99,20 +92,9 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
             </div>
             <SingleImageField
               name="logoUrl"
-              label={isDealer ? "Logo" : "Profile photo"}
+              label="Profile photo"
               defaultValue={user.logoUrl}
             />
-            {isDealer && (
-              <div>
-                <label className="text-sm font-medium text-slate-700">RERA / License number</label>
-                <input
-                  type="text"
-                  name="licenseNumber"
-                  defaultValue={user.licenseNumber ?? undefined}
-                  className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-                />
-              </div>
-            )}
             <div>
               <label className="text-sm font-medium text-slate-700">
                 Address / area you serve
@@ -159,8 +141,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-sm font-medium text-slate-700">Secondary / Alternate Mobile</label>
-            <input
-              type="tel"
+            <SmartInput kind="mobile"
               name="secondaryPhone"
               placeholder="Any second contact number"
               defaultValue={user.secondaryPhone ?? undefined}
@@ -169,8 +150,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
           </div>
           <div>
             <label className="text-sm font-medium text-slate-700">WhatsApp Mobile Number</label>
-            <input
-              type="tel"
+            <SmartInput kind="mobile"
               name="whatsappNumber"
               placeholder="WhatsApp number"
               defaultValue={user.whatsappNumber ?? undefined}

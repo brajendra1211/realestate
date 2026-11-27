@@ -1,3 +1,4 @@
+import { CreateUserCard } from "./ManageUser";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChevronRight, Contact, Search } from "lucide-react";
@@ -6,7 +7,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { AdminPage, EmptyState, inputCls } from "@/components/admin/ui";
 
-type SearchParams = Promise<{ role?: string; f?: string; q?: string; page?: string }>;
+type SearchParams = Promise<{ role?: string; f?: string; q?: string; page?: string; error?: string; deleted?: string }>;
 
 const PAGE_SIZE = 40;
 
@@ -16,7 +17,6 @@ const TABS = [
   { key: "AGENT", label: "Channel partners" },
   { key: "INVESTOR", label: "Referral partners" },
   { key: "OWNER", label: "Owners" },
-  { key: "DEALER", label: "Dealers" },
   { key: "BUYER", label: "Buyers" },
   { key: "TEAM", label: "Team" },
 ] as const;
@@ -25,7 +25,6 @@ const ROLE_CHIP: Record<string, { label: string; cls: string }> = {
   AGENT: { label: "Channel partner", cls: "is-cyan" },
   INVESTOR: { label: "Referral partner", cls: "is-violet" },
   OWNER: { label: "Owner", cls: "is-green" },
-  DEALER: { label: "Dealer", cls: "is-yellow" },
   BUYER: { label: "Buyer", cls: "is-muted" },
   ADMIN: { label: "Admin", cls: "is-red" },
   SUBADMIN: { label: "Sub-admin", cls: "is-red" },
@@ -117,6 +116,18 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
     prisma.user.groupBy({ by: ["role"], _count: { _all: true } }),
   ]);
 
+  // Owners pay through a listing request (not a subscription): paid = a request with a payment date.
+  const ownerIds = users.filter((u) => u.role === "OWNER").map((u) => u.id);
+  const ownerRequests = ownerIds.length
+    ? await prisma.listingRequest.findMany({
+        where: { userId: { in: ownerIds }, paidAt: { not: null } },
+        orderBy: { paidAt: "desc" },
+        select: { userId: true, plan: true, status: true },
+      })
+    : [];
+  const paidByOwner = new Map<string, { plan: string; status: string }>();
+  for (const r of ownerRequests) if (r.userId && !paidByOwner.has(r.userId)) paidByOwner.set(r.userId, r);
+
   const countOf = (key: string) =>
     key === "all"
       ? counts.reduce((s, c) => s + c._count._all, 0)
@@ -131,6 +142,10 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
       title="All people"
       description="Every account on the platform in one list. Click anyone to see their full details, documents, wallet and payments."
     >
+      {sp.error && <p className="rounded-xl bg-red-50 p-3 text-sm font-semibold text-red-700">{sp.error}</p>}
+      {sp.deleted && <p className="rounded-xl bg-green-50 p-3 text-sm font-semibold text-green-700">User deleted.</p>}
+      <CreateUserCard />
+
       {/* Role tabs */}
       <div className="flex flex-wrap gap-2">
         {TABS.map((t) => {
@@ -213,8 +228,13 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
                       u.investorProfile?.feeStatus === "PAID"
                         ? { cls: "is-green", label: "✓ Fee paid" }
                         : { cls: "is-red", label: "✕ Fee pending" };
-                  } else if (u.role === "OWNER" || u.role === "DEALER") {
-                    pay = planLive ? { cls: "is-green", label: `✓ ${sub?.plan.name ?? "Plan active"}` } : { cls: "is-muted", label: "No plan" };
+                  } else if (u.role === "OWNER") {
+                    const paid = paidByOwner.get(u.id);
+                    pay = paid
+                      ? { cls: "is-green", label: `✓ ${paid.plan === "GOLD" ? "Pro" : "Basic"} listing paid` }
+                      : planLive
+                        ? { cls: "is-green", label: `✓ ${sub?.plan.name ?? "Plan active"}` }
+                        : { cls: "is-muted", label: "No plan" };
                   }
 
                   let verify: { cls: string; label: string } = { cls: "is-muted", label: "—" };
@@ -226,8 +246,8 @@ export default async function AdminPeoplePage({ searchParams }: { searchParams: 
                         : st === "REJECTED"
                           ? { cls: "is-red", label: "Rejected" }
                           : { cls: "is-yellow", label: "Pending" };
-                  } else if (u.role === "OWNER" || u.role === "DEALER") {
-                    verify = u.verified ? { cls: "is-green", label: "Verified" } : { cls: "is-yellow", label: "Not verified" };
+                  } else if (u.role === "OWNER") {
+                    verify = u.verified || paidByOwner.has(u.id) ? { cls: "is-green", label: "Verified" } : { cls: "is-yellow", label: "Not verified" };
                   } else if (u.role === "INVESTOR") {
                     verify = u.investorProfile?.feeStatus === "PAID" ? { cls: "is-green", label: "Active" } : { cls: "is-yellow", label: "Awaiting fee" };
                   }

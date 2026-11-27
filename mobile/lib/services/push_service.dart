@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:dio/dio.dart';
 
 import '../core/network/api_exception.dart';
@@ -13,7 +15,7 @@ class PushService {
   /// shouldn't block login.
   Future<void> registerToken(String token) async {
     try {
-      await _dio.post(Endpoints.pushRegister, data: {'token': token, 'platform': 'ANDROID'});
+      await _dio.post(Endpoints.pushRegister, data: {'token': token, 'platform': Platform.isIOS ? 'IOS' : 'ANDROID'});
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     }

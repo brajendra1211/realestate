@@ -128,4 +128,5 @@ class Endpoints {
   // --- Push notifications ---
   static const pushRegister = '/api/push/register';
   static const liveLocation = '/api/location';
+  static const accountDelete = '/api/account/delete';
 }

@@ -49,9 +49,9 @@ export async function sendPushToUser(
   const fcm = await getMessaging();
   if (!fcm) return { reason: "not-configured" as const };
 
-  const tokens: { id: string; token: string }[] = await prisma.pushToken.findMany({
+  const tokens: { id: string; token: string; platform: string }[] = await prisma.pushToken.findMany({
     where: { userId },
-    select: { id: true, token: true },
+    select: { id: true, token: true, platform: true },
   });
   if (tokens.length === 0) return { reason: "no-tokens" as const };
 
@@ -62,18 +62,53 @@ export async function sendPushToUser(
   // threaded through to the tap handler. A data-only message always routes
   // through our own handler, foreground, background, or killed alike, so we
   // keep full control every time.
-  const response = await fcm.sendEachForMulticast({
-    tokens: tokens.map((t) => t.token),
-    data: { ...data, title: notification.title, body: notification.body },
-    // Buzzer alerts are only useful live: FCM drops them if they cannot be delivered within a minute.
-    android: { priority: "high", ...(REALTIME_TYPES.includes(data?.type ?? "") ? { ttl: 60 * 1000 } : {}) },
-  });
+  const realtime = REALTIME_TYPES.includes(data?.type ?? "");
+  const androidTokens = tokens.filter((t) => t.platform !== "IOS");
+  const iosTokens = tokens.filter((t) => t.platform === "IOS");
+  const payloadData = { ...data, title: notification.title, body: notification.body };
+
+  // iPhones: iOS only shows a push while the app is closed when it carries a normal `notification` (alert) part,
+  // so these go out as visible notifications with the high-priority APNs headers. Buzzers expire after a minute.
+  const sends: Promise<import("firebase-admin/messaging").BatchResponse>[] = [];
+  const order: typeof tokens[] = [];
+  if (androidTokens.length > 0) {
+    order.push(androidTokens);
+    sends.push(
+      fcm.sendEachForMulticast({
+        tokens: androidTokens.map((t) => t.token),
+        data: payloadData,
+        android: { priority: "high", ...(realtime ? { ttl: 60 * 1000 } : {}) },
+      }),
+    );
+  }
+  if (iosTokens.length > 0) {
+    order.push(iosTokens);
+    sends.push(
+      fcm.sendEachForMulticast({
+        tokens: iosTokens.map((t) => t.token),
+        notification: { title: notification.title, body: notification.body },
+        data: payloadData,
+        apns: {
+          headers: { "apns-priority": "10", ...(realtime ? { "apns-expiration": String(Math.floor(Date.now() / 1000) + 60) } : {}) },
+          payload: { aps: { sound: "default", "interruption-level": realtime ? "time-sensitive" : "active" } },
+        },
+      }),
+    );
+  }
+  const results = await Promise.all(sends);
+  const flat = results.flatMap((res, gi) => res.responses.map((r, i) => ({ r, token: order[gi][i] })));
+  const response = {
+    successCount: results.reduce((n, x) => n + x.successCount, 0),
+    failureCount: results.reduce((n, x) => n + x.failureCount, 0),
+    responses: flat.map((x) => x.r),
+  };
+  const sentTokens = flat.map((x) => x.token);
 
   // Prune tokens Firebase reports as dead (uninstalled app, expired token,
   // etc.) — otherwise every future alert keeps retrying a token that will
   // never succeed again.
   const deadTokenIds = response.responses
-    .map((r: { success: boolean }, i: number) => (!r.success ? tokens[i].id : null))
+    .map((r: { success: boolean }, i: number) => (!r.success ? sentTokens[i].id : null))
     .filter((id: string | null): id is string => id !== null);
   if (deadTokenIds.length > 0) {
     await prisma.pushToken.deleteMany({ where: { id: { in: deadTokenIds } } });

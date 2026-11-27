@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/config/app_brand.dart';
 import '../../core/router/route_paths.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../providers/agent_auth_provider.dart';
+import '../../core/network/api_client.dart';
+import '../../core/network/api_exception.dart';
+import '../../core/utils/error_messages.dart';
 import '../../providers/customer_auth_provider.dart';
+import '../../services/auth_service.dart';
 import '../../core/widgets/back_app_bar.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -30,6 +35,45 @@ class AccountScreen extends StatelessWidget {
       }
       if (context.mounted) context.go(RoutePaths.home);
     }
+
+    Future<void> deleteAccount() async {
+      final sure = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Delete your account?'),
+          content: const Text(
+            'This permanently erases your profile and you will not be able to sign in again. '
+            'Payments and records that other people depend on are kept, without your personal details. This cannot be undone.',
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')),
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text('Delete my account'),
+            ),
+          ],
+        ),
+      );
+      if (sure != true || !context.mounted) return;
+      final messenger = ScaffoldMessenger.of(context);
+      try {
+        await context.read<AuthService>().deleteAccount();
+        if (agentAuth.isLoggedIn) {
+          await agentAuth.logout();
+        } else {
+          await customerAuth.logout();
+        }
+        if (context.mounted) context.go(RoutePaths.home);
+        messenger.showSnackBar(const SnackBar(content: Text('Your account has been deleted.')));
+      } on ApiException catch (e) {
+        messenger.showSnackBar(SnackBar(content: Text(errorMessageFor(e))));
+      } catch (_) {
+        messenger.showSnackBar(const SnackBar(content: Text('Could not delete your account. Please try again.')));
+      }
+    }
+
+    Future<void> openLink(String path) => launchUrl(Uri.parse('${ApiClient.baseUrl}$path'), mode: LaunchMode.externalApplication);
 
     return Scaffold(
       appBar: BackAppBar(title: const Text('Account')),
@@ -139,12 +183,35 @@ class AccountScreen extends StatelessWidget {
               signedIn: false,
               onTap: () => context.push(RoutePaths.support),
             ),
+            const SizedBox(height: AppSpacing.sm),
+            _AccountOption(
+              icon: Icons.privacy_tip_outlined,
+              title: 'Privacy policy',
+              subtitle: 'How we use your information.',
+              signedIn: false,
+              onTap: () => openLink('/privacy-policy'),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            _AccountOption(
+              icon: Icons.description_outlined,
+              title: 'Terms & conditions',
+              subtitle: 'The rules for using Pronesto.',
+              signedIn: false,
+              onTap: () => openLink('/terms'),
+            ),
             if (signedIn) ...[
               const SizedBox(height: AppSpacing.lg),
               OutlinedButton.icon(
                 onPressed: logout,
                 icon: const Icon(Icons.logout),
                 label: const Text('Log out'),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              TextButton.icon(
+                onPressed: deleteAccount,
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                icon: const Icon(Icons.delete_outline),
+                label: const Text('Delete my account'),
               ),
             ],
           ],

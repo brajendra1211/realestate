@@ -27,11 +27,17 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Pronesto uses your location to find nearby agents and confirm on-site property visits.</string>
+	<string>Pronesto needs your live location to match you with properties and nearby partners, to send buzzers to the closest partner, and to confirm on-site property visits.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Pronesto uses the camera to take property photos and scan partner QR codes.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Pronesto needs your photos to attach property pictures to a listing.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>

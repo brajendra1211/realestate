@@ -127,6 +127,15 @@ class AuthService {
     }
   }
 
+  /// Permanently erases the signed-in person's profile (App Store requirement). Throws with the server's message on failure.
+  Future<void> deleteAccount() async {
+    try {
+      await _dio.post(Endpoints.accountDelete, data: {'confirm': 'DELETE'});
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    }
+  }
+
   Future<void> logout() async {
     try {
       final csrfRes = await _dio.get(Endpoints.authCsrf);

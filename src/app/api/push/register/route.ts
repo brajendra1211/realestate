@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const token = String(body?.token ?? "").trim();
   const platform = String(body?.platform ?? "").trim().toUpperCase();
-  if (!token || platform !== "ANDROID") {
+  if (!token || platform !== "ANDROID" && platform !== "IOS") {
     return NextResponse.json({ error: "validation" }, { status: 400 });
   }
 

@@ -111,6 +111,7 @@ Future<void> _showLocalNotification(RemoteMessage message) async {
     title,
     body,
     NotificationDetails(
+      iOS: const DarwinNotificationDetails(presentAlert: true, presentSound: true, presentBadge: false),
       android: AndroidNotificationDetails(
         _channelId,
         'Nearby buyer alerts',
@@ -142,7 +143,11 @@ class PushNotifications {
 
   static Future<void> init() async {
     await _localNotifications.initialize(
-      const InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher')),
+      const InitializationSettings(
+        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        // The notification permission itself is asked once, by Firebase, after login.
+        iOS: DarwinInitializationSettings(requestAlertPermission: false, requestBadgePermission: false, requestSoundPermission: false),
+      ),
       onDidReceiveNotificationResponse: _onNotificationResponse,
       onDidReceiveBackgroundNotificationResponse: _onNotificationResponse,
     );

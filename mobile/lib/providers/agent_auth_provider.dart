@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 
+import '../core/location/agent_location_tracker.dart';
 import '../core/network/api_client.dart';
 import '../core/network/endpoints.dart';
 import '../core/notifications/push_notifications.dart';
 import '../services/auth_service.dart';
+import '../services/location_service.dart';
 import '../services/push_service.dart';
 
 enum AuthStatus { unknown, loggedOut, loggedIn }
@@ -76,6 +78,7 @@ class AgentAuthProvider extends ChangeNotifier {
       // below regardless, so the user is never stuck logged in on a
       // network hiccup or an unexpected NextAuth response.
     }
+    AgentLocationTracker.stop();
     status = AuthStatus.loggedOut;
     userId = null;
     role = null;
@@ -94,8 +97,10 @@ class AgentAuthProvider extends ChangeNotifier {
       email = user['email']?.toString();
       if (role == 'AGENT') {
         PushNotifications.registerForCurrentUser(PushService(ApiClient.instance.dio));
+        AgentLocationTracker.start(LocationService(ApiClient.instance.dio));
       }
     } else {
+      AgentLocationTracker.stop();
       status = AuthStatus.loggedOut;
       userId = null;
       role = null;

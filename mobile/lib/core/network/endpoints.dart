@@ -44,6 +44,7 @@ class Endpoints {
   static const agentResetPassword = '/api/agent/reset-password';
   static const agentMe = '/api/agent/me';
   static const agentSettings = '/api/agent/settings';
+  static const agentLocation = '/api/agent/location';
   static const agentCommissions = '/api/agent/commissions';
   static const agentInvestors = '/api/agent/investors';
   static const agentListingsDedupSearch = '/api/agent/listings/dedup-search';

@@ -29,6 +29,7 @@
     "firebase-admin": "^13.0.2",
     "ioredis": "^6.0.0",
     "lucide-react": "^1.73.0",
+    "mapbox-gl": "^3.36.0",
     "motion": "^14.14.0",
     "next": "16.2.11",
     "next-auth": "^5.0.0-beta.32",

@@ -28063,6 +28063,8 @@ export namespace Prisma {
   export type AgentProfileAvgAggregateOutputType = {
     shopLatitude: number | null
     shopLongitude: number | null
+    lastLatitude: number | null
+    lastLongitude: number | null
     yearsExperience: number | null
     staffCount: number | null
     brochureCredits: number | null
@@ -28083,6 +28085,8 @@ export namespace Prisma {
   export type AgentProfileSumAggregateOutputType = {
     shopLatitude: number | null
     shopLongitude: number | null
+    lastLatitude: number | null
+    lastLongitude: number | null
     yearsExperience: number | null
     staffCount: number | null
     brochureCredits: number | null
@@ -28110,6 +28114,9 @@ export namespace Prisma {
     shopAddress: string | null
     shopLatitude: number | null
     shopLongitude: number | null
+    lastLatitude: number | null
+    lastLongitude: number | null
+    lastLocationAt: Date | null
     alternatePhone: string | null
     yearsExperience: number | null
     staffCount: number | null
@@ -28160,6 +28167,9 @@ export namespace Prisma {
     shopAddress: string | null
     shopLatitude: number | null
     shopLongitude: number | null
+    lastLatitude: number | null
+    lastLongitude: number | null
+    lastLocationAt: Date | null
     alternatePhone: string | null
     yearsExperience: number | null
     staffCount: number | null
@@ -28210,6 +28220,9 @@ export namespace Prisma {
     shopAddress: number
     shopLatitude: number
     shopLongitude: number
+    lastLatitude: number
+    lastLongitude: number
+    lastLocationAt: number
     alternatePhone: number
     yearsExperience: number
     staffCount: number
@@ -28255,6 +28268,8 @@ export namespace Prisma {
   export type AgentProfileAvgAggregateInputType = {
     shopLatitude?: true
     shopLongitude?: true
+    lastLatitude?: true
+    lastLongitude?: true
     yearsExperience?: true
     staffCount?: true
     brochureCredits?: true
@@ -28275,6 +28290,8 @@ export namespace Prisma {
   export type AgentProfileSumAggregateInputType = {
     shopLatitude?: true
     shopLongitude?: true
+    lastLatitude?: true
+    lastLongitude?: true
     yearsExperience?: true
     staffCount?: true
     brochureCredits?: true
@@ -28302,6 +28319,9 @@ export namespace Prisma {
     shopAddress?: true
     shopLatitude?: true
     shopLongitude?: true
+    lastLatitude?: true
+    lastLongitude?: true
+    lastLocationAt?: true
     alternatePhone?: true
     yearsExperience?: true
     staffCount?: true
@@ -28352,6 +28372,9 @@ export namespace Prisma {
     shopAddress?: true
     shopLatitude?: true
     shopLongitude?: true
+    lastLatitude?: true
+    lastLongitude?: true
+    lastLocationAt?: true
     alternatePhone?: true
     yearsExperience?: true
     staffCount?: true
@@ -28402,6 +28425,9 @@ export namespace Prisma {
     shopAddress?: true
     shopLatitude?: true
     shopLongitude?: true
+    lastLatitude?: true
+    lastLongitude?: true
+    lastLocationAt?: true
     alternatePhone?: true
     yearsExperience?: true
     staffCount?: true
@@ -28539,6 +28565,9 @@ export namespace Prisma {
     shopAddress: string | null
     shopLatitude: number | null
     shopLongitude: number | null
+    lastLatitude: number | null
+    lastLongitude: number | null
+    lastLocationAt: Date | null
     alternatePhone: string | null
     yearsExperience: number | null
     staffCount: number | null
@@ -28608,6 +28637,9 @@ export namespace Prisma {
     shopAddress?: boolean
     shopLatitude?: boolean
     shopLongitude?: boolean
+    lastLatitude?: boolean
+    lastLongitude?: boolean
+    lastLocationAt?: boolean
     alternatePhone?: boolean
     yearsExperience?: boolean
     staffCount?: boolean
@@ -28693,6 +28725,9 @@ export namespace Prisma {
     shopAddress?: boolean
     shopLatitude?: boolean
     shopLongitude?: boolean
+    lastLatitude?: boolean
+    lastLongitude?: boolean
+    lastLocationAt?: boolean
     alternatePhone?: boolean
     yearsExperience?: boolean
     staffCount?: boolean
@@ -28733,7 +28768,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "manualCommissionTypes" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "buzzerAlerts" | "listingAlerts" | "brochureCredits" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleDaysTarget" | "customTargetEnabled" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "cycleDirectAgentsTarget" | "cycleCustomerPropertiesTarget" | "cycleInvestorsTarget" | "targetStatus" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
+  export type AgentProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentCode" | "manualCommissionTypes" | "city" | "shopName" | "shopAddress" | "shopLatitude" | "shopLongitude" | "lastLatitude" | "lastLongitude" | "lastLocationAt" | "alternatePhone" | "yearsExperience" | "staffCount" | "reraNumber" | "gstNumber" | "status" | "rejectionReason" | "planTier" | "primeStatus" | "buzzerAlerts" | "listingAlerts" | "brochureCredits" | "visibilityDeprioritized" | "autoPayMandate" | "autoPayActive" | "renewalAlertSentAt" | "walletBalance" | "warningCount" | "ratingAvg" | "verifiedAt" | "cycleStartDate" | "cycleEndDate" | "cycleDaysTarget" | "customTargetEnabled" | "cycleListingsTarget" | "cycleDealsTarget" | "cycleVisitsTarget" | "cycleDirectAgentsTarget" | "cycleCustomerPropertiesTarget" | "cycleInvestorsTarget" | "targetStatus" | "carryForwardScore" | "cycleCompletedCount" | "activeDiscountCoupon" | "couponExpiresAt" | "referringAgentId" | "createdAt" | "updatedAt", ExtArgs["result"]["agentProfile"]>
   export type AgentProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     brochures?: boolean | AgentProfile$brochuresArgs<ExtArgs>
@@ -28816,6 +28851,9 @@ export namespace Prisma {
       shopAddress: string | null
       shopLatitude: number | null
       shopLongitude: number | null
+      lastLatitude: number | null
+      lastLongitude: number | null
+      lastLocationAt: Date | null
       alternatePhone: string | null
       yearsExperience: number | null
       staffCount: number | null
@@ -29264,6 +29302,9 @@ export namespace Prisma {
     readonly shopAddress: FieldRef<"AgentProfile", 'String'>
     readonly shopLatitude: FieldRef<"AgentProfile", 'Float'>
     readonly shopLongitude: FieldRef<"AgentProfile", 'Float'>
+    readonly lastLatitude: FieldRef<"AgentProfile", 'Float'>
+    readonly lastLongitude: FieldRef<"AgentProfile", 'Float'>
+    readonly lastLocationAt: FieldRef<"AgentProfile", 'DateTime'>
     readonly alternatePhone: FieldRef<"AgentProfile", 'String'>
     readonly yearsExperience: FieldRef<"AgentProfile", 'Int'>
     readonly staffCount: FieldRef<"AgentProfile", 'Int'>
@@ -70620,6 +70661,9 @@ export namespace Prisma {
     shopAddress: 'shopAddress',
     shopLatitude: 'shopLatitude',
     shopLongitude: 'shopLongitude',
+    lastLatitude: 'lastLatitude',
+    lastLongitude: 'lastLongitude',
+    lastLocationAt: 'lastLocationAt',
     alternatePhone: 'alternatePhone',
     yearsExperience: 'yearsExperience',
     staffCount: 'staffCount',
@@ -74338,6 +74382,9 @@ export namespace Prisma {
     shopAddress?: StringNullableFilter<"AgentProfile"> | string | null
     shopLatitude?: FloatNullableFilter<"AgentProfile"> | number | null
     shopLongitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    lastLatitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    lastLongitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    lastLocationAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     alternatePhone?: StringNullableFilter<"AgentProfile"> | string | null
     yearsExperience?: IntNullableFilter<"AgentProfile"> | number | null
     staffCount?: IntNullableFilter<"AgentProfile"> | number | null
@@ -74420,6 +74467,9 @@ export namespace Prisma {
     shopAddress?: SortOrderInput | SortOrder
     shopLatitude?: SortOrderInput | SortOrder
     shopLongitude?: SortOrderInput | SortOrder
+    lastLatitude?: SortOrderInput | SortOrder
+    lastLongitude?: SortOrderInput | SortOrder
+    lastLocationAt?: SortOrderInput | SortOrder
     alternatePhone?: SortOrderInput | SortOrder
     yearsExperience?: SortOrderInput | SortOrder
     staffCount?: SortOrderInput | SortOrder
@@ -74506,6 +74556,9 @@ export namespace Prisma {
     shopAddress?: StringNullableFilter<"AgentProfile"> | string | null
     shopLatitude?: FloatNullableFilter<"AgentProfile"> | number | null
     shopLongitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    lastLatitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    lastLongitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    lastLocationAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     alternatePhone?: StringNullableFilter<"AgentProfile"> | string | null
     yearsExperience?: IntNullableFilter<"AgentProfile"> | number | null
     staffCount?: IntNullableFilter<"AgentProfile"> | number | null
@@ -74588,6 +74641,9 @@ export namespace Prisma {
     shopAddress?: SortOrderInput | SortOrder
     shopLatitude?: SortOrderInput | SortOrder
     shopLongitude?: SortOrderInput | SortOrder
+    lastLatitude?: SortOrderInput | SortOrder
+    lastLongitude?: SortOrderInput | SortOrder
+    lastLocationAt?: SortOrderInput | SortOrder
     alternatePhone?: SortOrderInput | SortOrder
     yearsExperience?: SortOrderInput | SortOrder
     staffCount?: SortOrderInput | SortOrder
@@ -74646,6 +74702,9 @@ export namespace Prisma {
     shopAddress?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
     shopLatitude?: FloatNullableWithAggregatesFilter<"AgentProfile"> | number | null
     shopLongitude?: FloatNullableWithAggregatesFilter<"AgentProfile"> | number | null
+    lastLatitude?: FloatNullableWithAggregatesFilter<"AgentProfile"> | number | null
+    lastLongitude?: FloatNullableWithAggregatesFilter<"AgentProfile"> | number | null
+    lastLocationAt?: DateTimeNullableWithAggregatesFilter<"AgentProfile"> | Date | string | null
     alternatePhone?: StringNullableWithAggregatesFilter<"AgentProfile"> | string | null
     yearsExperience?: IntNullableWithAggregatesFilter<"AgentProfile"> | number | null
     staffCount?: IntNullableWithAggregatesFilter<"AgentProfile"> | number | null
@@ -80446,6 +80505,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -80527,6 +80589,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -80606,6 +80671,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -80687,6 +80755,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -80767,6 +80838,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -80816,6 +80890,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -80865,6 +80942,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -86792,6 +86872,9 @@ export namespace Prisma {
     shopAddress?: SortOrder
     shopLatitude?: SortOrder
     shopLongitude?: SortOrder
+    lastLatitude?: SortOrder
+    lastLongitude?: SortOrder
+    lastLocationAt?: SortOrder
     alternatePhone?: SortOrder
     yearsExperience?: SortOrder
     staffCount?: SortOrder
@@ -86835,6 +86918,8 @@ export namespace Prisma {
   export type AgentProfileAvgOrderByAggregateInput = {
     shopLatitude?: SortOrder
     shopLongitude?: SortOrder
+    lastLatitude?: SortOrder
+    lastLongitude?: SortOrder
     yearsExperience?: SortOrder
     staffCount?: SortOrder
     brochureCredits?: SortOrder
@@ -86862,6 +86947,9 @@ export namespace Prisma {
     shopAddress?: SortOrder
     shopLatitude?: SortOrder
     shopLongitude?: SortOrder
+    lastLatitude?: SortOrder
+    lastLongitude?: SortOrder
+    lastLocationAt?: SortOrder
     alternatePhone?: SortOrder
     yearsExperience?: SortOrder
     staffCount?: SortOrder
@@ -86912,6 +87000,9 @@ export namespace Prisma {
     shopAddress?: SortOrder
     shopLatitude?: SortOrder
     shopLongitude?: SortOrder
+    lastLatitude?: SortOrder
+    lastLongitude?: SortOrder
+    lastLocationAt?: SortOrder
     alternatePhone?: SortOrder
     yearsExperience?: SortOrder
     staffCount?: SortOrder
@@ -86955,6 +87046,8 @@ export namespace Prisma {
   export type AgentProfileSumOrderByAggregateInput = {
     shopLatitude?: SortOrder
     shopLongitude?: SortOrder
+    lastLatitude?: SortOrder
+    lastLongitude?: SortOrder
     yearsExperience?: SortOrder
     staffCount?: SortOrder
     brochureCredits?: SortOrder
@@ -95381,6 +95474,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -95460,6 +95556,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -96165,6 +96264,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -96244,6 +96346,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -98387,6 +98492,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -98467,6 +98575,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -98837,6 +98948,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -98917,6 +99031,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -100983,6 +101100,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -101063,6 +101183,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -101146,6 +101269,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -101226,6 +101352,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -102674,6 +102803,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -102754,6 +102886,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -102852,6 +102987,9 @@ export namespace Prisma {
     shopAddress?: StringNullableFilter<"AgentProfile"> | string | null
     shopLatitude?: FloatNullableFilter<"AgentProfile"> | number | null
     shopLongitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    lastLatitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    lastLongitude?: FloatNullableFilter<"AgentProfile"> | number | null
+    lastLocationAt?: DateTimeNullableFilter<"AgentProfile"> | Date | string | null
     alternatePhone?: StringNullableFilter<"AgentProfile"> | string | null
     yearsExperience?: IntNullableFilter<"AgentProfile"> | number | null
     staffCount?: IntNullableFilter<"AgentProfile"> | number | null
@@ -103688,6 +103826,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -103768,6 +103909,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -103862,6 +104006,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -103942,6 +104089,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -104020,6 +104170,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -104100,6 +104253,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -104194,6 +104350,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -104274,6 +104433,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -104467,6 +104629,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -104547,6 +104712,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -104900,6 +105068,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -104980,6 +105151,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -105154,6 +105328,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -105234,6 +105411,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -105328,6 +105508,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -105408,6 +105591,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -105805,6 +105991,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -105885,6 +106074,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -106304,6 +106496,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -106384,6 +106579,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -108110,6 +108308,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -108190,6 +108391,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -108585,6 +108789,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -108665,6 +108872,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -109323,6 +109533,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -109403,6 +109616,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -109486,6 +109702,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -109566,6 +109785,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -109705,6 +109927,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -109785,6 +110010,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -109874,6 +110102,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -109954,6 +110185,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -110071,6 +110305,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -110151,6 +110388,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -110290,6 +110530,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -110370,6 +110613,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -110532,6 +110778,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -110612,6 +110861,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -110706,6 +110958,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -110786,6 +111041,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -110979,6 +111237,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -111059,6 +111320,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -111298,6 +111562,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -111378,6 +111645,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -111537,6 +111807,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -111617,6 +111890,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -111782,6 +112058,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -111862,6 +112141,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -111940,6 +112222,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -112020,6 +112305,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -112222,6 +112510,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -112302,6 +112593,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -112467,6 +112761,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -112547,6 +112844,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -112686,6 +112986,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -112766,6 +113069,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -112883,6 +113189,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -112963,6 +113272,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -113046,6 +113358,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -113126,6 +113441,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -113265,6 +113583,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -113345,6 +113666,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -113434,6 +113758,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -113514,6 +113841,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -113623,6 +113953,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -113703,6 +114036,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -113834,6 +114170,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -113914,6 +114253,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -113992,6 +114334,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -114072,6 +114417,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -114166,6 +114514,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -114246,6 +114597,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -114324,6 +114678,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -114404,6 +114761,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -114498,6 +114858,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -114578,6 +114941,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -114656,6 +115022,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -114736,6 +115105,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -114830,6 +115202,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -114910,6 +115285,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -115019,6 +115397,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -115099,6 +115480,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -115269,6 +115653,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -115349,6 +115736,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -115671,6 +116061,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -115751,6 +116144,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -115997,6 +116393,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -116077,6 +116476,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -117294,6 +117696,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -117374,6 +117779,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -117583,6 +117991,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -117663,6 +118074,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -118098,6 +118512,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -118178,6 +118595,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -118391,6 +118811,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -118471,6 +118894,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -118709,6 +119135,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -118789,6 +119218,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -118946,6 +119378,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -119026,6 +119461,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -119175,6 +119613,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -119255,6 +119696,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -119410,6 +119854,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -119490,6 +119937,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -119568,6 +120018,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -119648,6 +120101,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -119742,6 +120198,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -119822,6 +120281,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -119900,6 +120362,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -119980,6 +120445,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -120074,6 +120542,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -120154,6 +120625,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -121823,6 +122297,9 @@ export namespace Prisma {
     shopAddress?: string | null
     shopLatitude?: number | null
     shopLongitude?: number | null
+    lastLatitude?: number | null
+    lastLongitude?: number | null
+    lastLocationAt?: Date | string | null
     alternatePhone?: string | null
     yearsExperience?: number | null
     staffCount?: number | null
@@ -122358,6 +122835,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -122438,6 +122918,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null
@@ -122517,6 +123000,9 @@ export namespace Prisma {
     shopAddress?: NullableStringFieldUpdateOperationsInput | string | null
     shopLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
     shopLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastLocationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
     yearsExperience?: NullableIntFieldUpdateOperationsInput | number | null
     staffCount?: NullableIntFieldUpdateOperationsInput | number | null

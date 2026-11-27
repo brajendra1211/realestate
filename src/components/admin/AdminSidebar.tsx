@@ -55,6 +55,7 @@ const PINNED: NavItem[] = [
   { href: "/admin/people", label: "All people", icon: Contact, badge: "Everyone" },
   { href: "/admin/payment-tracker", label: "Payment tracker", icon: BadgeIndianRupee, badge: "Paid?" },
   { href: "/admin/sales", label: "Sales & monitoring", icon: TrendingUp, badge: "Live" },
+  { href: "/admin/live-map", label: "Live map", icon: MapPin, badge: "Live" },
 ];
 
 // Everything else is folded into five groups that open on demand.

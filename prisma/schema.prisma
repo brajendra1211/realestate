@@ -569,6 +569,13 @@ model AgentProfile {
   shopAddress             String?        @db.Text
   shopLatitude            Float?
   shopLongitude           Float?
+  // Most recent GPS ping from the agent app (src/app/api/agent/location) —
+  // powers the admin live map. Written via raw SQL, not prisma.update, so a
+  // ping every couple minutes doesn't trip liveVersion's refresh-everyone
+  // signal (see that route for why).
+  lastLatitude            Float?
+  lastLongitude           Float?
+  lastLocationAt          DateTime?
   alternatePhone          String?
   yearsExperience         Int?
   staffCount              Int?

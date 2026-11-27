@@ -90,7 +90,9 @@ export function LiveMapClient({ initialData }: { initialData: LiveMapData }) {
 
     const map = new mapboxgl.Map({
       container: containerRef.current,
-      style: "mapbox://styles/mapbox/standard",
+      // Standard Satellite: real satellite imagery + automatic 3D building
+      // extrusion, so admins can actually see the building a visit is at.
+      style: "mapbox://styles/mapbox/standard-satellite",
       center: [77.2, 28.6],
       zoom: 10,
       pitch: 45,
@@ -227,7 +229,10 @@ export function LiveMapClient({ initialData }: { initialData: LiveMapData }) {
     if (points.length === 0) return;
     didFitRef.current = true;
     const bounds = points.reduce((b, p) => b.extend(p), new mapboxgl.LngLatBounds(points[0], points[0]));
-    map.fitBounds(bounds, { padding: 60, maxZoom: 14, duration: 0 });
+    // 3D building extrusions on standard-satellite only render at closer
+    // zoom (~16+) — a looser maxZoom here would fit everything in but leave
+    // buildings looking flat.
+    map.fitBounds(bounds, { padding: 60, maxZoom: 17, duration: 0 });
   }, [data, ready]);
 
   if (!MAPBOX_TOKEN) {
